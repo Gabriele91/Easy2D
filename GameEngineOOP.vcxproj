@@ -12,7 +12,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{905FC096-4AD6-4483-B71A-BA5FCEFFE134}</ProjectGuid>
-    <RootNamespace>GameEngineOOP</RootNamespace>
+    <RootNamespace>Easy2D</RootNamespace>
+    <ProjectName>Easy2D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

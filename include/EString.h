@@ -1,5 +1,5 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef ESTRING_H
+#define ESTRING_H
 
 #include <Config.h>
 

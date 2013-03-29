@@ -97,9 +97,15 @@ namespace Easy2D{
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
 		///////////////////////////////////////////////////////////////////////////
-		String toString(const String& start="(",const String& sep=" ",const String& end=")\n");
+		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
+	Vector2D operator+(float v,const Vector2D& vt);
+	Vector2D operator-(float v,const Vector2D& vt);
+	Vector2D operator*(float v,const Vector2D& vt); 
+	Vector2D operator/(float v,const Vector2D& vt); 
+	///////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////
 	class Vector3D{
 
 	public:
@@ -113,8 +119,13 @@ namespace Easy2D{
 		float x,y,z;
 		///////////////////////////////////////////////////////////////////////////
 		Vector3D():x(0),y(0),z(0){};
+		Vector3D(Vector2D v,float z):x(v.x),y(v.y),z(z){};
 		Vector3D(float x,float y,float z):x(x),y(y),z(z){};
 		~Vector3D(){};
+		///////////////////////////////////////////////////////////////////////////
+		DFORCEINLINE Vec2 xy() const{
+			return Vec2(x,y);
+		}
 		///////////////////////////////////////////////////////////////////////////
 		void normalize();
 		///////////////////////////////////////////////////////////////////////////
@@ -200,9 +211,15 @@ namespace Easy2D{
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
 		///////////////////////////////////////////////////////////////////////////
-		String toString(const String& start="(",const String& sep=" ",const String& end=")\n");
+		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
-	};
+	};	
+	Vector3D operator+(float v,const Vector3D& vt);
+	Vector3D operator-(float v,const Vector3D& vt);
+	Vector3D operator*(float v,const Vector3D& vt); 
+	Vector3D operator/(float v,const Vector3D& vt); 
+	///////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////
 	class Vector4D{
 
 	public:
@@ -217,7 +234,16 @@ namespace Easy2D{
 		///////////////////////////////////////////////////////////////////////////
 		Vector4D():x(0),y(0),z(0),w(0){};
 		Vector4D(float x,float y,float z,float w):x(x),y(y),z(z),w(w){};
+		Vector4D(Vector2D v,float z,float w):x(v.x),y(v.y),z(z),w(w){};
+		Vector4D(const Vector3D& v,float w):x(v.x),y(v.y),z(v.z),w(w){};
 		~Vector4D(){};
+		///////////////////////////////////////////////////////////////////////////
+		DFORCEINLINE Vec2 xy() const{
+			return Vec2(x,y);
+		}
+		DFORCEINLINE Vec3 xyz() const{
+			return Vec3(x,y,z);
+		}
 		///////////////////////////////////////////////////////////////////////////
 		void normalize();
 		///////////////////////////////////////////////////////////////////////////
@@ -310,9 +336,14 @@ namespace Easy2D{
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
 		///////////////////////////////////////////////////////////////////////////
-		String toString(const String& start="(",const String& sep=" ",const String& end=")\n");
+		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
+	Vector4D operator+(float v,const Vector4D& vt);
+	Vector4D operator-(float v,const Vector4D& vt);
+	Vector4D operator*(float v,const Vector4D& vt); 
+	Vector4D operator/(float v,const Vector4D& vt); 
+	///////////////////////////////////////////////////////////////////////////
 	class Quaternion{
 	public:
 		float w,x,y,z;
@@ -348,7 +379,7 @@ namespace Easy2D{
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
 		///////////////////////////////////////////////////////////////////////////
-		String toString(const String& start="(",const String& sep=" ",const String& end=")\n");
+		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
 	class Matrix4x4{
@@ -404,6 +435,25 @@ namespace Easy2D{
 		void setTranslation(const Vector3D *v3);
 		///set translation
 		void setTranslation(const Vector2D &v2);
+		///set concatenate trasformation:		
+		void concatenateXTranslation( float distance ){
+			entries[0] = entries[0] + distance * entries[3];
+			entries[4] = entries[4] + distance * entries[7];
+			entries[8] = entries[8] + distance * entries[11];
+			entries[12] = entries[12] + distance * entries[15];
+		}
+		void concatenateYTranslation( float distance ){
+			entries[1] = entries[1] + distance * entries[3];
+			entries[5] = entries[5] + distance * entries[7];
+			entries[9] = entries[9] + distance * entries[11];
+			entries[13] = entries[13] + distance * entries[15];
+		}
+		void concatenateZTranslation( float distance ){
+			entries[2] = entries[2] + distance * entries[3];
+			entries[6] = entries[6] + distance * entries[7];
+			entries[10] = entries[10] + distance * entries[11];
+			entries[14] = entries[14] + distance * entries[15];
+		}
 		///return translation
 		Vector3D getTranslation3D() const;
 		///return translation
@@ -442,7 +492,7 @@ namespace Easy2D{
 		operator float* ()  {return (float*)entries;}
 		operator const float* ()  {return (const float*)entries;}
 		///////////////////////////////////////////////////////////////////////////
-		String toString(const String& start="(",const String& sep=" ",const String& sepline=" ",const String& end=")\n");
+		String toString(const String& start="(",const String& sep=" ",const String& sepline=" ",const String& end=")\n") const;
 
 		};
 	class Math{
@@ -455,6 +505,13 @@ namespace Easy2D{
 		//radians and degrees
 		static DFORCEINLINE float torad(float deg) { return deg*PIOVER180; }
 		static DFORCEINLINE float todeg(float rad) { return rad*G180OVERPI; }
+		//fast swap
+		template<typename T>
+		static DFORCEINLINE void swap(T& x,T& y){
+			 register T temp = std::move(x);
+			 x = std::move(y);
+			 y = std::move(temp);
+		}
 		//min
 		template<typename T>
 		static DFORCEINLINE T min(T x,T y){
