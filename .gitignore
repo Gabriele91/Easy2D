@@ -1,13 +1,52 @@
+*.7z
+*.exe
+
+#doxy ignore
+[Dd]oxygen*/
+
+
+#mingw/gcc/g++
 # Compiled Object files
 *.slo
 *.lo
 *.o
 
 # Compiled Dynamic libraries
+*.so.*
 *.so
 *.dylib
+*.dylib*
 
 # Compiled Static libraries
 *.lai
 *.la
 *.a
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad

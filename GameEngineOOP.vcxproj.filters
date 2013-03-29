@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="File di origine">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="File di intestazione">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="File di risorse">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{91bac75b-4fb9-4236-9765-8fa9be7f9294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\Image">
+      <UniqueIdentifier>{44874d2d-3431-452f-9cc7-2a31f4259a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\window">
+      <UniqueIdentifier>{1c75f387-6bfa-41aa-80ee-18abff1c1c62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\window">
+      <UniqueIdentifier>{7f5f375d-f3a1-4426-a811-740bf68355e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\window\Thread">
+      <UniqueIdentifier>{a57e7662-2509-4494-bdde-1b2e6518f087}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Config.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="src\Object.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math2D.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Table.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EString.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Resource.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Debug.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screen.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsScreen.cpp">
+      <Filter>File di origine\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsApp.cpp">
+      <Filter>File di origine\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsInput.cpp">
+      <Filter>File di origine\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderable.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderState.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Config.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Image\Image.h">
+      <Filter>File di intestazione\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TheMiniThread\MutexConf.h">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TheMiniThread\Mutex.h">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TheMiniThread\Thread.h">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TheMiniThread\ThreadConf.h">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Object.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math2D.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Table.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EString.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Resource.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResourceManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Application.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Debug.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Screen.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsApp.h">
+      <Filter>File di intestazione\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsScreen.h">
+      <Filter>File di intestazione\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsInput.h">
+      <Filter>File di intestazione\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Renderable.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderState.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\Image\Image.inl">
+      <Filter>File di intestazione\Image</Filter>
+    </None>
+    <None Include="include\TheMiniThread\MutexPOSIX.inl">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </None>
+    <None Include="include\TheMiniThread\MutexWin32.inl">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </None>
+    <None Include="include\TheMiniThread\ThreadPOSIX.inl">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </None>
+    <None Include="include\TheMiniThread\ThreadWin32.inl">
+      <Filter>File di intestazione\window\Thread</Filter>
+    </None>
+  </ItemGroup>
+</Project>

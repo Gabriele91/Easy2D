@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Easy2D" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="include/Application.h" />
+		<Unit filename="include/Config.h" />
+		<Unit filename="include/EString.h" />
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/Image/Image.h" />
+		<Unit filename="include/Image/Image.inl" />
+		<Unit filename="include/Math2D.h" />
+		<Unit filename="include/Object.h" />
+		<Unit filename="include/Resource.h" />
+		<Unit filename="include/ResourceManager.h" />
+		<Unit filename="include/Table.h" />
+		<Unit filename="include/Thread/Mutex.h" />
+		<Unit filename="include/Thread/MutexConf.h" />
+		<Unit filename="include/Thread/MutexPOSIX.inl" />
+		<Unit filename="include/Thread/MutexWin32.inl" />
+		<Unit filename="include/Thread/Thread.h" />
+		<Unit filename="include/Thread/ThreadConf.h" />
+		<Unit filename="include/Thread/ThreadPOSIX.inl" />
+		<Unit filename="include/Thread/ThreadWin32.inl" />
+		<Unit filename="src/Application.cpp" />
+		<Unit filename="src/Config.cpp" />
+		<Unit filename="src/EString.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Math2D.cpp" />
+		<Unit filename="src/Object.cpp" />
+		<Unit filename="src/Resource.cpp" />
+		<Unit filename="src/ResourceManager.cpp" />
+		<Unit filename="src/Table.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
