@@ -22,6 +22,9 @@
 *.la
 *.a
 
+#codeblocks
+*.layout
+
 #Visual Studio files
 *.[Oo]bj
 *.user
