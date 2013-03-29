@@ -39,13 +39,17 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>include;include/window</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -81,6 +85,9 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\Table.cpp" />
+    <ClCompile Include="src\window\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\window\WindowsApp.cpp" />
     <ClCompile Include="src\window\WindowsInput.cpp" />
     <ClCompile Include="src\window\WindowsScreen.cpp" />
@@ -100,21 +107,22 @@
     <ClInclude Include="include\Resource.h" />
     <ClInclude Include="include\ResourceManager.h" />
     <ClInclude Include="include\Screen.h" />
+    <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\Table.h" />
-    <ClInclude Include="include\TheMiniThread\Mutex.h" />
-    <ClInclude Include="include\TheMiniThread\MutexConf.h" />
-    <ClInclude Include="include\TheMiniThread\Thread.h" />
-    <ClInclude Include="include\TheMiniThread\ThreadConf.h" />
+    <ClInclude Include="include\Thread\Mutex.h" />
+    <ClInclude Include="include\Thread\MutexConf.h" />
+    <ClInclude Include="include\Thread\Thread.h" />
+    <ClInclude Include="include\Thread\ThreadConf.h" />
     <ClInclude Include="include\window\WindowsApp.h" />
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Image\Image.inl" />
-    <None Include="include\TheMiniThread\MutexPOSIX.inl" />
-    <None Include="include\TheMiniThread\MutexWin32.inl" />
-    <None Include="include\TheMiniThread\ThreadPOSIX.inl" />
-    <None Include="include\TheMiniThread\ThreadWin32.inl" />
+    <None Include="include\Thread\MutexPOSIX.inl" />
+    <None Include="include\Thread\MutexWin32.inl" />
+    <None Include="include\Thread\ThreadPOSIX.inl" />
+    <None Include="include\Thread\ThreadWin32.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

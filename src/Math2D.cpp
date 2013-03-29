@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Math2D.h>
 /* Easy2D */
 using namespace Easy2D;

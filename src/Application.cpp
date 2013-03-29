@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Application.h>
 #if defined( PLATFORM_IOS ) 
 #elif defined( PLATFORM_OSX )

@@ -1,3 +1,5 @@
+#include <stdafx.h>
+#include <stdafx.h>
 #include <EString.h>
 ////////////////////////
 using namespace Easy2D;

@@ -16,5 +16,6 @@ ofile.write("#endif")
 ofile.close()
 #make cppfile
 ofile = open(name+".cpp","w")
+ofile.write("#include <stdafx.h>\n")
 ofile.write("#include \""+name+".h\"\n\n")
 ofile.close()

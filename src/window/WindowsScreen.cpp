@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <WindowsScreen.h>
 #include <WindowsInput.h>
 #include <Debug.h>

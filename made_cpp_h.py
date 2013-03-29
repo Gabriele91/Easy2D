@@ -12,6 +12,7 @@ ofile.write("#endif")
 ofile.close()
 #make cppfile
 ofile = open("src/"+name+".cpp","w")
+ofile.write("#include <stdafx.h>\n")
 ofile.write("#include <"+name+".h>\n")
 ofile.write("///////////////////////\n")
 ofile.write("using namespace Easy2D;\n\n")

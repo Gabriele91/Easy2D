@@ -25,7 +25,7 @@
     <Filter Include="File di origine\window">
       <UniqueIdentifier>{7f5f375d-f3a1-4426-a811-740bf68355e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di intestazione\window\Thread">
+    <Filter Include="File di intestazione\Thread">
       <UniqueIdentifier>{a57e7662-2509-4494-bdde-1b2e6518f087}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -82,25 +82,13 @@
     <ClCompile Include="src\RenderState.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\window\stdafx.cpp">
+      <Filter>File di origine\window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
       <Filter>File di intestazione</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Image\Image.h">
-      <Filter>File di intestazione\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TheMiniThread\MutexConf.h">
-      <Filter>File di intestazione\window\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TheMiniThread\Mutex.h">
-      <Filter>File di intestazione\window\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TheMiniThread\Thread.h">
-      <Filter>File di intestazione\window\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TheMiniThread\ThreadConf.h">
-      <Filter>File di intestazione\window\Thread</Filter>
     </ClInclude>
     <ClInclude Include="include\Object.h">
       <Filter>File di intestazione</Filter>
@@ -150,22 +138,40 @@
     <ClInclude Include="include\RenderState.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="include\Image\Image.h">
+      <Filter>File di intestazione\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Thread\Mutex.h">
+      <Filter>File di intestazione\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Thread\MutexConf.h">
+      <Filter>File di intestazione\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Thread\Thread.h">
+      <Filter>File di intestazione\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Thread\ThreadConf.h">
+      <Filter>File di intestazione\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdafx.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Image\Image.inl">
       <Filter>File di intestazione\Image</Filter>
     </None>
-    <None Include="include\TheMiniThread\MutexPOSIX.inl">
-      <Filter>File di intestazione\window\Thread</Filter>
+    <None Include="include\Thread\MutexPOSIX.inl">
+      <Filter>File di intestazione\Thread</Filter>
     </None>
-    <None Include="include\TheMiniThread\MutexWin32.inl">
-      <Filter>File di intestazione\window\Thread</Filter>
+    <None Include="include\Thread\MutexWin32.inl">
+      <Filter>File di intestazione\Thread</Filter>
     </None>
-    <None Include="include\TheMiniThread\ThreadPOSIX.inl">
-      <Filter>File di intestazione\window\Thread</Filter>
+    <None Include="include\Thread\ThreadPOSIX.inl">
+      <Filter>File di intestazione\Thread</Filter>
     </None>
-    <None Include="include\TheMiniThread\ThreadWin32.inl">
-      <Filter>File di intestazione\window\Thread</Filter>
+    <None Include="include\Thread\ThreadWin32.inl">
+      <Filter>File di intestazione\Thread</Filter>
     </None>
   </ItemGroup>
 </Project>

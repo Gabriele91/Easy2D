@@ -1,4 +1,5 @@
-﻿#include <Table.h>
+﻿#include <stdafx.h>
+#include <Table.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////

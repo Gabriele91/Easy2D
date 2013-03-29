@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Object.h>
 #include <Table.h>
 #include <Game.h>

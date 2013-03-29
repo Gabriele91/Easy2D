@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Input.h>
 ///////////////////////
 using namespace Easy2D;
