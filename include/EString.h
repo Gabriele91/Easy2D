@@ -32,7 +32,13 @@ namespace Easy2D{
 	int toInt() const;
 	const char* toChars() const;
 	float toFloat() const;
-	//
+	//cast
+	operator const char *(){
+		return c_str();
+	}
+	operator const char *() const{
+		return c_str();
+	}
 
 	};
 

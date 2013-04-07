@@ -545,6 +545,21 @@ namespace Easy2D{
 		static DFORCEINLINE T saturate( const T& value ){
 		return clamp(n,1,0);
 		}
+		//power of 2 test
+		template <class T>
+		static DFORCEINLINE bool isPowerOfTwo(T x){
+			return (x != 0) && ((x & (x - 1)) == 0);
+		}
+		static DFORCEINLINE uint nextPowerOfTwo(uint x){
+			x--;
+			x |= x >> 1;
+			x |= x >> 2;
+			x |= x >> 4;
+			x |= x >> 8;
+			x |= x >> 16;
+			x++;
+			return x;
+		}
 		//prime
 		static DFORCEINLINE bool prime(unsigned int m){
 		   unsigned int i,j;
@@ -553,8 +568,8 @@ namespace Easy2D{
 		   if (!(m & 1)) return false;
 		   if (m % 3 == 0) return (m == 3);
 		   for (i=5; (j=i*i), j <= m && j > i; i += 6) {
-		  if (m %   i   == 0) return false;
-		  if (m % (i+2) == 0) return false;
+		   if (m %   i   == 0) return false;
+		   if (m % (i+2) == 0) return false;
 		   }
 		   return true;
 		}

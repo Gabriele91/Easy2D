@@ -35,6 +35,11 @@ namespace Easy2D {
 		*/
 		virtual ~Application();
 		/**
+		* load a binary file
+		* @return succes
+		*/
+		virtual bool loadData(const String& path,void*& ptr,size_t &len)=0;
+		/**
 		* where you can seve files data
 		* @return path
 		*/

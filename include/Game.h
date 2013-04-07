@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <Config.h>
+#include <Types.h>
 #include <Screen.h>
 #include <EString.h>
 
@@ -14,7 +15,12 @@ namespace Easy2D {
 	class Game {
 	public:
 
-		Game(const String& name,unsigned int width, unsigned int height, unsigned int bites,bool fullscreen);
+		Game(const String& name,
+			 uint width, 
+			 uint height, 
+			 uint bites=32,
+			 uint FreamPerSecond=60,
+			 bool fullscreen=false);
 		virtual ~Game(){};
 		virtual void start()=0;
 		virtual void run(float dt)=0;

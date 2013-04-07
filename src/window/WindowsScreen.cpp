@@ -7,7 +7,7 @@
 using namespace Easy2D;
 #define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
 //window methods
-void WindowsScreen::__initWindow(const char* appname,unsigned int bites){
+void WindowsScreen::__initWindow(const char* appname,uint bites){
 	
 	DEBUG_MESSAGE( "Open window:" << screenWidth << "x" << screenHeight );
 
@@ -89,6 +89,8 @@ void WindowsScreen::__initWindow(const char* appname,unsigned int bites){
 	hGLCxt = wglCreateContext( hDevCxt );
 	DEBUG_ASSERT(hGLCxt);	
 	DEBUG_ASSERT_REPLACE( wglMakeCurrent( hDevCxt, hGLCxt ) );
+	//openGL 2 init
+	initOpenGL2();
 	//return
 }
 void WindowsScreen::__destroyWindow(){
@@ -120,6 +122,7 @@ WindowsScreen::WindowsScreen()
 	,nativeHeight(0)
 	,screenWidth(0)
 	,screenHeight(0)
+	,freamPerSecond(0)
 	,fullscreen(false)
 	,showmouse(true){
 
@@ -195,12 +198,31 @@ bool WindowsScreen::isFullscreen(){
 	return fullscreen;
 }
 /**
+* return frame rate
+*/
+uint WindowsScreen::getFrameRate(){
+	return freamPerSecond;
+}
+/**
+* set the specified thread's current rendering context
+*/
+void WindowsScreen::acquireContext(){
+	wglMakeCurrent(hDevCxt,hGLCxt);
+}
+/**
+* swap the buffers
+*/
+void WindowsScreen::swap(){
+	SwapBuffers( hDevCxt );
+}
+/**
 * create window
 */
 void WindowsScreen::createWindow(const char* appname, 
-								unsigned int width, 
-								unsigned int height,
-								unsigned int bites, 
+								uint width, 
+								uint height,
+								uint bites, 
+								uint setFreamPerSecond,
 								bool prfullscreen){
 	DEBUG_ASSERT(appname);
 	DEBUG_ASSERT(bites);
@@ -209,6 +231,7 @@ void WindowsScreen::createWindow(const char* appname,
 	//set values
 	screenWidth=Math::min(nativeWidth,width);
 	screenHeight=Math::min(nativeHeight,height);
+	freamPerSecond=setFreamPerSecond;
 	//create window
 	__initWindow(appname,bites);
 	setFullscreen(prfullscreen);
@@ -223,25 +246,25 @@ void WindowsScreen::closeWindow(){
 /**
 * return screen width
 */
-unsigned int WindowsScreen::getWidth(){
+uint WindowsScreen::getWidth(){
 	return screenWidth;
 }
 /**
 * return screen height
 */
-unsigned int WindowsScreen::getHeight(){
+uint WindowsScreen::getHeight(){
 	return screenHeight;
 }
 /**
 * return screen native width
 */
-unsigned int WindowsScreen::getNativeWidth(){
+uint WindowsScreen::getNativeWidth(){
 	return nativeWidth;
 }
 /**
 * return screen  native height
 */
-unsigned int WindowsScreen::getNativeHeight(){
+uint WindowsScreen::getNativeHeight(){
 	return nativeHeight;
 }
 /**

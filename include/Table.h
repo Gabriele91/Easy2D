@@ -9,7 +9,7 @@
 
 namespace Easy2D{
 
-	class Table : Resource {
+	class Table : public Resource<Table> {
 
 	public:
 
@@ -72,6 +72,9 @@ namespace Easy2D{
 					}
 				};
 		};
+
+	private:
+
 		/* map values */
 		class Value{
 		public:
@@ -112,6 +115,7 @@ namespace Easy2D{
 			                   KeyTable::KeyHash,
 							   KeyTable::KeyEq> UNMAPTable;
 		#endif
+		
 		/* binary type */
 		struct Binary{		
 			void *value;
@@ -123,28 +127,48 @@ namespace Easy2D{
 				if(destroydata&&value) free(value);
 			};
 		};
+
+	public:
+
+
+
 		/* costructor */
-		Table(ResourcesManager *rsmr=NULL,
+		Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile="");
+		Table();
+		/* destructor */
 		~Table();
-		/* implement resource */
+
+		/* resource mathods implementation */
 		virtual bool load();
 		virtual bool unload();
+
 		/* c++11 for each */
 		UNMAPTable::iterator begin(){ return table.begin(); }
 		UNMAPTable::const_iterator begin() const { return table.cbegin(); }
-		UNMAPTable::iterator find(const KeyTable& key){ return table.find(key); }
 		UNMAPTable::iterator end(){ return table.end(); }
 		UNMAPTable::const_iterator end() const{ return table.cend(); }
-
-		unsigned int indexUnnomed(){ return index; }
 		
+		UNMAPTable::reverse_iterator rbegin(){ return table.rbegin(); }
+		UNMAPTable::const_reverse_iterator crbegin() const { return table.crbegin(); }
+		UNMAPTable::reverse_iterator rend(){ return table.rend(); }
+		UNMAPTable::const_reverse_iterator crend() const{ return table.crend(); }
+		/* find */
+		UNMAPTable::iterator find(const KeyTable& key){ return table.find(key); }
+
+		/** return table-array size  */
+		unsigned int indexUnnomed() const { return index; }
+		/** return table-array size  */
+		unsigned int size() const { return index; }
+		
+		/** create a sub table  */
 		DFORCEINLINE Table& createTable(){
 			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
 			table[index]=ptr;
 			++index;
 			return *((Table*)ptr->getValue());
-		}		
+		}
+		/** create a sub table with a name */		
 		DFORCEINLINE Table& createTable(const String& key){
 
 			if(exists(key)) 
@@ -154,24 +178,32 @@ namespace Easy2D{
 
 			return *((Table*)ptr->getValue());
 		}
+
+		/** set a floating in an associative table */
 		DFORCEINLINE void set(const String& key, float value){
 			set(key,FLOAT,value);
-		}		
+		}	
+		/** set a vector2D in an associative table */	
 		DFORCEINLINE void set(const String& key, const Vec2& value){
 			set(key,VECTOR2D,value);
-		}		
+		}	
+		/** set a vector3D in an associative table */		
 		DFORCEINLINE void set(const String& key, const Vec3& value){
 			set(key,VECTOR3D,value);
-		}
+		}	
+		/** set a vector4D in an associative table */		
 		DFORCEINLINE void set(const String& key, const Vec4& value){
 			set(key,VECTOR4D,value);
 		}
+		/** set a Matrix4x4 in an associative table */		
 		DFORCEINLINE void set(const String& key, const Matrix4x4& value){
 			set(key,MATRIX4X4,value);
 		}
+		/** set a string in an associative table */		
 		DFORCEINLINE void set(const String& key, const String& value){
 			set(key,STRING,value);
 		}
+		/** set a binary file in an associative table */	
 		DFORCEINLINE void set(const String& key, void *value, size_t len,bool destroydata=false){
 			if(exists(key)) 
 				delete table[key];
@@ -182,30 +214,38 @@ namespace Easy2D{
 			table[key]=ptr;
 		}	
 
+		
+		/** set a floating in an array */
 		DFORCEINLINE void set(float value){
 			set(index,FLOAT,value);
 			++index;
 		}		
+		/** set a vector2D in an array */
 		DFORCEINLINE void set(const Vec2& value){
 			set(index,VECTOR2D,value);
 			++index;
 		}		
+		/** set a vector3D in an array */	
 		DFORCEINLINE void set(const Vec3& value){
 			set(index,VECTOR3D,value);
 			++index;
-		}
+		}	
+		/** set a vector4D in an array */
 		DFORCEINLINE void set(const Vec4& value){
 			set(index,VECTOR4D,value);
 			++index;
-		}
+		}	
+		/** set a Matrix4x4 in an array */
 		DFORCEINLINE void set(const Matrix4x4& value){
 			set(index,MATRIX4X4,value);
 			++index;
-		}
+		}	
+		/** set a string in an array */
 		DFORCEINLINE void set(const String& value){
 			set(index,STRING,value);
 			++index;
-		}
+		}	
+		/** set a binary file in an array */
 		DFORCEINLINE void set(void *value, size_t len,bool destroydata=false){
 			DefineValue<Binary> *ptr=new DefineValue<Binary>(TABLE,Binary());
 			((Binary*)ptr->getValue())->len=len;
@@ -215,63 +255,79 @@ namespace Easy2D{
 			++index;
 		}
 
+		/** return a floating point associate a table/array key */
 		DFORCEINLINE float getFloat(const KeyTable& key,float vdefault=0) const{
 			if(existsAsType(key,FLOAT)) return *((float*)(table.find(key)->second->getValue()));
 			return vdefault;
-		}		
+		}	
+		/** return a vector2D associate a table/array key */	
 		DFORCEINLINE const Vec2& getVector2D(const KeyTable& key,const Vec2& vdefault=Vec2::ZERO) const{
 			if(existsAsType(key,VECTOR2D)) return *((Vec2*)(table.find(key)->second->getValue()));
 			return vdefault;
-		}
+		}	
+		/** return a vector3D associate a table/array key */	
 		DFORCEINLINE const Vec3& getVector3D(const KeyTable& key,const Vec3& vdefault=Vec3::ZERO) const{
 			if(existsAsType(key,VECTOR3D)) return *((Vec3*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a vector4D associate a table/array key */	
 		DFORCEINLINE const Vec4& getVector4D(const KeyTable& key,const Vec4& vdefault=Vec4::ZERO) const{
 			if(existsAsType(key,VECTOR4D)) return *((Vec4*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a Matrix4x4 associate a table/array key */	
 		DFORCEINLINE const Matrix4x4& getMatrix4x4(const KeyTable& key,const Matrix4x4& vdefault=Matrix4x4()) const{
 			if(existsAsType(key,MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a string associate a table/array key */	
 		DFORCEINLINE const String& getString(const KeyTable& key,const String& vdefault=String()) const{
 			if(existsAsType(key,STRING)) return *((String*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a constant table/array associate a table/array key */	
 		DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table()) const{
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a table/array associate a table/array key */	
 		DFORCEINLINE Table& getTable(const KeyTable& key,Table& vdefault=Table()){
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a binary file associate a table/array key */	
 		DFORCEINLINE const Binary& getBinary(const KeyTable& key,const Binary& vdefault=Binary()) const{
 			if(existsAsType(key,BINARY)) return *((Binary*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
+		/** return a generic value associate a table/array key */	
 		template<typename T> T& get(){
 			return *((T*)(table.find(key)->second->getValue()));
 		}
-		/* utility  */
+		/** return true if exist a value associated with key */
 		DFORCEINLINE bool exists( const KeyTable& key ) const{
 			return (table.find( key ) != table.end());
 		}
+		/** return true if exist as value type associated with key */
 		DFORCEINLINE bool existsAsType( const KeyTable& key , TypeDate type  ) const{
 			const auto& tvalue=table.find( key );
 			if(tvalue != table.end())
 				return tvalue->second->type==type;
 			return false;
 		}
-		/* deserialize/serialize  */
-		int deserialize(const String& intextfile,int* lenRead=NULL,unsigned int* line=NULL);
-		String serialize(int countspace=0,bool havename=false) const;
+		/** deserialize a string */
+		int deserialize(const String& intextfile);
+		/** serialize table into a string */
+		String serialize(int countspace=0) const;
+		/** return  deserialize erros */
 		const String& getDeserializeErros(){
 			return dErrors.toString();
 		}
 
-	protected:
+	private:
+		/* private deserialize/serialize */
+		int __deserialize(const String& intextfile,int* lenRead=NULL,unsigned int* line=NULL);
+		String __serialize(int countspace=0,bool havename=false) const;
 		/* set value */		
 		template <typename T>
 		DFORCEINLINE void set(const KeyTable& key,TypeDate type,const T& value ){
@@ -356,7 +412,6 @@ namespace Easy2D{
 				return errors;
 			}
 		};
-
 		DeserializeErros dErrors;
 
 	};

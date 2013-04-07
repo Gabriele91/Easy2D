@@ -111,7 +111,9 @@ void Object::erseChild(Object *child){
 }
 //
 std::list<Object*>::iterator Object::begin(){ return childs.begin(); }
-std::list<Object*>::iterator Object::end(){ return childs.begin(); }
+std::list<Object*>::iterator Object::end(){ return childs.end(); }
+std::list<Object*>::reverse_iterator Object::rbegin(){ return childs.rbegin(); }
+std::list<Object*>::reverse_iterator Object::rend(){ return childs.rend(); }
 //
 const Matrix4x4& Object::getGlobalMatrix(){
 	if(changeValue==true){

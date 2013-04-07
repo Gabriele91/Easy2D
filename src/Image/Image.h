@@ -34,8 +34,11 @@
 ********************/
 class Image{
 
-	public:
-		
+	public:		
+		/* image type */
+		enum ImageType{
+			NONE,PNG,JPEG,TGA,BMP
+		};
 		/* pixel structure */
 		struct rgba{
 
@@ -73,13 +76,24 @@ class Image{
 		//constructors
 		Image();
 		Image(const std::string& path);
-		Image(int width,int height,int bits,bool set_default_color=false,const rgba& color=rgba(255,255,255,255));
+		Image(int width,
+			  int height,
+			  int bits,
+			  bool set_default_color=false,
+			  const rgba& color=rgba(255,255,255,255));
 		//destructor
 		~Image();
 		//create a image				
-		void makeImage(int width,int height,int bits,bool set_default_color=false,const rgba& color=rgba(255,255,255,255));
+		void makeImage(int width,
+					   int height,
+					   int bits,
+					   bool set_default_color=false,
+					   const rgba& color=rgba(255,255,255,255));
+		//return image type from a string estetion
+		static ImageType getTypeFromExtetion(const std::string& ext);
 		//load a image from file
 		void loadImage(const std::string& path);
+		void loadFromData(void *data,unsigned int size,ImageType type=BMP);
 		//save in a file	
 		void save(const std::string& path);
 		//clear
@@ -118,11 +132,14 @@ class Image{
 		static void saveBuffer_TGA(Image* img,BYTE*& buffer,size_t& bfsize);
 		static void save_TGA(Image* img,const std::string& path);
 		// load BitMap image
-		static void loadBuffer_BitMap(Image* img,BYTE *buffer,size_t bfsize);
-		static void load_BitMap(Image* img,const std::string& path);
+		static void loadBuffer_BMP(Image* img,BYTE *buffer,size_t bfsize);
+		static void load_BMP(Image* img,const std::string& path);
 		// save image in BitMap format
 		static void saveBuffer_BMP(Image* img,BYTE*& buffer,size_t& bfsize);
 		static void save_BMP(Image* img,const std::string& path);
+		// load Png image
+		static void loadBuffer_PNG(Image* img,BYTE *buffer,size_t bfsize);
+		static void load_PNG(Image* img,const std::string& path);
 
 };
 

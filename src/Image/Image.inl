@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "Image.h"
+#define LODEPNG_COMPILE_DECODER
+#include "lodepng.h"
 
 #ifdef IMAGE_LOADER_OPENGL
 	#define TYPE_RGB GL_RGB
@@ -126,28 +128,77 @@ void Image::makeImage(int width,int height,int bits,bool set_default_color,const
 }
 //carica immagini
 void Image::loadImage(const std::string& path){
-
     ////////////////////////////////////
-    char tempstring[5] = {0};
-	strncpy(tempstring, path.c_str() + path.size()-4, 4);
-    char c;
-    int i=0;
-    while (tempstring[i])
-    {
-     c=tempstring[i];
-     tempstring[i]=tolower(c);
-     i++;
-    }
-    ////////////////////////////////////
-	if(!strcmp(tempstring, ".bmp")){
-            load_BitMap(this,path);
-            this->name=path;
-	    }else
-	if(!strcmp(tempstring, ".tga")){
-            load_TGA(this,path);
-            this->name=path;
+	//get ext
+    char tempstring[4] = {0};
+	strncpy(tempstring, path.c_str() + path.size()-3, 3);
+	//load from file
+	switch (getTypeFromExtetion(tempstring))
+	{
+	case Image::PNG:
+        load_PNG(this,path);
+        this->name=path;
+		break;
+	case Image::JPEG:
+		break;
+	case Image::TGA:
+        load_TGA(this,path);
+        this->name=path;
+		break;
+	case Image::BMP:
+        load_BMP(this,path);
+        this->name=path;
+		break;
+	default:
+		break;
 	}
-	
+    	
+#if defined( IMAGE_LOADER_OPENGL )
+	this->flipY();
+#endif
+#if defined( __IPHONEOS__ )
+	this->flipX();
+#endif
+
+}
+Image::ImageType Image::getTypeFromExtetion(const std::string& _ext){
+	/////////////////////////////////////////
+	std::string ext(_ext); 
+	for (unsigned int i=0;i<ext.size();++i){ 
+			if(ext[i]<='Z' && ext[i]>='A') 
+				ext[i]-=('Z'-'z');
+	}
+	/////////////////////////////////////////
+	if(ext=="png")
+		return PNG;
+	else if(ext=="jpg")
+		return JPEG;		
+	else if(ext=="bmp")
+		return BMP;		
+	else if(ext=="tga")
+		return TGA;
+	else 
+		return NONE;
+#define LODEPNG_COMPILE_DECODER
+#include "lodepng.h"
+}
+void Image::loadFromData(void *data,unsigned int size,ImageType type){
+	switch (type)
+	{
+	case Image::PNG:
+		loadBuffer_PNG(this,(BYTE*)data,size);
+		break;
+	case Image::JPEG:
+		break;
+	case Image::TGA:
+		loadBuffer_TGA(this,(BYTE*)data,size);
+		break;
+	case Image::BMP:
+		loadBuffer_BMP(this,(BYTE*)data,size);
+		break;
+	default:
+		break;
+	}
 #if defined( IMAGE_LOADER_OPENGL )
 	this->flipY();
 #endif
@@ -613,7 +664,7 @@ void Image::save_TGA(Image* img,const std::string& path){
 	////////////////////////////////
 }
 //loadImage BitMap
-void Image::loadBuffer_BitMap(Image* img,BYTE *buffer,size_t bfsize){
+void Image::loadBuffer_BMP(Image* img,BYTE *buffer,size_t bfsize){
 	/* file header */
 	BitmapFileHeader* bFH=(BitmapFileHeader*)buffer;
 	if((bFH->bfType>>8)!='M' || (bFH->bfType&0x00FF)!='B') return ;
@@ -640,7 +691,7 @@ void Image::loadBuffer_BitMap(Image* img,BYTE *buffer,size_t bfsize){
 	
 	img->type  =img->channels==4? TYPE_RGBA : TYPE_RGB ;
 }
-void Image::load_BitMap(Image* img,const std::string& path){
+void Image::load_BMP(Image* img,const std::string& path){
 	FILE* pfile=fopen(path.c_str(),"rb");
 	if(pfile){
 		fseek(pfile,0,SEEK_END);
@@ -648,7 +699,7 @@ void Image::load_BitMap(Image* img,const std::string& path){
 		fseek(pfile,0,SEEK_SET);
 		BYTE *buffer=(BYTE*)malloc(lengfile);
 		fread(buffer,lengfile,1,pfile);
-		loadBuffer_BitMap(img,buffer,lengfile);
+		loadBuffer_BMP(img,buffer,lengfile);
 		free(buffer);
 	}
  }
@@ -707,7 +758,35 @@ void Image::save_BMP(Image* img,const std::string& path){
 	}
 	////////////////////////////////
 }
-
+// load Png image
+void Image::loadBuffer_PNG(Image* img,BYTE *buffer,size_t bfsize){
+	 //LOAD PNG
+    LodePNGState state;
+    lodepng_state_init(&state);
+	lodepng_decode(&(img->bytes),
+				  (unsigned int*)&(img->width),
+				  (unsigned int*)&(img->height),
+				  &state,
+				  (unsigned const char*)buffer,
+				  bfsize);
+    //SAVE DATA
+    img->channels=lodepng_get_channels(&state.info_png.color);
+	img->type  =img->channels==4? TYPE_RGBA : TYPE_RGB ;
+    //FREE
+    lodepng_state_cleanup(&state);
+}
+void Image::load_PNG(Image* img,const std::string& path){
+	FILE* pfile=fopen(path.c_str(),"rb");
+	if(pfile){
+		fseek(pfile,0,SEEK_END);
+		size_t lengfile=ftell(pfile);
+		fseek(pfile,0,SEEK_SET);
+		BYTE *buffer=(BYTE*)malloc(lengfile);
+		fread(buffer,lengfile,1,pfile);
+		loadBuffer_PNG(img,buffer,lengfile);
+		free(buffer);
+	}
+}
 //UNDEF
 #ifdef GCCALLINEAMENT
 #undef GCCALLINEAMENT

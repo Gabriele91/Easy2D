@@ -44,6 +44,8 @@ namespace Easy2D{
 		//for each methods
 		std::list<Object*>::iterator begin();
 		std::list<Object*>::iterator end();
+		std::list<Object*>::reverse_iterator rbegin();
+		std::list<Object*>::reverse_iterator rend();
 		//data
 		void *data;
 

@@ -75,6 +75,18 @@ namespace Easy2D {
 		*/
 		virtual SceenOrientation getOrientation()=0;
 		/**
+		* return frame rate
+		*/
+		virtual uint getFrameRate()=0;
+		/**
+		* set the specified thread's current rendering context
+		*/
+		virtual void acquireContext()=0;
+		/**
+		* swap the buffers
+		*/
+		virtual void swap()=0;
+		/**
 		* show or hide mouse cursor
 		* @param show, set true if you want show cursor otherwise false
 		*/
@@ -101,9 +113,10 @@ namespace Easy2D {
 		* create window
 		*/
 		virtual void createWindow(const char* appname,
-								  unsigned int width,
-								  unsigned int height,
-								  unsigned int bites,
+								  uint width,
+								  uint height,
+								  uint bites,
+								  uint freamPerSecond,
 								  bool fullscreen)=0;
 		/**
 		* close window

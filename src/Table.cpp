@@ -1,13 +1,22 @@
 ﻿#include <stdafx.h>
 #include <Table.h>
+#include <Application.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-Table::Table(ResourcesManager *rsmr,
+Table::Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile)
 			:Resource(rsmr,pathfile)
 			,index(0)
-			{}
+{
+	reloadable=true;
+}
+Table::Table()
+	:Resource(NULL,"")
+	,index(0)
+{
+	reloadable=false;
+}
 Table::~Table(){
 	index=0;
 	for(auto& value : *this)
@@ -15,10 +24,20 @@ Table::~Table(){
 	table.clear();
 }
 bool Table::load(){
-	loaded=true;
+	//get raw file
+	void *data=NULL; uint len=0;
+	Application::instance()->loadData(rpath,data,len);
+	//deserialize
+	deserialize(String((const char*)data));
+	//free memory
+	free(data);
+	//
+	loaded=true;	
 	return true;
 }
 bool Table::unload(){
+	if(table.size())
+		table.clear();
 	loaded=false;
 	return true;
 }
@@ -199,7 +218,13 @@ DFORCEINLINE void skeepSpaceAndComment(int& cntN,const char** inout){
 	}
 }
 
-int Table::deserialize(const String& intextfile,int* lenRead,unsigned int* stline){
+int Table::deserialize(const String& intextfile){
+	return __deserialize(intextfile);
+}
+String Table::serialize(int countspace) const{
+	return __serialize(countspace);
+}
+int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stline){
 	//
 	const char *prtC=intextfile.c_str();
 	int countKey=-1;
@@ -279,7 +304,7 @@ int Table::deserialize(const String& intextfile,int* lenRead,unsigned int* stlin
 				setPt(key,fl);
 				break;
 			case TK_TABLE_START:
-				if(!(fl=(float)(tmp=&createTablePt(key))->deserialize(prtC,&i,(unsigned int*)(&cntEL)))){				
+				if(!(fl=(float)(tmp=&createTablePt(key))->__deserialize(prtC,&i,(unsigned int*)(&cntEL)))){				
 					dErrors.push(cntEL,*prtC,"error sub table: not valid:\n"+tmp->getDeserializeErros());
 					return false;
 				}
@@ -366,11 +391,11 @@ int Table::deserialize(const String& intextfile,int* lenRead,unsigned int* stlin
 	dErrors.push(cntEL,*prtC,"table: token '}' not found"); 
 	return false;
 }
-String Table::serialize(int countSpace,bool havename) const{
+String Table::__serialize(int countSpace,bool havename) const{
 	//
 	String lspace(' ',countSpace);
 	//open table
-	String outtextfile(( havename? "" :lspace )+ "{\n");
+	String outtextfile(( havename? String("") :lspace )+ "{\n");
 	for(auto value :  *this ){
 		
 		int supSpace=1;
@@ -415,7 +440,7 @@ String Table::serialize(int countSpace,bool havename) const{
 			//to do
 			break;
 		case Easy2D::Table::TABLE:
-			outtextfile+=value.second->get<Table>().serialize(countSpace+supSpace,value.first.isString());
+			outtextfile+=value.second->get<Table>().__serialize(countSpace+supSpace,value.first.isString());
 			break;
 		default:
 			break;

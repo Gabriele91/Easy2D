@@ -16,17 +16,17 @@
     <Filter Include="libs">
       <UniqueIdentifier>{91bac75b-4fb9-4236-9765-8fa9be7f9294}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di intestazione\Image">
-      <UniqueIdentifier>{44874d2d-3431-452f-9cc7-2a31f4259a4d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File di intestazione\window">
       <UniqueIdentifier>{1c75f387-6bfa-41aa-80ee-18abff1c1c62}</UniqueIdentifier>
     </Filter>
     <Filter Include="File di origine\window">
       <UniqueIdentifier>{7f5f375d-f3a1-4426-a811-740bf68355e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di intestazione\Thread">
+    <Filter Include="File di origine\Thread">
       <UniqueIdentifier>{a57e7662-2509-4494-bdde-1b2e6518f087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\Image">
+      <UniqueIdentifier>{44874d2d-3431-452f-9cc7-2a31f4259a4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,9 +44,6 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="src\EString.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ResourceManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="src\Resource.cpp">
@@ -85,6 +82,45 @@
     <ClCompile Include="src\window\stdafx.cpp">
       <Filter>File di origine\window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Render.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Layer.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\OpenGLWindow.cpp">
+      <Filter>File di origine\window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourcesManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Image\lodepng.cpp">
+      <Filter>File di origine\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Timer.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ETime.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourcesGroup.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sprite.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -103,9 +139,6 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Resource.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ResourceManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Application.h">
@@ -138,40 +171,86 @@
     <ClInclude Include="include\RenderState.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="include\Image\Image.h">
-      <Filter>File di intestazione\Image</Filter>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="src\Thread\Mutex.h">
+      <Filter>File di origine\Thread</Filter>
     </ClInclude>
-    <ClInclude Include="include\Thread\Mutex.h">
-      <Filter>File di intestazione\Thread</Filter>
+    <ClInclude Include="src\Thread\MutexConf.h">
+      <Filter>File di origine\Thread</Filter>
     </ClInclude>
-    <ClInclude Include="include\Thread\MutexConf.h">
-      <Filter>File di intestazione\Thread</Filter>
+    <ClInclude Include="src\Thread\Thread.h">
+      <Filter>File di origine\Thread</Filter>
     </ClInclude>
-    <ClInclude Include="include\Thread\Thread.h">
-      <Filter>File di intestazione\Thread</Filter>
+    <ClInclude Include="src\Thread\ThreadConf.h">
+      <Filter>File di origine\Thread</Filter>
     </ClInclude>
-    <ClInclude Include="include\Thread\ThreadConf.h">
-      <Filter>File di intestazione\Thread</Filter>
+    <ClInclude Include="src\Image\Image.h">
+      <Filter>File di origine\Image</Filter>
     </ClInclude>
-    <ClInclude Include="include\stdafx.h">
+    <ClInclude Include="include\Mesh.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utility.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Layer.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\gletx_header.h">
+      <Filter>File di intestazione\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Render.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\window\OpenGLWindow.h">
+      <Filter>File di intestazione\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Easy2D.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResourcesManager.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Image\lodepng.h">
+      <Filter>File di origine\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Timer.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ETime.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResourcesGroup.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sprite.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\Image\Image.inl">
-      <Filter>File di intestazione\Image</Filter>
+    <None Include="src\Thread\MutexPOSIX.inl">
+      <Filter>File di origine\Thread</Filter>
     </None>
-    <None Include="include\Thread\MutexPOSIX.inl">
-      <Filter>File di intestazione\Thread</Filter>
+    <None Include="src\Thread\MutexWin32.inl">
+      <Filter>File di origine\Thread</Filter>
     </None>
-    <None Include="include\Thread\MutexWin32.inl">
-      <Filter>File di intestazione\Thread</Filter>
+    <None Include="src\Thread\ThreadPOSIX.inl">
+      <Filter>File di origine\Thread</Filter>
     </None>
-    <None Include="include\Thread\ThreadPOSIX.inl">
-      <Filter>File di intestazione\Thread</Filter>
+    <None Include="src\Thread\ThreadWin32.inl">
+      <Filter>File di origine\Thread</Filter>
     </None>
-    <None Include="include\Thread\ThreadWin32.inl">
-      <Filter>File di intestazione\Thread</Filter>
+    <None Include="src\Image\Image.inl">
+      <Filter>File di origine\Image</Filter>
     </None>
   </ItemGroup>
 </Project>

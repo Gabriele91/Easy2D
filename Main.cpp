@@ -1,9 +1,5 @@
 #include <stdafx.h>
-#include <Object.h>
-#include <Table.h>
-#include <Game.h>
-#include <Application.h>
-#include <iostream>
+#include <Easy2D.h>
 using namespace Easy2D;
 
 class MyGame : Game, 
@@ -11,25 +7,48 @@ class MyGame : Game,
 			   Input::MouseHandler
 
 {
+
+	//variable declaration
+	ResourcesGroup resources;
+	Texture::ptr light;
+	Texture::ptr ninja;
+	
+
 public:
 
-	MyGame():Game("my game",1280,720,32,false){}
+	MyGame()
+	//init screen
+	:Game("my game",
+		  1280, //width
+		  720,  //hight
+		  32,   //bit
+		  30,   //frame per second
+		  false)//fullscreen
+	//init textures
+	,resources("livel/resources.rs")
+	{}
+
 	~MyGame(){};
 
 	virtual void start(){
+		//input
 		Application::instance()->getInput()->addHandler((Input::KeyboardHandler*)this);
 		Application::instance()->getInput()->addHandler((Input::MouseHandler*)this);
+		//resources
+		light=resources.load<Texture>("light");
+		ninja=resources.load<Texture>("ninja");
+		//load resources
+		resources.load();
 	}
 	virtual void run(float dt){
-	
-		if(Application::instance()->getInput()->getKeyHit(Key::A)) std::cout<< "hit A" << std::endl;
-
+		/* old style event */
+		if(Application::instance()->getInput()->getKeyHit(Key::A)) 
+			std::cout<< "hit A" << std::endl;
 	}
 	virtual void end(){
-	
 	}
 
-	
+	/* OOP-STYLE EVENTS */
 	virtual void onKeyPress(Key::Keyboard key) {
 		std::cout<<"KeyPress:"<<Key::stringKeyboard[key]<<std::endl;
 	}
@@ -48,15 +67,15 @@ public:
 	virtual void onMouseScroll(short scrollDelta) {
 		std::cout<<"MouseScroll:"<<scrollDelta<<std::endl;	
 	}
-
-private:
-
+	
 };
 
 int main(int,const char **){
 
 	Application::create();
-	Application::instance()->exec((Game*)new MyGame());
+	auto game=new MyGame();
+	Application::instance()->exec((Game*)game);
+	delete game;
 /*
 	
 	Object root;	

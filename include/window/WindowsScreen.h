@@ -18,23 +18,35 @@ namespace Easy2D {
 		/**
 		* return screen width
 		*/
-		virtual unsigned int getWidth();
+		virtual uint getWidth();
 		/**
 		* return screen height
 		*/
-		virtual unsigned int getHeight();		
+		virtual uint getHeight();		
 		/**
 		* return screen native width
 		*/
-		virtual unsigned int getNativeWidth();
+		virtual uint getNativeWidth();
 		/**
 		* return screen  native height
 		*/
-		virtual unsigned int getNativeHeight();
+		virtual uint getNativeHeight();
 		/**
 		* return screen orientation
 		*/
-		virtual SceenOrientation getOrientation();
+		virtual SceenOrientation getOrientation();		
+		/**
+		* return frame rate
+		*/
+		virtual uint getFrameRate();
+		/**
+		* set the specified thread's current rendering context
+		*/
+		virtual void acquireContext();
+		/**
+		* swap the buffers
+		*/
+		virtual void swap();
 		/**
 		* show or hide mouse cursor
 		* @param show, set true if you want show cursor otherwise false
@@ -59,9 +71,10 @@ namespace Easy2D {
 		* create window
 		*/
 		virtual void createWindow(const char* appname,
-								  unsigned int width,
-								  unsigned int height,
-								  unsigned int bites,
+								  uint width,
+								  uint height,
+								  uint bites,
+								  uint freamPerSecond,
 								  bool fullscreen);
 		/**
 		* close window
@@ -83,10 +96,11 @@ namespace Easy2D {
 		HGLRC hGLCxt; 
 
 		//datas:
-		unsigned int nativeWidth;
-		unsigned int nativeHeight;
-		unsigned int screenWidth;
-		unsigned int screenHeight;
+		uint nativeWidth;
+		uint nativeHeight;
+		uint screenWidth;
+		uint screenHeight;
+		uint freamPerSecond;
 		bool fullscreen;
 		bool showmouse;
 		//friends class
