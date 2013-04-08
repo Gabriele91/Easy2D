@@ -2,7 +2,7 @@
 #include "Mesh.h"
 using namespace Easy2D;
 //
-Mesh::Mesh(ResourcesManager<Mesh> *rsmr,
+Mesh::Mesh(ResourcesGroup *rsmr,
 		   const String& pathfile)
 		  :Resource(rsmr,pathfile)
 

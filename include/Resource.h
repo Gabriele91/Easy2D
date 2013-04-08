@@ -7,7 +7,8 @@
 
 namespace Easy2D{
 	//
-	template <class T> class ResourcesManager;
+	class ResourcesGroup;
+	template<class T> class ResourcesManager;
 	//
 	template <class T>
 	class Resource{
@@ -15,7 +16,7 @@ namespace Easy2D{
 		//define ptr
 		typedef DS_PTR<T> ptr;
 		//create a resource
-		Resource(ResourcesManager<T> *rsmr=NULL,
+		Resource(ResourcesGroup *rsmr=NULL,
 				 const String& sfile="")
 				 :ptrResources(rsmr)
 				 ,loaded(false)
@@ -40,7 +41,7 @@ namespace Easy2D{
 		DFORCEINLINE const String& getName(){
 			return name;
 		}
-		DFORCEINLINE ResourcesManager<T>* getResourcesManager(){
+		DFORCEINLINE ResourcesGroup* getResourcesGroup(){
 			return ptrResources;
 		}
 		DFORCEINLINE const Utility::Path& getPath(){
@@ -48,9 +49,10 @@ namespace Easy2D{
 		}
 
 	private:
-
+		
+		friend class ResourcesGroup;
 		friend class ResourcesManager<T>;
-		ResourcesManager<T> *ptrResources;
+		ResourcesGroup *ptrResources;
 		String name;
 		
 	protected:

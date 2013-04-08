@@ -7,6 +7,14 @@
 #define LODEPNG_COMPILE_DECODER
 #include "lodepng.h"
 
+//safe copy
+#ifdef _MSC_VER
+	#define IMG_STRNCPY(d,s,l) strcpy_s(d,l,s)
+#else
+	#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)	
+#endif
+
+
 #ifdef IMAGE_LOADER_OPENGL
 	#define TYPE_RGB GL_RGB
 	#define TYPE_RGBA GL_RGBA
@@ -131,7 +139,7 @@ void Image::loadImage(const std::string& path){
     ////////////////////////////////////
 	//get ext
     char tempstring[4] = {0};
-	strncpy(tempstring, path.c_str() + path.size()-3, 3);
+	IMG_STRNCPY(tempstring, path.c_str() + path.size()-3, 3);
 	//load from file
 	switch (getTypeFromExtetion(tempstring))
 	{
@@ -211,7 +219,7 @@ void Image::save(const std::string& path){
 
     ////////////////////////////////////
     char tempstring[5] = {0};
-	strncpy(tempstring, path.c_str() + path.size()-4, 4);
+	IMG_STRNCPY(tempstring, path.c_str() + path.size()-4, 4);
     char c;
     int i=0;
     while (tempstring[i])
@@ -504,7 +512,7 @@ void Image::convert16to24bit(bool freebuffer){
 	unsigned short pixels=0;
 	bytes=(BYTE*)malloc(width * height * channels * sizeof(BYTE));
 	
-	for(int i = 0; i < width * height ; ++i){
+	for(unsigned int i = 0; i < width * height ; ++i){
 
 		pixels=(bytes16[i*2]<<8);
 		pixels|=bytes16[i*2+1];
@@ -517,7 +525,7 @@ void Image::convert16to24bit(bool freebuffer){
    if(freebuffer) free(bytes16);
 }
 void Image::swapRandBbits(){
-	for(int i = 0; i < width * height ; ++i){
+	for(unsigned int  i = 0; i < width * height ; ++i){
 		bytes[i * channels + 0] = bytes[i * channels + 2];
 		bytes[i * channels + 1] = bytes[i * channels + 1];
 		bytes[i * channels + 2] = bytes[i * channels + 0];
@@ -566,7 +574,7 @@ void Image::convert32to24bit(bool freebuffer){
 	channels=3;
 	bytes=(BYTE*)malloc(width * height * channels * sizeof(BYTE));
 	//copy values...
-	for(int i=0;i<width * height;++i){
+	for(unsigned int i=0;i<width * height;++i){
 		bytes[i*3+0]=bytes32[i*4+0];
 		bytes[i*3+1]=bytes32[i*4+1];
 		bytes[i*3+2]=bytes32[i*4+2];
@@ -639,8 +647,8 @@ void Image::saveBuffer_TGA(Image* img,BYTE*& buffer,size_t& bfsize){
 	memset(buffer,0,bfsize);
 	//HEADER
 	TgaHeader *tgaHeader=(TgaHeader *)buffer;
-	tgaHeader->width=img->width;
-	tgaHeader->height=img->height;
+	tgaHeader->width=(short)img->width;
+	tgaHeader->height=(short)img->height;
 	tgaHeader->bits=img->channels*8;
 	tgaHeader->imagetype=TGA_RGB;
 	//IMAGE
@@ -811,4 +819,7 @@ void Image::load_PNG(Image* img,const std::string& path){
 
 #ifdef LOCAL_BI_RGB
 #undef LOCAL_BI_RGB
+#endif
+#ifdef IMG_STRNCPY
+#undef IMG_STRNCPY
 #endif

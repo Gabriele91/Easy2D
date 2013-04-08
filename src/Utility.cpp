@@ -43,7 +43,7 @@ bool Path::existsFile(){
 bool Path::existsDirectory(){
 	struct stat st;
 	if(stat(directory,&st) == 0)
-		return st.st_mode & S_IFDIR != 0;
+		return (st.st_mode & S_IFDIR) != 0;
 	return false;
 }
 
@@ -67,7 +67,7 @@ std::vector<String> Path::getFiles() const{
 			//get all path
 			namefile=std_dir+dirp->d_name;
 			//if isn't a directory
-			if(stat(namefile,&st)==0 && st.st_mode & S_IFDIR == 0)
+			if(stat(namefile,&st)==0 && (st.st_mode & S_IFDIR) == 0)
 				//push
 				out.push_back(dirp->d_name);
 		}
@@ -116,7 +116,7 @@ std::vector<String> Path::getSubDirs() const{
 			//get all path
 			namefile=std_dir+dirp->d_name;
 			//if is a directory
-			if(stat(namefile,&st)==0 && st.st_mode & S_IFDIR != 0)
+			if(stat(namefile,&st)==0 && (st.st_mode & S_IFDIR) != 0)
 				//push
 				out.push_back(dirp->d_name);
 		}

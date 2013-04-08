@@ -15,13 +15,15 @@ namespace Easy2D{
 	class ResourcesManager {
 		//private costructor
 		friend class ResourcesGroup;
-		ResourcesManager():version("default"){}
+		ResourcesManager():rsgr(NULL),version("default"){}
 		//
 		public:			
 			//
-			ResourcesManager(const Utility::Path& path,
+			ResourcesManager(ResourcesGroup *rsgr,
+							 const Utility::Path& path,
 							 const String& version="default")
-				:mapResources(NULL,path)
+				:rsgr(rsgr)
+				,mapResources(NULL,path)
 				,version(version){
 				//load map resources
 				mapResources.load();
@@ -46,7 +48,7 @@ namespace Easy2D{
 				String path(pathFromName(objectname));
 				if(path!=String() /* void string */){
 					//
-					DS_PTR<T> resource(new T(this,mapResources.getPath().getDirectory()+"/"+path));
+					DS_PTR<T> resource(new T(rsgr,mapResources.getPath().getDirectory()+"/"+path));
 					//set into map
 					resource->name=objectname;
 					rsMap[objectname]=resource;
@@ -100,6 +102,8 @@ namespace Easy2D{
 			}
 
 		private:
+			//ptr resource group			
+			ResourcesGroup *rsgr;
 			//name table
 			Table mapResources;
 			//key version

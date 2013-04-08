@@ -7,7 +7,7 @@
 using namespace Easy2D;
 
 
-Texture::Texture(ResourcesManager<Texture> *rsmr,
+Texture::Texture(ResourcesGroup *rsmr,
 				 const String& pathfile)
 				:Resource(rsmr,pathfile)
 				,bBilinear(true)

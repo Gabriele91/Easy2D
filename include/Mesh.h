@@ -36,7 +36,7 @@ namespace Easy2D {
 
 	public:
 		//Surface
-		Mesh(ResourcesManager<Mesh> *rsmr=NULL,
+		Mesh(ResourcesGroup *rsmr=NULL,
 			 const String& pathfile="");
 		//distruttore
 		virtual ~Mesh();

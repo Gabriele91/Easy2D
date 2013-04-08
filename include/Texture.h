@@ -17,7 +17,7 @@ namespace Easy2D {
         uint gpuid;
 
 	public:
-		Texture(ResourcesManager<Texture> *rsmr=NULL,
+		Texture(ResourcesGroup *rsmr=NULL,
 				const String& pathfile="");	
 		//
 		void bind(uint ntexture=0);

@@ -3,6 +3,10 @@
 #include <WindowsApp.h>
 #include <WindowsScreen.h>
 #include <WindowsInput.h>
+#include <Debug.h>
+//window
+#include <direct.h>
+//
 ///////////////////////
 using namespace Easy2D;
 
@@ -38,11 +42,15 @@ String WindowsApp::appDataDirectory(){
 }
 
 String WindowsApp::appWorkingDirectory(){
-	return "";
+	char cCurrentPath[MAX_PATH];
+	if(!_getcwd(cCurrentPath, sizeof(cCurrentPath))){
+		DEBUG_MESSAGE("Error get working directory: "<<errno);
+	}
+	return cCurrentPath;
 }
 
 String WindowsApp::appResourcesDirectory(){
-	return "";
+	return appWorkingDirectory();
 }	
 
 void WindowsApp::loop(){	

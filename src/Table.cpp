@@ -4,7 +4,7 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-Table::Table(ResourcesManager<Table> *rsmr,
+Table::Table(ResourcesGroup *rsmr,
 			  const String& pathfile)
 			:Resource(rsmr,pathfile)
 			,index(0)

@@ -133,7 +133,7 @@ namespace Easy2D{
 
 
 		/* costructor */
-		Table(ResourcesManager<Table> *rsmr,
+		Table(ResourcesGroup *rsmr,
 			  const String& pathfile="");
 		Table();
 		/* destructor */

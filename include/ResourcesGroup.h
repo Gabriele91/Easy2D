@@ -38,6 +38,9 @@ namespace Easy2D {
 		template<typename T>  DS_PTR<T> load(const String& path){ return DS_PTR<T>(); }
 		template<typename T>  DS_PTR<T> get(const String& path){ return DS_PTR<T>(); }
 		template<typename T>  DS_PTR<T> find(const String& path){ return DS_PTR<T>(); }
+		template<typename T>  String getResourceDirectory(){ 
+			return String(); 
+		}
 		/*
 		* Texture manager:
 		*/
@@ -56,7 +59,12 @@ namespace Easy2D {
 		DFORCEINLINE Texture::ptr find<Texture>(const String& path){
 			return textures.find(path);
 		}
-		
+		/** directory texture resources */
+		template<>  
+		DFORCEINLINE String getResourceDirectory<Texture>(){ 
+			return textures.mapResources.getPath().getDirectory(); 
+		}
+
 		/*
 		* Table manager:
 		*/
@@ -74,6 +82,11 @@ namespace Easy2D {
 		/** find a table already returned */
 		DFORCEINLINE Table::ptr find<Table>(const String& path){
 			return tables.find(path);
+		}
+		/** directory table resources */
+		template<>
+		DFORCEINLINE String getResourceDirectory<Table>(){ 
+			return tables.mapResources.getPath().getDirectory(); 
 		}
 		
 		/*
@@ -93,6 +106,11 @@ namespace Easy2D {
 		/** find a mesh already returned */
 		DFORCEINLINE Mesh::ptr find<Mesh>(const String& path){
 			return meshes.find(path);
+		}
+		/** directory mesh resources */
+		template<>
+		DFORCEINLINE String getResourceDirectory<Mesh>(){ 
+			return meshes.mapResources.getPath().getDirectory(); 
 		}
 		
 

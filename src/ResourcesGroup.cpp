@@ -17,7 +17,7 @@ ResourcesGroup::ResourcesGroup(const Utility::Path& path,
 	//tables
 	if(resources.existsAsType("tables",Table::STRING)){
 		globalPath=path.getDirectory()+"/"+resources.getString("tables");
-		new (&tables) ResourcesManager<Table>(globalPath,version);
+		new (&tables) ResourcesManager<Table>(this,globalPath,version);
 	}
 	else {
 		DEBUG_MESSAGE("error: "<<path <<" not setted tables");
@@ -25,7 +25,7 @@ ResourcesGroup::ResourcesGroup(const Utility::Path& path,
 	//textures
 	if(resources.existsAsType("textures",Table::STRING)){
 		globalPath=path.getDirectory()+"/"+resources.getString("textures");
-		new (&textures) ResourcesManager<Texture>(globalPath,version);
+		new (&textures) ResourcesManager<Texture>(this,globalPath,version);
 	}
 	else {
 		DEBUG_MESSAGE("error: "<<path <<" not setted textures");
@@ -33,7 +33,7 @@ ResourcesGroup::ResourcesGroup(const Utility::Path& path,
 	//meshes
 	if(resources.existsAsType("meshes",Table::STRING)){
 		globalPath=path.getDirectory()+"/"+resources.getString("meshes");
-		new (&meshes) ResourcesManager<Mesh>(globalPath,version);
+		new (&meshes) ResourcesManager<Mesh>(this,globalPath,version);
 	}
 	else {
 		DEBUG_MESSAGE("error: "<<path <<" not setted meshes");
