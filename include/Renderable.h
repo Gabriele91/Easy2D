@@ -46,7 +46,7 @@ namespace Easy2D {
 		}
 		//draw
 		void draw();
-		void draw(Renderable *s);
+		void draw(RenderState *oldstate);
 
 	};
 

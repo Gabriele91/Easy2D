@@ -21,7 +21,7 @@ namespace Easy2D {
 
 		//
 		void draw();
-		void forceDraw();
+		void draw(RenderState *oldstate);
 		//
 		void setTexture(Texture::ptr rtex){ rtexture=rtex; }
 		void setMesh(Mesh::ptr rm){ rmesh=rm; }

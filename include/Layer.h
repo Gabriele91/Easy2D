@@ -5,15 +5,43 @@
 #include <Camera.h>
 
 namespace Easy2D {
-
+	//
 	class Renderable;
-
+	//
 	class Layer {
 	
 		bool visible;
 
 	public:
 		
+		/* layer it */
+		class iterator{
+
+		public:
+			virtual bool operator==(const iterator& it){return (*this)==it;}
+			virtual bool operator!=(const iterator& it){return (*this)!=it;}
+			virtual iterator operator++(){ return (*this);};
+			virtual Renderable* operator*(){ return NULL; };
+		};
+		/* template it */
+		template <class T>
+		class stditerator : public iterator{
+
+			T::iterator it;
+		
+		public:
+
+			stditerator(T::iterator& it):it(it){}
+			virtual bool operator==(const iterator& it){return this->it==((stditerator<T>*)(&it))->it;}
+			virtual bool operator!=(const iterator& it){return this->it!=((stditerator<T>*)(&it))->it;}
+			virtual iterator operator++(){ return stditerator<T>((this->it)++);};
+			virtual Renderable* operator*(){ return *(this->it); };
+
+		};
+		//foreach
+		virtual iterator begin()=0;
+		virtual iterator end()=0;
+		//
 		virtual void change()=0;	
 		virtual void update()=0;		
 		//
@@ -35,8 +63,16 @@ namespace Easy2D {
 	class LayerUnorder : public Layer {
 	
 		std::list<Renderable *> renderables;
+		typedef stditerator< std::list<Renderable *> > listIterator;
 
 	public:
+		//templates foreach
+		virtual iterator begin(){
+			return listIterator(renderables.begin());
+		}
+		virtual iterator end(){
+			return listIterator(renderables.end());		
+		}
 		//
 		virtual void change(){};	
 		virtual void update(){};		
@@ -54,10 +90,22 @@ namespace Easy2D {
 	class LayerOrder : public Layer {
 	
 		bool reorder;
+		//std vector
 		std::vector<Renderable*> renderables;
+		//layer std iterator
+		typedef stditerator< std::vector<Renderable*> > vectorIterator;
+		//vector comparation items
 		static bool operator_lt(const Renderable* lrs,const Renderable* rrs);
 
 	public:
+		//templates foreach
+		virtual iterator begin(){
+			return vectorIterator(renderables.begin());
+		}
+		virtual iterator end(){
+			return vectorIterator(renderables.end());		
+		}
+		//
 		//
 		virtual void change(){
 			reorder=true;
@@ -77,6 +125,7 @@ namespace Easy2D {
 			renderables.erase(it);
 		}
 		//
+
 	};	
 };
 

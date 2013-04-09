@@ -490,7 +490,7 @@ namespace Easy2D{
 		DFORCEINLINE float operator()(int x,int y) const{ return entries[x+(y*4)]; }
 		//
 		operator float* ()  {return (float*)entries;}
-		operator const float* ()  {return (const float*)entries;}
+		operator const float* () const {return (const float*)entries;}
 		///////////////////////////////////////////////////////////////////////////
 		String toString(const String& start="(",const String& sep=" ",const String& sepline=" ",const String& end=")\n") const;
 

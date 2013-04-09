@@ -13,6 +13,7 @@ namespace Easy2D {
 		//
 		std::vector<Layer *> layers;
 		Camera *camera;
+		void initOpenGL();
 		//
 	public:
 		//
