@@ -2,6 +2,7 @@
 #define RENDER_H
 
 #include <Config.h>
+#include <Screen.h>
 #include <Camera.h>
 #include <Layer.h>
 #include <Renderable.h>
@@ -12,7 +13,12 @@ namespace Easy2D {
 	class Render {		
 		//
 		std::vector<Layer *> layers;
+		//info screen
 		Camera *camera;
+		Vector2D viewport;
+		float screenAngle;
+		Screen::Orientation orientation;
+		//init openGL
 		void initOpenGL();
 		//
 	public:
@@ -26,6 +32,8 @@ namespace Easy2D {
 		void erseLayer(Layer* layer);
 		//
 		void draw();
+		//
+		void setOrientation(Screen::Orientation orientation);
 	};
 
 };

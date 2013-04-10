@@ -11,10 +11,10 @@ namespace Easy2D {
 	
 	public:		
 		/**
-		* Screen oretation enum
+		* Screen orientation enum
 		* @enum SceenOrientation
 		*/
-		enum SceenOrientation{
+		enum Orientation{
 			///@code
 			/// like this:
 			///    _____
@@ -73,7 +73,7 @@ namespace Easy2D {
 		/**
 		* return screen orientation
 		*/
-		virtual SceenOrientation getOrientation()=0;
+		virtual Orientation getOrientation()=0;
 		/**
 		* return frame rate
 		*/

@@ -20,6 +20,8 @@ void Render::initOpenGL(){
     glLoadIdentity();               
     //always active!
     glEnableClientState(GL_VERTEX_ARRAY);
+	//set orientation
+	setOrientation(Application::instance()->getScreen()->getOrientation());
 }
 
 void Render::draw(){
@@ -52,4 +54,16 @@ void Render::draw(){
 			}
 		}
 	}
+}
+
+void Render::setOrientation(Screen::Orientation _orientation){
+	//orientation
+	orientation=_orientation;
+	//
+	static float orientations[] =   { 0, 180, 90, -90 };
+    screenAngle = orientations[ (uint)orientation ] + orientations[ (uint)orientation ];
+	//set viewport
+	viewport.x=Application::instance()->getScreen()->getWidth();
+	viewport.y=Application::instance()->getScreen()->getHeight();
+	//
 }

@@ -270,7 +270,7 @@ uint WindowsScreen::getNativeHeight(){
 /**
 * return screen orientation
 */
-WindowsScreen::SceenOrientation WindowsScreen::getOrientation(){
+WindowsScreen::Orientation WindowsScreen::getOrientation(){
 	return Screen::LANDSCAPE_RIGHT;
 }
 /**
