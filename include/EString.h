@@ -18,6 +18,23 @@ namespace Easy2D{
 	//find
 	int find(const String& value) const;
 	int rfind(const String& value) const;
+	//replace
+	void replace(const String& toReplace,const String& replaceWith){
+		int lfind=find(toReplace);
+		if(lfind>-1)
+			std::string::replace(lfind,toReplace.size(),replaceWith);  
+	}	
+	//replaceALL
+	void replaceAll(const String& toReplace,const String& replaceWith){
+		int lfind=find(toReplace);
+		while(lfind>-1){
+			std::string::replace(lfind,toReplace.size(),replaceWith);
+			lfind=find(toReplace);
+		}
+	}
+	//
+	//split
+	void split(const String& delimiters , std::vector<String>& tokens);
 	//
 	template<class T> static String toString(T dato){
 		   std::stringstream br;//creo il buffer
@@ -32,6 +49,13 @@ namespace Easy2D{
 	int toInt() const;
 	const char* toChars() const;
 	float toFloat() const;
+	//overload
+	char& operator[](int i){
+		return (*((std::string*)this))[i];
+	}
+	char operator[](int i) const{
+		return (*((std::string*)this))[i];
+	}
 	//cast
 	operator const char *(){
 		return c_str();

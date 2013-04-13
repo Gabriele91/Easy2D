@@ -24,17 +24,17 @@ namespace Easy2D {
 			virtual Renderable* operator*(){ return NULL; };
 		};
 		/* template it */
-		template <class T>
+		template <class T,class T_iterator>
 		class stditerator : public iterator{
 
-			T::iterator it;
+			T_iterator it;
 		
 		public:
 
-			stditerator(T::iterator& it):it(it){}
-			virtual bool operator==(const iterator& it){return this->it==((stditerator<T>*)(&it))->it;}
-			virtual bool operator!=(const iterator& it){return this->it!=((stditerator<T>*)(&it))->it;}
-			virtual iterator operator++(){ return stditerator<T>((this->it)++);};
+			stditerator(T_iterator& it):it(it){}
+			virtual bool operator==(const iterator& it){return this->it==((stditerator<T,T_iterator>*)(&it))->it;}
+			virtual bool operator!=(const iterator& it){return this->it!=((stditerator<T,T_iterator>*)(&it))->it;}
+			virtual iterator operator++(){ return stditerator<T,T_iterator>((this->it)++);};
 			virtual Renderable* operator*(){ return *(this->it); };
 
 		};
@@ -63,7 +63,7 @@ namespace Easy2D {
 	class LayerUnorder : public Layer {
 	
 		std::list<Renderable *> renderables;
-		typedef stditerator< std::list<Renderable *> > listIterator;
+		typedef stditerator< std::list<Renderable *> , std::list<Renderable *>::iterator > listIterator;
 
 	public:
 		//templates foreach
@@ -93,7 +93,7 @@ namespace Easy2D {
 		//std vector
 		std::vector<Renderable*> renderables;
 		//layer std iterator
-		typedef stditerator< std::vector<Renderable*> > vectorIterator;
+		typedef stditerator< std::vector<Renderable*>, std::vector<Renderable*>::iterator > vectorIterator;
 		//vector comparation items
 		static bool operator_lt(const Renderable* lrs,const Renderable* rrs);
 

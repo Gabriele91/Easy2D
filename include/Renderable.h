@@ -45,8 +45,8 @@ namespace Easy2D {
 			visible=false;
 		}
 		//draw
-		void draw();
-		void draw(RenderState *oldstate);
+		virtual void draw()=0;
+		virtual void draw(RenderState *oldstate)=0;
 
 	};
 

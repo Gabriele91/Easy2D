@@ -26,7 +26,8 @@ public:
 		  false)//fullscreen
 	//init textures
 	,resources("livel/resources.rs")
-	{}
+	{
+	}
 
 	~MyGame(){};
 

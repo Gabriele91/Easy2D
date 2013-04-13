@@ -13,6 +13,24 @@ int String::rfind(const String& value) const{
 	return basic_string::find_last_of(value);
 }
 ///
+void String::split(const String& delimiters , 
+				   std::vector<String>& tokens){
+    // Skip delimiters at beginning.
+    std::string::size_type lastPos = find_first_not_of(delimiters, 0);
+    // Find first "non-delimiter".
+    std::string::size_type pos     = find_first_of(delimiters, lastPos);
+
+    while (std::string::npos != pos || std::string::npos != lastPos)
+    {
+        // Found a token, add it to the vector.
+        tokens.push_back(substr(lastPos, pos - lastPos));
+        // Skip delimiters.  Note the "not_of"
+        lastPos = find_first_not_of(delimiters, pos);
+        // Find next "non-delimiter"
+        pos = find_first_of(delimiters, lastPos);
+    }
+}
+///
 String String::toLower() const{
   String out(*this); 
   for (unsigned int i=0;i<size();++i){ 
