@@ -159,7 +159,21 @@ bool Mesh::load(){
 	//
 	return true;
 }
-bool Mesh::unload(){return false;}
+bool Mesh::unload(){
+	//unload mesh	
+    if( vertexBuffer )
+		glDeleteBuffers(1, &vertexBuffer );
+    if( indexBuffer )
+		glDeleteBuffers(1, &indexBuffer );
+	#ifdef ENABLE_VAOS
+    if( vbaDraw )
+         glDeleteVertexArrays( 1, &vbaDraw );	
+	#endif	
+	//is loaded?
+	loaded=false;
+	//
+	return true;
+}
 //draw
 void Mesh::__bind(){
 

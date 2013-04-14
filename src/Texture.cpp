@@ -16,7 +16,8 @@ Texture::Texture(ResourcesGroup *rsmr,
 				,chMps(true)
 				,width(0)
 				,height(0)
-				,gpuid(0){
+				,gpuid(0)
+				,offsetUV(1,1){
 	//is not loaded
 	loaded=false;
 }
@@ -87,15 +88,9 @@ bool Texture::load(){
 			realWidth=Math::nextPowerOfTwo(realWidth);
 		if(!Math::isPowerOfTwo(realHeight))
 			realHeight=Math::nextPowerOfTwo(realHeight);
-		/*
-		Added?
-		if(width!=realWidth || height!=realHeight){
-			//scale
-			image.scale(realWidth,realHeight);
-			width=realWidth;
-			height=realHeight;
-		}
-		*/
+		//calc offset uv
+		offsetUV.x=(float)width/realWidth;
+		offsetUV.y=(float)height/realHeight;
 	}	
 	//resize
 	//create a gpu texture
@@ -118,7 +113,6 @@ bool Texture::load(){
 					 image.type, 
 					 GL_UNSIGNED_BYTE, 
 					 image.bytes );
-
 	//is loaded
 	loaded=true;
 	//return

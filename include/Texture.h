@@ -15,6 +15,7 @@ namespace Easy2D {
 		uint width,height;
 		uint realWidth,realHeight;
         uint gpuid;
+		Vec2 offsetUV;
 
 	public:
 		Texture(ResourcesGroup *rsmr=NULL,
@@ -29,6 +30,8 @@ namespace Easy2D {
 		bool bilinear(bool value);
 		bool mipmaps();
 		bool mipmaps(bool value);
+		//offset UV (npow)
+		Vec2& getOffestUV();
 		//query
 		DFORCEINLINE uint getWidth(){ return width; }    
 		DFORCEINLINE uint getRealWidth(){ return realWidth; }
