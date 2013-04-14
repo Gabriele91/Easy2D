@@ -5,31 +5,27 @@
 #include <Mesh.h>
 #include <Object.h>
 #include <RenderState.h>
-#include <Layer.h>
 
 namespace Easy2D {
-
+	//
+	class Layer;
+	//
 	class Renderable : public Object, public RenderState {
 		
 		Layer *rlayer;
 		bool visible;
 		float zvalue;
+		friend class Layer;
 
 	public:
 
-		Renderable(Mesh::ptr rmesh,
-				   Texture::ptr rtex,
-				   Layer *rlayer,
-				   bool visible=true)
-			:rlayer(rlayer)
-			,visible(visible)
-			,zvalue(0.0){
-				setTexture(rtex);
-				setMesh(rmesh);
-		}
+		Renderable(Mesh::ptr rmesh=NULL,
+				   Texture::ptr rtex=NULL,
+				   Layer *rlayer=NULL,
+				   bool visible=true);
 		//z order
 		DFORCEINLINE float getZ(){ return zvalue; }
-		DFORCEINLINE void  setZ(float z){ zvalue=z; rlayer->change(); };
+		void  setZ(float z);
 		//sort:		
 		bool operator <(const Renderable& rhs) const { 
 			return zvalue < rhs.zvalue;
@@ -44,10 +40,6 @@ namespace Easy2D {
 		DFORCEINLINE void hide(){
 			visible=false;
 		}
-		//draw
-		virtual void draw()=0;
-		virtual void draw(RenderState *oldstate)=0;
-
 	};
 
 };

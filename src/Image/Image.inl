@@ -331,6 +331,7 @@ void Image::setColorMask(rgba RGBA){
      type=TYPE_RGBA;
 
     }
+
 //restituisce una normal map
 Image::float3 GetNormal( float down, float up, float right, float left ){
 	Image::float3 n;
@@ -584,6 +585,80 @@ void Image::convert32to24bit(bool freebuffer){
 	//free alloc
 	if(freebuffer) free(bytes32);
 }
+//
+void Image::scaleLine(BYTE *source,
+					  int srcWidth,
+					  short srcChannel,
+					  BYTE *target,
+					  int tgtWidth,
+					  short tgtChannel){
+
+  int numPixels = -1;
+  int part = (srcWidth / tgtWidth)*srcChannel;
+  int fract = srcWidth % tgtWidth;
+  int e = 0;
+
+  while (tgtWidth>++numPixels) {
+	  //copy r [g] [b] [a]
+	  target[numPixels*tgtChannel] = *source;
+	  if(srcChannel>=2)
+		 target[numPixels*tgtChannel+1] = *(source+1);
+	  if(srcChannel>=3)
+		target[numPixels*tgtChannel+2] = *(source+2);
+	  if(srcChannel>=4)
+		target[numPixels*tgtChannel+3] = *(source+3);
+	  //next
+      source += part;
+	  //factor next?
+	  e += fract;
+	  if (e >= tgtWidth) {
+		  e -= tgtWidth;
+		  source+=srcChannel;
+	  } 
+  } 
+}
+//scale image:
+void Image::scale(unsigned int newWidth,unsigned int newHeight){
+
+	BYTE *newbytes=NULL;
+	if(newbytes=(BYTE *)malloc(channels*newWidth*newHeight)){
+
+		  int numPixels = newHeight;
+		  int part = (height / newHeight) * newWidth * channels;
+		  int fract = height % newHeight;
+		  int e = 0;
+		  BYTE *prevSource = NULL;
+		  BYTE *source = this->bytes;
+		  BYTE *target = newbytes;
+
+		  while (numPixels-- > 0) {
+			    if (source == prevSource){
+					memcpy(target, target-newWidth* channels, newWidth* channels);
+				}
+				else {
+				  scaleLine(source, 
+							width,
+							channels,
+							target,
+							newWidth,
+							channels);
+				  prevSource = source;
+				} 
+				target += newWidth * channels;
+				source += part;   
+				e += fract; 
+				if (e >= newHeight) {
+				  e -= newHeight;
+				  source += width * channels;
+				}
+		  }
+		  free(bytes);
+		  bytes=newbytes;
+		  width=newWidth;
+		  height=newHeight;
+	}
+}
+
 // openGL bite format
 Image::BYTE& Image::pixel(Image::BYTE* bytes,int width,int x,int y,int c){
     return bytes[(y*width+x)*3+c];
@@ -795,6 +870,7 @@ void Image::load_PNG(Image* img,const std::string& path){
 		free(buffer);
 	}
 }
+
 //UNDEF
 #ifdef GCCALLINEAMENT
 #undef GCCALLINEAMENT

@@ -120,7 +120,15 @@ class Image{
 		void convert16to24bit(bool freebuffer=true);
 		void swapRandBbits();
 		void decoderRLE(bool freebuffer=true);
-		void convert32to24bit(bool freebuffer=true);
+		void convert32to24bit(bool freebuffer=true);		
+		//scale image:
+		void scale(unsigned int width,unsigned int height);
+		static void scaleLine(BYTE *source,
+							  int srcWidth,
+							  short srcChannel,
+							  BYTE *target,
+							  int tgtWidth,
+							  short tgtChannel);
 		// return openGL bite format
 		static BYTE& pixel(BYTE* bytes,int width,int x,int y,int c);
 		// save a openGL screen 
@@ -140,6 +148,7 @@ class Image{
 		// load Png image
 		static void loadBuffer_PNG(Image* img,BYTE *buffer,size_t bfsize);
 		static void load_PNG(Image* img,const std::string& path);
+
 
 };
 

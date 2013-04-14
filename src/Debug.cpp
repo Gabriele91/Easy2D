@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <Debug.h>
+#include <EString.h>
 #include <iostream>
 ///////////////////////
 using namespace Easy2D;
@@ -26,5 +27,30 @@ void Debug::doassert(int v,const char* value,const char* fileSource,int line){
 	if(!v){
 		message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
 		breakpoint();
+	}
+}
+void Debug::gpucheckerrors(const char* fileSource,int line){
+	
+	String err;
+	bool glerror=false;
+
+    for (GLint g = glGetError(); g != GL_NONE; g = glGetError()) {
+        glerror=true;
+		switch(g)
+		{
+			case GL_NO_ERROR:
+				return;
+			case GL_INVALID_ENUM:           err = "GL_INVALID_ENUM";        break;
+			case GL_INVALID_VALUE:          err = "GL_INVALID_VALUE";       break;
+			case GL_INVALID_OPERATION:		err = "GL_INVALID_OPERATION";   break;
+			case GL_STACK_OVERFLOW:         err = "GL_STACK_OVERFLOW";      break;
+			case GL_STACK_UNDERFLOW:		err = "GL_STACK_UNDERFLOW";     break;
+			case GL_OUT_OF_MEMORY:          err = "GL_OUT_OF_MEMORY";       break;
+		};
+		DEBUG_MESSAGE( "OpenGL Error : " << err <<" : "<< line <<" : "<< fileSource  );
+	}
+
+	if(glerror){ 
+		DEBUG_ASSERT_MSG(0,"OpenGL encountered");
 	}
 }

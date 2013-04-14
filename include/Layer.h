@@ -3,50 +3,27 @@
 
 #include <Config.h>
 #include <Camera.h>
+#include <Renderable.h>
 
 namespace Easy2D {
-	//
-	class Renderable;
 	//
 	class Layer {
 	
 		bool visible;
-
+		
 	public:
-		
-		/* layer it */
-		class iterator{
-
-		public:
-			virtual bool operator==(const iterator& it){return (*this)==it;}
-			virtual bool operator!=(const iterator& it){return (*this)!=it;}
-			virtual iterator operator++(){ return (*this);};
-			virtual Renderable* operator*(){ return NULL; };
-		};
-		/* template it */
-		template <class T,class T_iterator>
-		class stditerator : public iterator{
-
-			T_iterator it;
-		
-		public:
-
-			stditerator(T_iterator& it):it(it){}
-			virtual bool operator==(const iterator& it){return this->it==((stditerator<T,T_iterator>*)(&it))->it;}
-			virtual bool operator!=(const iterator& it){return this->it!=((stditerator<T,T_iterator>*)(&it))->it;}
-			virtual iterator operator++(){ return stditerator<T,T_iterator>((this->it)++);};
-			virtual Renderable* operator*(){ return *(this->it); };
-
-		};
-		//foreach
-		virtual iterator begin()=0;
-		virtual iterator end()=0;
+		//
+		virtual Renderable* next()=0;
 		//
 		virtual void change()=0;	
 		virtual void update()=0;		
 		//
-		virtual void addRenderable(Renderable *rnd)=0;
-		virtual void erseRenderable(Renderable *rnd)=0;
+		virtual void addRenderable(Renderable *rnd){			
+			rnd->rlayer=this;
+		};
+		virtual void erseRenderable(Renderable *rnd){			
+			rnd->rlayer=NULL;
+		};
 		//
 		DFORCEINLINE bool isVisible(){ 
 			return visible;
@@ -62,25 +39,34 @@ namespace Easy2D {
 
 	class LayerUnorder : public Layer {
 	
+		//std::list
 		std::list<Renderable *> renderables;
-		typedef stditerator< std::list<Renderable *> , std::list<Renderable *>::iterator > listIterator;
+		//it list
+		std::list<Renderable *>::iterator it;
 
 	public:
-		//templates foreach
-		virtual iterator begin(){
-			return listIterator(renderables.begin());
-		}
-		virtual iterator end(){
-			return listIterator(renderables.end());		
+		//
+		LayerUnorder():it(renderables.begin()){}
+		//get Renderable
+		virtual Renderable* next(){
+			if(it!=renderables.end()){
+				Renderable *tmp=*it;
+				it++;
+				return tmp;
+			}
+			else it=renderables.begin();
+			return NULL;
 		}
 		//
 		virtual void change(){};	
 		virtual void update(){};		
 		//
 		virtual void addRenderable(Renderable *rnd){
+			this->Layer::addRenderable(rnd);
 			renderables.push_back(rnd);
 		}
 		virtual void erseRenderable(Renderable *rnd){
+			this->Layer::erseRenderable(rnd);
 			renderables.remove(rnd);
 		}
 		//
@@ -89,38 +75,45 @@ namespace Easy2D {
 
 	class LayerOrder : public Layer {
 	
+		//reorder?
 		bool reorder;
 		//std vector
 		std::vector<Renderable*> renderables;
-		//layer std iterator
-		typedef stditerator< std::vector<Renderable*>, std::vector<Renderable*>::iterator > vectorIterator;
+		//it
+		int it;		
 		//vector comparation items
 		static bool operator_lt(const Renderable* lrs,const Renderable* rrs);
 
 	public:
-		//templates foreach
-		virtual iterator begin(){
-			return vectorIterator(renderables.begin());
-		}
-		virtual iterator end(){
-			return vectorIterator(renderables.end());		
-		}
 		//
+		LayerOrder():reorder(true),it(0){}
+		//get Renderable
+		virtual Renderable* next(){
+			if(it<renderables.size())
+				return renderables[it++];
+			else it=0;
+			return NULL;
+		}
 		//
 		virtual void change(){
 			reorder=true;
 		}	
 		virtual void update(){
 			if(reorder){
-				std::sort(renderables.begin(), renderables.end(),operator_lt);
+				std::sort(renderables.begin(), 
+					      renderables.end(),
+						  operator_lt);
 				reorder=false;
 			}
 		}
 		//
 		virtual void addRenderable(Renderable *rnd){
+			this->Layer::addRenderable(rnd);
 			renderables.push_back(rnd);
+			reorder=true;
 		}
 		virtual void erseRenderable(Renderable *rnd){
+			this->Layer::erseRenderable(rnd);
 			auto it=std::find(renderables.begin(), renderables.end(), rnd);
 			renderables.erase(it);
 		}

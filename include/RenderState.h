@@ -19,7 +19,15 @@ namespace Easy2D {
 
 	public:
 
-		//
+		RenderState()
+			:rtexture(NULL)
+			,rmesh(NULL)
+			,blending(false)
+			,blendSrc(GL_ONE)
+			,blendDst(GL_ZERO)
+			,cullmode(GL_BACK)
+		{}
+		//draw
 		void draw();
 		void draw(RenderState *oldstate);
 		//

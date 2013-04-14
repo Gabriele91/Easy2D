@@ -329,7 +329,7 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
 				}
 				if(i==2) setPt(key,Vec2(vectorsTmp[0],vectorsTmp[1]));
 				else if(i==3) setPt(key,Vec3(vectorsTmp[0],vectorsTmp[1],vectorsTmp[2]));
-				else if(i==4) setPt(key,Vec4(vectorsTmp[0],vectorsTmp[1],vectorsTmp[3],vectorsTmp[4]));
+				else if(i==4) setPt(key,Vec4(vectorsTmp[0],vectorsTmp[1],vectorsTmp[2],vectorsTmp[3]));
 				else if(i==16) setPt(key,Matrix4x4(vectorsTmp));
 				else{
 					dErrors.push(cntEL,*prtC, "vector: number parameter are not valid"); 

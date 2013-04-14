@@ -49,6 +49,13 @@ bool Texture::mipmaps(bool value){
 	chMps=bMipmaps!=value;
 	return bMipmaps=value;
 }
+//operators
+bool Texture::operator ==(const Texture& t) const{
+	return gpuid==t.gpuid;
+}
+bool Texture::operator !=(const Texture& t) const{
+	return gpuid!=t.gpuid;
+}
 
 //load methods
 bool Texture::load(){	
@@ -69,17 +76,28 @@ bool Texture::load(){
 	//create an GPU texture
 	glGenTextures( 1, &gpuid );
 	//build 
-	bind();   
+	bind();
 	//save width end height
 	width=realWidth=image.width;
 	height=realHeight=image.height;
 	//support only pow of 2?
 	if(Application::instance()->onlyPO2()){
+		//
 		if(!Math::isPowerOfTwo(realWidth))
 			realWidth=Math::nextPowerOfTwo(realWidth);
 		if(!Math::isPowerOfTwo(realHeight))
 			realHeight=Math::nextPowerOfTwo(realHeight);
+		/*
+		Added?
+		if(width!=realWidth || height!=realHeight){
+			//scale
+			image.scale(realWidth,realHeight);
+			width=realWidth;
+			height=realHeight;
+		}
+		*/
 	}	
+	//resize
 	//create a gpu texture
 	glTexImage2D(
 			GL_TEXTURE_2D, 
@@ -100,6 +118,7 @@ bool Texture::load(){
 					 image.type, 
 					 GL_UNSIGNED_BYTE, 
 					 image.bytes );
+
 	//is loaded
 	loaded=true;
 	//return

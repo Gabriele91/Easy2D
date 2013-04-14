@@ -18,10 +18,9 @@ namespace Easy2D {
 		Vector2D viewport;
 		float screenAngle;
 		Screen::Orientation orientation;
+	public:
 		//init openGL
 		void initOpenGL();
-		//
-	public:
 		//
 		Render();
 		//setting

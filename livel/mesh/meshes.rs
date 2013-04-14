@@ -1,2 +1,3 @@
 {
+	sprite="sprite.mesh"
 }

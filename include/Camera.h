@@ -11,7 +11,7 @@ namespace Easy2D {
 
 	public:
 
-		Camera();
+		Camera(){}
 
 	};
 

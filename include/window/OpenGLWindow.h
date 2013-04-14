@@ -12,6 +12,10 @@ extern PFNGLDELETEBUFFERSARBPROC glDeleteBuffers;
 //edit vbo
 extern PFNGLMAPBUFFERARBPROC glMapBuffer;
 extern PFNGLUNMAPBUFFERARBPROC glUnmapBuffer;
+//vba
+extern PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
+extern PFNGLBINDVERTEXARRAYPROC  glBindVertexArray;
+extern PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
 //multi texture
 extern PFNGLACTIVETEXTUREPROC glActiveTexture;
 extern PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture;

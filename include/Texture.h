@@ -34,6 +34,9 @@ namespace Easy2D {
 		DFORCEINLINE uint getRealWidth(){ return realWidth; }
 		DFORCEINLINE uint getHeight(){ return height; }    
 		DFORCEINLINE uint getRealHeight(){ return realHeight; }
+		//overload
+		bool operator ==(const Texture&) const;
+		bool operator !=(const Texture&) const;
 	};
 
 };

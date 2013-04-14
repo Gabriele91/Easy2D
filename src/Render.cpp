@@ -13,35 +13,56 @@ void Render::initOpenGL(){
     glEnable( GL_CULL_FACE );        
     glCullFace( GL_BACK );        
     //default status for blending
-    glEnable( GL_BLEND );   
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );   
+    glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
+    glBlendFunc( GL_ONE , GL_ZERO ); 
+	//disable light
+	glDisable(GL_LIGHTING);
     //projection is always the same
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();               
+    glLoadIdentity();
+	//enable texturing	
+	glEnable( GL_TEXTURE_2D );
     //always active!
     glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//set orientation
 	setOrientation(Application::instance()->getScreen()->getOrientation());
+	//find errors:
+	CHECK_GPU_ERRORS();
+}
+
+Layer* Render::addLayer(bool order){
+	Layer *newLayer=order? (Layer*)new LayerOrder():
+						   (Layer*)new LayerUnorder();
+	layers.push_back(newLayer);
+	return newLayer;
+}
+void Render::erseLayer(Layer* layer){
+	auto it=std::find(layers.begin(), layers.end(), layer);
+	layers.erase(it);
 }
 
 void Render::draw(){
 	//old state
 	RenderState *oldState=NULL;
+	//set view port
+	glViewport( 0, 0, viewport.x, viewport.y );
 	//for all layers
 	for(auto layer:layers){
-		//It is visible?
+		//layer is visible?
 		if(layer->isVisible()){
 			//update layer
 			layer->update();
 			//for all renderable
-			for(auto renderable:(*layer)){
+			while(Renderable *renderable=layer->next()){
 				//set model view matrix
 				glMatrixMode(GL_MODELVIEW);
+				//calc m4x4
 				glLoadMatrixf(
-					(const float*)
-					(camera->getGlobalMatrix().mul2D(renderable->getGlobalMatrix()))
+					camera->getGlobalMatrix().mul2D(renderable->getGlobalMatrix()).entries
 					);
-				//It is visible?
+				//renderable is visible?
 				if(renderable->isVisible()){
 					//draw
 					if(oldState==NULL)
@@ -49,7 +70,9 @@ void Render::draw(){
 					else
 						renderable->draw(oldState);
 					//set old state
-					oldState=renderable;
+					oldState=(RenderState*)renderable;
+					//draw errors
+					CHECK_GPU_ERRORS();
 				}
 			}
 		}

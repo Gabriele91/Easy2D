@@ -30,6 +30,7 @@
 	#define PLATFORM_WINDOW	
 	#define DCPP_11
 	#define NOMINMAX
+	#define ENABLE_VAOS
 	#include <windows.h>
 	#include <GL/gl.h>
 	#include <GL/glu.h>
@@ -40,6 +41,7 @@
 	#define PLATFORM_LINUX
 	#define PLATFORM_UNIX
 	#define DCPP_11
+	#define ENABLE_VAOS
 	#include <AL/al.h>
 	#include <AL/alc.h>
 	#include <GL/glew.h>
@@ -48,6 +50,8 @@
 #elif defined(__APPLE__)
     #include "TargetConditionals.h"
 	#define PLATFORM_UNIX
+	#define ENABLE_VAOS
+
     #if TARGET_OS_IPHONE    
 		#define PLATFORM_IPHONE
 
@@ -62,6 +66,7 @@
 	#define PLATFORM_ANDROID
 	#define PLATFORM_UNIX
 	#define DCPP_X0
+	#define DISABLE_VAOS
 	#include <stdint.h>
 	#include <AL/al.h>
 	#include <AL/alc.h>
@@ -90,6 +95,11 @@
 	#error "compiler not supported"
 #endif
 
+#if !defined(ENABLE_VAOS) &&  !defined(DISABLE_VAOS)
+	#error "must to be define ENABLE_VAOS or DISABLE_VAOS"
+#elif defined(ENABLE_VAOS) &&  defined(DISABLE_VAOS)
+	#error "must to be defined only ENABLE_VAOS or only DISABLE_VAOS"
+#endif
 
 #if defined(DCPP_11)
 	#include <unordered_map>

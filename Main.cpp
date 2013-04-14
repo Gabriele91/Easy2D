@@ -10,9 +10,18 @@ class MyGame : Game,
 
 	//variable declaration
 	ResourcesGroup resources;
+	
 	Texture::ptr light;
 	Texture::ptr ninja;
+	Mesh::ptr lightMesh;
+	Mesh::ptr ninjaMesh;
 	
+
+	Render rander;
+	Layer* layer1;
+	Camera camera;
+	Renderable objLight;
+	Renderable objNinja;
 
 public:
 
@@ -26,25 +35,51 @@ public:
 		  false)//fullscreen
 	//init textures
 	,resources("livel/resources.rs")
-	{
-	}
+	{}
 
 	~MyGame(){};
 
 	virtual void start(){
+		//
+		rander.initOpenGL();
 		//input
 		Application::instance()->getInput()->addHandler((Input::KeyboardHandler*)this);
 		Application::instance()->getInput()->addHandler((Input::MouseHandler*)this);
 		//resources
 		light=resources.load<Texture>("light");
 		ninja=resources.load<Texture>("ninja");
+		lightMesh=resources.load<Mesh>("sprite");
+		ninjaMesh=resources.load<Mesh>("sprite");
+		//set randable
+		objLight.setTexture(light);
+		objLight.setMesh(lightMesh);
+		objLight.setScale(Vec2(1,1));
+		objLight.enableBlend();
+		objLight.setBlend(GL_SRC_ALPHA,GL_ONE);
+		objLight.setZ(1.0);
+
+		objNinja.setTexture(ninja);
+		objNinja.setMesh(ninjaMesh);
+		objNinja.setScale(Vec2(1,1));
+		objNinja.enableBlend();
+		objNinja.setBlend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//add layers
+		layer1=rander.addLayer(true);
+		layer1->addRenderable(&objLight);
+		layer1->addRenderable(&objNinja);
+		//set camera
+		rander.setCamera(&camera);
 		//load resources
 		resources.load();
 	}
 	virtual void run(float dt){
+		glClearColor(0.25,0.5,1,1);
+		glClear(GL_COLOR_BUFFER_BIT);
 		/* old style event */
 		if(Application::instance()->getInput()->getKeyHit(Key::A)) 
 			std::cout<< "hit A" << std::endl;
+		//draw:
+		rander.draw();
 	}
 	virtual void end(){
 	}

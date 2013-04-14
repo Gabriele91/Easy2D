@@ -73,7 +73,7 @@ namespace Easy2D{
 					auto path=table.getString(version);
 					if(path==""){
 						path=table.getString("default");
-						//DEBUG_ASSERT_MGS(path.size(),"set a default path: "<<objname);
+						//DEBUG_ASSERT_MSG(path.size(),"set a default path: "<<objname);
 					}
 					return path;
 				}else

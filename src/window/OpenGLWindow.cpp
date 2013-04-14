@@ -11,6 +11,10 @@ PFNGLDELETEBUFFERSARBPROC glDeleteBuffers=NULL;
 //edit vbo
 PFNGLMAPBUFFERARBPROC glMapBuffer=NULL;
 PFNGLUNMAPBUFFERARBPROC glUnmapBuffer=NULL;
+//vba
+PFNGLGENVERTEXARRAYSPROC glGenVertexArrays=NULL;
+PFNGLBINDVERTEXARRAYPROC  glBindVertexArray=NULL;
+PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays=NULL;
 //multi texture
 PFNGLACTIVETEXTUREPROC glActiveTexture=NULL;
 PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture=NULL;
@@ -64,6 +68,7 @@ PFNGLGETPROGRAMINFOLOGPROC	glGetProgramInfoLog=NULL;
 
 void Easy2D::initOpenGL2(){
 
+	//VBO / edit vbo 
     glEnableVertexAttribArray=(PFNGLENABLEVERTEXATTRIBARRAYPROC)wglGetProcAddress("glEnableVertexAttribArray"); DEBUG_ASSERT(glEnableVertexAttribArray);
     glVertexAttribPointer=(PFNGLVERTEXATTRIBPOINTERPROC)wglGetProcAddress("glVertexAttribPointer"); DEBUG_ASSERT(glVertexAttribPointer);
     glGenBuffers=(PFNGLGENBUFFERSARBPROC)wglGetProcAddress("glGenBuffers"); DEBUG_ASSERT(glGenBuffers);
@@ -71,11 +76,16 @@ void Easy2D::initOpenGL2(){
     glBufferData=(PFNGLBUFFERDATAARBPROC)wglGetProcAddress("glBufferData"); DEBUG_ASSERT(glBufferData);
     glDeleteBuffers=(PFNGLDELETEBUFFERSARBPROC)wglGetProcAddress("glDeleteBuffers"); DEBUG_ASSERT(glDeleteBuffers);
     glBufferSubData=(PFNGLBUFFERSUBDATAARBPROC)wglGetProcAddress("glBufferSubData"); DEBUG_ASSERT(glBufferSubData);
+    glMapBuffer=(PFNGLMAPBUFFERARBPROC)wglGetProcAddress("glMapBuffer"); DEBUG_ASSERT(glMapBuffer);
+    glUnmapBuffer=(PFNGLUNMAPBUFFERARBPROC)wglGetProcAddress("glUnmapBuffer"); DEBUG_ASSERT(glUnmapBuffer);
+	//vba
+    glGenVertexArrays=(PFNGLGENVERTEXARRAYSPROC)wglGetProcAddress("glGenVertexArrays"); DEBUG_ASSERT(glGenVertexArrays);
+    glBindVertexArray=(PFNGLBINDVERTEXARRAYPROC)wglGetProcAddress("glBindVertexArray"); DEBUG_ASSERT(glBindVertexArray);
+    glDeleteVertexArrays=(PFNGLDELETEVERTEXARRAYSPROC)wglGetProcAddress("glDeleteVertexArrays"); DEBUG_ASSERT(glDeleteVertexArrays);
+	//multi texture
     glActiveTexture=(PFNGLACTIVETEXTUREPROC)wglGetProcAddress("glActiveTexture");
     glClientActiveTexture=(PFNGLCLIENTACTIVETEXTUREPROC)wglGetProcAddress("glClientActiveTexture");
     glDrawRangeElements=(PFNGLDRAWRANGEELEMENTSEXTPROC)wglGetProcAddress("glDrawRangeElementsEXT");
-    glMapBuffer=(PFNGLMAPBUFFERARBPROC)wglGetProcAddress("glMapBuffer"); DEBUG_ASSERT(glMapBuffer);
-    glUnmapBuffer=(PFNGLUNMAPBUFFERARBPROC)wglGetProcAddress("glUnmapBuffer"); DEBUG_ASSERT(glUnmapBuffer);
     //blend effect
     glBlendEquation = (PFNGLBLENDEQUATIONPROC)wglGetProcAddress("glBlendEquation");
     //vsync //wglGetProcAddress
