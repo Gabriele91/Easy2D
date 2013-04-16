@@ -11,11 +11,18 @@ namespace Easy2D {
 
 	protected:
 		//protected set mesh
-		void setMesh(Mesh::ptr);
-		//
+		DFORCEINLINE void setMesh(Mesh::ptr mesh){
+			Renderable::setMesh(mesh);
+		}
+		//build sprite mesh
+		void _buildMesh();
+
 	public:
 
-		Sprite(Texture::ptr image,Layer *layer);
+		//costructor
+		Sprite(Texture::ptr image=NULL,Layer *layer=NULL);
+		//overload setTexture 
+		void setTexture(Texture::ptr texture);
 
 	};
 

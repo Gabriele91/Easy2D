@@ -31,7 +31,7 @@ namespace Easy2D {
 		bool mipmaps();
 		bool mipmaps(bool value);
 		//offset UV (npow)
-		Vec2& getOffestUV();
+		DFORCEINLINE Vec2& getOffestUV(){ return offsetUV; }
 		//query
 		DFORCEINLINE uint getWidth(){ return width; }    
 		DFORCEINLINE uint getRealWidth(){ return realWidth; }

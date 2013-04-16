@@ -3,7 +3,11 @@
 #include <Table.h>
 #include <Application.h>
 using namespace Easy2D;
+
+//VAOs are slower (by nvidia and valve)
+#undef ENABLE_VAOS
 //
+
 Mesh::Mesh(ResourcesGroup *rsmr,
 		   const String& pathfile)
 		  :Resource(rsmr,pathfile)
@@ -76,6 +80,8 @@ void Mesh::build(){
     if( !vbaDraw )
          glGenVertexArrays( 1, &vbaDraw );	
 	glBindVertexArray( vbaDraw );
+	//get vba errors
+	CHECK_GPU_ERRORS();
 	//bind mesh
 	__bind();
 	//disable vba
@@ -176,7 +182,7 @@ bool Mesh::unload(){
 }
 //draw
 void Mesh::__bind(){
-
+	
 	//bind VBO
 	glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
 	//set vertex
@@ -188,10 +194,9 @@ void Mesh::__bind(){
 }
 void Mesh::draw(){
 	//bind mesh
-	
-	__bind();
 #ifdef ENABLE_VAOS
-	//glBindVertexArray( vbaDraw );
+	DEBUG_ASSERT(vbaDraw);
+	glBindVertexArray( vbaDraw );
 #else
 	__bind();
 #endif
@@ -208,4 +213,8 @@ void Mesh::draw(){
 		glDrawArrays( glMode, 0, mVertexs.size() );
 	else
 		glDrawElements( glMode, mIndexs.size(), GL_UNSIGNED_SHORT, 0 ); 
+
+#ifdef ENABLE_VAOS
+        glBindVertexArray( 0 );
+#endif
 }

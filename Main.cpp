@@ -22,6 +22,8 @@ class MyGame : Game,
 	Camera camera;
 	Renderable objLight;
 	Renderable objNinja;
+	Sprite sprite;
+	Sprite spriteLight;
 
 public:
 
@@ -48,25 +50,16 @@ public:
 		//resources
 		light=resources.load<Texture>("light");
 		ninja=resources.load<Texture>("ninja");
-		lightMesh=resources.load<Mesh>("sprite");
-		ninjaMesh=resources.load<Mesh>("sprite");
-		//set randable
-		objLight.setTexture(light);
-		objLight.setMesh(lightMesh);
-		objLight.setScale(Vec2(1,1));
-		objLight.enableBlend();
-		objLight.setBlend(GL_SRC_ALPHA,GL_ONE);
-		objLight.setZ(1.0);
-
-		objNinja.setTexture(ninja);
-		objNinja.setMesh(ninjaMesh);
-		objNinja.setScale(Vec2(1,1));
-		objNinja.enableBlend();
-		objNinja.setBlend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//test sprite
+		sprite.setTexture(ninja);
+		//test sprite
+		spriteLight.setTexture(light);
+		spriteLight.enableBlend();
+		spriteLight.setBlend(GL_SRC_ALPHA,GL_ONE);
 		//add layers
 		layer1=rander.addLayer(true);
-		layer1->addRenderable(&objLight);
-		layer1->addRenderable(&objNinja);
+		layer1->addRenderable(&sprite);
+		layer1->addRenderable(&spriteLight);
 		//set camera
 		rander.setCamera(&camera);
 		//load resources

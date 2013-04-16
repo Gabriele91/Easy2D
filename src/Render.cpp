@@ -18,13 +18,10 @@ void Render::initOpenGL(){
     glBlendFunc( GL_ONE , GL_ZERO ); 
 	//disable light
 	glDisable(GL_LIGHTING);
-    //projection is always the same
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
 	//enable texturing	
 	glEnable( GL_TEXTURE_2D );
     //always active!
-    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState( GL_VERTEX_ARRAY );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//set orientation
 	setOrientation(Application::instance()->getScreen()->getOrientation());
@@ -88,5 +85,13 @@ void Render::setOrientation(Screen::Orientation _orientation){
 	//set viewport
 	viewport.x=Application::instance()->getScreen()->getWidth();
 	viewport.y=Application::instance()->getScreen()->getHeight();
-	//
+    //update projection is always the same
+    glMatrixMode(GL_PROJECTION);
+	Matrix4x4 projection;
+	projection.setOrtho(-viewport.x*0.5,
+		                 viewport.x*0.5,
+					    -viewport.y*0.5,
+						 viewport.y*0.5,
+						 0,1);
+    glLoadMatrixf(projection);
 }
