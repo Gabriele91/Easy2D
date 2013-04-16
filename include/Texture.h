@@ -5,21 +5,28 @@
 #include <Math2D.h>
 #include <EString.h>
 #include <Resource.h>
+#include <Mesh.h>
 #include <iostream>
 
 namespace Easy2D {
 
 	class Texture : public Resource<Texture>{
-
+		//
 		bool bBilinear,chBlr,bMipmaps,chMps;
 		uint width,height;
 		uint realWidth,realHeight;
         uint gpuid;
 		Vec2 offsetUV;
-
+		//sprite pow of tow  
+		Mesh::ptr po2Srpite;
+		void __build();
+		//
 	public:
+		//
 		Texture(ResourcesGroup *rsmr=NULL,
 				const String& pathfile="");	
+		//destructor
+		virtual ~Texture();
 		//
 		void bind(uint ntexture=0);
 		//load methods
@@ -32,6 +39,8 @@ namespace Easy2D {
 		bool mipmaps(bool value);
 		//offset UV (npow)
 		DFORCEINLINE Vec2& getOffestUV(){ return offsetUV; }
+		//mesh size this..
+		Mesh::ptr getPO2Sprite();
 		//query
 		DFORCEINLINE uint getWidth(){ return width; }    
 		DFORCEINLINE uint getRealWidth(){ return realWidth; }

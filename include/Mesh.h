@@ -59,6 +59,8 @@ namespace Easy2D {
 		//Surface
 		Mesh(ResourcesGroup *rsmr=NULL,
 			 const String& pathfile="");
+		//clear cpu data
+		void cpuClear(){ mVertexs.clear();  mIndexs.clear(); }
 		//distruttore
 		virtual ~Mesh();
 		//aabb

@@ -17,11 +17,17 @@ Texture::Texture(ResourcesGroup *rsmr,
 				,width(0)
 				,height(0)
 				,gpuid(0)
-				,offsetUV(1,1){
+				,offsetUV(1,1)
+				,po2Srpite(NULL){
 	//is not loaded
 	loaded=false;
 }
-		
+
+Texture::~Texture(){
+	//unload before....(bug fix)
+	if(isLoad()) unload();
+}	
+
 void Texture::bind(uint ntexture){
 	//
 	DEBUG_ASSERT(gpuid);
@@ -57,6 +63,50 @@ bool Texture::operator ==(const Texture& t) const{
 bool Texture::operator !=(const Texture& t) const{
 	return gpuid!=t.gpuid;
 }
+
+//return mesh
+Mesh::ptr Texture::getPO2Sprite(){ 
+	//create texture
+	if(!po2Srpite)
+		po2Srpite=Mesh::ptr (new Mesh());
+	//if loaded build mesh
+	__build();
+	//
+	return po2Srpite; 
+}
+//texture
+void Texture::__build(){
+	  //set loaded values
+	  if(isLoad()&&po2Srpite){
+		//clear cpu mesh
+		po2Srpite->cpuClear();
+		//unload gpu mesh
+		if(po2Srpite->isLoad())
+			po2Srpite->unload();
+		//add vertexs
+		po2Srpite->addVertex(  0.5,  
+							  -0.5,  
+							  offsetUV.x, 
+							  offsetUV.y);
+		po2Srpite->addVertex(  0.5,   
+							   0.5,  
+							   offsetUV.x, 
+							   0.0);
+		po2Srpite->addVertex( -0.5,  
+							  -0.5,  
+							   0.0, 
+							   offsetUV.y);
+		po2Srpite->addVertex( -0.5,   
+							   0.5,  
+							   0.0, 
+							   0.0);
+		//end add vertexs
+		//set draw mode
+		po2Srpite->setDrawMode(Mesh::TRIANGLE_STRIP);
+		//build mesh
+		po2Srpite->build();
+	  }
+  }
 
 //load methods
 bool Texture::load(){	
@@ -115,6 +165,8 @@ bool Texture::load(){
 					 image.bytes );
 	//is loaded
 	loaded=true;
+	//if olready getted, build mesh
+	__build();
 	//return
     return loaded;
 }
@@ -126,6 +178,10 @@ bool Texture::unload(){
     width = height = 0;
     realWidth = realHeight = 0;
     gpuid = 0;
+	//unbuild mesh
+	if(po2Srpite)
+		if(po2Srpite->isLoad())
+			po2Srpite->unload();
 	//is not loaded
 	loaded=false;
 	//return

@@ -53,13 +53,13 @@ public:
 		//test sprite
 		sprite.setTexture(ninja);
 		//test sprite
-		spriteLight.setTexture(light);
-		spriteLight.enableBlend();
-		spriteLight.setBlend(GL_SRC_ALPHA,GL_ONE);
+		//spriteLight.setTexture(light);
+		//spriteLight.enableBlend();
+		//spriteLight.setBlend(GL_SRC_ALPHA,GL_ONE);
 		//add layers
 		layer1=rander.addLayer(true);
 		layer1->addRenderable(&sprite);
-		layer1->addRenderable(&spriteLight);
+		//layer1->addRenderable(&spriteLight);
 		//set camera
 		rander.setCamera(&camera);
 		//load resources

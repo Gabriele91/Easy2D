@@ -17,7 +17,8 @@ Mesh::Mesh(ResourcesGroup *rsmr,
 		  ,dmode(TRIANGLE)
 {}
 //distruttore
-Mesh::~Mesh(){}
+Mesh::~Mesh(){
+}
 //metodo che aggiunge i vertici
 void Mesh::addVertex(const gVertex& gv){
 	//
@@ -72,23 +73,22 @@ void Mesh::build(){
 		glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(ushort) * mIndexs.size(), &mIndexs[0], GL_STATIC_DRAW);
 	}
-	//get vbo / ibo errors
-	CHECK_GPU_ERRORS();
 
 #ifdef ENABLE_VAOS
 	//create the VAO
     if( !vbaDraw )
          glGenVertexArrays( 1, &vbaDraw );	
 	glBindVertexArray( vbaDraw );
-	//get vba errors
-	CHECK_GPU_ERRORS();
 	//bind mesh
 	__bind();
-	//disable vba
+	//disable vao
     glBindVertexArray( 0 );
-	//get vba errors
-	CHECK_GPU_ERRORS();
+
 #endif
+		
+	//get vao/ibo/vbo errors
+	CHECK_GPU_ERRORS();
+
     //aabb culling
 	extends.x=Math::max(fabs(max.x),fabs(min.y));
 	extends.y=Math::max(fabs(max.y),fabs(min.x));
