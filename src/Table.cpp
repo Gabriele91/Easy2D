@@ -18,27 +18,40 @@ Table::Table()
 	reloadable=false;
 }
 Table::~Table(){
+	//clear all table
 	index=0;
 	for(auto& value : *this)
 		delete value.second;
 	table.clear();
+	//release resource
+	release();
 }
 bool Table::load(){
-	//get raw file
-	void *data=NULL; uint len=0;
-	Application::instance()->loadData(rpath,data,len);
-	//deserialize
-	deserialize(String((const char*)data));
-	//free memory
-	free(data);
+	//can't load this resource
+	DEBUG_ASSERT(isReloadable());
 	//
-	loaded=true;	
+	if(isReloadable()){
+		//get raw file
+		void *data=NULL; uint len=0;
+		Application::instance()->loadData(rpath,data,len);
+		//deserialize
+		deserialize(String((const char*)data));
+		//free memory
+		free(data);
+		//
+		loaded=true;	
+	}
 	return true;
 }
 bool Table::unload(){
-	if(table.size())
-		table.clear();
+	//clear all
+	index=0;
+	for(auto& value : *this)
+		delete value.second;
+	table.clear();
+	//
 	loaded=false;
+	//
 	return true;
 }
 

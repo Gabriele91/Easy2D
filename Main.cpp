@@ -48,54 +48,46 @@ public:
 		Application::instance()->getInput()->addHandler((Input::KeyboardHandler*)this);
 		Application::instance()->getInput()->addHandler((Input::MouseHandler*)this);
 		//resources
-		light=resources.load<Texture>("light");
-		ninja=resources.load<Texture>("ninja");
+		light=resources.get<Texture>("light");
+		ninja=resources.get<Texture>("ninja");
 		//test sprite
 		sprite.setTexture(ninja);
 		//test sprite
-		//spriteLight.setTexture(light);
-		//spriteLight.enableBlend();
-		//spriteLight.setBlend(GL_SRC_ALPHA,GL_ONE);
+		spriteLight.setTexture(light);
+		spriteLight.enableBlend();
+		spriteLight.setBlend(GL_SRC_ALPHA,GL_ONE);
 		//add layers
 		layer1=rander.addLayer(true);
 		layer1->addRenderable(&sprite);
-		//layer1->addRenderable(&spriteLight);
+		layer1->addRenderable(&spriteLight);
 		//set camera
 		rander.setCamera(&camera);
 		//load resources
 		resources.load();
 	}
 	virtual void run(float dt){
-		glClearColor(0.25,0.5,1,1);
-		glClear(GL_COLOR_BUFFER_BIT);
-		/* old style event */
+		// old style event
 		if(Application::instance()->getInput()->getKeyHit(Key::A)) 
 			std::cout<< "hit A" << std::endl;
 		//draw:
+		rander.setClear(Color(32,128,255,255));
 		rander.draw();
 	}
 	virtual void end(){
 	}
 
 	/* OOP-STYLE EVENTS */
-	virtual void onKeyPress(Key::Keyboard key) {
-		std::cout<<"KeyPress:"<<Key::stringKeyboard[key]<<std::endl;
-	}
-	virtual void onKeyRelease(Key::Keyboard key) {
-		std::cout<<"KeyRelease:"<<Key::stringKeyboard[key]<<std::endl;	
-	}
+	virtual void onKeyPress(Key::Keyboard key){}
+	virtual void onKeyRelease(Key::Keyboard key) {}
 	virtual void onMouseMove(Vec2 mousePosition) {	
-		std::cout<<"MouseMove:"<<mousePosition.toString()<<std::endl;
+		Vec2 alScreen(  Application::instance()->getScreen()->getWidth()/-2.0,
+						Application::instance()->getScreen()->getHeight()/2.0);
+		spriteLight.setPosition((mousePosition*Vec2(1,-1))+alScreen);
+		std::cout << ((mousePosition*Vec2(1,-1))+alScreen).toString() <<"\n";
 	}
-	virtual void onMousePress(Vec2 mousePosition, Key::Mouse button) {	
-		std::cout<<"MousePress:"<<Key::stringMouse[button]<<" "<<mousePosition.toString()<<std::endl;
-	}
-	virtual void onMouseRelease(Vec2 mousePosition, Key::Mouse button) {
-		std::cout<<"MouseRelease:"<<Key::stringMouse[button]<<" "<<mousePosition.toString()<<std::endl;	
-	}
-	virtual void onMouseScroll(short scrollDelta) {
-		std::cout<<"MouseScroll:"<<scrollDelta<<std::endl;	
-	}
+	virtual void onMousePress(Vec2 mousePosition, Key::Mouse button){}
+	virtual void onMouseRelease(Vec2 mousePosition, Key::Mouse button){}
+	virtual void onMouseScroll(short scrollDelta){}
 	
 };
 

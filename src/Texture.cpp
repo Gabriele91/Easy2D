@@ -24,9 +24,9 @@ Texture::Texture(ResourcesGroup *rsmr,
 }
 
 Texture::~Texture(){
-	//unload before....(bug fix)
-	if(isLoad()) unload();
-}	
+	//release resource
+	release();
+}
 
 void Texture::bind(uint ntexture){
 	//

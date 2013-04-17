@@ -20,10 +20,10 @@ namespace Easy2D{
 				 const String& sfile="")
 				 :ptrResources(rsmr)
 				 ,loaded(false)
-				 ,reloadable(false)
+				 ,reloadable(true)
 				 ,rpath(sfile){};
 		//destroy resource
-		virtual ~Resource(){
+		void release(){
 			if(((T*)this)->T::isLoad()) 
 					((T*)this)->T::unload();
 		};
@@ -32,7 +32,7 @@ namespace Easy2D{
 			return loaded;
 		}
 		virtual bool isReloadable(){
-			return loaded;
+			return reloadable;
 		}
 		//load methods
 		virtual bool load()=0;

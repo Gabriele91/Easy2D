@@ -73,8 +73,10 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Debug.cpp" />
+    <ClCompile Include="src\FrameSet.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -107,9 +109,11 @@
   <ItemGroup>
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Debug.h" />
     <ClInclude Include="include\Easy2D.h" />
+    <ClInclude Include="include\FrameSet.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Layer.h" />

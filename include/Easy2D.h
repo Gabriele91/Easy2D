@@ -8,6 +8,7 @@
 #include <EString.h>
 #include <ETime.h>
 #include <Timer.h>
+#include <Color.h>
 //
 #include <Resource.h>
 #include <ResourcesManager.h>

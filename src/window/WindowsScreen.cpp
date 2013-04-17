@@ -5,6 +5,7 @@
 #include <Math2D.h>
 ///////////////////////
 using namespace Easy2D;
+#define ERROR_BAD_LENGTH 20 //by google
 #define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
 //window methods
 void WindowsScreen::__initWindow(const char* appname,uint bites){
@@ -37,7 +38,7 @@ void WindowsScreen::__initWindow(const char* appname,uint bites){
 	AdjustWindowRect( &windowRect, dwstyle, true);
 	//calc size window
 	int rwidth = windowRect.right-windowRect.left;
-	int rheight = windowRect.bottom-windowRect.top;
+	int rheight = windowRect.bottom-windowRect.top - ERROR_BAD_LENGTH;
 	//calc center
 	int wlft = (GetSystemMetrics(SM_CXSCREEN) - rwidth) / 2;
 	int wtop = (GetSystemMetrics(SM_CYSCREEN) - rheight) / 2;
@@ -135,11 +136,30 @@ WindowsScreen::~WindowsScreen(){
 	closeWindow();
 }
 
+//calc size window
+void setClientSize(HWND window, int width, int height){
+	RECT offsetRect;
+	//calc offset
+	GetClientRect(window, &offsetRect);
+	width -= offsetRect.right;
+	height -= offsetRect.bottom;
+
+	GetWindowRect(window, &offsetRect);
+	width += (offsetRect.right - offsetRect.left);
+	height += (offsetRect.bottom - offsetRect.top);
+	
+	//calc center
+	int wlft = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
+	int wtop = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
+
+	SetWindowPos(window, HWND_NOTOPMOST,wlft, wtop, width, height, SWP_SHOWWINDOW);
+}
 /**
 * enable or disable full screen
 */
 void WindowsScreen::setFullscreen(bool prfullscreen){
 	//set 
+	bool change=fullscreen!=prfullscreen;
 	fullscreen=prfullscreen;
 	//set window style
 	DWORD style = fullscreen ? (WS_POPUP | WS_VISIBLE) : E2D_WINDOW_STYLE;
@@ -147,30 +167,10 @@ void WindowsScreen::setFullscreen(bool prfullscreen){
 
 	if( !fullscreen ){
 		//disable fullscreen
-		ChangeDisplaySettings( NULL, 0 );	
-		//window adjast
-		RECT windowRect;
-		windowRect.left=(long)0;					// Set Left Value To 0
-		windowRect.right=(long)screenWidth;			// Set Right Value To Requested Width
-		windowRect.top=(long)0;						// Set Top Value To 0
-		windowRect.bottom=(long)screenHeight;		// Set Bottom Value To Requested Height
-		DWORD dwstyle = E2D_WINDOW_STYLE;	
-		AdjustWindowRect( &windowRect, dwstyle, true);
-		//calc size window
-		int rwidth = windowRect.right-windowRect.left;
-		int rheight = windowRect.bottom-windowRect.top;
-		//calc center
-		int wlft = (GetSystemMetrics(SM_CXSCREEN) - rwidth) / 2;
-		int wtop = (GetSystemMetrics(SM_CYSCREEN) - rheight) / 2;
-		//reset rect
-		InvalidateRect( NULL, NULL, false );
-		//set window into center of screen
-		SetWindowPos(hWind, 
-			         HWND_NOTOPMOST,
-					 wlft, wtop, 
-					 rwidth, rheight, 
-				     SWP_SHOWWINDOW);
-
+		if(change)
+			ChangeDisplaySettings( NULL, 0 );	
+		//set size window
+		setClientSize(hWind,screenWidth,screenHeight);	
 	}
 	else{
 		DEVMODE dm;

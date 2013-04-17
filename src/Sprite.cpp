@@ -20,7 +20,8 @@ Sprite::Sprite(Texture::ptr texture,Layer *layer)
 
 void Sprite::setTexture(Texture::ptr texture){
 	//texture load
-	if(!texture->isLoad()) texture->load();
+	if(!texture->isLoad()) 
+			texture->load();
 	//set texture
 	Renderable::setTexture(texture);
 	//get sprite mesh

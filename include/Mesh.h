@@ -5,7 +5,6 @@
 #include <Math2D.h>
 #include <EString.h>
 #include <Resource.h>
-#include <iostream>
 
 namespace Easy2D {
 

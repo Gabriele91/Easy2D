@@ -43,6 +43,12 @@ void Render::erseLayer(Layer* layer){
 void Render::draw(){
 	//old state
 	RenderState *oldState=NULL;
+	//clear
+	glClearColor(clearClr.rNormalize(),
+				 clearClr.gNormalize(),
+				 clearClr.bNormalize(),
+				 clearClr.aNormalize());
+	glClear(GL_COLOR_BUFFER_BIT);
 	//set view port
 	glViewport( 0, 0, viewport.x, viewport.y );
 	//for all layers

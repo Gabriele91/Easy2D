@@ -15,9 +15,13 @@ Mesh::Mesh(ResourcesGroup *rsmr,
 		  ,indexBuffer(0)
 		  ,vbaDraw(0)
 		  ,dmode(TRIANGLE)
-{}
+{
+	if(!rsmr||pathfile=="") reloadable=false;
+}
 //distruttore
 Mesh::~Mesh(){
+	//release resource
+	release();
 }
 //metodo che aggiunge i vertici
 void Mesh::addVertex(const gVertex& gv){
@@ -98,7 +102,9 @@ void Mesh::build(){
 }
 //resource
 bool Mesh::load(){
-	
+	//can't load this resource
+	DEBUG_ASSERT(isReloadable());
+	//
 	//load file
 	void *data=NULL; uint len=0;
 	Application::instance()->loadData(rpath,data,len);
