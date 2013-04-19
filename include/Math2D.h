@@ -102,8 +102,8 @@ namespace Easy2D{
 	};
 	Vector2D operator+(float v,const Vector2D& vt);
 	Vector2D operator-(float v,const Vector2D& vt);
-	Vector2D operator*(float v,const Vector2D& vt); 
-	Vector2D operator/(float v,const Vector2D& vt); 
+	Vector2D operator*(float v,const Vector2D& vt);
+	Vector2D operator/(float v,const Vector2D& vt);
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	class Vector3D{
@@ -213,11 +213,11 @@ namespace Easy2D{
 		///////////////////////////////////////////////////////////////////////////
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
-	};	
+	};
 	Vector3D operator+(float v,const Vector3D& vt);
 	Vector3D operator-(float v,const Vector3D& vt);
-	Vector3D operator*(float v,const Vector3D& vt); 
-	Vector3D operator/(float v,const Vector3D& vt); 
+	Vector3D operator*(float v,const Vector3D& vt);
+	Vector3D operator/(float v,const Vector3D& vt);
 	///////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////
 	class Vector4D{
@@ -341,8 +341,8 @@ namespace Easy2D{
 	};
 	Vector4D operator+(float v,const Vector4D& vt);
 	Vector4D operator-(float v,const Vector4D& vt);
-	Vector4D operator*(float v,const Vector4D& vt); 
-	Vector4D operator/(float v,const Vector4D& vt); 
+	Vector4D operator*(float v,const Vector4D& vt);
+	Vector4D operator/(float v,const Vector4D& vt);
 	///////////////////////////////////////////////////////////////////////////
 	class Quaternion{
 	public:
@@ -375,6 +375,13 @@ namespace Easy2D{
 		Vector3D getRotatePoint(Vector3D & v);
 		///return matrix from quaternion
 		Matrix4x4 getMatrix();
+		//overload op
+		DFORCEINLINE const Quaternion operator +(const Quaternion &q) const{
+			return Quaternion(x+q.x, y+q.y, z+q.z,w+q.w);
+		}
+		DFORCEINLINE const Quaternion operator -(const Quaternion &q) const{
+			return Quaternion(x-q.x, y-q.y, z-q.z,w-q.w);
+		}
 		///////////////////////////////////////////////////////////////////////////
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
@@ -435,7 +442,7 @@ namespace Easy2D{
 		void setTranslation(const Vector3D *v3);
 		///set translation
 		void setTranslation(const Vector2D &v2);
-		///set concatenate trasformation:		
+		///set concatenate trasformation:
 		void concatenateXTranslation( float distance ){
 			entries[0] = entries[0] + distance * entries[3];
 			entries[4] = entries[4] + distance * entries[7];
@@ -543,7 +550,7 @@ namespace Easy2D{
 		//saturate
 		template <class T>
 		static DFORCEINLINE T saturate( const T& value ){
-		return clamp(n,1,0);
+		return clamp(value,1,0);
 		}
 		//power of 2 test
 		template <class T>

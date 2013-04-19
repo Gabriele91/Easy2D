@@ -25,10 +25,10 @@ namespace Easy2D{
 		};
 		/* map key */
 		class KeyTable{
-			protected:			
+			protected:
 				bool isstring;
 				unsigned int itr;
-				String sv;	
+				String sv;
 			public:
 				KeyTable(const char* key):isstring(true),sv(key){}
 				KeyTable(const String & key):isstring(true),sv(key){}
@@ -49,7 +49,7 @@ namespace Easy2D{
 							std::hash<unsigned int> huint;
 							return hlmaxsize-(huint(key.integer())%hlmaxsize);
 						}
-					}	
+					}
 				};
 				struct KeyEq {
 					bool operator()(const KeyTable&  key1,const KeyTable&  key2) const {
@@ -62,7 +62,7 @@ namespace Easy2D{
 				};
 				struct KeyCompare {
 					bool operator()(const KeyTable&  key1,const KeyTable&  key2) const {
-						
+
 						if(key1.isString() && key2.isString())
 							return key1.string().compare(key2.string())<0;
 						else if(!(key1.isString()||key2.isString()))
@@ -103,9 +103,9 @@ namespace Easy2D{
 			virtual void* getValue(){ return &value; };
 			virtual Value* clone(){ return new DefineValue<T>(type,value); };
 			//
-		};		
+		};
 		/* map */
-		#ifdef ENABLE_ORDERED_TABLE		
+		#ifdef ENABLE_ORDERED_TABLE
 		typedef std::map<KeyTable,
 			             Value*,
 						 KeyTable::KeyCompare> UNMAPTable;
@@ -115,9 +115,9 @@ namespace Easy2D{
 			                   KeyTable::KeyHash,
 							   KeyTable::KeyEq> UNMAPTable;
 		#endif
-		
+
 		/* binary type */
-		struct Binary{		
+		struct Binary{
 			void *value;
 			size_t len;
 			bool destroydata;
@@ -148,7 +148,7 @@ namespace Easy2D{
 		UNMAPTable::const_iterator begin() const { return table.cbegin(); }
 		UNMAPTable::iterator end(){ return table.end(); }
 		UNMAPTable::const_iterator end() const{ return table.cend(); }
-		
+
 		UNMAPTable::reverse_iterator rbegin(){ return table.rbegin(); }
 		UNMAPTable::const_reverse_iterator crbegin() const { return table.crbegin(); }
 		UNMAPTable::reverse_iterator rend(){ return table.rend(); }
@@ -160,7 +160,7 @@ namespace Easy2D{
 		unsigned int indexUnnomed() const { return index; }
 		/** return table-array size  */
 		unsigned int size() const { return index; }
-		
+
 		/** create a sub table  */
 		DFORCEINLINE Table& createTable(){
 			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
@@ -168,10 +168,10 @@ namespace Easy2D{
 			++index;
 			return *((Table*)ptr->getValue());
 		}
-		/** create a sub table with a name */		
+		/** create a sub table with a name */
 		DFORCEINLINE Table& createTable(const String& key){
 
-			if(exists(key)) 
+			if(exists(key))
 				delete table[key];
 			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
 			table[key]=ptr;
@@ -182,69 +182,69 @@ namespace Easy2D{
 		/** set a floating in an associative table */
 		DFORCEINLINE void set(const String& key, float value){
 			set(key,FLOAT,value);
-		}	
-		/** set a vector2D in an associative table */	
+		}
+		/** set a vector2D in an associative table */
 		DFORCEINLINE void set(const String& key, const Vec2& value){
 			set(key,VECTOR2D,value);
-		}	
-		/** set a vector3D in an associative table */		
+		}
+		/** set a vector3D in an associative table */
 		DFORCEINLINE void set(const String& key, const Vec3& value){
 			set(key,VECTOR3D,value);
-		}	
-		/** set a vector4D in an associative table */		
+		}
+		/** set a vector4D in an associative table */
 		DFORCEINLINE void set(const String& key, const Vec4& value){
 			set(key,VECTOR4D,value);
 		}
-		/** set a Matrix4x4 in an associative table */		
+		/** set a Matrix4x4 in an associative table */
 		DFORCEINLINE void set(const String& key, const Matrix4x4& value){
 			set(key,MATRIX4X4,value);
 		}
-		/** set a string in an associative table */		
+		/** set a string in an associative table */
 		DFORCEINLINE void set(const String& key, const String& value){
 			set(key,STRING,value);
 		}
-		/** set a binary file in an associative table */	
+		/** set a binary file in an associative table */
 		DFORCEINLINE void set(const String& key, void *value, size_t len,bool destroydata=false){
-			if(exists(key)) 
+			if(exists(key))
 				delete table[key];
 			DefineValue<Binary> *ptr=new DefineValue<Binary>(TABLE,Binary());
 			((Binary*)ptr->getValue())->len=len;
 			((Binary*)ptr->getValue())->value=value;
 			((Binary*)ptr->getValue())->destroydata=destroydata;
 			table[key]=ptr;
-		}	
+		}
 
-		
+
 		/** set a floating in an array */
 		DFORCEINLINE void set(float value){
 			set(index,FLOAT,value);
 			++index;
-		}		
+		}
 		/** set a vector2D in an array */
 		DFORCEINLINE void set(const Vec2& value){
 			set(index,VECTOR2D,value);
 			++index;
-		}		
-		/** set a vector3D in an array */	
+		}
+		/** set a vector3D in an array */
 		DFORCEINLINE void set(const Vec3& value){
 			set(index,VECTOR3D,value);
 			++index;
-		}	
+		}
 		/** set a vector4D in an array */
 		DFORCEINLINE void set(const Vec4& value){
 			set(index,VECTOR4D,value);
 			++index;
-		}	
+		}
 		/** set a Matrix4x4 in an array */
 		DFORCEINLINE void set(const Matrix4x4& value){
 			set(index,MATRIX4X4,value);
 			++index;
-		}	
+		}
 		/** set a string in an array */
 		DFORCEINLINE void set(const String& value){
 			set(index,STRING,value);
 			++index;
-		}	
+		}
 		/** set a binary file in an array */
 		DFORCEINLINE void set(void *value, size_t len,bool destroydata=false){
 			DefineValue<Binary> *ptr=new DefineValue<Binary>(TABLE,Binary());
@@ -259,49 +259,49 @@ namespace Easy2D{
 		DFORCEINLINE float getFloat(const KeyTable& key,float vdefault=0) const{
 			if(existsAsType(key,FLOAT)) return *((float*)(table.find(key)->second->getValue()));
 			return vdefault;
-		}	
-		/** return a vector2D associate a table/array key */	
+		}
+		/** return a vector2D associate a table/array key */
 		DFORCEINLINE const Vec2& getVector2D(const KeyTable& key,const Vec2& vdefault=Vec2::ZERO) const{
 			if(existsAsType(key,VECTOR2D)) return *((Vec2*)(table.find(key)->second->getValue()));
 			return vdefault;
-		}	
-		/** return a vector3D associate a table/array key */	
+		}
+		/** return a vector3D associate a table/array key */
 		DFORCEINLINE const Vec3& getVector3D(const KeyTable& key,const Vec3& vdefault=Vec3::ZERO) const{
 			if(existsAsType(key,VECTOR3D)) return *((Vec3*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a vector4D associate a table/array key */	
+		/** return a vector4D associate a table/array key */
 		DFORCEINLINE const Vec4& getVector4D(const KeyTable& key,const Vec4& vdefault=Vec4::ZERO) const{
 			if(existsAsType(key,VECTOR4D)) return *((Vec4*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a Matrix4x4 associate a table/array key */	
+		/** return a Matrix4x4 associate a table/array key */
 		DFORCEINLINE const Matrix4x4& getMatrix4x4(const KeyTable& key,const Matrix4x4& vdefault=Matrix4x4()) const{
 			if(existsAsType(key,MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a string associate a table/array key */	
+		/** return a string associate a table/array key */
 		DFORCEINLINE const String& getString(const KeyTable& key,const String& vdefault=String()) const{
 			if(existsAsType(key,STRING)) return *((String*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a constant table/array associate a table/array key */	
+		/** return a constant table/array associate a table/array key */
 		DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table()) const{
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a table/array associate a table/array key */	
-		DFORCEINLINE Table& getTable(const KeyTable& key,Table& vdefault=Table()){
+		/** return a table/array associate a table/array key */
+		DFORCEINLINE const Table& getTable(const KeyTable& key,const Table& vdefault=Table()){
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a binary file associate a table/array key */	
+		/** return a binary file associate a table/array key */
 		DFORCEINLINE const Binary& getBinary(const KeyTable& key,const Binary& vdefault=Binary()) const{
 			if(existsAsType(key,BINARY)) return *((Binary*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
-		/** return a generic value associate a table/array key */	
-		template<typename T> T& get(){
+		/** return a generic value associate a table/array key */
+		template<typename T> T& get(const KeyTable& key){
 			return *((T*)(table.find(key)->second->getValue()));
 		}
 		/** return true if exist a value associated with key */
@@ -328,17 +328,17 @@ namespace Easy2D{
 		/* private deserialize/serialize */
 		int __deserialize(const String& intextfile,int* lenRead=NULL,unsigned int* line=NULL);
 		String __serialize(int countspace=0,bool havename=false) const;
-		/* set value */		
+		/* set value */
 		template <typename T>
 		DFORCEINLINE void set(const KeyTable& key,TypeDate type,const T& value ){
-			if(exists(key)) 
+			if(exists(key))
 				delete table[key];
 			table[key]=new DefineValue<T>(type,value);
 		}
-		/* set private */		
+		/* set private */
 		template <typename T>
 		DFORCEINLINE void setPt(const KeyTable& key,TypeDate type,const T& value ){
-			if(exists(key)) 
+			if(exists(key))
 				delete table[key];
 			table[key]=new DefineValue<T>(type,value);
 			//get max key
@@ -348,7 +348,7 @@ namespace Easy2D{
 		}
 		DFORCEINLINE Table& createTablePt(const KeyTable& key){
 
-			if(exists(key)) 
+			if(exists(key))
 				delete table[key];
 			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
 			table[key]=ptr;
@@ -361,10 +361,10 @@ namespace Easy2D{
 		}
 		DFORCEINLINE void setPt(const KeyTable& key, float value){
 			setPt(key,FLOAT,value);
-		}		
+		}
 		DFORCEINLINE void setPt(const KeyTable& key, const Vec2& value){
 			setPt(key,VECTOR2D,value);
-		}		
+		}
 		DFORCEINLINE void setPt(const KeyTable& key, const Vec3& value){
 			setPt(key,VECTOR3D,value);
 		}
@@ -378,7 +378,7 @@ namespace Easy2D{
 			setPt(key,STRING,value);
 		}
 		DFORCEINLINE void setPt(const KeyTable& key, void *value, size_t len,bool destroydata=false){
-			if(exists(key)) 
+			if(exists(key))
 				delete table[key];
 			DefineValue<Binary> *ptr=new DefineValue<Binary>(TABLE,Binary());
 			((Binary*)ptr->getValue())->len=len;
@@ -390,7 +390,7 @@ namespace Easy2D{
 				if(index<=key.integer()) index=key.integer()+1;
 			}
 			//
-		}	
+		}
 		/* table */
 		UNMAPTable table;
 		unsigned int index;
@@ -399,10 +399,10 @@ namespace Easy2D{
 		protected:
 
 			String errors;
-			
+
 		public:
 
-			void push(int line,char c,const String& error){ 				
+			void push(int line,char c,const String& error){
 				errors+=String::toString(line)+":"+c+":"+error+"\n";
 			}
 			void clear(){

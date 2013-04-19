@@ -10,8 +10,8 @@
 #include <RenderState.h>
 
 namespace Easy2D {
-	
-	class Render {		
+
+	class Render {
 		//
 		std::vector<Layer *> layers;
 		//info screen
@@ -38,7 +38,7 @@ namespace Easy2D {
 		//
 		void draw();
 		//
-		DFORCEINLINE void setClear(Color& color){ clearClr=color; }
+		DFORCEINLINE void setClear(const Color& color){ clearClr=color; }
 		//
 		void setOrientation(Screen::Orientation orientation);
 	};

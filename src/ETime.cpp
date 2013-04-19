@@ -1,5 +1,8 @@
 #include <stdafx.h>
 #include <ETime.h>
+#ifdef PLATFORM_UNIX
+    #include <sys/time.h>
+#endif
 //cpu Ticks
 extern Easy2D::bit64 Easy2D::GetTimeTicks(){
 	Easy2D::bit64 val;
@@ -10,7 +13,7 @@ extern Easy2D::bit64 Easy2D::GetTimeTicks(){
 
 		gettimeofday( &timeVal, NULL );
 
-		val = (I64)timeVal.tv_sec * (1000*1000) + (I64)timeVal.tv_usec;
+		val = (Easy2D::bit64)timeVal.tv_sec * (1000*1000) + (Easy2D::bit64)timeVal.tv_usec;
 	#endif
 	return val;
 }

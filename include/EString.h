@@ -8,7 +8,7 @@ namespace Easy2D{
 	class String : public std::string {
 
 	public:
-		
+
 	String():std::string(){};
 	String(char c,unsigned int rep):std::string(rep,c){};
 	String(const String* str):std::string(){ (*this)=(*str); };
@@ -22,8 +22,8 @@ namespace Easy2D{
 	void replace(const String& toReplace,const String& replaceWith){
 		int lfind=find(toReplace);
 		if(lfind>-1)
-			std::string::replace(lfind,toReplace.size(),replaceWith);  
-	}	
+			std::string::replace(lfind,toReplace.size(),replaceWith);
+	}
 	//replaceALL
 	void replaceAll(const String& toReplace,const String& replaceWith){
 		int lfind=find(toReplace);
@@ -102,8 +102,11 @@ namespace std{
 	 template<>
      struct DNOSTDHASH< Easy2D::String > {
 			public:
-			size_t operator()(const Easy2D::String& val) {
+			size_t operator()(const Easy2D::String& val) const {
 			  return DNOSTDHASH<std::string>()(val);
+			}
+			size_t operator()(const Easy2D::String* val) const {
+			  return DNOSTDHASH<std::string>()(*val);
 			}
 	 };
 };

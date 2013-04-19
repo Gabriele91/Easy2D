@@ -46,7 +46,7 @@ namespace Easy2D {
 		*/
 		virtual void loop();
 		/**
-		* execute a instance application
+		* execute a game instance
 		*/
 		virtual void exec(Game *game);
 		/**
@@ -59,7 +59,9 @@ namespace Easy2D {
 		virtual bool onlyPO2();
 
 	protected:
-
+        //exit loop?
+        bool doexit;
+        //
 		LinuxApp();
 		friend class Application;
 

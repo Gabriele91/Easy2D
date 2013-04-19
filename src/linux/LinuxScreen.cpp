@@ -188,6 +188,8 @@ void LinuxScreen::createWindow(const char* argappname,
 		__createWindow();
     // connect the glx-context to the window
     glXMakeCurrent(display, window, context);
+    //init openGL2
+    initOpenGL2();
 }
 /**
 * close window
@@ -199,7 +201,7 @@ void LinuxScreen::closeWindow(){
 /**
 * LinuxScreen destructor
 */
-virtual ~LinuxScreen(){
+LinuxScreen::~LinuxScreen(){
 	closeWindow();
 }
 /**

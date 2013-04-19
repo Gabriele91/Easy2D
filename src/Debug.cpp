@@ -2,6 +2,10 @@
 #include <Debug.h>
 #include <EString.h>
 #include <iostream>
+
+#ifdef PLATFORM_UNIX
+    #include <signal.h>
+#endif
 ///////////////////////
 using namespace Easy2D;
 void Debug::breakpoint(){
@@ -13,9 +17,9 @@ void Debug::breakpoint(){
 	raise( SIGTRAP );
 #elif defined( PLATFORM_ANDROID )
 	//https://groups.google.com/forum/#!msg/android-ndk/jZG9avVjDBY/22WaArngxqYJ
-	//__asm__ ("bkpt 0");	
+	//__asm__ ("bkpt 0");
 	//TODO implement something
-	raise( SIGTRAP ); 
+	raise( SIGTRAP );
 #else
 	#error unsupported platform
 #endif
@@ -30,7 +34,7 @@ void Debug::doassert(int v,const char* value,const char* fileSource,int line){
 	}
 }
 void Debug::gpucheckerrors(const char* fileSource,int line){
-	
+
 	String err;
 	bool glerror=false;
 
@@ -50,7 +54,7 @@ void Debug::gpucheckerrors(const char* fileSource,int line){
 		DEBUG_MESSAGE( "OpenGL Error : " << err <<" : "<< line <<" : "<< fileSource  );
 	}
 
-	if(glerror){ 
+	if(glerror){
 		DEBUG_ASSERT_MSG(0,"OpenGL encountered");
 	}
 }

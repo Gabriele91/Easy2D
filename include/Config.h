@@ -9,6 +9,7 @@
 #include <cstring>
 #include <cfloat>
 #include <climits>
+#include <cstdlib>
 //std include  Cpp
 #include <list>
 #include <vector>
@@ -27,7 +28,7 @@
 #endif
 
 #if defined(_WIN32)
-	#define PLATFORM_WINDOW	
+	#define PLATFORM_WINDOW
 	#define DCPP_11
 	#define NOMINMAX
 	#define ENABLE_VAOS
@@ -42,17 +43,16 @@
 	#define PLATFORM_UNIX
 	#define DCPP_11
 	#define ENABLE_VAOS
+	#include <GL/gl.h>
+	#include <linux/OpenGLLinux.h>
 	#include <AL/al.h>
 	#include <AL/alc.h>
-	#include <GL/glew.h>
-	#include <GL/glext.h>
-	#include <GL/gl.h>
 #elif defined(__APPLE__)
     #include "TargetConditionals.h"
 	#define PLATFORM_UNIX
 	#define ENABLE_VAOS
 
-    #if TARGET_OS_IPHONE    
+    #if TARGET_OS_IPHONE
 		#define PLATFORM_IPHONE
 
     #elif TARGET_IPHONE_SIMULATOR
@@ -73,7 +73,7 @@
 	#include <android/log.h>
 	#include <android/native_activity.h>
 	#include <android_native_app_glue.h>
-#elif
+#else
 	#error "platform not supported"
 #endif
 
@@ -89,9 +89,9 @@
 	#endif
 
 #elif __GNUC__>=4 && __GNUC_MINOR__ >=6
-	#define DFORCEINLINE __attribute__ ((always_inline)) 
+	#define DFORCEINLINE __attribute__ ((always_inline))
 	#define DINLINE inline
-#elif 
+#else
 	#error "compiler not supported"
 #endif
 
@@ -104,7 +104,7 @@
 #if defined(DCPP_11)
 	#include <unordered_map>
 	#include <functional>
-	#include <memory> 
+	#include <memory>
 	#define DUNORDERED_MAP    std::unordered_map
 	#define DUNORDERED_MULTIMAP    std::unordered_multimap
 	#define DHASH    std::hash
@@ -114,7 +114,7 @@
 #elif defined(DCPP_X0)
 	#include <tr1/unordered_map>
 	#include <tr1/functional>
-	#include <tr1/memory> 
+	#include <tr1/memory>
 	#define DUNORDERED_MAP    std::tr1::unordered_map
 	#define DUNORDERED_MULTIMAP    std::tr1::unordered_multimap
 	#define DHASH std::tr1::hash

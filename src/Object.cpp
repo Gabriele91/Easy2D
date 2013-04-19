@@ -37,15 +37,15 @@ void Object::setPosition(const Vector2D &position,bool global){
 }
 void Object::setRotation(float alpha,bool global){
 	if(!global||!parent)
-		transform.alpha=alpha;	
+		transform.alpha=alpha;
 	else
 		transform.alpha=alpha-getGlobalMatrix().getRotZ();
 	change();
 }
 void Object::setMove(const Vector2D &velocity){
 	//
-	float lcosf=std::cosf(transform.alpha);
-	float lsinf=std::sinf(transform.alpha);
+	float lcosf=std::cos(transform.alpha);
+	float lsinf=std::sin(transform.alpha);
 	//like openGL
 	transform.position.x+= velocity.x*lcosf+velocity.y*lsinf;
 	transform.position.y+=-velocity.x*lsinf+velocity.y*lcosf;

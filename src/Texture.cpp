@@ -2,7 +2,7 @@
 #include <Texture.h>
 #include <Application.h>
 #define IMAGE_LOADER_OPENGL
-#include "Image/image.h"
+#include "Image/Image.h"
 
 using namespace Easy2D;
 
@@ -39,7 +39,7 @@ void Texture::bind(uint ntexture){
 	if(chBlr)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,bBilinear?GL_LINEAR:GL_NEAREST);
 	if(chMps)
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,bMipmaps?GL_LINEAR_MIPMAP_NEAREST:GL_LINEAR);  
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,bMipmaps?GL_LINEAR_MIPMAP_NEAREST:GL_LINEAR);
 }
 //setting
 bool Texture::bilinear(){
@@ -47,7 +47,7 @@ bool Texture::bilinear(){
 }
 bool Texture::bilinear(bool value){
 	chBlr=bBilinear!=value;
-	return bBilinear=value;	
+	return bBilinear=value;
 }
 bool Texture::mipmaps(){
 	return bMipmaps;
@@ -65,14 +65,14 @@ bool Texture::operator !=(const Texture& t) const{
 }
 
 //return mesh
-Mesh::ptr Texture::getPO2Sprite(){ 
+Mesh::ptr Texture::getPO2Sprite(){
 	//create texture
 	if(!po2Srpite)
 		po2Srpite=Mesh::ptr (new Mesh());
 	//if loaded build mesh
 	__build();
 	//
-	return po2Srpite; 
+	return po2Srpite;
 }
 //texture
 void Texture::__build(){
@@ -84,21 +84,21 @@ void Texture::__build(){
 		if(po2Srpite->isLoad())
 			po2Srpite->unload();
 		//add vertexs
-		po2Srpite->addVertex(  0.5,  
-							  -0.5,  
-							  offsetUV.x, 
+		po2Srpite->addVertex(  0.5,
+							  -0.5,
+							  offsetUV.x,
 							  offsetUV.y);
-		po2Srpite->addVertex(  0.5,   
-							   0.5,  
-							   offsetUV.x, 
+		po2Srpite->addVertex(  0.5,
+							   0.5,
+							   offsetUV.x,
 							   0.0);
-		po2Srpite->addVertex( -0.5,  
-							  -0.5,  
-							   0.0, 
+		po2Srpite->addVertex( -0.5,
+							  -0.5,
+							   0.0,
 							   offsetUV.y);
-		po2Srpite->addVertex( -0.5,   
-							   0.5,  
-							   0.0, 
+		po2Srpite->addVertex( -0.5,
+							   0.5,
+							   0.0,
 							   0.0);
 		//end add vertexs
 		//set draw mode
@@ -109,7 +109,7 @@ void Texture::__build(){
   }
 
 //load methods
-bool Texture::load(){	
+bool Texture::load(){
 	/////////////////////////////////////////////////////////////////////
 	//cpu load
 	//get raw file
@@ -126,7 +126,7 @@ bool Texture::load(){
 	//gen gpu
 	//create an GPU texture
 	glGenTextures( 1, &gpuid );
-	//build 
+	//build
 	bind();
 	//save width end height
 	width=realWidth=image.width;
@@ -141,27 +141,27 @@ bool Texture::load(){
 		//calc offset uv
 		offsetUV.x=(float)width/realWidth;
 		offsetUV.y=(float)height/realHeight;
-	}	
+	}
 	//resize
 	//create a gpu texture
 	glTexImage2D(
-			GL_TEXTURE_2D, 
-			0, 
+			GL_TEXTURE_2D,
+			0,
 			image.type,
-			realWidth, 
+			realWidth,
 			realHeight,
-			0, 
+			0,
 			image.type,
-			GL_UNSIGNED_BYTE, 
+			GL_UNSIGNED_BYTE,
 			NULL );
 	//create mipmaps
 	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
 	//send to GPU
-    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, 
-					 width, 
-					 height, 
-					 image.type, 
-					 GL_UNSIGNED_BYTE, 
+    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
+					 width,
+					 height,
+					 image.type,
+					 GL_UNSIGNED_BYTE,
 					 image.bytes );
 	//is loaded
 	loaded=true;

@@ -13,7 +13,7 @@ LinuxApp::LinuxApp()
 	screen=(Screen*)new LinuxScreen();
 	input=(Input*)new LinuxInput();
 	//not exit form loop
-	doexit=true;
+	doexit=false;
 }
 
 LinuxApp::~LinuxApp(){
@@ -95,20 +95,20 @@ void LinuxApp::loop(){
 }
 
 void LinuxApp::exec(Game *ptrGame){
-	mainInstance=ptrGame;
-	mainInstance->start();
+	game=ptrGame;
+	game->start();
 	//setup input
 	//to do fix
 	((LinuxInput*)input)->__setDisplay(((LinuxScreen*)screen)->display);
 	//
 	//
 	loop();
-	mainInstance->end();
+	game->end();
 }
 
 void LinuxApp::update(float dt){
 	input->update();
-	mainInstance->run(dt);
+	game->run(dt);
 }
 
 bool LinuxApp::onlyPO2(){

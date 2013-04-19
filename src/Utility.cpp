@@ -1,6 +1,11 @@
 #include <stdafx.h>
 #include <Utility.h>
 #include <Application.h>
+#ifdef  PLATFORM_UNIX
+    #include<sys/stat.h>
+    #include<unistd.h>
+    #include<dirent.h>
+#endif
 //
 using namespace Easy2D;
 using namespace Easy2D::Utility;
@@ -22,7 +27,7 @@ using namespace Easy2D::Utility;
 		else
 		{
 		  //Non standard extension that glibc uses
-		  return_path =(char*) malloc(MAX_PATH); 
+		  return_path =(char*) malloc(MAX_PATH);
 		}
 
 		if (return_path) //Else EINVAL
@@ -36,7 +41,7 @@ using namespace Easy2D::Utility;
 			if (return_path != resolved_path) //Malloc'd buffer - Unstandard extension retry
 			{
 			  size_t new_size;
-          
+
 			  free(return_path);
 			  return_path =(char*) malloc(size);
 
@@ -60,7 +65,7 @@ using namespace Easy2D::Utility;
 				//I wasn't sure what to return here, but the standard does say to return EINVAL
 				//if resolved_path is null, and in this case we couldn't malloc large enough buffer
 				errno = EINVAL;
-			  }  
+			  }
 			}
 			else //resolved_path buffer isn't big enough
 			{
@@ -70,13 +75,13 @@ using namespace Easy2D::Utility;
 		  }
 
 		  //GetFullPathNameA() returns 0 if some path resolve problem occured
-		  if (!size) 
+		  if (!size)
 		  {
 			if (return_path != resolved_path) //Malloc'd buffer
 			{
 			  free(return_path);
 			}
-        
+
 			return_path = 0;
 
 			//Convert MS errors into standard errors
@@ -93,7 +98,7 @@ using namespace Easy2D::Utility;
 			  case ERROR_ACCESS_DENIED:
 				errno = EACCES;
 				break;
-          
+
 			  default: //Unknown Error
 				errno = EIO;
 				break;
@@ -106,13 +111,13 @@ using namespace Easy2D::Utility;
 			struct stat stat_buffer;
 
 			//Make sure path exists, stat() returns 0 on success
-			if (stat(return_path, &stat_buffer)) 
+			if (stat(return_path, &stat_buffer))
 			{
 			  if (return_path != resolved_path)
 			  {
 				free(return_path);
 			  }
-        
+
 			  return_path = 0;
 			  //stat() will set the correct errno for us
 			}
@@ -128,10 +133,10 @@ using namespace Easy2D::Utility;
 	  {
 		errno = EINVAL;
 	  }
-    
+
 	  return return_path;
 	}
-#endif 
+#endif
 //
 Path::Path(const String& _path){
 	costructor(_path);
@@ -143,7 +148,7 @@ void Path::costructor(const String& _path){
 	//to canonical path
 	path=_path;
 	convertToCanonicalPath(path);
-	//get directory:	
+	//get directory:
 	int flash=path.rfind("/");
 	if(flash){
 		directory=path.substr(0,flash);
@@ -152,19 +157,19 @@ void Path::costructor(const String& _path){
 	else{
 		file=path;
 	}
-	//get base name		
+	//get base name
 	if(file.size()){
 		int point=file.find(".");
 		filebasename=file.substr(0,point);
 	}
 	//Extension
-	if(file.size()){	
+	if(file.size()){
 		int point=file.rfind(".");
 		if(point>=0)
 			ext=file.substr(point+1,path.size()-point-1);
 	}
 }
-bool Path::existsFile(){		
+bool Path::existsFile(){
 	struct stat st;
 	return stat(path,&st) == 0;
 	return false;
@@ -177,11 +182,11 @@ bool Path::existsDirectory(){
 }
 
 std::vector<String> Path::getFiles() const{
-	
-	std::vector<String> out;	
 
-	#ifdef  PLATFORM_UNIX 
-		
+	std::vector<String> out;
+
+	#ifdef  PLATFORM_UNIX
+
 		DIR *dp;
 		struct dirent *dirp;
 		struct stat st;
@@ -191,7 +196,7 @@ std::vector<String> Path::getFiles() const{
 
 		if((dp  = opendir(std_dir)) == NULL)
 			return out;
-		
+
 		while ((dirp = readdir(dp)) != NULL){
 			//get all path
 			namefile=std_dir+dirp->d_name;
@@ -218,7 +223,7 @@ std::vector<String> Path::getFiles() const{
 			if(!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 				//push
 				out.push_back(ffd.cFileName);
-			
+
 		}while (FindNextFile(hFind, &ffd) != 0);
 
 	#endif
@@ -226,11 +231,11 @@ std::vector<String> Path::getFiles() const{
 	return out;
 }
 std::vector<String> Path::getSubDirs() const{
-	
-	std::vector<String> out;	
 
-	#ifdef  PLATFORM_UNIX 
-		
+	std::vector<String> out;
+
+	#ifdef  PLATFORM_UNIX
+
 		DIR *dp;
 		struct dirent *dirp;
 		struct stat st;
@@ -240,7 +245,7 @@ std::vector<String> Path::getSubDirs() const{
 
 		if((dp  = opendir(std_dir)) == NULL)
 			return out;
-		
+
 		while ((dirp = readdir(dp)) != NULL){
 			//get all path
 			namefile=std_dir+dirp->d_name;
@@ -267,11 +272,11 @@ std::vector<String> Path::getSubDirs() const{
 			if(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				//push
 				out.push_back(ffd.cFileName);
-			
+
 		}while (FindNextFile(hFind, &ffd) != 0);
 
 	#endif
-	
+
 	return out;
 }
 
@@ -280,7 +285,7 @@ String Path::getCanonicalPath(const String& path){
 	convertToCanonicalPath(outPath);
 	return outPath;
 }
-void Path::convertToCanonicalPath(String& path){	
+void Path::convertToCanonicalPath(String& path){
 	//get real path
 	//char buffer[FILENAME_MAX];
 	//realpath(path,buffer);
@@ -289,8 +294,8 @@ void Path::convertToCanonicalPath(String& path){
 	for(auto& c:path) if(c=='\\') c='/';
 	//delete space at end
 	int space_len=0;
-	for(auto c:reverse(path)) 
-		if(c==' ') 
+	for(auto c:reverse(path))
+		if(c==' ')
 			++space_len;
 		else
 			break;
@@ -305,12 +310,12 @@ void Path::convertToCanonicalPath(String& path){
 	for(uint i=0;i<dirs.size()-1;++i){
 	 if(dirs[i]!="."){
 		 if(dirs[i+1]!="..")
-			path+=dirs[i]+"/";			
-		  else 
+			path+=dirs[i]+"/";
+		  else
 			  ++i;
 	 }
 	}
-	if(dirs.size()>1){ 
+	if(dirs.size()>1){
 		 if(dirs[dirs.size()-1]!=".")
 			 if(dirs[dirs.size()-1]!="..")
 				path+=dirs[dirs.size()-1];

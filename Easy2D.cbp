@@ -6,7 +6,54 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Target title="Debug Linux">
+				<Option platforms="Unix;" />
+				<Option output="bin/Debug/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-std=gnu++0x" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DORDERED_TABLE" />
+					<Add directory="./" />
+					<Add directory="include" />
+					<Add directory="include/linux" />
+				</Compiler>
+				<Linker>
+					<Add option="-lX11" />
+					<Add option="-lXxf86vm" />
+					<Add option="-lGL" />
+					<Add option="-lGLU" />
+					<Add option="-lopenal" />
+				</Linker>
+			</Target>
+			<Target title="Release Linux">
+				<Option platforms="Unix;" />
+				<Option output="bin/Release/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-std=gnu++0x" />
+					<Add option="-DORDERED_TABLE" />
+					<Add directory="./" />
+					<Add directory="include" />
+					<Add directory="include/linux" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lX11" />
+					<Add option="-lXxf86vm" />
+					<Add option="-lGL" />
+					<Add option="-lGLU" />
+					<Add option="-lopenal" />
+				</Linker>
+			</Target>
 			<Target title="Debug">
+				<Option platforms="Windows;" />
 				<Option output="bin/Debug/Easy2D" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
@@ -16,6 +63,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
+				<Option platforms="Windows;" />
 				<Option output="bin/Release/Easy2D" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
@@ -31,34 +79,106 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Main.cpp" />
 		<Unit filename="include/Application.h" />
+		<Unit filename="include/Camera.h" />
+		<Unit filename="include/Color.h" />
 		<Unit filename="include/Config.h" />
+		<Unit filename="include/Debug.h" />
 		<Unit filename="include/EString.h" />
+		<Unit filename="include/ETime.h" />
+		<Unit filename="include/Easy2D.h" />
+		<Unit filename="include/FrameSet.h" />
 		<Unit filename="include/Game.h" />
-		<Unit filename="include/Image/Image.h" />
-		<Unit filename="include/Image/Image.inl" />
+		<Unit filename="include/Input.h" />
+		<Unit filename="include/Layer.h" />
 		<Unit filename="include/Math2D.h" />
+		<Unit filename="include/Mesh.h" />
 		<Unit filename="include/Object.h" />
+		<Unit filename="include/Render.h" />
+		<Unit filename="include/RenderState.h" />
+		<Unit filename="include/Renderable.h" />
 		<Unit filename="include/Resource.h" />
-		<Unit filename="include/ResourceManager.h" />
+		<Unit filename="include/ResourcesGroup.h" />
+		<Unit filename="include/ResourcesManager.h" />
+		<Unit filename="include/Screen.h" />
+		<Unit filename="include/Sprite.h" />
 		<Unit filename="include/Table.h" />
-		<Unit filename="include/Thread/Mutex.h" />
-		<Unit filename="include/Thread/MutexConf.h" />
-		<Unit filename="include/Thread/MutexPOSIX.inl" />
-		<Unit filename="include/Thread/MutexWin32.inl" />
-		<Unit filename="include/Thread/Thread.h" />
-		<Unit filename="include/Thread/ThreadConf.h" />
-		<Unit filename="include/Thread/ThreadPOSIX.inl" />
-		<Unit filename="include/Thread/ThreadWin32.inl" />
+		<Unit filename="include/Texture.h" />
+		<Unit filename="include/Timer.h" />
+		<Unit filename="include/Types.h" />
+		<Unit filename="include/Utility.h" />
+		<Unit filename="include/linux/LinuxApp.h">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="include/linux/LinuxInput.h">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="include/linux/LinuxScreen.h">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="include/linux/OpenGLLinux.h">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
 		<Unit filename="src/Application.cpp" />
+		<Unit filename="src/Camera.cpp" />
+		<Unit filename="src/Color.cpp" />
 		<Unit filename="src/Config.cpp" />
+		<Unit filename="src/Debug.cpp" />
 		<Unit filename="src/EString.cpp" />
+		<Unit filename="src/ETime.cpp" />
+		<Unit filename="src/FrameSet.cpp" />
 		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Image/Image.h" />
+		<Unit filename="src/Image/Image.inl" />
+		<Unit filename="src/Image/lodepng.cpp" />
+		<Unit filename="src/Image/lodepng.h" />
+		<Unit filename="src/Input.cpp" />
+		<Unit filename="src/Layer.cpp" />
 		<Unit filename="src/Math2D.cpp" />
+		<Unit filename="src/Mesh.cpp" />
 		<Unit filename="src/Object.cpp" />
+		<Unit filename="src/Render.cpp" />
+		<Unit filename="src/RenderState.cpp" />
+		<Unit filename="src/Renderable.cpp" />
 		<Unit filename="src/Resource.cpp" />
-		<Unit filename="src/ResourceManager.cpp" />
+		<Unit filename="src/ResourcesGroup.cpp" />
+		<Unit filename="src/ResourcesManager.cpp" />
+		<Unit filename="src/Screen.cpp" />
+		<Unit filename="src/Sprite.cpp" />
 		<Unit filename="src/Table.cpp" />
+		<Unit filename="src/Texture.cpp" />
+		<Unit filename="src/Thread/Mutex.h" />
+		<Unit filename="src/Thread/MutexConf.h" />
+		<Unit filename="src/Thread/MutexPOSIX.inl" />
+		<Unit filename="src/Thread/MutexWin32.inl" />
+		<Unit filename="src/Thread/Thread.h" />
+		<Unit filename="src/Thread/ThreadConf.h" />
+		<Unit filename="src/Thread/ThreadPOSIX.inl" />
+		<Unit filename="src/Thread/ThreadWin32.inl" />
+		<Unit filename="src/Timer.cpp" />
+		<Unit filename="src/Utility.cpp" />
+		<Unit filename="src/linux/LinuxApp.cpp">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="src/linux/LinuxInput.cpp">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="src/linux/LinuxScreen.cpp">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="src/linux/OpenGLLinux.cpp">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="stdafx.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

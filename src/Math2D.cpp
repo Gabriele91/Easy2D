@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include <Math2D.h>
-/* Easy2D */
+/* Sphere */
 using namespace Easy2D;
 /* VECTOR2D */
 Vector2D Vector2D::ZERO;
@@ -57,7 +57,7 @@ Vector2D operator-(float v,const Vector2D& vt){
 }
 Vector2D operator*(float v,const Vector2D& vt){
 	return Vector2D(v*vt.x,v*vt.y);
-} 
+}
 Vector2D operator/(float v,const Vector2D& vt){
 	return Vector2D(v/vt.x,v/vt.y);
 }
@@ -107,7 +107,7 @@ Vector3D operator-(float v,const Vector3D& vt){
 }
 Vector3D operator*(float v,const Vector3D& vt){
 	return Vector3D(v*vt.x,v*vt.y,v*vt.z);
-} 
+}
 Vector3D operator/(float v,const Vector3D& vt){
 	return Vector3D(v/vt.x,v/vt.y,v/vt.z);
 }
@@ -153,7 +153,7 @@ Vector4D operator-(float v,const Vector4D& vt){
 }
 Vector4D operator*(float v,const Vector4D& vt){
 	return Vector4D(v*vt.x,v*vt.y,v*vt.z,v*vt.w);
-} 
+}
 Vector4D operator/(float v,const Vector4D& vt){
 	return Vector4D(v/vt.x,v/vt.y,v/vt.z,v/vt.w);
 }
@@ -672,8 +672,8 @@ Vector2D Matrix4x4::getTranslation2D() const{
 void Matrix4x4::setRotY(float angle){
 	identity();
 
-	entries[0]=(float)std::cosf(angle);
-	entries[2]=-(float)std::sinf(angle);
+	entries[0]=(float)std::cos(angle);
+	entries[2]=-(float)std::sin(angle);
 
 	entries[8]=-entries[2];
 	entries[10]=entries[0];
@@ -681,8 +681,8 @@ void Matrix4x4::setRotY(float angle){
 void Matrix4x4::setRotX(float angle){
 	identity();
 
-	entries[5]=(float)std::cosf(angle);
-	entries[6]=(float)std::sinf(angle);
+	entries[5]=(float)std::cos(angle);
+	entries[6]=(float)std::sin(angle);
 
 	entries[9]=-entries[6];
 	entries[10]=entries[5];
@@ -690,8 +690,8 @@ void Matrix4x4::setRotX(float angle){
 void Matrix4x4::setRotZ(float angle){
 	identity();
 
-	entries[0]=(float)std::cosf(angle);
-	entries[1]=(float)std::sinf(angle);
+	entries[0]=(float)std::cos(angle);
+	entries[1]=(float)std::sin(angle);
 
 	entries[4]=-entries[1];
 	entries[5]=entries[0];
@@ -714,7 +714,7 @@ float Matrix4x4::getRotX() const{
 	//****
 	//@@@*
 	//****
-	float ang=std::atan2f( entries[9],std::sqrtf( entries[8]*entries[8]+entries[10]*entries[10] ) );
+	float ang=std::atan2( entries[9],std::sqrt( entries[8]*entries[8]+entries[10]*entries[10] ) );
 
 	if(ang<=0.0001 && ang>=-0.0001) ang=0;
 
@@ -741,8 +741,8 @@ void Matrix4x4::setFastTransform2DTRS(float* list){
     entries[12]=list[0];
 	entries[13]=list[1];
 	//RotZ
-	entries[0]=(float)std::cosf(Math::PI*list[2]/180.0f);
-	entries[1]=(float)std::sinf(Math::PI*list[2]/180.0f);
+	entries[0]=(float)std::cos(Math::PI*list[2]/180.0f);
+	entries[1]=(float)std::sin(Math::PI*list[2]/180.0f);
 	entries[4]=-entries[1];
 	entries[5]=entries[0];
 
@@ -761,8 +761,8 @@ void Matrix4x4::setFastTransform2DTR(float* list){
     entries[12]=list[0];
 	entries[13]=list[1];
 	//RotZ
-	entries[0]=(float)std::cosf(Math::PI*list[2]/180.0f);
-	entries[1]=(float)std::sinf(Math::PI*list[2]/180.0f);
+	entries[0]=(float)std::cos(Math::PI*list[2]/180.0f);
+	entries[1]=(float)std::sin(Math::PI*list[2]/180.0f);
 	entries[4]=-entries[1];
 	entries[5]=entries[0];
 }
