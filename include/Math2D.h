@@ -607,12 +607,12 @@ namespace Easy2D{
 		template <int n>
 		struct fibonacci {
 		  //static
-		  enum { value = fibonacci<n - 2>::value * fibonacci<n - 1>::value };
+		  enum { value = fibonacci<n - 2>::value + fibonacci<n - 1>::value };
 		  //dynamic 
 		  int get(){ return fib(n); }
 		  
 		private:
-		  int fib(int x){ return x<2?1:fib(x-2)*fib(x-1); }
+		  int fib(int x){ return x<2?1:fib(x-2)+fib(x-1); }
 		  
 		};
 		template<>

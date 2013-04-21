@@ -14,6 +14,7 @@ namespace Easy2D {
 
 		Texture::ptr texture;
 		std::vector<Mesh::ptr> frames;
+		void addFrame(const Vec4& frame);
 
 	public:
 		//create a frame set
@@ -22,11 +23,13 @@ namespace Easy2D {
 		virtual bool load();
 		virtual bool unload();
 		//return numbers of frames 
-		uint size();
+		DFORCEINLINE uint size(){ return frames.size(); }
 		//return a frame
 		Mesh::ptr getFrame(uint i);
 		//return texture
-		Texture::ptr getTexture();
+		DFORCEINLINE Texture::ptr getTexture(){
+			return texture;
+		}
 		//
 
 	};
