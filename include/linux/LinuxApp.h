@@ -1,22 +1,22 @@
-#ifndef WINDOWSAPP_H
-#define WINDOWSAPP_H
+#ifndef LINUXAPP_H
+#define LINUXAPP_H
 
 #include <Config.h>
 #include <Application.h>
 #include <Game.h>
 
 namespace Easy2D {
-	
+
 	/**
     * Abstract class, represent the application instance
 	* @class Application <Application.h>
     */
-	class WindowsApp : Application{
+	class LinuxApp : Application{
 	public:
 		/**
 		* destroy an window application
 		*/
-		virtual ~WindowsApp();
+		virtual ~LinuxApp();
 		/**
 		* load a binary file
 		* @return succes
@@ -44,9 +44,9 @@ namespace Easy2D {
 		/**
 		* application loop
 		*/
-		virtual void loop();		
+		virtual void loop();
 		/**
-		* execute a game application
+		* execute a instance application
 		*/
 		virtual void exec(Game *game);
 		/**
@@ -59,12 +59,8 @@ namespace Easy2D {
 		virtual bool onlyPO2();
 
 	protected:
-		
-		//local vars
-		int doexit;
-		//hide costructor
-		WindowsApp();
 
+		LinuxApp();
 		friend class Application;
 
 	};

@@ -40,7 +40,7 @@ namespace Easy2D {
 		*/
 		virtual bool loadData(const String& path,void*& ptr,size_t &len)=0;
 		/**
-		* where you can seve files data
+		* where you can save files data
 		* @return path
 		*/
 		virtual String appDataDirectory()=0;
@@ -53,7 +53,11 @@ namespace Easy2D {
 		* resources directory (read only)
 		* @return path
 		*/
-		virtual String appResourcesDirectory()=0;	
+		virtual String appResourcesDirectory()=0;			
+		/**
+		* application exit method
+		*/
+		virtual void exit()=0;
 		/**
 		* application loop
 		*/
