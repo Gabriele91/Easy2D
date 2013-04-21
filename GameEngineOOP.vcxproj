@@ -87,6 +87,7 @@
     <ClCompile Include="src\EString.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\ResourcesGroup.cpp" />
+    <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\ETime.cpp" />
@@ -94,7 +95,6 @@
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\RenderState.cpp" />
     <ClCompile Include="src\Resource.cpp" />
-    <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\Table.cpp" />
     <ClCompile Include="src\Texture.cpp" />

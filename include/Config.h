@@ -81,6 +81,7 @@
 #ifdef _MSC_VER
 	#define DFORCEINLINE __forceinline
 	#define DINLINE __inline
+	#define COMPILER_VISUAL_STUDIO
 
 	#if _MSC_VER == 1600
 		#include <utility>
@@ -91,6 +92,7 @@
 #elif __GNUC__>=4 && __GNUC_MINOR__ >=6
 	#define DFORCEINLINE __attribute__ ((always_inline))
 	#define DINLINE inline
+	#define COMPILER_GCC
 #else
 	#error "compiler not supported"
 #endif

@@ -103,9 +103,6 @@
     <ClCompile Include="src\window\OpenGLWindow.cpp">
       <Filter>File di origine\window</Filter>
     </ClCompile>
-    <ClCompile Include="src\ResourcesManager.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
     <ClCompile Include="src\Image\lodepng.cpp">
       <Filter>File di origine\Image</Filter>
     </ClCompile>
@@ -125,6 +122,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="src\Color.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourcesManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>

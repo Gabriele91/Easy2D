@@ -42,6 +42,79 @@ namespace Easy2D {
 			return String();
 		}
 
+		#ifdef COMPILER_VISUAL_STUDIO
+		/*
+		* Texture manager:
+		*/
+		template <>
+		/** load texture */
+		DFORCEINLINE Texture::ptr load<Texture>(const String& path){
+			return textures.load(path);
+		}
+		template <>
+		/** get texture (but not load in memory) */
+		DFORCEINLINE Texture::ptr get<Texture>(const String& path){
+			return textures.get(path);
+		}
+		template<>
+		/** find a texture already returned */
+		DFORCEINLINE Texture::ptr find<Texture>(const String& path){
+			return textures.find(path);
+		}
+		/** directory texture resources */
+		template<>
+		DFORCEINLINE String getResourceDirectory<Texture>(){
+			return textures.mapResources.getPath().getDirectory();
+		}
+		/*
+		* Table manager:
+		*/
+		template<>
+		/** load table */
+		DFORCEINLINE Table::ptr load<Table>(const String& path){
+			return tables.load(path);
+		}
+		template<>
+		/** get table  (but not load in memory) */
+		DFORCEINLINE Table::ptr get<Table>(const String& path){
+			return tables.get(path);
+		}
+		template<>
+		/** find a table already returned */
+		DFORCEINLINE Table::ptr find<Table>(const String& path){
+			return tables.find(path);
+		}
+		/** directory table resources */
+		template<>
+		DFORCEINLINE String getResourceDirectory<Table>(){
+			return tables.mapResources.getPath().getDirectory();
+		}
+
+		/*
+		* Mesh manager:
+		*/
+		template<>
+		/** load mesh */
+		DFORCEINLINE Mesh::ptr load<Mesh>(const String& path){
+			return meshes.load(path);
+		}
+		template<>
+		/** get mesh  (but not load in memory) */
+		DFORCEINLINE Mesh::ptr get<Mesh>(const String& path){
+			return meshes.get(path);
+		}
+		template<>
+		/** find a mesh already returned */
+		DFORCEINLINE Mesh::ptr find<Mesh>(const String& path){
+			return meshes.find(path);
+		}
+		/** directory mesh resources */
+		template<>
+		DFORCEINLINE String getResourceDirectory<Mesh>(){
+			return meshes.mapResources.getPath().getDirectory();
+		}
+		#endif
+
 		/** load all resources returned  */
 		DFORCEINLINE void load(){
 			textures.load();
@@ -56,16 +129,16 @@ namespace Easy2D {
 		}
 
 	};
-
+	
     // GCC SUCK //
-
+	#ifdef COMPILER_GCC
     /*
     * Texture manager:
     */
-    template <>
+    template<> 
     /** load texture */
     DFORCEINLINE Texture::ptr ResourcesGroup::load<Texture>(const String& path);
-    template <>
+    template<>
     /** get texture (but not load in memory) */
     DFORCEINLINE Texture::ptr ResourcesGroup::get<Texture>(const String& path);
     template<>
@@ -105,6 +178,8 @@ namespace Easy2D {
     /** directory mesh resources */
     template<>
     DFORCEINLINE String ResourcesGroup::getResourceDirectory<Mesh>();
+
+	#endif
 };
 
 #endif

@@ -19,8 +19,12 @@ WindowsApp::WindowsApp()
 }
 
 WindowsApp::~WindowsApp(){
-	delete input;
+	//delete screen
 	delete screen;
+	screen=NULL;
+	//delete input
+	delete input;
+	input=NULL;
 }
 
 bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len){
