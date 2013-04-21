@@ -584,23 +584,44 @@ namespace Easy2D{
 		static void seedRandom(unsigned int seed=0) ;
 		static float random();
 		static float randomRange(float min,float max);
+		///////////////////////////////////////////////////
 		//fast factorial
 		template <int n>
-		struct factorial {
+		struct factorial {		
+		  //static
 		  enum { value = n * factorial<n - 1>::value };
+		  //dynamic 
+		  int get(){ return fac(n); }
+		  
+		private:
+		  int fac(int x){ return x<1?1:x*fac(x-1); }
+		  
 		};
+		template <>
+		struct factorial<0> 
+		{
+			enum { value = 1 };
+		};
+		///////////////////////////////////////////////////
 		//fast fibonacci
 		template <int n>
 		struct fibonacci {
+		  //static
 		  enum { value = fibonacci<n - 2>::value * fibonacci<n - 1>::value };
+		  //dynamic 
+		  int get(){ return fib(n); }
+		  
+		private:
+		  int fib(int x){ return x<2?1:fib(x-2)*fib(x-1); }
+		  
 		};
 		template<>
 		struct fibonacci<0>{ 
-			enum { value = 1 };	
+			enum { value = 1 };
 		};		
 		template<>
 		struct fibonacci<1>{ 
-			enum { value = 1 };	
+			enum { value = 1 };
 		};
 
 	};
