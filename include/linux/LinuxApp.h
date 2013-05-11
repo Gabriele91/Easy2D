@@ -46,7 +46,7 @@ namespace Easy2D {
 		*/
 		virtual void loop();
 		/**
-		* execute a game instance
+		* execute a instance application
 		*/
 		virtual void exec(Game *game);
 		/**

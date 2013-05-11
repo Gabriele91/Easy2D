@@ -128,6 +128,7 @@ namespace Easy2D {
 				KEYBOARDMAX = 323
 			};
 			enum Mouse{
+			    MOUSE_NULL=0,
 				BUTTON_LEFT=1,
 				BUTTON_MIDDLE,
 				BUTTON_RIGHT,
@@ -137,6 +138,7 @@ namespace Easy2D {
 				MOUSEMAX
 			};
 			enum Finger{
+			    FINGER_NULL=0,
 				FINGER1=1,
 				FINGER2,
 				FINGER3,
@@ -168,24 +170,26 @@ namespace Easy2D {
 					//keyboard
 					virtual void onKeyPress(Key::Keyboard key) {}
 					virtual void onKeyRelease(Key::Keyboard key) {}
-            };	
+					virtual void onKeyDown(Key::Keyboard key) {}
+            };
 			class FingersHandler{
 				public:
 					//finger touch
 					virtual void onFingerMove(Vec2 touchPosition,Key::Finger FingerID )  {}
 					virtual void onFingerPress(Vec2 touchPosition,Key::Finger FingerID ) {}
 					virtual void onFingerRelease(Vec2 touchPosition,Key::Finger FingerID )   {}
-            };				
+            };
 			class AccelerometerHandler{
 				public:
 					//accelerometer
 					virtual void onAcceleration( Vec3 accel, float roll )	{}
 			};
-			class MouseHandler{		
+			class MouseHandler{
 				public:
 					//mouse
 					virtual void onMouseMove(Vec2 mousePosition) {}
 					virtual void onMousePress(Vec2 mousePosition, Key::Mouse button) {}
+					virtual void onMouseDown(Vec2 mousePosition, Key::Mouse button) {}
 					virtual void onMouseRelease(Vec2 mousePosition, Key::Mouse button) {}
 					virtual void onMouseScroll(short scrollDelta) {}
 			};
@@ -335,54 +339,54 @@ namespace Easy2D {
 			/**
 			* Removes an input keyboard handler from the callback list
 			*/
-			virtual void removeHandler(KeyboardHandler *handler){	
+			virtual void removeHandler(KeyboardHandler *handler){
 				DEBUG_ASSERT(handler);
 				for(auto it=vkeyboardh.begin();it!=vkeyboardh.end();++it) {
-					if(*it==handler) { 
-						vkeyboardh.erase(it); 
-						break; 
+					if(*it==handler) {
+						vkeyboardh.erase(it);
+						break;
 					}
 				}
 			}
 			/**
 			* Removes an input fingers handler from the callback list
 			*/
-			virtual void removeHandler(FingersHandler *handler){	
+			virtual void removeHandler(FingersHandler *handler){
 				DEBUG_ASSERT(handler);
 				for(auto it=vfingersh.begin();it!=vfingersh.end();++it) {
-					if(*it==handler) { 
-						vfingersh.erase(it); 
-						break; 
+					if(*it==handler) {
+						vfingersh.erase(it);
+						break;
 					}
 				}
 			}
 			/**
 			* Removes an input accelerometer handler from the callback list
 			*/
-			virtual void removeHandler(AccelerometerHandler *handler){	
+			virtual void removeHandler(AccelerometerHandler *handler){
 				DEBUG_ASSERT(handler);
 				for(auto it=vaccelerometerh.begin();it!=vaccelerometerh.end();++it) {
-					if(*it==handler) { 
-						vaccelerometerh.erase(it); 
-						break; 
+					if(*it==handler) {
+						vaccelerometerh.erase(it);
+						break;
 					}
 				}
 			}
 			/**
 			* Removes an input mouse handler from the callback list
 			*/
-			virtual void removeHandler(MouseHandler *handler){	
+			virtual void removeHandler(MouseHandler *handler){
 				DEBUG_ASSERT(handler);
 				for(auto it=vmouseh.begin();it!=vmouseh.end();++it) {
-					if(*it==handler) { 
-						vmouseh.erase(it); 
-						break; 
+					if(*it==handler) {
+						vmouseh.erase(it);
+						break;
 					}
 				}
 			}
 
 			protected:
-				
+
 				std::vector<KeyboardHandler*> vkeyboardh;
 				std::vector<FingersHandler*> vfingersh;
 				std::vector<AccelerometerHandler*> vaccelerometerh;
@@ -397,8 +401,8 @@ namespace Easy2D {
 						 close;
 					Vec2 windowResize;
 				}ewindow;
-				//mouse			
-				struct EventMouse{					
+				//mouse
+				struct EventMouse{
 					int nPress;
 					short scroll;
 					Vec2 pos;

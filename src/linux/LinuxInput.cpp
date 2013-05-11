@@ -148,6 +148,27 @@ LinuxInput::LinuxInput(){
  void LinuxInput::__setDisplay(Display *display){
     this->display=display;
  }
+
+bool LinuxInput::_isKeyRepeat(XEvent &event){
+
+    //When a key is repeated, there will be two events: released, followed by another immediate pressed. So check to see if another pressed is present
+    if(!XPending(display))
+        return false;
+
+    XEvent e;
+    XPeekEvent(display, &e);
+    if(e.type == KeyPress &&
+       e.xkey.keycode == event.xkey.keycode &&
+       (e.xkey.time - event.xkey.time) < 2)
+    {
+        XNextEvent(display, &e);
+        return true;
+    }
+
+    return false;
+
+}
+
 void LinuxInput::__update(XEvent &event){
 	//events
     switch(event.type) {
@@ -182,10 +203,11 @@ void LinuxInput::__update(XEvent &event){
         case KeyPress:
             #define keyDownEvent(key) \
                 { \
-                ekeyboard.__keyboardDown(KeyMapUnix[(key)]);\
-                __callOnKeyPress(KeyMapUnix[(key)]);\
+                    if(ekeyboard.status[KeyMapUnix[(key)]]==0){\
+                        ekeyboard.__keyboardDown(KeyMapUnix[(key)]);\
+                        __callOnKeyPress(KeyMapUnix[(key)]);\
+                        }\
                 }
-
             {//stack
             KeySym keysym = XLookupKeysym(&event.xkey, 0);
             if((XK_Help)&0x0FFF==(keysym)&0x0FFF) keyDownEvent(Key::HELP)
@@ -205,17 +227,19 @@ void LinuxInput::__update(XEvent &event){
                 ekeyboard.__keyboardUp(KeyMapUnix[(key)]);\
                 __callOnKeyRelease(KeyMapUnix[(key)]);\
                 }
-
-            event.xkey.state &= ~ShiftMask;
-            event.xkey.state &= ~LockMask;
-            {//stack
-            KeySym keysym = XLookupKeysym(&event.xkey, 0);
-            if((XK_Help)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::HELP)
-            else if((XK_Print)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::PRINT)
-            else if((XK_Break)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::BREAK)
-            //else if((IK_MENU)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::MENU)
-            else if((XK_Insert)&0x0FFF==(keysym)&0x0FFF)keyReleaseEvent(Key::INSERT)
-            else if((keysym)&0x00FF) keyReleaseEvent((keysym)&0x00FF)
+			if(!_isKeyRepeat(event))
+			{
+                event.xkey.state &= ~ShiftMask;
+                event.xkey.state &= ~LockMask;
+                {//stack
+                KeySym keysym = XLookupKeysym(&event.xkey, 0);
+                if((XK_Help)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::HELP)
+                else if((XK_Print)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::PRINT)
+                else if((XK_Break)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::BREAK)
+                //else if((IK_MENU)&0x0FFF==(keysym)&0x0FFF) keyReleaseEvent(Key::MENU)
+                else if((XK_Insert)&0x0FFF==(keysym)&0x0FFF)keyReleaseEvent(Key::INSERT)
+                else if((keysym)&0x00FF) keyReleaseEvent((keysym)&0x00FF)
+                }
             }
             #undef keyReleaseEvent
         break;
@@ -276,6 +300,9 @@ void LinuxInput::update(){
             XNextEvent(display, &event);
             __update(event);
     }
+	//update down keys
+	ekeyboard.__update(this);
+	emouse.__update(this);
 
 }
 
@@ -288,6 +315,11 @@ void LinuxInput::__callOnKeyRelease(Key::Keyboard key) {
 	for(auto ih : vkeyboardh )
 		ih->onKeyRelease(key);
 }
+void LinuxInput::__callOnKeyDown(Key::Keyboard key) {
+	for(auto ih : vkeyboardh )
+		ih->onKeyDown(key);
+}
+
 //mouse
 void LinuxInput::__callOnMouseMove(Vec2 mousePosition) {
 	for(auto ih : vmouseh )
@@ -296,6 +328,10 @@ void LinuxInput::__callOnMouseMove(Vec2 mousePosition) {
 void LinuxInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button) {
 	for(auto ih : vmouseh )
 		ih->onMousePress(mousePosition,button);
+}
+void LinuxInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button) {
+	for(auto ih : vmouseh )
+		ih->onMouseDown(mousePosition,button);
 }
 void LinuxInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button) {
 	for(auto ih : vmouseh )

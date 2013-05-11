@@ -1,10 +1,12 @@
-#include "stdafx.h"
+
+#include "stdafx.h"
 #include <Timer.h>
 #include <LinuxApp.h>
 #include <LinuxScreen.h>
 #include <LinuxInput.h>
 #include <Debug.h>
 #include <sys/time.h>
+#include <unistd.h>
 ///////////////////////
 using namespace Easy2D;
 
@@ -28,14 +30,16 @@ LinuxApp::~LinuxApp(){
 bool LinuxApp::loadData(const String& path,void*& ptr,size_t &len){
 	//open
 	FILE *pfile=fopen(path,"rb");
-	DEBUG_ASSERT_MSG(pfile,"load file: "<<path);
+	DEBUG_MESSAGE("load file: "<<path);
+	DEBUG_ASSERT_MSG(pfile,"error load file: "<<path);
 		//get size
 		fseek(pfile,0,SEEK_END);
 		len=ftell(pfile);
 		fseek(pfile,0,SEEK_SET);
 		//read
-		ptr=malloc(len*sizeof(char));
+		ptr=malloc(len*sizeof(char)+1);
 		fread(ptr,len,1,pfile);
+		(*((char*)ptr+len))='\0';
 	//close
 	fclose(pfile);
 	return pfile!=NULL;
@@ -94,21 +98,21 @@ void LinuxApp::loop(){
     }
 }
 
-void LinuxApp::exec(Game *ptrGame){
-	game=ptrGame;
-	game->start();
+void LinuxApp::exec(Game *ptrMainInstance){
+	mainInstance=ptrMainInstance;
+	mainInstance->start();
 	//setup input
 	//to do fix
 	((LinuxInput*)input)->__setDisplay(((LinuxScreen*)screen)->display);
 	//
 	//
 	loop();
-	game->end();
+	mainInstance->end();
 }
 
 void LinuxApp::update(float dt){
 	input->update();
-	game->run(dt);
+	mainInstance->run(dt);
 }
 
 bool LinuxApp::onlyPO2(){

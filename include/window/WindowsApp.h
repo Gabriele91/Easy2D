@@ -1,4 +1,4 @@
-#ifndef WINDOWSAPP_H
+﻿#ifndef WINDOWSAPP_H
 #define WINDOWSAPP_H
 
 #include <Config.h>
@@ -36,7 +36,7 @@ namespace Easy2D {
 		* resources directory (read only)
 		* @return path
 		*/
-		virtual String appResourcesDirectory();
+		virtual String appResourcesDirectory();			
 		/**
 		* application exit method
 		*/
@@ -46,7 +46,7 @@ namespace Easy2D {
 		*/
 		virtual void loop();		
 		/**
-		* execute a game application
+		* execute a instance application
 		*/
 		virtual void exec(Game *game);
 		/**
@@ -59,10 +59,10 @@ namespace Easy2D {
 		virtual bool onlyPO2();
 
 	protected:
-		
+
 		//local vars
 		int doexit;
-		//hide costructor
+		//protected constructor
 		WindowsApp();
 
 		friend class Application;

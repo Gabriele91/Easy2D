@@ -199,11 +199,14 @@ void WindowsInput::update(){
 	//update windows message
 	MSG		msg;
     //take message and send it...
-    if (PeekMessage(&msg,NULL,0,0,PM_REMOVE)){
-		    TranslateMessage(&msg);				
+    while (PeekMessage(&msg,NULL,0,0,PM_REMOVE)){
+		    TranslateMessage(&msg);			
 			DispatchMessage(&msg);
 	}
-
+	//update event
+	ekeyboard.__update(this);
+	emouse.__update(this);
+	
 }
 
 
@@ -216,6 +219,10 @@ void WindowsInput::__callOnKeyRelease(Key::Keyboard key) {
 	for(auto ih : vkeyboardh )
 		ih->onKeyRelease(key);
 }
+void WindowsInput::__callOnKeyDown(Key::Keyboard key) {
+	for(auto ih : vkeyboardh )
+		ih->onKeyDown(key);
+}
 //mouse
 void WindowsInput::__callOnMouseMove(Vec2 mousePosition) {
 	for(auto ih : vmouseh )
@@ -224,6 +231,10 @@ void WindowsInput::__callOnMouseMove(Vec2 mousePosition) {
 void WindowsInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button) {
 	for(auto ih : vmouseh )
 		ih->onMousePress(mousePosition,button);
+}
+void WindowsInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button) {
+	for(auto ih : vmouseh )
+		ih->onMouseDown(mousePosition,button);
 }
 void WindowsInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button) {
 	for(auto ih : vmouseh )
@@ -280,6 +291,7 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 				winput->ewindow.windowResize.x=LOWORD(lparam);
 				winput->ewindow.windowResize.y=HIWORD(lparam);
 			break;
+			case WM_DESTROY:
 			case WM_QUIT:
 			case WM_CLOSE:
 				winput->ewindow.close=true;
@@ -288,24 +300,24 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 
 			// KEYBOAR EVENT //
 			case WM_KEYDOWN:
-
-				if(wparam==VK_MENU){ //alt
-					winput->ekeyboard.__keyboardDown(lparam&(1<<24) ? Key::RALT : Key::LALT);
-					winput->__callOnKeyPress(lparam&(1<<24) ? Key::RALT : Key::LALT);
+				if((HIWORD(lparam) & KF_REPEAT) == 0){
+					if(wparam==VK_MENU){ //alt
+						winput->ekeyboard.__keyboardDown(lparam&(1<<24) ? Key::RALT : Key::LALT);
+						winput->__callOnKeyPress(lparam&(1<<24) ? Key::RALT : Key::LALT);
+					}
+					else if(wparam==VK_CONTROL){ //ctrl
+						winput->ekeyboard.__keyboardDown(lparam&(1<<24) ? Key::RCTRL : Key::LCTRL);
+						winput->__callOnKeyPress(lparam&(1<<24) ? Key::RCTRL : Key::LCTRL);
+					}
+					else if(wparam==VK_SHIFT){
+						winput->ekeyboard.__keyboardDown(GetKeyState(VK_RSHIFT) & 0x8000 ? Key::RSHIFT: Key::LSHIFT);
+						winput->__callOnKeyPress(GetKeyState(VK_RSHIFT) & 0x8000 ? Key::RSHIFT: Key::LSHIFT);
+					}
+					else{
+						winput->ekeyboard.__keyboardDown(keyMapWIN32[wparam]);
+						winput->__callOnKeyPress(keyMapWIN32[wparam]);
+					}
 				}
-				else if(wparam==VK_CONTROL){ //ctrl
-					winput->ekeyboard.__keyboardDown(lparam&(1<<24) ? Key::RCTRL : Key::LCTRL);
-					winput->__callOnKeyPress(lparam&(1<<24) ? Key::RCTRL : Key::LCTRL);
-				}
-				else if(wparam==VK_SHIFT){
-					winput->ekeyboard.__keyboardDown(GetKeyState(VK_RSHIFT) & 0x8000 ? Key::RSHIFT: Key::LSHIFT);
-					winput->__callOnKeyPress(GetKeyState(VK_RSHIFT) & 0x8000 ? Key::RSHIFT: Key::LSHIFT);
-				}
-				else{
-					winput->ekeyboard.__keyboardDown(keyMapWIN32[wparam]);
-					winput->__callOnKeyPress(keyMapWIN32[wparam]);
-				}
-
 			break;
 
 			case WM_KEYUP:				
@@ -383,6 +395,7 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 		//not pass processed message
 		return 0;
 	
+
 	}
 	// Pass All Unhandled Messages To DefWindowProc
 	return DefWindowProc(hwnd,message,wparam,lparam);

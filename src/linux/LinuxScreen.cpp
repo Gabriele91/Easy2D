@@ -20,6 +20,37 @@ LinuxScreen::LinuxScreen()
 	nativeHeight = XHeightOfScreen(XDefaultScreenOfDisplay(display));
 }
 ///////////////////////////////////////////////////////////
+typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
+static bool isExtensionSupported(const char *extList, const char *extension){
+
+  const char *start;
+  const char *where, *terminator;
+
+  /* Extension names should not have spaces. */
+  where = strchr(extension, ' ');
+  if ( where || *extension == '\0' )
+    return false;
+
+  /* It takes a bit of care to be fool-proof about parsing the
+     OpenGL extensions string. Don't be fooled by sub-strings,
+     etc. */
+  for ( start = extList; ; ) {
+    where = strstr( start, extension );
+
+    if ( !where )
+      break;
+
+    terminator = where + strlen( extension );
+
+    if ( where == start || *(where - 1) == ' ' )
+      if ( *terminator == ' ' || *terminator == '\0' )
+        return true;
+
+    start = terminator;
+  }
+
+  return false;
+}
 void LinuxScreen::__createGLXContext(uint bites){
 	///////////////////////////////////////////////////////////
     //SETUP openGL
@@ -48,8 +79,34 @@ void LinuxScreen::__createGLXContext(uint bites){
 	int glxMajor, glxMinor;
     glXQueryVersion(display, &glxMajor, &glxMinor);
 	DEBUG_MESSAGE("openGL rendering :"<<glxMajor<<"."<<glxMinor);
+    ///////////////////////////////////////////////////////////////////////
     // create a GLX context
-    context = glXCreateContext(display, visual , 0, GL_TRUE);
+    glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
+    glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc)
+    glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB" );
+    ///////////////////////////////////////////////////////////////////////
+    int n = 0, modeNum = 0;
+    //Get a framebuffer config using the default attributes
+    GLXFBConfig framebufferConfig = (*glXChooseFBConfig(display, DefaultScreen(display), 0, &n));
+    ///////////////////////////////////////////////////////////////////////
+    // Get the default screen's GLX extension list
+    const char *glxExts = glXQueryExtensionsString( display, DefaultScreen( display ) );
+    if ( !isExtensionSupported( glxExts, "GLX_ARB_create_context" ) ||   !glXCreateContextAttribsARB ){
+        DEBUG_MESSAGE( "glXCreateContextAttribsARB() not found, old-style GLX context" );
+        context = glXCreateNewContext( display, framebufferConfig, GLX_RGBA_TYPE, 0, True );
+      }
+      else{
+        int context_attribs[] = {
+            GLX_CONTEXT_MAJOR_VERSION_ARB, 1,
+            GLX_CONTEXT_MINOR_VERSION_ARB, 4,
+            None
+        };
+        context = glXCreateContextAttribsARB( display,
+                                              framebufferConfig ,
+                                              0,
+                                              GL_TRUE,
+                                              context_attribs);
+      }
     DEBUG_ASSERT(context);
 	///////////////////////////////////////////////////////////
     //COLOR MAP WINDOW
@@ -102,7 +159,14 @@ void LinuxScreen::__createFullScreenWindow(){
         XFree(modes);
         //set window attributes
         winAttr.override_redirect = True;
-        winAttr.event_mask = WINDOW_ATTRIBUTE;
+        winAttr.event_mask = ExposureMask |
+                             KeyPressMask |
+                             KeyReleaseMask |
+                             ButtonPressMask |
+                             ButtonReleaseMask |
+                             PointerMotionMask |
+                             StructureNotifyMask |
+                             WINDOW_ATTRIBUTE ;
         window = XCreateWindow(display,
                                RootWindow(display, visual ->screen),
                                0, 0,
@@ -111,7 +175,7 @@ void LinuxScreen::__createFullScreenWindow(){
                                bitesOpenGL,
                                InputOutput,
                                visual->visual,
-                               CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect,
+                               CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect | CWOverrideRedirect,
                                &(winAttr));
         XWarpPointer(display, None, window, 0, 0, 0, 0, 0, 0);
         XMapRaised(display, window);
@@ -122,7 +186,15 @@ void LinuxScreen::__createWindow(){
         //set fullscreen=false
         fullscreen=false;
         //create a window in window mode
-        winAttr.event_mask = WINDOW_ATTRIBUTE;
+        winAttr.override_redirect = True;
+        winAttr.event_mask = ExposureMask |
+                             KeyPressMask |
+                             KeyReleaseMask |
+                             ButtonPressMask |
+                             ButtonReleaseMask |
+                             PointerMotionMask |
+                             StructureNotifyMask |
+                             WINDOW_ATTRIBUTE ;
         window =
         XCreateWindow(display, RootWindow(display, visual ->screen),
                         0, 0,
@@ -274,6 +346,14 @@ void LinuxScreen::setCursor(bool show){
 	    */
         XUndefineCursor(display, window);
 	}
+}
+/**
+* set position cursor
+*/
+void LinuxScreen::setPositionCursor(const Vec2& pos){
+    XWarpPointer(display, None, window, 0, 0, 0, 0, pos.x, pos.y);
+    XSync(display, False);
+    XFlush(display);
 }
 /**
 * return if cursor is shown or hidden

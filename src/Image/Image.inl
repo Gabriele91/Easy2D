@@ -11,7 +11,7 @@
 #ifdef _MSC_VER
 	#define IMG_STRNCPY(d,s,l) strcpy_s(d,l,s)
 #else
-	#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)	
+	#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)
 #endif
 
 
@@ -27,13 +27,13 @@
 */
 /* packaging */
 #ifdef _MSC_VER
-#define GCCALLINEAMENT 
+#define GCCALLINEAMENT
 #else
 #define GCCALLINEAMENT __attribute__((__packed__))
-#endif 
+#endif
 #ifdef _MSC_VER
  #pragma pack(1)
-#endif 
+#endif
 /* TGA 2 HEADERS */
 #define TGA_RGB		2
 #define TGA_A		3
@@ -54,9 +54,9 @@ typedef struct TgaHeader
     short height;             // image height in pixels
     Image::BYTE  bits;               // image bits per pixel 8,16,24,32
     Image::BYTE  descriptor;         // image descriptor bits (vh flip bits)
-    
+
     // pixel data follows header
-    
+
 }GCCALLINEAMENT TgaHeader;
 /* BITMAP HEADERS */
 #define LOCAL_BI_RGB 0
@@ -99,7 +99,7 @@ typedef struct  IcoHeaderInfo{
 
 #ifdef _MSC_VER
 #pragma pack(0)
-#endif 
+#endif
 
 //costruttore
 Image::Image():name(""){
@@ -160,7 +160,7 @@ void Image::loadImage(const std::string& path){
 	default:
 		break;
 	}
-    	
+
 #if defined( IMAGE_LOADER_OPENGL )
 	this->flipY();
 #endif
@@ -171,21 +171,21 @@ void Image::loadImage(const std::string& path){
 }
 Image::ImageType Image::getTypeFromExtetion(const std::string& _ext){
 	/////////////////////////////////////////
-	std::string ext(_ext); 
-	for (unsigned int i=0;i<ext.size();++i){ 
-			if(ext[i]<='Z' && ext[i]>='A') 
+	std::string ext(_ext);
+	for (unsigned int i=0;i<ext.size();++i){
+			if(ext[i]<='Z' && ext[i]>='A')
 				ext[i]-=('Z'-'z');
 	}
 	/////////////////////////////////////////
 	if(ext=="png")
 		return PNG;
 	else if(ext=="jpg")
-		return JPEG;		
+		return JPEG;
 	else if(ext=="bmp")
-		return BMP;		
+		return BMP;
 	else if(ext=="tga")
 		return TGA;
-	else 
+	else
 		return NONE;
 #define LODEPNG_COMPILE_DECODER
 #include "lodepng.h"
@@ -356,7 +356,7 @@ Image* Image::getNormalFromHeight(Image* in,float scale){
 		//#pragma omp parallel for
 		for( i = 0; i < height * width; i++ )
 			h[i] = ((int)datain[i * 3] + (int)datain[i * 3 + 1] + (int)datain[i * 3 + 2]) / 765.0f * scale;
-	
+
 	if(in->channels==4)
 		//#pragma omp parallel for
 		for( i = 0; i < height * width; i++ )
@@ -486,6 +486,17 @@ void Image::flipX(){
 }
 void Image::flipY(){
 
+  size_t lineLen=width*channels*sizeof(char);
+  char* tmp=(char*)malloc(lineLen);
+  size_t hOn2=height;
+  hOn2/=2;
+  for(int y=0;y<hOn2;++y){
+	  memcpy(tmp,&bytes[lineLen*y],lineLen);
+	  memcpy(&bytes[lineLen*y],&bytes[lineLen*(height-y-1)],lineLen);
+	  memcpy(&bytes[lineLen*(height-y-1)],tmp,lineLen);
+  }
+  free(tmp);
+/*
   unsigned char bTemp;
   unsigned char *pLine1, *pLine2;
   int iLineLen,iIndex;
@@ -504,7 +515,7 @@ void Image::flipY(){
       }
     }
 
-
+*/
 }
 void Image::convert16to24bit(bool freebuffer){
 
@@ -512,7 +523,7 @@ void Image::convert16to24bit(bool freebuffer){
 	char *bytes16=(char*)bytes;
 	unsigned short pixels=0;
 	bytes=(BYTE*)malloc(width * height * channels * sizeof(BYTE));
-	
+
 	for(unsigned int i = 0; i < width * height ; ++i){
 
 		pixels=(bytes16[i*2]<<8);
@@ -532,14 +543,14 @@ void Image::swapRandBbits(){
 		bytes[i * channels + 2] = bytes[i * channels + 0];
 	}
 }
-void Image::decoderRLE(bool freebuffer){ 
+void Image::decoderRLE(bool freebuffer){
   //bytes
   BYTE *oldBuffer=(BYTE*)bytes;
   BYTE *pCur=(BYTE*)bytes;
   bytes=(BYTE*)malloc(width * height * channels * sizeof(BYTE));
   //loop data
   unsigned long Index=0;
-  unsigned char bLength=0,bLoop=0;  
+  unsigned char bLength=0,bLoop=0;
   size_t imgSize=(this->width*this->height*this->channels);
   // Decode
   while(Index<imgSize){
@@ -550,7 +561,7 @@ void Image::decoderRLE(bool freebuffer){
        // Repeat the next pixel bLength times
        for(bLoop=0;bLoop!=bLength;++bLoop,Index+=channels)
 			memcpy(&bytes[Index],pCur,channels);
- 
+
        pCur+=channels; // Move to the next descriptor chunk
      }
 	 else{
@@ -568,7 +579,7 @@ void Image::decoderRLE(bool freebuffer){
 }
 void Image::convert32to24bit(bool freebuffer){
 	//if 32 bit?
-	if(channels!=4) return;	
+	if(channels!=4) return;
 	//save old buffer
 	char *bytes32=(char*)bytes;
 	//new buffer
@@ -614,8 +625,8 @@ void Image::scaleLine(BYTE *source,
 	  if (e >= tgtWidth) {
 		  e -= tgtWidth;
 		  source+=srcChannel;
-	  } 
-  } 
+	  }
+  }
 }
 //scale image:
 void Image::scale(unsigned int newWidth,unsigned int newHeight){
@@ -636,17 +647,17 @@ void Image::scale(unsigned int newWidth,unsigned int newHeight){
 					memcpy(target, target-newWidth* channels, newWidth* channels);
 				}
 				else {
-				  scaleLine(source, 
+				  scaleLine(source,
 							width,
 							channels,
 							target,
 							newWidth,
 							channels);
 				  prevSource = source;
-				} 
+				}
 				target += newWidth * channels;
-				source += part;   
-				e += fract; 
+				source += part;
+				e += fract;
 				if (e >= newHeight) {
 				  e -= newHeight;
 				  source += width * channels;
@@ -677,10 +688,10 @@ Image* Image::getImageFromScreen(int width,int height){
 	return out_img;
 }
 // Carica un'immagine TGA
-void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){	
+void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 	TgaHeader *tgaHeader=(TgaHeader *)buffer;
 	BYTE *dataImage=(BYTE*)(buffer+sizeof(TgaHeader));
-	
+
 	img->width=tgaHeader->width;
 	img->height=tgaHeader->height;
 	img->channels=tgaHeader->bits/8;
@@ -689,7 +700,7 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 		img->bytes=(BYTE*)malloc(img->width * img->height * img->channels * sizeof(BYTE));
 		memcpy(img->bytes,dataImage,bfsize-sizeof(TgaHeader));
 	}
-	else{ //RLE LOOK LIKE N[RGB] N-> numbers repeat value rgb 
+	else{ //RLE LOOK LIKE N[RGB] N-> numbers repeat value rgb
 		img->bytes=dataImage;
 		img->decoderRLE(false);
 	}
@@ -701,7 +712,7 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 	img->swapRandBbits();
 }
 void Image::load_TGA(Image* img,const std::string& path){
-	
+
 	FILE* pfile=fopen(path.c_str(),"rb");
 	if(pfile){
 		fseek(pfile,0,SEEK_END);
@@ -765,13 +776,13 @@ void Image::loadBuffer_BMP(Image* img,BYTE *buffer,size_t bfsize){
 			img->convert16to24bit(false);
 			img->swapRandBbits();
 		}
-		else if(bIH->biBitCount >= 24){		
+		else if(bIH->biBitCount >= 24){
 			img->bytes=(BYTE*)malloc(img->width * img->height * img->channels * sizeof(BYTE));
 			memcpy(img->bytes,dataImage,img->width * img->height * img->channels * sizeof(BYTE));
 			img->swapRandBbits();
 		}else return ;
 	}else return ;
-	
+
 	img->type  =img->channels==4? TYPE_RGBA : TYPE_RGB ;
 }
 void Image::load_BMP(Image* img,const std::string& path){
@@ -846,15 +857,18 @@ void Image::loadBuffer_PNG(Image* img,BYTE *buffer,size_t bfsize){
 	 //LOAD PNG
     LodePNGState state;
     lodepng_state_init(&state);
+    unsigned tmpwidth=0,tmpheight=0;
 	lodepng_decode(&(img->bytes),
-				  (unsigned int*)&(img->width),
-				  (unsigned int*)&(img->height),
+				  &tmpwidth,
+				  &tmpheight,
 				  &state,
 				  (unsigned const char*)buffer,
 				  bfsize);
     //SAVE DATA
     img->channels=lodepng_get_channels(&state.info_png.color);
 	img->type  =img->channels==4? TYPE_RGBA : TYPE_RGB ;
+    img->width=tmpwidth;
+    img->height=tmpheight;
     //FREE
     lodepng_state_cleanup(&state);
 }

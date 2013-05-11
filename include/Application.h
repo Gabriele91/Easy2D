@@ -40,7 +40,7 @@ namespace Easy2D {
 		*/
 		virtual bool loadData(const String& path,void*& ptr,size_t &len)=0;
 		/**
-		* where you can save files data
+		* where you can seve files data
 		* @return path
 		*/
 		virtual String appDataDirectory()=0;
@@ -63,7 +63,7 @@ namespace Easy2D {
 		*/
 		virtual void loop()=0;		
 		/**
-		* execute a game application
+		* execute a instance application
 		*/
 		virtual void exec(Game *game)=0;
 		/**
@@ -75,10 +75,10 @@ namespace Easy2D {
 		*/
 		virtual bool onlyPO2()=0;		
 		/**
-		* return game istance
+		* return main instance 
 		*/
 		Game* getGame(){
-			return game;
+			return mainInstance;
 		}
 		/**
 		* return screen device
@@ -101,7 +101,7 @@ namespace Easy2D {
 
 	protected:
 
-		Game *game;
+		Game *mainInstance;
 		Screen *screen;
 		Input *input;
 		Audio *audio;

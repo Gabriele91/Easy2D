@@ -3,10 +3,15 @@
 
 #include <Config.h>
 #include <Types.h>
+#include <Input.h>
 #include <Screen.h>
 #include <EString.h>
 
 namespace Easy2D {
+	
+	class Screen;
+	class Audio;
+	class Input;
 
     /** 
     * Abstract class, represent the game instance
@@ -22,9 +27,14 @@ namespace Easy2D {
 			 uint FreamPerSecond=60,
 			 bool fullscreen=false);
 		virtual ~Game(){};
+
 		virtual void start()=0;
 		virtual void run(float dt)=0;
 		virtual void end()=0;
+		
+		Screen* getScreen();
+		Audio* getAudio();
+		Input* getInput();
 
 	private:
 

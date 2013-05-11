@@ -150,14 +150,11 @@ const Matrix4x4& Object::getGlobalMatrix(){
 				default:break;
 			}
 
-			if(ENABLE_SCALE & parentMode){
-			   const Vector2D& vTScale=getGlobalParentScale();
-			   mtmp.setScale(vTScale);
-			   globalMat=globalMat.mul2D(mtmp);
-			}else{
-			   mtmp.setScale(transform.scale);
-			   globalMat=globalMat.mul2D(mtmp);
-			}
+			if(ENABLE_SCALE & parentMode)
+				globalMat.addScale(getGlobalParentScale());
+			else
+				globalMat.addScale(transform.scale);
+			
 
 		}else
 			globalMat.setFastTransform2DTRS(transform);

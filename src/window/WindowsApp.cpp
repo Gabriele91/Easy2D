@@ -14,7 +14,7 @@ WindowsApp::WindowsApp()
 		   :Application(){
 	screen=(Screen*)new WindowsScreen();
 	input=(Input*)new WindowsInput();
-	//do loop
+	//not exit form loop
 	doexit=false;
 }
 
@@ -30,14 +30,16 @@ WindowsApp::~WindowsApp(){
 bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len){
 	//open
 	FILE *pfile=fopen(path,"rb");
-	DEBUG_ASSERT_MSG(pfile,"load file: "<<path);
+	DEBUG_MESSAGE("load file: "<<path); 
+	DEBUG_ASSERT_MSG(pfile,"error load file: "<<path);
 		//get size
 		fseek(pfile,0,SEEK_END);
 		len=ftell(pfile);
 		fseek(pfile,0,SEEK_SET);
 		//read
-		ptr=malloc(len*sizeof(char));
+		ptr=malloc(len*sizeof(char)+1);
 		fread(ptr,len,1,pfile);
+		(*((char*)ptr+len))='\0';
 	//close
 	fclose(pfile);
 	return pfile!=NULL;
@@ -96,16 +98,16 @@ void WindowsApp::loop(){
     }
 }
 
-void WindowsApp::exec(Game *prgame){
-	game=prgame;
-	game->start();
+void WindowsApp::exec(Game *ptrMainInstance){
+	mainInstance=ptrMainInstance;
+	mainInstance->start();
 	loop();
-	game->end();
+	mainInstance->end();
 }
 
 void WindowsApp::update(float dt){
 	input->update();
-	game->run(dt);
+	mainInstance->run(dt);
 }
 
 bool WindowsApp::onlyPO2(){

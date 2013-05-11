@@ -47,6 +47,7 @@ namespace Easy2D{
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float squaredLength(){ return x*x+y*y; };
 		DFORCEINLINE void abs(){ x=fabs(x); y=fabs(y); }
+		DFORCEINLINE Vector2D getAbs(){ return Vector2D(fabs(x),fabs(y)); }
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float& operator [] (unsigned int i) { return (i%2 == 0) ? x: y; }
 		DFORCEINLINE bool operator==(const Vector2D &v) const { return (x==v.x && y==v.y);	}
@@ -135,9 +136,18 @@ namespace Easy2D{
 		float distancePow2(const Vector3D& vec) const;
 		Vector3D cross(const Vector3D& vec) const;
 		Vector3D getNormalize() const;
+		void orthoNormalize(Vector3D& b){		
+			 this->normalize();
+			 b -= b.projectToNormal(*this);
+			 b.normalize();
+		}
+		Vector3D projectToNormal(const Vector3D& direction){
+			return direction * dot(direction);
+		}
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float squaredLength(){ return x*x+y*y+z*z; };
 		DFORCEINLINE void abs(){ x=fabs(x); y=fabs(y); z=fabs(z); }
+		DFORCEINLINE Vector3D getAbs(){ return Vector3D(fabs(x),fabs(y), fabs(z)); }
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float& operator [] (unsigned int i) { return i==0 ? x: i==1 ? y : z; }
 		DFORCEINLINE bool operator==(const Vector3D &v) const { return (x==v.x && y==v.y && z==v.z);	}
@@ -255,6 +265,7 @@ namespace Easy2D{
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float squaredLength(){ return x*x+y*y+z*z+w*w; };
 		DFORCEINLINE void abs(){ x=fabs(x); y=fabs(y); z=fabs(z); w=fabs(w); }
+		DFORCEINLINE Vector4D getAbs(){ return Vector4D(fabs(x),fabs(y), fabs(z), fabs(w)); }
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE float& operator [] (unsigned int i) { return i==0 ? x: i==1 ? y : i==2 ? z : w; }
 		DFORCEINLINE bool operator==(const Vector4D &v) const { return (x==v.x && y==v.y && z==v.z && w==v.w);	}
@@ -344,6 +355,39 @@ namespace Easy2D{
 	Vector4D operator*(float v,const Vector4D& vt);
 	Vector4D operator/(float v,const Vector4D& vt);
 	///////////////////////////////////////////////////////////////////////////
+	//plane  ORIGIN + NORMAL(direction)
+	class Plane{
+	public:
+
+		//Ax + By + Cz + D
+		Vector3D normal; //a b c
+		float d;  //d
+
+		DFORCEINLINE float& a(){ return normal.x; }
+		DFORCEINLINE float& b(){ return normal.y; }
+		DFORCEINLINE float& c(){ return normal.z; }
+		DFORCEINLINE float a() const { return normal.x; }
+		DFORCEINLINE float b() const { return normal.y; }
+		DFORCEINLINE float c() const { return normal.z; }
+
+		Plane();
+		Plane(const Vector3D& normal,const Vector3D& origin);
+		Plane(const Vector3D& v1,const Vector3D& v2,const Vector3D& v3);
+		Plane(float a, float b, float c, float d);
+		//calc from point
+		void set3Points(const Vector3D& v1,const Vector3D& v2,const Vector3D& v3);
+		//Linear rapresetation
+		void setCoefficients(float a, float b, float c, float d);
+		//Parametric rapresetation
+		void setNormalAndOrigin(const Vector3D& normal,const Vector3D& origin);
+		//distance from point
+		float distance(const Vector3D& point);
+		//normalize
+		void normalize();
+		//
+		String	toString(const String& start="(",const String& sep=" ",const String& end=")") const;
+	};
+	///////////////////////////////////////////////////////////////////////////
 	class Quaternion{
 	public:
 		float w,x,y,z;
@@ -356,31 +400,75 @@ namespace Easy2D{
 		///compute W coordinate
 		void computeW();
 		///normalise
+		void safe_normalise();
 		void normalise();
 		///inverse
-		Quaternion getInverse();
+		Quaternion getInverse() const;
 		///Quaternion multiplication
-		Quaternion mul(Quaternion &qt);
+		Quaternion mul(const Quaternion &qt) const;
 		///Quaternion*vector
-		Quaternion mulVec(Vector3D &v);
+		Quaternion mulVec(const Vector3D &v) const;
 		///set pitch, yaw and roll
 		void setFromEulero(float pitch, float yaw, float roll);
+		void setFromEulero(const Vec3& pyr){
+			setFromEulero(pyr.x,pyr.y,pyr.z);
+		}
+		void setLookRotation(const Vector3D &lookAt,Vector3D up);
 		///return pitch, yaw and roll
-		void getEulero(float &pitch, float &yaw, float &roll);
+		void getEulero(float &pitch, float &yaw, float &roll) const;
+		void getEulero(Vec3& pyr) const{
+			getEulero(pyr.x,pyr.y,pyr.z);
+		}
 		///set quaternion from axis angle
 		void setFromAxisAngle(Vector3D &vt,float angle);
 		///return axis angle from quaternion
-		void getAxisAngle(Vector3D &vt,float &angle);
+		void getAxisAngle(Vector3D &vt,float &angle) const;
 		///return rotate point
-		Vector3D getRotatePoint(Vector3D & v);
+		Vector3D getRotatePoint(Vector3D & v) const;
+		///linear quaternion interpolation
+		Quaternion lerp(const Quaternion &q, float t) {
+			return ((*this)*(1.0f-t) + q*t).getNormalize();
+		}
+		Quaternion slerp(const Quaternion &q, float t){
+			Quaternion q3;
+			float dot = this->dot(q);
+
+			/*	dot = cos(theta)
+				if (dot < 0), q1 and q2 are more than 90 degrees apart,
+				so we can invert one to reduce spinning	*/
+			if (dot < 0){
+				dot = -dot;
+				q3 = -q;
+			}
+			else
+				q3 = q;
+			if (dot < 0.95f){
+				float angle = acosf(dot);
+				return ((*this)*sinf(angle*(1-t)) + q3*sinf(angle*t))/sinf(angle);
+			} else // if the angle is small, use linear interpolation
+				return this->lerp(q3,t);
+		}
+		//standard op
+		float length() const;
+		float dot(const Quaternion& vec) const;
+		Quaternion getNormalize() const;
 		///return matrix from quaternion
-		Matrix4x4 getMatrix();
+		Matrix4x4 getMatrix() const;
 		//overload op
+		DFORCEINLINE const Quaternion operator *(float f) const{
+			return Quaternion(x*f, y*f, z*f,w*f);
+		}
+		DFORCEINLINE const Quaternion operator /(float f) const{
+			return Quaternion(x/f, y/f, z/f,w/f);
+		}
 		DFORCEINLINE const Quaternion operator +(const Quaternion &q) const{
 			return Quaternion(x+q.x, y+q.y, z+q.z,w+q.w);
 		}
 		DFORCEINLINE const Quaternion operator -(const Quaternion &q) const{
 			return Quaternion(x-q.x, y-q.y, z-q.z,w-q.w);
+		}
+		DFORCEINLINE const Quaternion operator -(void) const{
+			return Quaternion(-x, -y, -z,-w);
 		}
 		///////////////////////////////////////////////////////////////////////////
 		operator float* ()  {return &this->x;}
@@ -428,8 +516,12 @@ namespace Easy2D{
 		Matrix4x4 getTranspose() const;
 		///set scale
 		void setScale(const Vector3D &v3);
+		void addScale(const Vector3D &v3);
+		void addScale(const Vector2D &v2);
 		///set scale
 		void setScale(const Vector3D *v3);
+		void addScale(const Vector3D *v3);
+		void addScale(const Vector2D *v2);
 		///set scale
 		void setScale(const Vector2D &v2);
 		///return scale
@@ -465,6 +557,8 @@ namespace Easy2D{
 		Vector3D getTranslation3D() const;
 		///return translation
 		Vector2D getTranslation2D() const;
+		///add a euler rotarion
+		void addEulerRotation(const Vec3& euler);
 		///set pitch
 		void setRotX(float x);
 		///set yaw
@@ -485,6 +579,9 @@ namespace Easy2D{
 		void setFastTransform2DS(float* list);
 		///set quaternion transformation
 		void setQuaternion(Quaternion &qt);
+		///get quaternion transformation
+		Quaternion getQuaternion();
+		Quaternion getQuaternionFast();
 		///set orthogonal transformation (projection matrix)
 		void setOrtho(float left, float right, float bottom,float top, float n, float f);
 		///set projection transformation (projection matrix)
@@ -522,25 +619,41 @@ namespace Easy2D{
 		//min
 		template<typename T>
 		static DFORCEINLINE T min(T x,T y){
-		return x>y?y:x;
+			return x>y?y:x;
 		}
-		template<Vector2D&>
+		static DFORCEINLINE Vector2D min(Vector2D v1,Vector2D v2){
+			return Vector2D(min(v1.x,v2.x),min(v1.y,v2.y));
+		}
 		static DFORCEINLINE Vector2D min(const Vector2D& v1,const Vector2D& v2){
-		return Vector2D(min(v1.x,v2.x),min(v1.y,v2.y));
+			return Vector2D(min(v1.x,v2.x),min(v1.y,v2.y));
+		}
+		static DFORCEINLINE Vector3D min(Vector3D v1,Vector3D v2){
+			return Vector3D(min(v1.x,v2.x),min(v1.y,v2.y),min(v1.z,v2.z));
+		}
+		static DFORCEINLINE Vector3D min(const Vector3D& v1,const Vector3D& v2){
+			return Vector3D(min(v1.x,v2.x),min(v1.y,v2.y),min(v1.z,v2.z));
 		}
 		//max
 		template<class T>
 		static DFORCEINLINE T max(T x,T y){
-		return x>y?x:y;
+			return x>y?x:y;
 		}
-		template<Vector2D&>
-		static DFORCEINLINE Vector2D max(const Vector2D& v1,const Vector2D& v2){
-		return Vector2D(max(v1.x,v2.x),max(v1.y,v2.y));
+		static DFORCEINLINE Vector2D max(Vector2D v1,Vector2D v2) {
+			return Vector2D(max(v1.x,v2.x),max(v1.y,v2.y));
+		}
+		static DFORCEINLINE Vector2D max(const Vector2D& v1,const Vector2D& v2) {
+			return Vector2D(max(v1.x,v2.x),max(v1.y,v2.y));
+		}
+		static DFORCEINLINE Vector3D max(Vector3D v1,Vector3D v2) {
+			return Vector3D(max(v1.x,v2.x),max(v1.y,v2.y),max(v1.z,v2.z));
+		}
+		static DFORCEINLINE Vector3D max(const Vector3D& v1,const Vector3D& v2) {
+			return Vector3D(max(v1.x,v2.x),max(v1.y,v2.y),max(v1.z,v2.z));
 		}
 		//lerp
 		template <class T>
 		static DFORCEINLINE T lerp( const T& left, const T& right, float t ){
-		return (T)(left * (1-t) + right * t);
+			return (T)(left * (1-t) + right * t);
 		}
 		//clamp
 		template <class T>
@@ -550,7 +663,7 @@ namespace Easy2D{
 		//saturate
 		template <class T>
 		static DFORCEINLINE T saturate( const T& value ){
-		return clamp(value,1,0);
+			return clamp(value,1,0);
 		}
 		//power of 2 test
 		template <class T>
@@ -587,20 +700,15 @@ namespace Easy2D{
 		///////////////////////////////////////////////////
 		//fast factorial
 		template <int n>
-		struct factorial {		
+		struct factorial {
 		  //static
 		  enum { value = n * factorial<n - 1>::value };
-		  //dynamic 
+		  //dynamic
 		  int get(){ return fac(n); }
-		  
+
 		private:
 		  int fac(int x){ return x<1?1:x*fac(x-1); }
-		  
-		};
-		template <>
-		struct factorial<0> 
-		{
-			enum { value = 1 };
+
 		};
 		///////////////////////////////////////////////////
 		//fast fibonacci
@@ -608,24 +716,29 @@ namespace Easy2D{
 		struct fibonacci {
 		  //static
 		  enum { value = fibonacci<n - 2>::value + fibonacci<n - 1>::value };
-		  //dynamic 
+		  //dynamic
 		  int get(){ return fib(n); }
-		  
+
 		private:
 		  int fib(int x){ return x<2?1:fib(x-2)+fib(x-1); }
-		  
-		};
-		template<>
-		struct fibonacci<0>{ 
-			enum { value = 1 };
-		};		
-		template<>
-		struct fibonacci<1>{ 
-			enum { value = 1 };
-		};
 
+		};
 	};
 
+    template <>
+    struct Math::factorial<0>
+    {
+        enum { value = 1 };
+    };
+
+    template<>
+    struct Math::fibonacci<0>{
+        enum { value = 1 };
+    };
+    template<>
+    struct Math::fibonacci<1>{
+        enum { value = 1 };
+    };
 }
 
 #endif

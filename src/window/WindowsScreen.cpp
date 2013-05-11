@@ -74,7 +74,7 @@ void WindowsScreen::__initWindow(const char* appname,uint bites){
 		0,											// Shift Bit Ignored
 		0,											// No Accumulation Resource
 		0, 0, 0, 0,									// Accumulation Bits Ignored
-		16,											// 16Bit Z-Resource (Depth Resource)  
+		32,											// 32Bit Z-Resource (Depth Resource)  
 		0,											// No Stencil Resource
 		0,											// No Auxiliary Resource
 		PFD_MAIN_PLANE,								// Main Drawing Layer
@@ -96,7 +96,10 @@ void WindowsScreen::__initWindow(const char* appname,uint bites){
 }
 void WindowsScreen::__destroyWindow(){
 	//disable fullscreen
-	setFullscreen(0);	
+	if( fullscreen ){
+		ChangeDisplaySettings( NULL, 0 );
+		ShowCursor(TRUE);
+	}
 	//delete glcontext
 	wglMakeCurrent( NULL, NULL );
 	if(hGLCxt){
@@ -105,7 +108,7 @@ void WindowsScreen::__destroyWindow(){
 	//destroy window
 	if(hWind){	
 		//Animate exit
-		AnimateWindow( hWind, 200, AW_HIDE | AW_BLEND );
+		//AnimateWindow( hWind, 200, AW_HIDE | AW_BLEND );
 		//release device context
 		if(hDevCxt){
 			DEBUG_ASSERT_REPLACE(ReleaseDC(hWind,hDevCxt));
@@ -113,6 +116,11 @@ void WindowsScreen::__destroyWindow(){
 		//destroy window
 		DEBUG_ASSERT_REPLACE(DestroyWindow(hWind));
 	}
+	//reset values
+	fullscreen=false;
+	hGLCxt=NULL;
+	hDevCxt=NULL;
+	hWind=NULL;
 	//unregister class
 	DEBUG_ASSERT_REPLACE(UnregisterClass("Easy2DWindow",hInstance));
 }
@@ -187,6 +195,8 @@ void WindowsScreen::setFullscreen(bool prfullscreen){
 
 		//WARNING MoveWindow can change backbuffer size
 		MoveWindow(hWind, 0, 0, dm.dmPelsWidth, dm.dmPelsHeight, TRUE);
+		//set focus on this screen
+		SetFocus(hWind);
 	}
 
 	ShowCursor( !fullscreen );
@@ -280,6 +290,16 @@ WindowsScreen::Orientation WindowsScreen::getOrientation(){
 void WindowsScreen::setCursor(bool show){
 	showmouse=show;
 	ShowCursor(showmouse);
+}
+/**
+* set position cursor
+*/
+void WindowsScreen::setPositionCursor(const Vec2& pos){	
+	POINT mouse;
+	mouse.x=pos.x;
+	mouse.y=pos.y;
+    ClientToScreen(hWind, &mouse);
+	SetCursorPos(mouse.x,mouse.y);
 }
 /**
 * return if cursor is shown or hidden

@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <Application.h>
+#include <ETime.h>
 #if defined( PLATFORM_IOS )
 #elif defined( PLATFORM_OSX )
 #elif defined( PLATFORM_WINDOW )
@@ -14,19 +15,21 @@ using namespace Easy2D;
 Application *Application::appSingleton=NULL;
 ///////////////////////
 Application::Application()
-	:game(NULL)
+	:mainInstance(NULL)
 	,screen(NULL)
 	,input(NULL)
 	,audio(NULL){
 
 }
 Application::~Application(){
-	appSingleton=NULL;
+	appSingleton=NULL;	
 }
 
 Application *Application::create(){
 
 	DEBUG_ASSERT(!appSingleton);
+	
+	Math::seedRandom((uint)GetTime());
 
 #if defined( PLATFORM_IOS )
 #elif defined( PLATFORM_OSX )
@@ -37,8 +40,8 @@ Application *Application::create(){
 #elif defined( PLATFORM_ANDROID )
 #endif
 	//registration delete at exit
-	atexit([](){
-		delete Application::instance();
+	atexit([](){ 
+		delete Application::instance(); 
 	});
 	//
 	return appSingleton;

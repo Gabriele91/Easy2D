@@ -183,53 +183,81 @@ namespace Easy2D {
 			}ewindow;
 			//mouse
 			struct EventMouse{
-				int nPress;
+				int nPress,nDown;
 				short scroll;
 				Vec2 pos;
 				char status[Key::MOUSEMAX];
 				Key::Mouse hit[7];
+				Key::Mouse down[10];
+
 				void __init(){
 					memset(this,0,sizeof(EventMouse));
 				}
 				void __mouseDown(Key::Mouse k){
 					status[k]=(char)(0x0001 | 0x0002*(status[k]&0x0001));
+					down[nDown++]=k;
+					nDown%=10;
 				}
 				void __mouseUp(Key::Mouse k){
 					if(status[k]== 0x0001 && nPress<7)
 						hit[nPress++]=k;
+
+					for(auto& kd:down) if(kd==k)
+							kd=Key::Mouse::MOUSE_NULL;
+
 					status[k]=false;
 				}
 				void __clearHit(){
 					memset(hit,false,7);
 					nPress=0;
 				}
+				void __update(LinuxInput *self){
+					for(auto& kd:down)
+					if(kd!=Key::Mouse::MOUSE_NULL)
+						self->__callOnMouseDown(pos,kd);
+				}
 			}emouse;
 			//keyboard
 			struct EventKeyboard{
-				int nPress;
+				int nPress,nDown;
 				Key::Keyboard hit[10];
+				Key::Keyboard down[10];
 				char status[Key::KEYBOARDMAX];
+
 				void __init(){
 					memset(this,0,sizeof(EventKeyboard));
 				}
 				void __keyboardDown(Key::Keyboard k){
 					status[k]=(char)(0x0001 | 0x0002*(status[k]&0x0001));
+					down[nDown++]=k;
+					nDown%=10;
 				}
 				void __keyboardUp(Key::Keyboard k){
 					if(status[k]== 0x0001 && nPress<7)
 						hit[nPress++]=k;
+
+					for(auto& kd:down) if(kd==k)
+							kd=Key::Keyboard::KEY_NULL;
+
 					status[k]=false;
 				}
 				void __clearHit(){
 					memset(hit,false,10);
 					nPress=0;
 				}
+				void __update(LinuxInput *self){
+					for(auto& kd:down)
+					if(kd!=Key::Keyboard::KEY_NULL)
+						self->__callOnKeyDown(kd);
+				}
 			}ekeyboard;
 			//calls
 			void __callOnKeyPress(Key::Keyboard key);
 			void __callOnKeyRelease(Key::Keyboard key);
+			void __callOnKeyDown(Key::Keyboard key);
 			void __callOnMouseMove(Vec2 mousePosition);
 			void __callOnMousePress(Vec2 mousePosition, Key::Mouse button);
+			void __callOnMouseDown(Vec2 mousePosition, Key::Mouse button);
 			void __callOnMouseRelease(Vec2 mousePosition, Key::Mouse button);
 			void __callOnMouseScroll(short scrollDelta);
 			//hide constructor
@@ -238,6 +266,7 @@ namespace Easy2D {
             Display *display;
             void __setDisplay(Display *display);
 			void __update(XEvent &event);
+			bool _isKeyRepeat(XEvent &event);
 			//friends class
 			friend class LinuxApp;
 
