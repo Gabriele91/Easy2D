@@ -113,7 +113,7 @@ bool Texture::load(){
 	/////////////////////////////////////////////////////////////////////
 	//cpu load
 	//get raw file
-	void *data=NULL; uint len=0;
+	void *data=NULL; size_t len=0;
 	Application::instance()->loadData(rpath,data,len);
 	//load image
 	Image image;

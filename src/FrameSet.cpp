@@ -50,7 +50,7 @@ void FrameSet::addFrame(const Vec4& frame){
 bool FrameSet::load(){
 
 	//load file
-	void *data=NULL; uint len=0;
+	void *data=NULL; size_t len=0;
 	Application::instance()->loadData(rpath,data,len);
 	String filestring((char*)data);
 	free(data);
@@ -61,7 +61,7 @@ bool FrameSet::load(){
 	//get texture
 	if(tbFrameSet.existsAsType("texture",Table::STRING)){
 		texture=getResourcesGroup()->get<Texture>(tbFrameSet.getString("texture"));
-		if(texture==NULL){			
+		if(texture==NULL){
 			DEBUG_ASSERT_MSG(0,"frameset error:"
 							   "must to be setted a valid texture name"
 							   "(parameter:texture)");

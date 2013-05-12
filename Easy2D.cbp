@@ -15,6 +15,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-std=gnu++0x" />
+					<Add option="-fpermissive" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DORDERED_TABLE" />
 					<Add directory="./" />
@@ -38,6 +39,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=gnu++0x" />
+					<Add option="-fpermissive" />
 					<Add option="-DORDERED_TABLE" />
 					<Add directory="./" />
 					<Add directory="include" />

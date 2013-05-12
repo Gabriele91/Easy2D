@@ -11,11 +11,11 @@ Game::Game(const String& app,
 		   unsigned int freamPerSecond,
 		   bool fullscreen){
 	Application::instance()
-		->getScreen() 
+		->getScreen()
 		->createWindow(app.c_str(),width,height,bites,freamPerSecond,fullscreen);
 }
 
-Screen* Game::getScreen(){
+Easy2D::Screen* Game::getScreen(){
 	return Application::instance()->getScreen();
 }
 Audio* Game::getAudio(){

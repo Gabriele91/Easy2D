@@ -41,19 +41,19 @@ void Mesh::addVertex(const gVertex& gv){
 	//add vertex
 	mVertexs.push_back(gv);
 }
-void Mesh::addIndex(ushort mIndex){		
+void Mesh::addIndex(ushort mIndex){
 	mIndexs.push_back(mIndex);
 }
-void Mesh::addTriangleIndexs(ushort v1,ushort v2,ushort v3){		
-	mIndexs.push_back(v1);	
+void Mesh::addTriangleIndexs(ushort v1,ushort v2,ushort v3){
+	mIndexs.push_back(v1);
 	mIndexs.push_back(v2);
 	mIndexs.push_back(v3);
 }
 void Mesh::addQuadIndexs(ushort v1,ushort v2,ushort v3,ushort v4){
-	mIndexs.push_back(v1);	
+	mIndexs.push_back(v1);
 	mIndexs.push_back(v2);
 	mIndexs.push_back(v3);
-		
+
 	mIndexs.push_back(v2);
 	mIndexs.push_back(v3);
 	mIndexs.push_back(v4);
@@ -64,7 +64,7 @@ void Mesh::setDrawMode(DrawMode dmode){
 }
 //
 void Mesh::build(){
-	
+
 	//create the VBO
     if( !vertexBuffer )
        glGenBuffers(1, &vertexBuffer );
@@ -73,7 +73,7 @@ void Mesh::build(){
 	//create the IBO
 	if(mIndexs.size()){
 		if( !indexBuffer )
-		   glGenBuffers(1, &indexBuffer );		
+		   glGenBuffers(1, &indexBuffer );
 		glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(ushort) * mIndexs.size(), &mIndexs[0], GL_STATIC_DRAW);
 	}
@@ -81,7 +81,7 @@ void Mesh::build(){
 #ifdef ENABLE_VAOS
 	//create the VAO
     if( !vbaDraw )
-         glGenVertexArrays( 1, &vbaDraw );	
+         glGenVertexArrays( 1, &vbaDraw );
 	glBindVertexArray( vbaDraw );
 	//bind mesh
 	__bind();
@@ -89,7 +89,7 @@ void Mesh::build(){
     glBindVertexArray( 0 );
 
 #endif
-		
+
 	//get vao/ibo/vbo errors
 	CHECK_GPU_ERRORS();
 
@@ -106,7 +106,7 @@ bool Mesh::load(){
 	DEBUG_ASSERT(isReloadable());
 	//
 	//load file
-	void *data=NULL; uint len=0;
+	void *data=NULL; size_t len=0;
 	Application::instance()->loadData(rpath,data,len);
 	String filestring((char*)data);
 	free(data);
@@ -151,7 +151,7 @@ bool Mesh::load(){
 		return false;
 	}
 
-	//get indexs	
+	//get indexs
 	if(tbMesh.existsAsType("indexs",Table::TABLE)){
 		const Table& tbIndexs=tbMesh.getTable("indexs");
 		for(auto param:tbIndexs){
@@ -172,15 +172,15 @@ bool Mesh::load(){
 	return true;
 }
 bool Mesh::unload(){
-	//unload mesh	
+	//unload mesh
     if( vertexBuffer )
 		glDeleteBuffers(1, &vertexBuffer );
     if( indexBuffer )
 		glDeleteBuffers(1, &indexBuffer );
 	#ifdef ENABLE_VAOS
     if( vbaDraw )
-         glDeleteVertexArrays( 1, &vbaDraw );	
-	#endif	
+         glDeleteVertexArrays( 1, &vbaDraw );
+	#endif
 	//is loaded?
 	loaded=false;
 	//
@@ -188,14 +188,14 @@ bool Mesh::unload(){
 }
 //draw
 void Mesh::__bind(){
-	
+
 	//bind VBO
 	glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
 	//set vertex
 	glVertexPointer(2, GL_FLOAT, sizeof(gVertex), 0 );
 	glTexCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec2) );
 	//bind IBO
-	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mIndexs.size() ? indexBuffer : 0 ); 
+	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mIndexs.size() ? indexBuffer : 0 );
 
 }
 void Mesh::draw(){
@@ -218,7 +218,7 @@ void Mesh::draw(){
 	if( !mIndexs.size() )
 		glDrawArrays( glMode, 0, mVertexs.size() );
 	else
-		glDrawElements( glMode, mIndexs.size(), GL_UNSIGNED_SHORT, 0 ); 
+		glDrawElements( glMode, mIndexs.size(), GL_UNSIGNED_SHORT, 0 );
 
 #ifdef ENABLE_VAOS
         glBindVertexArray( 0 );

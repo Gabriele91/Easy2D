@@ -81,13 +81,14 @@ namespace Easy2D{
 			//
 			TypeDate type;
 			Value( TypeDate type ):type(type){}
+            virtual ~Value(){}
 			//
 			bool asType(TypeDate tp){
 				return type==tp;
 			}
 			//
-			virtual void* getValue()=0;
-			virtual Value* clone()=0;
+			virtual void* getValue(){};
+			virtual Value* clone(){};
 			//return generic
 			template<typename T> T& get(){
 				return *((T*)getValue());
@@ -137,7 +138,7 @@ namespace Easy2D{
 			  const String& pathfile="");
 		Table();
 		/* destructor */
-		~Table();
+		virtual ~Table();
 
 		/* resource mathods implementation */
 		virtual bool load();
