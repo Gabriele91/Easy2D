@@ -16,6 +16,7 @@ namespace Easy2D {
 		bool visible;
 		float zvalue;
 		friend class Layer;
+		virtual void update(float dt){}
 
 	public:
 

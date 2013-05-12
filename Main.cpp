@@ -15,15 +15,15 @@ class MyGame : Game,
 	Texture::ptr ninja;
 	Mesh::ptr lightMesh;
 	Mesh::ptr ninjaMesh;
+	FrameSet::ptr ninjaWalk;
 	
 
 	Render rander;
 	Layer* layer1;
 	Camera camera;
-	Renderable objLight;
-	Renderable objNinja;
 	Sprite sprite;
 	Sprite spriteLight;
+	AnimatedSprite spriteAnim;
 
 public:
 
@@ -45,13 +45,16 @@ public:
 		//
 		rander.initOpenGL();
 		//input
-		Application::instance()->getInput()->addHandler((Input::KeyboardHandler*)this);
-		Application::instance()->getInput()->addHandler((Input::MouseHandler*)this);
+		getInput()->addHandler((Input::KeyboardHandler*)this);
+		getInput()->addHandler((Input::MouseHandler*)this);
 		//resources
 		light=resources.get<Texture>("light");
 		ninja=resources.get<Texture>("ninja");
+		ninjaWalk=resources.load<FrameSet>("ninjaWalk");
 		//test sprite
 		sprite.setTexture(ninja);
+		//test animation
+		spriteAnim.addAnimation(ninjaWalk,0.1);
 		//test sprite
 		spriteLight.setTexture(light);
 		spriteLight.enableBlend();
@@ -60,6 +63,7 @@ public:
 		layer1=rander.addLayer(true);
 		layer1->addRenderable(&sprite);
 		layer1->addRenderable(&spriteLight);
+		layer1->addRenderable(&spriteAnim);
 		//set camera
 		rander.setCamera(&camera);
 		//load resources
@@ -71,6 +75,7 @@ public:
 			std::cout<< "hit A" << std::endl;
 		//draw:
 		rander.setClear(Color(32,128,255,255));
+		rander.update(dt);
 		rander.draw();
 	}
 	virtual void end(){

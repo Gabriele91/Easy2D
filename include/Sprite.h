@@ -14,9 +14,7 @@ namespace Easy2D {
 		DFORCEINLINE void setMesh(Mesh::ptr mesh){
 			Renderable::setMesh(mesh);
 		}
-		//build sprite mesh
-		void _buildMesh();
-
+		
 	public:
 
 		//costructor

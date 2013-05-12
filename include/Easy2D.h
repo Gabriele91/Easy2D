@@ -30,6 +30,8 @@
 #include <Texture.h>
 #include <Mesh.h>
 #include <Sprite.h>
+#include <FrameSet.h>
+#include <AnimatedSprite.h>
 #include <Camera.h>
 
 #endif

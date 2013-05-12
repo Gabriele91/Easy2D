@@ -18,9 +18,9 @@ Game::Game(const String& app,
 Easy2D::Screen* Game::getScreen(){
 	return Application::instance()->getScreen();
 }
-Audio* Game::getAudio(){
+Easy2D::Audio* Game::getAudio(){
 	return Application::instance()->getAudio();
 }
-Input* Game::getInput(){
+Easy2D::Input* Game::getInput(){
 	return Application::instance()->getInput();
 }

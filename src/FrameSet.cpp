@@ -1,3 +1,4 @@
+
 #include <stdafx.h>
 #include <FrameSet.h>
 #include <Application.h>
@@ -10,16 +11,21 @@ using namespace Easy2D;
 //create a frame set
 FrameSet::FrameSet(ResourcesGroup *rsgr,const String& path)
 				  :Resource(rsgr,path){}
-
+FrameSet::~FrameSet(){
+	//release resource
+	release();
+}
 void FrameSet::addFrame(const Vec4& frame){
 		//create a mesh
 		Mesh::ptr sprite(new Mesh());
-
+		//save size
+		sizeFrames.push_back(Vec2(frame.z,frame.w));
 		//upmapping
 		Vec2 start(frame.x/texture->getRealWidth(),
 				   frame.y/texture->getRealHeight());
-		Vec2 end(frame.z/texture->getRealWidth(),
-				 frame.w/texture->getRealHeight());
+		Vec2 end(frame.z/texture->getRealWidth()+start.x,
+				 frame.w/texture->getRealHeight()+start.y);
+		
 
 		//add vertexs
 		sprite->addVertex(  0.5,

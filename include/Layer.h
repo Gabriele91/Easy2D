@@ -10,13 +10,20 @@ namespace Easy2D {
 	class Layer {
 	
 		bool visible;
+	
+	protected:
+
+		DFORCEINLINE void updateRenderable(Renderable *rnd, float dt){
+			rnd->update(dt);
+		}
 		
 	public:
 		//
 		virtual Renderable* next()=0;
 		//
 		virtual void change()=0;	
-		virtual void update()=0;		
+		virtual void dosort()=0;	
+		virtual void update(float dt)=0;		
 		//
 		virtual void addRenderable(Renderable *rnd){			
 			rnd->rlayer=this;
@@ -59,7 +66,11 @@ namespace Easy2D {
 		}
 		//
 		virtual void change(){};	
-		virtual void update(){};		
+		virtual void dosort(){};	
+		virtual void update(float dt){
+			for(auto renderable:renderables)
+				updateRenderable(renderable,dt);
+		}	
 		//
 		virtual void addRenderable(Renderable *rnd){
 			this->Layer::addRenderable(rnd);
@@ -98,13 +109,17 @@ namespace Easy2D {
 		virtual void change(){
 			reorder=true;
 		}	
-		virtual void update(){
+		virtual void dosort(){
 			if(reorder){
 				std::sort(renderables.begin(), 
 					      renderables.end(),
 						  operator_lt);
 				reorder=false;
 			}
+		}	
+		virtual void update(float dt){
+			for(auto renderable:renderables)
+				updateRenderable(renderable,dt);
 		}
 		//
 		virtual void addRenderable(Renderable *rnd){

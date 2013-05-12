@@ -37,6 +37,7 @@ namespace Easy2D {
 		void erseLayer(Layer* layer);
 		//
 		void draw();
+		void update(float dt);
 		//
 		DFORCEINLINE void setClear(const Color& color){ clearClr=color; }
 		//

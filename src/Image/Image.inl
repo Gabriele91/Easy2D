@@ -162,7 +162,7 @@ void Image::loadImage(const std::string& path){
 	}
 
 #if defined( IMAGE_LOADER_OPENGL )
-	this->flipY();
+	//this->flipY();
 #endif
 #if defined( __IPHONEOS__ )
 	this->flipX();
@@ -208,7 +208,7 @@ void Image::loadFromData(void *data,unsigned int size,ImageType type){
 		break;
 	}
 #if defined( IMAGE_LOADER_OPENGL )
-	this->flipY();
+	//this->flipY();
 #endif
 #if defined( __IPHONEOS__ )
 	this->flipX();

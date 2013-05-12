@@ -9,6 +9,7 @@
 #include <Table.h>
 #include <Texture.h>
 #include <Mesh.h>
+#include <FrameSet.h>
 //#include <Font.h>
 //#include <Sound.h>
 
@@ -19,6 +20,7 @@ namespace Easy2D {
 		ResourcesManager<Texture> textures;
 		ResourcesManager<Table> tables;
 		ResourcesManager<Mesh> meshes;
+		ResourcesManager<FrameSet> frameSets;
 		//teble resources
 		Table resources;
 		//key version
@@ -113,6 +115,30 @@ namespace Easy2D {
 		DFORCEINLINE String getResourceDirectory<Mesh>(){
 			return meshes.mapResources.getPath().getDirectory();
 		}
+
+		/*
+		* FrameSet manager:
+		*/
+		template<>
+		/** load FrameSet */
+		DFORCEINLINE FrameSet::ptr load<FrameSet>(const String& path){
+			return frameSets.load(path);
+		}
+		template<>
+		/** get FrameSet  (but not load in memory) */
+		DFORCEINLINE FrameSet::ptr get<FrameSet>(const String& path){
+			return frameSets.get(path);
+		}
+		template<>
+		/** find a FrameSet already returned */
+		DFORCEINLINE FrameSet::ptr find<FrameSet>(const String& path){
+			return frameSets.find(path);
+		}
+		/** directory FrameSet resources */
+		template<>
+		DFORCEINLINE String getResourceDirectory<FrameSet>(){
+			return meshes.mapResources.getPath().getDirectory();
+		}
 		#endif
 
 		/** load all resources returned  */
@@ -120,6 +146,7 @@ namespace Easy2D {
 			textures.load();
 			tables.load();
 			meshes.load();
+			frameSets.load();
 		}
 		/** unload all resources returned  */
 		DFORCEINLINE void unload(bool destroy){
@@ -178,7 +205,22 @@ namespace Easy2D {
     /** directory mesh resources */
     template<>
     DFORCEINLINE String ResourcesGroup::getResourceDirectory<Mesh>();
-
+	
+	/*
+	* FrameSet manager:
+	*/
+	template<>
+	/** load FrameSet */
+	DFORCEINLINE FrameSet::ptr ResourcesGroup::load<FrameSet>(const String& path);
+	template<>
+	/** get FrameSet  (but not load in memory) */
+	DFORCEINLINE FrameSet::ptr ResourcesGroup::get<FrameSet>(const String& path);
+	template<>
+	/** find a FrameSet already returned */
+	DFORCEINLINE FrameSet::ptr ResourcesGroup::find<FrameSet>(const String& path);
+	/** directory FrameSet resources */
+	template<>
+	DFORCEINLINE String ResourcesGroup::getResourceDirectory<FrameSet>();
 	#endif
 };
 

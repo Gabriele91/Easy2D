@@ -56,7 +56,7 @@ void Render::draw(){
 		//layer is visible?
 		if(layer->isVisible()){
 			//update layer
-			layer->update();
+			layer->dosort();
 			//for all renderable
 			while(Renderable *renderable=layer->next()){
 				//set model view matrix
@@ -80,6 +80,11 @@ void Render::draw(){
 			}
 		}
 	}
+}
+void Render::update(float dt){
+	//update all layers
+	for(auto layer:layers) 
+		layer->update(dt);
 }
 
 void Render::setOrientation(Screen::Orientation _orientation){

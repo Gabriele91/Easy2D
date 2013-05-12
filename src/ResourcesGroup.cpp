@@ -38,6 +38,14 @@ ResourcesGroup::ResourcesGroup(const Utility::Path& path,
 	else {
 		DEBUG_MESSAGE("error: "<<path <<" not setted meshes");
 	}
+	//frameSets
+	if(resources.existsAsType("frameSets",Table::STRING)){
+		globalPath=path.getDirectory()+"/"+resources.getString("frameSets");
+		new (&frameSets) ResourcesManager<FrameSet>(this,globalPath,version);
+	}
+	else {
+		DEBUG_MESSAGE("error: "<<path <<" not setted frameSets");
+	}
 }
 
 // GCC SUCK //
@@ -114,4 +122,27 @@ DFORCEINLINE String ResourcesGroup::getResourceDirectory<Mesh>(){
     return meshes.mapResources.getPath().getDirectory();
 }
 
+/*
+* FrameSet manager:
+*/
+template<>
+/** load FrameSet */
+DFORCEINLINE FrameSet::ptr ResourcesGroup::load<FrameSet>(const String& path){
+	return frameSets.load(path);
+}
+template<>
+/** get FrameSet  (but not load in memory) */
+DFORCEINLINE FrameSet::ptr ResourcesGroup::get<FrameSet>(const String& path){
+	return frameSets.get(path);
+}
+template<>
+/** find a FrameSet already returned */
+DFORCEINLINE FrameSet::ptr ResourcesGroup::find<FrameSet>(const String& path){
+	return frameSets.find(path);
+}
+/** directory FrameSet resources */
+template<>
+DFORCEINLINE String ResourcesGroup::getResourceDirectory<FrameSet>(){
+	return meshes.mapResources.getPath().getDirectory();
+}
 #endif
