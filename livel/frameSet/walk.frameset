@@ -1,6 +1,8 @@
 {
 	texture = "ninja"
-
+	
+	time=0.01
+	
 	frames = 
 	{
 			(	0	0	32	30 )

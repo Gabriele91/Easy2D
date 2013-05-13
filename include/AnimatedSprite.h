@@ -45,11 +45,14 @@ namespace Easy2D {
 			setFrame(animationTime+dt);
 		}
 		//setters
-		void setFrameSet( FrameSet::ptr frameset, float tPerFrame ){
+		void setFrameSet( FrameSet::ptr frameset, float tPerFrame ){	
+				frames = frameset;
+				setFrameTime(tPerFrame);
+			}
+		void setFrameTime( float tPerFrame ){
 				DEBUG_ASSERT( tPerFrame >= 0 );				
 				animationTime = 0;
-				timePerFrame = tPerFrame;			
-				frames = frameset;
+				timePerFrame = tPerFrame;		
 				currentFrame = 0;				
 				if( frames ) 
 					totalTime = timePerFrame * frames->size();
@@ -102,8 +105,8 @@ namespace Easy2D {
 		AnimatedSprite(Layer *layer=NULL);
 		virtual ~AnimatedSprite();
 		//add an animation 
-		int addAnimation(FrameSet::ptr frames,
-						 float timePerFrame);
+		int addAnimation(FrameSet::ptr frames);
+		int addAnimation(FrameSet::ptr frames, float timePerFrame);
 		void setAnimation(int i);
 	};
 

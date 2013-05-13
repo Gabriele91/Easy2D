@@ -101,6 +101,11 @@ bool FrameSet::load(){
 						   "(parameter:frames)");
 		return false;
 	}
+	
+	if(tbFrameSet.existsAsType("time",Table::FLOAT)){
+		defaultTime=tbFrameSet.getFloat("time",0.0);
+	}
+
 	loaded=true;
 	return true;
 }

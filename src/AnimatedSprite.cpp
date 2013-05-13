@@ -18,11 +18,10 @@ AnimatedSprite::~AnimatedSprite(){
 		delete anim;
 }
 
-int AnimatedSprite::addAnimation(FrameSet::ptr frames,
-								 float timePerFrame){
+int AnimatedSprite::addAnimation(FrameSet::ptr frames){
 	//set current animation:
 	Renderable::setTexture(frames->getTexture());
-	Animation* anim=new Animation(frames,timePerFrame);
+	Animation* anim=new Animation(frames,frames->getDefaultTime());
 	crtAnimation=animations.size();
 	animations.push_back(anim);
 	//set sprite mesh
@@ -31,6 +30,15 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames,
 	setScale(anim->getCurrentFrameSize());
 	//return id
 	return crtAnimation; 
+}
+
+int AnimatedSprite::addAnimation(FrameSet::ptr frames,
+								 float timePerFrame){
+	//set current animation:
+	int anim=addAnimation(frames);
+	animations[anim]->setFrameTime(timePerFrame);
+	//return id
+	return anim; 
 }
 
 void AnimatedSprite::setAnimation(int i){

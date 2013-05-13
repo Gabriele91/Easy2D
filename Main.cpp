@@ -33,7 +33,7 @@ public:
 		  1280, //width
 		  720,  //hight
 		  32,   //bit
-		  30,   //frame per second
+		  60,   //frame per second
 		  false)//fullscreen
 	//init textures
 	,resources("livel/resources.rs")
@@ -54,7 +54,8 @@ public:
 		//test sprite
 		sprite.setTexture(ninja);
 		//test animation
-		spriteAnim.addAnimation(ninjaWalk,0.1);
+		spriteAnim.addAnimation(ninjaWalk);
+		spriteAnim.setPosition(Vec2(200.0,0.0));
 		//test sprite
 		spriteLight.setTexture(light);
 		spriteLight.enableBlend();
@@ -98,9 +99,8 @@ public:
 int main(int,const char **){
 
 	Application::create();
-	auto game=new MyGame();
-	Application::instance()->exec((Game*)game);
-	delete game;
+	Application::instance()->exec((Game*)new MyGame());
+	delete Application::instance()->getGame();
 
 	return 0;
 }

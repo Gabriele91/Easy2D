@@ -16,6 +16,7 @@ namespace Easy2D {
 		std::vector<Mesh::ptr> frames;
 		void addFrame(const Vec4& frame);
 		std::vector<Vec2> sizeFrames;
+		float defaultTime;
 
 	public:
 		//create a frame set
@@ -27,6 +28,13 @@ namespace Easy2D {
 		//return numbers of frames 
 		DFORCEINLINE uint size(){ return frames.size(); }
 		DFORCEINLINE Vec2 sizeFrame(uint i){ return sizeFrames[i]; }
+		//set default time animation
+		DFORCEINLINE void setDefaultTime(float time){
+			defaultTime=time;
+		}
+		DFORCEINLINE float getDefaultTime(){
+			return defaultTime;
+		}
 		//return a frame
 		Mesh::ptr getFrame(uint i);
 		//return texture
