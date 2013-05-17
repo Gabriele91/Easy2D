@@ -20,7 +20,7 @@ namespace Easy2D {
 
 	#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
 	#define DEBUG_ASSERT( x ) Debug::doassert((int)(x),#x,__FILE__,__LINE__)
-	#define DEBUG_ASSERT_MSG( x,y ) Debug::message()<<y<<"\n"; Debug::doassert((int)(x),#x,__FILE__,__LINE__)
+	#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((int)(x),#x,__FILE__,__LINE__)
 	#define DEBUG_ASSERT_REPLACE( x ) DEBUG_ASSERT(x)
 	#define DEBUG_ASSERT_MGS_REPLACE( x,y ) DEBUG_ASSERT_MSG(x,y)
 	#define DEBUG_BREAKPOINT() Debug::breakpoint()

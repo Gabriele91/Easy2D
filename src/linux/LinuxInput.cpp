@@ -181,12 +181,25 @@ void LinuxInput::__update(XEvent &event){
         case UnmapNotify: //hide
             ewindow.maximized=true;
         break;
-        //focus event
+        //focus event//focus event
         case FocusIn:
+            //
             ewindow.focus=true;
+            //
         break;
         case FocusOut:
+            //reset windows input
+            if(ewindow.focus){
+                //reset window
+                ewindow.__init();
+                //reset keyboard hit
+                ekeyboard.__init();
+                //reset mouse hit
+                emouse.__init();
+            }
+            //
             ewindow.focus=false;
+            //
         break;
         //close event
         case ClientMessage:
@@ -290,7 +303,7 @@ void LinuxInput::__update(XEvent &event){
 void LinuxInput::update(){
 	//update input
 	//reset input window
-	ewindow.__init();
+	ewindow.resize=false;
 	//update hit
 	ekeyboard.__clearHit();
 	emouse.__clearHit();

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <WindowsInput.h>
+#include <WindowsScreen.h>
 #include <Debug.h>
 #include <Application.h>
 ///////////////////////
@@ -191,11 +192,11 @@ void WindowsInput::update(){
 	
 	//update input
 	//reset input window
-	ewindow.__init();
+	bool oldFocus=ewindow.focus;
+	ewindow.resize=false;
 	//update hit
 	ekeyboard.__clearHit();
 	emouse.__clearHit();
-	//
 	//update windows message
 	MSG		msg;
     //take message and send it...
@@ -203,6 +204,22 @@ void WindowsInput::update(){
 		    TranslateMessage(&msg);			
 			DispatchMessage(&msg);
 	}
+	///////////////////////////LOOP EVENT
+	//get hendler windows 
+	HWND hWind=((WindowsScreen*)Application::instance()->getScreen())->hWind;
+	//update minimixe maximize
+	ewindow.maximized=IsZoomed(hWind);
+	ewindow.minimized=IsIconic(hWind);
+	//reset input:
+	if(!ewindow.focus && oldFocus){//lost focus
+			//reset window
+			ewindow.__init();
+			//reset keyboard hit
+			ekeyboard.__init();
+			//reset mouse hit
+			emouse.__init();
+	}
+	///////////////////////////LOOP EVENT
 	//update event
 	ekeyboard.__update(this);
 	emouse.__update(this);
@@ -248,7 +265,7 @@ void WindowsInput::__callOnMouseScroll(short scrollDelta) {
 //window events:
 LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam ){
 	
-	if(Application::instance()){		
+	if(Application::instance()!=NULL){		
 		
 		WindowsInput *winput=(WindowsInput*)Application::instance()->getInput();
 		DEBUG_ASSERT(winput);
@@ -278,19 +295,18 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 			break;
 
 			// WINDOWS EVENT //
-			case SW_MAXIMIZE:
-				winput->ewindow.maximized=true;
-			break;
 			//FOCUS
 			case WM_ACTIVATE:
-				winput->ewindow.focus=true;
-				winput->ewindow.maximized= HIWORD(wparam) ? true : false;
+				winput->ewindow.focus=LOWORD(wparam) == WA_ACTIVE;
 			break;
 			case WM_SIZE:
+				winput->ewindow.maximized=false;
+				winput->ewindow.minimized=false;
 				winput->ewindow.resize=true;
 				winput->ewindow.windowResize.x=LOWORD(lparam);
 				winput->ewindow.windowResize.y=HIWORD(lparam);
 			break;
+			case WM_NCDESTROY:
 			case WM_DESTROY:
 			case WM_QUIT:
 			case WM_CLOSE:

@@ -160,6 +160,7 @@ void LinuxScreen::__createFullScreenWindow(){
         //set window attributes
         winAttr.override_redirect = True;
         winAttr.event_mask = ExposureMask |
+                             FocusChangeMask |
                              KeyPressMask |
                              KeyReleaseMask |
                              ButtonPressMask |
@@ -188,6 +189,7 @@ void LinuxScreen::__createWindow(){
         //create a window in window mode
         winAttr.override_redirect = True;
         winAttr.event_mask = ExposureMask |
+                             FocusChangeMask |
                              KeyPressMask |
                              KeyReleaseMask |
                              ButtonPressMask |
