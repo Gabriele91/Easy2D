@@ -270,5 +270,22 @@
     <None Include="src\Image\Image.inl">
       <Filter>File di origine\Image</Filter>
     </None>
+    <None Include="livel\resources.rs.e2d">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="livel\sprite.mesh.e2d">
+      <Filter>File di risorse</Filter>
+    </None>
+    <None Include="livel\walk.frameSet.e2d">
+      <Filter>File di risorse</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="livel\ninja_atlas.png">
+      <Filter>File di risorse</Filter>
+    </Image>
+    <Image Include="livel\light.png">
+      <Filter>File di risorse</Filter>
+    </Image>
   </ItemGroup>
 </Project>

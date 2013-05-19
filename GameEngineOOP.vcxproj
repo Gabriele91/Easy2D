@@ -157,11 +157,18 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="livel\resources.rs.e2d" />
+    <None Include="livel\sprite.mesh.e2d" />
+    <None Include="livel\walk.frameSet.e2d" />
     <None Include="src\Image\Image.inl" />
     <None Include="src\Thread\MutexPOSIX.inl" />
     <None Include="src\Thread\MutexWin32.inl" />
     <None Include="src\Thread\ThreadPOSIX.inl" />
     <None Include="src\Thread\ThreadWin32.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="livel\light.png" />
+    <Image Include="livel\ninja_atlas.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

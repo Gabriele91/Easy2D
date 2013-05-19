@@ -83,21 +83,24 @@ void Texture::__build(){
 		//unload gpu mesh
 		if(po2Srpite->isLoad())
 			po2Srpite->unload();
+		//set size mesh
+		float hlSizeX=width*0.5;
+		float hlSizeY=height*0.5;
 		//add vertexs
-		po2Srpite->addVertex(  0.5,
-							  -0.5,
+		po2Srpite->addVertex(  hlSizeX,
+							  -hlSizeY,
 							  offsetUV.x,
 							  offsetUV.y);
-		po2Srpite->addVertex(  0.5,
-							   0.5,
+		po2Srpite->addVertex(  hlSizeX,
+							   hlSizeY,
 							   offsetUV.x,
 							   0.0);
-		po2Srpite->addVertex( -0.5,
-							  -0.5,
+		po2Srpite->addVertex( -hlSizeX,
+							  -hlSizeY,
 							   0.0,
 							   offsetUV.y);
-		po2Srpite->addVertex( -0.5,
-							   0.5,
+		po2Srpite->addVertex( -hlSizeX,
+							   hlSizeY,
 							   0.0,
 							   0.0);
 		//end add vertexs

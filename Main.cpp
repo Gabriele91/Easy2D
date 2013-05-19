@@ -2,6 +2,8 @@
 #include <Easy2D.h>
 using namespace Easy2D;
 
+
+
 class MyGame : Game, 
 			   Input::KeyboardHandler, 
 			   Input::MouseHandler
@@ -85,14 +87,31 @@ public:
 	/* OOP-STYLE EVENTS */
 	virtual void onKeyRelease(Key::Keyboard key) {
 		if(key==Key::ESCAPE)
-			Application::instance()->exit();
+			Application::instance()->exit();	
 	}
+	
+	virtual void onKeyPress(Key::Keyboard  key){}
+
+	virtual void onKeyDown(Key::Keyboard  key){
+			if(key==Key::A){
+				spriteAnim.setTranslation(Vec2(-1,0));
+				spriteAnim.setScale(Vec2(1.0,1.0));
+				spriteAnim.setCull(GL_BACK);
+			}
+			else
+			if(key==Key::D){
+				spriteAnim.setTranslation(Vec2(1,0));
+				spriteAnim.setScale(Vec2(-1.0,1.0));
+				spriteAnim.setCull(GL_FRONT);
+			}
+	}
+
 	virtual void onMouseMove(Vec2 mousePosition) {	
 		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
 						getScreen()->getHeight()/2.0);
 		spriteLight.setPosition((mousePosition*Vec2(1,-1))+alScreen);
-		std::cout << ((mousePosition*Vec2(1,-1))+alScreen).toString() <<"\n";
 	}
+
 	
 };
 

@@ -41,7 +41,9 @@ namespace Easy2D {
 			blendDst=dst;
 		}
 		//cullmode
-		void setCull(uint cullmode);
+		void setCull(uint mode){
+			cullmode=mode;
+		}
 
 
 	};

@@ -25,23 +25,27 @@ void FrameSet::addFrame(const Vec4& frame){
 				   frame.y/texture->getRealHeight());
 		Vec2 end(frame.z/texture->getRealWidth()+start.x,
 				 frame.w/texture->getRealHeight()+start.y);
-		
-
+		//set size mesh
+		float hlSizeX=frame.z*0.5;
+		float hlSizeY=frame.w*0.5;
 		//add vertexs
-		sprite->addVertex(  0.5,
-						   -0.5,
+		sprite->addVertex(  hlSizeX,
+						   -hlSizeY,
 							end.x,
 							end.y);
-		sprite->addVertex(  0.5,
-							0.5,
+
+		sprite->addVertex(  hlSizeX,
+							hlSizeY,
 							end.x,
 							start.y);
-		sprite->addVertex( -0.5,
-						   -0.5,
+
+		sprite->addVertex( -hlSizeX,
+						   -hlSizeY,
 						    start.x,
 							end.y);
-		sprite->addVertex( -0.5,
-							0.5,
+
+		sprite->addVertex( -hlSizeX,
+							hlSizeY,
 							start.x,
 							start.y);
 		//end add vertexs

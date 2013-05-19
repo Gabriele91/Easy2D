@@ -26,8 +26,6 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames){
 	animations.push_back(anim);
 	//set sprite mesh
 	setMesh(anim->getCurrentFrame());	
-	//setScale
-	setScale(anim->getCurrentFrameSize());
 	//return id
 	return crtAnimation; 
 }
@@ -49,6 +47,4 @@ void AnimatedSprite::setAnimation(int i){
 	crtAnimation=i;	
 	//set sprite mesh
 	setMesh(animations[crtAnimation]->getCurrentFrame());	
-	//setScale
-	setScale(animations[crtAnimation]->getCurrentFrameSize());
 }

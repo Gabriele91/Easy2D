@@ -94,8 +94,6 @@ namespace Easy2D {
 				animations[crtAnimation]->update(dt);
 				//set sprite mesh
 				setMesh(animations[crtAnimation]->getCurrentFrame());	
-				//setScale
-				setScale(animations[crtAnimation]->getCurrentFrameSize());
 			}
 		}
 
