@@ -412,6 +412,7 @@ namespace Easy2D{
 			const String& toString(){
 				return errors;
 			}
+			bool hasErrors(){ return errors.size()>0; }
 		};
 		DeserializeErros dErrors;
 

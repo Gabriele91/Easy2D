@@ -25,6 +25,21 @@ namespace Easy2D {
 		Table resources;
 		//key version
 		Table::KeyTable version;
+		//load a resource 
+		template<class RM>
+		void loadAResource(const Utility::Path& path, const String& name,RM& object){
+			//tables
+			if(resources.existsAsType(name,Table::STRING)){
+				String globalPath=path.getDirectory()+"/"+resources.getString(name);
+				new (&object) RM(this,globalPath,version);
+			}
+			else if(resources.existsAsType(name,Table::TABLE)){
+				new (&object) RM(this,(Table*)(&resources.getTable(name)),false,version);
+			}
+			else {
+				DEBUG_MESSAGE("error: "<<path <<" not setted tables");
+			}
+		}
 
 	public:
 		/**
@@ -66,7 +81,7 @@ namespace Easy2D {
 		/** directory texture resources */
 		template<>
 		DFORCEINLINE String getResourceDirectory<Texture>(){
-			return textures.mapResources.getPath().getDirectory();
+			return textures.mapResources->getPath().getDirectory();
 		}
 		/*
 		* Table manager:
@@ -89,7 +104,7 @@ namespace Easy2D {
 		/** directory table resources */
 		template<>
 		DFORCEINLINE String getResourceDirectory<Table>(){
-			return tables.mapResources.getPath().getDirectory();
+			return tables.mapResources->getPath().getDirectory();
 		}
 
 		/*
@@ -113,7 +128,7 @@ namespace Easy2D {
 		/** directory mesh resources */
 		template<>
 		DFORCEINLINE String getResourceDirectory<Mesh>(){
-			return meshes.mapResources.getPath().getDirectory();
+			return meshes.mapResources->getPath().getDirectory();
 		}
 
 		/*
@@ -137,7 +152,7 @@ namespace Easy2D {
 		/** directory FrameSet resources */
 		template<>
 		DFORCEINLINE String getResourceDirectory<FrameSet>(){
-			return meshes.mapResources.getPath().getDirectory();
+			return meshes.mapResources->getPath().getDirectory();
 		}
 		#endif
 

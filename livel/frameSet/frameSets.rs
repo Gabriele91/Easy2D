@@ -1,3 +1,0 @@
-{
-	 ninjaWalk="walk.frameset"
-}

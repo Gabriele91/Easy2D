@@ -16,20 +16,32 @@ namespace Easy2D{
 		//private costructor
 		friend class ResourcesGroup;
 		ResourcesManager():rsgr(NULL),version("default"){}
+		
 		//
 		public:			
 			//
 			ResourcesManager(ResourcesGroup *rsgr,
 							 const Utility::Path& path,
-							 const String& version="default")
+							 const Table::KeyTable& version="default")
 				:rsgr(rsgr)
-				,mapResources(NULL,path)
+				,mapResources( new Table (NULL,path) )
+				,deleteTable(true)
 				,version(version){
 				//load map resources
-				mapResources.load();
+				mapResources->load();
 			}
+			ResourcesManager(ResourcesGroup *rsgr,
+							 Table *mapRS,
+							 bool  deleteRS,
+							 const Table::KeyTable& version="default")
+				:rsgr(rsgr)
+				,mapResources(mapRS)
+				,deleteTable(deleteRS)
+				,version(version){}
 			//
-			~ResourcesManager(){}
+			~ResourcesManager(){
+				if(deleteTable) delete mapResources;
+			}
 			//manager mathos
 			DS_PTR<T> find(const String &objectname){
 				//search in this pool
@@ -48,7 +60,7 @@ namespace Easy2D{
 				String path(pathFromName(objectname));
 				if(path!=String() /* void string */){
 					//
-					DS_PTR<T> resource(new T(rsgr,mapResources.getPath().getDirectory()+"/"+path));
+					DS_PTR<T> resource(new T(rsgr,mapResources->getPath().getDirectory()+"/"+path));
 					//set into map
 					resource->name=objectname;
 					rsMap[objectname]=resource;
@@ -67,8 +79,8 @@ namespace Easy2D{
 			//methos
 			String pathFromName(const String& objname){
 
-				if(mapResources.existsAsType(objname,Table::TABLE)){
-					const auto& table=mapResources.getTable(objname);
+				if(mapResources->existsAsType(objname,Table::TABLE)){
+					const auto& table=mapResources->getTable(objname);
 					//get version
 					auto path=table.getString(version);
 					if(path==""){
@@ -77,7 +89,7 @@ namespace Easy2D{
 					}
 					return path;
 				}else
-					return mapResources.getString(objname);
+					return mapResources->getString(objname);
 			}
 			//
 			void load(){
@@ -105,7 +117,8 @@ namespace Easy2D{
 			//ptr resource group			
 			ResourcesGroup *rsgr;
 			//name table
-			Table mapResources;
+			Table *mapResources;
+			bool deleteTable;
 			//key version
 			Table::KeyTable version;
 			//resources map

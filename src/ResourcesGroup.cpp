@@ -11,41 +11,11 @@ ResourcesGroup::ResourcesGroup(const Utility::Path& path,
 {
 	//load table
 	resources.load();
-	//temp var
-	String globalPath;
 	//recall constructors
-	//tables
-	if(resources.existsAsType("tables",Table::STRING)){
-		globalPath=path.getDirectory()+"/"+resources.getString("tables");
-		new (&tables) ResourcesManager<Table>(this,globalPath,version);
-	}
-	else {
-		DEBUG_MESSAGE("error: "<<path <<" not setted tables");
-	}
-	//textures
-	if(resources.existsAsType("textures",Table::STRING)){
-		globalPath=path.getDirectory()+"/"+resources.getString("textures");
-		new (&textures) ResourcesManager<Texture>(this,globalPath,version);
-	}
-	else {
-		DEBUG_MESSAGE("error: "<<path <<" not setted textures");
-	}
-	//meshes
-	if(resources.existsAsType("meshes",Table::STRING)){
-		globalPath=path.getDirectory()+"/"+resources.getString("meshes");
-		new (&meshes) ResourcesManager<Mesh>(this,globalPath,version);
-	}
-	else {
-		DEBUG_MESSAGE("error: "<<path <<" not setted meshes");
-	}
-	//frameSets
-	if(resources.existsAsType("frameSets",Table::STRING)){
-		globalPath=path.getDirectory()+"/"+resources.getString("frameSets");
-		new (&frameSets) ResourcesManager<FrameSet>(this,globalPath,version);
-	}
-	else {
-		DEBUG_MESSAGE("error: "<<path <<" not setted frameSets");
-	}
+	loadAResource(path,"tables",tables);
+	loadAResource(path,"textures",textures);
+	loadAResource(path,"meshes",meshes);
+	loadAResource(path,"frameSets",frameSets);
 }
 
 // GCC SUCK //
@@ -72,7 +42,7 @@ DFORCEINLINE Texture::ptr ResourcesGroup::find<Texture>(const String& path){
 /** directory texture resources */
 template<>
 DFORCEINLINE String ResourcesGroup::getResourceDirectory<Texture>(){
-    return textures.mapResources.getPath().getDirectory();
+    return textures.mapResources->getPath().getDirectory();
 }
 /*
 * Table manager:
@@ -95,7 +65,7 @@ DFORCEINLINE Table::ptr ResourcesGroup::find<Table>(const String& path){
 /** directory table resources */
 template<>
 DFORCEINLINE String ResourcesGroup::getResourceDirectory<Table>(){
-    return tables.mapResources.getPath().getDirectory();
+    return tables.mapResources->getPath().getDirectory();
 }
 
 /*
@@ -119,7 +89,7 @@ DFORCEINLINE Mesh::ptr ResourcesGroup::find<Mesh>(const String& path){
 /** directory mesh resources */
 template<>
 DFORCEINLINE String ResourcesGroup::getResourceDirectory<Mesh>(){
-    return meshes.mapResources.getPath().getDirectory();
+    return meshes.mapResources->getPath().getDirectory();
 }
 
 /*
@@ -143,6 +113,6 @@ DFORCEINLINE FrameSet::ptr ResourcesGroup::find<FrameSet>(const String& path){
 /** directory FrameSet resources */
 template<>
 DFORCEINLINE String ResourcesGroup::getResourceDirectory<FrameSet>(){
-	return meshes.mapResources.getPath().getDirectory();
+	return meshes.mapResources->getPath().getDirectory();
 }
 #endif

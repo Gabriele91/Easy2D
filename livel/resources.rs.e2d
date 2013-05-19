@@ -1,0 +1,19 @@
+{
+
+	textures={
+		light="light.png"
+		ninja="ninja_atlas.png"
+	}
+	
+	meshes={
+		sprite="sprite.mesh.e2d"
+	}
+	
+	frameSets={
+		ninjaWalk="walk.frameSet.e2d"
+	}
+	
+	tables={}
+	fonts={}
+	sounds={}
+}

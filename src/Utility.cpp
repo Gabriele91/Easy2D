@@ -150,7 +150,7 @@ void Path::costructor(const String& _path){
 	convertToCanonicalPath(path);
 	//get directory:
 	int flash=path.rfind("/");
-	if(flash){
+	if(flash>=0){
 		directory=path.substr(0,flash);
 		file=path.substr(flash+1,path.size()-flash-1);
 	}

@@ -36,7 +36,7 @@ public:
 		  60,   //frame per second
 		  false)//fullscreen
 	//init textures
-	,resources("livel/resources.rs")
+	,resources("livel/resources.rs.e2d")
 	{}
 
 	~MyGame(){};

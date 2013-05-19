@@ -48,14 +48,13 @@ namespace Easy2D{
 			return rpath;
 		}
 
-	private:
+	protected:
 		
 		friend class ResourcesGroup;
 		friend class ResourcesManager<T>;
+
 		ResourcesGroup *ptrResources;
 		String name;
-		
-	protected:
 
 		bool loaded;
 		bool reloadable;
