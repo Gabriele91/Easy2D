@@ -3,8 +3,8 @@
 
 #include <Config.h>
 #include <Types.h>
-#include <Input.h>
 #include <Screen.h>
+#include <Input.h>
 #include <EString.h>
 
 namespace Easy2D {
@@ -25,7 +25,8 @@ namespace Easy2D {
 			 uint height, 
 			 uint bites=32,
 			 uint FreamPerSecond=60,
-			 bool fullscreen=false);
+			 bool fullscreen=false,
+			 int defaultNoAA=0);
 		virtual ~Game(){};
 
 		virtual void start()=0;

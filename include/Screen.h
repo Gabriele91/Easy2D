@@ -2,14 +2,31 @@
 #define SCREEN_H
 
 #include <Config.h>
-#include <Game.h>
 #include <Application.h>
 
 namespace Easy2D {
-
+	////////////////////
+	class Game;
+	////////////////////
 	class Screen{
 	
-	public:		
+	public:				
+		/**
+		* Screen Anti Aliasing enum
+		* @enum AntiAliasing
+		*/
+		enum AntiAliasing{
+			NOAA=0,
+			MSAAx2=2,
+			MSAAx4=4,
+			MSAAx8=8,
+			MSAAx16=16,
+			MSAAx32=32,
+			MSAAx64=64,
+			CSAA=128,
+			CSAAQ=256,
+			BESTAA=512
+		};
 		/**
 		* Screen orientation enum
 		* @enum SceenOrientation
@@ -117,7 +134,8 @@ namespace Easy2D {
 								  uint height,
 								  uint bites,
 								  uint freamPerSecond,
-								  bool fullscreen)=0;
+								  bool fullscreen,
+								  Screen::AntiAliasing dfAA)=0;
 		/**
 		* close window
 		*/

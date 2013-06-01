@@ -36,7 +36,8 @@ public:
 		  720,  //hight
 		  32,   //bit
 		  60,   //frame per second
-		  false)//fullscreen
+		  false,//fullscreen
+		  Screen::MSAAx16)//anti aliasing
 	//init textures
 	,resources("livel/resources.rs.e2d")
 	{}

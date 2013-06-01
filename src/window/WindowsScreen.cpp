@@ -3,12 +3,13 @@
 #include <WindowsInput.h>
 #include <Debug.h>
 #include <Math2D.h>
+#include "WGL_ARB_multisample.h"
 ///////////////////////
 using namespace Easy2D;
 #define ERROR_BAD_LENGTH 20 //by google
 #define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
 //window methods
-void WindowsScreen::__initWindow(const char* appname,uint bites){
+void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA){
 	
 	DEBUG_MESSAGE( "Open window:" << screenWidth << "x" << screenHeight );
 
@@ -81,10 +82,27 @@ void WindowsScreen::__initWindow(const char* appname,uint bites){
 		0,											// Reserved
 		0, 0, 0										// Layer Masks Ignored
 	};
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// When running under Windows Vista or later support desktop composition.
+    OSVERSIONINFO osvi = {0};
+	if (!GetVersionEx(&osvi))
+		Debug::message()<<"GetVersionEx() failed.\n";
+    if (osvi.dwMajorVersion > 6 || (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion >= 0))
+        pfd.dwFlags |=  PFD_SUPPORT_COMPOSITION;
+	/////////////////////////////////////////////////////////////////////////////////////////
 	int chosenPixelFormat=0;
-	//ChooseAntiAliasingPixelFormat( chosenPixelFormat, 0 /* MSAA */);
+	if(dfAA==NOAA){
+		DEBUG_ASSERT_REPLACE( chosenPixelFormat=ChoosePixelFormat(hDevCxt, &pfd) );
+	}
+	else if(dfAA>=MSAAx2 && dfAA<=MSAAx64) 
+		ChooseMSAntiAliasingPixelFormat(chosenPixelFormat,dfAA);
+	else if(dfAA==CSAA) 
+		ChooseCSAntiAliasingPixelFormat(chosenPixelFormat,4);
+	else if(dfAA==CSAAQ) 
+		ChooseCSAntiAliasingPixelFormat(chosenPixelFormat,16);
+	else if(dfAA==BESTAA) 
+		ChooseBestAntiAliasingPixelFormat(chosenPixelFormat);
 	//DEBUG_ASSERT(chosenPixelFormat);	
-	DEBUG_ASSERT_REPLACE( chosenPixelFormat=ChoosePixelFormat(hDevCxt, &pfd) );
 	DEBUG_ASSERT_REPLACE( SetPixelFormat( hDevCxt, chosenPixelFormat, &pfd ) );
 	//OpenGL Context
 	hGLCxt = wglCreateContext( hDevCxt );
@@ -92,6 +110,9 @@ void WindowsScreen::__initWindow(const char* appname,uint bites){
 	DEBUG_ASSERT_REPLACE( wglMakeCurrent( hDevCxt, hGLCxt ) );
 	//openGL 2 init
 	initOpenGL2();
+	//enable AA
+	if(dfAA>=MSAAx2 && dfAA<=MSAAx64)
+	    glEnable( GL_MULTISAMPLE );
 	//return
 }
 void WindowsScreen::__destroyWindow(){
@@ -233,7 +254,8 @@ void WindowsScreen::createWindow(const char* appname,
 								uint height,
 								uint bites, 
 								uint setFreamPerSecond,
-								bool prfullscreen){
+								bool prfullscreen,
+								AntiAliasing dfAA){
 	DEBUG_ASSERT(appname);
 	DEBUG_ASSERT(bites);
 	DEBUG_MESSAGE( "createWindow Easy2D Win32" );
@@ -243,7 +265,7 @@ void WindowsScreen::createWindow(const char* appname,
 	screenHeight=Math::min(nativeHeight,height);
 	freamPerSecond=setFreamPerSecond;
 	//create window
-	__initWindow(appname,bites);
+	__initWindow(appname,bites,dfAA);
 	setFullscreen(prfullscreen);
 	//
 }

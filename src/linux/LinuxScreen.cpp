@@ -51,16 +51,21 @@ static bool isExtensionSupported(const char *extList, const char *extension){
 
   return false;
 }
-void LinuxScreen::__createGLXContext(uint bites){
+void LinuxScreen::__createGLXContext(uint bites,AntiAliasing dfAA){
 	///////////////////////////////////////////////////////////
     //SETUP openGL
     bitesOpenGL=bites<24?bites:24;
 	///////////////////////////////////////////////////////////
     //SET BUFFERS
-    int bufferOpenGL[]={  GLX_RGBA,
-                          GLX_DEPTH_SIZE, bitesOpenGL,
-                          GLX_DOUBLEBUFFER,
+    int bufferOpenGL[]={  GLX_RGBA,                          //[0]
+                          GLX_DEPTH_SIZE, bitesOpenGL,       //[1] [2]
+                          GLX_DOUBLEBUFFER,                  //[3]
+                          GLX_SAMPLE_BUFFERS  , 1,           //[4] [5] // <-- MSAA
+                          GLX_SAMPLES         , dfAA,        //[6] [7] // <-- MSAA
                           None };
+    //no msaa
+    if(dfAA<MSAAx2||dfAA>MSAAx64)
+        bufferOpenGL[4]=None;
     //setup color map
     visual  = glXChooseVisual(display, screen,  bufferOpenGL );
     if (visual  == NULL){
@@ -97,16 +102,18 @@ void LinuxScreen::__createGLXContext(uint bites){
       }
       else{
         int context_attribs[] = {
-            GLX_CONTEXT_MAJOR_VERSION_ARB, 1,
-            GLX_CONTEXT_MINOR_VERSION_ARB, 4,
+            GLX_CONTEXT_MAJOR_VERSION_ARB, 1,  //[0] [1]
+            GLX_CONTEXT_MINOR_VERSION_ARB, 4,  //[2] [3]
             None
         };
+        //create context
         context = glXCreateContextAttribsARB( display,
                                               framebufferConfig ,
                                               0,
                                               GL_TRUE,
                                               context_attribs);
       }
+
     DEBUG_ASSERT(context);
 	///////////////////////////////////////////////////////////
     //COLOR MAP WINDOW
@@ -244,7 +251,8 @@ void LinuxScreen::createWindow(const char* argappname,
                                   uint height,
                                   uint bites,
                                   uint freamPerSecond,
-                                  bool fullscreen){
+                                  bool fullscreen,
+								  AntiAliasing dfAA){
 
     appname=argappname;
     screenWidth= width;
@@ -254,7 +262,7 @@ void LinuxScreen::createWindow(const char* argappname,
     //get screen
     screen = DefaultScreen(display);
 	//create openGL context
-	__createGLXContext(bites);
+	__createGLXContext(bites,dfAA);
     //set fullscreen
     if(fullscreen)
 		__createFullScreenWindow();
@@ -264,6 +272,9 @@ void LinuxScreen::createWindow(const char* argappname,
     glXMakeCurrent(display, window, context);
     //init openGL2
     initOpenGL2();
+    //enable AA
+    if(dfAA!=NOAA)
+        glEnable( GL_MULTISAMPLE );
 }
 /**
 * close window

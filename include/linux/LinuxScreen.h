@@ -82,8 +82,9 @@ namespace Easy2D {
 								  uint height,
 								  uint bites,
 								  uint freamPerSecond,
-								  bool fullscreen);
-		/**
+								  bool fullscreen,
+								  AntiAliasing dfAA=NOAA);
+        /*
 		* close window
 		*/
 		virtual void closeWindow();
@@ -105,7 +106,7 @@ namespace Easy2D {
         XF86VidModeModeInfo     desktopMode;
 		///////////////////////////////////
 		XVisualInfo *  visual;
-		void  __createGLXContext(uint bites);
+		void  __createGLXContext(uint bites,AntiAliasing dfAA);
 		void __deleteGLXContext();
 		void __createFullScreenWindow();
 		void __createWindow();

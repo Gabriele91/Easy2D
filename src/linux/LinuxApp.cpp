@@ -1,5 +1,4 @@
-
-#include "stdafx.h"
+#include "stdafx.h"
 #include <Timer.h>
 #include <LinuxApp.h>
 #include <LinuxScreen.h>
@@ -98,8 +97,8 @@ void LinuxApp::loop(){
     }
 }
 
-void LinuxApp::exec(Game *ptrMainInstance){
-	mainInstance=ptrMainInstance;
+void LinuxApp::exec(Game *ptrGame){
+	mainInstance=ptrGame;
 	mainInstance->start();
 	//setup input
 	//to do fix

@@ -181,7 +181,7 @@ void LinuxInput::__update(XEvent &event){
         case UnmapNotify: //hide
             ewindow.maximized=true;
         break;
-        //focus event//focus event
+        //focus event
         case FocusIn:
             //
             ewindow.focus=true;
@@ -313,6 +313,7 @@ void LinuxInput::update(){
             XNextEvent(display, &event);
             __update(event);
     }
+	///////////////////////////LOOP EVENT
 	//update down keys
 	ekeyboard.__update(this);
 	emouse.__update(this);
