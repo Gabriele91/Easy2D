@@ -82,6 +82,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="Main.cpp" />
+		<Unit filename="include/AnimatedSprite.h" />
 		<Unit filename="include/Application.h" />
 		<Unit filename="include/Camera.h" />
 		<Unit filename="include/Color.h" />
@@ -126,6 +127,7 @@
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
+		<Unit filename="src/AnimatedSprite.cpp" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Camera.cpp" />
 		<Unit filename="src/Color.cpp" />

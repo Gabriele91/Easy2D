@@ -4,21 +4,21 @@ using namespace Easy2D;
 
 
 
-class MyGame : Game, 
-			   Input::KeyboardHandler, 
+class MyGame : Game,
+			   Input::KeyboardHandler,
 			   Input::MouseHandler
 
 {
 
 	//variable declaration
 	ResourcesGroup resources;
-	
+
 	Texture::ptr light;
 	Texture::ptr ninja;
 	Mesh::ptr lightMesh;
 	Mesh::ptr ninjaMesh;
 	FrameSet::ptr ninjaWalk;
-	
+
 
 	Render rander;
 	Layer* layer1;
@@ -37,7 +37,7 @@ public:
 		  32,   //bit
 		  60,   //frame per second
 		  false,//fullscreen
-		  Screen::MSAAx16)//anti aliasing
+		  Easy2D::Screen::MSAAx8)//anti aliasing
 	//init textures
 	,resources("livel/resources.rs.e2d")
 	{}
@@ -75,7 +75,7 @@ public:
 	}
 	virtual void run(float dt){
 		// old style event
-		if(getInput()->getKeyHit(Key::A)) 
+		if(getInput()->getKeyHit(Key::A))
 			std::cout<< "hit A" << std::endl;
 		//draw:
 		rander.setClear(Color(32,128,255,255));
@@ -88,9 +88,9 @@ public:
 	/* OOP-STYLE EVENTS */
 	virtual void onKeyRelease(Key::Keyboard key) {
 		if(key==Key::ESCAPE)
-			Application::instance()->exit();	
+			Application::instance()->exit();
 	}
-	
+
 	virtual void onKeyPress(Key::Keyboard  key){}
 
 	virtual void onKeyDown(Key::Keyboard  key){
@@ -107,13 +107,13 @@ public:
 			}
 	}
 
-	virtual void onMouseMove(Vec2 mousePosition) {	
+	virtual void onMouseMove(Vec2 mousePosition) {
 		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
 						getScreen()->getHeight()/2.0);
 		spriteLight.setPosition((mousePosition*Vec2(1,-1))+alScreen);
 	}
 
-	
+
 };
 
 int main(int,const char **){
