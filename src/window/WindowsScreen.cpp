@@ -108,13 +108,36 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 	hGLCxt = wglCreateContext( hDevCxt );
 	DEBUG_ASSERT(hGLCxt);	
 	DEBUG_ASSERT_REPLACE( wglMakeCurrent( hDevCxt, hGLCxt ) );
-	//openGL 2 init
-	initOpenGL2();
+	//init openGL2
+	__initOpenGL();
 	//enable AA
 	if(dfAA>=MSAAx2 && dfAA<=MSAAx64)
 	    glEnable( GL_MULTISAMPLE );
 	//return
 }
+
+
+void WindowsScreen::__initOpenGL(){
+	//openGL 2 init
+	initOpenGL2();
+	//enable culling
+    glEnable( GL_CULL_FACE );        
+    glCullFace( GL_BACK );        
+    //default status for blending
+    glEnable(GL_ALPHA_TEST);
+	glEnable(GL_BLEND);
+    glBlendFunc( GL_ONE , GL_ZERO ); 
+	//disable light
+	glDisable(GL_LIGHTING);
+	//enable texturing	
+	glEnable( GL_TEXTURE_2D );
+    //always active!
+    glEnableClientState( GL_VERTEX_ARRAY );
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+	//find errors:
+	CHECK_GPU_ERRORS();
+}
+
 void WindowsScreen::__destroyWindow(){
 	//disable fullscreen
 	if( fullscreen ){

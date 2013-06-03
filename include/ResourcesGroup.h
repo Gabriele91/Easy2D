@@ -48,6 +48,10 @@ namespace Easy2D {
 		*/
 		ResourcesGroup(const Utility::Path& path,
 					   const String& version="default");
+		/**
+		* delete resource goup
+		*/
+		virtual ~ResourcesGroup();
 
 		/*
 		* void template
@@ -169,6 +173,8 @@ namespace Easy2D {
 			tables.unload(destroy);
 			meshes.unload(destroy);
 		}
+		/** reload only gpu resource */
+		void reloadGpuResouce();
 
 	};
 	

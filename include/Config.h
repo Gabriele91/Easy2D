@@ -27,7 +27,22 @@
 	#define ENABLE_ORDERED_TABLE
 #endif
 
-#if defined(_WIN32)
+#if defined(__ANDROID__)
+	#define PLATFORM_ANDROID
+	#define PLATFORM_UNIX
+	#define DCPP_11
+	#define DISABLE_VAOS
+	#include <stdint.h>
+	//#include <AL/al.h>
+	//#include <AL/alc.h>
+	#include <android/log.h>
+	#include <android/native_activity.h>
+	#include <android_native_app_glue.h>
+	#include <android/OpenGLAndroid.h>
+	namespace Easy2D{
+		int atexit(void (*function)(void));
+	};
+#elif defined(_WIN32)
 	#define PLATFORM_WINDOW
 	#define DCPP_11
 	#define NOMINMAX
@@ -62,23 +77,20 @@
 		#define PLATFORM_MAC_OS_X
 
     #endif
-#elif defined(__ANDROID__)
-	#define PLATFORM_ANDROID
-	#define PLATFORM_UNIX
-	#define DCPP_X0
-	#define DISABLE_VAOS
-	#include <stdint.h>
-	#include <AL/al.h>
-	#include <AL/alc.h>
-	#include <android/log.h>
-	#include <android/native_activity.h>
-	#include <android_native_app_glue.h>
 #else
 	#error "platform not supported"
 #endif
 
 
-#ifdef _MSC_VER
+
+#if ( (__GNUC__>=4) && (__GNUC_MINOR__ >=6) || defined(__ANDROID__) )
+
+	#define DFORCEINLINE __attribute__ ((always_inline))
+	#define DINLINE inline
+	#define COMPILER_GCC
+
+#elif defined( _MSC_VER )
+
 	#define DFORCEINLINE __forceinline
 	#define DINLINE __inline
 	#define COMPILER_VISUAL_STUDIO
@@ -89,12 +101,8 @@
 		  std::identity<decltype(__VA_ARGS__)>::type
 	#endif
 
-#elif __GNUC__>=4 && __GNUC_MINOR__ >=6
-	#define DFORCEINLINE __attribute__ ((always_inline))
-	#define DINLINE inline
-	#define COMPILER_GCC
 #else
-	#error "compiler not supported"
+	#error compiler not supported
 #endif
 
 #if !defined(ENABLE_VAOS) &&  !defined(DISABLE_VAOS)

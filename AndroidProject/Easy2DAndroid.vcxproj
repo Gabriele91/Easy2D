@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Android">
+      <Configuration>Release</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|Android">
+      <Configuration>Profile</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\Image\Image.inl" />
+    <None Include="..\src\Thread\MutexPOSIX.inl" />
+    <None Include="..\src\Thread\ThreadPOSIX.inl" />
+    <None Include="AndroidManifest.xml" />
+    <None Include="build.xml" />
+    <None Include="local.properties" />
+    <None Include="proguard.cfg" />
+    <None Include="project.properties" />
+    <None Include="res\values\strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Main.cpp" />
+    <ClCompile Include="..\src\android\AndroidApp.cpp" />
+    <ClCompile Include="..\src\android\AndroidCout.cpp" />
+    <ClCompile Include="..\src\android\AndroidInput.cpp" />
+    <ClCompile Include="..\src\android\AndroidMain.c" />
+    <ClCompile Include="..\src\android\AndroidScreen.cpp" />
+    <ClCompile Include="..\src\android\OpenGLAndroid.cpp" />
+    <ClCompile Include="..\src\AnimatedSprite.cpp" />
+    <ClCompile Include="..\src\Application.cpp" />
+    <ClCompile Include="..\src\Camera.cpp" />
+    <ClCompile Include="..\src\Color.cpp" />
+    <ClCompile Include="..\src\Config.cpp" />
+    <ClCompile Include="..\src\Debug.cpp" />
+    <ClCompile Include="..\src\EString.cpp" />
+    <ClCompile Include="..\src\ETime.cpp" />
+    <ClCompile Include="..\src\FrameSet.cpp" />
+    <ClCompile Include="..\src\Game.cpp" />
+    <ClCompile Include="..\src\Image\lodepng.cpp" />
+    <ClCompile Include="..\src\Input.cpp" />
+    <ClCompile Include="..\src\Layer.cpp" />
+    <ClCompile Include="..\src\Math2D.cpp" />
+    <ClCompile Include="..\src\Mesh.cpp" />
+    <ClCompile Include="..\src\Object.cpp" />
+    <ClCompile Include="..\src\Render.cpp" />
+    <ClCompile Include="..\src\Renderable.cpp" />
+    <ClCompile Include="..\src\RenderState.cpp" />
+    <ClCompile Include="..\src\Resource.cpp" />
+    <ClCompile Include="..\src\ResourcesGroup.cpp" />
+    <ClCompile Include="..\src\ResourcesManager.cpp" />
+    <ClCompile Include="..\src\Screen.cpp" />
+    <ClCompile Include="..\src\Sprite.cpp" />
+    <ClCompile Include="..\src\Table.cpp" />
+    <ClCompile Include="..\src\Texture.cpp" />
+    <ClCompile Include="..\src\Timer.cpp" />
+    <ClCompile Include="..\src\Utility.cpp" />
+    <ClCompile Include="native_app_glue\android_native_app_glue.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\android\AndroidApp.h" />
+    <ClInclude Include="..\include\android\AndroidInput.h" />
+    <ClInclude Include="..\include\android\AndroidMain.h" />
+    <ClInclude Include="..\include\android\AndroidScreen.h" />
+    <ClInclude Include="..\include\android\OpenGLAndroid.h" />
+    <ClInclude Include="..\include\AnimatedSprite.h" />
+    <ClInclude Include="..\include\Application.h" />
+    <ClInclude Include="..\include\Camera.h" />
+    <ClInclude Include="..\include\Color.h" />
+    <ClInclude Include="..\include\Config.h" />
+    <ClInclude Include="..\include\Debug.h" />
+    <ClInclude Include="..\include\Easy2D.h" />
+    <ClInclude Include="..\include\EString.h" />
+    <ClInclude Include="..\include\ETime.h" />
+    <ClInclude Include="..\include\FrameSet.h" />
+    <ClInclude Include="..\include\Game.h" />
+    <ClInclude Include="..\include\Input.h" />
+    <ClInclude Include="..\include\Layer.h" />
+    <ClInclude Include="..\include\Math2D.h" />
+    <ClInclude Include="..\include\Mesh.h" />
+    <ClInclude Include="..\include\Object.h" />
+    <ClInclude Include="..\include\Render.h" />
+    <ClInclude Include="..\include\Renderable.h" />
+    <ClInclude Include="..\include\RenderState.h" />
+    <ClInclude Include="..\include\Resource.h" />
+    <ClInclude Include="..\include\ResourcesGroup.h" />
+    <ClInclude Include="..\include\ResourcesManager.h" />
+    <ClInclude Include="..\include\Screen.h" />
+    <ClInclude Include="..\include\Sprite.h" />
+    <ClInclude Include="..\include\Table.h" />
+    <ClInclude Include="..\include\Texture.h" />
+    <ClInclude Include="..\include\Timer.h" />
+    <ClInclude Include="..\include\Types.h" />
+    <ClInclude Include="..\include\Utility.h" />
+    <ClInclude Include="..\src\Image\Image.h" />
+    <ClInclude Include="..\src\Image\lodepng.h" />
+    <ClInclude Include="..\src\Thread\Mutex.h" />
+    <ClInclude Include="..\src\Thread\MutexConf.h" />
+    <ClInclude Include="..\src\Thread\Thread.h" />
+    <ClInclude Include="..\src\Thread\ThreadConf.h" />
+    <ClInclude Include="..\stdafx.h" />
+    <ClInclude Include="native_app_glue\android_native_app_glue.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BF3E58DD-FCD9-42A1-AE49-EB6FC68E87AB}</ProjectGuid>
+    <RootNamespace>Easy2DAndroid</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Profile|Android'">
+    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <ClCompile>
+      <PreprocessorDefinitions>DISABLE_IMPORTGL;__linux__;__ANDROID__;__STDC_LIMIT_MACROS;GL_GLEXT_PROTOTYPES;_DEBUG;CRT_LEGACY_WORKAROUND;ORDERED_TABLE</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)native_app_glue/;$(ProjectDir)../;$(ProjectDir)../include/;$(ProjectDir)../include/android/</AdditionalIncludeDirectories>
+      <VersioneCpp>GNU C++11</VersioneCpp>
+    </ClCompile>
+    <Link>
+      <AndroidSystemLibs>c;m;log;gcc;android;EGL;GLESv1_CM</AndroidSystemLibs>
+    </Link>
+    <AntBuild>
+      <AntBuildPath>$(ProjectDir)\</AntBuildPath>
+    </AntBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <ClCompile>
+      <PreprocessorDefinitions>DISABLE_IMPORTGL</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AndroidSystemLibs>c;m;log;gcc;android;EGL;GLESv1_CM</AndroidSystemLibs>
+    </Link>
+    <AntBuild>
+      <AntBuildPath>$(ProjectDir)\</AntBuildPath>
+    </AntBuild>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Android'">
+    <ClCompile>
+      <PreprocessorDefinitions>DISABLE_IMPORTGL</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AndroidSystemLibs>c;m;log;gcc;android;EGL;GLESv1_CM</AndroidSystemLibs>
+    </Link>
+    <AntBuild>
+      <AntBuildPath>$(ProjectDir)\</AntBuildPath>
+    </AntBuild>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

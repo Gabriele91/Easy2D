@@ -1,20 +1,18 @@
-#ifndef WINDOWSSCREEN_H
-#define WINDOWSSCREEN_H
-
+#ifndef ANDROIDSCREEN_H
+#define ANDROIDSCREEN_H
 #include <Config.h>
-#include <String.h>
+#include <AndroidApp.h>
+#include <EString.h>
 #include <Screen.h>
-#include <WindowsApp.h>
-#include <WindowsInput.h>
 
 namespace Easy2D {
 
-	class WindowsScreen : Screen{
+	class AndroidScreen : Screen{
 
 	public:
 
-		WindowsScreen();
-		virtual ~WindowsScreen();
+		AndroidScreen();
+		virtual ~AndroidScreen();
 
 		/**
 		* return screen width
@@ -23,7 +21,7 @@ namespace Easy2D {
 		/**
 		* return screen height
 		*/
-		virtual uint getHeight();		
+		virtual uint getHeight();
 		/**
 		* return screen native width
 		*/
@@ -35,7 +33,7 @@ namespace Easy2D {
 		/**
 		* return screen orientation
 		*/
-		virtual Orientation getOrientation();		
+		virtual Orientation getOrientation();
 		/**
 		* return frame rate
 		*/
@@ -54,9 +52,9 @@ namespace Easy2D {
 		*/
 		virtual void setCursor(bool show=true);
 		/**
-		* set position cursor
-		*/
-		virtual void setPositionCursor(const Vec2& pos);
+        * set position cursor
+        */
+        void setPositionCursor(const Vec2& pos);
 		/**
 		* return if cursor is shown or hidden
 		*/
@@ -71,7 +69,7 @@ namespace Easy2D {
 		virtual bool isFullscreen();
 
 	protected:
-		
+
 		/**
 		* create window
 		*/
@@ -82,26 +80,21 @@ namespace Easy2D {
 								  uint freamPerSecond,
 								  bool fullscreen,
 								  AntiAliasing dfAA=NOAA);
-		/**
+        /*
 		* close window
 		*/
 		virtual void closeWindow();
 
 	private:
-		//window methods
-		void __initWindow(const char* appname,unsigned int bites,AntiAliasing dfAA);
-		void __initOpenGL();
-		void __destroyWindow();
-
-		///window application instance
-		HINSTANCE hInstance;
-		/// handle window
-		HWND hWind; 
-		/// handle device context
-		HDC hDevCxt;
-		/// handle OpenGL rendering context
-		HGLRC hGLCxt; 
-
+        ///////////////////////////////////
+		//EGL
+		EGLDisplay display;
+		EGLSurface surface;
+		EGLContext context;
+        ///////////////////////////////////
+		//function
+		void __createScreen();
+		void __initStateOpenGLES();
 		//datas:
 		uint nativeWidth;
 		uint nativeHeight;
@@ -111,8 +104,7 @@ namespace Easy2D {
 		bool fullscreen;
 		bool showmouse;
 		//friends class
-		friend class WindowsApp;
-		friend class WindowsInput;
+		friend class AndroidApp;
 	};
 
 

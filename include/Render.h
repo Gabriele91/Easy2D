@@ -14,6 +14,8 @@ namespace Easy2D {
 	class Render {
 		//
 		std::vector<Layer *> layers;
+		//projection matrix
+		Matrix4x4 projection;
 		//info screen
 		Camera *camera;
 		Vector2D viewport;
@@ -23,10 +25,7 @@ namespace Easy2D {
 		Color clearClr;
 		Color ambientClr;
 
-
 	public:
-		//init openGL
-		void initOpenGL();
 		//
 		Render();
 		//setting

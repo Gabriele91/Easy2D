@@ -175,9 +175,10 @@ namespace Easy2D {
 			class FingersHandler{
 				public:
 					//finger touch
-					virtual void onFingerMove(Vec2 touchPosition,Key::Finger FingerID )  {}
-					virtual void onFingerPress(Vec2 touchPosition,Key::Finger FingerID ) {}
-					virtual void onFingerRelease(Vec2 touchPosition,Key::Finger FingerID )   {}
+					virtual void onFingerMove(Vec3 touchPosition,Key::Finger FingerID )  {}
+					virtual void onFingerDown(Vec3 touchPosition,Key::Finger FingerID ) {}
+					virtual void onFingerPress(Vec3 touchPosition,Key::Finger FingerID ) {}
+					virtual void onFingerRelease(Vec3 touchPosition,Key::Finger FingerID )   {}
             };
 			class AccelerometerHandler{
 				public:

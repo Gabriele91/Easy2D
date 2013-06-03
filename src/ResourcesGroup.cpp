@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <ResourcesGroup.h>
+#include <Application.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -16,6 +17,20 @@ ResourcesGroup::ResourcesGroup(const Utility::Path& path,
 	loadAResource(path,"textures",textures);
 	loadAResource(path,"meshes",meshes);
 	loadAResource(path,"frameSets",frameSets);
+	//regist this resource group
+	Application::instance()->addResourcesGroup(this);
+}
+
+ResourcesGroup::~ResourcesGroup(){	
+	//unregist this resource group
+	Application::instance()->eraseResourcesGroup(this);
+}
+
+/** reload only gpu resource */
+void ResourcesGroup::reloadGpuResouce(){	
+	textures.__forceReload();
+	meshes.__forceReload();
+	frameSets.__forceReload();
 }
 
 // GCC SUCK //

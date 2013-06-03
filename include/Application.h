@@ -6,6 +6,7 @@
 #include <EString.h>
 #include <Screen.h>
 #include <Input.h>
+#include <ResourcesGroup.h>
 
 
 namespace Easy2D {
@@ -98,6 +99,14 @@ namespace Easy2D {
 		Input* getInput(){
 			return input;
 		}
+		/**
+		* save a resourcesGroup
+		*/
+		virtual void addResourcesGroup(ResourcesGroup *rsGr){};
+		/**
+		* erase a resourcesGroup
+		*/
+		virtual void eraseResourcesGroup(ResourcesGroup *rsGr){};
 
 	protected:
 

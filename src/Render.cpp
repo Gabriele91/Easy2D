@@ -5,28 +5,8 @@ using namespace Easy2D;
 /////////////////////////
 
 Render::Render(){
-	initOpenGL();
-}
-
-void Render::initOpenGL(){
-	//enable culling
-    glEnable( GL_CULL_FACE );        
-    glCullFace( GL_BACK );        
-    //default status for blending
-    glEnable(GL_ALPHA_TEST);
-	glEnable(GL_BLEND);
-    glBlendFunc( GL_ONE , GL_ZERO ); 
-	//disable light
-	glDisable(GL_LIGHTING);
-	//enable texturing	
-	glEnable( GL_TEXTURE_2D );
-    //always active!
-    glEnableClientState( GL_VERTEX_ARRAY );
-	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 	//set orientation
 	setOrientation(Application::instance()->getScreen()->getOrientation());
-	//find errors:
-	CHECK_GPU_ERRORS();
 }
 
 Layer* Render::addLayer(bool order){
@@ -49,6 +29,9 @@ void Render::draw(){
 				 clearClr.bNormalize(),
 				 clearClr.aNormalize());
 	glClear(GL_COLOR_BUFFER_BIT);
+	//set projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadMatrixf(projection);
 	//set view port
 	glViewport( 0, 0, viewport.x, viewport.y );
 	//for all layers
@@ -97,12 +80,9 @@ void Render::setOrientation(Screen::Orientation _orientation){
 	viewport.x=Application::instance()->getScreen()->getWidth();
 	viewport.y=Application::instance()->getScreen()->getHeight();
     //update projection is always the same
-    glMatrixMode(GL_PROJECTION);
-	Matrix4x4 projection;
 	projection.setOrtho(-viewport.x*0.5,
 		                 viewport.x*0.5,
 					    -viewport.y*0.5,
 						 viewport.y*0.5,
 						 0,1);
-    glLoadMatrixf(projection);
 }

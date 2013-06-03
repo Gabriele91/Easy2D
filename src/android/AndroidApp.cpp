@@ -1,0 +1,128 @@
+
+#include "stdafx.h"
+#include <Timer.h>
+#include <AndroidApp.h>
+#include <AndroidScreen.h>
+#include <AndroidInput.h>
+#include <AndroidMain.h>
+#include <Debug.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <errno.h>
+///////////////////////
+using namespace Easy2D;
+
+AndroidApp::AndroidApp()
+		   :Application(){
+	screen=(Screen*)new AndroidScreen();
+	input=(Input*)new AndroidInput();
+	//set android userdata
+	setAndroidUserData((void*)this);
+	//set reload gpu data when is resume
+	onInitAndroid([](void *data){
+		AndroidApp *self=((AndroidApp*)data);
+		AndroidScreen* screen=((AndroidScreen*)(self->screen));
+		//recreate screen
+		screen->__createScreen();
+		screen->__initStateOpenGLES();
+		//reload gpu assets
+		for(auto& rsg:self->mapResourcesGroups)
+			rsg.second->reloadGpuResouce();
+	});
+	//not exit form loop
+	doexit=false;
+}
+
+AndroidApp::~AndroidApp(){
+	//delete screen
+	delete screen;
+	screen=NULL;
+	//delete input
+	delete input;
+	input=NULL;
+}
+
+bool AndroidApp::loadData(const String& path,void*& ptr,size_t &len){
+	//open asset
+	AAsset *asset= AAssetManager_open(getAndroidApp()->activity->assetManager, 
+									  path, 
+									  AASSET_MODE_BUFFER);
+
+	DEBUG_MESSAGE("load asset: "<<path);
+	DEBUG_ASSERT_MSG(asset,"error load asset: "<<path);
+	//get size
+	len = AAsset_getLength(asset);
+	//read
+	ptr=malloc(len*sizeof(char)+1);
+	AAsset_read(asset,ptr,len);
+	(*((char*)ptr+len))='\0';
+	//close asset
+	AAsset_close(asset);
+	//return is read
+	return len!=0;
+}
+
+String AndroidApp::appDataDirectory(){
+	return getAndroidApp()->activity->internalDataPath;
+}
+
+String AndroidApp::appWorkingDirectory(){
+	return getAndroidApk();
+}
+
+String AndroidApp::appResourcesDirectory(){
+	return appWorkingDirectory()+String("/assets");
+}
+
+void AndroidApp::exit(){
+	doexit=true;
+}
+
+void AndroidApp::loop(){
+	//
+	Timer timer;
+	double msToSleep=1000.0/(static_cast<double>(screen->getFrameRate()));
+	double millipass=0;
+	double dt=0;
+	double sleepTime=0;
+	//start timer
+	timer.start();
+	//set current context
+	screen->acquireContext();
+	//draw loop
+	while( !input->getClose() && !doexit ) {
+		//get timer values
+		millipass=timer.getGetCounter();
+		//calc dt and sleep time
+		sleepTime=msToSleep-millipass;
+		while(sleepTime>0 && sleepTime<60000 ){
+		    //scheduler linux is faster then window
+			usleep ((sleepTime>9?1:0)*1000);
+			millipass=timer.getGetCounter();
+			sleepTime=msToSleep-millipass;
+		}
+		//calc dt
+		dt=millipass/1000.0;
+		timer.reset();
+		//update
+		update(dt);
+		//update opengl
+		screen->swap();
+    }
+}
+
+void AndroidApp::exec(Game *ptrGame){
+	mainInstance=ptrGame;
+	mainInstance->start();
+	loop();
+	mainInstance->end();
+}
+
+void AndroidApp::update(float dt){
+	input->update();
+	mainInstance->run(dt);
+}
+
+bool AndroidApp::onlyPO2(){
+	return true;
+}

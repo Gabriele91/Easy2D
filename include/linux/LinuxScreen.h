@@ -108,6 +108,7 @@ namespace Easy2D {
 		XVisualInfo *  visual;
 		void  __createGLXContext(uint bites,AntiAliasing dfAA);
 		void __deleteGLXContext();
+		void __initOpenGL();
 		void __createFullScreenWindow();
 		void __createWindow();
 		void __deleteWindow();

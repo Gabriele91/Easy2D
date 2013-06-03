@@ -8,6 +8,7 @@
 #elif defined( PLATFORM_LINUX )
 #include <LinuxApp.h>
 #elif defined( PLATFORM_ANDROID )
+#include <AndroidApp.h>
 #endif
 ///////////////////////
 using namespace Easy2D;
@@ -38,6 +39,7 @@ Application *Application::create(){
 #elif defined( PLATFORM_LINUX )
 	appSingleton=new LinuxApp();
 #elif defined( PLATFORM_ANDROID )
+	appSingleton=new AndroidApp();
 #endif
 	//registration delete at exit
 	atexit([](){ 

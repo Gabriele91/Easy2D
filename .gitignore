@@ -25,6 +25,18 @@
 #codeblocks
 *.layout
 
+#android
+AndroidProject/ant.properties
+AndroidProject/debug.keystore
+AndroidProject/local.properties
+AndroidProject/libs*/
+AndroidProject/bin*/
+AndroidProject/Android*/
+AndroidProject/assets*/
+AndroidProject/*.sdf
+AndroidProject/*.suo
+AndroidProject/*.user
+
 #Visual Studio files
 *.[Oo]bj
 *.user

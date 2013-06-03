@@ -123,6 +123,12 @@ namespace Easy2D{
 			Table::KeyTable version;
 			//resources map
 			DUNORDERED_MAP< String, DW_PTR<T> > rsMap;
+			//for only ResourcesGroup
+			void __forceReload(){			
+				//load resources
+				for(auto& itr :rsMap)
+						itr.second.lock()->load();	
+			}
 	};
 
 };

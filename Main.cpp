@@ -6,7 +6,8 @@ using namespace Easy2D;
 
 class MyGame : Game,
 			   Input::KeyboardHandler,
-			   Input::MouseHandler
+			   Input::MouseHandler,
+			   Input::FingersHandler
 
 {
 
@@ -46,10 +47,10 @@ public:
 
 	virtual void start(){
 		//
-		rander.initOpenGL();
 		//input
 		getInput()->addHandler((Input::KeyboardHandler*)this);
 		getInput()->addHandler((Input::MouseHandler*)this);
+		getInput()->addHandler((Input::FingersHandler*)this);
 		//resources
 		light=resources.get<Texture>("light");
 		ninja=resources.get<Texture>("ninja");
@@ -111,6 +112,11 @@ public:
 		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
 						getScreen()->getHeight()/2.0);
 		spriteLight.setPosition((mousePosition*Vec2(1,-1))+alScreen);
+	}	
+	virtual void onFingerMove(Vec3 touchPosition,Key::Finger fingerID ) {
+		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
+						getScreen()->getHeight()/2.0);
+		spriteLight.setPosition((touchPosition.xy()*Vec2(1,-1))+alScreen);
 	}
 
 
