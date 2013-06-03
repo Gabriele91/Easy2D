@@ -1,0 +1,2 @@
+assets project directory
+n.b. no delete this file

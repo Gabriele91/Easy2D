@@ -16,14 +16,17 @@
     <Filter Include="Easy2D">
       <UniqueIdentifier>{1a5611d6-7e47-48a6-bee8-1f1cf65702fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="exemple">
+      <UniqueIdentifier>{bfbef6d7-6af3-4dd2-82de-87946ffb99b5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Easy2D\include">
       <UniqueIdentifier>{f346880e-2093-49e5-8f5b-3b00ac9a6c8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Easy2D\src">
-      <UniqueIdentifier>{b00bdb52-cc80-4e46-a1ae-1ee67f8271b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Easy2D\include\android">
       <UniqueIdentifier>{d5c6f037-9d5b-4abd-a55f-32582a9cfa35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Easy2D\src">
+      <UniqueIdentifier>{b00bdb52-cc80-4e46-a1ae-1ee67f8271b0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Easy2D\src\android">
       <UniqueIdentifier>{8704c16f-4b2a-4d15-8284-c4520423268c}</UniqueIdentifier>
@@ -33,9 +36,6 @@
     </Filter>
     <Filter Include="Easy2D\src\thread">
       <UniqueIdentifier>{1ceb8d6e-6b9d-4274-b9f3-d5788c0855cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="exemple">
-      <UniqueIdentifier>{bfbef6d7-6af3-4dd2-82de-87946ffb99b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,13 +47,13 @@
     <None Include="res\values\strings.xml">
       <Filter>res\values</Filter>
     </None>
-    <None Include="..\Easy2D\src\Image\Image.inl">
+    <None Include="..\src\Image\Image.inl">
       <Filter>Easy2D\src\image</Filter>
     </None>
-    <None Include="..\Easy2D\src\Thread\MutexPOSIX.inl">
+    <None Include="..\src\Thread\MutexPOSIX.inl">
       <Filter>Easy2D\src\thread</Filter>
     </None>
-    <None Include="..\Easy2D\src\Thread\ThreadPOSIX.inl">
+    <None Include="..\src\Thread\ThreadPOSIX.inl">
       <Filter>Easy2D\src\thread</Filter>
     </None>
   </ItemGroup>
@@ -61,109 +61,109 @@
     <ClCompile Include="native_app_glue\android_native_app_glue.c">
       <Filter>native_app_glue</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\android\OpenGLAndroid.cpp">
+    <ClCompile Include="..\src\android\OpenGLAndroid.cpp">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\AnimatedSprite.cpp">
+    <ClCompile Include="..\src\AnimatedSprite.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Application.cpp">
+    <ClCompile Include="..\src\Application.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Camera.cpp">
+    <ClCompile Include="..\src\Camera.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Color.cpp">
+    <ClCompile Include="..\src\Color.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Config.cpp">
+    <ClCompile Include="..\src\Config.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Debug.cpp">
+    <ClCompile Include="..\src\Debug.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\EString.cpp">
+    <ClCompile Include="..\src\EString.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\ETime.cpp">
+    <ClCompile Include="..\src\ETime.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\FrameSet.cpp">
+    <ClCompile Include="..\src\FrameSet.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Game.cpp">
+    <ClCompile Include="..\src\Game.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Input.cpp">
+    <ClCompile Include="..\src\Input.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Layer.cpp">
+    <ClCompile Include="..\src\Layer.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Math2D.cpp">
+    <ClCompile Include="..\src\Math2D.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Mesh.cpp">
+    <ClCompile Include="..\src\Mesh.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Object.cpp">
+    <ClCompile Include="..\src\Object.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Render.cpp">
+    <ClCompile Include="..\src\Render.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Renderable.cpp">
+    <ClCompile Include="..\src\Renderable.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\RenderState.cpp">
+    <ClCompile Include="..\src\RenderState.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Resource.cpp">
+    <ClCompile Include="..\src\Resource.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\ResourcesGroup.cpp">
+    <ClCompile Include="..\src\ResourcesGroup.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\ResourcesManager.cpp">
+    <ClCompile Include="..\src\ResourcesManager.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Screen.cpp">
+    <ClCompile Include="..\src\Screen.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Sprite.cpp">
+    <ClCompile Include="..\src\Sprite.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Table.cpp">
+    <ClCompile Include="..\src\Table.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Texture.cpp">
+    <ClCompile Include="..\src\Texture.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Timer.cpp">
+    <ClCompile Include="..\src\Timer.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Utility.cpp">
+    <ClCompile Include="..\src\Utility.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\Image\lodepng.cpp">
+    <ClCompile Include="..\src\Image\lodepng.cpp">
       <Filter>Easy2D\src\image</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\android\AndroidApp.cpp">
+    <ClCompile Include="..\src\android\AndroidApp.cpp">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\android\AndroidInput.cpp">
+    <ClCompile Include="..\src\android\AndroidInput.cpp">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\android\AndroidScreen.cpp">
+    <ClCompile Include="..\src\android\AndroidScreen.cpp">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\android\AndroidMain.c">
+    <ClCompile Include="..\src\android\AndroidMain.c">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\Main.cpp">
+    <ClCompile Include="..\Main.cpp">
       <Filter>exemple</Filter>
     </ClCompile>
-    <ClCompile Include="..\Easy2D\src\android\AndroidCout.cpp">
+    <ClCompile Include="..\src\android\AndroidCout.cpp">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
   </ItemGroup>
@@ -171,127 +171,127 @@
     <ClInclude Include="native_app_glue\android_native_app_glue.h">
       <Filter>native_app_glue</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\stdafx.h">
+    <ClInclude Include="..\stdafx.h">
       <Filter>Easy2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\android\OpenGLAndroid.h">
+    <ClInclude Include="..\include\android\OpenGLAndroid.h">
       <Filter>Easy2D\include\android</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\AnimatedSprite.h">
+    <ClInclude Include="..\include\AnimatedSprite.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Application.h">
+    <ClInclude Include="..\include\Application.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Camera.h">
+    <ClInclude Include="..\include\Camera.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Color.h">
+    <ClInclude Include="..\include\Color.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Config.h">
+    <ClInclude Include="..\include\Config.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Debug.h">
+    <ClInclude Include="..\include\Debug.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Easy2D.h">
+    <ClInclude Include="..\include\Easy2D.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\EString.h">
+    <ClInclude Include="..\include\EString.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\ETime.h">
+    <ClInclude Include="..\include\ETime.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\FrameSet.h">
+    <ClInclude Include="..\include\FrameSet.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Game.h">
+    <ClInclude Include="..\include\Game.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Input.h">
+    <ClInclude Include="..\include\Input.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Layer.h">
+    <ClInclude Include="..\include\Layer.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Math2D.h">
+    <ClInclude Include="..\include\Math2D.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Mesh.h">
+    <ClInclude Include="..\include\Mesh.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Object.h">
+    <ClInclude Include="..\include\Object.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Render.h">
+    <ClInclude Include="..\include\Render.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Renderable.h">
+    <ClInclude Include="..\include\Renderable.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\RenderState.h">
+    <ClInclude Include="..\include\RenderState.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Resource.h">
+    <ClInclude Include="..\include\Resource.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\ResourcesGroup.h">
+    <ClInclude Include="..\include\ResourcesGroup.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\ResourcesManager.h">
+    <ClInclude Include="..\include\ResourcesManager.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Screen.h">
+    <ClInclude Include="..\include\Screen.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Sprite.h">
+    <ClInclude Include="..\include\Sprite.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Table.h">
+    <ClInclude Include="..\include\Table.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Texture.h">
+    <ClInclude Include="..\include\Texture.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Timer.h">
+    <ClInclude Include="..\include\Timer.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Types.h">
+    <ClInclude Include="..\include\Types.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\Utility.h">
+    <ClInclude Include="..\include\Utility.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\src\Image\Image.h">
+    <ClInclude Include="..\src\Image\Image.h">
       <Filter>Easy2D\src\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\src\Image\lodepng.h">
+    <ClInclude Include="..\src\Image\lodepng.h">
       <Filter>Easy2D\src\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\src\Thread\Mutex.h">
+    <ClInclude Include="..\src\Thread\Mutex.h">
       <Filter>Easy2D\src\thread</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\src\Thread\MutexConf.h">
+    <ClInclude Include="..\src\Thread\MutexConf.h">
       <Filter>Easy2D\src\thread</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\src\Thread\Thread.h">
+    <ClInclude Include="..\src\Thread\Thread.h">
       <Filter>Easy2D\src\thread</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\src\Thread\ThreadConf.h">
+    <ClInclude Include="..\src\Thread\ThreadConf.h">
       <Filter>Easy2D\src\thread</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\android\AndroidApp.h">
+    <ClInclude Include="..\include\android\AndroidApp.h">
       <Filter>Easy2D\include\android</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\android\AndroidInput.h">
+    <ClInclude Include="..\include\android\AndroidInput.h">
       <Filter>Easy2D\include\android</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\android\AndroidScreen.h">
+    <ClInclude Include="..\include\android\AndroidScreen.h">
       <Filter>Easy2D\include\android</Filter>
     </ClInclude>
-    <ClInclude Include="..\Easy2D\include\android\AndroidMain.h">
+    <ClInclude Include="..\include\android\AndroidMain.h">
       <Filter>Easy2D\include\android</Filter>
     </ClInclude>
   </ItemGroup>
