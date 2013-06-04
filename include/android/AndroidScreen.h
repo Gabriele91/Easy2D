@@ -91,9 +91,14 @@ namespace Easy2D {
 		EGLDisplay display;
 		EGLSurface surface;
 		EGLContext context;
+		EGLint numConfigs;
+		EGLConfig config;
         ///////////////////////////////////
 		//function
-		void __createScreen();
+		void __setupScreen();
+		void __createSurface();
+		void __createContext();
+		bool __isAValidContext();
 		void __initStateOpenGLES();
 		//datas:
 		uint nativeWidth;

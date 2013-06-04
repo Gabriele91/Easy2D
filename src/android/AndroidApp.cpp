@@ -18,19 +18,36 @@ AndroidApp::AndroidApp()
 	input=(Input*)new AndroidInput();
 	//set android userdata
 	setAndroidUserData((void*)this);
+	//overload pause
+	onPauseAndroid([](void *data){
+		AndroidApp *self=((AndroidApp*)data);
+		//disable flip surface
+		self->dodraw=false;
+	});
 	//set reload gpu data when is resume
 	onInitAndroid([](void *data){
 		AndroidApp *self=((AndroidApp*)data);
 		AndroidScreen* screen=((AndroidScreen*)(self->screen));
-		//recreate screen
-		screen->__createScreen();
-		screen->__initStateOpenGLES();
-		//reload gpu assets
-		for(auto& rsg:self->mapResourcesGroups)
-			rsg.second->reloadGpuResouce();
+		//create surface
+		screen->__createSurface();
+		//is a valid gl es context?
+		if(!screen->__isAValidContext()){
+			//create opengl es context
+			screen->__createContext();
+			//init opengl
+			screen->acquireContext();
+			screen->__initStateOpenGLES();
+			//reload gpu assets
+			for(auto& rsg:self->mapResourcesGroups)
+				rsg.second->reloadGpuResouce();
+		}
+		//enable flip screen
+		self->dodraw=true;
 	});
 	//not exit form loop
 	doexit=false;
+	//draw on surface
+	dodraw=true;
 }
 
 AndroidApp::~AndroidApp(){
@@ -106,8 +123,8 @@ void AndroidApp::loop(){
 		timer.reset();
 		//update
 		update(dt);
-		//update opengl
-		screen->swap();
+		//update opengl		
+		if(dodraw) screen->swap();
     }
 }
 

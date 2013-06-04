@@ -73,6 +73,8 @@ namespace Easy2D {
 	protected:
         //exit loop?
         bool doexit;
+		//can draw on surface?
+		bool dodraw;
         //resources
 		DUNORDERED_MAP< ResourcesGroup *, ResourcesGroup *> mapResourcesGroups;
 		//

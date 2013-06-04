@@ -16,38 +16,96 @@ AndroidScreen::AndroidScreen()
 	nativeHeight =0;
 }
 ///////////////////////////////////////////////////////////
-//typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
-static bool isExtensionSupported(const char *extList, const char *extension){
+void eglPrintError(EGLint eg){
+	String err;
+	switch(eg)
+	{
+		case EGL_SUCCESS: case EGL_NONE: return;
 
-  const char *start;
-  const char *where, *terminator;
-
-  /* Extension names should not have spaces. */
-  where = strchr(extension, ' ');
-  if ( where || *extension == '\0' )
-    return false;
-
-  /* It takes a bit of care to be fool-proof about parsing the
-     OpenGL extensions string. Don't be fooled by sub-strings,
-     etc. */
-  for ( start = extList; ; ) {
-    where = strstr( start, extension );
-
-    if ( !where )
-      break;
-
-    terminator = where + strlen( extension );
-
-    if ( where == start || *(where - 1) == ' ' )
-      if ( *terminator == ' ' || *terminator == '\0' )
-        return true;
-
-    start = terminator;
-  }
-
-  return false;
+		case EGL_NOT_INITIALIZED:        err = "EGL_NOT_INITIALIZED";        break;
+		case EGL_BAD_ACCESS:             err = "EGL_BAD_ACCESS";             break;
+		case EGL_BAD_ALLOC:              err = "EGL_BAD_ALLOC";              break;
+		case EGL_BAD_ATTRIBUTE:          err = "EGL_BAD_ATTRIBUTE";          break;
+		case EGL_BAD_CONTEXT:            err = "EGL_BAD_CONTEXT";            break;
+		case EGL_BAD_CONFIG:             err = "EGL_BAD_CONFIG";             break;
+		case EGL_BAD_CURRENT_SURFACE:    err = "EGL_BAD_CURRENT_SURFACE";    break;
+		case EGL_BAD_DISPLAY:            err = "EGL_BAD_DISPLAY";            break;
+		case EGL_BAD_SURFACE:            err = "EGL_BAD_SURFACE";            break;
+		case EGL_BAD_MATCH:              err = "EGL_BAD_MATCH";              break;
+		case EGL_BAD_PARAMETER:          err = "EGL_BAD_PARAMETER";          break;
+		case EGL_BAD_NATIVE_PIXMAP:      err = "EGL_BAD_NATIVE_PIXMAP";      break;
+		case EGL_BAD_NATIVE_WINDOW:      err = "EGL_BAD_NATIVE_WINDOW";      break;
+		case EGL_CONTEXT_LOST:           err = "EGL_CONTEXT_LOST";           break;
+	};
+	DEBUG_MESSAGE( "EGL Error : " << err );
 }
+
 ///////////////////////////////////////////////////////////
+static const EGLint attribsEGL[] = {
+    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+    EGL_BLUE_SIZE, 8,
+    EGL_GREEN_SIZE, 8,
+    EGL_RED_SIZE, 8,
+    EGL_NONE
+}; 
+const EGLint attrib_listEGL [] = {
+	EGL_CONTEXT_CLIENT_VERSION, 1,  
+	EGL_NONE
+}; 
+
+void AndroidScreen::__setupScreen(){
+    //SET ANDROID WINDOW
+    EGLint _w, _h, dummy, format;
+	//get display
+    display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    DEBUG_ASSERT( display );
+    eglInitialize(display, 0, 0);
+    //set openGL configuration
+    eglChooseConfig(display, attribsEGL, &config, 1, &numConfigs);
+    eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+    ANativeWindow_setBuffersGeometry(getAndroidApp()->window, 0, 0, format);
+}
+void AndroidScreen::__createSurface(){   
+    //create a surface, and openGL context	
+    surface = eglCreateWindowSurface(display, config,getAndroidApp()->window, NULL);
+    //get WIDTH,HEIGHT
+	EGLint eglWidth,eglHeight;
+    eglQuerySurface(display, surface, EGL_WIDTH, &eglWidth);
+    eglQuerySurface(display, surface, EGL_HEIGHT, &eglHeight);
+	nativeWidth = screenWidth =eglWidth;
+	nativeHeight = screenHeight =eglHeight;
+	//show message
+	DEBUG_MESSAGE( "Open surface:" << screenWidth << "x" << screenHeight );
+}
+void AndroidScreen::__createContext(){
+	//create gl context
+	//openGL ES 1.0 //1, EGL_NONE
+	context = eglCreateContext(display, config, NULL, attrib_listEGL);
+	DEBUG_ASSERT( context );
+}
+
+bool AndroidScreen::__isAValidContext(){
+	//get is a invalid context
+	if(context == EGL_NO_CONTEXT) return false;
+	if(!eglMakeCurrent(display, surface, surface, context) == EGL_FALSE){	
+		//start found erros
+		bool eglLostContext=false;
+		//get errors
+		for (EGLint eg = eglGetError(); eg != EGL_SUCCESS && eg != EGL_NONE ; eg = eglGetError()){
+			eglPrintError(eg);
+			eglLostContext|= eg == EGL_CONTEXT_LOST ;
+			eglLostContext|= eg == EGL_BAD_CONTEXT ;
+		}
+		//if is lost
+		if( eglLostContext ){		
+			eglDestroyContext(display, context);
+			context = EGL_NO_CONTEXT;	
+			return false;
+		}
+	}
+	//
+	return true;
+}
 void AndroidScreen::__initStateOpenGLES(){
 	//get function pointer
     initOpenGLES();
@@ -68,43 +126,6 @@ void AndroidScreen::__initStateOpenGLES(){
 	//find errors:
 	CHECK_GPU_ERRORS();
 }
-void AndroidScreen::__createScreen(){
-	 const EGLint attribs[] = {
-            EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            EGL_BLUE_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_RED_SIZE, 8,
-            EGL_NONE
-    }; 
-    //SET ANDROID WINDOW
-    EGLint _w, _h, dummy, format;
-    EGLint numConfigs;
-    EGLConfig config;
-    //get display
-    display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-    DEBUG_ASSERT( display );
-    eglInitialize(display, 0, 0);
-    //set openGL configuration
-    eglChooseConfig(display, attribs, &config, 1, &numConfigs);
-    eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
-    ANativeWindow_setBuffersGeometry(getAndroidApp()->window, 0, 0, format);
-    //create a surface, and openGL context	
-    surface = eglCreateWindowSurface(display, config,getAndroidApp()->window, NULL);
-	//openGL ES 1.0 //1, EGL_NONE
-    const EGLint attrib_list [] = {EGL_CONTEXT_CLIENT_VERSION, 1,  EGL_NONE}; 
-    context = eglCreateContext(display, config, NULL, attrib_list);
-    DEBUG_ASSERT( context );
-    //set corrunt openGL context
-    DEBUG_ASSERT (eglMakeCurrent(display, surface, surface, context));
-    //get WIDTH,HEIGHT
-	EGLint eglWidth,eglHeight;
-    eglQuerySurface(display, surface, EGL_WIDTH, &eglWidth);
-    eglQuerySurface(display, surface, EGL_HEIGHT, &eglHeight);
-	nativeWidth = screenWidth =eglWidth;
-	nativeHeight = screenHeight =eglHeight;
-	//show message
-	DEBUG_MESSAGE( "Open window:" << screenWidth << "x" << screenHeight );
-}
 ///////////////////////////////////////////////////////////
 /**
 * open a window
@@ -121,8 +142,14 @@ void AndroidScreen::createWindow(const char* argappname,
     screenWidth= width;
     screenHeight= height;
     this->freamPerSecond=freamPerSecond;
-	//init screen
-	__createScreen();
+	//get window, 
+	//create surface
+	//create opengl es context
+	__setupScreen();
+	__createSurface();
+	__createContext();
+	//init opengl
+	acquireContext();
 	__initStateOpenGLES();
     //enable AA
     if(dfAA!=NOAA)
