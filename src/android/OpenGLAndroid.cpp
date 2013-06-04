@@ -8,7 +8,11 @@ PFNGLDELETEVERTEXARRAYSOESPROC glDeleteVertexArraysOESEXT=NULL;
 
 void Easy2D::initOpenGLES(){     
 
-	DEBUG_MESSAGE("Setup OpenGLES");   
+	DEBUG_MESSAGE("Setup OpenGLES");
+	DEBUG_MESSAGE("Vendor:" << glGetString(GL_VENDOR)  );
+    DEBUG_MESSAGE("Renderer:" << glGetString(GL_RENDERER));
+    DEBUG_MESSAGE("OpenGL Version: " << glGetString(GL_VERSION) );
+	 
 	
 	glGenVertexArraysOESEXT=(PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
 	DEBUG_ASSERT(glGenVertexArraysOESEXT);
