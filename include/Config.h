@@ -88,6 +88,9 @@
 	#define DFORCEINLINE __attribute__ ((always_inline))
 	#define DINLINE inline
 	#define COMPILER_GCC
+	#if !defined( PFD_SUPPORT_COMPOSITION ) && defined(PLATFORM_WINDOW)
+        #define PFD_SUPPORT_COMPOSITION 0x00008000
+    #endif
 
 #elif defined( _MSC_VER )
 

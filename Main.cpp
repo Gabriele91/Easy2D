@@ -111,12 +111,12 @@ public:
 	virtual void onMouseMove(Vec2 mousePosition) {
 		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
 						getScreen()->getHeight()/2.0);
-		spriteLight.setPosition((mousePosition*Vec2(1,-1))+alScreen);
-	}	
+		spriteLight.setPosition((mousePosition.to<Math::x,Math::ny>())+alScreen);
+	}
 	virtual void onFingerMove(Vec3 touchPosition,Key::Finger fingerID ) {
 		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
 						getScreen()->getHeight()/2.0);
-		spriteLight.setPosition((touchPosition.xy()*Vec2(1,-1))+alScreen);
+		spriteLight.setPosition((touchPosition.to<Math::x,Math::ny>())+alScreen);
 	}
 
 

@@ -21,7 +21,13 @@ namespace Easy2D{
 
 	public:
 
-		float x,y;
+		union
+		{
+			struct {float x,y;};
+			struct {float u,v;};
+			struct {float r,g;};
+		};
+
 		///////////////////////////////////////////////////////////////////////////
 		static Vector2D ZERO;
 		static Vector2D ONE;
@@ -32,6 +38,26 @@ namespace Easy2D{
 		Vector2D():x(0),y(0){};
 		Vector2D(float x,float y):x(x),y(y){};
 		~Vector2D(){};
+		///////////////////////////////////////////////////////////////////////////
+		template <char A>
+		DFORCEINLINE float to() const{
+			switch (A)
+			{
+				case 'x': case 'r': case 'u':  return x;
+				case 'y': case 'g': case 'v': return y;
+
+				case 1://Math::nx:
+				    return -x;
+				case 2://Math::ny:
+				    return -y;
+
+				default: return 0.0; break;
+			}
+		}
+		template <uchar X,uchar Y>
+		DFORCEINLINE Vec2 to() const{
+			return Vec2(to<X>(),to<Y>());
+		}
 		///////////////////////////////////////////////////////////////////////////
 		void normalize();
 		///////////////////////////////////////////////////////////////////////////
@@ -117,7 +143,11 @@ namespace Easy2D{
 		static Vector3D MIN;
 		static Vector3D MAX;
 		///////////////////////////////////////////////////////////////////////////
-		float x,y,z;
+		union
+		{
+			struct {float x,y,z;};
+			struct {float r,g,b;};
+		};
 		///////////////////////////////////////////////////////////////////////////
 		Vector3D():x(0),y(0),z(0){};
 		Vector3D(Vector2D v,float z):x(v.x),y(v.y),z(z){};
@@ -126,6 +156,36 @@ namespace Easy2D{
 		///////////////////////////////////////////////////////////////////////////
 		DFORCEINLINE Vec2 xy() const{
 			return Vec2(x,y);
+		}
+		DFORCEINLINE Vec2 rg() const{
+			return Vec2(x,y);
+		}
+		///////////////////////////////////////////////////////////////////////////
+		template <char A>
+		DFORCEINLINE float to() const{
+			switch (A)
+			{
+				case 'x': case 'r': return x;
+				case 'y': case 'g': return y;
+				case 'z': case 'b': return z;
+
+				case 1://Math::nx:
+                    return -x;
+				case 2://Math::ny:
+				    return -y;
+				case 3://Math::nz:
+				    return -z;
+
+				default: return 0.0; break;
+			}
+		}
+		template <uchar X,uchar Y>
+		DFORCEINLINE Vec2 to() const{
+			return Vec2(to<X>(),to<Y>());
+		}
+		template <uchar X,uchar Y,uchar Z>
+		DFORCEINLINE Vec3 to() const{
+			return Vec3(to<X>(),to<Y>(),to<Z>());
 		}
 		///////////////////////////////////////////////////////////////////////////
 		void normalize();
@@ -136,7 +196,7 @@ namespace Easy2D{
 		float distancePow2(const Vector3D& vec) const;
 		Vector3D cross(const Vector3D& vec) const;
 		Vector3D getNormalize() const;
-		void orthoNormalize(Vector3D& b){		
+		void orthoNormalize(Vector3D& b){
 			 this->normalize();
 			 b -= b.projectToNormal(*this);
 			 b.normalize();
@@ -240,7 +300,11 @@ namespace Easy2D{
 		static Vector4D MIN;
 		static Vector4D MAX;
 		///////////////////////////////////////////////////////////////////////////
-		float x,y,z,w;
+		union
+		{
+			struct {float x,y,z,w;};
+			struct {float r,g,b,a;};
+		};
 		///////////////////////////////////////////////////////////////////////////
 		Vector4D():x(0),y(0),z(0),w(0){};
 		Vector4D(float x,float y,float z,float w):x(x),y(y),z(z),w(w){};
@@ -251,8 +315,48 @@ namespace Easy2D{
 		DFORCEINLINE Vec2 xy() const{
 			return Vec2(x,y);
 		}
+		DFORCEINLINE Vec2 rg() const{
+			return Vec2(x,y);
+		}
 		DFORCEINLINE Vec3 xyz() const{
 			return Vec3(x,y,z);
+		}
+		DFORCEINLINE Vec3 rgb() const{
+			return Vec3(r,g,b);
+		}
+
+		///////////////////////////////////////////////////////////////////////////
+		template <char A>
+		DFORCEINLINE float to() const{
+			switch (A)
+			{
+				case 'x': case 'r': return x;
+				case 'y': case 'g': return y;
+				case 'z': case 'b': return z;
+				case 'w': case 'a': return w;
+
+				case 1://Math::nx:
+				    return -x;
+				case 2://Math::ny:
+				    return -y;
+				case 3://Math::nz:
+				    return -z;
+				case 4://Math::nw:
+				    return -w;
+				default: return 0.0; break;
+			}
+		}
+		template <uchar X,uchar Y>
+		DFORCEINLINE Vec2 to() const{
+			return Vec2(to<X>(),to<Y>());
+		}
+		template <uchar X,uchar Y,uchar Z>
+		DFORCEINLINE Vec3 to() const{
+			return Vec3(to<X>(),to<Y>(),to<Z>());
+		}
+		template <uchar X,uchar Y,uchar Z,uchar W>
+		DFORCEINLINE Vec4 to() const{
+			return Vec4(to<X>(),to<Y>(),to<Z>(),to<W>());
 		}
 		///////////////////////////////////////////////////////////////////////////
 		void normalize();
@@ -601,6 +705,16 @@ namespace Easy2D{
 		};
 	class Math{
 	public:
+		//enum attribute
+		enum VecAttribute{
+			x='x',y='y',z='z',w='w',
+			r='r',g='g',b='b',a='a',
+			u='u',v='v',
+
+			nx=1,ny=2,nz=3,nw=4,
+			nr=1,ng=2,nb=3,na=4,
+			nu=1,nv=2
+		};
 		//const values
 		static const float PI;
 		static const float PI2;

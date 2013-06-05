@@ -54,7 +54,7 @@
 					<Add option="-lopenal" />
 				</Linker>
 			</Target>
-			<Target title="Debug">
+			<Target title="Debug Window">
 				<Option platforms="Windows;" />
 				<Option output="bin/Debug/Easy2D" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
@@ -62,9 +62,24 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-std=gnu++0x" />
+					<Add option="-fpermissive" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DORDERED_TABLE" />
+					<Add option="-D_WIN32" />
+					<Add directory="." />
+					<Add directory="include" />
+					<Add directory="include/window" />
 				</Compiler>
+				<Linker>
+					<Add option="-lmingw32" />
+					<Add option="-lwinmm" />
+					<Add option="-lgdi32" />
+					<Add option="-lopenGL32" />
+					<Add option="-lglu32" />
+				</Linker>
 			</Target>
-			<Target title="Release">
+			<Target title="Release Window">
 				<Option platforms="Windows;" />
 				<Option output="bin/Release/Easy2D" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
@@ -72,6 +87,13 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=gnu++0x" />
+					<Add option="-fpermissive" />
+					<Add option="-DORDERED_TABLE" />
+					<Add option="-D_WIN32" />
+					<Add directory="." />
+					<Add directory="include" />
+					<Add directory="include/window" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -127,6 +149,26 @@
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
+		<Unit filename="include/window/OpenGLWindow.h">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="include/window/WindowsApp.h">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="include/window/WindowsInput.h">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="include/window/WindowsScreen.h">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="include/window/gletx_header.h">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
 		<Unit filename="src/AnimatedSprite.cpp" />
 		<Unit filename="src/Application.cpp" />
 		<Unit filename="src/Camera.cpp" />
@@ -181,6 +223,34 @@
 		<Unit filename="src/linux/OpenGLLinux.cpp">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="src/window/OpenGLWindow.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/window/WGL_ARB_multisample.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/window/WGL_ARB_multisample.h">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/window/WindowsApp.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/window/WindowsInput.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/window/WindowsScreen.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/window/stdafx.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
 		</Unit>
 		<Unit filename="stdafx.h" />
 		<Extensions>
