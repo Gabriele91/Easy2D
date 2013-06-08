@@ -14,6 +14,8 @@ extern "C"{
 	//set value
 	void setIsAndroidValidDevice(bool validDevice);
 	void setAndroidUserData(void* userData);
+	//accelerometer input
+	void onAccelerometerEvent(void (*function)(void* data,float x,float y,float z,float azimuth,float pitch,float roll));
 	//input handle
 	void onFingerDown(void(*function)(void* data,int i,float x,float y,float p));
 	void onFingerUp(void(*function)(void* data,int i,float x,float y,float p));
@@ -22,7 +24,9 @@ extern "C"{
 	void onInitAndroid(void (*function)(void* data));
 	void onResumeAndroid(void (*function)(void* data));
 	void onTermAndroid(void (*function)(void* data));
+    void onConfigChange(void (*function)(void* data));
 	void onPauseAndroid(void (*function)(void* data));
+	void onWindowResized(void (*function)(void* data));
 	void onGetFocusAndroid(void (*function)(void* data));
 	void onLostFocusAndroid(void (*function)(void* data));
 	//input update (in loop)

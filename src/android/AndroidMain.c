@@ -31,6 +31,80 @@ extern void setAndroidUserData(void* userData){
 	if(app_state)
 		app_state->userData=userData;
 }
+//Sensors 
+static struct Sensors{
+	ASensorManager* sensorManager;
+    ASensorEventQueue* sensorEventQueue;
+    const ASensor* accelerometerSensor;
+    //const ASensor* magneticSensor;
+    //const ASensor* gyroscopeSensor;
+    //const ASensor* lightSensor;
+    //const ASensor* proximitySensor;
+}sensors;
+static void initSensors(){
+	sensors.sensorManager=NULL;
+	sensors.sensorEventQueue=NULL;
+	sensors.accelerometerSensor=NULL;
+}
+static void createSensorsEventQueue(){
+	//get sensor istance
+    sensors.sensorManager = ASensorManager_getInstance();
+	//create queue
+    sensors.sensorEventQueue = 
+		ASensorManager_createEventQueue(
+		sensors.sensorManager,
+		getAndroidApp()->looper, 
+		LOOPER_ID_USER, NULL, NULL);	
+}
+
+//accelerometer
+static void addAccelerometer(){
+    sensors.accelerometerSensor =
+		ASensorManager_getDefaultSensor(
+			sensors.sensorManager,
+            ASENSOR_TYPE_ACCELEROMETER);
+}
+static void setEnableAccelerometer(int32_t framerate){
+	if(sensors.accelerometerSensor){
+		ASensorEventQueue_enableSensor(sensors.sensorEventQueue,
+									   sensors.accelerometerSensor);
+		ASensorEventQueue_setEventRate(
+							sensors.sensorEventQueue,
+							sensors.accelerometerSensor, 
+							framerate);
+	}
+}
+static void setDisableAccelerometer(){
+	if(sensors.accelerometerSensor){
+                ASensorEventQueue_disableSensor(
+						sensors.sensorEventQueue,
+                        sensors.accelerometerSensor);
+	}
+}
+
+static void (*accelerometerEvent)(void* data,float x,float y,float z,float azimuth,float pitch,float roll)=NULL;
+extern void onAccelerometerEvent(void (*function)(void* data,float x,float y,float z,float azimuth,float pitch,float roll)){
+	accelerometerEvent=function;
+}
+
+static void updateSensorsAccelerometer(void* data, int ident, int events){
+	 if (ident == LOOPER_ID_USER) {
+        if (sensors.accelerometerSensor) {
+            ASensorEvent event;
+            while (ASensorEventQueue_getEvents(sensors.sensorEventQueue,&event, 1) > 0) {
+				if(accelerometerEvent)
+					accelerometerEvent(data,
+									   event.acceleration.x,
+									   event.acceleration.y,
+									   event.acceleration.z,
+									   event.acceleration.azimuth,
+									   event.acceleration.pitch,
+									   event.acceleration.roll);
+            }
+        }
+    }
+}
+
 //evets input
 static void (*fingerDown)(void* data,int i,float x,float y,float p)=NULL;
 static void (*fingerUp)(void* data,int i,float x,float y,float p)=NULL;
@@ -98,6 +172,8 @@ static void (*initAndroid)(void* data)=NULL;
 static void (*resumeAndroid)(void* data)=NULL;
 static void (*termAndroid)(void* data)=NULL;
 static void (*pauseAndroid)(void* data)=NULL;
+static void (*configChange)(void* data)=NULL;
+static void (*windowResized)(void* data)=NULL;
 static void (*getFocusAndroid)(void* data)=NULL;
 static void (*lostFocusAndroid)(void* data)=NULL;
 
@@ -112,6 +188,12 @@ extern void onTermAndroid(void (*function)(void* data)){
 }
 extern void onPauseAndroid(void (*function)(void* data)){
 	pauseAndroid=function;
+}
+extern void onConfigChange(void (*function)(void* data)){
+	configChange=function;
+}
+extern void onWindowResized(void (*function)(void* data)){
+	windowResized=function;
 }
 extern void onGetFocusAndroid(void (*function)(void* data)){
 	getFocusAndroid=function;
@@ -136,15 +218,25 @@ extern void __android_handle_cmd(struct android_app* app, int32_t cmd) {
 			if(pauseAndroid) 
 				pauseAndroid(app->userData);
 		break;
+		case APP_CMD_WINDOW_RESIZED:
+			if(windowResized) 
+				windowResized(app->userData);
+		break;
 		case APP_CMD_RESUME: 
 			if(resumeAndroid) 
 				resumeAndroid(app->userData);
-		break;
+		break;  
+		case APP_CMD_CONFIG_CHANGED:
+			if(configChange) 
+				configChange(app->userData);
+        break;
 		case APP_CMD_GAINED_FOCUS: 
+			setEnableAccelerometer((1000L/60)*1000);
 			if(getFocusAndroid) 
 				getFocusAndroid(app->userData);
-		break;
+		break;  
 		case APP_CMD_LOST_FOCUS: 
+			setDisableAccelerometer();
 			if(lostFocusAndroid) 
 				lostFocusAndroid(app->userData);
 		break;
@@ -161,8 +253,13 @@ extern void updateInputAndroid(){
 	struct android_poll_source* source;
 
 	while ((ident = ALooper_pollAll(0, NULL, &events,(void**)&source)) >= 0){
+		//updata android event
 		if (source != NULL) 
 			source->process(app_state, source);
+		//update accelerometer
+		updateSensorsAccelerometer(getAndroidApp()!=NULL ? 
+								   getAndroidApp()->userData : 
+								   NULL ,ident,events);
 	}
 
 }
@@ -187,6 +284,11 @@ extern void android_main(struct android_app* state) {
     state->onInputEvent = __android_handle_input;
     //save app
     app_state=state;
+	////////////////////////////
+	//init sensors
+	initSensors();
+	createSensorsEventQueue();
+	addAccelerometer();
 	////////////////////////////
     int ident;
     int events;

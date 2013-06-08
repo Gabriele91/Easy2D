@@ -29,10 +29,10 @@ namespace Easy2D {
 			}
 			/**
 			* get accelerometer values
-			* @return (x,y,z) axes accelerometer values
+			* @return (x,y,z, azimuth, pitch, roll) accelerometer values
 			*/
-			virtual Vec3 getAccelerometer() const{
-				return Vec3::ZERO;
+			virtual const AccelerometerValues& getAccelerometer() const{
+				return accelerometerVs;
 			}
 			/**
 			* update window event,
@@ -203,11 +203,14 @@ namespace Easy2D {
 					}
 				}
 			}efingers;
+			//accellerometer
+			AccelerometerValues accelerometerVs;
 			//calls
-			void __callOnFingerMove(Vec3 fingerPosition, Key::Finger fingerId);
-			void __callOnFingerPress(Vec3 fingerPosition, Key::Finger fingerId);
-			void __callOnFingerDown(Vec3 fingerPosition, Key::Finger fingerId);
-			void __callOnFingerRelease(Vec3 fingerPosition, Key::Finger fingerId);
+			void __callOnFingerMove(const Vec3& fingerPosition, Key::Finger fingerId);
+			void __callOnFingerPress(const Vec3& fingerPosition, Key::Finger fingerId);
+			void __callOnFingerDown(const Vec3& fingerPosition, Key::Finger fingerId);
+			void __callOnFingerRelease(const Vec3& fingerPosition, Key::Finger fingerId);
+			void __callOnAccelerometerEvent(const AccelerometerValues& acVs);
 			//hide constructor
 			AndroidInput();
 			//friends class

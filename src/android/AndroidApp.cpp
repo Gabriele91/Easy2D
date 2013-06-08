@@ -18,11 +18,18 @@ AndroidApp::AndroidApp()
 	input=(Input*)new AndroidInput();
 	//set android userdata
 	setAndroidUserData((void*)this);
+
+	//overload pause
+	onConfigChange([](void *data){
+		AndroidApp *self=((AndroidApp*)data);
+		//disable flip surface
+		self->dodraw=true;
+	});
 	//overload pause
 	onPauseAndroid([](void *data){
 		AndroidApp *self=((AndroidApp*)data);
 		//disable flip surface
-		self->dodraw=false;
+		//self->dodraw=false;
 	});
 	//set reload gpu data when is resume
 	onInitAndroid([](void *data){

@@ -92,6 +92,10 @@ namespace Easy2D {
 		*/
 		virtual Orientation getOrientation()=0;
 		/**
+		* set screen orientation
+		*/
+		virtual void setOrientation(Orientation orientation)=0;
+		/**
 		* return frame rate
 		*/
 		virtual uint getFrameRate()=0;

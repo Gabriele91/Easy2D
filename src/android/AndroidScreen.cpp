@@ -215,7 +215,27 @@ uint AndroidScreen::getNativeHeight(){
 * return screen orientation
 */
 AndroidScreen::Orientation AndroidScreen::getOrientation(){
-	return Screen::LANDSCAPE_RIGHT;
+	switch(AConfiguration_getOrientation(getAndroidApp()->config)){
+		case ACONFIGURATION_ORIENTATION_PORT: return Orientation::PORTRAIT;
+		case ACONFIGURATION_ORIENTATION_LAND: return Orientation::LANDSCAPE_RIGHT;
+		default: return Orientation::LANDSCAPE_RIGHT;
+	}
+}
+/**
+* set screen orientation
+*/
+void AndroidScreen::setOrientation(Orientation orientation){
+		switch(orientation){
+			case PORTRAIT:
+			case PORTRAIT_REVERSE:
+				AConfiguration_setOrientation(getAndroidApp()->config, ACONFIGURATION_ORIENTATION_PORT);
+			break;
+
+			case LANDSCAPE_LEFT:
+			case LANDSCAPE_RIGHT:
+				AConfiguration_setOrientation(getAndroidApp()->config, ACONFIGURATION_ORIENTATION_LAND);			
+			break;
+		}
 }
 /**
 * show or hide mouse cursor

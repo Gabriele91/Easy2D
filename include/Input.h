@@ -180,10 +180,21 @@ namespace Easy2D {
 					virtual void onFingerPress(Vec3 touchPosition,Key::Finger FingerID ) {}
 					virtual void onFingerRelease(Vec3 touchPosition,Key::Finger FingerID )   {}
             };
+
+			struct AccelerometerValues{
+				Vec3 accel;
+				float azimuth,pitch,roll;
+				AccelerometerValues():azimuth(0),pitch(0),roll(0){}
+				AccelerometerValues(const Vec3& accel,float azimuth,float pitch,float roll)
+									:accel(accel),azimuth(azimuth),pitch(pitch),roll(roll){}
+				AccelerometerValues(float x,float y, float z,float azimuth,float pitch,float roll)
+									:accel(x,y,z),azimuth(azimuth),pitch(pitch),roll(roll){}
+			};
+
 			class AccelerometerHandler{
 				public:
 					//accelerometer
-					virtual void onAcceleration( Vec3 accel, float roll )	{}
+					virtual void onAcceleration(const AccelerometerValues& values)	{}
 			};
 			class MouseHandler{
 				public:
@@ -212,9 +223,9 @@ namespace Easy2D {
 			virtual Vec2 getFinger(Key::Finger id) const=0;
 			/**
 			* get accelerometer values
-			* @return (x,y,z) axes accelerometer values
+			* @return (x,y,z, azimuth, pitch, roll) accelerometer values
 			*/
-			virtual Vec3 getAccelerometer() const=0;
+			virtual const AccelerometerValues& getAccelerometer() const=0;
 			/**
 			* update window event,
 			* call this method in a loop

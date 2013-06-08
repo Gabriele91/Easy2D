@@ -46,7 +46,8 @@ public:
 	~MyGame(){};
 
 	virtual void start(){
-		//
+		//port mode
+		//getScreen()->setOrientation(Easy2D::Screen::PORTRAIT);
 		//input
 		getInput()->addHandler((Input::KeyboardHandler*)this);
 		getInput()->addHandler((Input::MouseHandler*)this);

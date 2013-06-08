@@ -29,10 +29,10 @@ namespace Easy2D {
 			}
 			/**
 			* get accelerometer values
-			* @return (x,y,z) axes accelerometer values
+			* @return (x,y,z, azimuth, pitch, roll) accelerometer values
 			*/
-			virtual Vec3 getAccelerometer() const{
-				return Vec3::ZERO;
+			virtual const AccelerometerValues& getAccelerometer() const{
+				return AccelerometerValues();
 			}
 			/**
 			* update window event,

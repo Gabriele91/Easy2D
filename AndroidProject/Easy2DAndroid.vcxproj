@@ -18,7 +18,9 @@
     <None Include="..\src\Image\Image.inl" />
     <None Include="..\src\Thread\MutexPOSIX.inl" />
     <None Include="..\src\Thread\ThreadPOSIX.inl" />
-    <None Include="AndroidManifest.xml" />
+    <None Include="AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="build.xml" />
     <None Include="local.properties" />
     <None Include="proguard.cfg" />
