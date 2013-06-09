@@ -109,6 +109,9 @@
     <ClInclude Include="..\stdafx.h" />
     <ClInclude Include="native_app_glue\android_native_app_glue.h" />
   </ItemGroup>
+  <ItemGroup>
+    <JCompile Include="src\com\easy2d\Easy2DActivity.java" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BF3E58DD-FCD9-42A1-AE49-EB6FC68E87AB}</ProjectGuid>
     <RootNamespace>Easy2DAndroid</RootNamespace>

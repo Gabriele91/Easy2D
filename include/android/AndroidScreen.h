@@ -102,6 +102,12 @@ namespace Easy2D {
 		void __setupScreen();
 		void __createSurface();
 		void __createContext();
+		void __isResized();
+
+		void __disableContext();
+		void __deleteContext();
+		void __deleteSurface();
+
 		bool __isAValidContext();
 		void __initStateOpenGLES();
 		//datas:

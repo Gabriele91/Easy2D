@@ -6,7 +6,7 @@ using namespace Easy2D;
 
 Render::Render(){
 	//set orientation
-	setOrientation(Application::instance()->getScreen()->getOrientation());
+	updateProjection();
 }
 
 Layer* Render::addLayer(bool order){
@@ -70,19 +70,10 @@ void Render::update(float dt){
 		layer->update(dt);
 }
 
-void Render::setOrientation(Screen::Orientation _orientation){
-	//orientation
-	orientation=_orientation;
-	//
-	static float orientations[] =   { 0, 180, 90, -90 };
-    screenAngle = orientations[ (uint)orientation ] + orientations[ (uint)orientation ];
+void Render::updateProjection(){
 	//set viewport
 	viewport.x=Application::instance()->getScreen()->getWidth();
 	viewport.y=Application::instance()->getScreen()->getHeight();
     //update projection is always the same
-	projection.setOrtho(-viewport.x*0.5,
-		                 viewport.x*0.5,
-					    -viewport.y*0.5,
-						 viewport.y*0.5,
-						 0,1);
+	projection.setOrtho(-viewport.x*0.5,viewport.x*0.5, -viewport.y*0.5,viewport.y*0.5, 0,1);
 }

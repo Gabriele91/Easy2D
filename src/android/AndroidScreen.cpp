@@ -1,4 +1,4 @@
-#include <AndroidScreen.h>
+﻿#include <AndroidScreen.h>
 #include <AndroidMain.h>
 ///////////////////////
 using namespace Easy2D;
@@ -83,6 +83,47 @@ void AndroidScreen::__createContext(){
 	context = eglCreateContext(display, config, NULL, attrib_listEGL);
 	DEBUG_ASSERT( context );
 }
+void AndroidScreen::__isResized(){
+	//get WIDTH,HEIGHT
+	EGLint eglWidth,eglHeight;
+    eglQuerySurface(display, surface, EGL_WIDTH, &eglWidth);
+    eglQuerySurface(display, surface, EGL_HEIGHT, &eglHeight);
+	nativeWidth = screenWidth =eglWidth;
+	nativeHeight = screenHeight =eglHeight;
+	
+	switch(getOrientation()){
+			case PORTRAIT: 
+			case PORTRAIT_REVERSE:
+			case SENSOR_PORTRAIT:
+				nativeWidth = screenWidth = Math::min(eglWidth,eglHeight);
+				nativeHeight = screenHeight = Math::max(eglWidth,eglHeight);
+			break;
+			case LANDSCAPE:
+			case LANDSCAPE_REVERSE:
+			case SENSOR_LANDSCAPE: 
+				nativeWidth = screenWidth = Math::max(eglWidth,eglHeight);
+				nativeHeight = screenHeight = Math::min(eglWidth,eglHeight);
+			break;
+	}
+
+	DEBUG_MESSAGE( "Resized surface:" << screenWidth << "x" << screenHeight );
+}
+
+void AndroidScreen::__disableContext(){
+	eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+}
+void AndroidScreen::__deleteContext(){
+	if (context != EGL_NO_CONTEXT) {
+		eglDestroyContext(display, context);
+		context = EGL_NO_CONTEXT;
+	}
+}
+void AndroidScreen::__deleteSurface(){
+	if (surface != EGL_NO_SURFACE) {
+		eglDestroySurface(display, surface);
+		surface = EGL_NO_SURFACE;
+	}
+}
 
 bool AndroidScreen::__isAValidContext(){
 	//get is a invalid context
@@ -161,20 +202,16 @@ void AndroidScreen::createWindow(const char* argappname,
 void AndroidScreen::closeWindow(){
 	// and a cheesy fade exit
 	if (display != EGL_NO_DISPLAY) {
-		eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-		if (context != EGL_NO_CONTEXT) {
-		    eglDestroyContext(display, context);
-		}
-		if (surface != EGL_NO_SURFACE) {
-		    eglDestroySurface(display, surface);
-		}
+		//destroy
+		__disableContext();
+		__deleteContext();
+		__deleteSurface();
+		//terminate
 		eglTerminate(display);
+		display = EGL_NO_DISPLAY;
 	}
-	//free ptrs
-    display = EGL_NO_DISPLAY;
-    context = EGL_NO_CONTEXT;
-    surface = EGL_NO_SURFACE;
 }
+
 /**
 * AndroidScreen destructor
 */
@@ -215,27 +252,31 @@ uint AndroidScreen::getNativeHeight(){
 * return screen orientation
 */
 AndroidScreen::Orientation AndroidScreen::getOrientation(){
-	switch(AConfiguration_getOrientation(getAndroidApp()->config)){
-		case ACONFIGURATION_ORIENTATION_PORT: return Orientation::PORTRAIT;
-		case ACONFIGURATION_ORIENTATION_LAND: return Orientation::LANDSCAPE_RIGHT;
-		default: return Orientation::LANDSCAPE_RIGHT;
+	AndroidScreen::Orientation  orientation=PORTRAIT;
+	switch(getAndroidScreenOrientation()){
+			case 0: orientation=PORTRAIT; break;
+			case 1: orientation=PORTRAIT_REVERSE; break;
+
+			case 2: orientation=LANDSCAPE; break;
+			case 3: orientation=LANDSCAPE_REVERSE; break;
+
+			case 4: orientation=SENSOR_PORTRAIT; break;
+			case 5: orientation=SENSOR_LANDSCAPE; break;
 	}
+	return orientation;
 }
 /**
 * set screen orientation
 */
 void AndroidScreen::setOrientation(Orientation orientation){
-		switch(orientation){
-			case PORTRAIT:
-			case PORTRAIT_REVERSE:
-				AConfiguration_setOrientation(getAndroidApp()->config, ACONFIGURATION_ORIENTATION_PORT);
-			break;
-
-			case LANDSCAPE_LEFT:
-			case LANDSCAPE_RIGHT:
-				AConfiguration_setOrientation(getAndroidApp()->config, ACONFIGURATION_ORIENTATION_LAND);			
-			break;
-		}
+	switch(orientation){
+			case PORTRAIT: setAndroidScreenOrientation(0); break;
+			case PORTRAIT_REVERSE: setAndroidScreenOrientation(1); break;
+			case LANDSCAPE: setAndroidScreenOrientation(2); break;
+			case LANDSCAPE_REVERSE: setAndroidScreenOrientation(3); break;
+			case SENSOR_PORTRAIT: setAndroidScreenOrientation(4); break;
+			case SENSOR_LANDSCAPE: setAndroidScreenOrientation(5); break;
+	}
 }
 /**
 * show or hide mouse cursor

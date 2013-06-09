@@ -20,7 +20,7 @@ class androidbuf: public std::streambuf
 	public:
 
 		enum { 
-			bufsize = 128 
+			bufsize = 1028 
 		}; // ... or some other suitable buffer size
 		
 		char strBuffer[bufsize];

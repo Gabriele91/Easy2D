@@ -77,7 +77,9 @@ namespace Easy2D {
 		bool dodraw;
         //resources
 		DUNORDERED_MAP< ResourcesGroup *, ResourcesGroup *> mapResourcesGroups;
-		//
+		//reinizialize application
+		void __reloadInstance();
+
 		AndroidApp();
 		friend class Application;
 

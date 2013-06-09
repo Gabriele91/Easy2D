@@ -11,6 +11,11 @@ extern "C"{
 	const char* getAndroidApk();
 	struct android_app* getAndroidApp();
 	bool getIsAndroidValidDevice();
+	//setting device 
+	void setAndroidScreenOrientation(int orientation);
+	int getAndroidScreenOrientation();
+	void setAndroidScreenTitle(const char *str);
+	void setAndroidFullScreenMode();
 	//set value
 	void setIsAndroidValidDevice(bool validDevice);
 	void setAndroidUserData(void* userData);

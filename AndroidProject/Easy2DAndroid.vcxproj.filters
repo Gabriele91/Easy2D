@@ -37,6 +37,15 @@
     <Filter Include="Easy2D\src\thread">
       <UniqueIdentifier>{1ceb8d6e-6b9d-4274-b9f3-d5788c0855cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{d57a4025-86a2-4f11-a87e-eebf9223bf92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com">
+      <UniqueIdentifier>{1163e379-9407-4540-85fc-0d6c21a0cea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com\easy2d">
+      <UniqueIdentifier>{140a727a-ea95-4661-92cd-160fc5c3ead5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="AndroidManifest.xml" />
@@ -294,5 +303,10 @@
     <ClInclude Include="..\include\android\AndroidMain.h">
       <Filter>Easy2D\include\android</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <JCompile Include="src\com\easy2d\Easy2DActivity.java">
+      <Filter>src\com\easy2d</Filter>
+    </JCompile>
   </ItemGroup>
 </Project>

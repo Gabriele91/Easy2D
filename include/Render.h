@@ -20,7 +20,6 @@ namespace Easy2D {
 		Camera *camera;
 		Vector2D viewport;
 		float screenAngle;
-		Screen::Orientation orientation;
 		//colors
 		Color clearClr;
 		Color ambientClr;
@@ -40,7 +39,7 @@ namespace Easy2D {
 		//
 		DFORCEINLINE void setClear(const Color& color){ clearClr=color; }
 		//
-		void setOrientation(Screen::Orientation orientation);
+		void updateProjection();
 	};
 
 };

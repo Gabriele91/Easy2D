@@ -54,13 +54,23 @@ namespace Easy2D {
 			PORTRAIT_REVERSE,
 			///@code
 			/// like this:
+			///    _____
+			///   |  o  |
+			///   |     |
+			///   |     |
+			///   |__o__|
+			///
+			///@endcode
+			SENSOR_PORTRAIT,
+			///@code
+			/// like this:
 			/// ___________
 			///|           |
 			///|           |
 			///|_____o_____|
 			///
 			///@endcode
-			LANDSCAPE_LEFT,
+			LANDSCAPE,
 			///@code
 			/// like this:
 			/// ___________
@@ -69,7 +79,16 @@ namespace Easy2D {
 			///|___________|
 			///
 			///@endcode
-			LANDSCAPE_RIGHT,
+			LANDSCAPE_REVERSE,
+			///@code
+			/// like this:
+			/// ___________
+			///|     o     |
+			///|           |
+			///|_____o_____|
+			///
+			///@endcode
+			SENSOR_LANDSCAPE
 		};
 		/**
 		* return screen width

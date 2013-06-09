@@ -47,7 +47,7 @@ public:
 
 	virtual void start(){
 		//port mode
-		//getScreen()->setOrientation(Easy2D::Screen::PORTRAIT);
+		getScreen()->setOrientation(Easy2D::Screen::SENSOR_PORTRAIT);
 		//input
 		getInput()->addHandler((Input::KeyboardHandler*)this);
 		getInput()->addHandler((Input::MouseHandler*)this);
@@ -80,6 +80,7 @@ public:
 		if(getInput()->getKeyHit(Key::A))
 			std::cout<< "hit A" << std::endl;
 		//draw:
+		rander.updateProjection();
 		rander.setClear(Color(32,128,255,255));
 		rander.update(dt);
 		rander.draw();
@@ -114,12 +115,23 @@ public:
 						getScreen()->getHeight()/2.0);
 		spriteLight.setPosition((mousePosition.to<Math::x,Math::ny>())+alScreen);
 	}
+	
 	virtual void onFingerMove(Vec3 touchPosition,Key::Finger fingerID ) {
-		Vec2 alScreen(  getScreen()->getWidth()/-2.0,
-						getScreen()->getHeight()/2.0);
-		spriteLight.setPosition((touchPosition.to<Math::x,Math::ny>())+alScreen);
+		if(fingerID==Key::FINGER1){
+			Vec2 alScreen(  getScreen()->getWidth()/-2.0,
+							getScreen()->getHeight()/2.0);
+			spriteLight.setPosition((touchPosition.to<Math::x,Math::ny>())+alScreen);
+		}
 	}
 
+	virtual void onFingerRelease(Vec3 touchPosition,Key::Finger fingerID ) {
+		if(fingerID==Key::FINGER2){
+			if(getScreen()->getOrientation()!=Easy2D::Screen::SENSOR_LANDSCAPE)
+				getScreen()->setOrientation(Easy2D::Screen::SENSOR_LANDSCAPE);
+			else
+				getScreen()->setOrientation(Easy2D::Screen::SENSOR_PORTRAIT);
+		}
+	}
 
 };
 

@@ -12,29 +12,9 @@
 ///////////////////////
 using namespace Easy2D;
 
-AndroidApp::AndroidApp()
-		   :Application(){
-	screen=(Screen*)new AndroidScreen();
-	input=(Input*)new AndroidInput();
-	//set android userdata
-	setAndroidUserData((void*)this);
-
-	//overload pause
-	onConfigChange([](void *data){
-		AndroidApp *self=((AndroidApp*)data);
-		//disable flip surface
-		self->dodraw=true;
-	});
-	//overload pause
-	onPauseAndroid([](void *data){
-		AndroidApp *self=((AndroidApp*)data);
-		//disable flip surface
-		//self->dodraw=false;
-	});
-	//set reload gpu data when is resume
-	onInitAndroid([](void *data){
-		AndroidApp *self=((AndroidApp*)data);
-		AndroidScreen* screen=((AndroidScreen*)(self->screen));
+void AndroidApp::__reloadInstance(){	
+		//CAST
+		AndroidScreen* screen=((AndroidScreen*)(this->screen));
 		//create surface
 		screen->__createSurface();
 		//is a valid gl es context?
@@ -45,9 +25,42 @@ AndroidApp::AndroidApp()
 			screen->acquireContext();
 			screen->__initStateOpenGLES();
 			//reload gpu assets
-			for(auto& rsg:self->mapResourcesGroups)
+			for(auto& rsg:this->mapResourcesGroups)
 				rsg.second->reloadGpuResouce();
 		}
+		//enable flip screen
+		this->dodraw=true;
+}
+
+AndroidApp::AndroidApp()
+		   :Application(){
+	screen=(Screen*)new AndroidScreen();
+	input=(Input*)new AndroidInput();
+	//set android userdata
+	setAndroidUserData((void*)this);
+
+	//overload pause
+	onConfigChange([](void *data){
+		AndroidApp *self=((AndroidApp*)data);
+		AndroidScreen* screen=((AndroidScreen*)(self->screen));
+		//reset screen size
+		screen->__isResized();
+		screen->__disableContext();
+		screen->__deleteSurface();
+		//create surface
+		self->__reloadInstance();
+	});
+	//overload pause
+	onPauseAndroid([](void *data){
+		AndroidApp *self=((AndroidApp*)data);
+		//disable flip surface
+		self->dodraw=false;
+	});
+	//set reload gpu data when is resume
+	onInitAndroid([](void *data){
+		AndroidApp *self=((AndroidApp*)data);
+		//create surface
+		self->__reloadInstance();
 		//enable flip screen
 		self->dodraw=true;
 	});
