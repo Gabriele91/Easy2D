@@ -3,12 +3,13 @@
 #include <ETime.h>
 #if defined( PLATFORM_IOS )
 #elif defined( PLATFORM_OSX )
+    #include <CocoaApp.h>
 #elif defined( PLATFORM_WINDOW )
-#include <WindowsApp.h>
+    #include <WindowsApp.h>
 #elif defined( PLATFORM_LINUX )
-#include <LinuxApp.h>
+    #include <LinuxApp.h>
 #elif defined( PLATFORM_ANDROID )
-#include <AndroidApp.h>
+    #include <AndroidApp.h>
 #endif
 ///////////////////////
 using namespace Easy2D;
@@ -33,7 +34,8 @@ Application *Application::create(){
 	Math::seedRandom((uint)GetTime());
 
 #if defined( PLATFORM_IOS )
-#elif defined( PLATFORM_OSX )
+#elif defined( PLATFORM_OSX )    
+	appSingleton=new CocoaApp();
 #elif defined( PLATFORM_WINDOW )
 	appSingleton=new WindowsApp();
 #elif defined( PLATFORM_LINUX )

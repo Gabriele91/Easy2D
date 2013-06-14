@@ -350,7 +350,7 @@ uint LinuxScreen::getNativeHeight(){
 * return screen orientation
 */
 LinuxScreen::Orientation LinuxScreen::getOrientation(){
-	return Screen::LANDSCAPE_RIGHT;
+	return Screen::LANDSCAPE;
 }
 /**
 * show or hide mouse cursor

@@ -53,17 +53,8 @@
 	#include <window/OpenGLWindow.h>
 	//#include <AL/al.h>
 	//#include <AL/alc.h>
-#elif defined(__linux__)
-	#define PLATFORM_LINUX
-	#define PLATFORM_UNIX
-	#define DCPP_11
-	#define ENABLE_VAOS
-	#include <GL/gl.h>
-	#include <linux/OpenGLLinux.h>
-	#include <AL/al.h>
-	#include <AL/alc.h>
 #elif defined(__APPLE__)
-    #include "TargetConditionals.h"
+    #include <TargetConditionals.h>
 	#define PLATFORM_UNIX
 	#define ENABLE_VAOS
 
@@ -75,15 +66,31 @@
 
     #elif TARGET_OS_MAC
 		#define PLATFORM_MAC_OS_X
-
+        #define PLATFORM_OSX
+        #define PLATFORM_UNIX
+        #define DCPP_11
+        #define ENABLE_VAOS
+        #include <OpenGL/gl.h>
+        #include <OpenGL/glu.h>
+        #include <OpenGL/glext.h>
     #endif
+
+#elif defined(__linux__)
+    #define PLATFORM_LINUX
+    #define PLATFORM_UNIX
+    #define DCPP_11
+    #define ENABLE_VAOS
+    #include <GL/gl.h>
+    #include <linux/OpenGLLinux.h>
+    #include <AL/al.h>
+    #include <AL/alc.h>
 #else
 	#error "platform not supported"
 #endif
 
 
 
-#if ( (__GNUC__>=4) && (__GNUC_MINOR__ >=6) || defined(__ANDROID__) )
+#if ( (__GNUC__>=4) && (__GNUC_MINOR__ >=6) || defined(__ANDROID__) ) || defined(__llvm__)
 
 	#define DFORCEINLINE __attribute__ ((always_inline))
 	#define DINLINE inline

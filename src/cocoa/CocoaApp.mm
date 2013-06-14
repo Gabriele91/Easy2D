@@ -6,4 +6,186 @@
 //
 //
 
-#include "CocoaApp.h"
+#include <CocoaApp.h>
+#include <CocoaScreen.h>
+#include <CocoaInput.h>
+#import <Cocoa/Cocoa.h>
+#import <Timer.h>
+//namespace
+using namespace Easy2D;
+#define COCOAAPP NSApplication *applicationObject = (NSApplication*)cocoaApp;
+/**
+ * cocoa application class
+ */
+@interface Easy2DApplication : NSApplication
+{
+    
+}
+
+- (void)run;
+- (void)terminate:(id)sender;
+
+@end
+
+@implementation Easy2DApplication
+
+
+- (void)run
+{
+    //init loop cocoa
+	[[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationWillFinishLaunchingNotification object:NSApp];
+	[[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationDidFinishLaunchingNotification  object:NSApp];
+    //loop
+    Application::instance()->loop();
+	
+}
+
+- (void)terminate:(id)sender
+{
+	Application::instance()->exit();
+}
+
+@end
+
+
+/**
+ * cocoa app costructor
+ */
+CocoaApp::CocoaApp(){
+    //create app istance    
+	NSApplication *applicationObject = [Easy2DApplication sharedApplication];
+    cocoaApp=(void*)applicationObject;
+    //create component
+	screen=(Screen*)new CocoaScreen();
+	input=(Input*)new CocoaInput();
+	//not exit form loop
+	doexit=false;
+}
+
+/**
+ * destroy an window application
+ */
+CocoaApp::~CocoaApp(){
+    COCOAAPP
+    [applicationObject release];
+}
+/**
+ * load a binary file
+ * @return succes
+ */
+bool CocoaApp::loadData(const String& path,void*& ptr,size_t &len){    
+	//open
+	FILE *pfile=fopen(path,"rb");
+	DEBUG_MESSAGE("load file: "<<path);
+	DEBUG_ASSERT_MSG(pfile,"error load file: "<<path);
+    //get size
+    fseek(pfile,0,SEEK_END);
+    len=ftell(pfile);
+    fseek(pfile,0,SEEK_SET);
+    //read
+    ptr=malloc(len*sizeof(char)+1);
+    fread(ptr,len,1,pfile);
+    (*((char*)ptr+len))='\0';
+	//close
+	fclose(pfile);
+	return pfile!=NULL;
+}
+/**
+ * where you can save files data
+ * @return path
+ */
+String CocoaApp::appDataDirectory(){
+    return "";
+}
+/**
+ * application root (read only)
+ * @return path
+ */
+String CocoaApp::appWorkingDirectory(){
+	char cCurrentPath[PATH_MAX];
+	if(!getcwd(cCurrentPath, sizeof(cCurrentPath))){
+		DEBUG_MESSAGE("Error get working directory: "<<errno);
+	}
+	return cCurrentPath;
+}
+/**
+ * resources directory (read only)
+ * @return path
+ */
+String CocoaApp::appResourcesDirectory(){
+    return "";
+}
+/**
+ * application exit method
+ */
+void CocoaApp::exit(){
+    doexit=true;
+}
+/**
+ * application loop
+ */
+void CocoaApp::loop(){
+    
+	Timer timer;
+	double msToSleep=1000.0/(static_cast<double>(screen->getFrameRate()));
+	double millipass=0;
+	double dt=0;
+	double sleepTime=0;
+	//start timer
+	timer.start();
+	//set current context
+	screen->acquireContext();
+	//draw loop
+	while( !input->getClose() && !doexit ) {
+		//get timer values
+		millipass=timer.getGetCounter();
+		//calc dt and sleep time
+		sleepTime=msToSleep-millipass;
+		while(sleepTime>0 && sleepTime<60000 ){
+		    //scheduler linux is faster then window
+			usleep ((sleepTime>9?1:0)*1000);
+			millipass=timer.getGetCounter();
+			sleepTime=msToSleep-millipass;
+		}
+		//calc dt
+		dt=millipass/1000.0;
+		timer.reset();
+		//update
+		update(dt);
+		//update opengl
+		screen->swap();
+    }
+}
+/**
+ * execute a instance application
+ */
+void CocoaApp::exec(Game *game){
+	mainInstance=game;
+    
+	mainInstance->start();
+    
+    COCOAAPP
+    
+	if ([applicationObject respondsToSelector:@selector(run)])
+	{
+		[applicationObject  performSelectorOnMainThread:@selector(run)
+                                             withObject:nil
+                                          waitUntilDone:YES];
+	}
+    
+    
+	mainInstance->end();
+}
+/**
+ * application update
+ */
+void CocoaApp::update(float dt){
+	input->update();
+	mainInstance->run(dt);
+}
+/**
+ * return true if device supports only power of two texture
+ */
+bool CocoaApp::onlyPO2(){
+    return false;
+}

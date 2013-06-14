@@ -11,6 +11,7 @@ namespace Easy2D {
 		
 		static void breakpoint();
 		static std::ostream& message();
+		static void doassert(void* v,const char* value,const char* fileSource,int line);
 		static void doassert(int v,const char* value,const char* fileSource,int line);
 		static void gpucheckerrors(const char* fileSource,int line);
 
@@ -19,8 +20,8 @@ namespace Easy2D {
 #ifdef _DEBUG
 
 	#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
-	#define DEBUG_ASSERT( x ) Debug::doassert((int)(x),#x,__FILE__,__LINE__)
-	#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((int)(x),#x,__FILE__,__LINE__)
+	#define DEBUG_ASSERT( x ) Debug::doassert((x),#x,__FILE__,__LINE__)
+	#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((x),#x,__FILE__,__LINE__)
 	#define DEBUG_ASSERT_REPLACE( x ) DEBUG_ASSERT(x)
 	#define DEBUG_ASSERT_MGS_REPLACE( x,y ) DEBUG_ASSERT_MSG(x,y)
 	#define DEBUG_BREAKPOINT() Debug::breakpoint()
