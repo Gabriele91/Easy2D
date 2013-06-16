@@ -35,6 +35,8 @@ using namespace Easy2D;
     //init loop cocoa
 	[[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationWillFinishLaunchingNotification object:NSApp];
 	[[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationDidFinishLaunchingNotification  object:NSApp];
+    //is init    
+    [self finishLaunching];
     //loop
     Application::instance()->loop();
 	
@@ -52,6 +54,12 @@ using namespace Easy2D;
  * cocoa app costructor
  */
 CocoaApp::CocoaApp(){
+    //set Current Process
+    ProcessSerialNumber psn;    
+	if (!GetCurrentProcess(&psn)) {
+		TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+		SetFrontProcess(&psn);
+	}
     //create app istance    
 	NSApplication *applicationObject = [Easy2DApplication sharedApplication];
     cocoaApp=(void*)applicationObject;
@@ -68,6 +76,13 @@ CocoaApp::CocoaApp(){
 CocoaApp::~CocoaApp(){
     COCOAAPP
     [applicationObject release];
+	//delete screen
+	delete screen;
+	screen=NULL;
+	//delete input
+	delete input;
+	input=NULL;
+    
 }
 /**
  * load a binary file
@@ -126,6 +141,8 @@ void CocoaApp::exit(){
  */
 void CocoaApp::loop(){
     
+    COCOAAPP
+
 	Timer timer;
 	double msToSleep=1000.0/(static_cast<double>(screen->getFrameRate()));
 	double millipass=0;
@@ -150,6 +167,8 @@ void CocoaApp::loop(){
 		//calc dt
 		dt=millipass/1000.0;
 		timer.reset();
+        //update
+        [applicationObject updateWindows];
 		//update
 		update(dt);
 		//update opengl
@@ -169,8 +188,8 @@ void CocoaApp::exec(Game *game){
 	if ([applicationObject respondsToSelector:@selector(run)])
 	{
 		[applicationObject  performSelectorOnMainThread:@selector(run)
-                                             withObject:nil
-                                          waitUntilDone:YES];
+                            withObject:nil
+                            waitUntilDone:YES];
 	}
     
     

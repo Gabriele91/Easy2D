@@ -15,6 +15,42 @@ using namespace Easy2D;
 #define TOCOCOAWINDOW NSWindow * window=(NSWindow *)(cocoaWindow);
 #define TOCOCOACONTEXT NSOpenGLContext * openGLContext=(NSOpenGLContext *)(cocoaGLContext);
 
+
+///////////////////////////////////////////////////////////////////////////////
+// WINDOW CLASS
+@interface  Easy2DWindow : NSWindow
+/* These are needed for borderless/fullscreen windows */
+- (BOOL)canBecomeKeyWindow;
+- (BOOL)canBecomeMainWindow;
+@end
+
+@implementation Easy2DWindow
+- (BOOL)canBecomeKeyWindow
+{
+	return YES;
+}
+
+- (BOOL)canBecomeMainWindow
+{
+	return YES;
+}
+@end
+///////////////////////////////////////////////////////////////////////////////
+// VIEW CLASS
+@interface Easy2DView : NSView
+// The default implementation doesn't pass rightMouseDown to responder chain
+- (void)rightMouseDown:(NSEvent *)theEvent;
+@end
+
+@implementation Easy2DView
+- (void)rightMouseDown:(NSEvent *)theEvent
+{
+	[[self nextResponder] rightMouseDown:theEvent];
+}
+@end
+///////////////////////////////////////////////////////////////////////////////
+
+
 void CocoaScreen::__openWindow(int w,int h,const char *title){
     
     //GC
@@ -28,19 +64,22 @@ void CocoaScreen::__openWindow(int w,int h,const char *title){
     frame.size.height = h;
 	
     //window
-    NSWindow * window = [[NSWindow alloc]
-                         initWithContentRect: frame
-                         styleMask: (NSTitledWindowMask | NSMiniaturizableWindowMask | NSClosableWindowMask)
-                         backing: NSBackingStoreBuffered
-                         defer: TRUE];
+    NSWindow * window = [[Easy2DWindow alloc]
+                          initWithContentRect: frame
+                          styleMask: (NSTitledWindowMask | NSMiniaturizableWindowMask | NSClosableWindowMask)
+                          backing: NSBackingStoreBuffered
+                          defer: false];
 	//disable GC
 	[window setReleasedWhenClosed:false];
 	[window center];
 	[window makeKeyAndOrderFront:nil];
+    //  Set content view
+	NSView *contentView = [[Easy2DView alloc] initWithFrame:frame];
+	[window setContentView: contentView];
+	[contentView release];
     //set title
     NSString *titleNS = [NSString stringWithUTF8String:title];
     [window setTitle:titleNS];
-    
     //GC release
 	[pool release];
     
@@ -59,25 +98,35 @@ void CocoaScreen::__closeWindow(){
 
 }
 void CocoaScreen::__createContext(int msaa){
-    
     //COCOA OPENGL CONTEXT
-    NSOpenGLContext *openGLContext;
-    
+    NSOpenGLContext *openGLContext=NULL;
+        
     NSOpenGLPixelFormatAttribute attributes [] = {
         NSOpenGLPFAWindow,
         NSOpenGLPFADoubleBuffer,	// double buffered
         NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16, // 16 bit depth buffer
 		
 		//msaa
-		NSOpenGLPFASampleBuffers, 1,
-		NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(msaa),
+		//NSOpenGLPFASampleBuffers, 1,
+		//NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(msaa),
         
 		NSOpenGLPFANoRecovery,		
         (NSOpenGLPixelFormatAttribute)nil
     };
     
     NSOpenGLPixelFormat *pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+    DEBUG_ASSERT(pixelFormat);
+
     openGLContext = [[NSOpenGLContext alloc]  initWithFormat:pixelFormat shareContext:nil];
+    DEBUG_ASSERT(openGLContext);
+    
+    //swap interval    
+    GLint value = 1;
+    [openGLContext setValues:&value forParameter:NSOpenGLCPSwapInterval];
+    
+    //dealloc
+    [pixelFormat release];
+    
     /////////////////////////
     //return
     cocoaGLContext=(void*)openGLContext;
@@ -86,8 +135,8 @@ void CocoaScreen::__createContext(int msaa){
 }
 void CocoaScreen::__deleteContext(){
     TOCOCOACONTEXT
-    
-	[openGLContext clearDrawable];
+    [NSOpenGLContext clearCurrentContext];
+    [openGLContext clearDrawable];
     [openGLContext release];
 }
 
@@ -178,11 +227,8 @@ uint CocoaScreen::getFrameRate(){
  */
 void CocoaScreen::acquireContext(){
     
-    TOCOCOAWINDOW
     TOCOCOACONTEXT
     
-    [openGLContext setView:[window contentView]];
-	[openGLContext update];
 	[openGLContext makeCurrentContext];
     
 }
@@ -237,12 +283,19 @@ void CocoaScreen::createWindow(const char* appname,
                           uint freamPerSecond,
                           bool fullscreen,
                           AntiAliasing dfAA){
-    
+    this->fullscreen=fullscreen;
+    this->cocoaGLContext=NULL;
+    this->cocoaWindow=NULL;
     this->freamPerSecond=freamPerSecond;
     //open window
     __openWindow(width,height,appname);
     //create context
     __createContext(dfAA);
+    //set context to window   
+    TOCOCOAWINDOW
+    TOCOCOACONTEXT
+    [openGLContext setView:[window contentView]];
+	[openGLContext update];
     //set context
     acquireContext();    
     //init openGL2
