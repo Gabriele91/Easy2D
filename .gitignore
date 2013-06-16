@@ -65,6 +65,9 @@ obj/
 [Rr]elease*/
 Ankh.NoLoad
 
+#pch Xcode must to be not ignored
+!xcode/*/*.pch
+!xcode/*.pch
 
 #MAC OS X ignore files:
 .DS_Store
