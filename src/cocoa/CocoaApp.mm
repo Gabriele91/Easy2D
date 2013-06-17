@@ -13,6 +13,8 @@
 #import <Timer.h>
 //namespace
 using namespace Easy2D;
+
+////////////////////////////////////////
 #define COCOAAPP NSApplication *applicationObject = (NSApplication*)cocoaApp;
 /**
  * cocoa application class
@@ -48,21 +50,57 @@ using namespace Easy2D;
 }
 
 @end
+////////////////////////////////////////
 
+////////////////////////////////////////
+@interface Easy2DAppDelegate : NSObject
+@end
+
+@implementation Easy2DAppDelegate
+//Set the working directory to the .app's parent directory
+- (void) setupWorkingDirectory:(BOOL)shouldChdir
+{
+    if (shouldChdir)
+    {
+        char parentdir[MAXPATHLEN];
+        CFURLRef url = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+        CFURLRef url2 = CFURLCreateCopyDeletingLastPathComponent(0, url);
+        if (CFURLGetFileSystemRepresentation(url2, 1, (UInt8 *)parentdir, MAXPATHLEN)) {
+            chdir(parentdir);   // chdir to the binary app's parent 
+        }
+        CFRelease(url);
+        CFRelease(url2);
+    }
+ }
+@end
+////////////////////////////////////////
 
 /**
  * cocoa app costructor
  */
 CocoaApp::CocoaApp(){
+    
+    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+    
     //set Current Process
     ProcessSerialNumber psn;    
 	if (!GetCurrentProcess(&psn)) {
 		TransformProcessType(&psn, kProcessTransformToForegroundApplication);
 		SetFrontProcess(&psn);
 	}
-    //create app istance    
-	NSApplication *applicationObject = [Easy2DApplication sharedApplication];
+    
+    //create app instance 
+    NSApplication *applicationObject = [Easy2DApplication sharedApplication];
     cocoaApp=(void*)applicationObject;
+    
+    //app delegate
+    Easy2DAppDelegate* appDelegate=[[Easy2DAppDelegate alloc] init];
+    [NSApp setDelegate:appDelegate];
+        
+    //free memory
+    [pool release];
+    
+    
     //create component
 	screen=(Screen*)new CocoaScreen();
 	input=(Input*)new CocoaInput();
@@ -74,14 +112,23 @@ CocoaApp::CocoaApp(){
  * destroy an window application
  */
 CocoaApp::~CocoaApp(){
-    COCOAAPP
-    [applicationObject release];
+    //gc
+    NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
+    
 	//delete screen
 	delete screen;
 	screen=NULL;
 	//delete input
 	delete input;
 	input=NULL;
+    
+    //delete app instance    
+    COCOAAPP
+    [[NSApp delegate] release];
+    [applicationObject release];
+    
+    //free memory
+    [pool release];
     
 }
 /**
@@ -168,7 +215,7 @@ void CocoaApp::loop(){
 		dt=millipass/1000.0;
 		timer.reset();
         //update
-        [applicationObject updateWindows];
+        //[applicationObject updateWindows];
 		//update
 		update(dt);
 		//update opengl

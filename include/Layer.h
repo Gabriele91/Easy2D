@@ -16,7 +16,8 @@ namespace Easy2D {
 		DFORCEINLINE void updateRenderable(Renderable *rnd, float dt){
 			rnd->update(dt);
 		}
-		
+		Layer():visible(true){}
+        
 	public:
 		//
 		virtual Renderable* next()=0;
@@ -53,7 +54,7 @@ namespace Easy2D {
 
 	public:
 		//
-		LayerUnorder():it(renderables.begin()){}
+		LayerUnorder():Layer(),it(renderables.begin()){}
 		//get Renderable
 		virtual Renderable* next(){
 			if(it!=renderables.end()){
@@ -97,7 +98,7 @@ namespace Easy2D {
 
 	public:
 		//
-		LayerOrder():reorder(true),it(0){}
+		LayerOrder():Layer(),reorder(true),it(0){}
 		//get Renderable
 		virtual Renderable* next(){
 			if(it<renderables.size())

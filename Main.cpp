@@ -38,7 +38,7 @@ public:
 		  32,   //bit
 		  60,   //frame per second
 		  false,//fullscreen
-		  Easy2D::Screen::MSAAx8)//anti aliasing
+		  Easy2D::Screen::MSAAx4)//anti aliasing
 	//init textures
 	,resources("livel/resources.rs.e2d")
 	{}
@@ -84,6 +84,7 @@ public:
 		rander.setClear(Color(32,128,255,255));
 		rander.update(dt);
 		rander.draw();
+        CHECK_GPU_ERRORS();
 	}
 	virtual void end(){
 	}

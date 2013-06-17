@@ -19,9 +19,13 @@ using namespace Easy2D;
 ///////////////////////////////////////////////////////////////////////////////
 // WINDOW CLASS
 @interface  Easy2DWindow : NSWindow
-/* These are needed for borderless/fullscreen windows */
+//! These are needed for borderless/fullscreen windows 
 - (BOOL)canBecomeKeyWindow;
 - (BOOL)canBecomeMainWindow;
+//! In addition to closing the window, also terminate the app.
+- (void) close;
+//! @return yes
+- (BOOL) acceptsFirstResponder;
 @end
 
 @implementation Easy2DWindow
@@ -34,6 +38,17 @@ using namespace Easy2D;
 {
 	return YES;
 }
+
+- (BOOL) acceptsFirstResponder {
+    return YES;
+}
+
+- (void) close {
+    [NSApp terminate:self];    
+    // If the app refused to terminate, this window should still close.
+    [super close];
+}
+
 @end
 ///////////////////////////////////////////////////////////////////////////////
 // VIEW CLASS
@@ -68,18 +83,20 @@ void CocoaScreen::__openWindow(int w,int h,const char *title){
                           initWithContentRect: frame
                           styleMask: (NSTitledWindowMask | NSMiniaturizableWindowMask | NSClosableWindowMask)
                           backing: NSBackingStoreBuffered
-                          defer: false];
-	//disable GC
-	[window setReleasedWhenClosed:false];
-	[window center];
-	[window makeKeyAndOrderFront:nil];
-    //  Set content view
+                          defer: false];    
+    //  Set view
 	NSView *contentView = [[Easy2DView alloc] initWithFrame:frame];
 	[window setContentView: contentView];
+    [window makeFirstResponder:contentView];
 	[contentView release];
+    
     //set title
+	[window setReleasedWhenClosed:false];
     NSString *titleNS = [NSString stringWithUTF8String:title];
     [window setTitle:titleNS];
+	[window center];
+	[window makeKeyAndOrderFront:nil];
+    
     //GC release
 	[pool release];
     
@@ -94,25 +111,33 @@ void CocoaScreen::__openWindow(int w,int h,const char *title){
 void CocoaScreen::__closeWindow(){
     
     TOCOCOAWINDOW
+    [window close];
     [window release];
+    
 
 }
 void CocoaScreen::__createContext(int msaa){
     //COCOA OPENGL CONTEXT
     NSOpenGLContext *openGLContext=NULL;
-        
-    NSOpenGLPixelFormatAttribute attributes [] = {
-        NSOpenGLPFAWindow,
-        NSOpenGLPFADoubleBuffer,	// double buffered
-        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16, // 16 bit depth buffer
-		
-		//msaa
-		//NSOpenGLPFASampleBuffers, 1,
-		//NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(msaa),
-        
-		NSOpenGLPFANoRecovery,		
-        (NSOpenGLPixelFormatAttribute)nil
-    };
+    
+    NSOpenGLPixelFormatAttribute attributes[32];    
+    int i=0;
+    attributes[i++] = NSOpenGLPFANoRecovery;
+    //attributes[i++] = NSOpenGLPFAAccelerated;
+    attributes[i++] = NSOpenGLPFADoubleBuffer;
+    attributes[i++] = NSOpenGLPFAColorSize;
+    attributes[i++] = 32.0;
+    attributes[i++] = NSOpenGLPFADepthSize;
+    attributes[i++] = 16.0;    
+    //msaa
+    if(msaa!=NOAA){
+        attributes[i++]=NSOpenGLPFASampleBuffers;
+        attributes[i++]=1;
+        attributes[i++]=NSOpenGLPFASamples;
+        attributes[i++]=static_cast<NSOpenGLPixelFormatAttribute>(msaa);
+    }
+    
+    attributes[i] = 0;
     
     NSOpenGLPixelFormat *pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
     DEBUG_ASSERT(pixelFormat);
@@ -126,7 +151,6 @@ void CocoaScreen::__createContext(int msaa){
     
     //dealloc
     [pixelFormat release];
-    
     /////////////////////////
     //return
     cocoaGLContext=(void*)openGLContext;
@@ -148,6 +172,8 @@ void CocoaScreen::__initOpenGL(){
     glEnable(GL_ALPHA_TEST);
     glEnable(GL_BLEND);
     glBlendFunc( GL_ONE , GL_ZERO );
+    //disable zbuffer
+    glDisable(GL_DEPTH_TEST);
     //disable light
     glDisable(GL_LIGHTING);
     //enable texturing
@@ -237,9 +263,9 @@ void CocoaScreen::acquireContext(){
  */
 void CocoaScreen::swap(){
     
-    TOCOCOACONTEXT
-    
-	[openGLContext flushBuffer];
+    //TOCOCOACONTEXT
+    glSwapAPPLE();
+	//[openGLContext flushBuffer];
     
 }
 /**
@@ -296,9 +322,10 @@ void CocoaScreen::createWindow(const char* appname,
     TOCOCOACONTEXT
     [openGLContext setView:[window contentView]];
 	[openGLContext update];
+    [[window contentView] display];
     //set context
     acquireContext();    
-    //init openGL2
+    //init openGL
     __initOpenGL();
     //enable AA
     if(dfAA!=NOAA)
