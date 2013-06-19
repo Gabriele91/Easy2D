@@ -20,7 +20,8 @@ namespace Easy2D {
 	class CocoaInput : Input{
         
 	public:
-        
+        //destructor
+		virtual ~CocoaInput();
         /**
          * get mouse position
          * @return mouse position
@@ -176,8 +177,12 @@ namespace Easy2D {
             return ewindow.windowResize;
         }
         
+    #ifdef ___PUBLIC_FOR_COCOA_CLASS
+        public:
+    #else
+        protected:
+    #endif
         
-    protected:
         //window
         struct EventWindow{
             bool focus,
@@ -271,6 +276,9 @@ namespace Easy2D {
         void __callOnMouseScroll(short scrollDelta);
         //hide constructor
         CocoaInput();
+        //cocoa listener
+        void __addCocoaListener(void *nswindow);
+        void* listener;
         //cocoa:
         void __updateCocoaEvent();
         //friends class

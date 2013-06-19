@@ -102,8 +102,14 @@ CocoaApp::CocoaApp(){
     
     
     //create component
-	screen=(Screen*)new CocoaScreen();
-	input=(Input*)new CocoaInput();
+    screen=(Screen*)new CocoaScreen();
+    input=(Input*)new CocoaInput();
+    //add listener
+    ((CocoaScreen*)screen)->onCocoaWindowCreated=[](void *nswindow){
+        CocoaInput* input= (CocoaInput*)Application::instance()->getInput();
+        input->__addCocoaListener(nswindow);
+    };
+    
 	//not exit form loop
 	doexit=false;
 }
@@ -115,12 +121,13 @@ CocoaApp::~CocoaApp(){
     //gc
     NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
     
-	//delete screen
-	delete screen;
-	screen=NULL;
 	//delete input
 	delete input;
 	input=NULL;
+    
+	//delete screen
+	delete screen;
+	screen=NULL;
     
     //delete app instance    
     COCOAAPP

@@ -196,6 +196,7 @@ CocoaScreen::CocoaScreen()
 ,freamPerSecond(0)
 ,fullscreen(false)
 ,showmouse(true)
+,onCocoaWindowCreated(NULL)
 {
     NSRect screenRect;
     NSArray *screens=[NSScreen screens];
@@ -330,6 +331,9 @@ void CocoaScreen::createWindow(const char* appname,
     //enable AA
     if(dfAA!=NOAA)
         glEnable( GL_MULTISAMPLE );
+    //add listener
+    if(onCocoaWindowCreated)
+        onCocoaWindowCreated(cocoaWindow);
 }
 /*
  * close window

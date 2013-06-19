@@ -106,6 +106,7 @@ namespace Easy2D {
         //cocoa pointers
         void* cocoaWindow;
         void* cocoaGLContext;
+        void (*onCocoaWindowCreated)(void*);
         void __openWindow(int w,int h,const char *title);
         void __closeWindow();
         void __createContext(int msaa);
@@ -121,7 +122,7 @@ namespace Easy2D {
 		bool fullscreen;
 		bool showmouse;
 		//friends class
-		friend class LinuxApp;
+		friend class CocoaApp;
 	};
     
     
