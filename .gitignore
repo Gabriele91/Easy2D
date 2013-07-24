@@ -1,6 +1,9 @@
 *.7z
 *.exe
 
+#test directory
+livel*/
+
 #dependences
 dependences-*/
 
