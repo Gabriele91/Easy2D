@@ -11,7 +11,7 @@ namespace Easy2D {
 		
 		static void breakpoint();
 		static std::ostream& message();
-		static void doassert(void* v,const char* value,const char* fileSource,int line);
+		static void doassert(const void* v,const char* value,const char* fileSource,int line);
 		static void doassert(int v,const char* value,const char* fileSource,int line);
 		static void gpucheckerrors(const char* fileSource,int line);
 

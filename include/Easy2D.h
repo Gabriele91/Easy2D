@@ -29,6 +29,7 @@
 #include <Layer.h>
 #include <Texture.h>
 #include <Mesh.h>
+#include <Font.h>
 #include <Sprite.h>
 #include <FrameSet.h>
 #include <AnimatedSprite.h>

@@ -5,6 +5,7 @@
 #include <Mesh.h>
 #include <Object.h>
 #include <RenderState.h>
+#include <Blend.h>
 
 namespace Easy2D {
 	//

@@ -62,7 +62,7 @@ namespace Easy2D{
 					//
 					DS_PTR<T> resource(new T(rsgr,mapResources->getPath().getDirectory()+"/"+path));
 					//set into map
-					resource->name=objectname;
+					resource->Resource<T>::name=objectname;
 					rsMap[objectname]=resource;
 					//
 					return resource;

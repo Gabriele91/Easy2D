@@ -28,7 +28,7 @@ std::ostream&  Debug::message(){
 	return std::cout;
 }
 
-void Debug::doassert(void* v,const char* value,const char* fileSource,int line){
+void Debug::doassert(const void* v,const char* value,const char* fileSource,int line){
 	if(!v){
 		message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
 		breakpoint();

@@ -133,6 +133,18 @@
     <ClCompile Include="src\window\WGL_ARB_multisample.cpp">
       <Filter>File di origine\window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Math2D_SSE2.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Font.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BMFontLoader.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FreeTypeFontLoader.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -258,6 +270,21 @@
     </ClInclude>
     <ClInclude Include="src\window\WGL_ARB_multisample.h">
       <Filter>File di origine\window</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Blend.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math2D_SSE2.h">
+      <Filter>File di origine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Font.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BMFontLoader.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FreeTypeFontLoader.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -29,6 +29,7 @@ extern "C"{
 	void onInitAndroid(void (*function)(void* data));
 	void onResumeAndroid(void (*function)(void* data));
 	void onTermAndroid(void (*function)(void* data));
+	void onSaveStateAndroid(void (*function)(void* data));
     void onConfigChange(void (*function)(void* data));
 	void onPauseAndroid(void (*function)(void* data));
 	void onWindowResized(void (*function)(void* data));

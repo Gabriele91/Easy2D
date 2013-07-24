@@ -51,7 +51,7 @@ AndroidApp::AndroidApp()
 		self->__reloadInstance();
 	});
 	//overload pause
-	onPauseAndroid([](void *data){
+	onSaveStateAndroid([](void *data){
 		AndroidApp *self=((AndroidApp*)data);
 		//disable flip surface
 		self->dodraw=false;

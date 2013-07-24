@@ -174,6 +174,7 @@ extern int32_t __android_handle_input(struct android_app* app, AInputEvent* even
 static void (*initAndroid)(void* data)=NULL;
 static void (*resumeAndroid)(void* data)=NULL;
 static void (*termAndroid)(void* data)=NULL;
+static void (*saveStateAndroid)(void* data)=NULL;
 static void (*pauseAndroid)(void* data)=NULL;
 static void (*configChange)(void* data)=NULL;
 static void (*windowResized)(void* data)=NULL;
@@ -188,6 +189,9 @@ extern void onResumeAndroid(void (*function)(void* data)){
 }
 extern void onTermAndroid(void (*function)(void* data)){
 	termAndroid=function;
+}
+void onSaveStateAndroid(void (*function)(void* data)){
+	saveStateAndroid=function;
 }
 extern void onPauseAndroid(void (*function)(void* data)){
 	pauseAndroid=function;
@@ -209,7 +213,6 @@ extern void __android_handle_cmd(struct android_app* app, int32_t cmd) {
 	switch(cmd){
 		case APP_CMD_INIT_WINDOW: 
 			setIsAndroidValidDevice(true);
-			AConfiguration_setOrientation(getAndroidApp()->config, ACONFIGURATION_ORIENTATION_PORT);
 			if(initAndroid) 
 				initAndroid(app->userData);
 		break;
@@ -233,6 +236,10 @@ extern void __android_handle_cmd(struct android_app* app, int32_t cmd) {
 		case APP_CMD_CONFIG_CHANGED:
 			if(configChange) 
 				configChange(app->userData);
+        break;
+		case APP_CMD_SAVE_STATE:			
+			if(saveStateAndroid) 
+				saveStateAndroid(app->userData);
         break;
 		case APP_CMD_GAINED_FOCUS: 
 			setEnableAccelerometer((1000L/60)*1000);

@@ -4,6 +4,7 @@
 #include <Config.h>
 #include <Mesh.h>
 #include <Texture.h>
+#include <Blend.h>
 
 namespace Easy2D {
 
@@ -23,8 +24,8 @@ namespace Easy2D {
 			:rtexture(NULL)
 			,rmesh(NULL)
 			,blending(false)
-			,blendSrc(GL_ONE)
-			,blendDst(GL_ZERO)
+			,blendSrc(BLEND::ONE)
+			,blendDst(BLEND::ZERO)
 			,cullmode(GL_BACK)
 		{}
 		//draw

@@ -1,6 +1,9 @@
 *.7z
 *.exe
 
+#dependences
+dependences-*/
+
 #doxy ignore
 [Dd]oxygen*/
 

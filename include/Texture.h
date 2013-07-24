@@ -7,6 +7,7 @@
 #include <Resource.h>
 #include <Mesh.h>
 #include <iostream>
+#include <Types.h>
 
 namespace Easy2D {
 
@@ -32,6 +33,11 @@ namespace Easy2D {
 		//load methods
 		virtual bool load();
 		virtual bool unload();
+		bool loadFromBinaryData(std::vector<uchar>& bytes,
+								uint width,
+								uint height,
+								uint format,
+								uint type);
 		//settings
 		bool bilinear();
 		bool bilinear(bool value);

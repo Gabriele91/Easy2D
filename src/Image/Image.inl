@@ -18,9 +18,11 @@
 #ifdef IMAGE_LOADER_OPENGL
 	#define TYPE_RGB GL_RGB
 	#define TYPE_RGBA GL_RGBA
+	#define TYPE_ALPHA8 GL_ALPHA8
 #else
 	#define TYPE_RGB 3
 	#define TYPE_RGBA 4
+	#define TYPE_ALPHA8 1
 #endif
 /*
 * HEADERS
@@ -463,8 +465,10 @@ Image* Image::getAVGImage(Image* surce){
 }
 //cancella immagine
 void Image::freeImage(){
-    if(bytes!=NULL)
+    if(bytes!=NULL){
         free(bytes);
+		bytes=NULL;
+	}
 }
 //capovolgi immagine
 void Image::flipX(){
@@ -697,8 +701,18 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 	img->channels=tgaHeader->bits/8;
 
 	if(tgaHeader->imagetype!=TGA_RLE){
-		img->bytes=(BYTE*)malloc(img->width * img->height * img->channels * sizeof(BYTE));
-		memcpy(img->bytes,dataImage,bfsize-sizeof(TgaHeader));
+
+		size_t sizeImage=img->width * 
+						 img->height * 
+						 img->channels * 
+						 sizeof(BYTE);
+
+		img->bytes=(BYTE*)malloc(sizeImage);
+		memcpy(img->bytes,dataImage,sizeImage);
+		//if( tgaHeader->descriptor & 0x20 )//(vh flip bits) // 00vhaaaa
+		//	img->flipY();//v vertical flip
+		//if( tgaHeader->descriptor & 0x10 )//(vh flip bits) // 00vhaaaa
+		//	img->flipX();//h flip
 	}
 	else{ //RLE LOOK LIKE N[RGB] N-> numbers repeat value rgb
 		img->bytes=dataImage;
@@ -708,8 +722,17 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 		img->channels=3;
 		img->convert16to24bit();
 	}
-	img->type  =img->channels==4? TYPE_RGBA : TYPE_RGB ;
-	img->swapRandBbits();
+	if(img->channels==4){
+		img->type  =TYPE_RGBA;
+		img->swapRandBbits();
+	}
+	else if(img->channels==3){
+		img->type  =TYPE_RGB;
+		img->swapRandBbits();
+	}
+	else if(img->channels==1){
+		img->type  =TYPE_ALPHA8;
+	}
 }
 void Image::load_TGA(Image* img,const std::string& path){
 

@@ -326,7 +326,7 @@ uint WindowsScreen::getNativeHeight(){
 * return screen orientation
 */
 WindowsScreen::Orientation WindowsScreen::getOrientation(){
-	return Screen::LANDSCAPE_RIGHT;
+	return Screen::LANDSCAPE;
 }
 /**
 * show or hide mouse cursor

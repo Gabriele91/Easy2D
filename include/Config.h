@@ -19,6 +19,9 @@
 //os include
 #include <sys/types.h>
 #include <sys/stat.h>
+//include dependences
+#include <ft2build.h>
+#include FT_FREETYPE_H
 //engine include
 #include <Types.h>
 
@@ -95,14 +98,24 @@
 	#define DFORCEINLINE __attribute__ ((always_inline))
 	#define DINLINE inline
 	#define COMPILER_GCC
+    #define PACKED( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+
 	#if !defined( PFD_SUPPORT_COMPOSITION ) && defined(PLATFORM_WINDOW)
         #define PFD_SUPPORT_COMPOSITION 0x00008000
     #endif
+
+	#if defined(__SSE__)		
+		#define SIMD_SSE
+	#endif
+	#if defined(__SSE2__)		
+		#define SIMD_SSE2
+	#endif
 
 #elif defined( _MSC_VER )
 
 	#define DFORCEINLINE __forceinline
 	#define DINLINE __inline
+	#define PACKED( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
 	#define COMPILER_VISUAL_STUDIO
 
 	#if _MSC_VER == 1600
@@ -111,8 +124,19 @@
 		  std::identity<decltype(__VA_ARGS__)>::type
 	#endif
 
+	#if  _M_IX86_FP>=1
+		#define SIMD_SSE
+	#endif
+	#if _M_IX86_FP>=2
+		#define SIMD_SSE2
+	#endif
+
 #else
 	#error compiler not supported
+#endif
+
+#if defined( SIMD_SSE2 ) || defined( SIMD_SSE )
+	#include <xmmintrin.h>
 #endif
 
 #if !defined(ENABLE_VAOS) &&  !defined(DISABLE_VAOS)
@@ -142,7 +166,5 @@
 	#define DS_PTR std::tr1::shared_ptr
 	#define DW_PTR std::tr1::weak_ptr
 #endif
-
-
 
 #endif

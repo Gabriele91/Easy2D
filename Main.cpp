@@ -13,7 +13,9 @@ class MyGame : Game,
 
 	//variable declaration
 	ResourcesGroup resources;
-
+	
+	Font::ptr verdanaBM;
+	Font::ptr verdanaFT;
 	Texture::ptr light;
 	Texture::ptr ninja;
 	Mesh::ptr lightMesh;
@@ -44,6 +46,7 @@ public:
 	{}
 
 	~MyGame(){};
+	
 
 	virtual void start(){
 		//port mode
@@ -64,7 +67,7 @@ public:
 		//test sprite
 		spriteLight.setTexture(light);
 		spriteLight.enableBlend();
-		spriteLight.setBlend(GL_SRC_ALPHA,GL_ONE);
+		spriteLight.setBlend(BLEND::SRC::ALPHA,BLEND::ONE);
 		//add layers
 		layer1=rander.addLayer(true);
 		layer1->addRenderable(&sprite);
@@ -72,6 +75,9 @@ public:
 		layer1->addRenderable(&spriteAnim);
 		//set camera
 		rander.setCamera(&camera);
+		//fonts
+		verdanaFT=resources.load<Font>("test_bm");
+		verdanaBM=resources.load<Font>("test_ft");
 		//load resources
 		resources.load();
 	}
@@ -81,9 +87,19 @@ public:
 			std::cout<< "hit A" << std::endl;
 		//draw:
 		rander.updateProjection();
-		rander.setClear(Color(32,128,255,255));
+		rander.setClear(Color(64,128,255,255));			
 		rander.update(dt);
 		rander.draw();
+		
+		
+		if(getInput()->getKeyDown(Key::F))
+			verdanaFT->text(Vec2(0,0),"Hello from freetype font rasterizer!",Color(255,0,0,128));
+		if(getInput()->getKeyDown(Key::B))
+			verdanaBM->text(Vec2(0,0),
+							"Hello "
+							"from freetype "
+							"font rasterizer!",Color(255,0,0,128));
+
         CHECK_GPU_ERRORS();
 	}
 	virtual void end(){
@@ -119,8 +135,8 @@ public:
 	
 	virtual void onFingerMove(Vec3 touchPosition,Key::Finger fingerID ) {
 		if(fingerID==Key::FINGER1){
-			Vec2 alScreen(  getScreen()->getWidth()/-2.0,
-							getScreen()->getHeight()/2.0);
+			Vec2 alScreen(  getScreen()->getWidth()/-2.0f,
+							getScreen()->getHeight()/2.0f);
 			spriteLight.setPosition((touchPosition.to<Math::x,Math::ny>())+alScreen);
 		}
 	}
@@ -141,6 +157,5 @@ int main(int,const char **){
 	Application::create();
 	Application::instance()->exec((Game*)new MyGame());
 	delete Application::instance()->getGame();
-
 	return 0;
 }

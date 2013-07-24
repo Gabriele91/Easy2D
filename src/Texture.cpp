@@ -146,15 +146,17 @@ bool Texture::load(){
 		offsetUV.y=(float)height/realHeight;
 	}
 	//resize
+	GLuint typeInternal=image.type;
+	GLuint type=image.type==GL_ALPHA8?GL_ALPHA:image.type;
 	//create a gpu texture
 	glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			image.type,
+			typeInternal,
 			realWidth,
 			realHeight,
 			0,
-			image.type,
+			type,
 			GL_UNSIGNED_BYTE,
 			NULL );
 	//create mipmaps
@@ -163,7 +165,7 @@ bool Texture::load(){
     glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
 					 width,
 					 height,
-					 image.type,
+					 type,
 					 GL_UNSIGNED_BYTE,
 					 image.bytes );
 	//is loaded
@@ -189,4 +191,51 @@ bool Texture::unload(){
 	loaded=false;
 	//return
     return !loaded;
+}
+bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
+								 uint argWidth,
+								 uint argHeight,
+								 uint format,
+								 uint type){
+	//error if olready loaded
+	DEBUG_ASSERT(!loaded);
+	/////////////////////////////////////////////////////////////////////
+	//gen gpu
+	//create an GPU texture
+	glGenTextures( 1, &gpuid );
+	//build
+	bind();
+	//save width end height
+	width=realWidth=argWidth;
+	height=realHeight=argHeight;
+	//resize
+	//create a gpu texture
+	glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			format,
+			realWidth,
+			realHeight,
+			0,
+			type,
+			GL_UNSIGNED_BYTE,
+			NULL );
+	//create mipmaps
+	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
+	//send to GPU
+    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
+					 width,
+					 height,
+					 type,
+					 GL_UNSIGNED_BYTE,
+					 &bytes[0] );
+	//is loaded
+	loaded=true;
+	//is not relodable
+	reloadable=false;
+	//if olready getted, build mesh
+	__build();
+	//return
+    return loaded;
+
 }

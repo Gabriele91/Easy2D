@@ -11,7 +11,7 @@ AnimatedSprite::AnimatedSprite(Layer *layer)
 							 ,crtAnimation(0){
 	//blend mode
 	enableBlend();
-	setBlend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	setBlend(BLEND::SRC::ALPHA, BLEND::ONE::MINUS::SRC::ALPHA);
 }
 AnimatedSprite::~AnimatedSprite(){
 	for(auto anim:animations)

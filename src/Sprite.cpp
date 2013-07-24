@@ -8,7 +8,8 @@ Sprite::Sprite(Texture::ptr texture,Layer *layer)
 			  :Renderable(NULL,texture,layer,true){
 	//blend mode
 	enableBlend();
-	setBlend(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	setBlend(BLEND::SRC::ALPHA, 
+			 BLEND::ONE::MINUS::SRC::ALPHA);
 	//if texture exist
 	if(rtexture){
 		//get sprite mesh

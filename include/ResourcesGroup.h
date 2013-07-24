@@ -10,17 +10,37 @@
 #include <Texture.h>
 #include <Mesh.h>
 #include <FrameSet.h>
-//#include <Font.h>
+#include <Font.h>
 //#include <Sound.h>
 
 namespace Easy2D {
 
 	class ResourcesGroup{
-
+		
+		
 		ResourcesManager<Texture> textures;
 		ResourcesManager<Table> tables;
 		ResourcesManager<Mesh> meshes;
 		ResourcesManager<FrameSet> frameSets;
+		ResourcesManager<Font> fonts;
+		
+		template<typename T> 
+		ResourcesManager<T>& getManager(){ return NULL; }
+		
+
+		#ifdef COMPILER_VISUAL_STUDIO
+			template<> 
+			ResourcesManager<Texture>& getManager<Texture>(){ return textures; }
+			template<> 
+			ResourcesManager<Table>& getManager<Table>(){ return tables; }
+			template<> 
+			ResourcesManager<Mesh>& getManager<Mesh>(){ return meshes; }
+			template<> 
+			ResourcesManager<FrameSet>& getManager<FrameSet>(){ return frameSets; }
+			template<> 
+			ResourcesManager<Font>& getManager<Font>(){ return fonts; }
+		#endif
+
 		//teble resources
 		Table resources;
 		//key version
@@ -56,109 +76,19 @@ namespace Easy2D {
 		/*
 		* void template
 		*/
-		template<typename T>  DS_PTR<T> load(const String& path){ return DS_PTR<T>(); }
-		template<typename T>  DS_PTR<T> get(const String& path){ return DS_PTR<T>(); }
-		template<typename T>  DS_PTR<T> find(const String& path){ return DS_PTR<T>(); }
+		template<typename T>  DS_PTR<T> load(const String& path){
+			return  getManager<T>().load(path); 
+		}
+		template<typename T>  DS_PTR<T> get(const String& path){ 
+			return getManager<T>().get(path);
+		}
+		template<typename T>  DS_PTR<T> find(const String& path){
+			return getManager<T>().find(path);
+		}
 		template<typename T>  String getResourceDirectory(){
-			return String();
+			return getManager<T>().mapResources->getPath().getDirectory();
 		}
 
-		#ifdef COMPILER_VISUAL_STUDIO
-		/*
-		* Texture manager:
-		*/
-		template <>
-		/** load texture */
-		DFORCEINLINE Texture::ptr load<Texture>(const String& path){
-			return textures.load(path);
-		}
-		template <>
-		/** get texture (but not load in memory) */
-		DFORCEINLINE Texture::ptr get<Texture>(const String& path){
-			return textures.get(path);
-		}
-		template<>
-		/** find a texture already returned */
-		DFORCEINLINE Texture::ptr find<Texture>(const String& path){
-			return textures.find(path);
-		}
-		/** directory texture resources */
-		template<>
-		DFORCEINLINE String getResourceDirectory<Texture>(){
-			return textures.mapResources->getPath().getDirectory();
-		}
-		/*
-		* Table manager:
-		*/
-		template<>
-		/** load table */
-		DFORCEINLINE Table::ptr load<Table>(const String& path){
-			return tables.load(path);
-		}
-		template<>
-		/** get table  (but not load in memory) */
-		DFORCEINLINE Table::ptr get<Table>(const String& path){
-			return tables.get(path);
-		}
-		template<>
-		/** find a table already returned */
-		DFORCEINLINE Table::ptr find<Table>(const String& path){
-			return tables.find(path);
-		}
-		/** directory table resources */
-		template<>
-		DFORCEINLINE String getResourceDirectory<Table>(){
-			return tables.mapResources->getPath().getDirectory();
-		}
-
-		/*
-		* Mesh manager:
-		*/
-		template<>
-		/** load mesh */
-		DFORCEINLINE Mesh::ptr load<Mesh>(const String& path){
-			return meshes.load(path);
-		}
-		template<>
-		/** get mesh  (but not load in memory) */
-		DFORCEINLINE Mesh::ptr get<Mesh>(const String& path){
-			return meshes.get(path);
-		}
-		template<>
-		/** find a mesh already returned */
-		DFORCEINLINE Mesh::ptr find<Mesh>(const String& path){
-			return meshes.find(path);
-		}
-		/** directory mesh resources */
-		template<>
-		DFORCEINLINE String getResourceDirectory<Mesh>(){
-			return meshes.mapResources->getPath().getDirectory();
-		}
-
-		/*
-		* FrameSet manager:
-		*/
-		template<>
-		/** load FrameSet */
-		DFORCEINLINE FrameSet::ptr load<FrameSet>(const String& path){
-			return frameSets.load(path);
-		}
-		template<>
-		/** get FrameSet  (but not load in memory) */
-		DFORCEINLINE FrameSet::ptr get<FrameSet>(const String& path){
-			return frameSets.get(path);
-		}
-		template<>
-		/** find a FrameSet already returned */
-		DFORCEINLINE FrameSet::ptr find<FrameSet>(const String& path){
-			return frameSets.find(path);
-		}
-		/** directory FrameSet resources */
-		template<>
-		DFORCEINLINE String getResourceDirectory<FrameSet>(){
-			return meshes.mapResources->getPath().getDirectory();
-		}
-		#endif
 
 		/** load all resources returned  */
 		DFORCEINLINE void load(){
@@ -166,82 +96,33 @@ namespace Easy2D {
 			tables.load();
 			meshes.load();
 			frameSets.load();
+			fonts.load();
 		}
 		/** unload all resources returned  */
 		DFORCEINLINE void unload(bool destroy){
 			textures.unload(destroy);
 			tables.unload(destroy);
 			meshes.unload(destroy);
+			frameSets.unload(destroy);
+			fonts.unload(destroy);
 		}
 		/** reload only gpu resource */
 		void reloadGpuResouce();
 
 	};
 	
-    // GCC SUCK //
+    // GCC SUCK //	
 	#ifdef COMPILER_GCC
-    /*
-    * Texture manager:
-    */
-    template<> 
-    /** load texture */
-    DFORCEINLINE Texture::ptr ResourcesGroup::load<Texture>(const String& path);
-    template<>
-    /** get texture (but not load in memory) */
-    DFORCEINLINE Texture::ptr ResourcesGroup::get<Texture>(const String& path);
-    template<>
-    /** find a texture already returned */
-    DFORCEINLINE Texture::ptr ResourcesGroup::find<Texture>(const String& path);
-    /** directory texture resources */
-    template<>
-    DFORCEINLINE String ResourcesGroup::getResourceDirectory<Texture>();
-
-    /*
-    * Table manager:
-    */
-    template<>
-    /** load table */
-    DFORCEINLINE Table::ptr ResourcesGroup::load<Table>(const String& path);
-    template<>
-    /** get table  (but not load in memory) */
-    DFORCEINLINE Table::ptr ResourcesGroup::get<Table>(const String& path);
-    template<>
-    /** find a table already returned */
-    DFORCEINLINE Table::ptr ResourcesGroup::find<Table>(const String& path);
-    /** directory table resources */
-    template<>
-    DFORCEINLINE String ResourcesGroup::getResourceDirectory<Table>();
-    /*
-    * Mesh manager:
-    */
-    template<>
-    /** load mesh */
-    DFORCEINLINE Mesh::ptr ResourcesGroup::load<Mesh>(const String& path);
-    template<>
-    /** get mesh  (but not load in memory) */
-    DFORCEINLINE Mesh::ptr ResourcesGroup::get<Mesh>(const String& path);
-    template<>
-    /** find a mesh already returned */
-    DFORCEINLINE Mesh::ptr ResourcesGroup::find<Mesh>(const String& path);
-    /** directory mesh resources */
-    template<>
-    DFORCEINLINE String ResourcesGroup::getResourceDirectory<Mesh>();
-	
-	/*
-	* FrameSet manager:
-	*/
-	template<>
-	/** load FrameSet */
-	DFORCEINLINE FrameSet::ptr ResourcesGroup::load<FrameSet>(const String& path);
-	template<>
-	/** get FrameSet  (but not load in memory) */
-	DFORCEINLINE FrameSet::ptr ResourcesGroup::get<FrameSet>(const String& path);
-	template<>
-	/** find a FrameSet already returned */
-	DFORCEINLINE FrameSet::ptr ResourcesGroup::find<FrameSet>(const String& path);
-	/** directory FrameSet resources */
-	template<>
-	DFORCEINLINE String ResourcesGroup::getResourceDirectory<FrameSet>();
+		template<> 
+		ResourcesManager<Texture>& ResourcesGroup::getManager<Texture>();
+		template<> 
+		ResourcesManager<Table>& ResourcesGroup::getManager<Table>();
+		template<> 
+		ResourcesManager<Mesh>& ResourcesGroup::getManager<Mesh>();
+		template<> 
+		ResourcesManager<FrameSet>& ResourcesGroup::getManager<FrameSet>();
+		template<> 
+		ResourcesManager<Font>& ResourcesGroup::getManager<Font>();
 	#endif
 };
 
