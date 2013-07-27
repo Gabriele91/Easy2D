@@ -16,19 +16,26 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Release_windows8|Win32 = Release_windows8|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134}.Debug|Win32.ActiveCfg = Debug|Win32
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134}.Debug|Win32.Build.0 = Debug|Win32
+		{905FC096-4AD6-4483-B71A-BA5FCEFFE134}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{905FC096-4AD6-4483-B71A-BA5FCEFFE134}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134}.Release|Win32.ActiveCfg = Release|Win32
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134}.Release|Win32.Build.0 = Release|Win32
 		{98A18E54-1496-4403-AB16-24EC8D79EF99}.Debug|Win32.ActiveCfg = Debug|Win32
 		{98A18E54-1496-4403-AB16-24EC8D79EF99}.Debug|Win32.Build.0 = Debug|Win32
+		{98A18E54-1496-4403-AB16-24EC8D79EF99}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{98A18E54-1496-4403-AB16-24EC8D79EF99}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
 		{98A18E54-1496-4403-AB16-24EC8D79EF99}.Release|Win32.ActiveCfg = Release|Win32
 		{98A18E54-1496-4403-AB16-24EC8D79EF99}.Release|Win32.Build.0 = Release|Win32
 		{CD25377E-2275-468E-978A-9DF4C6FFC381}.Debug|Win32.ActiveCfg = Debug|Win32
 		{CD25377E-2275-468E-978A-9DF4C6FFC381}.Debug|Win32.Build.0 = Debug|Win32
+		{CD25377E-2275-468E-978A-9DF4C6FFC381}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{CD25377E-2275-468E-978A-9DF4C6FFC381}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
 		{CD25377E-2275-468E-978A-9DF4C6FFC381}.Release|Win32.ActiveCfg = Release|Win32
 		{CD25377E-2275-468E-978A-9DF4C6FFC381}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
