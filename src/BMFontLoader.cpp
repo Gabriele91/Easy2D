@@ -89,7 +89,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 	fntBuffer[3]==3);
 	fntBuffer+=4;
 
-	while(fntBuffer<(fntLen+startFntBuffer)){
+	while((fntBuffer-startFntBuffer)<fntLen){
 		readBlockSize(fntBuffer,blockSize)
 		switch (blockSize->type)
 		{
