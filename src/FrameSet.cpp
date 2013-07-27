@@ -99,17 +99,46 @@ bool FrameSet::load(){
 			}
 		}
 	}
+	else if(tbFrameSet.existsAsType("frameSplit",Table::TABLE)){
+		const Table& frameSplit=tbFrameSet.getTable("frameSplit");
+		//get parameters
+		int imgwidth=frameSplit.getFloat("width",0.0);
+		int imgheight=frameSplit.getFloat("height",0.0);
+		int countXtiles=0;
+		int countYtiles=0;
+		//calc count
+		if(imgwidth>0)//no division by 0
+			countXtiles=texture->getWidth()/imgwidth;
+		if(imgheight>0)//no division by 0
+			countYtiles=texture->getHeight()/imgheight;
+		//set first and count
+		int first=Math::min(frameSplit.getFloat("first",1.0)-1.0,0.0);
+		int count=frameSplit.getFloat("count",countXtiles*countYtiles);
+
+		if(imgwidth*imgheight>0 && count>0 && countXtiles>0){
+			for(int frm=first;frm<count;++frm){
+				int cnw=(frm%countXtiles)*imgwidth;
+				int cnh=(frm/countXtiles)*imgheight;
+				addFrame(Vec4(cnw,cnh,imgwidth,imgheight));
+			}
+		}
+		else{
+			DEBUG_ASSERT_MSG(0,"frameset error:"
+							   "frameSplit invalid parameters"
+							   "(parameters:width, height, first, count)");
+		}
+	}
 	else{
-		DEBUG_ASSERT_MSG(0,"mesh error:"
-				           "must to be setted a frameset table"
-						   "(parameter:frames)");
+		DEBUG_ASSERT_MSG(0,"frameset error:"
+				           "must to be setted a frameset/frameSplit table"
+						   "(parameter:frames/frameSplit)");
 		return false;
 	}
 	
-	if(tbFrameSet.existsAsType("time",Table::FLOAT)){
-		defaultTime=tbFrameSet.getFloat("time",0.0);
-	}
-
+	//set time
+	defaultTime=tbFrameSet.getFloat("time",0.0);
+	
+	//is loaded
 	loaded=true;
 	return true;
 }

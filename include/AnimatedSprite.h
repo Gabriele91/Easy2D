@@ -59,6 +59,9 @@ namespace Easy2D {
 				else
 					totalTime = 1;
 			}
+		void setForcedFrame(int i){
+			currentFrame=i%frames->size();
+		}
 		//getters
 		DFORCEINLINE Mesh::ptr getCurrentFrame(){
 			return frames->getFrame(currentFrame);
@@ -102,10 +105,17 @@ namespace Easy2D {
 		//costructor
 		AnimatedSprite(Layer *layer=NULL);
 		virtual ~AnimatedSprite();
+		//set animation frame
+		void setFrame(int animation,int frame);
 		//add an animation 
 		int addAnimation(FrameSet::ptr frames);
 		int addAnimation(FrameSet::ptr frames, float timePerFrame);
+		//change an animation
 		void setAnimation(int i);
+		void setAnimation(int i, float timePerFrame);
+		//change time animation
+		void setTime(float timePerFrame);
+		void setAnimationTime(int i, float timePerFrame);
 	};
 
 };

@@ -7,8 +7,7 @@ using namespace Easy2D;
 ///////////////////////
 
 bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
-    //load font
-    FT_Face face;  
+    //load font 
 	void *voidFntBuffer=NULL; 
 	size_t fntLen=0;
 	Application::instance()->loadData(fontPath,voidFntBuffer,fntLen);

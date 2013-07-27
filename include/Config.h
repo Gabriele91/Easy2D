@@ -19,9 +19,6 @@
 //os include
 #include <sys/types.h>
 #include <sys/stat.h>
-//include dependences
-#include <ft2build.h>
-#include FT_FREETYPE_H
 //engine include
 #include <Types.h>
 
@@ -99,16 +96,19 @@
 	#define DINLINE inline
 	#define COMPILER_GCC
     #define PACKED( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+	#define ALIGNED( size, __Declaration__ )  __Declaration__ __attribute__ ((aligned(size)))
 
 	#if !defined( PFD_SUPPORT_COMPOSITION ) && defined(PLATFORM_WINDOW)
         #define PFD_SUPPORT_COMPOSITION 0x00008000
     #endif
 
-	#if defined(__SSE__)		
-		#define SIMD_SSE
-	#endif
-	#if defined(__SSE2__)		
-		#define SIMD_SSE2
+	#if defined(ENABLE_SIMD)
+		#if defined(__SSE__)		
+			#define SIMD_SSE
+		#endif
+		#if defined(__SSE2__)		
+			#define SIMD_SSE2
+		#endif
 	#endif
 
 #elif defined( _MSC_VER )
@@ -116,6 +116,7 @@
 	#define DFORCEINLINE __forceinline
 	#define DINLINE __inline
 	#define PACKED( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+	#define ALIGNED( size, __Declaration__ ) __declspec(align(size)) __Declaration__
 	#define COMPILER_VISUAL_STUDIO
 
 	#if _MSC_VER == 1600
@@ -124,11 +125,13 @@
 		  std::identity<decltype(__VA_ARGS__)>::type
 	#endif
 
-	#if  _M_IX86_FP>=1
-		#define SIMD_SSE
-	#endif
-	#if _M_IX86_FP>=2
-		#define SIMD_SSE2
+	#if defined(ENABLE_SIMD)
+		#if  _M_IX86_FP>=1
+			#define SIMD_SSE
+		#endif
+		#if _M_IX86_FP>=2
+			#define SIMD_SSE2
+		#endif
 	#endif
 
 #else
@@ -136,6 +139,7 @@
 #endif
 
 #if defined( SIMD_SSE2 ) || defined( SIMD_SSE )
+	#include <emmintrin.h>
 	#include <xmmintrin.h>
 #endif
 

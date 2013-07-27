@@ -26,14 +26,14 @@ namespace Easy2D {
 				   Layer *rlayer=NULL,
 				   bool visible=true);
 		//z order
-		DFORCEINLINE float getZ(){ return zvalue; }
+		DFORCEINLINE float getZ() const{ return zvalue; }
 		void  setZ(float z);
 		//sort:		
 		bool operator <(const Renderable& rhs) const { 
 			return zvalue < rhs.zvalue;
 		}
 		//other...
-		DFORCEINLINE bool isVisible(){ 
+		DFORCEINLINE bool isVisible() const{ 
 			return visible;
 		}
 		DFORCEINLINE void show(){

@@ -33,7 +33,6 @@
     <ClCompile Include="src\Config.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\Object.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>

@@ -14,6 +14,8 @@ namespace Easy2D {
 
 	class Font : public Resource<Font>{
 
+	public:
+
 		struct Character
 		{
 			Character() : 
@@ -38,6 +40,7 @@ namespace Easy2D {
 			//std::vector<int> kerningPairs;
 		};
 
+	private:
 		//map characters
 		DUNORDERED_MAP< int , Character* > characters;
 		//page list

@@ -10,6 +10,7 @@ namespace Easy2D {
 	class FreeTypeFontLoader{
 	
 	private:
+
 		static bool pageFindPos(
 			std::vector<Font::Character *>& characters,
 			const Vec2& sizeBitmap,
@@ -31,7 +32,7 @@ namespace Easy2D {
 							 int count,
 							 uint& startChar,
 							 const uint& endChar,
-							 FT_Face face);
+							 void* face);
 
 
 		static bool fastLoadPage(Font& font,
@@ -39,7 +40,7 @@ namespace Easy2D {
 								 int count,
 								 uint& startChar,
 								 const uint& endChar,
-								 FT_Face face);
+								 void* face);
 
 	public:
 		

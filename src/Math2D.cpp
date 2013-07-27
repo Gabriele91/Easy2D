@@ -466,9 +466,20 @@ static float Matrix4x4Identity[]={
 	0.0,0.0,1.0,0.0,
 	0.0,0.0,0.0,1.0
 };
+static float Matrix4x4Zero[]={
+	0.0,0.0,0.0,0.0,
+	0.0,0.0,0.0,0.0,
+	0.0,0.0,0.0,0.0,
+	0.0,0.0,0.0,0.0
+};
 
-Matrix4x4::Matrix4x4(){ identity(); };
-Matrix4x4::Matrix4x4(const Matrix4x4 &m4x4){ (*this)=m4x4; }
+Matrix4x4::Matrix4x4(){ 
+	identity();
+};
+
+Matrix4x4::Matrix4x4(const Matrix4x4 &m4x4){ 
+	(*this)=m4x4; 
+}
 Matrix4x4::Matrix4x4(float* m4x4){
 	memcpy(entries, m4x4, 16*sizeof(float));
 }
@@ -482,7 +493,7 @@ Matrix4x4::Matrix4x4(float e0,float e1,float e2,float e3,
 			entries[12]=e12; entries[13]=e13; entries[14]=e14; entries[15]=e15;
 }
 void Matrix4x4::identity(){
-	memcpy(entries,Matrix4x4Identity,sizeof(float)*16);
+	memcpy(entries, Matrix4x4Identity, 16*sizeof(float));
 }
 void Matrix4x4::zero(){
 	memset(entries,0,sizeof(float)*16);
@@ -501,7 +512,7 @@ Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const {
         return out_m4x4;
 #elif defined( SIMD_SSE2 )
 	 Matrix4x4 out_m4x4;
-		SSE2_Matrix4Mul(out_m4x4,m4x4);
+		SSE2_Matrix4Mul(out_m4x4,*this,m4x4);
 	 return out_m4x4;
 #else
 	return Matrix4x4(entries[0]*m4x4.entries[0]+entries[4]*m4x4.entries[1]+entries[8]*m4x4.entries[2]+entries[12]*m4x4.entries[3],
@@ -537,7 +548,7 @@ Matrix4x4 Matrix4x4::mul2D(const Matrix4x4 &m4x4) const {
         return out_m4x4;
 #elif defined( SIMD_SSE2 )
 	 Matrix4x4 out_m4x4;
-		SSE2_Matrix4Mul(out_m4x4,m4x4);
+	 SSE2_Matrix4Mul(out_m4x4,*this,m4x4);
 	 return out_m4x4;
 #else
 	/*
@@ -657,8 +668,8 @@ DFORCEINLINE bool gluInvertMatrix(const float m[16],float invOut[16]){
 void Matrix4x4::inverse(){
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1)
 	Matrix4Invert(&(this->entries[0]),&(this->entries[0]));
-#elif defined( SIMD_SSE2 )
-	SSE2_Matrix4Inv(*this);
+//#elif defined( SIMD_SSE2 )
+//	SSE2_Matrix4Inv(*this);
 #else
 	gluInvertMatrix(&(this->entries[0]),&(this->entries[0]));
 #endif
@@ -683,9 +694,9 @@ Matrix4x4 Matrix4x4::getInverse() const{
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1)
 	Matrix4x4 out;
 	Matrix4Invert(&(entries[0]),&(out.entries[0]));
-#elif defined( SIMD_SSE2 )
-	Matrix4x4 out(*this);
-	SSE2_Matrix4Inv(out);
+//#elif defined( SIMD_SSE2 )
+//	Matrix4x4 out(*this);
+//	SSE2_Matrix4Inv(out);
 #else
 	Matrix4x4 out;
 	gluInvertMatrix(&(entries[0]),&(out.entries[0]));

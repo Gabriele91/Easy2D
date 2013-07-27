@@ -101,7 +101,7 @@ namespace Easy2D {
 		LayerOrder():Layer(),reorder(true),it(0){}
 		//get Renderable
 		virtual Renderable* next(){
-			if(it<renderables.size())
+			if(it<renderables.size()) 
 				return renderables[it++];
 			else it=0;
 			return NULL;
@@ -110,14 +110,7 @@ namespace Easy2D {
 		virtual void change(){
 			reorder=true;
 		}	
-		virtual void dosort(){
-			if(reorder){
-				std::sort(renderables.begin(), 
-					      renderables.end(),
-						  operator_lt);
-				reorder=false;
-			}
-		}	
+		virtual void dosort();
 		virtual void update(float dt){
 			for(auto renderable:renderables)
 				updateRenderable(renderable,dt);

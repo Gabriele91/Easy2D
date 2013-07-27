@@ -5,6 +5,8 @@ using namespace Easy2D;
 /////////////////////////
 
 Render::Render(){
+	camera=NULL;
+	screenAngle=0.0;
 	//set orientation
 	updateProjection();
 }
@@ -45,9 +47,15 @@ void Render::draw(){
 				//set model view matrix
 				glMatrixMode(GL_MODELVIEW);
 				//calc m4x4
-				glLoadMatrixf(
-					camera->getGlobalMatrix().mul2D(renderable->getGlobalMatrix()).entries
-					);
+				if(camera)
+					glLoadMatrixf(
+						camera->getGlobalMatrix().mul2D(renderable->getGlobalMatrix()).entries
+						);
+				else
+					glLoadMatrixf(
+						renderable->getGlobalMatrix().entries
+						);
+
 				//renderable is visible?
 				if(renderable->isVisible()){
 					//draw

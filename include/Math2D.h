@@ -581,40 +581,15 @@ namespace Easy2D{
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};
-	class Matrix4x4{
+
+	class Matrix4x4 {
 	public:
-	#ifdef SIMD_SSE2
-		union {
-			struct
-		    {
-				float entries[16];
-			};
-
-			struct {
-				__m128 row0;
-				__m128 row1;
-				__m128 row2;
-				__m128 row3;
-			};
-
-			struct
-		    {
-				float m11, m12, m13, m14;
-				float m21, m22, m23, m24;
-				float m31, m32, m33, m34;
-				float m41, m42, m43, m44;
-		    };
-
-		};
-	#else
+	
 		union {
 			
-			struct
-		    {
-				float entries[16];
-			};
-			struct
-		    {
+			float entries[16];
+
+			struct{
 				float m11, m12, m13, m14;
 				float m21, m22, m23, m24;
 				float m31, m32, m33, m34;
@@ -622,8 +597,6 @@ namespace Easy2D{
 		    };
 
 		};
-	#endif
-
 
 		//constructors
 		Matrix4x4();
@@ -742,6 +715,7 @@ namespace Easy2D{
 		String toString(const String& start="(",const String& sep=" ",const String& sepline=" ",const String& end=")\n") const;
 
 		};
+
 	class Math{
 	public:
 		//enum attribute

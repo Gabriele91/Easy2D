@@ -5,8 +5,10 @@
 
 #if defined( SIMD_SSE2 )
 	namespace Easy2D {
-		// Multiplies two 4x4 matrices (a,b) a*=b
-		extern DFORCEINLINE void SSE2_Matrix4Mul(Matrix4x4& self,const Matrix4x4 &m4x4);
+		// Multiplies two 4x4 matrices (a,b) auto=a*b
+		extern DFORCEINLINE void SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
+												 const Easy2D::Matrix4x4 &A,
+												 const Easy2D::Matrix4x4 &B);
 		extern DFORCEINLINE void SSE2_Matrix4Inv(Matrix4x4& self);
 	}
 #endif

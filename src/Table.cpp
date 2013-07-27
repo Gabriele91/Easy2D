@@ -36,6 +36,12 @@ bool Table::load(){
 		Application::instance()->loadData(rpath,data,len);
 		//deserialize
 		deserialize(String((const char*)data));
+		//get errors
+		if(getDeserializeErros().size()>0){				
+			DEBUG_ASSERT_MSG(0,"Table error:"
+							   "invalid parsing:\n"+
+							   getDeserializeErros());
+		}
 		//free memory
 		free(data);
 		//

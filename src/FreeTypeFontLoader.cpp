@@ -1,4 +1,7 @@
 #include <stdafx.h>
+//include dependences
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include <FreeTypeFontLoader.h>
 #include <Application.h>
 ///////////////////////
@@ -66,7 +69,8 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 									   int count,
 								       uint& startChar,
 								 const uint& endChar,
-								       FT_Face face){
+								       void* _face){
+	FT_Face face=(FT_Face)_face;
 	//image vector
 	std::vector<byte> bytes(pageSize.x*pageSize.y);
 	std::vector<Font::Character *> listChars;
@@ -128,7 +132,8 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 										   int count,
 										   uint& startChar,
 									 const uint& endChar,
-										   FT_Face face){
+								           void* _face){
+	FT_Face face=(FT_Face)_face;
 	//image vector
 	std::vector<byte> bytes(pageSize.x*pageSize.y);
 	std::vector<Font::Character *> listChars;

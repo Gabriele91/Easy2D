@@ -18,6 +18,16 @@ AnimatedSprite::~AnimatedSprite(){
 		delete anim;
 }
 
+
+void AnimatedSprite::setFrame(int animation,int frame){
+	//set animation
+	setAnimation(animation);
+	//set frame
+	animations[animation]->setForcedFrame(frame);
+	//set sprite mesh
+	setMesh(animations[crtAnimation]->getCurrentFrame());	
+}
+
 int AnimatedSprite::addAnimation(FrameSet::ptr frames){
 	//set current animation:
 	Renderable::setTexture(frames->getTexture());
@@ -29,7 +39,6 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames){
 	//return id
 	return crtAnimation; 
 }
-
 int AnimatedSprite::addAnimation(FrameSet::ptr frames,
 								 float timePerFrame){
 	//set current animation:
@@ -47,4 +56,25 @@ void AnimatedSprite::setAnimation(int i){
 	crtAnimation=i;	
 	//set sprite mesh
 	setMesh(animations[crtAnimation]->getCurrentFrame());	
+}
+void AnimatedSprite::setAnimation(int i, float timePerFrame){
+	
+	DEBUG_ASSERT( crtAnimation >= 0 );
+	DEBUG_ASSERT( animations.size() > i );
+	//set animation
+	crtAnimation=i;	
+	//set sprite mesh
+	setMesh(animations[crtAnimation]->getCurrentFrame());	
+	//set time
+	animations[crtAnimation]->setFrameTime(timePerFrame);
+}
+
+void AnimatedSprite::setTime(float timePerFrame){	
+	//set time
+	animations[crtAnimation]->setFrameTime(timePerFrame);
+}
+void AnimatedSprite::setAnimationTime(int i,float timePerFrame){	
+	DEBUG_ASSERT( crtAnimation >= 0 );
+	DEBUG_ASSERT( animations.size() > i );
+	animations[i]->setFrameTime(timePerFrame);
 }
