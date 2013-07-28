@@ -8,9 +8,10 @@
 		<Build>
 			<Target title="Debug Linux">
 				<Option platforms="Unix;" />
-				<Option output="bin/Debug/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/libEasy2D_linux_D" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
-				<Option type="1" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
@@ -18,9 +19,11 @@
 					<Add option="-fpermissive" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DORDERED_TABLE" />
+					<Add option="-DENABLE_SIMD" />
 					<Add directory="./" />
 					<Add directory="include" />
 					<Add directory="include/linux" />
+					<Add directory="/usr/include/freetype2" />
 				</Compiler>
 				<Linker>
 					<Add option="-lX11" />
@@ -32,18 +35,21 @@
 			</Target>
 			<Target title="Release Linux">
 				<Option platforms="Unix;" />
-				<Option output="bin/Release/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/libEasy2D_linux" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=gnu++0x" />
 					<Add option="-fpermissive" />
 					<Add option="-DORDERED_TABLE" />
+					<Add option="-DENABLE_SIMD" />
 					<Add directory="./" />
 					<Add directory="include" />
 					<Add directory="include/linux" />
+					<Add directory="/usr/include/freetype2" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -103,9 +109,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Main.cpp" />
 		<Unit filename="include/AnimatedSprite.h" />
 		<Unit filename="include/Application.h" />
+		<Unit filename="include/BMFontLoader.h" />
+		<Unit filename="include/Blend.h" />
 		<Unit filename="include/Camera.h" />
 		<Unit filename="include/Color.h" />
 		<Unit filename="include/Config.h" />
@@ -113,7 +120,9 @@
 		<Unit filename="include/EString.h" />
 		<Unit filename="include/ETime.h" />
 		<Unit filename="include/Easy2D.h" />
+		<Unit filename="include/Font.h" />
 		<Unit filename="include/FrameSet.h" />
+		<Unit filename="include/FreeTypeFontLoader.h" />
 		<Unit filename="include/Game.h" />
 		<Unit filename="include/Input.h" />
 		<Unit filename="include/Layer.h" />
@@ -171,13 +180,16 @@
 		</Unit>
 		<Unit filename="src/AnimatedSprite.cpp" />
 		<Unit filename="src/Application.cpp" />
+		<Unit filename="src/BMFontLoader.cpp" />
 		<Unit filename="src/Camera.cpp" />
 		<Unit filename="src/Color.cpp" />
 		<Unit filename="src/Config.cpp" />
 		<Unit filename="src/Debug.cpp" />
 		<Unit filename="src/EString.cpp" />
 		<Unit filename="src/ETime.cpp" />
+		<Unit filename="src/Font.cpp" />
 		<Unit filename="src/FrameSet.cpp" />
+		<Unit filename="src/FreeTypeFontLoader.cpp" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Image/Image.h" />
 		<Unit filename="src/Image/Image.inl" />
@@ -186,6 +198,8 @@
 		<Unit filename="src/Input.cpp" />
 		<Unit filename="src/Layer.cpp" />
 		<Unit filename="src/Math2D.cpp" />
+		<Unit filename="src/Math2D_SSE2.cpp" />
+		<Unit filename="src/Math2D_SSE2.h" />
 		<Unit filename="src/Mesh.cpp" />
 		<Unit filename="src/Object.cpp" />
 		<Unit filename="src/Render.cpp" />

@@ -80,6 +80,8 @@
     #define PLATFORM_UNIX
     #define DCPP_11
     #define ENABLE_VAOS
+    #include <signal.h>
+    #include <stdint.h>
     #include <GL/gl.h>
     #include <linux/OpenGLLinux.h>
     #include <AL/al.h>
@@ -103,10 +105,10 @@
     #endif
 
 	#if defined(ENABLE_SIMD)
-		#if defined(__SSE__)		
+		#if defined(__SSE__)
 			#define SIMD_SSE
 		#endif
-		#if defined(__SSE2__)		
+		#if defined(__SSE2__)
 			#define SIMD_SSE2
 		#endif
 	#endif

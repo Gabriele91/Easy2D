@@ -6,13 +6,21 @@
 
 namespace Easy2D {
 
-	class Debug{	
+	class Debug{
 	public:
-		
+
 		static void breakpoint();
 		static std::ostream& message();
-		static void doassert(const void* v,const char* value,const char* fileSource,int line);
-		static void doassert(int v,const char* value,const char* fileSource,int line);
+		template<typename T>
+		static inline void doassert(T v,
+                             const char* value,
+                             const char* fileSource,
+                             int line){
+            if(!v){
+                message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
+                breakpoint();
+            }
+        }
 		static void gpucheckerrors(const char* fileSource,int line);
 
 	};
@@ -28,7 +36,7 @@ namespace Easy2D {
 	#define CHECK_GPU_ERRORS() Debug::gpucheckerrors(__FILE__,__LINE__)
 
 #else
-	
+
 	#define DEBUG_MESSAGE( x )
 	#define DEBUG_ASSERT( x )
 	#define DEBUG_ASSERT_MSG( x,y )

@@ -7,19 +7,19 @@ using namespace Easy2D;
 ///////////////////////
 
 bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
-    //load font 
-	void *voidFntBuffer=NULL; 
+    //load font
+	void *voidFntBuffer=NULL;
 	size_t fntLen=0;
 	Application::instance()->loadData(fontPath,voidFntBuffer,fntLen);
 	//save info ptr
 	char *startFntBuffer,*fntBuffer;
-	startFntBuffer=fntBuffer=(char*)voidFntBuffer; 
+	startFntBuffer=fntBuffer=(char*)voidFntBuffer;
 
-	
+
 	PACKED(struct BlockSize{
 				uchar type;
 				int size;
-			};)
+			});
 
 	PACKED(struct BlockInfo{
 			bit16 fontSize;
@@ -35,24 +35,24 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 			bit8  spacingVert;
 			bit8  outline;
 			char fontName[1];//first char
-			};)	
-	
+			});
+
 	PACKED(struct BlockCommon{
-			bit16 lineHeight;	
-			bit16 base;	
+			bit16 lineHeight;
+			bit16 base;
 			bit16 scaleW;
-			bit16 scaleH;	
+			bit16 scaleH;
 			bit16 pages;
 			bit8 bitField;
-			bit8 alphaChnl;	
+			bit8 alphaChnl;
 			bit8 redChnl;
-			bit8 greenChnl;	
-			bit8 blueChnl;			
-			};)
+			bit8 greenChnl;
+			bit8 blueChnl;
+			});
 
 	PACKED(struct BlockPage{
-				char fontName[1];//first char				
-			};)
+				char fontName[1];//first char
+			});
 	PACKED(struct BlockChars{
 				struct charInfo{
 					bit32  id;
@@ -66,7 +66,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 					bit8  page;
 					bit8  chnl;
 				} chars[1];
-			};)
+			});
 	#define readBlockSize(bufferPtr,blockPtr)\
 		blockPtr=(BlockSize*)bufferPtr; bufferPtr+=sizeof(BlockSize);
 
@@ -75,12 +75,12 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 
 	#define readBlockCommon(bufferPtr,blockPtr,size)\
 		blockPtr=(BlockCommon*)bufferPtr; bufferPtr+=size;
-				
+
 	BlockSize* blockSize;
 	BlockInfo* blockInfo;
 	BlockCommon* blockCommon;
 	BlockPage* blockPage;
-	BlockChars *blockChar; 
+	BlockChars *blockChar;
 	//versione file
 	DEBUG_ASSERT(
 	fntBuffer[0]=='B'&&
@@ -93,7 +93,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 		readBlockSize(fntBuffer,blockSize)
 		switch (blockSize->type)
 		{
-			case 1: 
+			case 1:
 				readBlockInfo(fntBuffer,blockInfo,blockSize->size)
 				font.setSize(blockInfo->fontSize);
 				font.setName(blockInfo->fontName);
@@ -140,7 +140,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 					++n;
 				}
 			}
-			break;			
+			break;
 			case 5: // kerning pairs (jump)
 			default:
 				fntBuffer+=blockSize->size;

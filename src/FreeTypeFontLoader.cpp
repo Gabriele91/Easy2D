@@ -57,7 +57,7 @@ void FreeTypeFontLoader::addCharImageInBuffer(
 			const int charRow,
 			const int charWidth,
 			const int charPitch){
-	
+
 	for(int y=0;y<charRow;++y)
 	for(int x=0;x<charWidth;++x)
 		imageBytes[(int)((y+imgPos.y)*imgWidth+imgPos.x+x)]=imgCharBuffer[x+y*charPitch];
@@ -120,7 +120,7 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 								pageSize.y,
 								//deprecate
 								//openGL 3, GL_RED + swizzle mask {GL_ZERO, GL_ZERO, GL_ZERO, GL_RED}
-								GL_ALPHA8 , 
+								GL_ALPHA8 ,
 								GL_ALPHA);
 	font.addPage(Texture::ptr(texture));
 
@@ -194,7 +194,7 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 								pageSize.y,
 								//deprecate
 								//openGL 3, GL_RED + swizzle mask {GL_ZERO, GL_ZERO, GL_ZERO, GL_RED}
-								GL_ALPHA8 , 
+								GL_ALPHA8 ,
 								GL_ALPHA);
 	font.addPage(Texture::ptr(texture));
 
@@ -206,13 +206,13 @@ bool FreeTypeFontLoader::load(Font& font,Table& fontInfo,const Utility::Path& fo
     FT_Library freeType;
 	DEBUG_ASSERT_MGS_REPLACE(FT_Init_FreeType(&freeType)==0, "Could not init freetype library");
     //load font
-    FT_Face face;  
+    FT_Face face;
 	void *facebuffer=NULL; size_t facelen=0;
 	Application::instance()->loadData(fontPath,facebuffer,facelen);
-	DEBUG_ASSERT_MGS_REPLACE( FT_New_Memory_Face( freeType, 
-												   (FT_Byte*)facebuffer, 
-												   facelen, 
-												   0, 
+	DEBUG_ASSERT_MGS_REPLACE( FT_New_Memory_Face( freeType,
+												   (FT_Byte*)facebuffer,
+												   facelen,
+												   0,
 												   &face )==0,"Could not open font");
 	//set font size
 	uint fontSize=fontInfo.getFloat("fontSize",12);
@@ -222,11 +222,11 @@ bool FreeTypeFontLoader::load(Font& font,Table& fontInfo,const Utility::Path& fo
 	font.setName(face->family_name);
 
 	//get page image size
-	Vec2 pageSize=fontInfo.getVector2D("pageSize",Vec2(256,256));	
+	Vec2 pageSize=fontInfo.getVector2D("pageSize",Vec2(256,256));
 	int page=0;
 	uint charStartPage=33;
 	const uint charEndPage=255;
-	if(fontInfo.getString("loadFast","true"))	
+	if(fontInfo.getString("loadFast","true"))
 		while(charStartPage<charEndPage){
 			//add a page
 			fastLoadPage(font,

@@ -902,3 +902,493 @@
 	<Math2D.h>
 	"WGL_ARB_multisample.h"
 
+1375044073 source:/home/Gabriele/GitHub/Easy2D/src/AnimatedSprite.cpp
+	<stdafx.h>
+	<AnimatedSprite.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D//stdafx.h
+	<Config.h>
+
+1375040943 /home/Gabriele/GitHub/Easy2D/include/Config.h
+	<cmath>
+	<cassert>
+	<cstdlib>
+	<ctime>
+	<cstring>
+	<cfloat>
+	<climits>
+	<cstdlib>
+	<list>
+	<vector>
+	<string>
+	<algorithm>
+	<sstream>
+	<sys/types.h>
+	<sys/stat.h>
+	<Types.h>
+	<map>
+	<stdint.h>
+	<android/log.h>
+	<android/native_activity.h>
+	<android_native_app_glue.h>
+	<android/OpenGLAndroid.h>
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<window/OpenGLWindow.h>
+	<TargetConditionals.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<OpenGL/glext.h>
+	<signal.h>
+	<stdint.h>
+	<GL/gl.h>
+	<linux/OpenGLLinux.h>
+	<AL/al.h>
+	<AL/alc.h>
+	<utility>
+	<emmintrin.h>
+	<xmmintrin.h>
+	<unordered_map>
+	<functional>
+	<memory>
+	<tr1/unordered_map>
+	<tr1/functional>
+	<tr1/memory>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Types.h
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/android/OpenGLAndroid.h
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/window/OpenGLWindow.h
+	<gletx_header.h>
+
+1375043689 /home/Gabriele/GitHub/Easy2D/include/linux/OpenGLLinux.h
+	<GL/gl.h>
+	<GL/glext.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/AnimatedSprite.h
+	<Config.h>
+	<Renderable.h>
+	<FrameSet.h>
+	<Debug.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Renderable.h
+	<Config.h>
+	<Mesh.h>
+	<Object.h>
+	<RenderState.h>
+	<Blend.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Mesh.h
+	<Config.h>
+	<Math2D.h>
+	<EString.h>
+	<Resource.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Math2D.h
+	<Config.h>
+	<EString.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/EString.h
+	<Config.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Resource.h
+	<Config.h>
+	<EString.h>
+	<Utility.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Utility.h
+	<Config.h>
+	<EString.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Object.h
+	<Config.h>
+	<Math2D.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/RenderState.h
+	<Config.h>
+	<Mesh.h>
+	<Texture.h>
+	<Blend.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Texture.h
+	<Config.h>
+	<Math2D.h>
+	<EString.h>
+	<Resource.h>
+	<Mesh.h>
+	<iostream>
+	<Types.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Blend.h
+	<Config.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/FrameSet.h
+	<Config.h>
+	<Math2D.h>
+	<EString.h>
+	<Resource.h>
+	<Texture.h>
+	<Mesh.h>
+
+1375045820 /home/Gabriele/GitHub/Easy2D/include/Debug.h
+	<Config.h>
+	<ostream>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Application.cpp
+	<stdafx.h>
+	<Application.h>
+	<ETime.h>
+	<CocoaApp.h>
+	<WindowsApp.h>
+	<LinuxApp.h>
+	<AndroidApp.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Application.h
+	<Config.h>
+	<Game.h>
+	<EString.h>
+	<Screen.h>
+	<Input.h>
+	<ResourcesGroup.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Game.h
+	<Config.h>
+	<Types.h>
+	<Screen.h>
+	<Input.h>
+	<EString.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Screen.h
+	<Config.h>
+	<Application.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Input.h
+	<Config.h>
+	<Debug.h>
+	<Math2D.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/ResourcesGroup.h
+	<Config.h>
+	<Utility.h>
+	<EString.h>
+	<ResourcesManager.h>
+	<Table.h>
+	<Texture.h>
+	<Mesh.h>
+	<FrameSet.h>
+	<Font.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/ResourcesManager.h
+	<Config.h>
+	<Debug.h>
+	<EString.h>
+	<Table.h>
+	<Resource.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Table.h
+	<Config.h>
+	<Math2D.h>
+	<EString.h>
+	<Resource.h>
+	<iostream>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Font.h
+	<Config.h>
+	<Utility.h>
+	<Resource.h>
+	<Texture.h>
+	<Color.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Color.h
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/ETime.h
+	<Config.h>
+	<Types.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/linux/LinuxApp.h
+	<Config.h>
+	<Application.h>
+	<Game.h>
+
+1375040113 source:/home/Gabriele/GitHub/Easy2D/src/BMFontLoader.cpp
+	<stdafx.h>
+	<BMFontLoader.h>
+	<Application.h>
+	<Texture.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/BMFontLoader.h
+	<Config.h>
+	<Font.h>
+	<Texture.h>
+	<Utility.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Camera.cpp
+	<stdafx.h>
+	"Camera.h"
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Camera.h
+	<Config.h>
+	<Object.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Color.cpp
+	<stdafx.h>
+	<Color.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Config.cpp
+	<stdafx.h>
+	<Config.h>
+
+1375045737 source:/home/Gabriele/GitHub/Easy2D/src/Debug.cpp
+	<stdafx.h>
+	<Debug.h>
+	<EString.h>
+	<iostream>
+	<signal.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/EString.cpp
+	<stdafx.h>
+	<stdafx.h>
+	<EString.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/ETime.cpp
+	<stdafx.h>
+	<ETime.h>
+	<sys/time.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/FrameSet.cpp
+	<stdafx.h>
+	<FrameSet.h>
+	<Application.h>
+	<ResourcesGroup.h>
+	<Table.h>
+	<Debug.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Game.cpp
+	<stdafx.h>
+	<Screen.h>
+	<Game.h>
+	<Application.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Image/lodepng.cpp
+	<stdafx.h>
+	"lodepng.h"
+	<stdio.h>
+	<stdlib.h>
+	<fstream>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/src/Image/lodepng.h
+	<string.h>
+	<vector>
+	<string>
+	"lodepng.h"
+	<iostream>
+	"lodepng.h"
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Input.cpp
+	<stdafx.h>
+	<Input.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Layer.cpp
+	<stdafx.h>
+	<Layer.h>
+	<Renderable.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Layer.h
+	<Config.h>
+	<Camera.h>
+	<Renderable.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Math2D.cpp
+	<stdafx.h>
+	<Math2D.h>
+	"Math2D_SSE2.h"
+	"Math2D_neon.h"
+	"Math2D_vfp.h"
+
+1375046346 /home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.h
+	<Config.h>
+	<Math2D.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/src/Math2D_neon.h
+
+1375038320 /home/Gabriele/GitHub/Easy2D/src/Math2D_vfp.h
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Mesh.cpp
+	<stdafx.h>
+	<Mesh.h>
+	<Table.h>
+	<Application.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Object.cpp
+	<stdafx.h>
+	<Object.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Render.cpp
+	<stdafx.h>
+	<Render.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Render.h
+	<Config.h>
+	<Screen.h>
+	<Camera.h>
+	<Layer.h>
+	<Color.h>
+	<Renderable.h>
+	<RenderState.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/RenderState.cpp
+	<stdafx.h>
+	<RenderState.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Renderable.cpp
+	<stdafx.h>
+	<Renderable.h>
+	<Layer.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Resource.cpp
+	<stdafx.h>
+	<Resource.h>
+
+1375041067 source:/home/Gabriele/GitHub/Easy2D/src/Font.cpp
+	<stdafx.h>
+	<Config.h>
+	<Font.h>
+	<Types.h>
+	<Application.h>
+	<FreeTypeFontLoader.h>
+	<BMFontLoader.h>
+	<Color.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/FreeTypeFontLoader.h
+	<Config.h>
+	<Table.h>
+	<Font.h>
+
+1375045016 source:/home/Gabriele/GitHub/Easy2D/src/FreeTypeFontLoader.cpp
+	<stdafx.h>
+	<ft2build.h>
+	<FreeTypeFontLoader.h>
+	<Application.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.cpp
+	<stdafx.h>
+	"Math2D_SSE2.h"
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/ResourcesGroup.cpp
+	<stdafx.h>
+	<ResourcesGroup.h>
+	<Application.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/ResourcesManager.cpp
+	<stdafx.h>
+	<ResourcesManager.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Screen.cpp
+	<stdafx.h>
+	<Screen.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Sprite.cpp
+	<stdafx.h>
+	<Sprite.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Sprite.h
+	<Config.h>
+	<Renderable.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Table.cpp
+	<Table.h>
+	<Application.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Texture.cpp
+	<stdafx.h>
+	<Texture.h>
+	<Application.h>
+	"Image/Image.h"
+
+1375038320 /home/Gabriele/GitHub/Easy2D/src/Image/Image.h
+	<string>
+	"Image.inl"
+
+1375038320 /home/Gabriele/GitHub/Easy2D/src/Image/Image.inl
+	<stdio.h>
+	<string.h>
+	"Image.h"
+	"lodepng.h"
+	"lodepng.h"
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Timer.cpp
+	<stdafx.h>
+	<Timer.h>
+
+1375038320 /home/Gabriele/GitHub/Easy2D/include/Timer.h
+	<Config.h>
+	<Types.h>
+	<ETime.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Utility.cpp
+	<stdafx.h>
+	<Utility.h>
+	<Application.h>
+	<sys/stat.h>
+	<unistd.h>
+	<dirent.h>
+	<limits.h>
+	<errno.h>
+	<sys/stat.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/linux/LinuxApp.cpp
+	<Timer.h>
+	<LinuxApp.h>
+	<LinuxScreen.h>
+	<LinuxInput.h>
+	<Debug.h>
+	<sys/time.h>
+	<unistd.h>
+
+1375045248 /home/Gabriele/GitHub/Easy2D/include/linux/LinuxScreen.h
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/xf86vmode.h>
+	<GL/glx.h>
+	<Config.h>
+	<LinuxApp.h>
+	<EString.h>
+	<Screen.h>
+
+1375045274 /home/Gabriele/GitHub/Easy2D/include/linux/LinuxInput.h
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/xf86vmode.h>
+	<GL/glx.h>
+	<Config.h>
+	<Math2D.h>
+	<Input.h>
+	<LinuxApp.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/linux/LinuxInput.cpp
+	<LinuxInput.h>
+	<Input.h>
+	<X11/Xlib.h>
+	<X11/keysym.h>
+	<X11/keysymdef.h>
+
+1375038320 source:/home/Gabriele/GitHub/Easy2D/src/linux/LinuxScreen.cpp
+	<LinuxScreen.h>
+
+1375045294 source:/home/Gabriele/GitHub/Easy2D/src/linux/OpenGLLinux.cpp
+	<stdafx.h>
+	<OpenGLLinux.h>
+	<GL/glx.h>
+	<Debug.h>
+
+1375046184 /home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.cpp
+	<stdafx.h>
+	"Math2D_SSE2.h"
+

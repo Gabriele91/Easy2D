@@ -4,6 +4,7 @@
 #include <X11/Xatom.h>
 #include <X11/keysym.h>
 #include <X11/extensions/xf86vmode.h>
+#include <GL/glx.h>
 #include <Config.h>
 #include <LinuxApp.h>
 #include <EString.h>

@@ -1,6 +1,10 @@
 #ifndef LINUXINPUT_H
 #define LINUXINPUT_H
-
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/keysym.h>
+#include <X11/extensions/xf86vmode.h>
+#include <GL/glx.h>
 #include <Config.h>
 #include <Math2D.h>
 #include <Input.h>

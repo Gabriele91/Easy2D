@@ -2,6 +2,7 @@
 #include "Math2D_SSE2.h"
 
 #if defined( SIMD_SSE2 )
+namespace Easy2D{
 
 ALIGNED(16,
 union SSE2Struct {
@@ -17,7 +18,7 @@ union SSE2Struct {
 		v[2]=a[2];
 		v[3]=a[3];
 	}
-	DFORCEINLINE void toVec(float *a){		
+	DFORCEINLINE void toVec(float *a){
 		a[0]=v[0];
 		a[1]=v[1];
 		a[2]=v[2];
@@ -25,10 +26,10 @@ union SSE2Struct {
 	}
 
 });
- 
-DFORCEINLINE void Easy2D::SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out, 
-										  const Easy2D::Matrix4x4 &A, 
-										  const Easy2D::Matrix4x4 &B)
+
+DFORCEINLINE void SSE2_Matrix4Mul(Matrix4x4 &out,
+                                  const Matrix4x4 &A,
+                                  const Matrix4x4 &B)
 {
 
 	SSE2Struct a(A.entries);
@@ -36,7 +37,7 @@ DFORCEINLINE void Easy2D::SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
 	SSE2Struct c(A.entries+8);
 	SSE2Struct d(A.entries+12);
 	SSE2Struct t,t2;
-	
+
 	t.smid = _mm_set1_ps(B.entries[0]);
 	t2.smid = _mm_mul_ps(a.smid,t.smid);
 	t.smid=_mm_set1_ps(B.entries[1]);
@@ -56,7 +57,7 @@ DFORCEINLINE void Easy2D::SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
 	t2.smid = _mm_add_ps(_mm_mul_ps(c.smid,t.smid),t2.smid);
 	t.smid=_mm_set1_ps(B.entries[7]);
 	t2.smid = _mm_add_ps(_mm_mul_ps(d.smid,t.smid),t2.smid);
-	
+
 	t2.toVec(out.entries+4);
 
 	t.smid = _mm_set1_ps(B.entries[8]);
@@ -67,7 +68,7 @@ DFORCEINLINE void Easy2D::SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
 	t2.smid = _mm_add_ps(_mm_mul_ps(c.smid,t.smid),t2.smid);
 	t.smid=_mm_set1_ps(B.entries[11]);
 	t2.smid = _mm_add_ps(_mm_mul_ps(d.smid,t.smid),t2.smid);
-	
+
 	t2.toVec(out.entries+8);
 
 	t.smid = _mm_set1_ps(B.entries[12]);
@@ -78,12 +79,11 @@ DFORCEINLINE void Easy2D::SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
 	t2.smid = _mm_add_ps(_mm_mul_ps(c.smid,t.smid),t2.smid);
 	t.smid=_mm_set1_ps(B.entries[15]);
 	t2.smid = _mm_add_ps(_mm_mul_ps(d.smid,t.smid),t2.smid);
-	
+
 	t2.toVec(out.entries+12);
 }
 
-DFORCEINLINE void Easy2D::SSE2_Matrix4Inv(Matrix4x4& self)
-{
+DFORCEINLINE void SSE2_Matrix4Inv(Matrix4x4& self){
 __m128 self_row0 = _mm_load_ps(self.entries);
 __m128 self_row1 = _mm_load_ps(self.entries+4);
 __m128 self_row2 = _mm_load_ps(self.entries+8);
@@ -164,4 +164,7 @@ __m128 self_row3 = _mm_load_ps(self.entries+12);
  _mm_storeh_pi((__m64*)(self.entries+14), minor3);
 
 }
+
+};
+
 #endif

@@ -1,7 +1,7 @@
 #ifndef OPENGLWINDOW_H
 #define OPENGLWINDOW_H
 
-#include <GL/glx.h>
+#include <GL/gl.h>
 #include <GL/glext.h>
 
 //vbo

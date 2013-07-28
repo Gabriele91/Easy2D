@@ -6,7 +6,7 @@
 #include <FreeTypeFontLoader.h>
 #include <BMFontLoader.h>
 #include <Color.h>
-#include "Thread/Thread.h"
+//#include "Thread/Thread.h"
 //#include "Image/Image.h"
 
 ///////////////////////
@@ -26,28 +26,28 @@ void saveTgaImage( String& namefile,std::vector<unsigned char>& bytes,unsigned i
                 unsigned char  identsize;          // size of ID field that follows 18 byte header (0 usually)
                 unsigned char  colourmaptype;      // type of colour map 0=none, 1=has palette
                 unsigned char  imagetype;          // type of image 0=none,1=indexed,2=rgb,3=grey,+8=rle packed
- 
+
                 short colourmapstart;     // first colour map entry in palette
                 short colourmaplength;    // number of colours in palette
                 unsigned char  colourmapbits;      // number of bits per palette entry 15,16,24,32
- 
+
                 short xstart;             // image x origin
                 short ystart;             // image y origin
                 short width;              // image width in pixels
                 short height;             // image height in pixels
                 unsigned char  bits;               // image bits per pixel 8,16,24,32
                 unsigned char  descriptor;         // image descriptor bits (vh flip bits) // 00vhaaaa
- 
+
                 // pixel data follows header
- 
+
         }GCCALLINEAMENT TgaHeader;
 #ifdef _MSC_VER
 #pragma pack(0)
 #endif
-       
+
         if(bytes.size()==0) return;
         if(width==0) return;
- 
+
         TgaHeader tgah;
         memset(&tgah,0,sizeof(TgaHeader));
         tgah.bits=8;
@@ -56,14 +56,14 @@ void saveTgaImage( String& namefile,std::vector<unsigned char>& bytes,unsigned i
         tgah.width=width;
         tgah.height=bytes.size()/width;
         tgah.descriptor=0x2F; //v vertical flip
- 
+
 		std::FILE* pfile=std::fopen((namefile+String(".tga")).c_str(),"w");
         if(pfile){
                 std::fwrite(&tgah,sizeof(TgaHeader),1,pfile);
                 std::fwrite(&bytes[0],bytes.size(),1,pfile);
                 std::fclose(pfile);
         }
- 
+
 }
 
 //costructor
@@ -94,7 +94,7 @@ bool Font::load(){
 		BMFontLoader::load(*this,pathFont);
 	else
 		FreeTypeFontLoader::load(*this,fontInfo,pathFont);
-		
+
 	//errors
 	CHECK_GPU_ERRORS();
 	//is loaded
@@ -123,11 +123,11 @@ struct SpecialChars
 }
 specialChars[]={
 	{'\n',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
-		cursor.y-=fontSize; 
+		cursor.y-=fontSize;
 		cursor.x=pos.x;
 	}},
 	{'\v',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
-		cursor.y-=fontSize; 
+		cursor.y-=fontSize;
 		cursor.x=pos.x;
 	}},
 	{' ',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
@@ -137,7 +137,7 @@ specialChars[]={
 		cursor.x+=fontSize*2.0;
 	}}
 };
-lambdaChar isASpecialChar(int c){	
+lambdaChar isASpecialChar(int c){
 		for(auto& sc:specialChars)
 			if(sc.c==c)
 				return sc.lambda;
@@ -174,11 +174,11 @@ void Font::text(const Vec2& _pos,
 	//reset projection matrix
 	Matrix4x4 projection;
 	//set viewport
-	Vec2 viewport(Application::instance()->getScreen()->getWidth(),  
+	Vec2 viewport(Application::instance()->getScreen()->getWidth(),
 				  Application::instance()->getScreen()->getHeight());
 	//update projection is always the same
 	projection.setOrtho(0,viewport.x, 0,viewport.y, 0,1);
-	glViewport( 0, 0, viewport.x, viewport.y );		
+	glViewport( 0, 0, viewport.x, viewport.y );
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(projection);
 	//reset model matrix
@@ -199,7 +199,7 @@ void Font::text(const Vec2& _pos,
 	//temp vars
 	int oldPage=0;
 	int countCharPage=0;
-	Character* chr=NULL;	
+	Character* chr=NULL;
 	Character* nextChr=getCharacter(textDraw[0]);
 	int pageLast=0;
 
@@ -213,7 +213,7 @@ void Font::text(const Vec2& _pos,
 		nextChr=getCharacter(nextC);
 		//is special?
 		lambdaChar charFunction=isASpecialChar(c);
-		if(charFunction)	
+		if(charFunction)
 				charFunction(fontSize,pos,cursor);
 		else if(chr){
 			//page
@@ -223,23 +223,23 @@ void Font::text(const Vec2& _pos,
 							pages[chr->page]->getRealHeight());
 			//uv
 			Vec2 nSXY(chr->srcX,chr->srcY); nSXY/=sizePage;
-			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;		
+			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;
 			Math::swap(nSXY.v,nEXY.v);
-			
+
 			//opengl uv flipped error on y axis
 			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
 
 			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
-			
+
 			#define XYUV(x) xyUV[countCharPage*24+x]
 				XYUV(0)=posChr.x;           XYUV(1)=posChr.y;           XYUV(2)=nSXY.u;  XYUV(3)=nSXY.v;
 				XYUV(4)=posChr.x;           XYUV(5)=posChr.y+chr->srcH; XYUV(6)=nSXY.u;  XYUV(7)=nEXY.v;
 				XYUV(8)=posChr.x+chr->srcW; XYUV(9)=posChr.y;           XYUV(10)=nEXY.u; XYUV(11)=nSXY.v;
-			
+
 				XYUV(12)=posChr.x;		     XYUV(13)=posChr.y+chr->srcH; XYUV(14)=nSXY.u; XYUV(15)=nEXY.v,
 				XYUV(16)=posChr.x+chr->srcW; XYUV(17)=posChr.y;           XYUV(18)=nEXY.u; XYUV(19)=nSXY.v;
 				XYUV(20)=posChr.x+chr->srcW; XYUV(21)=posChr.y+chr->srcH; XYUV(22)=nEXY.u; XYUV(23)=nEXY.v;
-			#undef XYUV				
+			#undef XYUV
 			//count this char
 			++countCharPage;
 			//next pos
@@ -257,7 +257,7 @@ void Font::text(const Vec2& _pos,
 
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
-	if(cull) 
+	if(cull)
 		glEnable( GL_CULL_FACE );
 	//blend
 	if(!blend)
@@ -299,11 +299,11 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 	//reset projection matrix
 	Matrix4x4 projection;
 	//set viewport
-	Vec2 viewport(Application::instance()->getScreen()->getWidth(),  
+	Vec2 viewport(Application::instance()->getScreen()->getWidth(),
 				  Application::instance()->getScreen()->getHeight());
 	//update projection is always the same
 	projection.setOrtho(0,viewport.x, 0,viewport.y, 0,1);
-	glViewport( 0, 0, viewport.x, viewport.y );		
+	glViewport( 0, 0, viewport.x, viewport.y );
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(projection);
 	//reset model matrix
@@ -316,13 +316,13 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 
 	Vec2 cursor(pos);
 	for(auto c:textDraw){
-		
+
 		if(c=='\n'){ cursor.y-=fontSize; cursor.x=pos.x; continue; } //next line
 		if(c==' '){ cursor.x+=fontSize*0.5; continue; } //next char
 
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-		Character* chr=getCharacter(c);	
+		Character* chr=getCharacter(c);
 
 		if(chr){
 			//
@@ -330,7 +330,7 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 						  pages[chr->page]->getRealHeight());
 			//uv
 			Vec2 nSXY(chr->srcX,chr->srcY); nSXY/=sizePage;
-			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;		
+			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;
 			Math::swap(nSXY.v,nEXY.v);
 
 			//opengl uv flipped error on y axis
@@ -342,7 +342,7 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 				 posChr.x,             posChr.y+chr->srcH+yerror,nSXY.u,nEXY.v,
 				 posChr.x+chr->srcW,   posChr.y+yerror,          nEXY.u,nSXY.v,
 				 posChr.x+chr->srcW,   posChr.y+chr->srcH+yerror,nEXY.u,nEXY.v
-	        };	
+	        };
 
 			//bind texture
 			pages[chr->page]->bind();
@@ -351,7 +351,7 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 			glTexCoordPointer(2, GL_FLOAT, sizeof(float)*4,  &xyUV[2]);
 			//draw array
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-			
+
 			//next pos
 			cursor.x+=chr->xAdv;
 
@@ -360,7 +360,7 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 
 	//////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////
-	if(cull) 
+	if(cull)
 		glEnable( GL_CULL_FACE );
 	//blend
 	if(!blend)

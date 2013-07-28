@@ -25,7 +25,7 @@ void AnimatedSprite::setFrame(int animation,int frame){
 	//set frame
 	animations[animation]->setForcedFrame(frame);
 	//set sprite mesh
-	setMesh(animations[crtAnimation]->getCurrentFrame());	
+	setMesh(animations[crtAnimation]->getCurrentFrame());
 }
 
 int AnimatedSprite::addAnimation(FrameSet::ptr frames){
@@ -35,9 +35,9 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames){
 	crtAnimation=animations.size();
 	animations.push_back(anim);
 	//set sprite mesh
-	setMesh(anim->getCurrentFrame());	
+	setMesh(anim->getCurrentFrame());
 	//return id
-	return crtAnimation; 
+	return crtAnimation;
 }
 int AnimatedSprite::addAnimation(FrameSet::ptr frames,
 								 float timePerFrame){
@@ -45,36 +45,37 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames,
 	int anim=addAnimation(frames);
 	animations[anim]->setFrameTime(timePerFrame);
 	//return id
-	return anim; 
+	return anim;
 }
 
 void AnimatedSprite::setAnimation(int i){
-	
-	DEBUG_ASSERT( crtAnimation >= 0 );
-	DEBUG_ASSERT( animations.size() > i );
+
+	DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
+	DEBUG_ASSERT( ((int)animations.size()) > i );
 	//set animation
-	crtAnimation=i;	
+	crtAnimation=i;
 	//set sprite mesh
-	setMesh(animations[crtAnimation]->getCurrentFrame());	
+	setMesh(animations[crtAnimation]->getCurrentFrame());
 }
 void AnimatedSprite::setAnimation(int i, float timePerFrame){
-	
-	DEBUG_ASSERT( crtAnimation >= 0 );
-	DEBUG_ASSERT( animations.size() > i );
+
+	DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
+	DEBUG_ASSERT( ((int)animations.size()) > i );
 	//set animation
-	crtAnimation=i;	
+	crtAnimation=i;
 	//set sprite mesh
-	setMesh(animations[crtAnimation]->getCurrentFrame());	
+	setMesh(animations[crtAnimation]->getCurrentFrame());
 	//set time
 	animations[crtAnimation]->setFrameTime(timePerFrame);
 }
 
-void AnimatedSprite::setTime(float timePerFrame){	
+void AnimatedSprite::setTime(float timePerFrame){
 	//set time
 	animations[crtAnimation]->setFrameTime(timePerFrame);
 }
-void AnimatedSprite::setAnimationTime(int i,float timePerFrame){	
-	DEBUG_ASSERT( crtAnimation >= 0 );
-	DEBUG_ASSERT( animations.size() > i );
+void AnimatedSprite::setAnimationTime(int i,float timePerFrame){
+
+	DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
+	DEBUG_ASSERT( ((int)animations.size()) > i );
 	animations[i]->setFrameTime(timePerFrame);
 }

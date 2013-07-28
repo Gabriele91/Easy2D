@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <OpenGLLinux.h>
+#include <GL/glx.h>
 #include <Debug.h>
 
 //vbo

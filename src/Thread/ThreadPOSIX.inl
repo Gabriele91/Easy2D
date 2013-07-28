@@ -1,4 +1,5 @@
 
+
 Thread::Thread(actionOnDelete cad)
 			   :thisThFun(NULL)
 			   ,thisThFunArgs(NULL)
@@ -67,7 +68,7 @@ int Thread::getError(){
 		return th_error;
 	}
 
-virtual int Thread::run(){
+ int Thread::run(){
 		if(thisThFun)
 			return thisThFun(thisThFunArgs);
 		else
