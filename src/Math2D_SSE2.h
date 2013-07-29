@@ -4,13 +4,13 @@
 #include <Math2D.h>
 
 #if defined( SIMD_SSE2 )
-	namespace Easy2D {
-		// Multiplies two 4x4 matrices (a,b) auto=a*b
-		extern DINLINE void SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
-												 const Easy2D::Matrix4x4 &A,
-												 const Easy2D::Matrix4x4 &B);
-		extern DINLINE void SSE2_Matrix4Inv(Matrix4x4& self);
-	}
+namespace Easy2D {
+    // Multiplies two 4x4 matrices (a,b) auto=a*b
+    extern void SSE2_Matrix4Mul(Easy2D::Matrix4x4 &out,
+                                const Easy2D::Matrix4x4 &A,
+                                const Easy2D::Matrix4x4 &B);
+    extern void SSE2_Matrix4Inv(Matrix4x4& self);
+}
 #endif
 
 #endif

@@ -26,10 +26,9 @@ union SSE2Struct {
 	}
 
 });
-
-DFORCEINLINE void SSE2_Matrix4Mul(Matrix4x4 &out,
-                                  const Matrix4x4 &A,
-                                  const Matrix4x4 &B)
+extern void SSE2_Matrix4Mul(Matrix4x4 &out,
+                            const Matrix4x4 &A,
+                            const Matrix4x4 &B)
 {
 
 	SSE2Struct a(A.entries);
@@ -83,7 +82,7 @@ DFORCEINLINE void SSE2_Matrix4Mul(Matrix4x4 &out,
 	t2.toVec(out.entries+12);
 }
 
-DFORCEINLINE void SSE2_Matrix4Inv(Matrix4x4& self){
+extern void SSE2_Matrix4Inv(Matrix4x4& self){
 __m128 self_row0 = _mm_load_ps(self.entries);
 __m128 self_row1 = _mm_load_ps(self.entries+4);
 __m128 self_row2 = _mm_load_ps(self.entries+8);

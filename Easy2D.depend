@@ -925,7 +925,7 @@
 1375038320 /home/Gabriele/GitHub/Easy2D//stdafx.h
 	<Config.h>
 
-1375040943 /home/Gabriele/GitHub/Easy2D/include/Config.h
+1375106792 /home/Gabriele/GitHub/Easy2D/include/Config.h
 	<cmath>
 	<cassert>
 	<cstdlib>
@@ -1051,8 +1051,9 @@
 	<Texture.h>
 	<Mesh.h>
 
-1375045820 /home/Gabriele/GitHub/Easy2D/include/Debug.h
+1375106792 /home/Gabriele/GitHub/Easy2D/include/Debug.h
 	<Config.h>
+	<EString.h>
 	<ostream>
 
 1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Application.cpp
@@ -1131,7 +1132,7 @@
 	<Application.h>
 	<Game.h>
 
-1375040113 source:/home/Gabriele/GitHub/Easy2D/src/BMFontLoader.cpp
+1375106792 source:/home/Gabriele/GitHub/Easy2D/src/BMFontLoader.cpp
 	<stdafx.h>
 	<BMFontLoader.h>
 	<Application.h>
@@ -1159,7 +1160,7 @@
 	<stdafx.h>
 	<Config.h>
 
-1375045737 source:/home/Gabriele/GitHub/Easy2D/src/Debug.cpp
+1375106792 source:/home/Gabriele/GitHub/Easy2D/src/Debug.cpp
 	<stdafx.h>
 	<Debug.h>
 	<EString.h>
@@ -1226,7 +1227,7 @@
 	"Math2D_neon.h"
 	"Math2D_vfp.h"
 
-1375046346 /home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.h
+1375112136 /home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.h
 	<Config.h>
 	<Math2D.h>
 
@@ -1270,7 +1271,7 @@
 	<stdafx.h>
 	<Resource.h>
 
-1375041067 source:/home/Gabriele/GitHub/Easy2D/src/Font.cpp
+1375106792 source:/home/Gabriele/GitHub/Easy2D/src/Font.cpp
 	<stdafx.h>
 	<Config.h>
 	<Font.h>
@@ -1291,7 +1292,7 @@
 	<FreeTypeFontLoader.h>
 	<Application.h>
 
-1375038320 source:/home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.cpp
+1375112041 source:/home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.cpp
 	<stdafx.h>
 	"Math2D_SSE2.h"
 
@@ -1467,4 +1468,9 @@
 1375087209 source:c:\users\gabriele\documents\github\easy2d\src\math2d_sse2.cpp
 	<stdafx.h>
 	"Math2D_SSE2.h"
+
+1237038326 /home/Gabriele/GitHub/Easy2D/dependences-linux64/include/ft2build.h
+	<freetype/config/ftheader.h>
+
+1369774803 /home/Gabriele/GitHub/Easy2D/dependences-linux64/include/freetype/config/ftheader.h
 
