@@ -16,44 +16,44 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 	startFntBuffer=fntBuffer=(char*)voidFntBuffer;
 
 
-	PACKED(struct BlockSize{
-				uchar type;
-				int size;
+	ASPACKED(struct BlockSize{
+				  uchar type;
+				  int size;
+			  });
+
+	ASPACKED(struct BlockInfo{
+			  bit16 fontSize;
+			  bit8  bitField;
+			  bit8  charSet;
+			  bit16 stretchH;
+			  bit8  aa;
+			  bit8  paddingUp;
+			  bit8  paddingRight;
+			  bit8  paddingDown;
+			  bit8  paddingLeft;
+			  bit8  spacingHoriz;
+			  bit8  spacingVert;
+			  bit8  outline;
+			  char fontName[1];//first char
 			});
 
-	PACKED(struct BlockInfo{
-			bit16 fontSize;
-			bit8  bitField;
-			bit8  charSet;
-			bit16 stretchH;
-			bit8  aa;
-			bit8  paddingUp;
-			bit8  paddingRight;
-			bit8  paddingDown;
-			bit8  paddingLeft;
-			bit8  spacingHoriz;
-			bit8  spacingVert;
-			bit8  outline;
-			char fontName[1];//first char
+	ASPACKED(struct BlockCommon{
+			  bit16 lineHeight;
+			  bit16 base;
+			  bit16 scaleW;
+			  bit16 scaleH;
+			  bit16 pages;
+			  bit8 bitField;
+			  bit8 alphaChnl;
+			  bit8 redChnl;
+			  bit8 greenChnl;
+			  bit8 blueChnl;
 			});
 
-	PACKED(struct BlockCommon{
-			bit16 lineHeight;
-			bit16 base;
-			bit16 scaleW;
-			bit16 scaleH;
-			bit16 pages;
-			bit8 bitField;
-			bit8 alphaChnl;
-			bit8 redChnl;
-			bit8 greenChnl;
-			bit8 blueChnl;
-			});
-
-	PACKED(struct BlockPage{
+	ASPACKED(struct BlockPage{
 				char fontName[1];//first char
 			});
-	PACKED(struct BlockChars{
+	ASPACKED(struct BlockChars{
 				struct charInfo{
 					bit32  id;
 					bit16  x;
@@ -66,7 +66,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 					bit8  page;
 					bit8  chnl;
 				} chars[1];
-			});
+			  });
 	#define readBlockSize(bufferPtr,blockPtr)\
 		blockPtr=(BlockSize*)bufferPtr; bufferPtr+=sizeof(BlockSize);
 

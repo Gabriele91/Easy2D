@@ -10,19 +10,19 @@ using namespace Easy2D;
 #define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
 //window methods
 void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA){
-	
+
 	DEBUG_MESSAGE( "Open window:" << screenWidth << "x" << screenHeight );
 
 	hInstance = (HINSTANCE)GetModuleHandle(NULL);
 
 	WNDCLASS wc;
-	wc.cbClsExtra = 0; 
-	wc.cbWndExtra = 0; 
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
 	wc.hbrBackground = (HBRUSH)GetStockObject( BLACK_BRUSH );
 	wc.hCursor = LoadCursor( NULL, IDC_ARROW );
 	wc.hIcon = LoadIcon( NULL, IDI_APPLICATION );
-	wc.hInstance = hInstance;         
-	wc.lpfnWndProc = WindowsInput::WndProc;         
+	wc.hInstance = hInstance;
+	wc.lpfnWndProc = WindowsInput::WndProc;
 	wc.lpszClassName = TEXT( "Easy2DWindow" );
 	wc.lpszMenuName = 0;
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -35,7 +35,7 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 	windowRect.right=(long)screenWidth;			// Set Right Value To Requested Width
 	windowRect.top=(long)0;						// Set Top Value To 0
 	windowRect.bottom=(long)screenHeight;		// Set Bottom Value To Requested Height
-	DWORD dwstyle = E2D_WINDOW_STYLE;	
+	DWORD dwstyle = E2D_WINDOW_STYLE;
 	AdjustWindowRect( &windowRect, dwstyle, true);
 	//calc size window
 	int rwidth = windowRect.right-windowRect.left;
@@ -51,7 +51,7 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 						  wtop, //y
 						  rwidth,//Window Width
 						  rheight,//Calculate Window Height
-						  NULL, 
+						  NULL,
 						  NULL,
 						  hInstance,
 						  NULL);
@@ -75,7 +75,7 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 		0,											// Shift Bit Ignored
 		0,											// No Accumulation Resource
 		0, 0, 0, 0,									// Accumulation Bits Ignored
-		32,											// 32Bit Z-Resource (Depth Resource)  
+		32,											// 32Bit Z-Resource (Depth Resource)
 		0,											// No Stencil Resource
 		0,											// No Auxiliary Resource
 		PFD_MAIN_PLANE,								// Main Drawing Layer
@@ -85,8 +85,8 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// When running under Windows Vista or later support desktop composition.
     OSVERSIONINFO osvi = {0};
-	if (!GetVersionEx(&osvi))
-		Debug::message()<<"GetVersionEx() failed.\n";
+	if (GetVersionEx(&osvi))
+		Debug::message()<<"You're in compatible mode.\n";
     if (osvi.dwMajorVersion > 6 || (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion >= 0))
         pfd.dwFlags |=  PFD_SUPPORT_COMPOSITION;
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -94,19 +94,19 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 	if(dfAA==NOAA){
 		DEBUG_ASSERT_REPLACE( chosenPixelFormat=ChoosePixelFormat(hDevCxt, &pfd) );
 	}
-	else if(dfAA>=MSAAx2 && dfAA<=MSAAx64) 
+	else if(dfAA>=MSAAx2 && dfAA<=MSAAx64)
 		ChooseMSAntiAliasingPixelFormat(chosenPixelFormat,dfAA);
-	else if(dfAA==CSAA) 
+	else if(dfAA==CSAA)
 		ChooseCSAntiAliasingPixelFormat(chosenPixelFormat,4);
-	else if(dfAA==CSAAQ) 
+	else if(dfAA==CSAAQ)
 		ChooseCSAntiAliasingPixelFormat(chosenPixelFormat,16);
-	else if(dfAA==BESTAA) 
+	else if(dfAA==BESTAA)
 		ChooseBestAntiAliasingPixelFormat(chosenPixelFormat);
-	//DEBUG_ASSERT(chosenPixelFormat);	
+	//DEBUG_ASSERT(chosenPixelFormat);
 	DEBUG_ASSERT_REPLACE( SetPixelFormat( hDevCxt, chosenPixelFormat, &pfd ) );
 	//OpenGL Context
 	hGLCxt = wglCreateContext( hDevCxt );
-	DEBUG_ASSERT(hGLCxt);	
+	DEBUG_ASSERT(hGLCxt);
 	DEBUG_ASSERT_REPLACE( wglMakeCurrent( hDevCxt, hGLCxt ) );
 	//init openGL2
 	__initOpenGL();
@@ -121,15 +121,15 @@ void WindowsScreen::__initOpenGL(){
 	//openGL 2 init
 	initOpenGL2();
 	//enable culling
-    glEnable( GL_CULL_FACE );        
-    glCullFace( GL_BACK );        
+    glEnable( GL_CULL_FACE );
+    glCullFace( GL_BACK );
     //default status for blending
     glEnable(GL_ALPHA_TEST);
 	glEnable(GL_BLEND);
-    glBlendFunc( GL_ONE , GL_ZERO ); 
+    glBlendFunc( GL_ONE , GL_ZERO );
 	//disable light
 	glDisable(GL_LIGHTING);
-	//enable texturing	
+	//enable texturing
 	glEnable( GL_TEXTURE_2D );
     //always active!
     glEnableClientState( GL_VERTEX_ARRAY );
@@ -150,7 +150,7 @@ void WindowsScreen::__destroyWindow(){
 		DEBUG_ASSERT_REPLACE(wglDeleteContext(hGLCxt));
 	}
 	//destroy window
-	if(hWind){	
+	if(hWind){
 		//Animate exit
 		//AnimateWindow( hWind, 200, AW_HIDE | AW_BLEND );
 		//release device context
@@ -199,7 +199,7 @@ void setClientSize(HWND window, int width, int height){
 	GetWindowRect(window, &offsetRect);
 	width += (offsetRect.right - offsetRect.left);
 	height += (offsetRect.bottom - offsetRect.top);
-	
+
 	//calc center
 	int wlft = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
 	int wtop = (GetSystemMetrics(SM_CYSCREEN) - height) / 2;
@@ -210,7 +210,7 @@ void setClientSize(HWND window, int width, int height){
 * enable or disable full screen
 */
 void WindowsScreen::setFullscreen(bool prfullscreen){
-	//set 
+	//set
 	bool change=fullscreen!=prfullscreen;
 	fullscreen=prfullscreen;
 	//set window style
@@ -220,9 +220,9 @@ void WindowsScreen::setFullscreen(bool prfullscreen){
 	if( !fullscreen ){
 		//disable fullscreen
 		if(change)
-			ChangeDisplaySettings( NULL, 0 );	
+			ChangeDisplaySettings( NULL, 0 );
 		//set size window
-		setClientSize(hWind,screenWidth,screenHeight);	
+		setClientSize(hWind,screenWidth,screenHeight);
 	}
 	else{
 		DEVMODE dm;
@@ -272,17 +272,17 @@ void WindowsScreen::swap(){
 /**
 * create window
 */
-void WindowsScreen::createWindow(const char* appname, 
-								uint width, 
+void WindowsScreen::createWindow(const char* appname,
+								uint width,
 								uint height,
-								uint bites, 
+								uint bites,
 								uint setFreamPerSecond,
 								bool prfullscreen,
 								AntiAliasing dfAA){
 	DEBUG_ASSERT(appname);
 	DEBUG_ASSERT(bites);
 	DEBUG_MESSAGE( "createWindow Easy2D Win32" );
-	
+
 	//set values
 	screenWidth=Math::min(nativeWidth,width);
 	screenHeight=Math::min(nativeHeight,height);
@@ -339,7 +339,7 @@ void WindowsScreen::setCursor(bool show){
 /**
 * set position cursor
 */
-void WindowsScreen::setPositionCursor(const Vec2& pos){	
+void WindowsScreen::setPositionCursor(const Vec2& pos){
 	POINT mouse;
 	mouse.x=pos.x;
 	mouse.y=pos.y;

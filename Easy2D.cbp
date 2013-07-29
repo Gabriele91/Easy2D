@@ -3,12 +3,13 @@
 	<FileVersion major="1" minor="6" />
 	<Project>
 		<Option title="Easy2D" />
+		<Option makefile="makefile" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug Linux">
 				<Option platforms="Unix;" />
-				<Option output="bin/libEasy2D_linux_D" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Easy2D_linux_D" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
@@ -35,7 +36,7 @@
 			</Target>
 			<Target title="Release Linux">
 				<Option platforms="Unix;" />
-				<Option output="bin/libEasy2D_linux" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Easy2D_linux" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -62,9 +63,10 @@
 			</Target>
 			<Target title="Debug Window">
 				<Option platforms="Windows;" />
-				<Option output="bin/Debug/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Easy2D_window_D" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
-				<Option type="1" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
@@ -73,9 +75,11 @@
 					<Add option="-D_DEBUG" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-D_WIN32" />
+					<Add option="-DENABLE_SIMD" />
 					<Add directory="." />
 					<Add directory="include" />
 					<Add directory="include/window" />
+					<Add directory="dependences-win32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lmingw32" />
@@ -83,13 +87,16 @@
 					<Add option="-lgdi32" />
 					<Add option="-lopenGL32" />
 					<Add option="-lglu32" />
+					<Add library="freetype250.lib" />
+					<Add directory="dependences-win32/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Window">
 				<Option platforms="Windows;" />
-				<Option output="bin/Release/Easy2D" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Easy2D_window" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
@@ -97,12 +104,21 @@
 					<Add option="-fpermissive" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-D_WIN32" />
+					<Add option="-DENABLE_SIMD" />
 					<Add directory="." />
 					<Add directory="include" />
 					<Add directory="include/window" />
+					<Add directory="dependences-win32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lmingw32" />
+					<Add option="-lwinmm" />
+					<Add option="-lgdi32" />
+					<Add option="-lopenGL32" />
+					<Add option="-lglu32" />
+					<Add library="freetype250.lib" />
+					<Add directory="dependences-win32/lib" />
 				</Linker>
 			</Target>
 		</Build>

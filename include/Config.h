@@ -45,7 +45,9 @@
 #elif defined(_WIN32)
 	#define PLATFORM_WINDOW
 	#define DCPP_11
-	#define NOMINMAX
+	#ifndef NOMINMAX
+        #define NOMINMAX
+    #endif
 	#define ENABLE_VAOS
 	#include <windows.h>
 	#include <GL/gl.h>
@@ -97,7 +99,7 @@
 	#define DFORCEINLINE __attribute__ ((always_inline))
 	#define DINLINE inline
 	#define COMPILER_GCC
-    #define PACKED( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+    #define ASPACKED( __Declaration__ ) __Declaration__ __attribute__((__packed__))
 	#define ALIGNED( size, __Declaration__ )  __Declaration__ __attribute__ ((aligned(size)))
 
 	#if !defined( PFD_SUPPORT_COMPOSITION ) && defined(PLATFORM_WINDOW)
@@ -117,7 +119,7 @@
 
 	#define DFORCEINLINE __forceinline
 	#define DINLINE __inline
-	#define PACKED( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
+	#define ASPACKED( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
 	#define ALIGNED( size, __Declaration__ ) __declspec(align(size)) __Declaration__
 	#define COMPILER_VISUAL_STUDIO
 

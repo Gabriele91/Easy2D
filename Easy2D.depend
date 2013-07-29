@@ -441,7 +441,7 @@
 1364558401 c:\users\gabriele\documents\github\easy2d\stdafx.h
 	<Config.h>
 
-1370425157 c:\users\gabriele\documents\github\easy2d\include\config.h
+1375089145 c:\users\gabriele\documents\github\easy2d\include\config.h
 	<cmath>
 	<cassert>
 	<cstdlib>
@@ -468,12 +468,19 @@
 	<GL/gl.h>
 	<GL/glu.h>
 	<window/OpenGLWindow.h>
+	<TargetConditionals.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<OpenGL/glext.h>
+	<signal.h>
+	<stdint.h>
 	<GL/gl.h>
 	<linux/OpenGLLinux.h>
 	<AL/al.h>
 	<AL/alc.h>
-	"TargetConditionals.h"
 	<utility>
+	<emmintrin.h>
+	<xmmintrin.h>
 	<unordered_map>
 	<functional>
 	<memory>
@@ -501,8 +508,8 @@
 	<stdint.h>
 	<inttypes.h>
 
-1370113187 c:\users\gabriele\documents\github\easy2d\include\linux\opengllinux.h
-	<GL/glx.h>
+1375087209 c:\users\gabriele\documents\github\easy2d\include\linux\opengllinux.h
+	<GL/gl.h>
 	<GL/glext.h>
 
 1368392929 c:\users\gabriele\documents\github\easy2d\include\easy2d.h
@@ -534,8 +541,9 @@
 	<AnimatedSprite.h>
 	<Camera.h>
 
-1368803748 c:\users\gabriele\documents\github\easy2d\include\debug.h
+1375087877 c:\users\gabriele\documents\github\easy2d\include\debug.h
 	<Config.h>
+	<EString.h>
 	<ostream>
 
 1366536321 c:\users\gabriele\documents\github\easy2d\include\estring.h
@@ -561,7 +569,7 @@
 	<Config.h>
 	<EString.h>
 
-1370283152 c:\users\gabriele\documents\github\easy2d\include\resourcesmanager.h
+1374693507 c:\users\gabriele\documents\github\easy2d\include\resourcesmanager.h
 	<Config.h>
 	<Debug.h>
 	<EString.h>
@@ -575,11 +583,11 @@
 	<Resource.h>
 	<iostream>
 
-1370424832 c:\users\gabriele\documents\github\easy2d\include\math2d.h
+1374918813 c:\users\gabriele\documents\github\easy2d\include\math2d.h
 	<Config.h>
 	<EString.h>
 
-1370377947 c:\users\gabriele\documents\github\easy2d\include\resourcesgroup.h
+1374692953 c:\users\gabriele\documents\github\easy2d\include\resourcesgroup.h
 	<Config.h>
 	<Utility.h>
 	<EString.h>
@@ -588,14 +596,16 @@
 	<Texture.h>
 	<Mesh.h>
 	<FrameSet.h>
+	<Font.h>
 
-1366142087 c:\users\gabriele\documents\github\easy2d\include\texture.h
+1373209987 c:\users\gabriele\documents\github\easy2d\include\texture.h
 	<Config.h>
 	<Math2D.h>
 	<EString.h>
 	<Resource.h>
 	<Mesh.h>
 	<iostream>
+	<Types.h>
 
 1366228779 c:\users\gabriele\documents\github\easy2d\include\mesh.h
 	<Config.h>
@@ -626,11 +636,11 @@
 	<Input.h>
 	<EString.h>
 
-1370111811 c:\users\gabriele\documents\github\easy2d\include\screen.h
+1370782898 c:\users\gabriele\documents\github\easy2d\include\screen.h
 	<Config.h>
 	<Application.h>
 
-1370267731 c:\users\gabriele\documents\github\easy2d\include\input.h
+1370690843 c:\users\gabriele\documents\github\easy2d\include\input.h
 	<Config.h>
 	<Debug.h>
 	<Math2D.h>
@@ -639,7 +649,7 @@
 	<Config.h>
 	<Math2D.h>
 
-1370284717 c:\users\gabriele\documents\github\easy2d\include\render.h
+1370789708 c:\users\gabriele\documents\github\easy2d\include\render.h
 	<Config.h>
 	<Screen.h>
 	<Camera.h>
@@ -652,40 +662,43 @@
 	<Config.h>
 	<Object.h>
 
-1368378417 c:\users\gabriele\documents\github\easy2d\include\layer.h
+1374863842 c:\users\gabriele\documents\github\easy2d\include\layer.h
 	<Config.h>
 	<Camera.h>
 	<Renderable.h>
 
-1368393471 c:\users\gabriele\documents\github\easy2d\include\renderable.h
+1374863719 c:\users\gabriele\documents\github\easy2d\include\renderable.h
 	<Config.h>
 	<Mesh.h>
 	<Object.h>
 	<RenderState.h>
+	<Blend.h>
 
-1368990124 c:\users\gabriele\documents\github\easy2d\include\renderstate.h
+1372502318 c:\users\gabriele\documents\github\easy2d\include\renderstate.h
 	<Config.h>
 	<Mesh.h>
 	<Texture.h>
+	<Blend.h>
 
 1368393492 c:\users\gabriele\documents\github\easy2d\include\sprite.h
 	<Config.h>
 	<Renderable.h>
 
-1368989226 c:\users\gabriele\documents\github\easy2d\include\animatedsprite.h
+1374840063 c:\users\gabriele\documents\github\easy2d\include\animatedsprite.h
 	<Config.h>
 	<Renderable.h>
 	<FrameSet.h>
 	<Debug.h>
 
-1368989221 source:c:\users\gabriele\documents\github\easy2d\src\animatedsprite.cpp
+1375087209 source:c:\users\gabriele\documents\github\easy2d\src\animatedsprite.cpp
 	<stdafx.h>
 	<AnimatedSprite.h>
 
-1370269656 source:c:\users\gabriele\documents\github\easy2d\src\application.cpp
+1372493892 source:c:\users\gabriele\documents\github\easy2d\src\application.cpp
 	<stdafx.h>
 	<Application.h>
 	<ETime.h>
+	<CocoaApp.h>
 	<WindowsApp.h>
 	<LinuxApp.h>
 	<AndroidApp.h>
@@ -707,7 +720,7 @@
 	<stdafx.h>
 	<Config.h>
 
-1366536322 source:c:\users\gabriele\documents\github\easy2d\src\debug.cpp
+1375087797 source:c:\users\gabriele\documents\github\easy2d\src\debug.cpp
 	<stdafx.h>
 	<Debug.h>
 	<EString.h>
@@ -724,7 +737,7 @@
 	<ETime.h>
 	<sys/time.h>
 
-1368989207 source:c:\users\gabriele\documents\github\easy2d\src\frameset.cpp
+1374856702 source:c:\users\gabriele\documents\github\easy2d\src\frameset.cpp
 	<stdafx.h>
 	<FrameSet.h>
 	<Application.h>
@@ -757,14 +770,17 @@
 	<stdafx.h>
 	<Input.h>
 
-1365405706 source:c:\users\gabriele\documents\github\easy2d\src\layer.cpp
+1374864421 source:c:\users\gabriele\documents\github\easy2d\src\layer.cpp
 	<stdafx.h>
 	<Layer.h>
 	<Renderable.h>
 
-1368363349 source:c:\users\gabriele\documents\github\easy2d\src\math2d.cpp
+1374920571 source:c:\users\gabriele\documents\github\easy2d\src\math2d.cpp
 	<stdafx.h>
 	<Math2D.h>
+	"Math2D_SSE2.h"
+	"Math2D_neon.h"
+	"Math2D_vfp.h"
 
 1368363349 source:c:\users\gabriele\documents\github\easy2d\src\mesh.cpp
 	<stdafx.h>
@@ -776,7 +792,7 @@
 	<stdafx.h>
 	<Object.h>
 
-1370284783 source:c:\users\gabriele\documents\github\easy2d\src\render.cpp
+1374863561 source:c:\users\gabriele\documents\github\easy2d\src\render.cpp
 	<stdafx.h>
 	<Render.h>
 
@@ -793,7 +809,7 @@
 	<stdafx.h>
 	<Resource.h>
 
-1370377947 source:c:\users\gabriele\documents\github\easy2d\src\resourcesgroup.cpp
+1374692953 source:c:\users\gabriele\documents\github\easy2d\src\resourcesgroup.cpp
 	<stdafx.h>
 	<ResourcesGroup.h>
 	<Application.h>
@@ -806,25 +822,25 @@
 	<stdafx.h>
 	<Screen.h>
 
-1368989076 source:c:\users\gabriele\documents\github\easy2d\src\sprite.cpp
+1372525963 source:c:\users\gabriele\documents\github\easy2d\src\sprite.cpp
 	<stdafx.h>
 	<Sprite.h>
 
-1368958886 source:c:\users\gabriele\documents\github\easy2d\src\table.cpp
+1374823858 source:c:\users\gabriele\documents\github\easy2d\src\table.cpp
 	<Table.h>
 	<Application.h>
 
-1368989010 source:c:\users\gabriele\documents\github\easy2d\src\texture.cpp
+1373210348 source:c:\users\gabriele\documents\github\easy2d\src\texture.cpp
 	<stdafx.h>
 	<Texture.h>
 	<Application.h>
 	"Image/Image.h"
 
-1366009302 c:\users\gabriele\documents\github\easy2d\src\image\image.h
+1373186455 c:\users\gabriele\documents\github\easy2d\src\image\image.h
 	<string>
 	"Image.inl"
 
-1368394465 c:\users\gabriele\documents\github\easy2d\src\image\image.inl
+1373210579 c:\users\gabriele\documents\github\easy2d\src\image\image.inl
 	<stdio.h>
 	<string.h>
 	"Image.h"
@@ -874,14 +890,14 @@
 	<Debug.h>
 	<direct.h>
 
-1370285121 c:\users\gabriele\documents\github\easy2d\include\window\windowsscreen.h
+1370691337 c:\users\gabriele\documents\github\easy2d\include\window\windowsscreen.h
 	<Config.h>
 	<String.h>
 	<Screen.h>
 	<WindowsApp.h>
 	<WindowsInput.h>
 
-1370111303 c:\users\gabriele\documents\github\easy2d\include\window\windowsinput.h
+1370691174 c:\users\gabriele\documents\github\easy2d\include\window\windowsinput.h
 	<Config.h>
 	<Math2D.h>
 	<Input.h>
@@ -894,7 +910,7 @@
 	<Debug.h>
 	<Application.h>
 
-1370284975 source:c:\users\gabriele\documents\github\easy2d\src\window\windowsscreen.cpp
+1372494956 source:c:\users\gabriele\documents\github\easy2d\src\window\windowsscreen.cpp
 	"stdafx.h"
 	<WindowsScreen.h>
 	<WindowsInput.h>
@@ -1389,6 +1405,66 @@
 	<Debug.h>
 
 1375046184 /home/Gabriele/GitHub/Easy2D/src/Math2D_SSE2.cpp
+	<stdafx.h>
+	"Math2D_SSE2.h"
+
+1374835288 c:\users\gabriele\documents\github\easy2d\include\font.h
+	<Config.h>
+	<Utility.h>
+	<Resource.h>
+	<Texture.h>
+	<Color.h>
+
+1372502193 c:\users\gabriele\documents\github\easy2d\include\blend.h
+	<Config.h>
+
+1375088746 source:c:\users\gabriele\documents\github\easy2d\src\bmfontloader.cpp
+	<stdafx.h>
+	<BMFontLoader.h>
+	<Application.h>
+	<Texture.h>
+
+1374826084 c:\users\gabriele\documents\github\easy2d\include\bmfontloader.h
+	<Config.h>
+	<Font.h>
+	<Texture.h>
+	<Utility.h>
+
+1375087209 source:c:\users\gabriele\documents\github\easy2d\src\font.cpp
+	<stdafx.h>
+	<Config.h>
+	<Font.h>
+	<Types.h>
+	<Application.h>
+	<FreeTypeFontLoader.h>
+	<BMFontLoader.h>
+	<Color.h>
+
+1374835476 c:\users\gabriele\documents\github\easy2d\include\freetypefontloader.h
+	<Config.h>
+	<Table.h>
+	<Font.h>
+
+1375087209 source:c:\users\gabriele\documents\github\easy2d\src\freetypefontloader.cpp
+	<stdafx.h>
+	<ft2build.h>
+	<FreeTypeFontLoader.h>
+	<Application.h>
+
+1237041926 c:\users\gabriele\documents\github\easy2d\dependences-win32\include\ft2build.h
+	<freetype/config/ftheader.h>
+
+1369774803 c:\users\gabriele\documents\github\easy2d\dependences-win32\include\freetype\config\ftheader.h
+
+1375087209 c:\users\gabriele\documents\github\easy2d\src\math2d_sse2.h
+	<Config.h>
+	<Math2D.h>
+
+1372582956 c:\users\gabriele\documents\github\easy2d\src\math2d_neon.h
+
+1372582956 c:\users\gabriele\documents\github\easy2d\src\math2d_vfp.h
+
+1375087209 source:c:\users\gabriele\documents\github\easy2d\src\math2d_sse2.cpp
 	<stdafx.h>
 	"Math2D_SSE2.h"
 

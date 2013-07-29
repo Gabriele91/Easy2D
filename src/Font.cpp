@@ -12,60 +12,6 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-void saveTgaImage( String& namefile,std::vector<unsigned char>& bytes,unsigned int width){
-#ifdef _MSC_VER
-        #define GCCALLINEAMENT
-#else
-        #define GCCALLINEAMENT __attribute__((__packed__))
-#endif
-#ifdef _MSC_VER
- #pragma pack(1)
-#endif
-        typedef struct TgaHeader
-        {
-                unsigned char  identsize;          // size of ID field that follows 18 byte header (0 usually)
-                unsigned char  colourmaptype;      // type of colour map 0=none, 1=has palette
-                unsigned char  imagetype;          // type of image 0=none,1=indexed,2=rgb,3=grey,+8=rle packed
-
-                short colourmapstart;     // first colour map entry in palette
-                short colourmaplength;    // number of colours in palette
-                unsigned char  colourmapbits;      // number of bits per palette entry 15,16,24,32
-
-                short xstart;             // image x origin
-                short ystart;             // image y origin
-                short width;              // image width in pixels
-                short height;             // image height in pixels
-                unsigned char  bits;               // image bits per pixel 8,16,24,32
-                unsigned char  descriptor;         // image descriptor bits (vh flip bits) // 00vhaaaa
-
-                // pixel data follows header
-
-        }GCCALLINEAMENT TgaHeader;
-#ifdef _MSC_VER
-#pragma pack(0)
-#endif
-
-        if(bytes.size()==0) return;
-        if(width==0) return;
-
-        TgaHeader tgah;
-        memset(&tgah,0,sizeof(TgaHeader));
-        tgah.bits=8;
-        tgah.colourmaptype=0;
-        tgah.imagetype=3;
-        tgah.width=width;
-        tgah.height=bytes.size()/width;
-        tgah.descriptor=0x2F; //v vertical flip
-
-		std::FILE* pfile=std::fopen((namefile+String(".tga")).c_str(),"w");
-        if(pfile){
-                std::fwrite(&tgah,sizeof(TgaHeader),1,pfile);
-                std::fwrite(&bytes[0],bytes.size(),1,pfile);
-                std::fclose(pfile);
-        }
-
-}
-
 //costructor
 Font::Font(ResourcesGroup *rsgr,const String& path)
 	:Resource(rsgr,path)

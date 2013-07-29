@@ -27,20 +27,6 @@ void Debug::breakpoint(){
 std::ostream&  Debug::message(){
 	return std::cout;
 }
-/*
-void Debug::_doassert(const void* v,const char* value,const char* fileSource,int line){
-	if(!v){
-		message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
-		breakpoint();
-	}
-}
-void Debug::_doassert(int v,const char* value,const char* fileSource,int line){
-	if(!v){
-		message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
-		breakpoint();
-	}
-}*/
-
 void Debug::gpucheckerrors(const char* fileSource,int line){
 
 	String err;

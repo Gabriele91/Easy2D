@@ -2,6 +2,7 @@
 #define DEBUG_H
 
 #include <Config.h>
+#include <EString.h>
 #include <ostream>
 
 namespace Easy2D {
@@ -12,7 +13,7 @@ namespace Easy2D {
 		static void breakpoint();
 		static std::ostream& message();
 		template<typename T>
-		static inline void doassert(T v,
+		static void doassert(const T& v,
                              const char* value,
                              const char* fileSource,
                              int line){
@@ -21,6 +22,7 @@ namespace Easy2D {
                 breakpoint();
             }
         }
+
 		static void gpucheckerrors(const char* fileSource,int line);
 
 	};
