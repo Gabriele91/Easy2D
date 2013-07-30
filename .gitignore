@@ -1,5 +1,6 @@
 *.7z
 *.exe
+*.zip
 
 #test directory
 livel*/
