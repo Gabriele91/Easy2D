@@ -8,6 +8,9 @@
 
 #define ___PUBLIC_FOR_COCOA_CLASS
 #include <CocoaInput.h>
+#import <AppKit/NSOpenGLView.h>
+#import <AppKit/NSWindow.h>
+#import <AppKit/NSScreen.h>
 using namespace Easy2D;
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_6

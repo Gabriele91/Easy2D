@@ -7,6 +7,7 @@
 //
 
 #include <CocoaScreen.h>
+#include <Cocoa/Cocoa.h>
 #import <AppKit/NSOpenGLView.h>
 #import <AppKit/NSWindow.h>
 #import <AppKit/NSScreen.h>

@@ -136,6 +136,7 @@ namespace Easy2D{
 		/* costructor */
 		Table(ResourcesGroup *rsmr,
 			  const String& pathfile="");
+        Table(const Table& cptable);
 		Table();
 		/* destructor */
 		virtual ~Table();

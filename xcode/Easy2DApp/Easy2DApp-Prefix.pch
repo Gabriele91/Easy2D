@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'Easy2DApp' target in the 'Easy2DApp' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

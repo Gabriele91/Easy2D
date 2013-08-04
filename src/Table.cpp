@@ -11,6 +11,21 @@ Table::Table(ResourcesGroup *rsmr,
 {
 	reloadable=true;
 }
+
+Table::Table(const Table& cptable)
+            :Resource(cptable.ptrResources,
+                      cptable.rpath)
+            ,index(cptable.index)
+{
+    //resource copy
+	reloadable=cptable.reloadable;
+    loaded=cptable.loaded;
+    //table copy
+    for(auto it:cptable)
+        table[it.first]=it.second->clone();
+    //
+}
+
 Table::Table()
 	:Resource(NULL,"")
 	,index(0)
