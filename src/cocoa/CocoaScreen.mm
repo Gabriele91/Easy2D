@@ -284,13 +284,16 @@ void CocoaScreen::setCursor(bool show){
 void CocoaScreen::setPositionCursor(const Vec2& pos){
     
     TOCOCOAWINDOW
-    //take windows x and windows y
-    Vec2 offSet(getWidth()-window.frame.size.width,getHeight()-window.frame.size.height);
-    
+    NSView* view=window.contentView;
+    //calc inverse top view
+    float screenH=window.screen.frame.origin.y+window.screen.frame.size.height;
+    float windowH=window.frame.origin.y+window.frame.size.height;
+    float viewTop=window.frame.size.height-view.frame.size.height;
+    //calc mouse point in screen
     CGPoint cgpoint;
-    cgpoint.x = window.frame.origin.x + offSet.x + Math::max(Math::min(pos.x,getWidth()*1.0f),0.0f);
-    cgpoint.y = window.frame.origin.y + offSet.y - 2 + Math::max(Math::min(pos.y,getHeight()*1.0f),1.0f);
-    
+    cgpoint.x =   window.frame.origin.x + Math::max(Math::min(pos.x,getWidth()*1.0f),0.0f);
+    cgpoint.y =   (screenH-windowH+viewTop) + Math::max(Math::min(pos.y,getHeight()*1.0f),1.0f);
+    //send event
     CGEventRef event = CGEventCreateMouseEvent(NULL,
                                                kCGEventMouseMoved,
                                                cgpoint,
