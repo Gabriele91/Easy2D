@@ -275,19 +275,35 @@ void CocoaScreen::swap(){
  * @param show, set true if you want show cursor otherwise false
  */
 void CocoaScreen::setCursor(bool show){
-
+    if (show) CGDisplayShowCursor(kCGDirectMainDisplay);
+    else CGDisplayHideCursor(kCGDirectMainDisplay);
 }
 /**
  * set position cursor
  */
 void CocoaScreen::setPositionCursor(const Vec2& pos){
-
+    
+    TOCOCOAWINDOW
+    //take windows x and windows y
+    Vec2 offSet(getWidth()-window.frame.size.width,getHeight()-window.frame.size.height);
+    
+    CGPoint cgpoint;
+    cgpoint.x = window.frame.origin.x + offSet.x + Math::max(Math::min(pos.x,getWidth()*1.0f),0.0f);
+    cgpoint.y = window.frame.origin.y + offSet.y - 2 + Math::max(Math::min(pos.y,getHeight()*1.0f),1.0f);
+    
+    CGEventRef event = CGEventCreateMouseEvent(NULL,
+                                               kCGEventMouseMoved,
+                                               cgpoint,
+                                               /*we don't care about this : */0);
+    CGEventPost(kCGHIDEventTap, event);
+    CFRelease(event);
+    
 }
 /**
  * return if cursor is shown or hidden
  */
 bool CocoaScreen::getCursor(){
-	return showmouse;
+	return CGCursorIsVisible();;
 }
 /**
  * enable or disable full screen
