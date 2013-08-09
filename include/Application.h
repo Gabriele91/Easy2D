@@ -2,19 +2,16 @@
 #define APPLICATION_H
 
 #include <Config.h>
-#include <Game.h>
 #include <EString.h>
-#include <Screen.h>
-#include <Input.h>
-#include <ResourcesGroup.h>
 
 
 namespace Easy2D {
 	
-	class Screen;
 	class Game;
+	class Screen;
 	class Audio;
 	class Input;
+    class ResourcesGroup;
 
 	/**
     * Abstract class, represent the application instance

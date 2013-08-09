@@ -175,10 +175,14 @@
 		E054972C17AE6A9C005DDB72 /* ttunpat.h in Headers */ = {isa = PBXBuildFile; fileRef = E05496D217AE6A9C005DDB72 /* ttunpat.h */; };
 		E054972D17AE6A9C005DDB72 /* ft2build.h in Headers */ = {isa = PBXBuildFile; fileRef = E05496D317AE6A9C005DDB72 /* ft2build.h */; };
 		E054972E17AE6A9C005DDB72 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E05496D517AE6A9C005DDB72 /* libfreetype.a */; };
+		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
 		E089991917AE58760063EAAC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E089991817AE58760063EAAC /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E089991A17AE587B0063EAAC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01964D0176B0D9800CF955A /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E0899A5917AE672D0063EAAC /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0899A5817AE672D0063EAAC /* libbz2.dylib */; };
 		E0899A5B17AE67330063EAAC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0899A5A17AE67320063EAAC /* libz.dylib */; };
+		E089EAE817B2750E0055B59A /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
+		E089EAEC17B2751B0055B59A /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEA17B2751B0055B59A /* Scene.h */; };
+		E089EAED17B2751B0055B59A /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEB17B2751B0055B59A /* State.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -361,10 +365,14 @@
 		E05496D217AE6A9C005DDB72 /* ttunpat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ttunpat.h; sourceTree = "<group>"; };
 		E05496D317AE6A9C005DDB72 /* ft2build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft2build.h; sourceTree = "<group>"; };
 		E05496D517AE6A9C005DDB72 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
+		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E089991817AE58760063EAAC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		E0899A5817AE672D0063EAAC /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libbz2.dylib; sourceTree = DEVELOPER_DIR; };
 		E0899A5A17AE67320063EAAC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		E089EAE617B2750E0055B59A /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		E089EAEA17B2751B0055B59A /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		E089EAEB17B2751B0055B59A /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -430,6 +438,9 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E087365117B38D6F0005472E /* EStack.h */,
+				E089EAEA17B2751B0055B59A /* Scene.h */,
+				E089EAEB17B2751B0055B59A /* State.h */,
 				E054958817AE68E8005DDB72 /* AnimatedSprite.h */,
 				E054958917AE68E8005DDB72 /* Application.h */,
 				E054958A17AE68E8005DDB72 /* Blend.h */,
@@ -481,6 +492,7 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E089EAE617B2750E0055B59A /* Scene.cpp */,
 				E05495F217AE6907005DDB72 /* AnimatedSprite.cpp */,
 				E05495F317AE6907005DDB72 /* Application.cpp */,
 				E05495F417AE6907005DDB72 /* BMFontLoader.cpp */,
@@ -839,6 +851,9 @@
 				E054972B17AE6A9C005DDB72 /* tttags.h in Headers */,
 				E054972C17AE6A9C005DDB72 /* ttunpat.h in Headers */,
 				E054972D17AE6A9C005DDB72 /* ft2build.h in Headers */,
+				E089EAEC17B2751B0055B59A /* Scene.h in Headers */,
+				E089EAED17B2751B0055B59A /* State.h in Headers */,
+				E087365217B38D6F0005472E /* EStack.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,6 +942,7 @@
 				E054966617AE6907005DDB72 /* Texture.cpp in Sources */,
 				E054966B17AE6907005DDB72 /* Timer.cpp in Sources */,
 				E054966C17AE6907005DDB72 /* Utility.cpp in Sources */,
+				E089EAE817B2750E0055B59A /* Scene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

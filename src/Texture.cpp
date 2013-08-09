@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <Texture.h>
+#include <Debug.h>
 #include <Application.h>
 #define IMAGE_LOADER_OPENGL
 #include "Image/Image.h"

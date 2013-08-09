@@ -6,20 +6,39 @@ using namespace Easy2D;
 ///////////////////////
 
 ResourcesGroup::ResourcesGroup(const Utility::Path& path,
-							  const String& version)
-	:resources(NULL,path)
-	,version(version)
+                               const String& version)
+                               :resources(NULL,path)
+                               ,version(version)
 {
+    loadResourceFile();
+}
+
+ResourcesGroup::ResourcesGroup():version("default")
+{
+}
+
+void ResourcesGroup::loadResourceFile(){
 	//load table
 	resources.load();
 	//recall constructors
-	loadAResource(path,"tables",tables);
-	loadAResource(path,"textures",textures);
-	loadAResource(path,"meshes",meshes);
-	loadAResource(path,"frameSets",frameSets);
-	loadAResource(path,"fonts",fonts);
+	loadAResource(resources.getPath(),"tables",tables);
+	loadAResource(resources.getPath(),"textures",textures);
+	loadAResource(resources.getPath(),"meshes",meshes);
+	loadAResource(resources.getPath(),"frameSets",frameSets);
+	loadAResource(resources.getPath(),"fonts",fonts);
 	//regist this resource group
 	Application::instance()->addResourcesGroup(this);
+
+}
+
+void ResourcesGroup::addResourceFiles(const Utility::Path& path,
+                                      const String& argversion){
+    
+    DEBUG_ASSERT_MSG(!resources.isLoad(), "ResourcesGroup addResourceFiles: resource file olready added");
+    version=argversion;
+    resources=Table(NULL,path);
+    loadResourceFile();
+    
 }
 
 ResourcesGroup::~ResourcesGroup(){	

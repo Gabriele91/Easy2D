@@ -60,14 +60,23 @@ namespace Easy2D {
 				DEBUG_MESSAGE("error: "<<path <<" not setted tables");
 			}
 		}
+        
+        void loadResourceFile();
 
 	public:
 		/**
 		* Set the managers resources
 		* @param path table resources
-		*/
+         */
 		ResourcesGroup(const Utility::Path& path,
 					   const String& version="default");
+		ResourcesGroup();
+		/**
+         * Set the managers resources
+         * @param path table resources
+         */
+        void addResourceFiles(const Utility::Path& path,
+                              const String& version="default");
 		/**
 		* delete resource goup
 		*/

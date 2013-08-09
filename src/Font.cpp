@@ -1,11 +1,13 @@
 #include <stdafx.h>
 #include <Config.h>
+#include <Debug.h>
+#include <Color.h>
 #include <Font.h>
 #include <Types.h>
+#include <Screen.h>
 #include <Application.h>
-#include <FreeTypeFontLoader.h>
 #include <BMFontLoader.h>
-#include <Color.h>
+#include <FreeTypeFontLoader.h>
 //#include "Thread/Thread.h"
 //#include "Image/Image.h"
 

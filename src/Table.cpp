@@ -1,5 +1,6 @@
 ﻿#include <stdafx.h>
 #include <Table.h>
+#include <Debug.h>
 #include <Application.h>
 ///////////////////////
 using namespace Easy2D;

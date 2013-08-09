@@ -27,6 +27,7 @@ namespace Easy2D {
 	public:
 		//
 		Render();
+        virtual ~Render(){}
 		//setting
 		DFORCEINLINE void setCamera(Camera *cam){ camera=cam; }
 		DFORCEINLINE Camera* getCamera(){ return camera; }

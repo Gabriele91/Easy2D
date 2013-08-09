@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <BMFontLoader.h>
 #include <Application.h>
+#include <Debug.h>
 #include <Texture.h>
 ///////////////////////
 using namespace Easy2D;

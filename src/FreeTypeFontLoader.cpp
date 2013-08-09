@@ -3,6 +3,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <FreeTypeFontLoader.h>
+#include <Debug.h>
 #include <Application.h>
 ///////////////////////
 using namespace Easy2D;

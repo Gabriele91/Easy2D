@@ -2,11 +2,11 @@
 #define SCREEN_H
 
 #include <Config.h>
-#include <Application.h>
 
 namespace Easy2D {
 	////////////////////
 	class Game;
+	class Application;
 	////////////////////
 	class Screen{
 	

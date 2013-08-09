@@ -1,4 +1,7 @@
 #include <stdafx.h>
+#include <Debug.h>
+#include <Screen.h>
+#include <Application.h>
 #include <Render.h>
 /////////////////////////
 using namespace Easy2D;

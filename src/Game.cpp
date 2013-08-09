@@ -23,12 +23,3 @@ Game::Game(const String& app,
 					   (Screen::AntiAliasing)dfAA);
 }
 
-Easy2D::Screen* Game::getScreen(){
-	return Application::instance()->getScreen();
-}
-Easy2D::Audio* Game::getAudio(){
-	return Application::instance()->getAudio();
-}
-Easy2D::Input* Game::getInput(){
-	return Application::instance()->getInput();
-}
