@@ -12,6 +12,8 @@ Download the dependencies and unpackaging in Easy2D's directory:
  
  [Depedences-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependences-linux64.zip)
  
+ [Depedences-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependences-osx64.zip)
+ 
  [Livel test](https://dl.dropboxusercontent.com/u/26656895/Easy2D/livel.zip)
 
  [Exemples](https://dl.dropboxusercontent.com/u/26656895/Easy2D/exemples.zip)
