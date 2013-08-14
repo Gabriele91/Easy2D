@@ -104,10 +104,15 @@ CocoaApp::CocoaApp(){
     //create component
     screen=(Screen*)new CocoaScreen();
     input=(Input*)new CocoaInput();
-    //add listener
+    //add listener event
     ((CocoaScreen*)screen)->onCocoaWindowCreated=[](void *nswindow){
         CocoaInput* input= (CocoaInput*)Application::instance()->getInput();
         input->__addCocoaListener(nswindow);
+    };
+    //delete listener event
+    ((CocoaScreen*)screen)->onCocoaWindowClose=[](void *nswindow){
+        CocoaInput* input= (CocoaInput*)Application::instance()->getInput();
+        input->__closeCocoaListener();
     };
     
 	//not exit form loop
@@ -121,13 +126,13 @@ CocoaApp::~CocoaApp(){
     //gc
     NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
     
-	//delete input
-	delete input;
-	input=NULL;
-    
 	//delete screen
 	delete screen;
 	screen=NULL;
+    
+	//delete input
+	delete input;
+	input=NULL;
     
     //delete app instance    
     COCOAAPP
@@ -221,8 +226,8 @@ void CocoaApp::loop(){
 		//calc dt
 		dt=millipass/1000.0;
 		timer.reset();
-        //update
-        //[applicationObject updateWindows];
+        //save dt
+        lastDeltaTime=dt;
 		//update
 		update(dt);
 		//update opengl

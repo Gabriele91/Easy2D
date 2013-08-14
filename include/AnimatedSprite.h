@@ -48,17 +48,26 @@ namespace Easy2D {
 		void setFrameSet( FrameSet::ptr frameset, float tPerFrame ){	
 				frames = frameset;
 				setFrameTime(tPerFrame);
-			}
+        }
 		void setFrameTime( float tPerFrame ){
-				DEBUG_ASSERT( tPerFrame >= 0 );				
-				animationTime = 0;
-				timePerFrame = tPerFrame;		
-				currentFrame = 0;				
-				if( frames ) 
-					totalTime = timePerFrame * frames->size();
-				else
-					totalTime = 1;
-			}
+            DEBUG_ASSERT( tPerFrame >= 0 );
+            animationTime = 0;
+            timePerFrame = tPerFrame;
+            currentFrame = 0;
+            if( frames )
+                totalTime = timePerFrame * frames->size();
+            else
+                totalTime = 1;
+        }
+		void setChangeFrameTime( float tPerFrame ){
+            DEBUG_ASSERT( tPerFrame >= 0 );
+            timePerFrame = tPerFrame;
+            if( frames )
+                totalTime = timePerFrame * frames->size();
+            else
+                totalTime = 1;
+        }
+        
 		void setForcedFrame(int i){
 			currentFrame=i%frames->size();
 		}
@@ -115,7 +124,15 @@ namespace Easy2D {
 		void setAnimation(int i, float timePerFrame);
 		//change time animation
 		void setTime(float timePerFrame);
+		void setChangeTime(float timePerFrame);
 		void setAnimationTime(int i, float timePerFrame);
+        //query
+        int getCurrentAnimation(){
+            return crtAnimation;
+        }
+        float getCurrentTime(){
+            return animations[crtAnimation]->getTimePerFrame();
+        }
 	};
 
 };

@@ -22,6 +22,8 @@ using namespace Easy2D;
     NSWindow* easy2Dwindow;
 }
     
+-(id) init;
+    
 -(void) listen:(CocoaInput *) datainput:(NSWindow*) datawindow;
 -(void) close;
     
@@ -60,6 +62,14 @@ using namespace Easy2D;
     
     
 @implementation CocoaWindowListener
+
+- (id) init{
+    self=[super init];
+    //to null
+    easy2Dinput = NULL;
+    easy2Dwindow= NULL;
+    return self;
+}
     
 - (void)listen:(CocoaInput *) datainput:(NSWindow*) datawindow
 {
@@ -94,29 +104,34 @@ using namespace Easy2D;
     
 - (void)close
 {
-    NSNotificationCenter *center;
-    NSView *view = [easy2Dwindow contentView];
-        
-    center = [NSNotificationCenter defaultCenter];
-    
-    if ([easy2Dwindow delegate] != self) {
-        [center removeObserver:self name:NSWindowDidExposeNotification object:easy2Dwindow];
-        [center removeObserver:self name:NSWindowDidMoveNotification object:easy2Dwindow];
-        [center removeObserver:self name:NSWindowDidResizeNotification object:easy2Dwindow];
-        [center removeObserver:self name:NSWindowDidMiniaturizeNotification object:easy2Dwindow];
-        [center removeObserver:self name:NSWindowDidDeminiaturizeNotification object:easy2Dwindow];
-        [center removeObserver:self name:NSWindowDidBecomeKeyNotification object:easy2Dwindow];
-        [center removeObserver:self name:NSWindowDidResignKeyNotification object:easy2Dwindow];
+    if(easy2Dwindow){
+        NSNotificationCenter *center;
+        NSView *view = [easy2Dwindow contentView];
+            
+        center = [NSNotificationCenter defaultCenter];
+
+        if ([easy2Dwindow delegate] != self) {
+            [center removeObserver:self name:NSWindowDidExposeNotification object:easy2Dwindow];
+            [center removeObserver:self name:NSWindowDidMoveNotification object:easy2Dwindow];
+            [center removeObserver:self name:NSWindowDidResizeNotification object:easy2Dwindow];
+            [center removeObserver:self name:NSWindowDidMiniaturizeNotification object:easy2Dwindow];
+            [center removeObserver:self name:NSWindowDidDeminiaturizeNotification object:easy2Dwindow];
+            [center removeObserver:self name:NSWindowDidBecomeKeyNotification object:easy2Dwindow];
+            [center removeObserver:self name:NSWindowDidResignKeyNotification object:easy2Dwindow];
+        }
+        else {
+            [easy2Dwindow setDelegate:nil];
+        }
+        if ([easy2Dwindow nextResponder] == self) {
+            [easy2Dwindow setNextResponder:nil];
+        }
+        if ([view nextResponder] == self) {
+            [view setNextResponder:nil];
+        }
     }
-    else {
-        [easy2Dwindow setDelegate:nil];
-    }
-    if ([easy2Dwindow nextResponder] == self) {
-        [easy2Dwindow setNextResponder:nil];
-    }
-    if ([view nextResponder] == self) {
-        [view setNextResponder:nil];
-    }
+    //to null
+    easy2Dinput = NULL;
+    easy2Dwindow= NULL;
 }
 
 /* Window delegate functionality */
@@ -327,7 +342,7 @@ Key::Keyboard KeyMapCocoa[]={
     
 CocoaInput::CocoaInput(){
 	//make listener
-    listener=[[CocoaWindowListener alloc] init];    
+    listener=[[CocoaWindowListener alloc] init];
 	//input window
 	ewindow.__init();
 	//input keyboard hit
@@ -407,6 +422,10 @@ void CocoaInput::update(){
 void CocoaInput::__addCocoaListener(void *nswindow){
     CocoaWindowListener* listener=(CocoaWindowListener*)this->listener;
     [listener listen:(Easy2D::CocoaInput *)this :(NSWindow *)((NSWindow *)nswindow)];
+}
+void CocoaInput::__closeCocoaListener(){
+    CocoaWindowListener* listener=(CocoaWindowListener*)this->listener;
+    [listener close];
 }
 //keyboard
 void CocoaInput::__callOnKeyPress(Key::Keyboard key) {

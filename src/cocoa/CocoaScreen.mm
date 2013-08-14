@@ -13,13 +13,22 @@
 #import <AppKit/NSScreen.h>
 
 using namespace Easy2D;
-#define TOCOCOAWINDOW NSWindow * window=(NSWindow *)(cocoaWindow);
+#define TOCOCOAWINDOW Easy2DWindow * window=(Easy2DWindow *)(cocoaWindow);
+#define RELOADCOCOAWINDOW  window=(Easy2DWindow *)(cocoaWindow);
 #define TOCOCOACONTEXT NSOpenGLContext * openGLContext=(NSOpenGLContext *)(cocoaGLContext);
+#define RELOADTOCOCOACONTEXT  openGLContext=(NSOpenGLContext *)(cocoaGLContext);
+#define TOCOCOAINFO CocoaInfo *cocoaInfo=(CocoaInfo*)this->cocoaInfo;
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // WINDOW CLASS
 @interface  Easy2DWindow : NSWindow
+{
+    @public
+    bool enableSendAppOnClose;
+}
+
+- (id) init;
 //! These are needed for borderless/fullscreen windows 
 - (BOOL)canBecomeKeyWindow;
 - (BOOL)canBecomeMainWindow;
@@ -30,6 +39,13 @@ using namespace Easy2D;
 @end
 
 @implementation Easy2DWindow
+
+- (id) init{
+    self=[super init];
+    enableSendAppOnClose=true;
+    return self;
+}
+
 - (BOOL)canBecomeKeyWindow
 {
 	return YES;
@@ -45,7 +61,9 @@ using namespace Easy2D;
 }
 
 - (void) close {
-    [NSApp terminate:self];    
+    //close app
+    if(enableSendAppOnClose)
+        [NSApp terminate:self];    
     // If the app refused to terminate, this window should still close.
     [super close];
 }
@@ -65,54 +83,189 @@ using namespace Easy2D;
 }
 @end
 ///////////////////////////////////////////////////////////////////////////////
+/*
+NSScreen* getNSScreen(){
+    // CG -> Cocoa mumbo jumbo, for getting the proper screen
+    NSDictionary* screenDictionary = [[NSScreen mainScreen] deviceDescription];
+    NSNumber* screenID = [screenDictionary objectForKey:@"NSScreenNumber"];
+    CGDirectDisplayID display = [screenID unsignedIntValue];
+    
+    
+    NSArray *screens = [NSScreen screens];
+    size_t i, count = [screens count];
+    for (i = 0; i != count; i++) {
+        CGDirectDisplayID id =
+        (CGDirectDisplayID)[[[[screens objectAtIndex:i] deviceDescription] objectForKey:@"NSScreenNumber"] longValue];
+        if (id == display) break;
+    }
+    if (i >= count) i = 0;
+    
+    return [screens objectAtIndex:i];
+    
+}
+*/
+
+struct CocoaInfo{
+    CGDisplayModeRef saveMode;
+    CGDisplayModeRef fullscreenMode;
+};
+struct ScreenMode {
+    size_t width;
+    size_t height;
+    size_t bitsPerPixel;
+};
+
+size_t displayBitsPerPixelForMode(CGDisplayModeRef mode) {
+	
+	size_t depth = 0;
+	
+	CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
+	if(CFStringCompare(pixEnc, CFSTR(IO32BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo)
+		depth = 32;
+    else if(CFStringCompare(pixEnc, CFSTR(IO16BitDirectPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo)
+        depth = 16;
+    else if(CFStringCompare(pixEnc, CFSTR(IO8BitIndexedPixels), kCFCompareCaseInsensitive) == kCFCompareEqualTo)
+        depth = 8;
+    
+    return depth;
+}
+CGDisplayModeRef bestMatchForMode( ScreenMode screenMode ){
+	
+	bool exactMatch = false;
+	
+    // Get a copy of the current display mode
+	CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(kCGDirectMainDisplay);
+	
+    // Loop through all display modes to determine the closest match.
+    // CGDisplayBestModeForParameters is deprecated on 10.6 so we will emulate it's behavior
+    // Try to find a mode with the requested depth and equal or greater dimensions first.
+    // If no match is found, try to find a mode with greater depth and same or greater dimensions.
+    // If still no match is found, just use the current mode.
+    CFArrayRef allModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, NULL);
+    for(int i = 0; i < CFArrayGetCount(allModes); i++)	{
+		CGDisplayModeRef mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, i);
+        
+		if(displayBitsPerPixelForMode( mode ) != screenMode.bitsPerPixel)
+			continue;
+		
+		if((CGDisplayModeGetWidth(mode) >= screenMode.width) &&
+           (CGDisplayModeGetHeight(mode) >= screenMode.height) &&
+           (CGDisplayModeGetWidth(displayMode) >= CGDisplayModeGetWidth(mode))&&
+           (CGDisplayModeGetHeight(displayMode) >= CGDisplayModeGetHeight(mode)))
+		{
+			displayMode = mode;
+			exactMatch = true;
+		}
+	}
+	
+    // No depth match was found
+    if(!exactMatch)
+	{
+		for(int i = 0; i < CFArrayGetCount(allModes); i++)
+		{
+			CGDisplayModeRef mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, i);
+			if(displayBitsPerPixelForMode( mode )  >= screenMode.bitsPerPixel)
+				continue;
+			
+            
+            if((CGDisplayModeGetWidth(mode) >= screenMode.width) &&
+               (CGDisplayModeGetHeight(mode) >= screenMode.height) &&
+               (CGDisplayModeGetWidth(displayMode) >= CGDisplayModeGetWidth(mode))&&
+               (CGDisplayModeGetHeight(displayMode) >= CGDisplayModeGetHeight(mode)))
+			{
+				displayMode = mode;
+			}
+		}
+	}
+    
+	return displayMode;
+}
+size_t currentDisplayBitsPerPixel(){
+    return displayBitsPerPixelForMode(CGDisplayCopyDisplayMode(kCGDirectMainDisplay));
+}
 
 
-void CocoaScreen::__openWindow(int w,int h,const char *title){
+void CocoaScreen::__openWindow(int w,int h,const char *title,bool fullscreen){
     
     //GC
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     //size window
     NSRect frame;
-    frame.origin.x = 0;
-    frame.origin.y = 0;
-    frame.size.width = w;
-    frame.size.height = h;
-	
+    //mask window
+    int mask;
+	//save info
+    this->fullscreen=fullscreen;
+    if(fullscreen){
+        frame=[[NSScreen mainScreen] frame];
+        mask=NSBorderlessWindowMask ;
+    }
+    else{
+        frame.origin.x = 0;
+        frame.origin.y = 0;
+        frame.size.width = w;
+        frame.size.height = h;
+        mask=NSTitledWindowMask | NSMiniaturizableWindowMask | NSClosableWindowMask;
+    }
+    
     //window
     NSWindow * window = [[Easy2DWindow alloc]
-                          initWithContentRect: frame
-                          styleMask: (NSTitledWindowMask | NSMiniaturizableWindowMask | NSClosableWindowMask)
-                          backing: NSBackingStoreBuffered
-                          defer: false];    
+                         initWithContentRect: frame
+                         styleMask: mask
+                         backing: NSBackingStoreBuffered
+                         defer: false];
+    
+    //set center of screen
+    if(!fullscreen){
+        [window center];
+    }
+    else{
+        // Set the window level to be above the menu bar
+        [window setLevel:NSMainMenuWindowLevel+1];
+        // Perform any other window configuration you desire
+        [window setOpaque:YES];
+        [window setHidesOnDeactivate:YES];
+    }
     //  Set view
 	NSView *contentView = [[Easy2DView alloc] initWithFrame:frame];
 	[window setContentView: contentView];
     [window makeFirstResponder:contentView];
 	[contentView release];
-    
+    if(fullscreen){
+        [contentView setNeedsDisplay:YES];
+    }
     //set title
 	[window setReleasedWhenClosed:false];
     NSString *titleNS = [NSString stringWithUTF8String:title];
     [window setTitle:titleNS];
-	[window center];
+    
+    //keyboard
 	[window makeKeyAndOrderFront:nil];
     
     //GC release
 	[pool release];
     
     //set screen size
-    screenWidth=w;
-    screenHeight=h;
+    screenWidth=frame.size.width;
+    screenHeight=frame.size.height;
     
     //save object
     cocoaWindow=(void*)window;
+    
+    //add listener
+    if(onCocoaWindowCreated)
+        onCocoaWindowCreated(cocoaWindow);
     
 }
 void CocoaScreen::__closeWindow(){
     
     TOCOCOAWINDOW
     [window close];
+    
+    //delete listener
+    if(onCocoaWindowClose)
+        onCocoaWindowClose(cocoaWindow);
+    
     [window release];
     
 
@@ -129,7 +282,7 @@ void CocoaScreen::__createContext(int msaa){
     attributes[i++] = NSOpenGLPFAColorSize;
     attributes[i++] = 32.0;
     attributes[i++] = NSOpenGLPFADepthSize;
-    attributes[i++] = 16.0;    
+    attributes[i++] = 32.0;
     //msaa
     if(msaa!=NOAA){
         attributes[i++]=NSOpenGLPFASampleBuffers;
@@ -164,7 +317,6 @@ void CocoaScreen::__deleteContext(){
     [openGLContext clearDrawable];
     [openGLContext release];
 }
-
 void CocoaScreen::__initOpenGL(){
     //enable culling
     glEnable( GL_CULL_FACE );
@@ -186,6 +338,8 @@ void CocoaScreen::__initOpenGL(){
     CHECK_GPU_ERRORS();
     
 }
+
+
 /**
  * cocoa screen
  */
@@ -201,16 +355,20 @@ CocoaScreen::CocoaScreen()
 {
     NSRect screenRect;
     NSArray *screens=[NSScreen screens];
-    unsigned cntScreens=[screens count];
-    for(int i=0;i<cntScreens;++i){
-        screenRect=[[screens objectAtIndex:i] visibleFrame];
+    size_t cntScreens=[screens count];
+    for(size_t i=0;i!=cntScreens;++i){
+        screenRect=[[screens objectAtIndex:i] frame];
     }
-    nativeWidth=screenRect.size.width;
-    nativeHeight=screenRect.size.height;
+    nativeWidth=screenRect.origin.x+screenRect.size.width;
+    nativeHeight=screenRect.origin.y+screenRect.size.height;
+    //alloc hide info
+    cocoaInfo=malloc(sizeof(CocoaInfo));
 }
 CocoaScreen::~CocoaScreen(){
     __deleteContext();
     __closeWindow();
+    //dealloc info
+    free(cocoaInfo);
 }
 
 /**
@@ -312,6 +470,51 @@ bool CocoaScreen::getCursor(){
  * enable or disable full screen
  */
 void CocoaScreen::setFullscreen(bool fullscreen){
+    if(this->fullscreen!=fullscreen){
+        
+        TOCOCOAWINDOW
+        TOCOCOACONTEXT
+        TOCOCOAINFO
+        
+        //delete listener
+        if(onCocoaWindowClose)
+            onCocoaWindowClose(cocoaWindow);
+        //disable close event (NSApplication close)
+        window->enableSendAppOnClose=false;
+        
+        if(fullscreen){
+            //save
+            cocoaInfo->saveMode=CGDisplayCopyDisplayMode(kCGDirectMainDisplay);
+            //search new mode
+            cocoaInfo->fullscreenMode=bestMatchForMode({wantWidth,wantHeight,wantPixel});
+            //set new mode
+            DEBUG_ASSERT_MGS_REPLACE(
+                        CGDisplaySetDisplayMode(kCGDirectMainDisplay, cocoaInfo->fullscreenMode,NULL)==kCGErrorSuccess,
+                        "CocoaScreen setFullScreen: can't change display mode"
+            );
+        }
+        else{
+            //old mode
+            DEBUG_ASSERT_MGS_REPLACE(
+                        CGDisplaySetDisplayMode(kCGDirectMainDisplay, cocoaInfo->saveMode,NULL)==kCGErrorSuccess,
+                        "CocoaScreen setFullScreen: can't change display mode"
+            );
+        }
+        
+        //open new window
+        NSString *titleNS = [window title];
+        __closeWindow();
+        __openWindow(wantWidth, wantHeight, [titleNS UTF8String] , fullscreen);
+       
+        //set context
+        RELOADCOCOAWINDOW
+        [openGLContext setView:[window contentView]];
+        [openGLContext update];
+        [[window contentView] display];
+        
+        acquireContext();
+        
+    }
 }
 /**
  * return if fullscreen is enable return true
@@ -334,8 +537,27 @@ void CocoaScreen::createWindow(const char* appname,
     this->cocoaGLContext=NULL;
     this->cocoaWindow=NULL;
     this->freamPerSecond=freamPerSecond;
+    this->wantWidth=width;
+    this->wantHeight=height;
+    
+    TOCOCOAINFO
+    //save
+    cocoaInfo->saveMode=CGDisplayCopyDisplayMode(kCGDirectMainDisplay);
+    //display mode
+    if(fullscreen){
+        //search new mode
+        cocoaInfo->fullscreenMode=bestMatchForMode({wantWidth,wantHeight,bites});
+        //set new mode
+        DEBUG_ASSERT_MGS_REPLACE(
+        CGDisplaySetDisplayMode(kCGDirectMainDisplay, cocoaInfo->fullscreenMode,NULL)==kCGErrorSuccess,
+        "CocoaScreen setFullScreen: can't change display mode"
+        );
+    }
+    //set default pixel
+    this->wantPixel=(int)currentDisplayBitsPerPixel();
+    
     //open window
-    __openWindow(width,height,appname);
+    __openWindow(width,height,appname,fullscreen);
     //create context
     __createContext(dfAA);
     //set context to window   
@@ -351,9 +573,6 @@ void CocoaScreen::createWindow(const char* appname,
     //enable AA
     if(dfAA!=NOAA)
         glEnable( GL_MULTISAMPLE );
-    //add listener
-    if(onCocoaWindowCreated)
-        onCocoaWindowCreated(cocoaWindow);
 }
 /*
  * close window

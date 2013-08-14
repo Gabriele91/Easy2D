@@ -139,6 +139,7 @@ namespace Easy2D {
         //state manager
         void addState(int stateid,StateInterface* state=NULL,bool destructible=true);
         void setNextState(int stateid);
+        void setCurrentState(int stateid);
         //add event
         void sendMessage(int msg);
         

@@ -4,6 +4,7 @@
 #include <Config.h>
 #include <Debug.h>
 #include <Math2D.h>
+#include <Types.h>
 
 namespace Easy2D {
 
@@ -151,7 +152,18 @@ namespace Easy2D {
 				FINGER10,
 				FINGERMAX
 			};
+            
+            template< typename T,typename ...A >
+            bool list(T input,T key,A ... a){
+                return input==key || list(input,a...);
+            }
+            template<typename T>
+            bool list(T input,T key){
+                return input==key;
+            }
+                        
 		};
+    
 
 		/**
 		* @class Input

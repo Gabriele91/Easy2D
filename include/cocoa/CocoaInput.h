@@ -278,6 +278,7 @@ namespace Easy2D {
         CocoaInput();
         //cocoa listener
         void __addCocoaListener(void *nswindow);
+        void __closeCocoaListener();
         void* listener;
         //cocoa:
         void __updateCocoaEvent();

@@ -17,7 +17,8 @@ using namespace Easy2D;
 Application *Application::appSingleton=NULL;
 ///////////////////////
 Application::Application()
-	:mainInstance(NULL)
+	:lastDeltaTime(0.0f)
+    ,mainInstance(NULL)
 	,screen(NULL)
 	,input(NULL)
 	,audio(NULL){

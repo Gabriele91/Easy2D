@@ -91,6 +91,8 @@ void WindowsApp::loop(){
 		//calc dt
 		dt=millipass/1000.0;
 		timer.reset();
+        //save dt
+        lastDeltaTime=dt;
 		//update
 		update(dt);	
 		//update opengl

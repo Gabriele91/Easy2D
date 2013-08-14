@@ -71,7 +71,13 @@ namespace Easy2D {
 		/**
 		* return true if device supports only power of two texture
 		*/
-		virtual bool onlyPO2()=0;		
+		virtual bool onlyPO2()=0;
+        /**
+        * return last delta time
+        */
+        virtual float getLastDeltaTime(){
+            return lastDeltaTime;
+        }
 		/**
 		* return main instance 
 		*/
@@ -106,7 +112,8 @@ namespace Easy2D {
 		virtual void eraseResourcesGroup(ResourcesGroup *rsGr){};
 
 	protected:
-
+        
+        float lastDeltaTime;
 		Game *mainInstance;
 		Screen *screen;
 		Input *input;

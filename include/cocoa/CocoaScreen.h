@@ -106,8 +106,10 @@ namespace Easy2D {
         //cocoa pointers
         void* cocoaWindow;
         void* cocoaGLContext;
+        void* cocoaInfo;
         void (*onCocoaWindowCreated)(void*);
-        void __openWindow(int w,int h,const char *title);
+        void (*onCocoaWindowClose)(void*);
+        void __openWindow(int w,int h,const char *title,bool fullscreen);
         void __closeWindow();
         void __createContext(int msaa);
         void __deleteContext();
@@ -118,6 +120,9 @@ namespace Easy2D {
 		uint nativeHeight;
 		uint screenWidth;
 		uint screenHeight;
+        uint wantWidth;
+        uint wantHeight;
+        uint wantPixel;
 		uint freamPerSecond;
 		bool fullscreen;
 		bool showmouse;

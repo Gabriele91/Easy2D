@@ -1,4 +1,5 @@
-#include "stdafx.h"
+
+#include "stdafx.h"
 #include <Timer.h>
 #include <LinuxApp.h>
 #include <LinuxScreen.h>
@@ -90,6 +91,8 @@ void LinuxApp::loop(){
 		//calc dt
 		dt=millipass/1000.0;
 		timer.reset();
+        //save dt
+        lastDeltaTime=dt;
 		//update
 		update(dt);
 		//update opengl

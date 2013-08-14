@@ -7,6 +7,7 @@
 //
 #include <stdafx.h>
 #include <State.h>
+#include <Application.h>
 
 ///////////////////////
 using namespace Easy2D;
@@ -48,7 +49,7 @@ void StateManager::_setNextState(float dt){
 
 //parents methos
 void StateManager::addChild(StateManager *child,bool destructible){
-    DEBUG_ASSERT(child->smParent);
+    DEBUG_ASSERT(child->smParent==NULL);
     child->smParent=this;
     child->destructible=destructible;
     smChilds.push_back(child);
@@ -71,7 +72,13 @@ void StateManager::update(float dt){
 }
 
 //init
-StateManager::StateManager():message(-1),current(-1),nextState(-1){}
+StateManager::StateManager()
+:message(-1)
+,current(-1)
+,nextState(-1)
+,smParent(NULL)
+,destructible(false){}
+
 StateManager::~StateManager(){
     //destoy states
     for(auto state:states)
@@ -93,6 +100,10 @@ void StateManager::addState(int stateid,StateInterface* state,bool destructible)
 }
 void StateManager::setNextState(int stateid){
     nextState=stateid;
+}
+void StateManager::setCurrentState(int stateid){
+    setNextState(stateid);
+    _setNextState(Application::instance()->getLastDeltaTime());
 }
 //add event
 void StateManager::sendMessage(int msg){

@@ -777,10 +777,22 @@ namespace Easy2D{
 		static DFORCEINLINE Vector3D max(const Vector3D& v1,const Vector3D& v2) {
 			return Vector3D(max(v1.x,v2.x),max(v1.y,v2.y),max(v1.z,v2.z));
 		}
-		//lerp
+		//lerp==linear
 		template <class T>
 		static DFORCEINLINE T lerp( const T& left, const T& right, float t ){
-			return (T)(left * (1-t) + right * t);
+			return (T)(left + ( right - left ) * t);
+		}
+		template <class T>
+		static DFORCEINLINE T linear( const T& left, const T& right, float t ){
+			return (T)(left + ( right - left ) * t);
+		}
+		template <class T>
+		static DFORCEINLINE T quadratic( const T& left, const T& right, float t ){
+			return (T)( linear( linear(left,right,t), linear(left,right,t), t) );
+		}	
+		template <class T>
+		static DFORCEINLINE T cubic( const T& left, const T& right, float t ){
+			return (T)( linear( quadratic(left,right,t), quadratic(left,right,t), t) );
 		}
 		//clamp
 		template <class T>

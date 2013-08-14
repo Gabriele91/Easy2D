@@ -73,6 +73,11 @@ void AnimatedSprite::setTime(float timePerFrame){
 	//set time
 	animations[crtAnimation]->setFrameTime(timePerFrame);
 }
+void AnimatedSprite::setChangeTime(float timePerFrame){
+	//set time
+	animations[crtAnimation]->setChangeFrameTime(timePerFrame);
+}
+
 void AnimatedSprite::setAnimationTime(int i,float timePerFrame){
 
 	DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
