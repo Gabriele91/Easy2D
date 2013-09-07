@@ -70,7 +70,7 @@ namespace Easy2D {
 		/**
          * set position cursor
          */
-        void setPositionCursor(const Vec2& pos);
+        virtual void setPositionCursor(const Vec2& pos);
 		/**
          * return if cursor is shown or hidden
          */

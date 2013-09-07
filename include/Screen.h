@@ -2,6 +2,7 @@
 #define SCREEN_H
 
 #include <Config.h>
+#include <Math2D.h>
 
 namespace Easy2D {
 	////////////////////
@@ -131,6 +132,10 @@ namespace Easy2D {
 		* @param show, set true if you want show cursor otherwise false
 		*/
 		virtual void setCursor(bool show=true)=0;
+		/**
+         * set position cursor
+         */
+        virtual void setPositionCursor(const Vec2& pos)=0;
 		/**
 		* return if cursor is shown or hidden
 		*/
