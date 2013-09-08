@@ -21,7 +21,7 @@
 
 #if defined(DOVERRIDE_NEW_DEL)
 
-using namespace Easy3D;
+using namespace Easy2D;
 
 //==================================================================
 void *operator new( size_t size )

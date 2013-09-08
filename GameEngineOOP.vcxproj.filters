@@ -36,9 +36,6 @@
     <ClCompile Include="src\Object.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Math2D.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
     <ClCompile Include="src\Table.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
@@ -132,9 +129,6 @@
     <ClCompile Include="src\window\WGL_ARB_multisample.cpp">
       <Filter>File di origine\window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Math2D_SSE2.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
     <ClCompile Include="src\Font.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
@@ -144,15 +138,27 @@
     <ClCompile Include="src\FreeTypeFontLoader.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Math3D.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Math3D_SSE2.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Memory.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\State.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Object.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Math2D.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Table.h">
@@ -273,9 +279,6 @@
     <ClInclude Include="include\Blend.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
-    <ClInclude Include="src\Math2D_SSE2.h">
-      <Filter>File di origine</Filter>
-    </ClInclude>
     <ClInclude Include="include\Font.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
@@ -283,6 +286,30 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\FreeTypeFontLoader.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EStack.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputList.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math3D.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Memory.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Scene.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\State.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math3D_SSE2.h">
+      <Filter>File di origine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MinMaxList.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

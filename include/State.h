@@ -67,9 +67,9 @@ namespace Easy2D {
         {}
         
         StateLambda(
-           const std::function<void ()>& _onStateStart=[](){},
-           const std::function<void (float)>& _onStateRun=[](float){},
-           const std::function<void ()>& _onStateEnd=[](){},
+           const std::function<void ()>& _onStateStart,
+           const std::function<void (float)>& _onStateRun,
+           const std::function<void ()>& _onStateEnd,
            const std::function<void (int)>& _onStateMessage=[](int){},
            const std::function<bool (float)>& _onStateTranslate=[](float)->bool{return true;}
         )

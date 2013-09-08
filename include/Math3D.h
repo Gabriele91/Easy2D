@@ -836,10 +836,6 @@ namespace Easy2D{
 			 y = std::move(temp);
 		}
 		//min
-		template<typename T,typename ...A>
-		static DFORCEINLINE T min(T x,A... a){
-			return min(x,min(a...));
-		}
 		template<typename T>
 		static DFORCEINLINE T min(T x,T y){
 			return x>y?y:x;
@@ -857,10 +853,6 @@ namespace Easy2D{
 			return Vector3D(min(v1.x,v2.x),min(v1.y,v2.y),min(v1.z,v2.z));
 		}
 		//max
-		template<typename T,typename ...A>
-		static DFORCEINLINE T max(T x,A... a){
-			return max(x,max(a...));
-		}
 		template<class T>
 		static DFORCEINLINE T max(T x,T y){
 			return x>y?x:y;
@@ -877,6 +869,19 @@ namespace Easy2D{
 		static DFORCEINLINE Vector3D max(const Vector3D& v1,const Vector3D& v2) {
 			return Vector3D(max(v1.x,v2.x),max(v1.y,v2.y),max(v1.z,v2.z));
 		}
+		//min max list
+		#ifdef COMPILER_VISUAL_STUDIO
+			#include "MinMaxList.h"
+		#else
+			template<typename T,typename ...A>
+			static DFORCEINLINE T min(T x,A... a){
+				return min(x,min(a...));
+			}
+			template<typename T,typename ...A>
+			static DFORCEINLINE T max(T x,A... a){
+				return max(x,max(a...));
+			}
+		#endif
 		//lerp==linear
 		template <class T>
 		static DFORCEINLINE T lerp( const T& left, const T& right, float t ){

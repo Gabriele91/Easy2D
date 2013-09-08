@@ -153,14 +153,18 @@ namespace Easy2D {
 				FINGERMAX
 			};
             
-            template< typename T,typename ...A >
-            bool list(T input,T key,A ... a){
-                return input==key || list(input,a...);
-            }
-            template<typename T>
-            bool list(T input,T key){
-                return input==key;
-            }
+			#ifdef COMPILER_VISUAL_STUDIO
+				#include "InputList.h"
+			#else
+				template< typename T,typename ...A >
+				bool list(T input,T key,A ... a){
+					return input==key || list(input,a...);
+				}
+				template<typename T>
+				bool list(T input,T key){
+					return input==key;
+				}
+			#endif
                         
 		};
     

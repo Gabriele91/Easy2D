@@ -150,21 +150,18 @@
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Layer.cpp" />
-    <ClCompile Include="src\Math2D.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'">Full</Optimization>
-    </ClCompile>
-    <ClCompile Include="src\Math2D_SSE2.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'">Full</Optimization>
-    </ClCompile>
+    <ClCompile Include="src\Math3D.cpp" />
+    <ClCompile Include="src\Math3D_SSE2.cpp" />
+    <ClCompile Include="src\Memory.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\EString.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\ResourcesGroup.cpp" />
     <ClCompile Include="src\ResourcesManager.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
+    <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\ETime.cpp" />
     <ClCompile Include="src\Utility.cpp" />
@@ -195,19 +192,25 @@
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Debug.h" />
     <ClInclude Include="include\Easy2D.h" />
+    <ClInclude Include="include\EStack.h" />
     <ClInclude Include="include\Font.h" />
     <ClInclude Include="include\FrameSet.h" />
     <ClInclude Include="include\FreeTypeFontLoader.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\InputList.h" />
     <ClInclude Include="include\Layer.h" />
-    <ClInclude Include="include\Math2D.h" />
+    <ClInclude Include="include\Math3D.h" />
+    <ClInclude Include="include\Memory.h" />
     <ClInclude Include="include\Mesh.h" />
+    <ClInclude Include="include\MinMaxList.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\EString.h" />
     <ClInclude Include="include\Render.h" />
     <ClInclude Include="include\ResourcesGroup.h" />
+    <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\State.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\ETime.h" />
     <ClInclude Include="include\Types.h" />
@@ -226,7 +229,7 @@
     <ClInclude Include="include\window\WindowsScreen.h" />
     <ClInclude Include="src\Image\Image.h" />
     <ClInclude Include="src\Image\lodepng.h" />
-    <ClInclude Include="src\Math2D_SSE2.h" />
+    <ClInclude Include="src\Math3D_SSE2.h" />
     <ClInclude Include="src\Thread\Mutex.h" />
     <ClInclude Include="src\Thread\MutexConf.h" />
     <ClInclude Include="src\Thread\Thread.h" />
