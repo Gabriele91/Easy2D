@@ -1,8 +1,8 @@
 #include <stdafx.h>
-#include <Math2D.h>
-#include "Math2D_SSE2.h"
-#include "Math2D_neon.h"
-#include "Math2D_vfp.h"
+#include <Math3D.h>
+#include "Math3D_SSE2.h"
+#include "Math3D_neon.h"
+#include "Math3D_vfp.h"
 
 /* Easy2D */
 using namespace Easy2D;
@@ -53,18 +53,6 @@ Vector2D Vector2D::projected(const Vector2D& axis) const{
 String Vector2D::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+end;
 }
-Vector2D operator+(float v,const Vector2D& vt){
-	return Vector2D(v+vt.x,v+vt.y);
-}
-Vector2D operator-(float v,const Vector2D& vt){
-	return Vector2D(v-vt.x,v-vt.y);
-}
-Vector2D operator*(float v,const Vector2D& vt){
-	return Vector2D(v*vt.x,v*vt.y);
-}
-Vector2D operator/(float v,const Vector2D& vt){
-	return Vector2D(v/vt.x,v/vt.y);
-}
 /* VECTOR3D */
 Vector3D Vector3D::ZERO;
 Vector3D Vector3D::ONE(1,1,1);
@@ -103,18 +91,7 @@ Vector3D Vector3D::getNormalize() const{
 String Vector3D::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+end;
 }
-Vector3D operator+(float v,const Vector3D& vt){
-	return Vector3D(v+vt.x,v+vt.y,v+vt.z);
-}
-Vector3D operator-(float v,const Vector3D& vt){
-	return Vector3D(v-vt.x,v-vt.y,v-vt.z);
-}
-Vector3D operator*(float v,const Vector3D& vt){
-	return Vector3D(v*vt.x,v*vt.y,v*vt.z);
-}
-Vector3D operator/(float v,const Vector3D& vt){
-	return Vector3D(v/vt.x,v/vt.y,v/vt.z);
-}
+
 /* VECTOR4D */
 Vector4D Vector4D::ZERO;
 Vector4D Vector4D::ONE(1,1,1,1);
@@ -149,24 +126,21 @@ Vector4D Vector4D::getNormalize() const{
 String Vector4D::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+sep+String::toString(w)+end;
 }
-Vector4D operator+(float v,const Vector4D& vt){
-	return Vector4D(v+vt.x,v+vt.y,v-vt.z,v+vt.w);
-}
-Vector4D operator-(float v,const Vector4D& vt){
-	return Vector4D(v-vt.x,v-vt.y,v-vt.z,v-vt.w);
-}
-Vector4D operator*(float v,const Vector4D& vt){
-	return Vector4D(v*vt.x,v*vt.y,v*vt.z,v*vt.w);
-}
-Vector4D operator/(float v,const Vector4D& vt){
-	return Vector4D(v/vt.x,v/vt.y,v/vt.z,v/vt.w);
-}
+
 /* QUATERNION */
 Quaternion::Quaternion(){ identity(); };
-Quaternion::Quaternion(float w,float x,float y,float z):w(w),x(x),y(y),z(z){}
+Quaternion::Quaternion(float x,float y,float z,float w):w(w),x(x),y(y),z(z){}
 void Quaternion::identity(){ w=1; x=y=z=0; }
-void Quaternion::computeW()
-{
+
+float  Quaternion::length() const{
+	return sqrt(w * w + x * x + y * y + z * z);
+}
+float Quaternion::dot(const Quaternion& vec) const{
+	return x*vec.x+y*vec.y+z*vec.z+w*vec.w;
+}
+
+void Quaternion::computeW(){
+    
 	float t = 1.0f - (x * x) - (y * y) - (z * z);
 
 	if (t < 0.0f)
@@ -191,101 +165,154 @@ void Quaternion::normalise(){
 	y *= mag;
 	z *= mag;
 }
-Quaternion Quaternion::mul(const Quaternion &qt) const{
-	return Quaternion(  w * qt.x + x * qt.w + y * qt.z - z * qt.y,
-						w * qt.y + y * qt.w + z * qt.x - x * qt.z,
-						w * qt.z + z * qt.w + x * qt.y - y * qt.x,
-						w * qt.w - x * qt.x - y * qt.y - z * qt.z);
+Quaternion Quaternion::getNormalize() const{
+	float d=sqrt(x*x+y*y+z*z+w*w);
+	return Quaternion(x/d,y/d,z/d,w/d);
+}
+
+Quaternion Quaternion::mul(const Quaternion &other) const{
+    Quaternion tmp;
+    
+	tmp.w = (other.w * w) - (other.x * x) - (other.y * y) - (other.z * z);
+	tmp.x = (other.w * x) + (other.x * w) + (other.y * z) - (other.z * y);
+	tmp.y = (other.w * y) + (other.y * w) + (other.z * x) - (other.x * z);
+	tmp.z = (other.w * z) + (other.z * w) + (other.x * y) - (other.y * x);
+    
+	return tmp;
 }
 Quaternion Quaternion::mulVec(const Vector3D &v) const{
 
 return  Quaternion(- (x * v.x) - (y * v.y) - (z * v.z),
 					 (w * v.x) + (y * v.z) - (z * v.y),
 					 (w * v.y) + (z * v.x) - (x * v.z),
-					 (w * v.z) + (x * v.y) - (y * v.x)
-);
+					 (w * v.z) + (x * v.y) - (y * v.x));
 
-	}
+}
 Quaternion Quaternion::getInverse() const{
-	return Quaternion(w,-x,-y,-z);
+	return Quaternion(-x,-y,-z,w);
+}
+
+Quaternion Quaternion::fromEulero(const Vec3& euler){
+	Quaternion out;
+    out.setFromEulero(euler);
+    return out;
 }
 void Quaternion::setFromEulero(float pitch, float yaw, float roll){
+    
+    float angle;
+    
+	angle = pitch * 0.5;
+	const float sr = std::sin(angle);
+	const float cr = std::cos(angle);
+    
+	angle = yaw * 0.5;
+	const float sp = std::sin(angle);
+	const float cp = std::cos(angle);
+    
+	angle = roll * 0.5;
+	const float sy = std::sin(angle);
+	const float cy = std::cos(angle);
+    
+	const float cpcy = cp * cy;
+	const float spcy = sp * cy;
+	const float cpsy = cp * sy;
+	const float spsy = sp * sy;
+    
+	x = (float)(sr * cpcy - cr * spsy);
+	y = (float)(cr * spcy + sr * cpsy);
+	z = (float)(cr * cpsy - sr * spcy);
+	w = (float)(cr * cpcy + sr * spsy);
+    
+    normalise();
 
-	Vector3D c(cos(pitch*0.5f),cos(yaw*0.5f),cos(roll*0.5f));
-	Vector3D s(sin(pitch*0.5f),sin(yaw*0.5f),sin(roll*0.5f));
+/*
+	Vector3D c(std::cos(pitch*0.5f),std::cos(yaw*0.5f),std::cos(roll*0.5f));
+	Vector3D s(std::sin(pitch*0.5f),std::sin(yaw*0.5f),std::sin(roll*0.5f));
 	this->w = c.x * c.y * c.z + s.x * s.y * s.z;
 	this->x = s.x * c.y * c.z - c.x * s.y * s.z;
 	this->y = c.x * s.y * c.z + s.x * c.y * s.z;
 	this->z = c.x * c.y * s.z - s.x * s.y * c.z;
-
+  */  
 }
-void Quaternion::getEulero(float &pitch, float &yaw, float &roll) const {
-	/*
-	const double w2 = w*w;
-	const double x2 = x*x;
-	const double y2 = y*y;
-	const double z2 = z*z;
-	const double unitLength = w2 + x2 + y2 + z2;    // Normalised == 1, otherwise correction divisor.
-	const double abcd = w*x + y*z;
-	const double eps = 1e-7;    // TODO: pick from your math lib instead of hardcoding.
-
-	if (abcd > (0.5-eps)*unitLength){
-		roll = 2 * atan2(y, w);
-		pitch = Math::PI;
-		yaw = 0;
-	}
-	else if (abcd < (-0.5+eps)*unitLength){
-		roll = -2 * atan2(y, w);
-		pitch = -Math::PI;
-		yaw = 0;
-	}
-	else{
-		const double adbc = w*z - x*y;
-		const double acbd = w*y - x*z;
-		roll = static_cast<float>( atan2(2*adbc, 1 - 2*(z2+x2)) );
-		pitch =static_cast<float>( asin(2*abcd/unitLength)      );
-		yaw =  static_cast<float>( atan2(2*acbd, 1 - 2*(y2+x2)) );
-	}*/
-	float sqw = w*w;
+void Quaternion::getEulero(Vec3& euler) const {
+    
+    float sqw = w*w;
 	float sqx = x*x;
 	float sqy = y*y;
 	float sqz = z*z;
 	/**
-	* OPENGL (h-left) (homogeneee)
-	* http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
-	*/
+     * OPENGL (h-left) (homogeneee)
+     * http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
+     */
 	float unit = sqx + sqy + sqz + sqw;
     float test = x * y + z * w;
-
+    
     if (test > 0.4999f * unit)                              // 0.4999f OR 0.5f - EPSILON
     {
         // Singularity at north pole                        // directx
-        yaw = 2.f * (float)atan2(x, w);                     // Yaw
-        roll = Math::PI * 0.5f;                             // Pitch
-        pitch = 0.f;                                        // Roll
+        euler.y = 2.f * (float)std::atan2(x, w);                     // Yaw
+        euler.z = Math::PI * 0.5f;                             // Pitch
+        euler.x = 0.f;                                        // Roll
     }
     else if (test < -0.4999f * unit)                        // -0.4999f OR -0.5f + EPSILON
     {
         // Singularity at south pole                        // directx
-        yaw = -2.f * (float)atan2(x, w);				    // Yaw
-        roll = -Math::PI * 0.5f;                            // Pitch
-        pitch = 0.f;                                        // Roll
+        euler.y = -2.f * (float)std::atan2(x, w);				    // Yaw
+        euler.z = -Math::PI * 0.5f;                            // Pitch
+        euler.x = 0.f;                                        // Roll
     }
     else
     {                                                                                 // directx
-        yaw = (float)atan2f(2.f * y * w - 2.f * x * z, sqx - sqy - sqz + sqw);        // Yaw
-        roll = (float)asinf(2.f * test / unit);                                       // Pitch
-        pitch = (float)atan2f(2.f * x * w - 2.f * y * z, -sqx + sqy - sqz + sqw);     // Roll
+        euler.y = (float)std::atan2(2.f * y * w - 2.f * x * z, sqx - sqy - sqz + sqw);        // Yaw
+        euler.z = (float)std::asin(2.f * test / unit);                                       // Pitch
+        euler.x = (float)std::atan2(2.f * x * w - 2.f * y * z, -sqx + sqy - sqz + sqw);     // Roll
     }
 
-
+    
+    /*
+	const float sqw = w*w;
+	const float sqx = x*x;
+	const float sqy = y*y;
+	const float sqz = z*z;
+	const float test = 2.0 * (y*w - x*z);
+    
+    #define fequals(a,b,e) (std::abs((a) - (b)) < (e))
+    
+	if (fequals(test, 1.0, 0.000001))
+	{
+		// heading = rotation about z-axis
+		euler.z = (float) (-2.0*std::atan2(x, w));
+		// bank = rotation about x-axis
+		euler.x = 0;
+		// attitude = rotation about y-axis
+		euler.y = (float) (Math::PI/2.0);
+	}
+	else if (fequals(test, -1.0, 0.000001))
+	{
+		// heading = rotation about z-axis
+		euler.z = (float) (2.0*std::atan2(x, w));
+		// bank = rotation about x-axis
+		euler.x = 0;
+		// attitude = rotation about y-axis
+		euler.y = (float) (Math::PI/-2.0);
+	}
+	else
+	{
+		// heading = rotation about z-axis
+		euler.z = (float) std::atan2(2.0 * (x*y +z*w),(sqx - sqy - sqz + sqw));
+		// bank = rotation about x-axis
+		euler.x = (float) std::atan2(2.0 * (y*z +x*w),(-sqx - sqy + sqz + sqw));
+		// attitude = rotation about y-axis
+		euler.y = (float) std::asin( Math::clamp(test, -1.0f, 1.0f) );
+	}*/
 }
-void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
 
+void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
+    
 	Vec3 forward = lookAt; Vec3 up = upDirection;
 	forward.orthoNormalize(up);
 	Vec3 right = up.cross(forward);
-
+    
 #define m00 right.x
 #define m01 up.x
 #define m02 forward.x
@@ -295,13 +322,13 @@ void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
 #define m20 right.z
 #define m21 up.z
 #define m22 forward.z
-
+    
 	w = std::sqrt(1.0f + m00 + m11 + m22) * 0.5f;
 	float w4_recip = 1.0f / (4.0f * w);
 	x = (m21 - m12) * w4_recip;
 	y = (m02 - m20) * w4_recip;
 	z = (m10 - m01) * w4_recip;
-
+    
 #undef m00
 #undef m01
 #undef m02
@@ -311,52 +338,69 @@ void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
 #undef m20
 #undef m21
 #undef m22
+    
+}
 
+Quaternion Quaternion::fromAxisAngle(Vector3D &vt,float angle){
+	
+    float sinAngle;
+	angle *= 0.5f;
+	Vector3D vn(vt);
+	vn.normalize();
+    
+	sinAngle = std::sin(angle);
+    
+    return Quaternion(vn.x*sinAngle,
+                      vn.y*sinAngle,
+                      vn.z*sinAngle,
+                      std::cos(angle));
 }
 void Quaternion::setFromAxisAngle(Vector3D &vt,float angle){
 	float sinAngle;
 	angle *= 0.5f;
 	Vector3D vn(vt);
 	vn.normalize();
-
+    
 	sinAngle = std::sin(angle);
-
+    
 	x = (vn.x * sinAngle);
 	y = (vn.y * sinAngle);
 	z = (vn.z * sinAngle);
 	w = std::cos(angle);
 }
 void Quaternion::getAxisAngle(Vector3D &vt,float &angle) const {
-
-float scale = sqrt(x * x + y * y + z * z);
+    
+    float scale = sqrt(x * x + y * y + z * z);
 	vt.x = x / scale;
 	vt.y = y / scale;
 	vt.z = z / scale;
 	angle = std::acos(w) * 2.0f;
 }
+
 Vector3D Quaternion::getRotatePoint(Vector3D & v) const{
-
+    
 	Quaternion tmp, final;
-
+    
 	Quaternion inv = this->getInverse();
 	//inv.normalize();
-
+    
 	//Quat_multVec (q, in, tmp);
 	//printf("QUATERNION rotatePoint is BUGGED BITCH !!\n");
 	tmp = this->mulVec(v);
-
+    
 	//Quat_multQuat (tmp, inv, final);
 	final = tmp.mul(inv);
-
+    
 	//Converting Quaternion to float3
 	Vector3D out;
-
+    
 	out.x = final.x;
 	out.y = final.y;
 	out.z = final.z;
-
+    
 	return out;
 }
+
 Matrix4x4 Quaternion::getMatrix() const{
 	float x2 = x * x;
 	float y2 = y * y;
@@ -367,28 +411,170 @@ Matrix4x4 Quaternion::getMatrix() const{
 	float wx = w * x;
 	float wy = w * y;
 	float wz = w * z;
-
+    
 	// This calculation would be a lot more complicated for non-unit length quaternions
 	// Note: The constructor of Matrix4x4 expects the Matrix in column-major format like expected by
 	//   OpenGL
 	return Matrix4x4( 1.0f - 2.0f * (y2 + z2),        2.0f * (xy - wz),        2.0f * (xz + wy), 0.0f,
-				      2.0f * (xy + wz),        1.0f - 2.0f * (x2 + z2),        2.0f * (yz - wx), 0.0f,
-				      2.0f * (xz - wy),               2.0f * (yz + wx), 1.0f - 2.0f * (x2 + y2), 0.0f,
-				      0.0f,                           0.0f,                    0.0f, 1.0f);
+                     2.0f * (xy + wz),        1.0f - 2.0f * (x2 + z2),        2.0f * (yz - wx), 0.0f,
+                     2.0f * (xz - wy),               2.0f * (yz + wx), 1.0f - 2.0f * (x2 + y2), 0.0f,
+                     0.0f,                           0.0f,                    0.0f, 1.0f);
 }
+void Quaternion::setMatrix(const Mat4 &m){
+	const float diag = m[0] + m[5] + m[10] + 1;
+    
+	if( diag > 0.0f )
+	{
+		const float scale = sqrtf(diag) * 2.0f; // get scale from diagonal
+        
+		// TODO: speed this up
+		x = (m[6] - m[9]) / scale;
+		y = (m[8] - m[2]) / scale;
+		z = (m[1] - m[4]) / scale;
+		w = 0.25f * scale;
+	}
+	else
+	{
+		if (m[0]>m[5] && m[0]>m[10])
+		{
+			// 1st element of diag is greatest value
+			// find scale according to 1st element, and double it
+			const float scale = sqrtf(1.0f + m[0] - m[5] - m[10]) * 2.0f;
+            
+			// TODO: speed this up
+			x = 0.25f * scale;
+			y = (m[4] + m[1]) / scale;
+			z = (m[2] + m[8]) / scale;
+			w = (m[6] - m[9]) / scale;
+		}
+		else if (m[5]>m[10])
+		{
+			// 2nd element of diag is greatest value
+			// find scale according to 2nd element, and double it
+			const float scale = sqrtf(1.0f + m[5] - m[0] - m[10]) * 2.0f;
+            
+			// TODO: speed this up
+			x = (m[4] + m[1]) / scale;
+			y = 0.25f * scale;
+			z = (m[9] + m[6]) / scale;
+			w = (m[8] - m[2]) / scale;
+		}
+		else
+		{
+			// 3rd element of diag is greatest value
+			// find scale according to 3rd element, and double it
+			const float scale = sqrtf(1.0f + m[10] - m[0] - m[5]) * 2.0f;
+            
+			// TODO: speed this up
+			x = (m[8] + m[2]) / scale;
+			y = (m[9] + m[6]) / scale;
+			z = 0.25f * scale;
+			w = (m[1] - m[4]) / scale;
+		}
+	}
+    //from GLM
+    /*
+    float fourXSquaredMinus1 = m.m00 - m.m11 - m.m22;
+    float fourYSquaredMinus1 = m.m11 - m.m00 - m.m22;
+    float fourZSquaredMinus1 = m.m22 - m.m00 - m.m11;
+    float fourWSquaredMinus1 = m.m00 + m.m11 +m.m22;
+    
+    int biggestIndex = 0;
+    float fourBiggestSquaredMinus1 = fourWSquaredMinus1;
+    
+    if(fourXSquaredMinus1 > fourBiggestSquaredMinus1)
+    {
+        fourBiggestSquaredMinus1 = fourXSquaredMinus1;
+        biggestIndex = 1;
+    }
+    if(fourYSquaredMinus1 > fourBiggestSquaredMinus1)
+    {
+        fourBiggestSquaredMinus1 = fourYSquaredMinus1;
+        biggestIndex = 2;
+    }
+    if(fourZSquaredMinus1 > fourBiggestSquaredMinus1)
+    {
+        fourBiggestSquaredMinus1 = fourZSquaredMinus1;
+        biggestIndex = 3;
+    }
+    
+    float biggestVal = std::sqrt(fourBiggestSquaredMinus1 + 1.0f) * (0.5f);
+    float mult = (0.25f) / biggestVal;
+    
+    Quaternion Result;
+    switch(biggestIndex)
+    {
+        case 0:
+            Result.w = biggestVal;
+            Result.x = (m.m12 - m.m21) * mult;
+            Result.y = (m.m20 - m.m02) * mult;
+            Result.z = (m.m01 - m.m10) * mult;
+            break;
+        case 1:
+            Result.w = (m.m12 - m.m21) * mult;
+            Result.x = biggestVal;
+            Result.y = (m.m01 + m.m10) * mult;
+            Result.z = (m.m20 + m.m02) * mult;
+            break;
+        case 2:
+            Result.w = (m.m20 - m.m02) * mult;
+            Result.x = (m.m01 + m.m10) * mult;
+            Result.y = biggestVal;
+            Result.z = (m.m12 + m.m21) * mult;
+            break;
+        case 3:
+            Result.w = (m.m01 - m.m10) * mult;
+            Result.x = (m.m20 + m.m02) * mult;
+            Result.y = (m.m12 + m.m21) * mult;
+            Result.z = biggestVal;
+            break;
+            
+        default:
+            // Silence a -Wswitch-default warning in GCC. Should never actually get here. Assert is just for sanity.
+            assert(false);
+            break;
+    }
+    return Result;
+     */
+    
+}
+Quaternion Quaternion::fromMatrix(const Mat4& mat){
+    Quaternion q;
+    q.setMatrix(mat);
+    return q;
+}
+
+Quaternion Quaternion::slerp(const Quaternion &q2, float time){
+    
+    Quaternion q1=*this;
+    const float threshold=0.05;
+    
+    float angle = q1.dot(q2);
+    
+	// make sure we use the short rotation
+	if (angle < 0.0f)
+	{
+		q1 = Quaternion(-q1.x,-q1.y,-q1.z,-q1.w);
+		angle *= -1.0f;
+	}
+    
+	if (angle <= (1-threshold)) // spherical interpolation
+	{
+		const float theta = std::acosf(angle);
+		const float invsintheta = 1.0f/(std::sin(theta));
+		const float scale = std::sin(theta * (1.0f-time)) * invsintheta;
+		const float invscale = std::sin(theta * time) * invsintheta;
+		return (q1*scale) + (q2*invscale);
+	}
+	else // linear interploation
+		return Math::lerp(q1,q2,time);
+ 
+}
+
 String Quaternion::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+sep+String::toString(w)+end;
 }
-float  Quaternion::length() const{
-	return sqrt(w * w + x * x + y * y + z * z);
-}
-float Quaternion::dot(const Quaternion& vec) const{
-	return x*vec.x+y*vec.y+z*vec.z+w*vec.w;
-}
-Quaternion Quaternion::getNormalize() const{
-	float d=sqrt(x*x+y*y+z*z+w*w);
-	return Quaternion(x/d,y/d,z/d,w/d);
-}
+
 /* PLANE */
 Plane::Plane():d(0.0f){}
 Plane::Plane(const Vector3D& normal,const Vector3D& origin){
@@ -430,7 +616,7 @@ void Plane::setNormalAndOrigin(const Vector3D& normal,const Vector3D& origin){
 	this->d=-normal.dot(origin);
 }
 //distance from point
-float Plane::distance(const Vector3D& point){
+float Plane::distance(const Vector3D& point) const{
 	return normal.dot(point)+d;
 }
 //normalize
@@ -458,6 +644,50 @@ String	Plane::toString(const String& start,
 		   +end;
 ;
 }
+/* AABBox */
+
+AABox::AABox(const Vec3& center,Vec3 size) {
+    setBox(center,size);
+}
+AABox::AABox(){}
+AABox::~AABox() {}
+
+void AABox::setBox(const Vec3& center,Vec3 size) {
+    size.abs();
+    min=center-size*0.5;
+    max=center+size*0.5;
+}
+
+Vec3 AABox::getVertexP(const Vec3 &normal) const {
+    
+	Vec3 res = min;
+    
+	if (normal.x > 0)
+		res.x = max.x;
+    
+	if (normal.y > 0)
+		res.y = max.y;
+    
+	if (normal.z > 0)
+		res.z = max.z;
+    
+	return(res);
+}
+Vec3 AABox::getVertexN(const Vec3 &normal) const {
+    
+	Vec3 res = max;
+    
+	if (normal.x < 0)
+		res.x = min.x;
+    
+	if (normal.y < 0)
+		res.y = min.y;
+    
+	if (normal.z < 0)
+		res.z = min.z;
+    
+	return(res);
+}
 
 /* MATRIX4x4*/
 static float Matrix4x4Identity[]={
@@ -466,19 +696,13 @@ static float Matrix4x4Identity[]={
 	0.0,0.0,1.0,0.0,
 	0.0,0.0,0.0,1.0
 };
-static float Matrix4x4Zero[]={
-	0.0,0.0,0.0,0.0,
-	0.0,0.0,0.0,0.0,
-	0.0,0.0,0.0,0.0,
-	0.0,0.0,0.0,0.0
-};
 
 Matrix4x4::Matrix4x4(){ 
 	identity();
 };
 
-Matrix4x4::Matrix4x4(const Matrix4x4 &m4x4){ 
-	(*this)=m4x4; 
+Matrix4x4::Matrix4x4(const Matrix4x4 &m4x4){
+	(*this)=m4x4;
 }
 Matrix4x4::Matrix4x4(float* m4x4){
 	memcpy(entries, m4x4, 16*sizeof(float));
@@ -512,7 +736,7 @@ Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const {
         return out_m4x4;
 #elif defined( SIMD_SSE2 )
 	 Matrix4x4 out_m4x4;
-		SSE2_Matrix4Mul(out_m4x4,*this,m4x4);
+		SSE2_Matrix4Mul(out_m4x4,m4x4,*this);
 	 return out_m4x4;
 #else
 	return Matrix4x4(entries[0]*m4x4.entries[0]+entries[4]*m4x4.entries[1]+entries[8]*m4x4.entries[2]+entries[12]*m4x4.entries[3],
@@ -547,8 +771,8 @@ Matrix4x4 Matrix4x4::mul2D(const Matrix4x4 &m4x4) const {
         #endif
         return out_m4x4;
 #elif defined( SIMD_SSE2 )
-	 Matrix4x4 out_m4x4;
-	 SSE2_Matrix4Mul(out_m4x4,*this,m4x4);
+     Matrix4x4 out_m4x4;
+      SSE2_Matrix4Mul(out_m4x4,m4x4,*this);
 	 return out_m4x4;
 #else
 	/*
@@ -600,6 +824,10 @@ Vector4D Matrix4x4::mul(const Vector4D &v4) const {
         #else
                 Matrix4Vector4Mul(this->entries,&v4.x,&out.x);
         #endif
+#elif defined( SIMD_SSE2 )
+    Vector4D out;
+    out.row=SSE2_lincomb(v4.row,*this);
+    return out;
 #else
 	  Vector4D out;
 
@@ -668,8 +896,8 @@ DFORCEINLINE bool gluInvertMatrix(const float m[16],float invOut[16]){
 void Matrix4x4::inverse(){
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1)
 	Matrix4Invert(&(this->entries[0]),&(this->entries[0]));
-//#elif defined( SIMD_SSE2 )
-//	SSE2_Matrix4Inv(*this);
+#elif defined( SIMD_SSE2 )
+	SSE2_Matrix4Inv(*this);
 #else
 	gluInvertMatrix(&(this->entries[0]),&(this->entries[0]));
 #endif
@@ -694,9 +922,9 @@ Matrix4x4 Matrix4x4::getInverse() const{
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1)
 	Matrix4x4 out;
 	Matrix4Invert(&(entries[0]),&(out.entries[0]));
-//#elif defined( SIMD_SSE2 )
-//	Matrix4x4 out(*this);
-//	SSE2_Matrix4Inv(out);
+#elif defined( SIMD_SSE2 )
+	Matrix4x4 out(*this);
+	SSE2_Matrix4Inv(out);
 #else
 	Matrix4x4 out;
 	gluInvertMatrix(&(entries[0]),&(out.entries[0]));
@@ -776,10 +1004,17 @@ Matrix4x4 Matrix4x4::getInverse2D() const{
 }
 Matrix4x4 Matrix4x4::getTranspose() const{
 
-	Matrix4x4 matrix(*this);
+#if defined( SIMD_SSE2 )
+    
+	Matrix4x4 newMat(*this);
+    SSE2_Matrix4Transpose(newMat);
+    return newMat;
+    
+#else
+	Matrix4x4 newMat(*this);
 	float tmp;
 
-	#define _xy_m4x4_(x,y) matrix.entries[(y*4)+x]
+	#define _xy_m4x4_(x,y) newMat.entries[(y*4)+x]
 
 	tmp = _xy_m4x4_(1,0);
 	_xy_m4x4_(1,0) = _xy_m4x4_(0,1);
@@ -807,7 +1042,8 @@ Matrix4x4 Matrix4x4::getTranspose() const{
 
 	#undef _xy_m4x4_
 
-	return matrix;
+	return newMat;
+#endif
 }
 
 void Matrix4x4::setScale(const Vector3D &v3){
@@ -873,6 +1109,25 @@ Vector2D Matrix4x4::getTranslation2D() const{
 	return Vector2D( entries[12], entries[13]);
 }
 
+///set concatenate trasformation:
+void Matrix4x4::addTranslationOnX( float distance ){
+    entries[0] = entries[0] + distance * entries[3];
+    entries[4] = entries[4] + distance * entries[7];
+    entries[8] = entries[8] + distance * entries[11];
+    entries[12] = entries[12] + distance * entries[15];
+}
+void Matrix4x4::addTranslationOnY( float distance ){
+    entries[1] = entries[1] + distance * entries[3];
+    entries[5] = entries[5] + distance * entries[7];
+    entries[9] = entries[9] + distance * entries[11];
+    entries[13] = entries[13] + distance * entries[15];
+}
+void Matrix4x4::addTranslationOnZ( float distance ){
+    entries[2] = entries[2] + distance * entries[3];
+    entries[6] = entries[6] + distance * entries[7];
+    entries[10] = entries[10] + distance * entries[11];
+    entries[14] = entries[14] + distance * entries[15];
+}
 ///add a euler rotarion
 void Matrix4x4::addEulerRotation(const Vec3& euler){
 	//var dec
@@ -1035,147 +1290,10 @@ void Matrix4x4::setFastTransform2DS(float* list){
 	// scale.z //
 	entries[10]=1.0f;
 }
-void Matrix4x4::setQuaternion(Quaternion &qt){
+void Matrix4x4::setQuaternion(const Quaternion &qt){
 	identity();
-	memcpy(entries, qt.getMatrix().entries, 16*sizeof(float));
+    (*this)=qt.getMatrix();
 }
-///get quaternion transformation
-Quaternion Matrix4x4::getQuaternionFast(){
-		//from GLM
-		#define m00 entries[0]
-		#define m11 entries[5]
-		#define m22 entries[10]
-
-		float fourXSquaredMinus1 = m00 - m11 - m22;
-		float fourYSquaredMinus1 = m11 - m00 - m22;
-		float fourZSquaredMinus1 = m22 - m00 - m11;
-		float fourWSquaredMinus1 = m00 + m11 + m22;
-
-		int biggestIndex = 0;
-		float fourBiggestSquaredMinus1 = fourWSquaredMinus1;
-
-		if(fourXSquaredMinus1 > fourBiggestSquaredMinus1)
-		{
-			fourBiggestSquaredMinus1 = fourXSquaredMinus1;
-			biggestIndex = 1;
-		}
-		if(fourYSquaredMinus1 > fourBiggestSquaredMinus1)
-		{
-			fourBiggestSquaredMinus1 = fourYSquaredMinus1;
-			biggestIndex = 2;
-		}
-		if(fourZSquaredMinus1 > fourBiggestSquaredMinus1)
-		{
-			fourBiggestSquaredMinus1 = fourZSquaredMinus1;
-			biggestIndex = 3;
-		}
-
-		float biggestVal = std::sqrt(fourBiggestSquaredMinus1 + 1.0f) * (0.5f);
-		float mult = (0.25f) / biggestVal;
-
-		#define m01 entries[4]
-		#define m02 entries[8]
-
-		#define m10 entries[1]
-		#define m12 entries[9]
-
-		#define m20 entries[2]
-		#define m21 entries[9]
-
-		Quaternion Result;
-		switch(biggestIndex)
-		{
-		case 0:
-			Result.w = biggestVal;
-			Result.x = (m12 - m21) * mult;
-			Result.y = (m20 - m02) * mult;
-			Result.z = (m01 - m10) * mult;
-			break;
-		case 1:
-			Result.w = (m12 - m21) * mult;
-			Result.x = biggestVal;
-			Result.y = (m01 + m10) * mult;
-			Result.z = (m20 + m02) * mult;
-			break;
-		case 2:
-			Result.w = (m20 - m02) * mult;
-			Result.x = (m01 + m10) * mult;
-			Result.y = biggestVal;
-			Result.z = (m12 + m21) * mult;
-			break;
-		case 3:
-			Result.w = (m01 - m10) * mult;
-			Result.x = (m20 + m02) * mult;
-			Result.y = (m12 + m21) * mult;
-			Result.z = biggestVal;
-			break;
-
-        default:
-			// Silence a -Wswitch-default warning in GCC. Should never actually get here. Assert is just for sanity.
-            assert(false);
-            break;
-		}
-		return Result;
-
-		#undef m00
-		#undef m01
-		#undef m02
-
-		#undef m10
-		#undef m11
-		#undef m12
-
-		#undef m20
-		#undef m21
-		#undef m22
-}
-Quaternion Matrix4x4::getQuaternion(){
-	Quaternion quaternion,Q;
-
-	#define m00 entries[0]
-	#define m01 entries[4]
-	#define m02 entries[8]
-
-	#define m10 entries[1]
-	#define m11 entries[5]
-	#define m12 entries[9]
-
-	#define m20 entries[2]
-	#define m22 entries[10]
-	#define m21 entries[9]
-
-	quaternion.w = std::sqrt( Math::max( 0.0f, 1 + m00 + m11 + m22 ) ) / 2;
-	quaternion.x = std::sqrt( Math::max( 0.0f, 1 + m00 - m11 - m22 ) ) / 2;
-	quaternion.y = std::sqrt( Math::max( 0.0f, 1 - m00 + m11 - m22 ) ) / 2;
-	quaternion.z = std::sqrt( Math::max( 0.0f, 1 - m00 - m11 + m22 ) ) / 2;
-
-	#ifdef PLATFORM_UNIX
-        #define COPYSIGN copysign
-	#else
-        #define COPYSIGN _copysign
-	#endif
-
-	Q.x = COPYSIGN( Q.x, m21 - m12 );
-	Q.y = COPYSIGN( Q.y, m02 - m20 );
-	Q.z = COPYSIGN( Q.z, m10 - m01 );
-
-	return Q;
-
-	#undef COPYSIGN
-
-	#undef m00
-	#undef m01
-	#undef m02
-
-	#undef m10
-	#undef m11
-	#undef m12
-
-	#undef m20
-	#undef m21
-	#undef m22
-}
-
 void Matrix4x4::setOrtho(float left, float right, float bottom,float top, float n, float f){
 	identity();
 
@@ -1192,25 +1310,54 @@ void Matrix4x4::setOrtho(float left, float right, float bottom,float top, float 
 void Matrix4x4::setPerspective(float l, float r,
 							   float b,float t,
 							   float n, float f){
-	identity();
-	entries[0]  = 2 * n / (r - l);
+    
+    //http://www.manpagez.com/man/3/glFrustum/
+    identity();
+	//row1
+    entries[0]  = 2 * n / (r - l);
     entries[2]  = (r + l) / (r - l);
+    //row2
     entries[5]  = 2 * n / (t - b);
     entries[6]  = (t + b) / (t - b);
+    //row3
     entries[10] = -(f + n) / (f - n);
     entries[11] = -(2 * f * n) / (f - n);
+    //row4
     entries[14] = -1;
     entries[15] =  0;
+     
 }
-void Matrix4x4::setPerspective(float fov, float aspect, float front, float back){
-
-	float tangent = tanf(fov/2 * Math::PIOVER180); // tangent of half fovY
-    float height = front * tangent;                // half height of near plane
-    float width = height * aspect;                 // half width of near plane
-
-    // params: left, right, bottom, top, near, far
-    setPerspective(-width, width, -height, height, front, back);
+void Matrix4x4::setPerspective(float fov, float fRealAspect, float fNear, float fFar){
+    
+    //from:https://code.google.com/p/oolongengine/source/browse/trunk/Oolong%20Engine2/Math/Matrix.cpp
+    float f, n;
+    
+    f = 1.0f / (float)std::tan(fov * 0.5f);
+    n = 1.0f / (fNear - fFar);
+    
+    entries[ 0] = f / fRealAspect;
+    entries[ 1] = 0;
+    entries[ 2] = 0;
+    entries[ 3] = 0;
+    
+    entries[ 4] = 0;
+    entries[ 5] = f;
+    entries[ 6] = 0;
+    entries[ 7] = 0;
+    
+    entries[ 8] = 0;
+    entries[ 9] = 0;
+    entries[10] = (fFar + fNear) * n;
+    entries[11] = -1;
+    
+    entries[12] = 0;
+    entries[13] = 0;
+    entries[14] = (2 * fFar * fNear) * n;
+    entries[15] = 0;
+    
+        
 }
+
 String Matrix4x4::toString(const String& start,const String& sep,const String& sepline,const String& end) const{
 	return 	start+String::toString(entries[0])+sep +String::toString(entries[1]) +sep+String::toString(entries[2]) +sep+String::toString(entries[3]) +sepline
 		         +String::toString(entries[4])+sep +String::toString(entries[5]) +sep+String::toString(entries[6]) +sep+String::toString(entries[7]) +sepline

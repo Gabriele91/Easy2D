@@ -2,7 +2,7 @@
 #define TEXTURE_H
 
 #include <Config.h>
-#include <Math2D.h>
+#include <Math3D.h>
 #include <EString.h>
 #include <Resource.h>
 #include <Mesh.h>

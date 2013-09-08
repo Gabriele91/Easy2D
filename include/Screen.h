@@ -2,7 +2,7 @@
 #define SCREEN_H
 
 #include <Config.h>
-#include <Math2D.h>
+#include <Math3D.h>
 
 namespace Easy2D {
 	////////////////////

@@ -2,7 +2,7 @@
 #define MESH_H
 
 #include <Config.h>
-#include <Math2D.h>
+#include <Math3D.h>
 #include <EString.h>
 #include <Resource.h>
 

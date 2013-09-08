@@ -3,7 +3,7 @@
 
 #include <Config.h>
 #include <Debug.h>
-#include <Math2D.h>
+#include <Math3D.h>
 #include <Types.h>
 
 namespace Easy2D {

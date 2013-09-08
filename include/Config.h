@@ -106,6 +106,9 @@
         #define PFD_SUPPORT_COMPOSITION 0x00008000
     #endif
 
+    #define GCCALIGNED(size) __attribute__ ((aligned(size)))
+    #define VSALIGNED(size)
+
 	#if defined(ENABLE_SIMD)
 		#if defined(__SSE__)
 			#define SIMD_SSE
@@ -129,6 +132,9 @@
 		  std::identity<decltype(__VA_ARGS__)>::type
 	#endif
 
+    #define GCCALIGNED(size)
+    #define VSALIGNED(size)  __declspec(align(size))
+
 	#if defined(ENABLE_SIMD)
 		#if  _M_IX86_FP>=1
 			#define SIMD_SSE
@@ -142,10 +148,6 @@
 	#error compiler not supported
 #endif
 
-#if defined( SIMD_SSE2 ) || defined( SIMD_SSE )
-	#include <emmintrin.h>
-	#include <xmmintrin.h>
-#endif
 
 #if !defined(ENABLE_VAOS) &&  !defined(DISABLE_VAOS)
 	#error "must to be define ENABLE_VAOS or DISABLE_VAOS"
@@ -173,6 +175,14 @@
 	#define DNOSTDHASH tr1::hash
 	#define DS_PTR std::tr1::shared_ptr
 	#define DW_PTR std::tr1::weak_ptr
+#endif
+
+#if defined( SIMD_SSE2 ) || defined( SIMD_SSE )
+    #include <emmintrin.h>
+    #include <xmmintrin.h>
+    #include <mmintrin.h>
+    #define DOVERRIDE_NEW_DEL
+    #include <Memory.h>
 #endif
 
 #endif
