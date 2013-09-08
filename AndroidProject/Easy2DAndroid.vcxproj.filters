@@ -109,9 +109,6 @@
     <ClCompile Include="..\src\Layer.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Math2D.cpp">
-      <Filter>Easy2D\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Mesh.cpp">
       <Filter>Easy2D\src</Filter>
     </ClCompile>
@@ -169,11 +166,29 @@
     <ClCompile Include="..\src\android\AndroidMain.c">
       <Filter>Easy2D\src\android</Filter>
     </ClCompile>
-    <ClCompile Include="..\Main.cpp">
-      <Filter>exemple</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\android\AndroidCout.cpp">
       <Filter>Easy2D\src\android</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Math3D.cpp">
+      <Filter>Easy2D\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BMFontLoader.cpp">
+      <Filter>Easy2D\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EStack.cpp">
+      <Filter>Easy2D\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Font.cpp">
+      <Filter>Easy2D\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FreeTypeFontLoader.cpp">
+      <Filter>Easy2D\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Scene.cpp">
+      <Filter>Easy2D\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\State.cpp">
+      <Filter>Easy2D\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,9 +238,6 @@
       <Filter>Easy2D\include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Layer.h">
-      <Filter>Easy2D\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\Math2D.h">
       <Filter>Easy2D\include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Mesh.h">
@@ -302,6 +314,36 @@
     </ClInclude>
     <ClInclude Include="..\include\android\AndroidMain.h">
       <Filter>Easy2D\include\android</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Blend.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BMFontLoader.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EStack.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Font.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\FreeTypeFontLoader.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\InputList.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Math3D.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MinMaxList.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Scene.h">
+      <Filter>Easy2D\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\State.h">
+      <Filter>Easy2D\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

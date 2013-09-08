@@ -107,8 +107,8 @@ void Font::text(const Vec2& _pos,
 	GLfloat old_color[4];
 	glGetBooleanv(GL_CULL_FACE,&cull);
 	glGetBooleanv(GL_BLEND , &blend);
-	glGetIntegerv(GL_BLEND_SRC_RGB , &bs_src);
-	glGetIntegerv(GL_BLEND_DST_RGB , &bs_dst);
+	glGetIntegerv(GL_BLEND_SRC , &bs_src);
+	glGetIntegerv(GL_BLEND_DST , &bs_dst);
 	glGetFloatv(GL_PROJECTION_MATRIX ,  old_projection );
 	glGetFloatv(GL_MODELVIEW_MATRIX , old_modelview );
     glGetFloatv(GL_CURRENT_COLOR, old_color);
