@@ -32,6 +32,7 @@
 	#define PLATFORM_UNIX
 	#define DCPP_11
 	#define DISABLE_VAOS
+	#define OPENGL_ES
 	#include <stdint.h>
 	//#include <AL/al.h>
 	//#include <AL/alc.h>
@@ -88,6 +89,22 @@
     #include <linux/OpenGLLinux.h>
     #include <AL/al.h>
     #include <AL/alc.h>
+
+#elif defined(EMSCRIPTEN)
+
+    #define PLATFORM_EMSCRIPTEN
+    #define PLATFORM_UNIX
+    #define DCPP_11
+    #define ENABLE_VAOS
+	#define OPENGL_ES
+	#define DISABLE_MIDMAP
+    #include <signal.h>
+    #include <emscripten/OpenGLEmscripten.h>
+    #include <stdint.h>
+    #include <AL/al.h>
+    #include <AL/alc.h>
+
+
 #else
 	#error "platform not supported"
 #endif
@@ -96,7 +113,11 @@
 
 #if ( (__GNUC__>=4) && (__GNUC_MINOR__ >=6) || defined(__ANDROID__) ) || defined(__llvm__)
 
-	#define DFORCEINLINE __attribute__ ((always_inline))
+	#ifndef DISABLE_FORCE_INLINE
+		#define DFORCEINLINE __attribute__ ((always_inline))
+	#else
+		#define DFORCEINLINE inline
+	#endif
 	#define DINLINE inline
 	#define COMPILER_GCC
     #define ASPACKED( __Declaration__ ) __Declaration__ __attribute__((__packed__))
@@ -120,7 +141,11 @@
 
 #elif defined( _MSC_VER )
 
-	#define DFORCEINLINE __forceinline
+	#ifndef DISABLE_FORCE_INLINE
+		#define DFORCEINLINE __forceinline
+	#else
+		#define DFORCEINLINE inline
+	#endif
 	#define DINLINE __inline
 	#define ASPACKED( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop) )
 	#define ALIGNED( size, __Declaration__ ) __declspec(align(size)) __Declaration__

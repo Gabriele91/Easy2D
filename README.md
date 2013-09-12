@@ -8,11 +8,15 @@ Easy2D
 
 Download the dependencies and unpackaging in Easy2D's directory:
 
- [Depedences-win32](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependences-win32.zip)
+ [Depedencies-win32](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-win32.zip)
  
- [Depedences-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependences-linux64.zip)
+ [Depedencies-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-linux64.zip)
  
- [Depedences-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependences-osx64.zip)
+ [Depedencies-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-osx64.zip)
+ 
+ [Depedencies-android](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-android.zip)
+ 
+ [Depedencies-emscripten](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-emscripten.zip)
  
  [Livel test](https://dl.dropboxusercontent.com/u/26656895/Easy2D/livel.zip)
 

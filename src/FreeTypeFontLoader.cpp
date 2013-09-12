@@ -58,11 +58,12 @@ void FreeTypeFontLoader::addCharImageInBuffer(
 			const int charRow,
 			const int charWidth,
 			const int charPitch){
-
-	for(int y=0;y<charRow;++y)
-	for(int x=0;x<charWidth;++x)
-		imageBytes[(int)((y+imgPos.y)*imgWidth+imgPos.x+x)]=imgCharBuffer[x+y*charPitch];
-
+	for(int y=0;y<charRow;++y){
+		for(int x=0;x<charWidth;++x){
+			imageBytes[((int)((y+imgPos.y)*imgWidth+imgPos.x+x))*2]=255;
+			imageBytes[((int)((y+imgPos.y)*imgWidth+imgPos.x+x))*2+1]=imgCharBuffer[x+y*charPitch];
+		}
+	}
 }
 
 bool FreeTypeFontLoader::loadPage(     Font& font,
@@ -73,7 +74,7 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 								       void* _face){
 	FT_Face face=(FT_Face)_face;
 	//image vector
-	std::vector<byte> bytes(pageSize.x*pageSize.y);
+	std::vector<byte> bytes(pageSize.x*pageSize.y*2);
 	std::vector<Font::Character *> listChars;
 	//cursor
 	Vec2 cursor;
@@ -121,8 +122,8 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 								pageSize.y,
 								//deprecate
 								//openGL 3, GL_RED + swizzle mask {GL_ZERO, GL_ZERO, GL_ZERO, GL_RED}
-								GL_ALPHA8 ,
-								GL_ALPHA);
+								GL_LUMINANCE_ALPHA ,
+								GL_LUMINANCE_ALPHA);
 	font.addPage(Texture::ptr(texture));
 
 	return true;
@@ -136,7 +137,7 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 								           void* _face){
 	FT_Face face=(FT_Face)_face;
 	//image vector
-	std::vector<byte> bytes(pageSize.x*pageSize.y);
+	std::vector<byte> bytes(pageSize.x*pageSize.y*2);
 	std::vector<Font::Character *> listChars;
 	//cursor
 	Vec2 cursor;
@@ -195,8 +196,8 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 								pageSize.y,
 								//deprecate
 								//openGL 3, GL_RED + swizzle mask {GL_ZERO, GL_ZERO, GL_ZERO, GL_RED}
-								GL_ALPHA8 ,
-								GL_ALPHA);
+								GL_LUMINANCE_ALPHA ,
+								GL_LUMINANCE_ALPHA);
 	font.addPage(Texture::ptr(texture));
 
 	return true;

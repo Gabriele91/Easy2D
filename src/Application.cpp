@@ -1,4 +1,6 @@
 #include <stdafx.h>
+#include <Debug.h>
+#include <Math3D.h>
 #include <Application.h>
 #include <ETime.h>
 #if defined( PLATFORM_IOS )
@@ -10,6 +12,8 @@
     #include <LinuxApp.h>
 #elif defined( PLATFORM_ANDROID )
     #include <AndroidApp.h>
+#elif defined( PLATFORM_EMSCRIPTEN )
+    #include <EmscriptenApp.h>
 #endif
 ///////////////////////
 using namespace Easy2D;
@@ -43,6 +47,8 @@ Application *Application::create(){
 	appSingleton=new LinuxApp();
 #elif defined( PLATFORM_ANDROID )
 	appSingleton=new AndroidApp();
+#elif defined( PLATFORM_EMSCRIPTEN )
+	appSingleton=new EmscriptenApp();
 #endif
 	//registration delete at exit
 	atexit([](){ 

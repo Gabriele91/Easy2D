@@ -11,6 +11,8 @@
 #include <Debug.h>
 #define NOT(x) (!(x))
 
+#if defined(DOVERRIDE_NEW_DEL)
+
 #ifdef _MSC_VER
     #include <malloc.h>
 #elif defined(__MACH__)
@@ -19,7 +21,6 @@
     #include <mm_malloc.h>
 #endif
 
-#if defined(DOVERRIDE_NEW_DEL)
 
 using namespace Easy2D;
 

@@ -24,7 +24,7 @@
 					<Add directory=".\" />
 					<Add directory="include" />
 					<Add directory="include\linux" />
-					<Add directory="dependences-linux64\include" />
+					<Add directory="dependencies-linux64\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lX11" />
@@ -32,8 +32,8 @@
 					<Add option="-lGL" />
 					<Add option="-lGLU" />
 					<Add option="-lopenal" />
-					<Add library="..\..\dependences-linux64\lib\libfreetype250_gcc48.so" />
-					<Add directory="dependences-linux64\lib" />
+					<Add library="..\..\dependencies-linux64\lib\libfreetype250_gcc48.so" />
+					<Add directory="dependencies-linux64\lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Linux">
@@ -52,7 +52,7 @@
 					<Add directory=".\" />
 					<Add directory="include" />
 					<Add directory="include\linux" />
-					<Add directory="dependences-linux64\include" />
+					<Add directory="dependencies-linux64\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -61,8 +61,8 @@
 					<Add option="-lGL" />
 					<Add option="-lGLU" />
 					<Add option="-lopenal" />
-					<Add library="..\..\dependences-linux64\lib\libfreetype250_gcc48.so" />
-					<Add directory="dependences-linux64\lib" />
+					<Add library="..\..\dependencies-linux64\lib\libfreetype250_gcc48.so" />
+					<Add directory="dependencies-linux64\lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug Window">
@@ -83,7 +83,7 @@
 					<Add directory="." />
 					<Add directory="include" />
 					<Add directory="include\window" />
-					<Add directory="dependences-win32\include" />
+					<Add directory="dependencies-win32\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lfreetype250_mingw46" />
@@ -92,7 +92,7 @@
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add directory="dependences-win32\lib" />
+					<Add directory="dependencies-win32\lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Window">
@@ -112,7 +112,7 @@
 					<Add directory="." />
 					<Add directory="include" />
 					<Add directory="include\window" />
-					<Add directory="dependences-win32\include" />
+					<Add directory="dependencies-win32\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -122,7 +122,7 @@
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add directory="dependences-win32\lib" />
+					<Add directory="dependencies-win32\lib" />
 				</Linker>
 			</Target>
 		</Build>

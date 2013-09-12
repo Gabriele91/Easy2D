@@ -731,7 +731,9 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 		img->swapRandBbits();
 	}
 	else if(img->channels==1){
+#ifndef OPENGL_ES
 		img->type  =TYPE_ALPHA8;
+#endif
 	}
 }
 void Image::load_TGA(Image* img,const std::string& path){

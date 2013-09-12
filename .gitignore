@@ -7,7 +7,7 @@ livel*/
 exemples*/
 
 #dependences
-dependences-*/
+dependencies-*/
 
 #doxy ignore
 [Dd]oxygen*/
@@ -33,16 +33,27 @@ dependences-*/
 #codeblocks
 *.layout
 
-#android
-AndroidProject/ant.properties
-AndroidProject/debug.keystore
-AndroidProject/local.properties
-AndroidProject/libs*/
-AndroidProject/bin*/
-AndroidProject/Android*/
-AndroidProject/*.sdf
-AndroidProject/*.suo
-AndroidProject/*.user
+#android old
+#AndroidProject/ant.properties
+#AndroidProject/debug.keystore
+#AndroidProject/local.properties
+#AndroidProject/libs*/
+#AndroidProject/bin*/
+#AndroidProject/Android*/
+#AndroidProject/*.sdf
+#AndroidProject/*.suo
+#AndroidProject/*.user
+
+#android new
+Android/ant.properties
+Android/debug.keystore
+Android/local.properties
+Android/libs*/
+Android/bin*/
+Android/Android*/
+Android/*.sdf
+Android/*.suo
+Android/*.user
 
 #Visual Studio files
 *.[Oo]bj

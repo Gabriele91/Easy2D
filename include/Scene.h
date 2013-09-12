@@ -45,7 +45,7 @@ namespace Easy2D {
         }
         void _onRunDraw(){
             //draw scene
-            Render::draw();
+           // Render::draw();
         }
                       
 	public:

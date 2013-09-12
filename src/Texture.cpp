@@ -37,10 +37,17 @@ void Texture::bind(uint ntexture){
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, (GLuint)gpuid );
 	//settings
+#ifndef DISABLE_MIDMAP
 	if(chBlr)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,bBilinear?GL_LINEAR:GL_NEAREST);
 	if(chMps)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,bMipmaps?GL_LINEAR_MIPMAP_NEAREST:GL_LINEAR);
+#else
+	if(chBlr)
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	if(chMps)
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+#endif
 }
 //setting
 bool Texture::bilinear(){
@@ -148,7 +155,12 @@ bool Texture::load(){
 	}
 	//resize
 	GLuint typeInternal=image.type;
-	GLuint type=image.type==GL_ALPHA8?GL_ALPHA:image.type;
+#ifndef OPENGL_ES
+	GLuint type= image.type==GL_ALPHA8 ? GL_ALPHA : image.type;
+#else	
+	DEBUG_ASSERT_MSG(image.type!=GL_ALPHA8,"Texture: android not support alpha texture");
+	GLuint type= image.type;
+#endif
 	//create a gpu texture
 	glTexImage2D(
 			GL_TEXTURE_2D,
@@ -160,8 +172,10 @@ bool Texture::load(){
 			type,
 			GL_UNSIGNED_BYTE,
 			NULL );
+#ifndef DISABLE_MIDMAP
 	//create mipmaps
 	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
+#endif
 	//send to GPU
     glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
 					 width,
@@ -169,6 +183,8 @@ bool Texture::load(){
 					 type,
 					 GL_UNSIGNED_BYTE,
 					 image.bytes );
+	
+    CHECK_GPU_ERRORS();
 	//is loaded
 	loaded=true;
 	//if olready getted, build mesh
@@ -221,8 +237,12 @@ bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
 			type,
 			GL_UNSIGNED_BYTE,
 			NULL );
+
+#ifndef DISABLE_MIDMAP
 	//create mipmaps
 	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
+#endif
+
 	//send to GPU
     glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
 					 width,
@@ -230,6 +250,8 @@ bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
 					 type,
 					 GL_UNSIGNED_BYTE,
 					 &bytes[0] );
+	
+    CHECK_GPU_ERRORS();
 	//is loaded
 	loaded=true;
 	//is not relodable

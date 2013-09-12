@@ -20,6 +20,7 @@ void Debug::breakpoint(){
 	//__asm__ ("bkpt 0");
 	//TODO implement something
 	raise( SIGTRAP );
+#elif defined( PLATFORM_EMSCRIPTEN )
 #else
 	#error unsupported platform
 #endif

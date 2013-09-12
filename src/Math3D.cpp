@@ -560,7 +560,7 @@ Quaternion Quaternion::slerp(const Quaternion &q2, float time){
     
 	if (angle <= (1-threshold)) // spherical interpolation
 	{
-		const float theta = std::acosf(angle);
+		const float theta = std::acos(angle);
 		const float invsintheta = 1.0f/(std::sin(theta));
 		const float scale = std::sin(theta * (1.0f-time)) * invsintheta;
 		const float invscale = std::sin(theta * time) * invsintheta;
@@ -845,7 +845,7 @@ Vector2D Matrix4x4::mul2D(const Vector2D &v2) const{
 	out.y=entries[1] * v2.x + entries[5] * v2.y + entries[9] + entries[13];
 	return out;
 }
-DFORCEINLINE bool gluInvertMatrix(const float m[16],float invOut[16]){
+static DFORCEINLINE bool gluInvertMatrix(const float m[16],float invOut[16]){
 	float inv[16], det;
 	int i;
 

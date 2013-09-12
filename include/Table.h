@@ -408,7 +408,7 @@ namespace Easy2D{
 				errors+=String::toString(line)+":"+c+":"+error+"\n";
 			}
 			void clear(){
-				errors;
+				errors="";
 			}
 			const String& toString(){
 				return errors;
