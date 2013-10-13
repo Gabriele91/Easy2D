@@ -63,24 +63,25 @@ void AndroidInput::update(){
 	efingers.__update(this);
 }
 
-//mouse
+
+//Finger
 void AndroidInput::__callOnFingerMove(const Vec3& position, Key::Finger fid) {
-	for(auto ih : vfingersh )
-		ih->onFingerMove(position,fid);
+	for(size_t i=0;i!=vfingersh.size();++i)
+		vfingersh[i]->onFingerMove(position,fid);
 }
 void AndroidInput::__callOnFingerDown(const Vec3& position, Key::Finger fid) {
-	for(auto ih : vfingersh )
-		ih->onFingerDown(position,fid);
+	for(size_t i=0;i!=vfingersh.size();++i)
+		vfingersh[i]->onFingerDown(position,fid);
 }
 void AndroidInput::__callOnFingerPress(const Vec3& position, Key::Finger fid) {
-	for(auto ih : vfingersh )
-		ih->onFingerPress(position,fid);
+	for(size_t i=0;i!=vfingersh.size();++i)
+		vfingersh[i]->onFingerPress(position,fid);
 }
 void AndroidInput::__callOnFingerRelease(const Vec3& position, Key::Finger fid) {
-	for(auto ih : vfingersh )
-		ih->onFingerRelease(position,fid);
+	for(size_t i=0;i!=vfingersh.size();++i)
+		vfingersh[i]->onFingerRelease(position,fid);
 }
 void AndroidInput::__callOnAccelerometerEvent(const AccelerometerValues& acVs){
-	for(auto ih : vaccelerometerh )
-		ih->onAcceleration(acVs);
+	for(size_t i=0;i!=vfingersh.size();++i)
+		vfingersh[i]->onAcceleration(acVs);
 }
