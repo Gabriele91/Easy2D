@@ -9,9 +9,9 @@
 		<Build>
 			<Target title="Debug Linux">
 				<Option platforms="Unix;" />
-				<Option output="lib\libEasy2D_linux_D" prefix_auto="1" extension_auto="1" />
+				<Option output="lib/Easy2D_linux_D" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -21,10 +21,10 @@
 					<Add option="-D_DEBUG" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-DENABLE_SIMD" />
-					<Add directory=".\" />
+					<Add directory="./" />
 					<Add directory="include" />
-					<Add directory="include\linux" />
-					<Add directory="dependencies-linux64\include" />
+					<Add directory="include/linux" />
+					<Add directory="dependencies-linux64/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lX11" />
@@ -33,14 +33,14 @@
 					<Add option="-lGLU" />
 					<Add option="-lopenal" />
 					<Add library="..\..\dependencies-linux64\lib\libfreetype250_gcc48.so" />
-					<Add directory="dependencies-linux64\lib" />
+					<Add directory="dependencies-linux64/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Linux">
 				<Option platforms="Unix;" />
-				<Option output="lib\libEasy2D_linux" prefix_auto="1" extension_auto="1" />
+				<Option output="lib/Easy2D_linux" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -49,10 +49,10 @@
 					<Add option="-fpermissive" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-DENABLE_SIMD" />
-					<Add directory=".\" />
+					<Add directory="./" />
 					<Add directory="include" />
-					<Add directory="include\linux" />
-					<Add directory="dependencies-linux64\include" />
+					<Add directory="include/linux" />
+					<Add directory="dependencies-linux64/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -62,14 +62,14 @@
 					<Add option="-lGLU" />
 					<Add option="-lopenal" />
 					<Add library="..\..\dependencies-linux64\lib\libfreetype250_gcc48.so" />
-					<Add directory="dependencies-linux64\lib" />
+					<Add directory="dependencies-linux64/lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug Window">
 				<Option platforms="Windows;" />
-				<Option output="lib\libEasy2D_window_D" prefix_auto="1" extension_auto="1" />
+				<Option output="lib/Easy2D_window_D" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Debug\" />
+				<Option object_output="obj/Debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -82,8 +82,8 @@
 					<Add option="-DENABLE_SIMD" />
 					<Add directory="." />
 					<Add directory="include" />
-					<Add directory="include\window" />
-					<Add directory="dependencies-win32\include" />
+					<Add directory="include/window" />
+					<Add directory="dependencies-win32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lfreetype250_mingw46" />
@@ -92,14 +92,14 @@
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add directory="dependencies-win32\lib" />
+					<Add directory="dependencies-win32/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release Window">
 				<Option platforms="Windows;" />
-				<Option output="lib\libEasy2D_window" prefix_auto="1" extension_auto="1" />
+				<Option output="lib/Easy2D_window" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj\Release\" />
+				<Option object_output="obj/Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -111,8 +111,8 @@
 					<Add option="-DENABLE_SIMD" />
 					<Add directory="." />
 					<Add directory="include" />
-					<Add directory="include\window" />
-					<Add directory="dependencies-win32\include" />
+					<Add directory="include/window" />
+					<Add directory="dependencies-win32/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -122,167 +122,178 @@
 					<Add library="opengl32" />
 					<Add library="glu32" />
 					<Add library="gdi32" />
-					<Add directory="dependencies-win32\lib" />
+					<Add directory="dependencies-win32/lib" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="include\AnimatedSprite.h" />
-		<Unit filename="include\Application.h" />
-		<Unit filename="include\BMFontLoader.h" />
-		<Unit filename="include\Blend.h" />
-		<Unit filename="include\Camera.h" />
-		<Unit filename="include\Color.h" />
-		<Unit filename="include\Config.h" />
-		<Unit filename="include\Debug.h" />
-		<Unit filename="include\EString.h" />
-		<Unit filename="include\ETime.h" />
-		<Unit filename="include\Easy2D.h" />
-		<Unit filename="include\Font.h" />
-		<Unit filename="include\FrameSet.h" />
-		<Unit filename="include\FreeTypeFontLoader.h" />
-		<Unit filename="include\Game.h" />
-		<Unit filename="include\Input.h" />
-		<Unit filename="include\Layer.h" />
-		<Unit filename="include\Math2D.h" />
-		<Unit filename="include\Mesh.h" />
-		<Unit filename="include\Object.h" />
-		<Unit filename="include\Render.h" />
-		<Unit filename="include\RenderState.h" />
-		<Unit filename="include\Renderable.h" />
-		<Unit filename="include\Resource.h" />
-		<Unit filename="include\ResourcesGroup.h" />
-		<Unit filename="include\ResourcesManager.h" />
-		<Unit filename="include\Screen.h" />
-		<Unit filename="include\Sprite.h" />
-		<Unit filename="include\Table.h" />
-		<Unit filename="include\Texture.h" />
-		<Unit filename="include\Timer.h" />
-		<Unit filename="include\Types.h" />
-		<Unit filename="include\Utility.h" />
-		<Unit filename="include\linux\LinuxApp.h">
+		<Unit filename="include/AnimatedSprite.h" />
+		<Unit filename="include/Application.h" />
+		<Unit filename="include/BMFontLoader.h" />
+		<Unit filename="include/Blend.h" />
+		<Unit filename="include/Camera.h" />
+		<Unit filename="include/Color.h" />
+		<Unit filename="include/Config.h" />
+		<Unit filename="include/Debug.h" />
+		<Unit filename="include/EStack.h" />
+		<Unit filename="include/EString.h" />
+		<Unit filename="include/ETime.h" />
+		<Unit filename="include/Easy2D.h" />
+		<Unit filename="include/Font.h" />
+		<Unit filename="include/FrameSet.h" />
+		<Unit filename="include/FreeTypeFontLoader.h" />
+		<Unit filename="include/Game.h" />
+		<Unit filename="include/Input.h" />
+		<Unit filename="include/InputList.h" />
+		<Unit filename="include/Layer.h" />
+		<Unit filename="include/Math3D.h" />
+		<Unit filename="include/Memory.h" />
+		<Unit filename="include/Mesh.h" />
+		<Unit filename="include/MinMaxList.h" />
+		<Unit filename="include/Object.h" />
+		<Unit filename="include/Render.h" />
+		<Unit filename="include/RenderState.h" />
+		<Unit filename="include/Renderable.h" />
+		<Unit filename="include/Resource.h" />
+		<Unit filename="include/ResourcesGroup.h" />
+		<Unit filename="include/ResourcesManager.h" />
+		<Unit filename="include/Scene.h" />
+		<Unit filename="include/Screen.h" />
+		<Unit filename="include/Sprite.h" />
+		<Unit filename="include/State.h" />
+		<Unit filename="include/Table.h" />
+		<Unit filename="include/Texture.h" />
+		<Unit filename="include/Timer.h" />
+		<Unit filename="include/Types.h" />
+		<Unit filename="include/Utility.h" />
+		<Unit filename="include/linux/LinuxApp.h">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="include\linux\LinuxInput.h">
+		<Unit filename="include/linux/LinuxInput.h">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="include\linux\LinuxScreen.h">
+		<Unit filename="include/linux/LinuxScreen.h">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="include\linux\OpenGLLinux.h">
+		<Unit filename="include/linux/OpenGLLinux.h">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="include\window\OpenGLWindow.h">
+		<Unit filename="include/window/OpenGLWindow.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="include\window\WindowsApp.h">
+		<Unit filename="include/window/WindowsApp.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="include\window\WindowsInput.h">
+		<Unit filename="include/window/WindowsInput.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="include\window\WindowsScreen.h">
+		<Unit filename="include/window/WindowsScreen.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="include\window\gletx_header.h">
+		<Unit filename="include/window/gletx_header.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\AnimatedSprite.cpp" />
-		<Unit filename="src\Application.cpp" />
-		<Unit filename="src\BMFontLoader.cpp" />
-		<Unit filename="src\Camera.cpp" />
-		<Unit filename="src\Color.cpp" />
-		<Unit filename="src\Config.cpp" />
-		<Unit filename="src\Debug.cpp" />
-		<Unit filename="src\EString.cpp" />
-		<Unit filename="src\ETime.cpp" />
-		<Unit filename="src\Font.cpp" />
-		<Unit filename="src\FrameSet.cpp" />
-		<Unit filename="src\FreeTypeFontLoader.cpp" />
-		<Unit filename="src\Game.cpp" />
-		<Unit filename="src\Image\Image.h" />
-		<Unit filename="src\Image\Image.inl" />
-		<Unit filename="src\Image\lodepng.cpp" />
-		<Unit filename="src\Image\lodepng.h" />
-		<Unit filename="src\Input.cpp" />
-		<Unit filename="src\Layer.cpp" />
-		<Unit filename="src\Math2D.cpp" />
-		<Unit filename="src\Math2D_SSE2.cpp" />
-		<Unit filename="src\Math2D_SSE2.h" />
-		<Unit filename="src\Mesh.cpp" />
-		<Unit filename="src\Object.cpp" />
-		<Unit filename="src\Render.cpp" />
-		<Unit filename="src\RenderState.cpp" />
-		<Unit filename="src\Renderable.cpp" />
-		<Unit filename="src\Resource.cpp" />
-		<Unit filename="src\ResourcesGroup.cpp" />
-		<Unit filename="src\ResourcesManager.cpp" />
-		<Unit filename="src\Screen.cpp" />
-		<Unit filename="src\Sprite.cpp" />
-		<Unit filename="src\Table.cpp" />
-		<Unit filename="src\Texture.cpp" />
-		<Unit filename="src\Thread\Mutex.h" />
-		<Unit filename="src\Thread\MutexConf.h" />
-		<Unit filename="src\Thread\MutexPOSIX.inl" />
-		<Unit filename="src\Thread\MutexWin32.inl" />
-		<Unit filename="src\Thread\Thread.h" />
-		<Unit filename="src\Thread\ThreadConf.h" />
-		<Unit filename="src\Thread\ThreadPOSIX.inl" />
-		<Unit filename="src\Thread\ThreadWin32.inl" />
-		<Unit filename="src\Timer.cpp" />
-		<Unit filename="src\Utility.cpp" />
-		<Unit filename="src\linux\LinuxApp.cpp">
+		<Unit filename="src/AnimatedSprite.cpp" />
+		<Unit filename="src/Application.cpp" />
+		<Unit filename="src/BMFontLoader.cpp" />
+		<Unit filename="src/Camera.cpp" />
+		<Unit filename="src/Color.cpp" />
+		<Unit filename="src/Config.cpp" />
+		<Unit filename="src/Debug.cpp" />
+		<Unit filename="src/EStack.cpp" />
+		<Unit filename="src/EString.cpp" />
+		<Unit filename="src/ETime.cpp" />
+		<Unit filename="src/Font.cpp" />
+		<Unit filename="src/FrameSet.cpp" />
+		<Unit filename="src/FreeTypeFontLoader.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Image/Image.h" />
+		<Unit filename="src/Image/Image.inl" />
+		<Unit filename="src/Image/lodepng.cpp" />
+		<Unit filename="src/Image/lodepng.h" />
+		<Unit filename="src/Input.cpp" />
+		<Unit filename="src/Layer.cpp" />
+		<Unit filename="src/Math2D_SSE2.cpp" />
+		<Unit filename="src/Math3D.cpp" />
+		<Unit filename="src/Math3D_SSE2.cpp" />
+		<Unit filename="src/Math3D_SSE2.h" />
+		<Unit filename="src/Memory.cpp" />
+		<Unit filename="src/Mesh.cpp" />
+		<Unit filename="src/Object.cpp" />
+		<Unit filename="src/Render.cpp" />
+		<Unit filename="src/RenderState.cpp" />
+		<Unit filename="src/Renderable.cpp" />
+		<Unit filename="src/Resource.cpp" />
+		<Unit filename="src/ResourcesGroup.cpp" />
+		<Unit filename="src/ResourcesManager.cpp" />
+		<Unit filename="src/Scene.cpp" />
+		<Unit filename="src/Screen.cpp" />
+		<Unit filename="src/Sprite.cpp" />
+		<Unit filename="src/State.cpp" />
+		<Unit filename="src/Table.cpp" />
+		<Unit filename="src/Texture.cpp" />
+		<Unit filename="src/Thread/Mutex.h" />
+		<Unit filename="src/Thread/MutexConf.h" />
+		<Unit filename="src/Thread/MutexPOSIX.inl" />
+		<Unit filename="src/Thread/MutexWin32.inl" />
+		<Unit filename="src/Thread/Thread.h" />
+		<Unit filename="src/Thread/ThreadConf.h" />
+		<Unit filename="src/Thread/ThreadPOSIX.inl" />
+		<Unit filename="src/Thread/ThreadWin32.inl" />
+		<Unit filename="src/Timer.cpp" />
+		<Unit filename="src/Utility.cpp" />
+		<Unit filename="src/linux/LinuxApp.cpp">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="src\linux\LinuxInput.cpp">
+		<Unit filename="src/linux/LinuxInput.cpp">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="src\linux\LinuxScreen.cpp">
+		<Unit filename="src/linux/LinuxScreen.cpp">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="src\linux\OpenGLLinux.cpp">
+		<Unit filename="src/linux/OpenGLLinux.cpp">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
-		<Unit filename="src\window\OpenGLWindow.cpp">
+		<Unit filename="src/window/OpenGLWindow.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\window\WGL_ARB_multisample.cpp">
+		<Unit filename="src/window/WGL_ARB_multisample.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\window\WGL_ARB_multisample.h">
+		<Unit filename="src/window/WGL_ARB_multisample.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\window\WindowsApp.cpp">
+		<Unit filename="src/window/WindowsApp.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\window\WindowsInput.cpp">
+		<Unit filename="src/window/WindowsInput.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\window\WindowsScreen.cpp">
+		<Unit filename="src/window/WindowsScreen.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
-		<Unit filename="src\window\stdafx.cpp">
+		<Unit filename="src/window/stdafx.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
 		</Unit>
