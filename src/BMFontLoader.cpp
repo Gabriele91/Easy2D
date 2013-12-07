@@ -80,7 +80,6 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 	BlockSize* blockSize;
 	BlockInfo* blockInfo;
 	BlockCommon* blockCommon;
-	BlockPage* blockPage;
 	BlockChars *blockChar;
 	//versione file
 	DEBUG_ASSERT(

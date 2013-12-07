@@ -38,7 +38,7 @@ bool Font::load(){
 
 	Utility::Path pathFont(rpath.getDirectory()+"/"+fontInfo.getString("font"));
 
-	if(isBMFont=(pathFont.getExtension()=="fnt"))
+	if((isBMFont=(pathFont.getExtension()=="fnt")))
 		BMFontLoader::load(*this,pathFont);
 	else
 		FreeTypeFontLoader::load(*this,fontInfo,pathFont);
