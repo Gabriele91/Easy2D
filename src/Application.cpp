@@ -32,7 +32,7 @@ Application::~Application(){
 	appSingleton=NULL;	
 }
 
-Application *Application::create(){
+Application *Application::create(const String& name){
 
 	DEBUG_ASSERT(!appSingleton);
 	
@@ -40,15 +40,15 @@ Application *Application::create(){
 
 #if defined( PLATFORM_IOS )
 #elif defined( PLATFORM_OSX )    
-	appSingleton=new CocoaApp();
+	appSingleton=new CocoaApp(name);
 #elif defined( PLATFORM_WINDOW )
-	appSingleton=new WindowsApp();
+	appSingleton=new WindowsApp(name);
 #elif defined( PLATFORM_LINUX )
-	appSingleton=new LinuxApp();
+	appSingleton=new LinuxApp(name);
 #elif defined( PLATFORM_ANDROID )
-	appSingleton=new AndroidApp();
+	appSingleton=new AndroidApp(name);
 #elif defined( PLATFORM_EMSCRIPTEN )
-	appSingleton=new EmscriptenApp();
+	appSingleton=new EmscriptenApp(name);
 #endif
 	//registration delete at exit
 	atexit([](){ 

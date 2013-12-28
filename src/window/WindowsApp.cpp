@@ -12,10 +12,29 @@ using namespace Easy2D;
 
 WindowsApp::WindowsApp()
 		   :Application(){
-	screen=(Screen*)new WindowsScreen();
-	input=(Input*)new WindowsInput();
-	//not exit form loop
-	doexit=false;
+   screen=(Screen*)new WindowsScreen();
+   input=(Input*)new WindowsInput();
+   //savename
+   appname=name;
+   /////////////////////////////////////
+   //create appdirectory
+   //init appdata folder
+   TCHAR szPath[MAX_PATH];
+   SHGetFolderPathA(((WindowsScreen*)getScreen())->hWind,
+                    CSIDL_APPDATA|CSIDL_FLAG_CREATE,
+                    NULL,
+                    0,
+                    szPath);
+   dataPath = String(szPath) + '/' + appname;
+   //create directory
+   CreateDirectory(dataPath.c_str(),0);
+   //get errors
+   DWORD error=GetLastError();
+   DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);
+   //DEBUG_ASSERT(error != ERROR_ALREADY_EXISTS);
+   /////////////////////////////////////
+   //not exit from loop
+   doexit=false;
 }
 
 WindowsApp::~WindowsApp(){
@@ -46,7 +65,7 @@ bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len){
 }
 
 String WindowsApp::appDataDirectory(){
-	return "";
+	return dataPath;
 }
 
 String WindowsApp::appWorkingDirectory(){

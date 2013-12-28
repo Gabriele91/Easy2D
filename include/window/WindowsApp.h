@@ -63,7 +63,9 @@ namespace Easy2D {
 		//local vars
 		int doexit;
 		//protected constructor
-		WindowsApp();
+		WindowsApp(const String& name);
+        //file data path
+        String dataPath;
 
 		friend class Application;
 

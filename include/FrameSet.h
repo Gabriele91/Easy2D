@@ -26,7 +26,7 @@ namespace Easy2D {
 		virtual bool load();
 		virtual bool unload();
 		//return numbers of frames 
-		DFORCEINLINE uint size(){ return frames.size(); }
+		DFORCEINLINE uint size(){ return (uint)frames.size(); }
 		DFORCEINLINE Vec2 sizeFrame(uint i){ return sizeFrames[i]; }
 		//set default time animation
 		DFORCEINLINE void setDefaultTime(float time){

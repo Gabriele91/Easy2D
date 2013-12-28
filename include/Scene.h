@@ -56,6 +56,20 @@ namespace Easy2D {
         bool sceneActive(int uid){
             return active.contains(uid);
         }
+        Scene* getScene(int uid){
+            if(sceneExist(uid))
+                return scenes[uid].child;
+            return NULL;
+        }
+                      
+        int getCurrentUID(){
+          return active.top();
+        }
+                      
+        Scene* getCurrentScene(){
+            if(active.empty()) return NULL;
+            return scenes[active.top()].child;
+        }
                       
         //add sub scene
         void addScene(int uid,Scene* scene,bool destructible=true){
@@ -82,6 +96,24 @@ namespace Easy2D {
                 scenes[active.top()].child->onPause();
                 active.pop();
             }
+        }
+        
+                      
+        Scene *eraseScene(int uid){
+          DEBUG_ASSERT(sceneExist(uid));
+          //get child
+          auto it=scenes.find(uid);
+          Scene *temp=it->second.child;
+          //if olready active
+          while(active.size() && active.top()==uid)
+              popScene();
+          //disable activation
+          while(active.contains(uid))
+              active.erase(uid);
+          //delete from map
+          scenes.erase(it);
+          //return
+          return temp;
         }
         
         //application methos

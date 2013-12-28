@@ -78,7 +78,7 @@ using namespace Easy2D;
 /**
  * cocoa app costructor
  */
-CocoaApp::CocoaApp(){
+CocoaApp::CocoaApp(const String& name){
     
     NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
     
@@ -117,6 +117,18 @@ CocoaApp::CocoaApp(){
     
 	//not exit form loop
 	doexit=false;
+    //save appname
+    appname  = name;
+    //////////////////////////////////////////////////////
+    //create path
+    NSArray* nspaths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+	dataPath = [[nspaths objectAtIndex:0] UTF8String];
+    dataPath+= "/" + appname;
+    //create directory
+    NSString *filePath=@(dataPath.c_str());
+    [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
+    [filePath release];
+    //////////////////////////////////////////////////////
 }
 
 /**
@@ -169,7 +181,7 @@ bool CocoaApp::loadData(const String& path,void*& ptr,size_t &len){
  * @return path
  */
 String CocoaApp::appDataDirectory(){
-    return "";
+    return dataPath;
 }
 /**
  * application root (read only)
@@ -187,7 +199,7 @@ String CocoaApp::appWorkingDirectory(){
  * @return path
  */
 String CocoaApp::appResourcesDirectory(){
-    return "";
+    return [[[NSBundle mainBundle] resourcePath] UTF8String];
 }
 /**
  * application exit method

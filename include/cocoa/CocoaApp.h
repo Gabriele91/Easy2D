@@ -23,7 +23,11 @@ namespace Easy2D {
 	class CocoaApp : Application{
 	public:
 		/**
-         * destroy an window application
+         * create a window application
+         */
+        CocoaApp(const String& name);
+		/**
+         * destroy a window application
          */
 		virtual ~CocoaApp();
 		/**
@@ -72,6 +76,8 @@ namespace Easy2D {
         bool doexit;
         //cocoa app pointer
         void *cocoaApp;
+        //path data files
+        String dataPath;
         //
 		CocoaApp();
 		friend class Application;

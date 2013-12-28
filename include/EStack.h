@@ -52,6 +52,10 @@ namespace Easy2D {
         bool contains(const T& t) const{
             return std::find(begin(), end(), t)!=end();
         }
+        //delete a element
+        void erase(const T& t) {
+            this->std::list<T>::erase(std::find(begin(), end(), t));
+        }
         //
         typename std::list<T>::const_iterator begin() const{
             return this->std::list<T>::begin();
