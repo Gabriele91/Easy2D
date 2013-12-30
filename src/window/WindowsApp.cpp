@@ -3,6 +3,7 @@
 #include <WindowsApp.h>
 #include <WindowsScreen.h>
 #include <WindowsInput.h>
+#include <Shlobj.h>
 #include <Debug.h>
 //window
 #include <direct.h>
@@ -10,7 +11,7 @@
 ///////////////////////
 using namespace Easy2D;
 
-WindowsApp::WindowsApp()
+WindowsApp::WindowsApp(const String& name)
 		   :Application(){
    screen=(Screen*)new WindowsScreen();
    input=(Input*)new WindowsInput();

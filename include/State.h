@@ -2,6 +2,7 @@
 #define STATEINTERFACE_H
 
 #include <Config.h>
+#include <Application.h>
 #include <Debug.h>
 
 //FSM event-driven: http://en.wikipedia.org/wiki/Event-driven_finite-state_machine
@@ -149,7 +150,12 @@ namespace Easy2D {
         int getNextStateID();
         StateInterface *getCuttentState();
         StateInterface *getNextState();
-
+		
+        //utility methos
+        Screen* getScreen();
+        Audio* getAudio();
+        Input* getInput();
+        Game* getGame();
 	};
 
 };

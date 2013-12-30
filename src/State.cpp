@@ -135,3 +135,17 @@ StateInterface *StateManager::getNextState(){
             return states[nextState].ptr;
     return NULL;
 }
+
+//utility methos
+Easy2D::Screen* StateManager::getScreen(){
+	return Application::instance()->getScreen();
+}
+Easy2D::Audio* StateManager::getAudio(){
+	return Application::instance()->getAudio();
+}
+Easy2D::Input* StateManager::getInput(){
+	return Application::instance()->getInput();
+}
+Easy2D::Game* StateManager::getGame(){
+	return Application::instance()->getGame();
+}

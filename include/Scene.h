@@ -158,11 +158,7 @@ namespace Easy2D {
                 if(scene.second.destructible)
                     delete scene.second.child;
         }
-        //utility methos
-        Screen* getScreen();
-        Audio* getAudio();
-        Input* getInput();
-        Game* getGame();
+
 
 	};
 
