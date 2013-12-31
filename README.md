@@ -15,8 +15,6 @@ Easy2D
 * Mesh support
 * [Emscripten](https://github.com/kripken/emscripten) support
 
---
-
 ## Try it
 
 Download and unpack the dependencies in Easy2D's directory:
