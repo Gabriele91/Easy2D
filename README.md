@@ -1,26 +1,41 @@
 Easy2D
 ======
 
+2D game engine easy to use and with these features:
 
- 2D game engine easy to use.
- 
---
+* Multiplatform support (Windows, Mac, Linux, Android)
+* Resources manager
+* Sprites support
+* Text and lights
+* Configuration file with proper script
+* Scene manager
+* State manager (also for A.I.)
+* Multilayer support for screen buffer
+* Node objects in a scene
+* Mesh support
+* [Emscripten](https://github.com/kripken/emscripten) support
 
-Download the dependencies and unpackaging in Easy2D's directory:
+## Try it
 
- [Depedencies-win32](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-win32.zip)
- 
- [Depedencies-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-linux64.zip)
- 
- [Depedencies-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-osx64.zip)
- 
- [Depedencies-android](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-android.zip)
- 
- [Depedencies-emscripten](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-emscripten.zip)
- 
- [Livel test](https://dl.dropboxusercontent.com/u/26656895/Easy2D/livel.zip)
+*Dependencies*:
 
- [Exemples](https://dl.dropboxusercontent.com/u/26656895/Easy2D/exemples.zip)
+* [Dependencies-win32](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-win32.zip)
+ 
+* [Dependencies-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-linux64.zip)
+ 
+* [Dependencies-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-osx64.zip)
+ 
+* [Dependencies-android](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-android.zip)
+ 
+* [Dependencies-emscripten](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-emscripten.zip)
+
+**NOTE**: download and unpack the dependencies in Easy2D's directory.
+ 
+*Test resources and examples*:
+
+* [Test level](https://dl.dropboxusercontent.com/u/26656895/Easy2D/livel.zip)
+
+* [Examples](https://dl.dropboxusercontent.com/u/26656895/Easy2D/exemples.zip)
 
 
 ##LICENSES:
