@@ -82,6 +82,6 @@ void AndroidInput::__callOnFingerRelease(const Vec3& position, Key::Finger fid) 
 		vfingersh[i]->onFingerRelease(position,fid);
 }
 void AndroidInput::__callOnAccelerometerEvent(const AccelerometerValues& acVs){
-	for(size_t i=0;i!=vfingersh.size();++i)
-		vfingersh[i]->onAcceleration(acVs);
+	for(size_t i=0;i!=vaccelerometerh.size();++i)
+		vaccelerometerh[i]->onAcceleration(acVs);
 }

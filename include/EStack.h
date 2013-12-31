@@ -10,6 +10,7 @@ namespace Easy2D {
     template <class T>
 	class EStack : protected std::list<T>{
 
+
 	public:
         
         //cosntructor
@@ -54,9 +55,15 @@ namespace Easy2D {
         }
         //delete a element
         void erase(const T& t) {
-            this->std::list<T>::erase(std::find(begin(), end(), t));
+            this->std::list<T>::erase(std::find(begin(),end(),t));
         }
-        //
+        //        
+		typename std::list<T>::iterator begin() {
+            return this->std::list<T>::begin();
+        }
+        typename std::list<T>::iterator end() {
+            return this->std::list<T>::end();
+        }
         typename std::list<T>::const_iterator begin() const{
             return this->std::list<T>::begin();
         }

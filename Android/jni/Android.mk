@@ -25,12 +25,15 @@ GLUE_H =$(wildcard $(LOCAL_PATH)/$(GLUE_PATH_INCLUDE)/*.h)
 ######################################################################
 #easy2d paths
 EASY2D_PATH_SRC= $(EASY2D_PATH)/src
+EASY2D_PATH_SRC_IMAGE= $(EASY2D_PATH)/src/Image
 EASY2D_PATH_INCLUDE= $(EASY2D_PATH)/include
 #easy2d/android paths
 EASY2D_PATH_SRC_ANDROID= $(EASY2D_PATH)/src/android
 EASY2D_PATH_INCLUDE_ANDROID= $(EASY2D_PATH)/include/android
 #cpp files
+EASY2D_C   =$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_ANDROID)/*.c)
 EASY2D_CPP =$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC)/*.cpp)
+EASY2D_CPP+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_IMAGE)/*.cpp)
 EASY2D_CPP+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_ANDROID)/*.cpp)
 #h files
 EASY2D_H =$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH)/*.h)
@@ -46,34 +49,28 @@ EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
 toRemove:= Memory.cpp
 EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
 ######################################################################
-
 #configure android build:
-
-#libs
-LOCAL_LDLIBS:=$(DIP_STATIC_LIBS:$(LOCAL_PATH)/%=%)
-LOCAL_LDLIBS+= -llog -lz -landroid -lGLESv1_CM -lGLESv2 -landroid -lEGL  -s -lgnustl_static -lsupc++ 
-
+#libs #:$(LOCAL_PATH)/%=%)
+LOCAL_LDLIBS:= -llog -lz -landroid -lGLESv1_CM -lGLESv2 -landroid -lEGL  -s -lgnustl_static -lsupc++ 
+LOCAL_LDLIBS+=$(DIP_STATIC_LIBS)
 #include
 LOCAL_C_INCLUDES:=$(LOCAL_PATH)/$(GLUE_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(DIP_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(EASY2D_PATH)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE)\
-                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)
-				  
+                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)		  
 #files
 LOCAL_SRC_FILES:=$(GLUE_C:$(LOCAL_PATH)/%=%)
-LOCAL_SRC_FILES:=$(GLUE_H:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES+=$(GLUE_H:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES+=$(EASY2D_C:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES+=$(EASY2D_CPP:$(LOCAL_PATH)/%=%)
 LOCAL_SRC_FILES+=$(EASY2D_H:$(LOCAL_PATH)/%=%)
-
 #openGL extra propriety
 LOCAL_CFLAGS += -D__STDC_LIMIT_MACROS -DDEF_SET_OPENGL_ES2 -DGL_GLEXT_PROTOTYPES
 #easy2d extra propriety
 LOCAL_CFLAGS += -DDISABLE_SIMD -DORDERED_TABLE -DDISABLE_FORCE_INLINE
-
 #-std=c++11
 LOCAL_CPPFLAGS   += -std=gnu++11 -frtti -fexceptions -DDISABLE_FORCE_INLINE
-
 #debug
 #LOCAL_CFLAGS += -g -ggdb 
 #release

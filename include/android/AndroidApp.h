@@ -80,7 +80,7 @@ namespace Easy2D {
 		//reinizialize application
 		void __reloadInstance();
 
-		AndroidApp();
+		AndroidApp(const String& appname);
 		friend class Application;
 
 	};

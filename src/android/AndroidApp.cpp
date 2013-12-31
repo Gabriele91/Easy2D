@@ -32,7 +32,7 @@ void AndroidApp::__reloadInstance(){
 		this->dodraw=true;
 }
 
-AndroidApp::AndroidApp()
+AndroidApp::AndroidApp(const String& appname)
 		   :Application(){
 	screen=(Screen*)new AndroidScreen();
 	input=(Input*)new AndroidInput();
