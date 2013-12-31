@@ -9,7 +9,7 @@ Easy2D
 * Text and lights
 * Configuration file with proper script
 * Scene manager
-* State manager (also for I.A.)
+* State manager (also for A.I.)
 * Multilayer support for screen buffer
 * Node objects in a scene
 * Mesh support
@@ -17,21 +17,25 @@ Easy2D
 
 ## Try it
 
-Download and unpack the dependencies in Easy2D's directory:
+*Dependencies*:
 
- [Dependencies-win32](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-win32.zip)
+* [Dependencies-win32](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-win32.zip)
  
- [Dependencies-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-linux64.zip)
+* [Dependencies-linux64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-linux64.zip)
  
- [Dependencies-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-osx64.zip)
+* [Dependencies-OS X 64](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-osx64.zip)
  
- [Dependencies-android](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-android.zip)
+* [Dependencies-android](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-android.zip)
  
- [Dependencies-emscripten](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-emscripten.zip)
- 
- [Test level](https://dl.dropboxusercontent.com/u/26656895/Easy2D/livel.zip)
+* [Dependencies-emscripten](https://dl.dropboxusercontent.com/u/26656895/Easy2D/dependencies-emscripten.zip)
 
- [Examples](https://dl.dropboxusercontent.com/u/26656895/Easy2D/exemples.zip)
+**NOTE**: download and unpack the dependencies in Easy2D's directory.
+ 
+*Test resources and examples*:
+
+* [Test level](https://dl.dropboxusercontent.com/u/26656895/Easy2D/livel.zip)
+
+* [Examples](https://dl.dropboxusercontent.com/u/26656895/Easy2D/exemples.zip)
 
 
 ##LICENSES:
