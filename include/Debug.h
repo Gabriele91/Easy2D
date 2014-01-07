@@ -28,8 +28,9 @@ namespace Easy2D {
 	};
 
 #ifdef _DEBUG
-
+	
 	#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
+	#define DEBUG_MESSAGE_IF( x,y )  if(x) { Debug::message()<<y<<"\n"; }
 	#define DEBUG_ASSERT( x ) Debug::doassert((x),#x,__FILE__,__LINE__)
 	#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((x),#x,__FILE__,__LINE__)
 	#define DEBUG_ASSERT_REPLACE( x ) DEBUG_ASSERT(x)
@@ -38,8 +39,9 @@ namespace Easy2D {
 	#define CHECK_GPU_ERRORS() Debug::gpucheckerrors(__FILE__,__LINE__)
 
 #else
-
+	
 	#define DEBUG_MESSAGE( x )
+	#define DEBUG_MESSAGE_IF( x,y )
 	#define DEBUG_ASSERT( x )
 	#define DEBUG_ASSERT_MSG( x,y )
 	#define DEBUG_ASSERT_MGS_REPLACE( x,y ) x

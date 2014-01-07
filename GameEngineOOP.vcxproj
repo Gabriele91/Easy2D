@@ -147,6 +147,7 @@
     <ClCompile Include="src\FrameSet.cpp" />
     <ClCompile Include="src\FreeTypeFontLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Image\Image.cpp" />
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Layer.cpp" />
@@ -241,7 +242,6 @@
     <None Include="livel\resources.rs.e2d" />
     <None Include="livel\sprite.mesh.e2d" />
     <None Include="livel\walk.frameSet.e2d" />
-    <None Include="src\Image\Image.inl" />
     <None Include="src\Thread\MutexPOSIX.inl" />
     <None Include="src\Thread\MutexWin32.inl" />
     <None Include="src\Thread\ThreadPOSIX.inl" />

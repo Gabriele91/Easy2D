@@ -201,15 +201,15 @@ void Quaternion::setFromEulero(float pitch, float yaw, float roll){
     
     float angle;
     
-	angle = pitch * 0.5;
+	angle = pitch * 0.5f;
 	const float sr = std::sin(angle);
 	const float cr = std::cos(angle);
     
-	angle = yaw * 0.5;
+	angle = yaw * 0.5f;
 	const float sp = std::sin(angle);
 	const float cp = std::cos(angle);
     
-	angle = roll * 0.5;
+	angle = roll * 0.5f;
 	const float sy = std::sin(angle);
 	const float cy = std::cos(angle);
     
@@ -307,6 +307,11 @@ void Quaternion::getEulero(Vec3& euler) const {
 	}*/
 }
 
+Quaternion Quaternion::fromLookRotation(const Vec3& lookAt,Vector3D upDirection){
+	Quaternion out;
+	out.setLookRotation(lookAt,upDirection);
+	return out;
+}
 void Quaternion::setLookRotation(const Vec3& lookAt,Vec3 upDirection) {
     
 	Vec3 forward = lookAt; Vec3 up = upDirection;
@@ -547,7 +552,7 @@ Quaternion Quaternion::fromMatrix(const Mat4& mat){
 Quaternion Quaternion::slerp(const Quaternion &q2, float time){
     
     Quaternion q1=*this;
-    const float threshold=0.05;
+    const float threshold=0.05f;
     
     float angle = q1.dot(q2);
     
@@ -560,7 +565,7 @@ Quaternion Quaternion::slerp(const Quaternion &q2, float time){
     
 	if (angle <= (1-threshold)) // spherical interpolation
 	{
-		const float theta = std::acos(angle);
+		const float theta = std::acosf(angle);
 		const float invsintheta = 1.0f/(std::sin(theta));
 		const float scale = std::sin(theta * (1.0f-time)) * invsintheta;
 		const float invscale = std::sin(theta * time) * invsintheta;

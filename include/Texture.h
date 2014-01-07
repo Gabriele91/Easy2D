@@ -13,7 +13,7 @@ namespace Easy2D {
 
 	class Texture : public Resource<Texture>{
 		//
-		bool bBilinear,chBlr,bMipmaps,chMps;
+		bool bBilinear,chBlr,bMipmaps,chMps,bFlipVertical;
 		uint width,height;
 		uint realWidth,realHeight;
         uint gpuid;
@@ -30,6 +30,9 @@ namespace Easy2D {
 		virtual ~Texture();
 		//
 		void bind(uint ntexture=0);
+		//flip vertical
+		bool flipVertical();
+		bool flipVertical(bool value);
 		//load methods
 		virtual bool load();
 		virtual bool unload();

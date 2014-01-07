@@ -17,13 +17,14 @@ namespace Easy2D {
 
 	class ResourcesGroup{
 		
-		
 		ResourcesManager<Texture> textures;
 		ResourcesManager<Table> tables;
 		ResourcesManager<Mesh> meshes;
 		ResourcesManager<FrameSet> frameSets;
 		ResourcesManager<Font> fonts;
 		
+	public:
+
 		template<typename T> 
 		ResourcesManager<T>& getManager(){ return NULL; }
 		
@@ -40,6 +41,8 @@ namespace Easy2D {
 			template<> 
 			ResourcesManager<Font>& getManager<Font>(){ return fonts; }
 		#endif
+
+	private:
 
 		//teble resources
 		Table resources;

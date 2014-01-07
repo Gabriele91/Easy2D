@@ -23,10 +23,10 @@ namespace Easy2D{
 				 ,reloadable(true)
 				 ,rpath(sfile){};
 		//destroy resource
-		void release(){
+		void release(bool dtach=true){
 			if(((T*)this)->T::isLoad()) 
 					((T*)this)->T::unload();
-		};
+		}
 		//getter
 		virtual bool isLoad(){
 			return loaded;

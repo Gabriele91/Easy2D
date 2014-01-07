@@ -15,6 +15,7 @@ Texture::Texture(ResourcesGroup *rsmr,
 				,chBlr(true)
 				,bMipmaps(true)
 				,chMps(true)
+				,bFlipVertical(false)
 				,width(0)
 				,height(0)
 				,gpuid(0)
@@ -28,7 +29,14 @@ Texture::~Texture(){
 	//release resource
 	release();
 }
-
+//flip vertical
+bool Texture::flipVertical(){
+	return bFlipVertical;
+}
+bool Texture::flipVertical(bool value){
+	return bFlipVertical=value;
+}
+//texture enable
 void Texture::bind(uint ntexture){
 	//
 	DEBUG_ASSERT(gpuid);
@@ -131,6 +139,8 @@ bool Texture::load(){
 	image.loadFromData(data,
 					   len,
 					   Image::getTypeFromExtetion(rpath.getExtension()));
+	if(bFlipVertical)
+		image.flipY();
 	//free raw file
 	free(data);
 	/////////////////////////////////////////////////////////////////////
@@ -153,14 +163,16 @@ bool Texture::load(){
 		offsetUV.x=(float)width/realWidth;
 		offsetUV.y=(float)height/realHeight;
 	}
-	//resize
-	GLuint typeInternal=image.type;
-#ifndef OPENGL_ES
-	GLuint type= image.type==GL_ALPHA8 ? GL_ALPHA : image.type;
+#ifdef OPENGL_ES
+	DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: android not support alpha texture");
+	if(image.type==TYPE_ALPHA8)
+		image.convertAlphaTo32bit();	
+	GLuint type=image.type;
 #else	
-	DEBUG_ASSERT_MSG(image.type!=GL_ALPHA8,"Texture: android not support alpha texture");
-	GLuint type= image.type;
+	GLuint type= image.type== GL_ALPHA8 ? GL_ALPHA : image.type;
 #endif
+	//save internal type
+	GLuint typeInternal=image.type;
 	//create a gpu texture
 	glTexImage2D(
 			GL_TEXTURE_2D,
@@ -174,7 +186,8 @@ bool Texture::load(){
 			NULL );
 #ifndef DISABLE_MIDMAP
 	//create mipmaps
-	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
+	if(bMipmaps) 
+		glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
 #endif
 	//send to GPU
     glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,

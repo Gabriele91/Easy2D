@@ -604,13 +604,15 @@ namespace Easy2D{
         void setMatrix(const Mat4& mat);
         static Quaternion fromMatrix(const Mat4& mat);
         
-		///set pitch, yaw and roll
-		static  Quaternion fromEulero(const Vec3& pwr);
-        void setFromEulero(float pitch, float yaw, float roll);
-		void setFromEulero(const Vec3& pyr){
-			setFromEulero(pyr.x,pyr.y,pyr.z);
-		}
-		void setLookRotation(const Vector3D &lookAt,Vector3D up);
+        ///set pitch, yaw and roll
+        static  Quaternion fromEulero(const Vec3& pwr);
+		void setFromEulero(float pitch, float yaw, float roll);
+        void setFromEulero(const Vec3& pyr){
+                setFromEulero(pyr.x,pyr.y,pyr.z);
+        }
+        //look at vector
+        static  Quaternion fromLookRotation(const Vec3& lookAt,Vector3D up);
+        void setLookRotation(const Vector3D &lookAt,Vector3D up);
         
 		///return pitch, yaw and roll
 		void getEulero(Vec3& euler) const ;
@@ -828,6 +830,10 @@ namespace Easy2D{
 		//radians and degrees
 		static DFORCEINLINE float torad(float deg) { return deg*PIOVER180; }
 		static DFORCEINLINE float todeg(float rad) { return rad*G180OVERPI; }
+        static DFORCEINLINE float normaliseOrientation(float rot){
+                rot=std::fmodf(rot,(float)Math::PI2);
+                return rot<0 ? rot+=Math::PI2 : rot;
+        }
 		//fast swap
 		template<typename T>
 		static DFORCEINLINE void swap(T& x,T& y){
@@ -835,6 +841,24 @@ namespace Easy2D{
 			 x = std::move(y);
 			 y = std::move(temp);
 		}
+		//infinite
+        template<typename T>
+        static DFORCEINLINE bool isinf(T x){
+                #ifdef COMPILER_VISUAL_STUDIO
+                        return _finite(x)==0;
+                #else
+                        return std::isinf(x);
+                #endif
+        }
+        //nan
+        template<typename T>
+        static DFORCEINLINE bool isnan(T x){
+                #ifdef COMPILER_VISUAL_STUDIO
+                        return _isnan(x);
+                #else
+                        return std::isnan(x);
+                #endif
+        }
 		//min
 		template<typename T>
 		static DFORCEINLINE T min(T x,T y){

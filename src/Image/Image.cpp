@@ -1,46 +1,31 @@
 #define _CRT_NONSTDC_NO_WARNINGS
 #define _CRT_SECURE_NO_DEPRECATE
-
+#include <stdafx.h>
 #include <stdio.h>
 #include <string.h>
+#include <memory.h>
 #include "Image.h"
 #define LODEPNG_COMPILE_DECODER
 #include "lodepng.h"
+//using name space
+using namespace Easy2D;
 
 //safe copy
 #ifdef _MSC_VER
-	#define IMG_STRNCPY(d,s,l) strcpy_s(d,l,s)
+	//#define IMG_STRNCPY(d,s,l) strcpy_s(d,l,s)
 #else
-	#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)
+	//#define IMG_STRNCPY(d,s,l) strncpy(d,s,l)
 #endif
 
-
-#ifdef IMAGE_LOADER_OPENGL
-	#define TYPE_RGB GL_RGB
-	#define TYPE_RGBA GL_RGBA
-	#define TYPE_ALPHA8 GL_ALPHA8
-#else
-	#define TYPE_RGB 3
-	#define TYPE_RGBA 4
-	#define TYPE_ALPHA8 1
-#endif
 /*
-* HEADERS
+* IMAGE HEADERS
 */
-/* packaging */
-#ifdef _MSC_VER
-#define GCCALLINEAMENT
-#else
-#define GCCALLINEAMENT __attribute__((__packed__))
-#endif
-#ifdef _MSC_VER
- #pragma pack(1)
-#endif
 /* TGA 2 HEADERS */
 #define TGA_RGB		2
 #define TGA_A		3
 #define TGA_RLE		10
-typedef struct TgaHeader
+
+ASPACKED(struct TgaHeader
 {
 	Image::BYTE  identsize;          // size of ID field that follows 18 byte header (0 usually)
     Image::BYTE  colourmaptype;      // type of colour map 0=none, 1=has palette
@@ -59,17 +44,17 @@ typedef struct TgaHeader
 
     // pixel data follows header
 
-}GCCALLINEAMENT TgaHeader;
+});
 /* BITMAP HEADERS */
 #define LOCAL_BI_RGB 0
-typedef struct  BitmapFileHeader {
+ASPACKED(struct  BitmapFileHeader {
   unsigned short bfType;
   unsigned long bfSize;
   unsigned short bfReserved1;
   unsigned short bfReserved2;
   unsigned long bfOffBits;
-}GCCALLINEAMENT BitmapFileHeader;
-typedef struct  BitmapInfoHeader {
+});
+ASPACKED(struct  BitmapInfoHeader {
   unsigned long biSize;
   long  biWidth;
   long  biHeight;
@@ -81,14 +66,14 @@ typedef struct  BitmapInfoHeader {
   long  biYPelsPerMeter;
   unsigned long biClrUsed;
   unsigned long biClrImportant;
-}GCCALLINEAMENT BitmapInfoHeader;
+});
 /* ICO HEADERS */
-typedef struct  IcosHeader{
+ASPACKED(struct  IcosHeader{
 	unsigned short reserved; // to be 0
 	unsigned short icoOrCur; // 1 ico, 2 cur
 	unsigned short icoCount; //number of ico
-}GCCALLINEAMENT IcosHeader;
-typedef struct  IcoHeaderInfo{
+});
+ASPACKED(struct  IcoHeaderInfo{
 	unsigned char width;     // 1 to 255, 0 is 256
 	unsigned char height;    // 1 to 255, 0 is 256
 	unsigned char npalette;  // number of palette colors (0=no palette color)
@@ -97,14 +82,10 @@ typedef struct  IcoHeaderInfo{
 	unsigned short bitspixel;//bits per pixel
 	unsigned int   size;	 //size of the image's data in bytes
 	unsigned int   offset;   //Specifies the offset of BMP or PNG data from the beginning of the ICO/CUR file
-}GCCALLINEAMENT IcoHeaderInfo;
-
-#ifdef _MSC_VER
-#pragma pack(0)
-#endif
+});
 
 //costruttore
-Image::Image():name(""){
+Image::Image():name(""),width(0),height(0),channels(0){
      bytes=NULL;
 }
 Image::Image(const std::string& path):name(""){
@@ -140,8 +121,11 @@ void Image::makeImage(int width,int height,int bits,bool set_default_color,const
 void Image::loadImage(const std::string& path){
     ////////////////////////////////////
 	//get ext
-    char tempstring[4] = {0};
-	IMG_STRNCPY(tempstring, path.c_str() + path.size()-3, 3);
+	char tempstring[4] = {0};
+	tempstring[0]=*(path.c_str() + path.size()-3);
+	tempstring[1]=*(path.c_str() + path.size()-2);
+	tempstring[2]=*(path.c_str() + path.size()-1);
+	tempstring[3]='\0';
 	//load from file
 	switch (getTypeFromExtetion(tempstring))
 	{
@@ -189,8 +173,6 @@ Image::ImageType Image::getTypeFromExtetion(const std::string& _ext){
 		return TGA;
 	else
 		return NONE;
-#define LODEPNG_COMPILE_DECODER
-#include "lodepng.h"
 }
 void Image::loadFromData(void *data,unsigned int size,ImageType type){
 	switch (type)
@@ -218,23 +200,17 @@ void Image::loadFromData(void *data,unsigned int size,ImageType type){
 }
 //salvo in un file TGA
 void Image::save(const std::string& path){
-
+	char tempstring[4] = {0};
+	tempstring[0]=*(path.c_str() + path.size()-3);
+	tempstring[1]=*(path.c_str() + path.size()-2);
+	tempstring[2]=*(path.c_str() + path.size()-1);
+	tempstring[3]='\0';
+	ImageType type=getTypeFromExtetion(tempstring);
     ////////////////////////////////////
-    char tempstring[5] = {0};
-	IMG_STRNCPY(tempstring, path.c_str() + path.size()-4, 4);
-    char c;
-    int i=0;
-    while (tempstring[i])
-    {
-     c=tempstring[i];
-     tempstring[i]=tolower(c);
-     i++;
-    }
-    ////////////////////////////////////
-	if(!strcmp(tempstring, ".bmp")){
+	if(type==Image::BMP){
 			save_BMP(this,path);
 	}else
-	 if(!strcmp(tempstring, ".tga")){
+	 if(type==Image::TGA){
 			save_TGA(this,path);
 	}
 
@@ -542,9 +518,9 @@ void Image::convert16to24bit(bool freebuffer){
 }
 void Image::swapRandBbits(){
 	for(unsigned int  i = 0; i < width * height ; ++i){
+        BYTE tmp=bytes[i * channels + 0];
 		bytes[i * channels + 0] = bytes[i * channels + 2];
-		bytes[i * channels + 1] = bytes[i * channels + 1];
-		bytes[i * channels + 2] = bytes[i * channels + 0];
+		bytes[i * channels + 2] = tmp;
 	}
 }
 void Image::decoderRLE(bool freebuffer){
@@ -600,6 +576,26 @@ void Image::convert32to24bit(bool freebuffer){
 	//free alloc
 	if(freebuffer) free(bytes32);
 }
+void Image::convertAlphaTo32bit(bool freebuffer){
+	//if 8 bit?
+	if(channels!=1) return;
+	//save old buffer
+	char *bytes8=(char*)bytes;
+	//new buffer
+	channels=4;
+	bytes=(BYTE*)malloc(width * height * channels * sizeof(BYTE));
+	//copy values...
+	for(unsigned int i=0;i<width * height;++i){
+		bytes[i*4  ]=255;
+		bytes[i*4+1]=255;
+		bytes[i*4+2]=255;
+		bytes[i*4+3]=bytes8[i];
+	}
+	//now is a RBGA
+	type = TYPE_RGBA ;
+	//free alloc
+	if(freebuffer) free(bytes8);
+}
 //
 void Image::scaleLine(BYTE *source,
 					  int srcWidth,
@@ -636,7 +632,7 @@ void Image::scaleLine(BYTE *source,
 void Image::scale(unsigned int newWidth,unsigned int newHeight){
 
 	BYTE *newbytes=NULL;
-	if(newbytes=(BYTE *)malloc(channels*newWidth*newHeight)){
+	if((newbytes=(BYTE *)malloc(channels*newWidth*newHeight))){
 
 		  int numPixels = newHeight;
 		  int part = (height / newHeight) * newWidth * channels;
@@ -685,7 +681,7 @@ Image* Image::getImageFromScreen(int width,int height){
 	out_img->height=height;
     out_img->channels=4;
     out_img->type=TYPE_RGBA;
-    out_img->bytes=(BYTE*)malloc(width * height * 4);  ;
+    out_img->bytes=(BYTE*)malloc(width * height * 4);  
 	#ifdef IMAGE_LOADER_OPENGL
 		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, out_img->bytes);
 	#endif
@@ -709,10 +705,10 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 
 		img->bytes=(BYTE*)malloc(sizeImage);
 		memcpy(img->bytes,dataImage,sizeImage);
-		//if( tgaHeader->descriptor & 0x20 )//(vh flip bits) // 00vhaaaa
-		//	img->flipY();//v vertical flip
-		//if( tgaHeader->descriptor & 0x10 )//(vh flip bits) // 00vhaaaa
-		//	img->flipX();//h flip
+		if( tgaHeader->descriptor & 0x20 )//(vh flip bits) // 00vhaaaa
+			img->flipY();//v vertical flip
+		if( tgaHeader->descriptor & 0x10 )//(vh flip bits) // 00vhaaaa
+			img->flipX();//h flip
 	}
 	else{ //RLE LOOK LIKE N[RGB] N-> numbers repeat value rgb
 		img->bytes=dataImage;
@@ -731,9 +727,7 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize){
 		img->swapRandBbits();
 	}
 	else if(img->channels==1){
-#ifndef OPENGL_ES
 		img->type  =TYPE_ALPHA8;
-#endif
 	}
 }
 void Image::load_TGA(Image* img,const std::string& path){
@@ -891,7 +885,7 @@ void Image::loadBuffer_PNG(Image* img,BYTE *buffer,size_t bfsize){
 				  bfsize);
     //SAVE DATA
     img->channels=lodepng_get_channels(&state.info_png.color);
-	img->type  =img->channels==4? TYPE_RGBA : TYPE_RGB ;
+	img->type=img->channels==4? TYPE_RGBA : TYPE_RGB ;
     img->width=tmpwidth;
     img->height=tmpheight;
     //FREE
@@ -909,32 +903,3 @@ void Image::load_PNG(Image* img,const std::string& path){
 		free(buffer);
 	}
 }
-
-//UNDEF
-#ifdef GCCALLINEAMENT
-#undef GCCALLINEAMENT
-#endif
-
-#ifdef TYPE_RGB
-#undef TYPE_RGB
-#endif
-#ifdef TYPE_RGBA
-#undef TYPE_RGBA
-#endif
-
-#ifdef TGA_RGB
-#undef TGA_RGB
-#endif
-#ifdef TGA_A
-#undef TGA_A
-#endif
-#ifdef TGA_RLE
-#undef TGA_RLE
-#endif
-
-#ifdef LOCAL_BI_RGB
-#undef LOCAL_BI_RGB
-#endif
-#ifdef IMG_STRNCPY
-#undef IMG_STRNCPY
-#endif

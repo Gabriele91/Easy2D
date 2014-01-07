@@ -63,10 +63,10 @@
 
     #if TARGET_OS_IPHONE
 		#define PLATFORM_IPHONE
-
+		#define PLATFORM_IOS
     #elif TARGET_IPHONE_SIMULATOR
 		#define PLATFORM_IPHONE_SIMULATOR
-
+		#define PLATFORM_IOS
     #elif TARGET_OS_MAC
 		#define PLATFORM_MAC_OS_X
         #define PLATFORM_OSX

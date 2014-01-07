@@ -153,6 +153,9 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Image\Image.cpp">
+      <Filter>File di origine\Image</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -325,9 +328,6 @@
     </None>
     <None Include="src\Thread\ThreadWin32.inl">
       <Filter>File di origine\Thread</Filter>
-    </None>
-    <None Include="src\Image\Image.inl">
-      <Filter>File di origine\Image</Filter>
     </None>
     <None Include="livel\resources.rs.e2d">
       <Filter>File di risorse</Filter>

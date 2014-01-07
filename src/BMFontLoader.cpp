@@ -110,6 +110,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 												 fontPath.getDirectory()+"/"+filename);
 					pageTex->bilinear(false);
 					pageTex->mipmaps(false);
+					pageTex->flipVertical(true);
 					pageTex->load();
 					font.addPage(Texture::ptr(pageTex));
 					//next string
