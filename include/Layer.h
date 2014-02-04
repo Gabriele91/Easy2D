@@ -8,32 +8,32 @@
 namespace Easy2D {
 	//
 	class Layer {
-	
+
 		bool visible;
-	
+
 	protected:
 
 		DFORCEINLINE void updateRenderable(Renderable *rnd, float dt){
 			rnd->update(dt);
 		}
 		Layer():visible(true){}
-        
+
 	public:
 		//
 		virtual Renderable* next()=0;
 		//
-		virtual void change()=0;	
-		virtual void dosort()=0;	
-		virtual void update(float dt)=0;		
+		virtual void change()=0;
+		virtual void dosort()=0;
+		virtual void update(float dt)=0;
 		//
-		virtual void addRenderable(Renderable *rnd){			
+		virtual void addRenderable(Renderable *rnd){
 			rnd->rlayer=this;
 		};
-		virtual void erseRenderable(Renderable *rnd){			
+		virtual void erseRenderable(Renderable *rnd){
 			rnd->rlayer=NULL;
 		};
 		//
-		DFORCEINLINE bool isVisible(){ 
+		DFORCEINLINE bool isVisible(){
 			return visible;
 		}
 		DFORCEINLINE void show(){
@@ -46,7 +46,7 @@ namespace Easy2D {
 	};
 
 	class LayerUnorder : public Layer {
-	
+
 		//std::list
 		std::list<Renderable *> renderables;
 		//it list
@@ -66,12 +66,12 @@ namespace Easy2D {
 			return NULL;
 		}
 		//
-		virtual void change(){};	
-		virtual void dosort(){};	
+		virtual void change(){};
+		virtual void dosort(){};
 		virtual void update(float dt){
 			for(auto renderable:renderables)
 				updateRenderable(renderable,dt);
-		}	
+		}
 		//
 		virtual void addRenderable(Renderable *rnd){
 			this->Layer::addRenderable(rnd);
@@ -86,13 +86,13 @@ namespace Easy2D {
 	};
 
 	class LayerOrder : public Layer {
-	
+
 		//reorder?
 		bool reorder;
 		//std vector
 		std::vector<Renderable*> renderables;
 		//it
-		int it;		
+		size_t it;
 		//vector comparation items
 		static bool operator_lt(const Renderable* lrs,const Renderable* rrs);
 
@@ -101,7 +101,7 @@ namespace Easy2D {
 		LayerOrder():Layer(),reorder(true),it(0){}
 		//get Renderable
 		virtual Renderable* next(){
-			if(it<renderables.size()) 
+			if(it<renderables.size())
 				return renderables[it++];
 			else it=0;
 			return NULL;
@@ -109,7 +109,7 @@ namespace Easy2D {
 		//
 		virtual void change(){
 			reorder=true;
-		}	
+		}
 		virtual void dosort();
 		virtual void update(float dt){
 			for(auto renderable:renderables)
@@ -128,7 +128,7 @@ namespace Easy2D {
 		}
 		//
 
-	};	
+	};
 };
 
 #endif

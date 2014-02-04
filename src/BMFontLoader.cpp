@@ -91,7 +91,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 	fntBuffer[3]==3);
 	fntBuffer+=4;
 
-	while((fntBuffer-startFntBuffer)<fntLen){
+	while(size_t(fntBuffer-startFntBuffer)<fntLen){
 		readBlockSize(fntBuffer,blockSize)
 		switch (blockSize->type)
 		{
@@ -105,13 +105,11 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 			break;
 			case 3: {
 				char *localFntBuffer=fntBuffer;
-				while(localFntBuffer<fntBuffer+blockSize->size){
+				while(size_t(localFntBuffer)<(size_t)(fntBuffer+blockSize->size)){
 					//load image
 					String filename(localFntBuffer);
-					Texture *pageTex=new Texture(&font.getResourcesManager()
-													  ->getResourcesGroup()
-													  ->getManager<Texture>(),
-												 fontPath.getDirectory()+"/"+filename);
+					Texture* pageTex=new Texture(&font.getResourcesManager()->getResourcesGroup()->getManager<Texture>(),
+                                                  fontPath.getDirectory()+"/"+filename);
 					pageTex->bilinear(false);
 					pageTex->mipmaps(false);
 					pageTex->flipVertical(true);

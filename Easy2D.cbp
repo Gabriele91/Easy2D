@@ -76,6 +76,7 @@
 					<Add option="-g" />
 					<Add option="-std=gnu++0x" />
 					<Add option="-fpermissive" />
+					<Add option="-mno-ms-bitfields" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-D_WIN32" />
@@ -106,6 +107,7 @@
 					<Add option="-O2" />
 					<Add option="-std=gnu++0x" />
 					<Add option="-fpermissive" />
+					<Add option="-mno-ms-bitfields" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-D_WIN32" />
 					<Add option="-DENABLE_SIMD" />

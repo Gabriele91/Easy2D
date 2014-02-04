@@ -654,7 +654,7 @@
 	<Config.h>
 	<Math3D.h>
 
-1377244187 c:\users\gabriele\documents\github\easy2d\include\render.h
+1391456543 c:\users\gabriele\documents\github\easy2d\include\render.h
 	<Config.h>
 	<Screen.h>
 	<Camera.h>
@@ -667,7 +667,7 @@
 	<Config.h>
 	<Object.h>
 
-1374860242 c:\users\gabriele\documents\github\easy2d\include\layer.h
+1391512847 c:\users\gabriele\documents\github\easy2d\include\layer.h
 	<Config.h>
 	<Camera.h>
 	<Renderable.h>
@@ -1436,7 +1436,7 @@
 1372498593 c:\users\gabriele\documents\github\easy2d\include\blend.h
 	<Config.h>
 
-1389169065 source:c:\users\gabriele\documents\github\easy2d\src\bmfontloader.cpp
+1391515499 source:c:\users\gabriele\documents\github\easy2d\src\bmfontloader.cpp
 	<stdafx.h>
 	<BMFontLoader.h>
 	<Application.h>
@@ -1575,4 +1575,12 @@
 	<stdafx.h>
 	<State.h>
 	<Application.h>
+
+1388948507 source:c:\users\gabriele\documents\github\easy2d\src\image\image.cpp
+	<stdafx.h>
+	<stdio.h>
+	<string.h>
+	<memory.h>
+	"Image.h"
+	"lodepng.h"
 
