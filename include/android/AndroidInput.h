@@ -211,6 +211,10 @@ namespace Easy2D {
 			void __callOnFingerDown(const Vec3& fingerPosition, Key::Finger fingerId);
 			void __callOnFingerRelease(const Vec3& fingerPosition, Key::Finger fingerId);
 			void __callOnAccelerometerEvent(const AccelerometerValues& acVs);
+			//window
+			void __callOnFocus(bool focus);
+			void __callOnResize(Vec2 size);
+			void __callOnClose();
 			//hide constructor
 			AndroidInput();
 			//friends class

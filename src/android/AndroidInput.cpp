@@ -50,6 +50,28 @@ AndroidInput::AndroidInput(){
 			((AndroidInput*)Application::instance()->getInput())
 				->__callOnAccelerometerEvent(accelerometerVs);
 	});
+	//window events
+	onGetFocusAndroid(
+	[](void* data){
+		((AndroidInput*)Application::instance()->getInput())->ewindow.focus=true;
+		((AndroidInput*)Application::instance()->getInput())->__callOnFocus(true);
+	});
+	onLostFocusAndroid(
+	[](void* data){
+		((AndroidInput*)Application::instance()->getInput())->ewindow.focus=false;
+		((AndroidInput*)Application::instance()->getInput())->__callOnFocus(false);
+	});
+	onTermAndroid(
+	[](void* data){
+		((AndroidInput*)Application::instance()->getInput())->ewindow.close=true;
+		((AndroidInput*)Application::instance()->getInput())->__callOnClose();
+	});
+	onWindowResized(
+	[](void* data,int w,int h){
+		((AndroidInput*)Application::instance()->getInput())->ewindow.resize=true;
+		((AndroidInput*)Application::instance()->getInput())->ewindow.windowResize=Vec2((float)w,(float)h);
+		((AndroidInput*)Application::instance()->getInput())->__callOnResize(Vec2((float)w,(float)h));
+	});
 }
 
 void AndroidInput::update(){
@@ -63,7 +85,19 @@ void AndroidInput::update(){
 	efingers.__update(this);
 }
 
-
+//window
+void AndroidInput::__callOnFocus(bool focus) {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onFocus(focus);
+}
+void AndroidInput::__callOnClose() {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onClose();
+}
+void AndroidInput::__callOnResize(Vec2 size){
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onResize(size);
+}
 //Finger
 void AndroidInput::__callOnFingerMove(const Vec3& position, Key::Finger fid) {
 	for(size_t i=0;i!=vfingersh.size();++i)

@@ -105,23 +105,30 @@ namespace Easy2D {
 		/**
 		* save a resourcesGroup
 		*/
-		virtual void addResourcesGroup(ResourcesGroup *rsGr){};
+		virtual void subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr);
+		/**
+		* get a resourcesGroup
+		*/
+		virtual ResourcesGroup* getResourcesGroup(const String& name);
 		/**
 		* erase a resourcesGroup
 		*/
-		virtual void eraseResourcesGroup(ResourcesGroup *rsGr){};
+		virtual void unsubscriptionResourcesGroup(const String& name);
 
 	protected:
         
+		//resources group map
+		DUNORDERED_MAP< String, ResourcesGroup* > groups;
+		//
         String appname;
         float lastDeltaTime;
 		Game *mainInstance;
 		Screen *screen;
 		Input *input;
 		Audio *audio;
+		//
 		Application();
 		static Application* appSingleton;
-
 	};
 
 };

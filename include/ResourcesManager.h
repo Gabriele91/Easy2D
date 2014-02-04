@@ -1,11 +1,10 @@
 #ifndef RESOURCEMANAGER_H
 #define RESOURCEMANAGER_H
-
 #include <Config.h>
 #include <Debug.h>
 #include <EString.h>
-#include <Table.h>
 #include <Resource.h>
+#include <Table.h>
 
 namespace Easy2D{
 
@@ -60,10 +59,13 @@ namespace Easy2D{
 				String path(pathFromName(objectname));
 				if(path!=String() /* void string */){
 					//
-					DS_PTR<T> resource(new T(rsgr,mapResources->getPath().getDirectory()+"/"+path));
+					DS_PTR<T> resource(new T(this,mapResources->getPath().getDirectory()+"/"+path));
 					//set into map
-					resource->Resource<T>::name=objectname;
 					rsMap[objectname]=resource;
+					resource->Resource<T>::setName(objectname);
+					resource->Resource<T>::setReleaseCallBack([this](Resource<T>* rs){
+						this->erase(rs->getName());
+					});
 					//
 					return resource;
 				}
@@ -112,6 +114,10 @@ namespace Easy2D{
 				//erase a resources reference
 				rsMap.erase(objectname);
 			}
+			//
+			ResourcesGroup* getResourcesGroup(){
+				return rsgr;
+			}
 
 		private:
 			//ptr resource group			
@@ -130,7 +136,6 @@ namespace Easy2D{
 						itr.second.lock()->load();	
 			}
 	};
-
 };
 
 #endif

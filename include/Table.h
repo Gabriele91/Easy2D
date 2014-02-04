@@ -4,8 +4,8 @@
 #include <Config.h>
 #include <Math3D.h>
 #include <EString.h>
-#include <Resource.h>
 #include <iostream>
+#include <Resource.h>
 
 namespace Easy2D{
 
@@ -134,7 +134,7 @@ namespace Easy2D{
 
 
 		/* costructor */
-		Table(ResourcesGroup *rsmr,
+		Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile="");
         Table(const Table& cptable);
 		Table();

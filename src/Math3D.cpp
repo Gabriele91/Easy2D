@@ -565,7 +565,7 @@ Quaternion Quaternion::slerp(const Quaternion &q2, float time){
     
 	if (angle <= (1-threshold)) // spherical interpolation
 	{
-		const float theta = std::acosf(angle);
+		const float theta = std::acos(angle);
 		const float invsintheta = 1.0f/(std::sin(theta));
 		const float scale = std::sin(theta * (1.0f-time)) * invsintheta;
 		const float invscale = std::sin(theta * time) * invsintheta;

@@ -15,8 +15,8 @@
 using namespace Easy2D;
 ///////////////////////
 //costructor
-Font::Font(ResourcesGroup *rsgr,const String& path)
-	:Resource(rsgr,path)
+Font::Font(ResourcesManager<Font> *rsmr,const String& path)
+	:Resource(rsmr,path)
 	,fontSize(0)
 	,isBMFont(false)
 {}

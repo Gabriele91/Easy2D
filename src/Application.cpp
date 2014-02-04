@@ -61,3 +61,26 @@ Application *Application::create(const String& name){
 Application *Application::instance(){
 	return appSingleton;
 }
+
+/**
+* save a resourcesGroup
+*/
+void Application::subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr){
+	DEBUG_ASSERT(rsGr);
+	groups[name]=rsGr;
+}
+/**
+* get a resourcesGroup
+*/
+ResourcesGroup* Application::getResourcesGroup(const String& name){
+	auto it=groups.find(name);
+	if(it!=groups.end()) return it->second;
+	return NULL;
+}
+/**
+* erase a resourcesGroup
+*/
+void Application::unsubscriptionResourcesGroup(const String& name){
+	auto it=groups.find(name);
+	if(it!=groups.end()) groups.erase(it);
+}

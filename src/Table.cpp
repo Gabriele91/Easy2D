@@ -2,10 +2,11 @@
 #include <Table.h>
 #include <Debug.h>
 #include <Application.h>
+#include <ResourcesManager.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-Table::Table(ResourcesGroup *rsmr,
+Table::Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile)
 			:Resource(rsmr,pathfile)
 			,index(0)
@@ -351,6 +352,7 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
 					key=Table::KeyTable(str);
 					jmpNewKey=true;
 					//
+					++prtC; //jmp =
 				}
 				else
 					setPt(key,str);

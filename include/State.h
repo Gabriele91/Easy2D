@@ -156,6 +156,7 @@ namespace Easy2D {
         Audio* getAudio();
         Input* getInput();
         Game* getGame();
+		ResourcesGroup* getResourcesGroup(const String& name);
 	};
 
 };

@@ -5,18 +5,34 @@
 using namespace Easy2D;
 ///////////////////////
 
-ResourcesGroup::ResourcesGroup(const Utility::Path& path,
+ResourcesGroup::ResourcesGroup(const String& rsname,
+							   const Utility::Path& path,
                                const String& version)
                                :resources(NULL,path)
                                ,version(version)
 {
     loadResourceFile();
+	subscription(rsname);
 }
 
 ResourcesGroup::ResourcesGroup():version("default")
 {
 }
-
+void ResourcesGroup::subscription(const String& rgname){
+	//debug
+	DEBUG_ASSERT(rgname.size());
+	DEBUG_ASSERT(name.size()==0);
+	//save name
+	name=rgname;
+	//regist this resource group
+	Application::instance()->subscriptionResourcesGroup (name,this);
+}
+void ResourcesGroup::unsubscription(){
+	//debug
+	DEBUG_ASSERT(name.size());
+	//unregist this resource group
+	Application::instance()->unsubscriptionResourcesGroup(name);
+}
 void ResourcesGroup::loadResourceFile(){
 	//load table
 	resources.load();
@@ -26,24 +42,23 @@ void ResourcesGroup::loadResourceFile(){
 	loadAResource(resources.getPath(),"meshes",meshes);
 	loadAResource(resources.getPath(),"frameSets",frameSets);
 	loadAResource(resources.getPath(),"fonts",fonts);
-	//regist this resource group
-	Application::instance()->addResourcesGroup(this);
 
 }
 
-void ResourcesGroup::addResourceFiles(const Utility::Path& path,
+void ResourcesGroup::addResourceFiles(const String& rsname,
+									  const Utility::Path& path,
                                       const String& argversion){
     
     DEBUG_ASSERT_MSG(!resources.isLoad(), "ResourcesGroup addResourceFiles: resource file olready added");
     version=argversion;
     resources=Table(NULL,path);
     loadResourceFile();
-    
+	subscription(rsname);
 }
 
 ResourcesGroup::~ResourcesGroup(){	
 	//unregist this resource group
-	Application::instance()->eraseResourcesGroup(this);
+	unsubscription();
 }
 
 /** reload only gpu resource */

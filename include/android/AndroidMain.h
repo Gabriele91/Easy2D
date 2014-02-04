@@ -32,7 +32,7 @@ extern "C"{
 	void onSaveStateAndroid(void (*function)(void* data));
     void onConfigChange(void (*function)(void* data));
 	void onPauseAndroid(void (*function)(void* data));
-	void onWindowResized(void (*function)(void* data));
+	void onWindowResized(void (*function)(void* data,int width,int height));
 	void onGetFocusAndroid(void (*function)(void* data));
 	void onLostFocusAndroid(void (*function)(void* data));
 	//input update (in loop)

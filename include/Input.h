@@ -152,7 +152,6 @@ namespace Easy2D {
 				FINGER10,
 				FINGERMAX
 			};
-            
 			#ifdef COMPILER_VISUAL_STUDIO
 				#include "InputList.h"
 			#else
@@ -167,7 +166,12 @@ namespace Easy2D {
 			#endif
                         
 		};
-    
+		namespace Window{
+			enum State{
+				MINIMIZED,
+				MAXIMIZED
+			};
+		};
 
 		/**
 		* @class Input
@@ -221,6 +225,15 @@ namespace Easy2D {
 					virtual void onMouseRelease(Vec2 mousePosition, Key::Mouse button) {}
 					virtual void onMouseScroll(short scrollDelta) {}
 			};
+			class WindowHandler{
+				public:
+					//window
+					virtual void onFocus(bool focus) {}
+					virtual void onChangeState(Window::State windowState) {}
+					virtual void onClose() {}
+					virtual void onResize(Vec2 size) {}
+
+			};
 
 			/**
 			* Destructor
@@ -247,11 +260,6 @@ namespace Easy2D {
 			* call this method in a loop
 			*/
 			virtual void update()=0;
-			/**
-			* Return true if window has focus
-			* @return focus status
-			*/
-			virtual bool getFocus() const=0;
 			/**
 			* Return true if keyboard button is down
 			* @param key's id
@@ -311,6 +319,11 @@ namespace Easy2D {
 			* @return status
 			*/
 			virtual bool getFingerHit(Key::Finger id) const=0;
+			/**
+			* Return true if window has focus
+			* @return focus status
+			*/
+			virtual bool getFocus() const=0;
 			/**
 			* Return true if window minimized
 			* @return window status
@@ -419,6 +432,8 @@ namespace Easy2D {
 				std::vector<FingersHandler*> vfingersh;
 				std::vector<AccelerometerHandler*> vaccelerometerh;
 				std::vector<MouseHandler*> vmouseh;
+				std::vector<WindowHandler*> vwindowh;
+				
 				/*
 				//window
 				struct EventWindow{

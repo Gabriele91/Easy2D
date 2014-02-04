@@ -12,7 +12,8 @@
 namespace Easy2D {
 
 	class Render {
-		//
+	protected:
+
 		std::vector<Layer *> layers;
 		//projection matrix
 		Matrix4x4 projection;

@@ -56,7 +56,7 @@ namespace Easy2D {
 
 	public:
 		//Surface
-		Mesh(ResourcesGroup *rsmr=NULL,
+		Mesh(ResourcesManager<Mesh> *rsmr=NULL,
 			 const String& pathfile="");
 		//clear cpu data
 		void cpuClear(){ mVertexs.clear();  mIndexs.clear(); }

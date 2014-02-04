@@ -218,13 +218,12 @@
 		<Unit filename="src/FrameSet.cpp" />
 		<Unit filename="src/FreeTypeFontLoader.cpp" />
 		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Image/Image.cpp" />
 		<Unit filename="src/Image/Image.h" />
-		<Unit filename="src/Image/Image.inl" />
 		<Unit filename="src/Image/lodepng.cpp" />
 		<Unit filename="src/Image/lodepng.h" />
 		<Unit filename="src/Input.cpp" />
 		<Unit filename="src/Layer.cpp" />
-		<Unit filename="src/Math2D_SSE2.cpp" />
 		<Unit filename="src/Math3D.cpp" />
 		<Unit filename="src/Math3D_SSE2.cpp" />
 		<Unit filename="src/Math3D_SSE2.h" />

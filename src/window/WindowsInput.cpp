@@ -207,9 +207,28 @@ void WindowsInput::update(){
 	///////////////////////////LOOP EVENT
 	//get hendler windows 
 	HWND hWind=((WindowsScreen*)Application::instance()->getScreen())->hWind;
-	//update minimixe maximize
-	ewindow.maximized=IsZoomed(hWind);
-	ewindow.minimized=IsIconic(hWind);
+	//update maximize
+	//get info
+	bool maximized=IsZoomed(hWind);
+	//if is changed
+	if(ewindow.maximized!=maximized){
+		//change value
+		ewindow.maximized=maximized;
+		//if is maximized
+		if(maximized)
+			__callOnChangeState(Window::MAXIMIZED);
+	}
+	//update minimixed
+	//get info
+	bool minimized=IsIconic(hWind);
+	//if is changed
+	if(ewindow.minimized!=minimized){
+		//change value
+		ewindow.minimized=minimized;
+		//if is minimized
+		if(minimized)
+			__callOnChangeState(Window::MINIMIZED);
+	}
 	//reset input:
 	if(!ewindow.focus && oldFocus){//lost focus
 			//reset window
@@ -261,6 +280,23 @@ void WindowsInput::__callOnMouseScroll(short scrollDelta) {
 	for(size_t i=0;i!=vmouseh.size();++i)
 		vmouseh[i]->onMouseScroll(scrollDelta);
 }
+//window
+void WindowsInput::__callOnFocus(bool focus) {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onFocus(focus);
+}
+void WindowsInput::__callOnChangeState(Window::State windowState) {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onChangeState(windowState);
+}
+void WindowsInput::__callOnClose() {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onClose();
+}
+void WindowsInput::__callOnResize(Vec2 size){
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onResize(size);
+}
 //window events:
 LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam ){
 	
@@ -297,6 +333,7 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 			//FOCUS
 			case WM_ACTIVATE:
 				winput->ewindow.focus=LOWORD(wparam) == WA_ACTIVE;
+				winput->__callOnFocus(winput->ewindow.focus);
 			break;
 			case WM_SIZE:
 				winput->ewindow.maximized=false;
@@ -304,12 +341,14 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
 				winput->ewindow.resize=true;
 				winput->ewindow.windowResize.x=LOWORD(lparam);
 				winput->ewindow.windowResize.y=HIWORD(lparam);
+				winput->__callOnResize(winput->ewindow.windowResize);
 			break;
 			case WM_NCDESTROY:
 			case WM_DESTROY:
 			case WM_QUIT:
 			case WM_CLOSE:
 				winput->ewindow.close=true;
+				winput->__callOnClose();
 				PostQuitMessage(0);
 			break;
 

@@ -86,7 +86,7 @@ namespace Easy2D {
 	public:
 
 		//costructor
-		Font(ResourcesGroup *rsgr,const String& path);
+		Font(ResourcesManager<Font> *rsmr,const String& path);
 		//load methods
 		virtual bool load();
 		virtual bool unload();

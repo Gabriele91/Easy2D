@@ -274,6 +274,11 @@ namespace Easy2D {
         void __callOnMouseDown(Vec2 mousePosition, Key::Mouse button);
         void __callOnMouseRelease(Vec2 mousePosition, Key::Mouse button);
         void __callOnMouseScroll(short scrollDelta);
+		//window
+		void __callOnFocus(bool focus);
+		void __callOnChangeState(Window::State windowState);
+		void __callOnClose();
+		void __callOnResize(Vec2 size);
         //hide constructor
         CocoaInput();
         //cocoa listener

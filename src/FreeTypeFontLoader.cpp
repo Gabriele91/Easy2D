@@ -5,6 +5,8 @@
 #include <FreeTypeFontLoader.h>
 #include <Debug.h>
 #include <Application.h>
+#include <ResourcesManager.h>
+#include <ResourcesGroup.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -114,7 +116,9 @@ bool FreeTypeFontLoader::loadPage(     Font& font,
 	//set last char
 	startChar=c;
 	//create texture
-	Texture *texture=new Texture(font.getResourcesGroup());
+	Texture *texture=new Texture(&font.getResourcesManager()
+								  ->getResourcesGroup()
+								  ->getManager<Texture>());
 	texture->bilinear(false);
 	texture->mipmaps(false);
 	texture->loadFromBinaryData(bytes,
@@ -188,7 +192,9 @@ bool FreeTypeFontLoader::fastLoadPage(     Font& font,
 	//set last char
 	startChar=c;
 	//create texture
-	Texture *texture=new Texture(font.getResourcesGroup());
+	Texture *texture=new Texture(&font.getResourcesManager()
+								  ->getResourcesGroup()
+								  ->getManager<Texture>());
 	texture->bilinear(false);
 	texture->mipmaps(false);
 	texture->loadFromBinaryData(bytes,

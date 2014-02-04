@@ -5,6 +5,7 @@
 #include <Mesh.h>
 #include <Texture.h>
 #include <Blend.h>
+#include <Color.h>
 
 namespace Easy2D {
 
@@ -17,6 +18,7 @@ namespace Easy2D {
 		bool blending;
 		uint blendSrc,blendDst;
 		uint cullmode;
+		Color color;
 
 	public:
 
@@ -32,6 +34,7 @@ namespace Easy2D {
 		void draw();
 		void draw(RenderState *oldstate);
 		//
+		void setColor(Color rcolor){ color=rcolor; }
 		void setTexture(Texture::ptr rtex){ rtexture=rtex; }
 		void setMesh(Mesh::ptr rm){ rmesh=rm; }
 		//blend state

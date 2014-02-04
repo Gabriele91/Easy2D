@@ -4,10 +4,10 @@
 #include <Config.h>
 #include <Math3D.h>
 #include <EString.h>
-#include <Resource.h>
 #include <Mesh.h>
 #include <iostream>
 #include <Types.h>
+#include <Resource.h>
 
 namespace Easy2D {
 
@@ -24,7 +24,7 @@ namespace Easy2D {
 		//
 	public:
 		//
-		Texture(ResourcesGroup *rsmr=NULL,
+		Texture(ResourcesManager<Texture> *rsmr=NULL,
 				const String& pathfile="");	
 		//destructor
 		virtual ~Texture();

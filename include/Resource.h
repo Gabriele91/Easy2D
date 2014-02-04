@@ -9,6 +9,7 @@ namespace Easy2D{
 	//
 	class ResourcesGroup;
 	template<class T> class ResourcesManager;
+	template <class T> class Resource;
 	//
 	template <class T>
 	class Resource{
@@ -16,16 +17,19 @@ namespace Easy2D{
 		//define ptr
 		typedef DS_PTR<T> ptr;
 		//create a resource
-		Resource(ResourcesGroup *rsmr=NULL,
+		Resource(ResourcesManager<T> *rsmr=NULL,
 				 const String& sfile="")
 				 :ptrResources(rsmr)
 				 ,loaded(false)
 				 ,reloadable(true)
-				 ,rpath(sfile){};
-		//destroy resource
+				 ,rpath(sfile)
+				 ,cbRelease(nullptr){};
+		/*manager show hader disable this method*/
 		void release(bool dtach=true){
 			if(((T*)this)->T::isLoad()) 
 					((T*)this)->T::unload();
+			if(dtach && cbRelease)
+				cbRelease(this);
 		}
 		//getter
 		virtual bool isLoad(){
@@ -41,7 +45,7 @@ namespace Easy2D{
 		DFORCEINLINE const String& getName(){
 			return name;
 		}
-		DFORCEINLINE ResourcesGroup* getResourcesGroup(){
+		DFORCEINLINE ResourcesManager<T>* getResourcesManager(){
 			return ptrResources;
 		}
 		DFORCEINLINE const Utility::Path& getPath(){
@@ -52,8 +56,16 @@ namespace Easy2D{
 		
 		friend class ResourcesGroup;
 		friend class ResourcesManager<T>;
+		
+		DFORCEINLINE void setName(const String& name){
+			this->name=name;
+		}
+		DFORCEINLINE void setReleaseCallBack(std::function<void(Resource<T>*)> cbRelease){
+			this->cbRelease=cbRelease;
+		}
 
-		ResourcesGroup *ptrResources;
+		std::function<void(Resource<T>*)> cbRelease;
+		ResourcesManager<T> *ptrResources;
 		String name;
 
 		bool loaded;
@@ -64,4 +76,7 @@ namespace Easy2D{
 
 
 };
+
+
 #endif
+

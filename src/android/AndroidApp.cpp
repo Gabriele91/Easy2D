@@ -25,7 +25,7 @@ void AndroidApp::__reloadInstance(){
 			screen->acquireContext();
 			screen->__initStateOpenGLES();
 			//reload gpu assets
-			for(auto& rsg:this->mapResourcesGroups)
+			for(auto& rsg:this->groups)
 				rsg.second->reloadGpuResouce();
 		}
 		//enable flip screen

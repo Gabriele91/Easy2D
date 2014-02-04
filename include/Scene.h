@@ -6,7 +6,6 @@
 #include <EStack.h>
 #include <Debug.h>
 #include <Render.h>
-#include <ResourcesGroup.h>
 
 namespace Easy2D {
 
@@ -16,7 +15,6 @@ namespace Easy2D {
     class Game;
     
 	class Scene : public Render,
-                  public ResourcesGroup,
                   public StateManager {
         
         struct SubScene{

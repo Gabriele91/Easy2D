@@ -20,7 +20,7 @@ namespace Easy2D {
 
 	public:
 		//create a frame set
-		FrameSet(ResourcesGroup *rsgr,const String& path);
+		FrameSet(ResourcesManager<FrameSet> *rsmr,const String& path);
 		virtual ~FrameSet();
 		//resource
 		virtual bool load();

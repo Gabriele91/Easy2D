@@ -18,6 +18,10 @@ void RenderState::draw(){
 	//cull mode
 	glCullFace(cullmode);
 	///////////////////////////////////
+	//color mode
+	glColor4ub(color.r,color.g,
+			   color.b,color.a);
+	///////////////////////////////////
 	//set texture
 	rtexture->bind();
 	///////////////////////////////////
@@ -42,6 +46,11 @@ void RenderState::draw(RenderState *oldstate){
 	//cull mode
 	if(oldstate->cullmode!=cullmode)
 		glCullFace(cullmode);
+	///////////////////////////////////
+	//color mode
+	if(oldstate->color!=color)
+		glColor4ub(color.r,color.g,
+				   color.b,color.a);
 	///////////////////////////////////
 	//set texture
 	if((*oldstate->rtexture)!=(*rtexture))

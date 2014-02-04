@@ -5,6 +5,7 @@
 #include <Types.h>
 #include <EString.h>
 #include <Scene.h>
+#include <ResourcesGroup.h>
 
 namespace Easy2D {
 	
@@ -13,7 +14,7 @@ namespace Easy2D {
     * Abstract class, represent the game instance
 	* @class Game <Game.h>
     */
-	class Game : public Scene {
+	class Game : public ResourcesGroup, public Scene {
 	public:
 
 		Game(const String& name,

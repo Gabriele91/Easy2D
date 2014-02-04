@@ -3,13 +3,14 @@
 #include <Table.h>
 #include <Debug.h>
 #include <Application.h>
+
 using namespace Easy2D;
 
 //VAOs are slower (by nvidia and valve)
 #undef ENABLE_VAOS
 //
 
-Mesh::Mesh(ResourcesGroup *rsmr,
+Mesh::Mesh(ResourcesManager<Mesh> *rsmr,
 		   const String& pathfile)
 		  :Resource(rsmr,pathfile)
 		  ,vertexBuffer(0)

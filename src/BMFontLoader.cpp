@@ -3,6 +3,8 @@
 #include <Application.h>
 #include <Debug.h>
 #include <Texture.h>
+#include <ResourcesManager.h>
+#include <ResourcesGroup.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -106,7 +108,9 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 				while(localFntBuffer<fntBuffer+blockSize->size){
 					//load image
 					String filename(localFntBuffer);
-					Texture *pageTex=new Texture(font.getResourcesGroup(),
+					Texture *pageTex=new Texture(&font.getResourcesManager()
+													  ->getResourcesGroup()
+													  ->getManager<Texture>(),
 												 fontPath.getDirectory()+"/"+filename);
 					pageTex->bilinear(false);
 					pageTex->mipmaps(false);

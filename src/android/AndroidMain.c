@@ -177,7 +177,7 @@ static void (*termAndroid)(void* data)=NULL;
 static void (*saveStateAndroid)(void* data)=NULL;
 static void (*pauseAndroid)(void* data)=NULL;
 static void (*configChange)(void* data)=NULL;
-static void (*windowResized)(void* data)=NULL;
+static void (*windowResized)(void* data,int width,int height)=NULL;
 static void (*getFocusAndroid)(void* data)=NULL;
 static void (*lostFocusAndroid)(void* data)=NULL;
 
@@ -199,7 +199,7 @@ extern void onPauseAndroid(void (*function)(void* data)){
 extern void onConfigChange(void (*function)(void* data)){
 	configChange=function;
 }
-extern void onWindowResized(void (*function)(void* data)){
+extern void onWindowResized(void (*function)(void* data,int width,int height)){
 	windowResized=function;
 }
 extern void onGetFocusAndroid(void (*function)(void* data)){
@@ -226,8 +226,11 @@ extern void __android_handle_cmd(struct android_app* app, int32_t cmd) {
 				pauseAndroid(app->userData);
 		break;
 		case APP_CMD_WINDOW_RESIZED:
-			if(windowResized) 
-				windowResized(app->userData);
+			if(windowResized){ 
+				int32_t width = ANativeWindow_getWidth(getAndroidApp()->window);
+				int32_t height = ANativeWindow_getHeight(getAndroidApp()->window);
+				windowResized(app->userData,(int)width,(int)height);
+			}
 		break;
 		case APP_CMD_RESUME: 
 			if(resumeAndroid) 

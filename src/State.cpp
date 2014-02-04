@@ -149,3 +149,6 @@ Easy2D::Input* StateManager::getInput(){
 Easy2D::Game* StateManager::getGame(){
 	return Application::instance()->getGame();
 }
+Easy2D::ResourcesGroup* StateManager::getResourcesGroup(const String& name){
+	return Application::instance()->getResourcesGroup(name);
+}

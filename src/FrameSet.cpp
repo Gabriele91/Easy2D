@@ -9,8 +9,8 @@
 using namespace Easy2D;
 ///////////////////////
 //create a frame set
-FrameSet::FrameSet(ResourcesGroup *rsgr,const String& path)
-				  :Resource(rsgr,path){}
+FrameSet::FrameSet(ResourcesManager<FrameSet> *rsmr,const String& path)
+				  :Resource(rsmr,path){}
 FrameSet::~FrameSet(){
 	//release resource
 	release();
@@ -70,7 +70,7 @@ bool FrameSet::load(){
 
 	//get texture
 	if(tbFrameSet.existsAsType("texture",Table::STRING)){
-		texture=getResourcesGroup()->get<Texture>(tbFrameSet.getString("texture"));
+		texture=getResourcesManager()->getResourcesGroup()->get<Texture>(tbFrameSet.getString("texture"));
 		if(texture==NULL){
 			DEBUG_ASSERT_MSG(0,"frameset error:"
 							   "must to be setted a valid texture name"

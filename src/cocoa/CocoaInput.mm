@@ -137,6 +137,7 @@ using namespace Easy2D;
 /* Window delegate functionality */
 -(BOOL) windowShouldClose:(id) sender {
     easy2Dinput->ewindow.close=true;//send close message
+	easy2Dinput->__callOnClose();
     return false; //stop close window (this window will close after exit main loop)
 }
 -(void) windowDidResize:(NSNotification *) aNotification{
@@ -166,11 +167,13 @@ using namespace Easy2D;
 }
 -(void) mouseEntered:(NSEvent *)theEvent{
     //focus == true
-    easy2Dinput->ewindow.focus=true;    
+    easy2Dinput->ewindow.focus=true;  
+	easy2Dinput->__callOnFocus(true);  
 }
 -(void) mouseExited:(NSEvent *)theEvent{
     //clear event, focus ==false
     easy2Dinput->ewindow.focus=false;
+	easy2Dinput->__callOnFocus(false);
 	//input keyboard hit
 	easy2Dinput->ekeyboard.__init();
 	//input mouse hit
@@ -460,4 +463,21 @@ void CocoaInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button) {
 void CocoaInput::__callOnMouseScroll(short scrollDelta) {
     for(size_t i=0;i!=vmouseh.size();++i)
         vmouseh[i]->onMouseScroll(scrollDelta);
+}
+//window
+void CocoaInput::__callOnFocus(bool focus) {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onFocus(focus);
+}
+void CocoaInput::__callOnChangeState(Window::State windowState) {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onChangeState(windowState);
+}
+void CocoaInput::__callOnClose() {
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onClose();
+}
+void CocoaInput::__callOnResize(Vec2 size){
+	for(size_t i=0;i!=vwindowh.size();++i)
+		vwindowh[i]->onResize(size);
 }
