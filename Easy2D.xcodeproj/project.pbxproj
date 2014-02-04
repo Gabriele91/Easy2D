@@ -968,6 +968,7 @@
 					include/,
 					./,
 				);
+				LIBRARY_SEARCH_PATHS = "dependencies-osx64/lib";
 				OTHER_CFLAGS = (
 					"-D_DEBUG",
 					"-DORDERED_TABLE",
@@ -992,6 +993,7 @@
 					include/,
 					./,
 				);
+				LIBRARY_SEARCH_PATHS = "dependencies-osx64/lib";
 				OTHER_CFLAGS = (
 					"-D_DEBUG",
 					"-DORDERED_TABLE",
@@ -1013,12 +1015,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../dependences-osx64/lib\"",
-					"\"$(SRCROOT)/dependences-osx64/lib\"",
-					"\"$(SRCROOT)/dependencies-osx64/lib\"",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1036,12 +1032,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../dependences-osx64/lib\"",
-					"\"$(SRCROOT)/dependences-osx64/lib\"",
-					"\"$(SRCROOT)/dependencies-osx64/lib\"",
-				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
