@@ -39,10 +39,38 @@ namespace Easy2D {
 			unsigned int chnl;
 			//std::vector<int> kerningPairs;
 		};
+		
+		struct AssociativeChars
+		{ 
+			/* values declaretion */
+			uint first,second;
+			/* constructors operators */
+			AssociativeChars():first(0),second(0){}
+			AssociativeChars(uint c1,uint c2):first(c1),second(c2){}
+			/* operators */
+			uint operator[](uint i) const {
+				 return (i%2 ? second : first);
+			}
+			uint& operator[](uint i) {
+				 return (i%2 ? second : first);
+			}
+			/* hash map operators */
+			bool operator==(const AssociativeChars& v) const {
+				 return first==v.first && second==v.second;
+			}
+			struct hash{
+				std::size_t operator()(const AssociativeChars& k) const{
+				  return std::hash<int>()(k.first);
+				}
+			};
+		};
 
 	private:
 		//map characters
-		DUNORDERED_MAP< int , Character* > characters;
+		typedef DUNORDERED_MAP< AssociativeChars, int, AssociativeChars::hash > MAPKerningPairs;
+		typedef DUNORDERED_MAP< int , Character* > MAPCharacters;
+		MAPCharacters characters;
+		MAPKerningPairs kerningPairs;
 		//page list
 		std::vector<Texture::ptr> pages;
 		//font size
@@ -52,6 +80,16 @@ namespace Easy2D {
 		//load from fnt
 		bool isBMFont;
 		//private methods
+		void pushAKerningPairs(uint k1,uint k2,int amount){
+			kerningPairs[AssociativeChars(k1,k2)]=amount;
+		}
+		int getKerningPairs(uint k1,uint k2){
+			AssociativeChars pairs(k1,k2);
+			MAPKerningPairs::const_iterator it=kerningPairs.find(pairs);
+			if(it!=kerningPairs.cend())
+				return it->second;
+			return 0;
+		}
 		void setSize(bit16 size){
 			fontSize=size;
 		}
@@ -96,7 +134,8 @@ namespace Easy2D {
 		//other methods
 		void text(const Vec2& pos,
 				  const String& textDraw,
-			      const Color& color=Color(255,255,255,255));
+			      const Color& color=Color(255,255,255,255),
+				  bool kerning=true);
 
 
 	};

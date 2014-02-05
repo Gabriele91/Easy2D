@@ -96,7 +96,8 @@ lambdaChar isASpecialChar(int c){
 //other methods
 void Font::text(const Vec2& _pos,
 				const String& textDraw,
-				const Color& color){
+				const Color& color,
+				bool kerning){
 
 	if(textDraw.size()==0) return;
 	Vec2 pos(_pos.x,-_pos.y+Application::instance()->getScreen()->getHeight());
@@ -168,16 +169,16 @@ void Font::text(const Vec2& _pos,
 			pageLast=chr->page;
 			//
 			Vec2 sizePage(pages[chr->page]->getRealWidth(),
-							pages[chr->page]->getRealHeight());
+						  pages[chr->page]->getRealHeight());
 			//uv
 			Vec2 nSXY(chr->srcX,chr->srcY); nSXY/=sizePage;
 			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;
 			Math::swap(nSXY.v,nEXY.v);
 
 			//opengl uv flipped error on y axis
-			float yerror=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
-
-			Vec2 posChr(cursor+Vec2(chr->xOff,yerror));
+			float yoffset=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+			float xoffset=chr->xOff - (kerning? getKerningPairs(c,nextC) : 0);
+			Vec2 posChr(cursor+Vec2(xoffset,yoffset));
 
 			#define XYUV(x) xyUV[countCharPage*24+x]
 				XYUV(0)=posChr.x;           XYUV(1)=posChr.y;           XYUV(2)=nSXY.u;  XYUV(3)=nSXY.v;

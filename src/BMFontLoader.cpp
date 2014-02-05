@@ -70,19 +70,33 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 					bit8  chnl;
 				} chars[1];
 			  });
+
+	ASPACKED(struct BlocKerningPairs{
+		struct {
+			bit32 first;
+			bit32 second;
+			short amount;
+		}kerningPairs[1];
+	});
+
 	#define readBlockSize(bufferPtr,blockPtr)\
 		blockPtr=(BlockSize*)bufferPtr; bufferPtr+=sizeof(BlockSize);
 
 	#define readBlockInfo(bufferPtr,blockPtr,size)\
 		blockPtr=(BlockInfo*)bufferPtr; bufferPtr+=size;
-
+	
 	#define readBlockCommon(bufferPtr,blockPtr,size)\
 		blockPtr=(BlockCommon*)bufferPtr; bufferPtr+=size;
+
+	#define readBlocKerningPairs(bufferPtr,blockPtr,size)\
+		blocKerningPairs=(BlocKerningPairs*)bufferPtr; bufferPtr+=size;
 
 	BlockSize* blockSize;
 	BlockInfo* blockInfo;
 	BlockCommon* blockCommon;
 	BlockChars *blockChar;
+	BlocKerningPairs *blocKerningPairs;
+
 	//versione file
 	DEBUG_ASSERT(
 	fntBuffer[0]=='B'&&
@@ -93,17 +107,18 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 
 	while(size_t(fntBuffer-startFntBuffer)<fntLen){
 		readBlockSize(fntBuffer,blockSize)
+		Debug::message() << "blockSize->type: "<<(int)blockSize->type<<"\n";
 		switch (blockSize->type)
 		{
-			case 1:
+			case 1: //info
 				readBlockInfo(fntBuffer,blockInfo,blockSize->size)
 				font.setSize(blockInfo->fontSize);
 				font.setName(blockInfo->fontName);
 			break;
-			case 2:
+			case 2: //common
 				readBlockCommon(fntBuffer,blockCommon,blockSize->size)
 			break;
-			case 3: {
+			case 3: { //image filename
 				char *localFntBuffer=fntBuffer;
 				while(size_t(localFntBuffer)<(size_t)(fntBuffer+blockSize->size)){
 					//load image
@@ -121,7 +136,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 				fntBuffer+=blockSize->size;
 			}
 			break;
-			case 4: {
+			case 4: {  // chars info
 				int n=0;
 				blockChar=(BlockChars*)fntBuffer;
 				while((n*sizeof(BlockChars))<blockSize->size){
@@ -142,9 +157,21 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 					font.addCharacter(blockChar->chars[n].id,chr);
 					++n;
 				}
+				fntBuffer+=blockSize->size;
 			}
 			break;
-			case 5: // kerning pairs (jump)
+			case 5:{ // kerning pairs	
+				int n=0;
+				blocKerningPairs=(BlocKerningPairs*)fntBuffer;
+				while((n*sizeof(BlocKerningPairs))<blockSize->size){
+					font.pushAKerningPairs(blocKerningPairs->kerningPairs[n].first,
+										   blocKerningPairs->kerningPairs[n].second,
+										   blocKerningPairs->kerningPairs[n].amount);
+					++n;
+				}
+				fntBuffer+=blockSize->size;
+			}
+			break;
 			default:
 				fntBuffer+=blockSize->size;
 			break;
