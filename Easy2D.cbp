@@ -186,6 +186,10 @@
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
+		<Unit filename="include/thread/Mutex.h" />
+		<Unit filename="include/thread/MutexConf.h" />
+		<Unit filename="include/thread/Thread.h" />
+		<Unit filename="include/thread/ThreadConf.h" />
 		<Unit filename="include/window/OpenGLWindow.h">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />
@@ -244,14 +248,6 @@
 		<Unit filename="src/State.cpp" />
 		<Unit filename="src/Table.cpp" />
 		<Unit filename="src/Texture.cpp" />
-		<Unit filename="src/Thread/Mutex.h" />
-		<Unit filename="src/Thread/MutexConf.h" />
-		<Unit filename="src/Thread/MutexPOSIX.inl" />
-		<Unit filename="src/Thread/MutexWin32.inl" />
-		<Unit filename="src/Thread/Thread.h" />
-		<Unit filename="src/Thread/ThreadConf.h" />
-		<Unit filename="src/Thread/ThreadPOSIX.inl" />
-		<Unit filename="src/Thread/ThreadWin32.inl" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/Utility.cpp" />
 		<Unit filename="src/linux/LinuxApp.cpp">
@@ -270,6 +266,26 @@
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
 		</Unit>
+		<Unit filename="src/thread/MutexPOSIX.cpp">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="src/thread/MutexPOSIX.inl" />
+		<Unit filename="src/thread/MutexWin32.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/thread/MutexWin32.inl" />
+		<Unit filename="src/thread/ThreadPOSIX.cpp">
+			<Option target="Debug Linux" />
+			<Option target="Release Linux" />
+		</Unit>
+		<Unit filename="src/thread/ThreadPOSIX.inl" />
+		<Unit filename="src/thread/ThreadWin32.cpp">
+			<Option target="Debug Window" />
+			<Option target="Release Window" />
+		</Unit>
+		<Unit filename="src/thread/ThreadWin32.inl" />
 		<Unit filename="src/window/OpenGLWindow.cpp">
 			<Option target="Debug Window" />
 			<Option target="Release Window" />

@@ -107,7 +107,6 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath){
 
 	while(size_t(fntBuffer-startFntBuffer)<fntLen){
 		readBlockSize(fntBuffer,blockSize)
-		Debug::message() << "blockSize->type: "<<(int)blockSize->type<<"\n";
 		switch (blockSize->type)
 		{
 			case 1: //info

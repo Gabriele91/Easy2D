@@ -72,7 +72,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/window;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -91,7 +91,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -116,7 +116,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -163,6 +163,8 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\State.cpp" />
+    <ClCompile Include="src\thread\MutexWin32.cpp" />
+    <ClCompile Include="src\thread\ThreadWin32.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\ETime.cpp" />
     <ClCompile Include="src\Utility.cpp" />
@@ -212,6 +214,10 @@
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\State.h" />
+    <ClInclude Include="include\thread\Mutex.h" />
+    <ClInclude Include="include\thread\MutexConf.h" />
+    <ClInclude Include="include\thread\Thread.h" />
+    <ClInclude Include="include\thread\ThreadConf.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\ETime.h" />
     <ClInclude Include="include\Types.h" />
@@ -231,10 +237,6 @@
     <ClInclude Include="src\Image\Image.h" />
     <ClInclude Include="src\Image\lodepng.h" />
     <ClInclude Include="src\Math3D_SSE2.h" />
-    <ClInclude Include="src\Thread\Mutex.h" />
-    <ClInclude Include="src\Thread\MutexConf.h" />
-    <ClInclude Include="src\Thread\Thread.h" />
-    <ClInclude Include="src\Thread\ThreadConf.h" />
     <ClInclude Include="src\window\WGL_ARB_multisample.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
@@ -242,10 +244,6 @@
     <None Include="livel\resources.rs.e2d" />
     <None Include="livel\sprite.mesh.e2d" />
     <None Include="livel\walk.frameSet.e2d" />
-    <None Include="src\Thread\MutexPOSIX.inl" />
-    <None Include="src\Thread\MutexWin32.inl" />
-    <None Include="src\Thread\ThreadPOSIX.inl" />
-    <None Include="src\Thread\ThreadWin32.inl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="livel\light.png" />

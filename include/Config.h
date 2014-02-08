@@ -184,6 +184,7 @@
 	#include <unordered_map>
 	#include <functional>
 	#include <memory>
+	#define DFUNCTION	std::function
 	#define DUNORDERED_MAP    std::unordered_map
 	#define DUNORDERED_MULTIMAP    std::unordered_multimap
 	#define DHASH    std::hash
@@ -194,6 +195,7 @@
 	#include <tr1/unordered_map>
 	#include <tr1/functional>
 	#include <tr1/memory>
+	#define DFUNCTION	std::tr1::function
 	#define DUNORDERED_MAP    std::tr1::unordered_map
 	#define DUNORDERED_MULTIMAP    std::tr1::unordered_multimap
 	#define DHASH std::tr1::hash
