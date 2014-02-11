@@ -25,6 +25,8 @@ namespace Easy2D {
 				   Texture::ptr rtex=NULL,
 				   Layer *rlayer=NULL,
 				   bool visible=true);
+		//I can batching!?
+		bool canBatching(Renderable *oldstate);
 		//z order
 		DFORCEINLINE float getZ() const{ return zvalue; }
 		void  setZ(float z);

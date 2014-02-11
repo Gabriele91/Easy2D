@@ -24,6 +24,8 @@ namespace Easy2D {
 		//colors
 		Color clearClr;
 		Color ambientClr;
+		//Batching
+		BatchingMesh batchingMesh;
 
 	public:
 		//

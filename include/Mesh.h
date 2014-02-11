@@ -12,6 +12,7 @@ namespace Easy2D {
 	class Mesh : public Resource<Mesh> {
 		
 	public:
+
 		// graphics vertex
 		struct gVertex{ 
 			Vec2 vt,uv;
@@ -32,27 +33,29 @@ namespace Easy2D {
 				LINE_STRIP,
 				LINES
 		};
+		
+		typedef std::vector<gVertex> ListGVertexs;
+		typedef std::vector<ushort> ListIndexs;
 
-	private:
+	protected:
 		//buffer GPU
 		uint vertexBuffer;
 		uint indexBuffer;
 		//vba GPU
+		#ifdef ENABLE_VAOS
 		uint vbaDraw;
+		#endif
 		//Valori CPU
-		std::vector<gVertex> mVertexs;
-		std::vector<ushort> mIndexs;
+		ListGVertexs mVertexs;
+		ListIndexs mIndexs;
 		//tipo di disegno
 		DrawMode dmode;
 		//draw bind mesh
 		void __bind();
-
-	protected:
-
-			//AABB
-			Vector2D center;
-			Vector2D extends;
-			Vector2D min,max;
+		//AABB
+		Vector2D center;
+		Vector2D extends;
+		Vector2D min,max;
 
 	public:
 		//Surface
@@ -75,12 +78,66 @@ namespace Easy2D {
 		void addQuadIndexs(ushort v1,ushort v2,ushort v3,ushort v4);
 		void setDrawMode(DrawMode dmode);
 		void build();
+		//query on privates
+		DrawMode getDrawMode(){
+			return dmode;
+		}
+		const ListGVertexs& getCpuVertexs(){
+			return mVertexs;
+		}
+		const ListIndexs& getCpuIndexs(){
+			return mIndexs;
+		}
 		//resource
 		virtual bool load();
 		virtual bool unload();
 		//draw
 		void draw();
 
+	};
+
+	class BatchingMesh {
+		// graphics 3D vertex
+		struct gVertex{ 
+			Vec3 vtz;
+			Vec2 uv;
+			//cast op
+			gVertex(){};
+			gVertex(const Vec2& argvt,
+				    const Vec2& arguv,
+					float z){
+				vtz=Vec3( argvt,z );
+				uv=arguv;
+			}
+		};
+		//buffer CPU
+		std::vector<gVertex> mVertexs;
+		//buffer GPU
+		#ifdef ENABLE_STREAM_BUFFER
+		uint vertexBuffer;
+		#endif
+		//size buffer
+		size_t maxSize;
+
+		
+
+	public:
+		//costruttore
+		BatchingMesh();
+		//distruttore
+		virtual ~BatchingMesh();
+
+		void createBuffer(size_t maxSize);
+		size_t getBufferSize(){
+			return maxSize;
+		}
+		void relase();
+		bool canAdd(Mesh::ptr mesh);
+		bool addMesh(const Mat4& modelView,Mesh::ptr mesh,int z);
+		void draw();
+		size_t bitesSize(){
+			return mVertexs.size()*sizeof(gVertex);
+		}
 	};
 
 };

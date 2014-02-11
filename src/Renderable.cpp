@@ -18,3 +18,11 @@ void  Renderable::setZ(float z){
 		rlayer->change();
 	}
 };
+bool Renderable::canBatching(Renderable *oldstate){
+	return  rtexture==oldstate->rtexture &&
+			blending==oldstate->blending&&
+			blendSrc==oldstate->blendSrc&&
+			blendDst==oldstate->blendDst&&
+			cullmode==oldstate->cullmode&&
+			color==oldstate->color;
+}

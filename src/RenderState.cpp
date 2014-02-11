@@ -2,9 +2,7 @@
 #include <RenderState.h>
 ///////////////////////
 using namespace Easy2D;
-
-
-void RenderState::draw(){
+void RenderState::enableStates(){
 	///////////////////////////////////
 	//enable blend
 	if(blending){
@@ -24,12 +22,8 @@ void RenderState::draw(){
 	///////////////////////////////////
 	//set texture
 	rtexture->bind();
-	///////////////////////////////////
-	//draw mesh
-	rmesh->draw();
 }
-
-void RenderState::draw(RenderState *oldstate){
+void RenderState::enableStates(RenderState *oldstate){
 	///////////////////////////////////
 	//enable blend
 	if(blending){
@@ -55,6 +49,21 @@ void RenderState::draw(RenderState *oldstate){
 	//set texture
 	if((*oldstate->rtexture)!=(*rtexture))
 		rtexture->bind();
+}
+
+void RenderState::draw(){
+	///////////////////////////////////
+	//enable state settings
+	enableStates();
+	///////////////////////////////////
+	//draw mesh
+	rmesh->draw();
+}
+
+void RenderState::draw(RenderState *oldstate){
+	///////////////////////////////////
+	//enable state settings
+	enableStates(oldstate);
 	///////////////////////////////////
 	//draw mesh
 	rmesh->draw();

@@ -101,25 +101,42 @@ bool FrameSet::load(){
 	}
 	else if(tbFrameSet.existsAsType("frameSplit",Table::TABLE)){
 		const Table& frameSplit=tbFrameSet.getTable("frameSplit");
-		//get parameters
-		int imgwidth=frameSplit.getFloat("width",0.0);
-		int imgheight=frameSplit.getFloat("height",0.0);
+		
+		//get rect size
+		Vec4 imgrec(0, 0, texture->getWidth(), texture->getHeight());//default
+		imgrec=frameSplit.getVector4D("subrec",imgrec);//load
+		//load frame size
+		Vec2 sizeframe(frameSplit.getVector2D("frame",Vec2::ZERO));
+		
+		int imagewidth=imgrec.z-imgrec.x;
+		int imageheight=imgrec.w-imgrec.y;
+		int framewidth=sizeframe.x;
+		int frameheight=sizeframe.y;
 		int countXtiles=0;
 		int countYtiles=0;
 		//calc count
-		if(imgwidth>0)//no division by 0
-			countXtiles=texture->getWidth()/imgwidth;
-		if(imgheight>0)//no division by 0
-			countYtiles=texture->getHeight()/imgheight;
+		if(framewidth>0)//no division by 0
+			countXtiles=imagewidth/framewidth;//width
+		if(frameheight>0)//no division by 0
+			countYtiles=imageheight/frameheight;//height
 		//set first and count
 		int first=Math::min(frameSplit.getFloat("first",1.0)-1.0,0.0);
 		int count=frameSplit.getFloat("count",countXtiles*countYtiles);
+		int step=Math::max((int)frameSplit.getFloat("step",1),1);
 
-		if(imgwidth*imgheight>0 && count>0 && countXtiles>0){
-			for(int frm=first;frm<count;++frm){
-				int cnw=(frm%countXtiles)*imgwidth;
-				int cnh=(frm/countXtiles)*imgheight;
-				addFrame(Vec4(cnw,cnh,imgwidth,imgheight));
+		if(framewidth*frameheight>0 &&  //freme no size 0
+		   count>0 &&					//frame > 0
+		   countXtiles>0 && 			//frames line x no size 0
+		   imagewidth>=framewidth &&	//size(frames)<=size(recimage)
+		   imageheight>=frameheight		//size(frames)<=size(recimage)
+		   ){
+			for(int frm=first;frm<count;frm+=step){
+				int posX=(frm%countXtiles)*framewidth;
+				int posY=(frm/countXtiles)*frameheight;
+				addFrame(Vec4(posX+imgrec.x,
+							  posY+imgrec.y,
+							  framewidth,
+							  frameheight));
 			}
 		}
 		else{

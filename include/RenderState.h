@@ -33,10 +33,14 @@ namespace Easy2D {
 		//draw
 		void draw();
 		void draw(RenderState *oldstate);
+		//enable setting (no draw)
+		void enableStates();
+		void enableStates(RenderState *oldstate);
 		//
 		void setColor(Color rcolor){ color=rcolor; }
 		void setTexture(Texture::ptr rtex){ rtexture=rtex; }
 		void setMesh(Mesh::ptr rm){ rmesh=rm; }
+		Mesh::ptr getMesh(){ return rmesh; }
 		//blend state
 		void enableBlend(){ blending=true; }
 		void disbaleBlend(){ blending=false;  }
@@ -48,7 +52,19 @@ namespace Easy2D {
 		void setCull(uint mode){
 			cullmode=mode;
 		}
-
+		//operators
+		bool operator==(const RenderState& rs){
+			return rtexture==rs.rtexture &&
+				   rmesh==rs.rmesh &&
+				   blending==rs.blending&&
+				   blendSrc==rs.blendSrc&&
+				   blendDst==rs.blendDst&&
+				   cullmode==rs.cullmode&&
+				   color==rs.color ;
+		}
+		bool operator!=(const RenderState& rs){
+			return !((*this)==rs);
+		}
 
 	};
 

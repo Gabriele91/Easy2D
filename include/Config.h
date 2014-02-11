@@ -49,7 +49,6 @@
 	#ifndef NOMINMAX
         #define NOMINMAX
     #endif
-	#define ENABLE_VAOS
 	#include <windows.h>
 	#include <GL/gl.h>
 	#include <GL/glu.h>
@@ -59,7 +58,6 @@
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
 	#define PLATFORM_UNIX
-	#define ENABLE_VAOS
 
     #if TARGET_OS_IPHONE
 		#define PLATFORM_IPHONE
@@ -72,7 +70,6 @@
         #define PLATFORM_OSX
         #define PLATFORM_UNIX
         #define DCPP_11
-        #define ENABLE_VAOS
         #include <OpenGL/gl.h>
         #include <OpenGL/glu.h>
         #include <OpenGL/glext.h>
@@ -82,7 +79,6 @@
     #define PLATFORM_LINUX
     #define PLATFORM_UNIX
     #define DCPP_11
-    #define ENABLE_VAOS
     #include <signal.h>
     #include <stdint.h>
     #include <GL/gl.h>
@@ -95,7 +91,6 @@
     #define PLATFORM_EMSCRIPTEN
     #define PLATFORM_UNIX
     #define DCPP_11
-    #define ENABLE_VAOS
 	#define OPENGL_ES
 	#define DISABLE_MIDMAP
     #include <signal.h>
@@ -173,11 +168,19 @@
 	#error compiler not supported
 #endif
 
+#define ENABLE_STREAM_BUFFER
+#define DISABLE_VAOS
 
 #if !defined(ENABLE_VAOS) &&  !defined(DISABLE_VAOS)
 	#error "must to be define ENABLE_VAOS or DISABLE_VAOS"
 #elif defined(ENABLE_VAOS) &&  defined(DISABLE_VAOS)
 	#error "must to be defined only ENABLE_VAOS or only DISABLE_VAOS"
+#endif
+
+#if !defined(ENABLE_STREAM_BUFFER) &&  !defined(DISABLE_STREAM_BUFFER)
+	#error "must to be define ENABLE_STREAM_BUFFER or DISABLE_VAOS"
+#elif defined(ENABLE_STREAM_BUFFER) &&  defined(DISABLE_STREAM_BUFFER)
+	#error "must to be defined only ENABLE_STREAM_BUFFER or only DISABLE_VAOS"
 #endif
 
 #if defined(DCPP_11)
