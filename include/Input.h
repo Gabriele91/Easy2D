@@ -350,6 +350,13 @@ namespace Easy2D {
 			*/
 			virtual Vec2 getResizeValues() const=0;
 			/**
+			* Adds an input window handler to the callback list
+			*/
+			virtual void addHandler(WindowHandler *handler){
+				DEBUG_ASSERT(handler);
+				vwindowh.push_back(handler);
+			}
+			/**
 			* Adds an input keyboard handler to the callback list
 			*/
 			virtual void addHandler(KeyboardHandler *handler){
@@ -376,6 +383,18 @@ namespace Easy2D {
 			virtual void addHandler(MouseHandler *handler){
 				DEBUG_ASSERT(handler);
 				vmouseh.push_back(handler);
+			}
+			/**
+			* Removes an input window handler from the callback list
+			*/
+			virtual void removeHandler(WindowHandler *handler){
+				DEBUG_ASSERT(handler);
+				for(auto it=vwindowh.begin();it!=vwindowh.end();++it) {
+					if(*it==handler) {
+						vwindowh.erase(it);
+						break;
+					}
+				}
 			}
 			/**
 			* Removes an input keyboard handler from the callback list

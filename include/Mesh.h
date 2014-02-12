@@ -111,6 +111,7 @@ namespace Easy2D {
 			}
 		};
 		//buffer CPU
+		size_t countVertexs;
 		std::vector<gVertex> mVertexs;
 		//buffer GPU
 		#ifdef ENABLE_STREAM_BUFFER
@@ -118,25 +119,30 @@ namespace Easy2D {
 		#endif
 		//size buffer
 		size_t maxSize;
-
-		
+		//alloc memory
+		void createBuffer(size_t maxSize);
 
 	public:
 		//costruttore
 		BatchingMesh();
 		//distruttore
 		virtual ~BatchingMesh();
-
-		void createBuffer(size_t maxSize);
+		
+		void createBufferByVertexs(size_t maxVertexs);
+		void createBufferByTriangles(size_t maxTriangles);
 		size_t getBufferSize(){
 			return maxSize;
 		}
+
 		void relase();
 		bool canAdd(Mesh::ptr mesh);
 		bool addMesh(const Mat4& modelView,Mesh::ptr mesh,int z);
 		void draw();
 		size_t bitesSize(){
-			return mVertexs.size()*sizeof(gVertex);
+			return countVertexs*sizeof(gVertex);
+		}
+		size_t realBitesSize(){
+			return mVertexs.capacity()*sizeof(gVertex);
 		}
 	};
 

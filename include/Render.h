@@ -25,7 +25,9 @@ namespace Easy2D {
 		Color clearClr;
 		Color ambientClr;
 		//Batching
+		#ifdef ENABLE_CPU_BATCHING_MESH 
 		BatchingMesh batchingMesh;
+		#endif
 
 	public:
 		//
@@ -44,6 +46,8 @@ namespace Easy2D {
 		DFORCEINLINE void setClear(const Color& color){ clearClr=color; }
 		//
 		void updateProjection();
+		void updateProjection(const Vec2& viewport);
+		void updateViewport(const Vec2& viewport);
 	};
 
 };

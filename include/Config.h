@@ -168,8 +168,14 @@
 	#error compiler not supported
 #endif
 
+#define ENABLE_CPU_BATCHING_MESH
+//#define DISABLE_CPU_BATCHING_MESH
 #define ENABLE_STREAM_BUFFER
+//#define DISABLE_STREAM_BUFFER
+//#define ENABLE_VAOS
 #define DISABLE_VAOS
+
+
 
 #if !defined(ENABLE_VAOS) &&  !defined(DISABLE_VAOS)
 	#error "must to be define ENABLE_VAOS or DISABLE_VAOS"
@@ -181,6 +187,12 @@
 	#error "must to be define ENABLE_STREAM_BUFFER or DISABLE_VAOS"
 #elif defined(ENABLE_STREAM_BUFFER) &&  defined(DISABLE_STREAM_BUFFER)
 	#error "must to be defined only ENABLE_STREAM_BUFFER or only DISABLE_VAOS"
+#endif
+
+#if !defined(ENABLE_CPU_BATCHING_MESH) &&  !defined(DISABLE_CPU_BATCHING_MESH)
+	#error "must to be define ENABLE_CPU_BATCHING_MESH or DISABLE_CPU_BATCHING_MESH"
+#elif defined(ENABLE_CPU_BATCHING_MESH) &&  defined(DISABLE_CPU_BATCHING_MESH)
+	#error "must to be defined only ENABLE_CPU_BATCHING_MESH or only DISABLE_CPU_BATCHING_MESH"
 #endif
 
 #if defined(DCPP_11)

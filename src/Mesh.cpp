@@ -232,11 +232,19 @@ void Mesh::draw(){
 
 /*BatchingMesh*/
 
-BatchingMesh::BatchingMesh():maxSize(0){
+BatchingMesh::BatchingMesh():countVertexs(0),maxSize(0){
 #ifdef ENABLE_STREAM_BUFFER
 	vertexBuffer=(0);
 #endif
 }
+//distruttore
+BatchingMesh::~BatchingMesh(){
+#ifdef ENABLE_STREAM_BUFFER	//unload mesh
+    if( vertexBuffer )
+		glDeleteBuffers(1, &vertexBuffer );
+#endif
+}
+
 void BatchingMesh::createBuffer(size_t maxSize){
 	//save max size
 	this->maxSize=maxSize;
@@ -248,18 +256,20 @@ void BatchingMesh::createBuffer(size_t maxSize){
 	glBufferData(GL_ARRAY_BUFFER, maxSize,0, GL_STREAM_DRAW);
 #endif
 }
-//distruttore
-BatchingMesh::~BatchingMesh(){
-#ifdef ENABLE_STREAM_BUFFER	//unload mesh
-    if( vertexBuffer )
-		glDeleteBuffers(1, &vertexBuffer );
-#endif
+void BatchingMesh::createBufferByVertexs(size_t maxVertexs){
+	//gpu alloc
+	createBuffer(maxVertexs*sizeof(gVertex));
+	//cpu alloc
+	mVertexs.resize(maxVertexs);
 }
+void BatchingMesh::createBufferByTriangles(size_t maxTriangles){
+	createBufferByVertexs(maxTriangles*3);
+}
+
+
 void BatchingMesh::relase(){
-	mVertexs.clear();
+	countVertexs=0;
 }
-
-
 inline bool BatchingMesh::canAdd(Mesh::ptr mesh){	
 	//ibo
 	size_t nI=mesh->getCpuIndexs().size();
@@ -287,15 +297,14 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,int z){
 	DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINES);
 	DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINE_STRIP);
 
-	gVertex vtztmp;
-
 	#define AddVertexML(gvt)\
-				vtztmp.vtz=Vec3(modelView.mul2D(gvt.vt),z);\
-				vtztmp.uv=gvt.uv;\
-				mVertexs.push_back(vtztmp);
+				mVertexs[countVertexs].vtz=Vec3(modelView.mul2D(gvt.vt),z);\
+				mVertexs[countVertexs].uv=gvt.uv;\
+				++countVertexs;
 
 	#define AddLastVertexML3(i)\
-				mVertexs.push_back(mVertexs[mVertexs.size()+i]);
+				mVertexs[countVertexs]=mVertexs[countVertexs+i];\
+				++countVertexs;
 	//ibo
 	size_t nI=mesh->getCpuIndexs().size();
 	size_t nV=mesh->getCpuVertexs().size();
@@ -373,7 +382,7 @@ void BatchingMesh::draw(){
 	//send vertexs
 	glBufferSubData(GL_ARRAY_BUFFER, //target
 					0,               //offset
-					sizeof(BatchingMesh::gVertex)* mVertexs.size(), //size 
+					sizeof(BatchingMesh::gVertex)*countVertexs, //size 
 					&mVertexs[0] //data
 	);
 	//set vertex
@@ -388,5 +397,5 @@ void BatchingMesh::draw(){
 	glTexCoordPointer(2, GL_FLOAT, sizeofGV, &mVertexs[0].uv.x );
 #endif
 	//draw
-	glDrawArrays( GL_TRIANGLES, 0, mVertexs.size() );
+	glDrawArrays( GL_TRIANGLES, 0, countVertexs );
 }

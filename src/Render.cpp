@@ -26,18 +26,18 @@ void Render::erseLayer(Layer* layer){
 }
 
 void Render::draw(){
-#if 1
-	#define MAX_BUFFER_SIZE ((256) << 10) //512 KB
+#ifdef ENABLE_CPU_BATCHING_MESH 
+	#define MAX_BUFFER_TRIANGLES 2000 //2K
 	//create buffer
 	if(!batchingMesh.getBufferSize())
-		batchingMesh.createBuffer(MAX_BUFFER_SIZE);
+			batchingMesh.createBufferByTriangles(MAX_BUFFER_TRIANGLES);
 	//old state
 	Renderable *lastDraw=NULL;
 	Renderable *rCurrent=NULL;
 	Renderable *rNext=NULL;
 	//clear
 	glClearColor(clearClr.rNormalize(),
-				 clearClr.gNormalize(),
+				 clearClr.gNormalize(), 
 				 clearClr.bNormalize(),
 				 clearClr.aNormalize());
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -59,12 +59,11 @@ void Render::draw(){
 		if(layer->isVisible()){
 			//update layer
 			layer->dosort();
-			//get firt randarable
+			//get the first rendarable
 			rNext=layer->next();
-			//for all renderable
+			//for all renderables
 			while(rNext!=NULL){
-				//is drawed!?
-				//get next
+				//get next rendarable
 				rCurrent=rNext;
 				rNext=layer->next();
 				//renderable is visible?
@@ -115,7 +114,7 @@ void Render::draw(){
 		if(layer->isVisible()){
 			//update layer
 			layer->dosort();
-			//for all renderable
+			//for all renderables
 			while(Renderable *renderable=layer->next()){
 				//renderable is visible?
 				if(renderable->isVisible()){
@@ -153,9 +152,17 @@ void Render::update(float dt){
 }
 
 void Render::updateProjection(){
+	updateProjection(Application::instance()->getScreen()->getSize());
+}
+
+void Render::updateProjection(const Vec2& argViewport){
 	//set viewport
-	viewport.x=Application::instance()->getScreen()->getWidth();
-	viewport.y=Application::instance()->getScreen()->getHeight();
+	viewport=argViewport;
     //update projection is always the same
 	projection.setOrtho(-viewport.x*0.5,viewport.x*0.5, -viewport.y*0.5,viewport.y*0.5, 1,-1);
+
+}
+void Render::updateViewport(const Vec2& argViewport){
+	//set viewport
+	viewport=argViewport;
 }

@@ -18,6 +18,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "loadscene", "exemples\loads
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StressTest", "exemples\StressTest\ScressTest.vcxproj", "{7E20304C-1613-4494-B6A5-37088C2E32D6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -50,6 +55,12 @@ Global
 		{82FF3FF8-64AD-4098-A002-311615B80D5C}.Release_windows8|Win32.Build.0 = Release|Win32
 		{82FF3FF8-64AD-4098-A002-311615B80D5C}.Release|Win32.ActiveCfg = Release|Win32
 		{82FF3FF8-64AD-4098-A002-311615B80D5C}.Release|Win32.Build.0 = Release|Win32
+		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Debug|Win32.Build.0 = Debug|Win32
+		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
+		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release|Win32.ActiveCfg = Release|Win32
+		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
