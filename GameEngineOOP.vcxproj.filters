@@ -165,6 +165,9 @@
     <ClCompile Include="src\thread\ThreadWin32.cpp">
       <Filter>File di origine\thread</Filter>
     </ClCompile>
+    <ClCompile Include="src\Audio.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -323,6 +326,9 @@
     </ClInclude>
     <ClInclude Include="include\thread\ThreadConf.h">
       <Filter>File di intestazione\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Audio.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

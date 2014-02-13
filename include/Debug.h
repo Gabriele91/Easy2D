@@ -29,6 +29,7 @@ namespace Easy2D {
 
 #ifdef _DEBUG
 	
+	#define DEBUG_CODE( x ) x
 	#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
 	#define DEBUG_MESSAGE_IF( x,y )  if(x) { Debug::message()<<y<<"\n"; }
 	#define DEBUG_ASSERT( x ) Debug::doassert((x),#x,__FILE__,__LINE__)
@@ -40,6 +41,7 @@ namespace Easy2D {
 
 #else
 	
+	#define DEBUG_CODE( x ) 
 	#define DEBUG_MESSAGE( x )
 	#define DEBUG_MESSAGE_IF( x,y )
 	#define DEBUG_ASSERT( x )

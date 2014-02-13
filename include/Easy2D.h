@@ -18,6 +18,7 @@
 #include <Application.h>
 #include <Screen.h>
 #include <Input.h>
+#include <Audio.h>
 #include <Game.h>
 //
 #include <Math3D.h>

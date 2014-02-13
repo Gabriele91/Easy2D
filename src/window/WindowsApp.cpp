@@ -3,6 +3,7 @@
 #include <WindowsApp.h>
 #include <WindowsScreen.h>
 #include <WindowsInput.h>
+#include <Audio.h>
 #include <Shlobj.h>
 #include <Debug.h>
 //window
@@ -15,6 +16,7 @@ WindowsApp::WindowsApp(const String& name)
 		   :Application(){
    screen=(Screen*)new WindowsScreen();
    input=(Input*)new WindowsInput();
+   audio=(Audio*)new Audio();//OpenAL
    //savename
    appname=name;
    /////////////////////////////////////
@@ -39,6 +41,9 @@ WindowsApp::WindowsApp(const String& name)
 }
 
 WindowsApp::~WindowsApp(){
+	//delete audio
+	delete audio;
+	audio=NULL;
 	//delete screen
 	delete screen;
 	screen=NULL;
