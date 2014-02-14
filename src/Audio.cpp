@@ -7,8 +7,13 @@
 using namespace Easy2D;
 ///////////////////////
 //deault api audio is openal
-#include <AL/al.h>
-#include <AL/alc.h>
+#ifdef PLATFORM_MAC_OS_X
+    #include <OpenAL/al.h>
+    #include <OpenAL/alc.h>
+#else
+    #include <AL/al.h>
+    #include <AL/alc.h>
+#endif
 /*
 OpeanAL helpers
 */
