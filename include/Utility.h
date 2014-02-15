@@ -3,6 +3,7 @@
 
 
 #include <Config.h>
+#include <string>
 #include <EString.h>
 
 namespace Easy2D {
@@ -53,11 +54,13 @@ namespace Easy2D {
 			
 			Path(const char* path);
 			Path(const String& path);
+			Path(const std::string& path);
 			DFORCEINLINE const String& getPath() const { return path; }
 			DFORCEINLINE const String& getDirectory() const { return directory; }
 			DFORCEINLINE const String& getFilename() const { return file; }
 			DFORCEINLINE const String& getFilebasename() const { return filebasename; }
 			DFORCEINLINE const String& getExtension() const { return ext; }
+			DFORCEINLINE const bool isAbsolute() const { return isabs; }
 			//
 			bool existsFile();
 			bool existsDirectory();
@@ -66,7 +69,7 @@ namespace Easy2D {
 			std::vector<String> getSubDirs() const;
 			//
 			static String getCanonicalPath(const String& path);
-			static void convertToCanonicalPath(String& path);
+			static bool convertToCanonicalPath(String& path);
 			//
 			//cast
 			operator const String& () const{
@@ -84,7 +87,7 @@ namespace Easy2D {
 			String file;
 			String filebasename;
 			String ext;
-
+			bool   isabs;
 		};
 	
 	};

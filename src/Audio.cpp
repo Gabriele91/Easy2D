@@ -133,6 +133,7 @@ public:
 	}
 	///destroy sound rerouce
 	virtual ~SoundAL(){
+        if(isPlay()) stop();
 		alDeleteBuffers(1,&buffer);
 		alDeleteSources(1,&source);
 		Application::instance()->getAudio()->unsubscriptionSound(this);

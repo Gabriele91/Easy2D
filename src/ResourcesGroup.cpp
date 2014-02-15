@@ -42,6 +42,7 @@ void ResourcesGroup::loadResourceFile(){
 	loadAResource(resources.getPath(),"meshes",meshes);
 	loadAResource(resources.getPath(),"frameSets",frameSets);
 	loadAResource(resources.getPath(),"fonts",fonts);
+    loadAResource(resources.getPath(),"sounds",sounds);
 
 }
 
@@ -79,6 +80,8 @@ template<>
 ResourcesManager<Mesh>& ResourcesGroup::getManager<Mesh>(){ return meshes; }
 template<> 
 ResourcesManager<FrameSet>& ResourcesGroup::getManager<FrameSet>(){ return frameSets; }
-template<> 
+template<>
 ResourcesManager<Font>& ResourcesGroup::getManager<Font>(){ return fonts; }
+template<>
+ResourcesManager<Sound>& ResourcesGroup::getManager<Sound>(){ return sounds; }
 #endif

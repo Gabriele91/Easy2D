@@ -23,6 +23,7 @@
 //
 #include <Math3D.h>
 #include <Object.h>
+#include <Sound.h>
 //
 #include <Render.h>
 #include <RenderState.h>

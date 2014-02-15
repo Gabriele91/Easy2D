@@ -148,6 +148,9 @@
 		E089EAE817B2750E0055B59A /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
 		E089EAEC17B2751B0055B59A /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEA17B2751B0055B59A /* Scene.h */; };
 		E089EAED17B2751B0055B59A /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEB17B2751B0055B59A /* State.h */; };
+		E08C634818AFB0D200A26E40 /* EStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634618AFB0D200A26E40 /* EStack.cpp */; };
+		E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634718AFB0D200A26E40 /* Sound.cpp */; };
+		E08C634B18AFB0E000A26E40 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = E08C634A18AFB0E000A26E40 /* Sound.h */; };
 		E0937D1D17B5483300DEFFCD /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0937D1B17B5483300DEFFCD /* State.cpp */; };
 		E0A7196C17E1EE6200A0B298 /* ftconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7191017E1EE6200A0B298 /* ftconfig.h */; };
 		E0A7196D17E1EE6200A0B298 /* ftheader.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7191117E1EE6200A0B298 /* ftheader.h */; };
@@ -392,6 +395,9 @@
 		E089EAE617B2750E0055B59A /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		E089EAEA17B2751B0055B59A /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		E089EAEB17B2751B0055B59A /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		E08C634618AFB0D200A26E40 /* EStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EStack.cpp; sourceTree = "<group>"; };
+		E08C634718AFB0D200A26E40 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
+		E08C634A18AFB0E000A26E40 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		E0937D1B17B5483300DEFFCD /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
 		E0A7191017E1EE6200A0B298 /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		E0A7191117E1EE6200A0B298 /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
@@ -550,6 +556,7 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E08C634A18AFB0E000A26E40 /* Sound.h */,
 				E06134FF18AE671C00BD63EC /* Audio.h */,
 				E061350018AE671C00BD63EC /* Memory.h */,
 				E087365117B38D6F0005472E /* EStack.h */,
@@ -606,6 +613,8 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E08C634618AFB0D200A26E40 /* EStack.cpp */,
+				E08C634718AFB0D200A26E40 /* Sound.cpp */,
 				E06134F918AE670000BD63EC /* Audio.cpp */,
 				E06134FA18AE670000BD63EC /* Memory.cpp */,
 				E089EAE617B2750E0055B59A /* Scene.cpp */,
@@ -1061,6 +1070,7 @@
 				E0A7199217E1EE6200A0B298 /* ftsynth.h in Headers */,
 				E0A7199317E1EE6200A0B298 /* ftsystem.h in Headers */,
 				E0A7199417E1EE6200A0B298 /* fttrigon.h in Headers */,
+				E08C634B18AFB0E000A26E40 /* Sound.h in Headers */,
 				E0A7199517E1EE6200A0B298 /* ftttdrv.h in Headers */,
 				E061354718AE697100BD63EC /* b2BlockAllocator.h in Headers */,
 				E0A7199617E1EE6200A0B298 /* fttypes.h in Headers */,
@@ -1161,7 +1171,7 @@
 		E01963F4176AE89300CF955A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = E01963F7176AE89300CF955A /* Build configuration list for PBXProject "Easy2D" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1196,6 +1206,7 @@
 				E054964217AE6907005DDB72 /* Color.cpp in Sources */,
 				E054964317AE6907005DDB72 /* Config.cpp in Sources */,
 				E054964417AE6907005DDB72 /* Debug.cpp in Sources */,
+				E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */,
 				E054964517AE6907005DDB72 /* EString.cpp in Sources */,
 				E054964617AE6907005DDB72 /* ETime.cpp in Sources */,
 				E054964717AE6907005DDB72 /* Font.cpp in Sources */,
@@ -1214,6 +1225,7 @@
 				E054965E17AE6907005DDB72 /* Renderable.cpp in Sources */,
 				E054965F17AE6907005DDB72 /* RenderState.cpp in Sources */,
 				E054966017AE6907005DDB72 /* Resource.cpp in Sources */,
+				E08C634818AFB0D200A26E40 /* EStack.cpp in Sources */,
 				E06134FE18AE670B00BD63EC /* Image.cpp in Sources */,
 				E054966117AE6907005DDB72 /* ResourcesGroup.cpp in Sources */,
 				E054966217AE6907005DDB72 /* ResourcesManager.cpp in Sources */,
@@ -1234,7 +1246,6 @@
 		E01963F8176AE89300CF955A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1247,12 +1258,13 @@
 					./,
 				);
 				LIBRARY_SEARCH_PATHS = "dependencies-osx64/lib";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-D_DEBUG",
 					"-DORDERED_TABLE",
 					"-DSIMD_SSE2",
 				);
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -1260,7 +1272,6 @@
 		E01963F9176AE89300CF955A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1277,7 +1288,7 @@
 					"-DORDERED_TABLE",
 					"-DSIMD_SSE2",
 				);
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -1286,7 +1297,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1309,7 +1319,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;

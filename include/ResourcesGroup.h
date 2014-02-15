@@ -11,7 +11,7 @@
 #include <Mesh.h>
 #include <FrameSet.h>
 #include <Font.h>
-//#include <Sound.h>
+#include <Sound.h>
 
 namespace Easy2D {
 
@@ -22,6 +22,7 @@ namespace Easy2D {
 		ResourcesManager<Mesh> meshes;
 		ResourcesManager<FrameSet> frameSets;
 		ResourcesManager<Font> fonts;
+		ResourcesManager<Sound> sounds;
 		
 	public:
 
@@ -37,9 +38,11 @@ namespace Easy2D {
 			template<> 
 			ResourcesManager<Mesh>& getManager<Mesh>(){ return meshes; }
 			template<> 
-			ResourcesManager<FrameSet>& getManager<FrameSet>(){ return frameSets; }
-			template<> 
-			ResourcesManager<Font>& getManager<Font>(){ return fonts; }
+            ResourcesManager<FrameSet>& getManager<FrameSet>(){ return frameSets; }
+            template<>
+            ResourcesManager<Font>& getManager<Font>(){ return fonts; }
+            template<>
+            ResourcesManager<Sound>& getManager<Sound>(){ return sounds; }
 		#endif
 
 	private:
@@ -115,6 +118,7 @@ namespace Easy2D {
 			meshes.load();
 			frameSets.load();
 			fonts.load();
+            sounds.load();
 		}
 		/** unload all resources returned  */
 		DFORCEINLINE void unload(bool destroy){
@@ -123,6 +127,7 @@ namespace Easy2D {
 			meshes.unload(destroy);
 			frameSets.unload(destroy);
 			fonts.unload(destroy);
+            sounds.unload(destroy);
 		}
 		/** reload only gpu resource */
 		void reloadGpuResouce();
@@ -140,7 +145,9 @@ namespace Easy2D {
 		template<> 
 		ResourcesManager<FrameSet>& ResourcesGroup::getManager<FrameSet>();
 		template<> 
-		ResourcesManager<Font>& ResourcesGroup::getManager<Font>();
+        ResourcesManager<Font>& ResourcesGroup::getManager<Font>();
+        template<>
+        ResourcesManager<Sound>& ResourcesGroup::getManager<Sound>();
 	#endif
 };
 

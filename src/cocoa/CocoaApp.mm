@@ -11,6 +11,7 @@
 #include <CocoaInput.h>
 #import <Cocoa/Cocoa.h>
 #import <Timer.h>
+#import <Audio.h>
 //namespace
 using namespace Easy2D;
 
@@ -104,6 +105,7 @@ CocoaApp::CocoaApp(const String& name){
     //create component
     screen=(Screen*)new CocoaScreen();
     input=(Input*)new CocoaInput();
+    audio=new Audio(); //default OpenAL
     //add listener event
     ((CocoaScreen*)screen)->onCocoaWindowCreated=[](void *nswindow){
         CocoaInput* input= (CocoaInput*)Application::instance()->getInput();
