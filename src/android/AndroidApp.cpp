@@ -5,6 +5,7 @@
 #include <AndroidScreen.h>
 #include <AndroidInput.h>
 #include <AndroidMain.h>
+#include <Audio.h>
 #include <Debug.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -36,6 +37,7 @@ AndroidApp::AndroidApp(const String& appname)
 		   :Application(){
 	screen=(Screen*)new AndroidScreen();
 	input=(Input*)new AndroidInput();
+	audio=new Audio();//use OpenAL // todo use OpenSL ES
 	//set android userdata
 	setAndroidUserData((void*)this);
 
@@ -71,6 +73,9 @@ AndroidApp::AndroidApp(const String& appname)
 }
 
 AndroidApp::~AndroidApp(){
+	//delete audio
+	delete audio;
+	audio=NULL;
 	//delete screen
 	delete screen;
 	screen=NULL;
@@ -97,6 +102,75 @@ bool AndroidApp::loadData(const String& path,void*& ptr,size_t &len){
 	AAsset_close(asset);
 	//return is read
 	return len!=0;
+}
+
+/**
+* use asset manager for resource stream
+*/
+class AResouceStream : public Application::ResouceStream {
+
+    AAsset *asset;
+    
+public:
+    
+    AResouceStream(const String& path){
+        /**
+         * Open file
+         */
+        asset=AAssetManager_open(getAndroidApp()->activity->assetManager, 
+        						 path,
+        						 AASSET_MODE_STREAMING);
+        DEBUG_MESSAGE("open stream file: "<<path);
+        DEBUG_ASSERT_MSG(asset,"error open stream file: "<<path);
+    }
+    
+    virtual ~AResouceStream(){
+        if(asset)
+            close();
+    }
+    ///close file
+    virtual void close(){
+        AAsset_close(asset);
+        asset=NULL;
+    }
+    ///read from file
+    virtual size_t read(void * ptr, size_t size, size_t count){
+        AAsset_read(asset,ptr,size*count);
+    }
+    ///seek from file
+    virtual size_t seek (size_t offset, Application::Seek origin ){
+        int cseek=0;
+        switch (origin){
+            case Application::Seek::CUR: cseek=SEEK_CUR; break;
+            case Application::Seek::SET: cseek=SEEK_SET; break;
+            case Application::Seek::END: cseek=SEEK_END; break;
+            default:  break;
+        }
+        AAsset_seek (asset, offset, cseek);
+    }
+    ///returns the current value of the position indicator of the stream
+    virtual size_t tell(){
+        return size()-AAsset_getRemainingLength(asset);
+    }
+    ///get file size
+    virtual size_t size(){
+        return AAsset_getLength(asset);
+    }
+    ///return a uchar cast in int
+    virtual int getc(){
+        char c;
+        read(&c, 1, 1);
+        return c;
+    }
+    ///rewind from file
+    virtual void rewind (){
+        seek(0,Application::Seek::SET);
+    }
+
+};
+
+Application::ResouceStream* Application::getResouceStream(const String& path){
+    return new AResouceStream(path);
 }
 
 String AndroidApp::appDataDirectory(){

@@ -3,6 +3,9 @@
 #include <EString.h>
 #include <Debug.h>
 #include <Application.h>
+#include <Thread.h>
+#include <Mutex.h>
+#include <Math3D.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -95,13 +98,11 @@ static void ualGetDevices(std::vector<String>& Devices){
 
 /**
 * OpenAL Sound
-*/
-class SoundAL : public Audio::SoundInterface{
+ */
+class BaseSoundAL : public Audio::SoundInterface{
 protected:
 	//cource file
 	ALuint source;
-	//buffer file
-    ALuint buffer;
 	//format buffer
 	int format;
 	//buffer len in second
@@ -115,26 +116,23 @@ protected:
 		audioVolume=volume;
 		alSourcef(source, AL_GAIN, audioVolume*audioVolume);
 	}
-
+    
 public:
 	///constructor
-	SoundAL(ALuint source,
-			ALuint buffer,
-			int format,
-			float lenSound,
-			float audioVolume):source(source),
-							   buffer(buffer),
-							   format(format),
-							   lenSound(lenSound),
-							   soundVolume(1.0),
-							   audioVolume(audioVolume)
+	BaseSoundAL(ALuint source,
+			    int format,
+			    float lenSound,
+			    float audioVolume):
+    source(source),
+    format(format),
+    lenSound(lenSound),
+    soundVolume(1.0),
+    audioVolume(audioVolume)
 	{
 		Application::instance()->getAudio()->subscriptionSound(this);
 	}
 	///destroy sound rerouce
-	virtual ~SoundAL(){
-        if(isPlay()) stop();
-		alDeleteBuffers(1,&buffer);
+	virtual ~BaseSoundAL(){
 		alDeleteSources(1,&source);
 		Application::instance()->getAudio()->unsubscriptionSound(this);
 	};
@@ -210,12 +208,258 @@ public:
 		alGetSourcei (source, AL_SOURCE_STATE, &status);
 		return ( status != AL_PLAYING && status != AL_PAUSED );
 	}
-	virtual bool isLoop(){	
+	virtual bool isLoop(){
 		ALint looping;
 		alGetSourcei (source, AL_LOOPING, &looping);
 		return looping != 0 ;
 	}
-}; 
+};
+class StaticSoundAL : public BaseSoundAL{
+protected:
+    
+	//buffer file
+    ALuint buffer;
+    
+public:
+	///constructor
+	StaticSoundAL(ALuint source,
+                  ALuint buffer,
+                  int format,
+                  float lenSound,
+                  float audioVolume):
+    BaseSoundAL(source,format,lenSound,audioVolume),
+    buffer(buffer)
+	{
+	}
+    
+	///destroy sound rerouce
+	virtual ~StaticSoundAL(){
+        if(isPlay()) stop();
+		alDeleteBuffers(1,&buffer);
+	};
+};
+
+
+/*************
+ * STREAMING *
+ *************/
+
+#define AL_STREAME_SICURITY_FACTOR 2
+#define AL_STREAM_BUFFER_SIZE  (size_t)(4410*32*AL_STREAME_SICURITY_FACTOR)
+#define AL_STREAM_N_BUFFERS 2
+#define AL_MAX_ONE_SEC_SIZE (16*2*44100*AL_STREAME_SICURITY_FACTOR)
+#define AL_STREAM_THREAD_SLEEP_S ((double)(AL_STREAM_BUFFER_SIZE) / (double)(AL_MAX_ONE_SEC_SIZE))
+#define AL_STREAM_THREAD_SLEEP_MS (AL_STREAM_THREAD_SLEEP_S*1000.0)
+/**
+ * class declaretion
+ */
+class StreamSoundAL;
+class StreamThreadAL;
+/**
+ * Streaming sound thread
+ */
+class StreamThreadAL : public Thread {
+
+    DUNORDERED_MAP<StreamSoundAL*,StreamSoundAL*> soundmap;
+    Mutex mutex;
+    bool isrunning;
+    
+public:
+    
+    StreamThreadAL():Thread(Thread::TERMINATE_JOIN),isrunning(true){}
+    
+    void push(StreamSoundAL *ssound){
+        mutex.lock();
+        soundmap[ssound]=ssound;
+        mutex.unlock();
+    }
+    
+    void erase(StreamSoundAL *ssound){
+        mutex.lock();
+            auto it=soundmap.find(ssound);
+            if(it!=soundmap.end())
+                soundmap.erase(it);
+        mutex.unlock();
+    }
+    
+    virtual int run();
+    
+	virtual ~StreamThreadAL(){
+         isrunning=false;
+	};
+
+};
+/**
+ * Streaming sound
+ */
+class StreamSoundAL : public BaseSoundAL{
+    
+protected:
+    
+    //stream thread
+    StreamThreadAL* streamThread;
+	//buffers
+    ALuint buffers[AL_STREAM_N_BUFFERS];
+    //function pointer
+    DFUNCTION<size_t(uchar* buffer,size_t sizeBuffer)> readStream;
+    DFUNCTION<void(void)> restartStream;
+    size_t sizeData;
+    size_t sempleRate;
+    size_t sizeSemple;
+    size_t leftRead;
+    size_t lastRead;
+    bool looping;
+    
+    
+public:
+	///constructor
+	StreamSoundAL(StreamThreadAL* streamThread,
+                  ALuint source,
+                  DFUNCTION<size_t(uchar* buffer,size_t sizeBuffer)> readStream,
+                  DFUNCTION<void(void)> restartStream,
+                  size_t size,
+                  size_t sempleRate,
+                  size_t sizeSemple,
+                  int   format,
+                  float lenSound,
+                  float audioVolume):
+    BaseSoundAL(source,format,lenSound,audioVolume),
+    streamThread(streamThread),
+    readStream(readStream),
+    restartStream(restartStream),
+    sizeData(size),
+    sempleRate(sempleRate),
+    sizeSemple(sizeSemple)
+	{
+        /**
+        *  create buffers
+        */
+        alGenBuffers(AL_STREAM_N_BUFFERS, buffers);
+        //schedule update
+        streamThread->push(this);
+        //init
+        leftRead=0;
+        lastRead=0;
+	}
+    ///destroy sound rerouce
+	virtual ~StreamSoundAL(){
+        if(isPlay()) stop();
+        //unschedule
+        streamThread->erase(this);
+        //delete buffers
+		alDeleteBuffers(AL_STREAM_N_BUFFERS,buffers);
+	};
+    //overload play
+	virtual void play() {
+        /////////////////////////////////////////////////////////////////////
+        //restat stream
+        restart();
+        /////////////////////////////////////////////////////////////////////
+        //stream file/data
+        for(size_t i=0;i!=AL_STREAM_N_BUFFERS;++i) read(buffers[i]);
+        /////////////////////////////////////////////////////////////////////
+        alSourceQueueBuffers(source, AL_STREAM_N_BUFFERS, buffers);
+        BaseSoundAL::play();
+    }
+    
+    //overload loop
+	virtual void loop(){
+	    if(!isPlay()) play();
+		if(!isLoop()) looping=true;
+	}
+    ///enable loop
+	virtual void enableLoop(){
+		looping=true;
+	}
+	///disable loop
+	virtual void disableLoop(){
+        looping=false;
+	}
+    ///playback Time
+	virtual float playbackTime(){
+        int bytesBufferRead;
+		alGetSourcei(source, AL_BYTE_OFFSET , &bytesBufferRead);
+        float  result=((float)(Math::min(lastRead+bytesBufferRead,sizeData))/sizeSemple);
+		return result;
+	}
+	///global time duration
+	virtual float duration(){
+		return lenSound;
+	}
+    ///is in looping mode!?
+	virtual bool isLoop(){
+		return looping ;
+	}
+    
+    //restat steam
+    void restart(){
+        restartStream();
+        leftRead=0;
+        lastRead=0;
+    }
+    //stream buffer
+    size_t read(ALuint alBuffer){
+        //buffer
+        uchar loadBuffer[AL_STREAM_BUFFER_SIZE];
+        //stream file/data
+        size_t readSize=readStream(loadBuffer,AL_STREAM_BUFFER_SIZE);
+        //count a bites read
+        leftRead+=readSize;
+        //update buffer
+        alBufferData(alBuffer, format, loadBuffer, readSize, sempleRate);
+        //return size
+        return readSize;
+    }
+    ///update
+    void update();
+};
+
+/**
+ * Streaming sound thread implementation
+ */
+int StreamThreadAL::run(){
+    while(isrunning){
+        mutex.lock();
+        for (auto sound:soundmap)
+            sound.second->update();
+        mutex.unlock();
+        sleepThread(AL_STREAM_THREAD_SLEEP_MS);
+    }
+    return 0;
+}
+/**
+ * Streaming sound implementation
+ */
+void StreamSoundAL::update(){
+    //
+    if(!isPlay()&&!isLoop()) return;
+    if(!isPlay()&&isLoop())/* wrong */{
+        play();
+    }
+    //buffer info
+    ALuint alBuffer;
+    //loop
+    int processed;
+    alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+    //
+    while(processed--)
+    {
+        //get buffer
+        alSourceUnqueueBuffers(source, 1, &alBuffer);
+        //get last read
+        ALint sizeReaded=0;
+        alGetBufferi(alBuffer, AL_SIZE, &sizeReaded);
+        lastRead+=sizeReaded;
+        //stream file/data
+        read(alBuffer);
+        //in loop mode restart stream buffer
+        if(sizeData<=leftRead && isLoop()) restart();
+        //change buffer
+        alSourceQueueBuffers(source, 1, &alBuffer);
+    }
+    
+}
+
 /*
 * context struct OpenAL
 */
@@ -223,6 +467,7 @@ struct OpenALContext{
 	ALCdevice *device;
 	ALCcontext *context;
 	float globalVolume;
+    StreamThreadAL streamThread;
 	OpenALContext():device(NULL),context(NULL),globalVolume(1.0){}
 };
 #define CONTEXT ((OpenALContext*)(this->context))
@@ -232,6 +477,7 @@ struct OpenALContext{
 Audio::Audio(){
 	//alloc the OpenAL context
 	this->context=(void*)new OpenALContext();
+    CONTEXT->streamThread.start();
 	//get devices
 	std::vector<String> devices;
 	ualGetDevices(devices);
@@ -281,7 +527,7 @@ Audio::~Audio(){
 						   "OpenAL error close device: " << ualGetALErrorString(alcGetError (CONTEXT->device)) );
 #endif  
   //dealloc context
-  delete this->context;
+  delete CONTEXT;
   this->context=NULL;
 }
 /**
@@ -325,8 +571,41 @@ Audio::SoundInterface* Audio::createSound(void *raw,
 	//calc semple size (SampleRate * NumChannels * BitsPerSample/8)
 	size_t sizeSemple= sempleRate * channels * sempleBit;
 	float timeLongSong= (float)size/(float)sizeSemple;
-	//return a SoundAL class object
-	return new SoundAL(source,buffer,format,timeLongSong,CONTEXT->globalVolume);
+	//return a StaticSoundAL class object
+	return new StaticSoundAL(source,buffer,format,timeLongSong,CONTEXT->globalVolume);
+}
+/**
+*
+*/
+Audio::SoundInterface* Audio::createStreamSound(DFUNCTION<size_t(uchar* buffer,size_t sizeBuffer)> readStream,
+                                                DFUNCTION<void(void)> restartStream,
+                                                size_t size,
+                                                size_t sempleRate,
+                                                Channels channels,
+                                                SempleBit sempleBit){
+	//get openAL format
+ 	ALenum format;
+	if(channels==Channels::MONO)
+		format = sempleBit==SempleBit::SEMPLE8BIT ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
+	else
+		format = sempleBit==SempleBit::SEMPLE8BIT ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
+	//calc semple size (SampleRate * NumChannels * BitsPerSample/8)
+	size_t sizeSemple= sempleRate * channels * sempleBit;
+	float timeLongSong= (float)size/(float)sizeSemple;
+    //create a source
+ 	ALuint source = AL_NONE;
+	alGenSources(1, &source);
+    return new StreamSoundAL(&CONTEXT->streamThread,//stream thread
+                             source,                //souce
+                             readStream,            //readStream callback
+                             restartStream,         //restart steam callback
+                             size,                  //global size
+                             sempleRate,            //semple rate
+                             sizeSemple,            //size of a semple
+                             format,                //OpenAL buffer type
+                             timeLongSong,          //len sound
+                             CONTEXT->globalVolume  //volume
+                             );
 }
 /**
 * change volume to all sounds

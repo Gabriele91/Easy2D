@@ -140,6 +140,10 @@ CocoaApp::~CocoaApp(){
     //gc
     NSAutoreleasePool	*pool = [[NSAutoreleasePool alloc] init];
     
+    //delete audio
+    delete audio;
+    audio=NULL;
+    
 	//delete screen
 	delete screen;
 	screen=NULL;

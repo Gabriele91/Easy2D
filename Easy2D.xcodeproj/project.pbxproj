@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E027963F18B1447300B1A4FE /* MutexPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */; };
+		E027964018B1447300B1A4FE /* ThreadPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */; };
+		E027964618B1449A00B1A4FE /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964218B1449A00B1A4FE /* Mutex.h */; };
+		E027964718B1449A00B1A4FE /* MutexConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964318B1449A00B1A4FE /* MutexConf.h */; };
+		E027964818B1449A00B1A4FE /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964418B1449A00B1A4FE /* Thread.h */; };
+		E027964918B1449A00B1A4FE /* ThreadConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964518B1449A00B1A4FE /* ThreadConf.h */; };
 		E05495BD17AE68E8005DDB72 /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958817AE68E8005DDB72 /* AnimatedSprite.h */; };
 		E05495BE17AE68E8005DDB72 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958917AE68E8005DDB72 /* Application.h */; };
 		E05495BF17AE68E8005DDB72 /* Blend.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958A17AE68E8005DDB72 /* Blend.h */; };
@@ -79,10 +85,6 @@
 		E054966417AE6907005DDB72 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961F17AE6907005DDB72 /* Sprite.cpp */; };
 		E054966517AE6907005DDB72 /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962017AE6907005DDB72 /* Table.cpp */; };
 		E054966617AE6907005DDB72 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962117AE6907005DDB72 /* Texture.cpp */; };
-		E054966717AE6907005DDB72 /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = E054962317AE6907005DDB72 /* Mutex.h */; };
-		E054966817AE6907005DDB72 /* MutexConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E054962417AE6907005DDB72 /* MutexConf.h */; };
-		E054966917AE6907005DDB72 /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = E054962717AE6907005DDB72 /* Thread.h */; };
-		E054966A17AE6907005DDB72 /* ThreadConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E054962817AE6907005DDB72 /* ThreadConf.h */; };
 		E054966B17AE6907005DDB72 /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962B17AE6907005DDB72 /* Timer.cpp */; };
 		E054966C17AE6907005DDB72 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962C17AE6907005DDB72 /* Utility.cpp */; };
 		E054967517AE6939005DDB72 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = E054967417AE6939005DDB72 /* stdafx.h */; };
@@ -250,6 +252,12 @@
 		E0196485176B0CF200CF955A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E019649E176B0CF200CF955A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		E01964D0176B0D9800CF955A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MutexPOSIX.cpp; path = thread/MutexPOSIX.cpp; sourceTree = "<group>"; };
+		E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadPOSIX.cpp; path = thread/ThreadPOSIX.cpp; sourceTree = "<group>"; };
+		E027964218B1449A00B1A4FE /* Mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mutex.h; path = thread/Mutex.h; sourceTree = "<group>"; };
+		E027964318B1449A00B1A4FE /* MutexConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutexConf.h; path = thread/MutexConf.h; sourceTree = "<group>"; };
+		E027964418B1449A00B1A4FE /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = thread/Thread.h; sourceTree = "<group>"; };
+		E027964518B1449A00B1A4FE /* ThreadConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThreadConf.h; path = thread/ThreadConf.h; sourceTree = "<group>"; };
 		E054958817AE68E8005DDB72 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
 		E054958917AE68E8005DDB72 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E054958A17AE68E8005DDB72 /* Blend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blend.h; sourceTree = "<group>"; };
@@ -322,14 +330,6 @@
 		E054961F17AE6907005DDB72 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite.cpp; sourceTree = "<group>"; };
 		E054962017AE6907005DDB72 /* Table.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Table.cpp; sourceTree = "<group>"; };
 		E054962117AE6907005DDB72 /* Texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
-		E054962317AE6907005DDB72 /* Mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mutex.h; sourceTree = "<group>"; };
-		E054962417AE6907005DDB72 /* MutexConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutexConf.h; sourceTree = "<group>"; };
-		E054962517AE6907005DDB72 /* MutexPOSIX.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MutexPOSIX.inl; sourceTree = "<group>"; };
-		E054962617AE6907005DDB72 /* MutexWin32.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MutexWin32.inl; sourceTree = "<group>"; };
-		E054962717AE6907005DDB72 /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
-		E054962817AE6907005DDB72 /* ThreadConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadConf.h; sourceTree = "<group>"; };
-		E054962917AE6907005DDB72 /* ThreadPOSIX.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ThreadPOSIX.inl; sourceTree = "<group>"; };
-		E054962A17AE6907005DDB72 /* ThreadWin32.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ThreadWin32.inl; sourceTree = "<group>"; };
 		E054962B17AE6907005DDB72 /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
 		E054962C17AE6907005DDB72 /* Utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utility.cpp; sourceTree = "<group>"; };
 		E054967417AE6939005DDB72 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
@@ -553,9 +553,30 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		E027963C18B1445500B1A4FE /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */,
+				E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */,
+			);
+			name = thread;
+			sourceTree = "<group>";
+		};
+		E027964118B1447C00B1A4FE /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				E027964218B1449A00B1A4FE /* Mutex.h */,
+				E027964318B1449A00B1A4FE /* MutexConf.h */,
+				E027964418B1449A00B1A4FE /* Thread.h */,
+				E027964518B1449A00B1A4FE /* ThreadConf.h */,
+			);
+			name = thread;
+			sourceTree = "<group>";
+		};
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E027964118B1447C00B1A4FE /* thread */,
 				E08C634A18AFB0E000A26E40 /* Sound.h */,
 				E06134FF18AE671C00BD63EC /* Audio.h */,
 				E061350018AE671C00BD63EC /* Memory.h */,
@@ -613,6 +634,7 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E027963C18B1445500B1A4FE /* thread */,
 				E08C634618AFB0D200A26E40 /* EStack.cpp */,
 				E08C634718AFB0D200A26E40 /* Sound.cpp */,
 				E06134F918AE670000BD63EC /* Audio.cpp */,
@@ -650,7 +672,6 @@
 				E054961F17AE6907005DDB72 /* Sprite.cpp */,
 				E054962017AE6907005DDB72 /* Table.cpp */,
 				E054962117AE6907005DDB72 /* Texture.cpp */,
-				E054962217AE6907005DDB72 /* Thread */,
 				E054962B17AE6907005DDB72 /* Timer.cpp */,
 				E054962C17AE6907005DDB72 /* Utility.cpp */,
 				E0937D1B17B5483300DEFFCD /* State.cpp */,
@@ -677,21 +698,6 @@
 				E054960717AE6907005DDB72 /* lodepng.h */,
 			);
 			path = Image;
-			sourceTree = "<group>";
-		};
-		E054962217AE6907005DDB72 /* Thread */ = {
-			isa = PBXGroup;
-			children = (
-				E054962317AE6907005DDB72 /* Mutex.h */,
-				E054962417AE6907005DDB72 /* MutexConf.h */,
-				E054962517AE6907005DDB72 /* MutexPOSIX.inl */,
-				E054962617AE6907005DDB72 /* MutexWin32.inl */,
-				E054962717AE6907005DDB72 /* Thread.h */,
-				E054962817AE6907005DDB72 /* ThreadConf.h */,
-				E054962917AE6907005DDB72 /* ThreadPOSIX.inl */,
-				E054962A17AE6907005DDB72 /* ThreadWin32.inl */,
-			);
-			path = Thread;
 			sourceTree = "<group>";
 		};
 		E061350518AE697100BD63EC /* Box2D */ = {
@@ -1008,12 +1014,8 @@
 				E054965817AE6907005DDB72 /* Math3D_SSE2.h in Headers */,
 				E061350118AE671C00BD63EC /* Audio.h in Headers */,
 				E061356118AE697100BD63EC /* b2Joint.h in Headers */,
-				E054966717AE6907005DDB72 /* Mutex.h in Headers */,
 				E061355018AE697100BD63EC /* b2Fixture.h in Headers */,
 				E061355E18AE697100BD63EC /* b2DistanceJoint.h in Headers */,
-				E054966817AE6907005DDB72 /* MutexConf.h in Headers */,
-				E054966917AE6907005DDB72 /* Thread.h in Headers */,
-				E054966A17AE6907005DDB72 /* ThreadConf.h in Headers */,
 				E054967517AE6939005DDB72 /* stdafx.h in Headers */,
 				E089EAEC17B2751B0055B59A /* Scene.h in Headers */,
 				E089EAED17B2751B0055B59A /* State.h in Headers */,
@@ -1062,6 +1064,7 @@
 				E0A7198A17E1EE6200A0B298 /* ftmoderr.h in Headers */,
 				E0A7198B17E1EE6200A0B298 /* ftotval.h in Headers */,
 				E0A7198C17E1EE6200A0B298 /* ftoutln.h in Headers */,
+				E027964718B1449A00B1A4FE /* MutexConf.h in Headers */,
 				E0A7198D17E1EE6200A0B298 /* ftpfr.h in Headers */,
 				E0A7198E17E1EE6200A0B298 /* ftrender.h in Headers */,
 				E0A7198F17E1EE6200A0B298 /* ftsizes.h in Headers */,
@@ -1075,6 +1078,7 @@
 				E061354718AE697100BD63EC /* b2BlockAllocator.h in Headers */,
 				E0A7199617E1EE6200A0B298 /* fttypes.h in Headers */,
 				E0A7199717E1EE6200A0B298 /* ftwinfnt.h in Headers */,
+				E027964918B1449A00B1A4FE /* ThreadConf.h in Headers */,
 				E0A7199817E1EE6200A0B298 /* ftxf86.h in Headers */,
 				E0A7199917E1EE6200A0B298 /* autohint.h in Headers */,
 				E0A7199A17E1EE6200A0B298 /* ftcalc.h in Headers */,
@@ -1083,8 +1087,10 @@
 				E0A7199D17E1EE6200A0B298 /* ftgloadr.h in Headers */,
 				E061354818AE697100BD63EC /* b2Draw.h in Headers */,
 				E061355618AE697100BD63EC /* b2ChainAndPolygonContact.h in Headers */,
+				E027964618B1449A00B1A4FE /* Mutex.h in Headers */,
 				E0A7199E17E1EE6200A0B298 /* ftmemory.h in Headers */,
 				E0A7199F17E1EE6200A0B298 /* ftobjs.h in Headers */,
+				E027964818B1449A00B1A4FE /* Thread.h in Headers */,
 				E0A719A017E1EE6200A0B298 /* ftpic.h in Headers */,
 				E061356A18AE697100BD63EC /* b2Rope.h in Headers */,
 				E0A719A117E1EE6200A0B298 /* ftrfork.h in Headers */,
@@ -1212,6 +1218,7 @@
 				E054964717AE6907005DDB72 /* Font.cpp in Sources */,
 				E054964817AE6907005DDB72 /* FrameSet.cpp in Sources */,
 				E054964917AE6907005DDB72 /* FreeTypeFontLoader.cpp in Sources */,
+				E027963F18B1447300B1A4FE /* MutexPOSIX.cpp in Sources */,
 				E054964A17AE6907005DDB72 /* Game.cpp in Sources */,
 				E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */,
 				E054964E17AE6907005DDB72 /* Input.cpp in Sources */,
@@ -1221,6 +1228,7 @@
 				E054965B17AE6907005DDB72 /* Mesh.cpp in Sources */,
 				E054965C17AE6907005DDB72 /* Object.cpp in Sources */,
 				E054965D17AE6907005DDB72 /* Render.cpp in Sources */,
+				E027964018B1447300B1A4FE /* ThreadPOSIX.cpp in Sources */,
 				E06134FB18AE670000BD63EC /* Audio.cpp in Sources */,
 				E054965E17AE6907005DDB72 /* Renderable.cpp in Sources */,
 				E054965F17AE6907005DDB72 /* RenderState.cpp in Sources */,

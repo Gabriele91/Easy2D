@@ -20,6 +20,34 @@ namespace Easy2D {
 	class Application{
 
 	public:
+        
+        enum Seek{
+            SET=0,
+            CUR=1,
+            END=2
+        };
+        
+        class ResouceStream {
+        
+        public:
+            
+            virtual ~ResouceStream(){}
+            ///close file
+            virtual void close()=0;
+            ///read from file
+            virtual size_t read(void * ptr, size_t size, size_t count)=0;
+            ///seek from file
+            virtual size_t seek (size_t offset, Seek origin )=0;
+            ///returns the current value of the position indicator of the stream
+            virtual size_t tell()=0;
+            ///get file size
+            virtual size_t size()=0;
+            ///return a uchar cast in int
+            virtual int getc()=0;
+            ///rewind from file
+            virtual void rewind ()=0;
+            
+        };
 		/**
 		* create singleton (if already created raises an exception)
 		*/
@@ -37,6 +65,11 @@ namespace Easy2D {
 		* @return succes
 		*/
 		virtual bool loadData(const String& path,void*& ptr,size_t &len)=0;
+		/**
+         * stream resource
+         * @return ResouceStream object
+         */
+        virtual ResouceStream* getResouceStream(const String& path);
 		/**
 		* where you can seve files data
 		* @return path

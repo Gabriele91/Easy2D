@@ -4,12 +4,17 @@
 #include <Config.h>
 #include <Audio.h>
 #include <Resource.h>
+#include <Application.h>
 
 namespace Easy2D {
 
 	class Sound : public Resource<Sound> {
-
+        
+        //sound instance
         Audio::SoundInterface *iSound;
+        //sound stream
+        Application::ResouceStream *pResource;
+        size_t offsetStartStream;
         
 	public:
 

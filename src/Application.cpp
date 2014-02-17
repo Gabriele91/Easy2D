@@ -15,8 +15,76 @@
 #elif defined( PLATFORM_EMSCRIPTEN )
     #include <EmscriptenApp.h>
 #endif
+
 ///////////////////////
 using namespace Easy2D;
+///////////////////////
+/**
+ * default stream use C filelib i/o
+ */
+class CResouceStream : public Application::ResouceStream {
+
+    FILE *pFile;
+    
+public:
+    
+    CResouceStream(const String& path){
+        /**
+         * Open file
+         */
+        pFile=fopen(path, "rb");
+        DEBUG_MESSAGE("open stream file: "<<path);
+        DEBUG_ASSERT_MSG(pFile,"error open stream file: "<<path);
+    }
+    
+    virtual ~CResouceStream(){
+        if(pFile)
+            close();
+    }
+    ///close file
+    virtual void close(){
+        fclose(pFile);
+        pFile=NULL;
+    }
+    ///read from file
+    virtual size_t read(void * ptr, size_t size, size_t count){
+       return fread(ptr,size,count,pFile);
+    }
+    ///seek from file
+    virtual size_t seek (size_t offset, Application::Seek origin ){
+        int cseek=0;
+        switch (origin){
+            case Application::Seek::CUR: cseek=SEEK_CUR; break;
+            case Application::Seek::SET: cseek=SEEK_SET; break;
+            case Application::Seek::END: cseek=SEEK_END; break;
+            default:  break;
+        }
+        return fseek (pFile, offset, cseek);
+    }
+    ///returns the current value of the position indicator of the stream
+    virtual size_t tell(){
+        return ftell(pFile);
+    }
+    ///get file size
+    virtual size_t size(){
+        size_t pos=tell();
+        seek(0,Application::Seek::END);
+        size_t sizefile=tell();
+        seek(pos,Application::Seek::SET);
+        return sizefile;
+    }
+    ///return a uchar cast in int
+    virtual int getc(){
+        char c;
+        read(&c, 1, 1);
+        return c;
+    }
+    ///rewind from file
+    virtual void rewind (){
+        seek(0,Application::Seek::SET);
+    }
+
+};
 ///////////////////////
 Application *Application::appSingleton=NULL;
 ///////////////////////
@@ -61,7 +129,13 @@ Application *Application::create(const String& name){
 Application *Application::instance(){
 	return appSingleton;
 }
-
+/**
+ * stream resource
+ * @return ResouceStream object
+ */
+Application::ResouceStream* Application::getResouceStream(const String& path){
+    return new CResouceStream(/* appResourcesDirectory()+'/'+ */ path);
+}
 /**
 * save a resourcesGroup
 */

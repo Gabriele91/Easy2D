@@ -44,10 +44,19 @@ EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_THREAD)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)/*.h)
 #delete nano
-toRemove:= Math3D_nano.cpp
+toRemove:= Math3D_neon.cpp
 EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
 #delete vfp
 toRemove:= Math3D_vfp.cpp
+EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+#delete SSE2
+toRemove:= Math3D_SSE2.cpp
+EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+#delete WINDOW MUTEX
+toRemove:= thread/MutexWin32.cpp
+EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+#delete WINDOW THREAD
+toRemove:= thread/ThreadWin32.cpp
 EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
 #delete memory
 toRemove:= Memory.cpp
@@ -62,6 +71,7 @@ LOCAL_C_INCLUDES:=$(LOCAL_PATH)/$(GLUE_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(DIP_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(EASY2D_PATH)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE)\
+                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_THREAD)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)		  
 #files
 LOCAL_SRC_FILES:=$(GLUE_C:$(LOCAL_PATH)/%=%)
