@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <Math3D.h>
+#include <Debug.h>
 #include <StreamSoundAL.h>
 
 ///////////////////////
@@ -96,7 +97,7 @@ size_t StreamSoundAL::read(ALuint alBuffer){
     //buffer
     uchar loadBuffer[AL_STREAM_BUFFER_SIZE];
     //stream file/data
-    size_t readSize=readStream(loadBuffer,AL_STREAM_BUFFER_SIZE);
+    size_t readSize=readStream(loadBuffer,Math::min(AL_STREAM_BUFFER_SIZE,size_t(sizeData-leftRead)));
     //count a bites read
     leftRead+=readSize;
     //update buffer
