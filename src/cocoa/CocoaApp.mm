@@ -6,10 +6,11 @@
 //
 //
 
+#import <Cocoa/Cocoa.h>
 #include <CocoaApp.h>
 #include <CocoaScreen.h>
 #include <CocoaInput.h>
-#import <Cocoa/Cocoa.h>
+#import <AudioAL.h>
 #import <Timer.h>
 #import <Audio.h>
 //namespace
@@ -105,7 +106,7 @@ CocoaApp::CocoaApp(const String& name){
     //create component
     screen=(Screen*)new CocoaScreen();
     input=(Input*)new CocoaInput();
-    audio=new Audio(); //default OpenAL
+    audio=(Audio*)new AudioAL(); //default OpenAL
     //add listener event
     ((CocoaScreen*)screen)->onCocoaWindowCreated=[](void *nswindow){
         CocoaInput* input= (CocoaInput*)Application::instance()->getInput();

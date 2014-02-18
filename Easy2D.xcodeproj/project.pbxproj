@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E01E2CD318B35EBD00D048DD /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD218B35EBD00D048DD /* AudioAL.h */; };
+		E01E2CD618B35ECA00D048DD /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD518B35ECA00D048DD /* AudioAL.cpp */; };
+		E01E2CD818B3615B00D048DD /* StreamThreadAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD718B3615B00D048DD /* StreamThreadAL.cpp */; };
+		E01E2CDA18B3617200D048DD /* StreamThreadAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD918B3617200D048DD /* StreamThreadAL.h */; };
+		E01E2CDC18B3639800D048DD /* BaseSoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CDB18B3639800D048DD /* BaseSoundAL.h */; };
+		E01E2CDE18B363BC00D048DD /* BaseSoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CDD18B363BC00D048DD /* BaseSoundAL.cpp */; };
+		E01E2CE018B365A100D048DD /* StaticSoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CDF18B365A100D048DD /* StaticSoundAL.h */; };
+		E01E2CE218B3660700D048DD /* StaticSoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CE118B3660700D048DD /* StaticSoundAL.cpp */; };
+		E01E2CE418B3666300D048DD /* StreamSoundAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CE318B3666300D048DD /* StreamSoundAL.cpp */; };
+		E01E2CE618B3667800D048DD /* StreamSoundAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CE518B3667800D048DD /* StreamSoundAL.h */; };
+		E01E2CE818B37B3C00D048DD /* WavLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CE718B37B3C00D048DD /* WavLoader.h */; };
+		E01E2CEA18B37BBF00D048DD /* WavLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CE918B37BBF00D048DD /* WavLoader.cpp */; };
 		E027963F18B1447300B1A4FE /* MutexPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */; };
 		E027964018B1447300B1A4FE /* ThreadPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */; };
 		E027964618B1449A00B1A4FE /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964218B1449A00B1A4FE /* Mutex.h */; };
@@ -252,6 +264,18 @@
 		E0196485176B0CF200CF955A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E019649E176B0CF200CF955A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		E01964D0176B0D9800CF955A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		E01E2CD218B35EBD00D048DD /* AudioAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioAL.h; sourceTree = "<group>"; };
+		E01E2CD518B35ECA00D048DD /* AudioAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioAL.cpp; sourceTree = "<group>"; };
+		E01E2CD718B3615B00D048DD /* StreamThreadAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamThreadAL.cpp; sourceTree = "<group>"; };
+		E01E2CD918B3617200D048DD /* StreamThreadAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamThreadAL.h; sourceTree = "<group>"; };
+		E01E2CDB18B3639800D048DD /* BaseSoundAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseSoundAL.h; sourceTree = "<group>"; };
+		E01E2CDD18B363BC00D048DD /* BaseSoundAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseSoundAL.cpp; sourceTree = "<group>"; };
+		E01E2CDF18B365A100D048DD /* StaticSoundAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticSoundAL.h; sourceTree = "<group>"; };
+		E01E2CE118B3660700D048DD /* StaticSoundAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticSoundAL.cpp; sourceTree = "<group>"; };
+		E01E2CE318B3666300D048DD /* StreamSoundAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StreamSoundAL.cpp; sourceTree = "<group>"; };
+		E01E2CE518B3667800D048DD /* StreamSoundAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamSoundAL.h; sourceTree = "<group>"; };
+		E01E2CE718B37B3C00D048DD /* WavLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WavLoader.h; sourceTree = "<group>"; };
+		E01E2CE918B37BBF00D048DD /* WavLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WavLoader.cpp; sourceTree = "<group>"; };
 		E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MutexPOSIX.cpp; path = thread/MutexPOSIX.cpp; sourceTree = "<group>"; };
 		E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThreadPOSIX.cpp; path = thread/ThreadPOSIX.cpp; sourceTree = "<group>"; };
 		E027964218B1449A00B1A4FE /* Mutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Mutex.h; path = thread/Mutex.h; sourceTree = "<group>"; };
@@ -553,6 +577,30 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		E01E2CD118B35EBD00D048DD /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				E01E2CE518B3667800D048DD /* StreamSoundAL.h */,
+				E01E2CDF18B365A100D048DD /* StaticSoundAL.h */,
+				E01E2CDB18B3639800D048DD /* BaseSoundAL.h */,
+				E01E2CD918B3617200D048DD /* StreamThreadAL.h */,
+				E01E2CD218B35EBD00D048DD /* AudioAL.h */,
+			);
+			path = audio;
+			sourceTree = "<group>";
+		};
+		E01E2CD418B35ECA00D048DD /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				E01E2CE318B3666300D048DD /* StreamSoundAL.cpp */,
+				E01E2CE118B3660700D048DD /* StaticSoundAL.cpp */,
+				E01E2CDD18B363BC00D048DD /* BaseSoundAL.cpp */,
+				E01E2CD718B3615B00D048DD /* StreamThreadAL.cpp */,
+				E01E2CD518B35ECA00D048DD /* AudioAL.cpp */,
+			);
+			path = audio;
+			sourceTree = "<group>";
+		};
 		E027963C18B1445500B1A4FE /* thread */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,6 +624,8 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E01E2CE718B37B3C00D048DD /* WavLoader.h */,
+				E01E2CD118B35EBD00D048DD /* audio */,
 				E027964118B1447C00B1A4FE /* thread */,
 				E08C634A18AFB0E000A26E40 /* Sound.h */,
 				E06134FF18AE671C00BD63EC /* Audio.h */,
@@ -634,6 +684,8 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E01E2CE918B37BBF00D048DD /* WavLoader.cpp */,
+				E01E2CD418B35ECA00D048DD /* audio */,
 				E027963C18B1445500B1A4FE /* thread */,
 				E08C634618AFB0D200A26E40 /* EStack.cpp */,
 				E08C634718AFB0D200A26E40 /* Sound.cpp */,
@@ -1000,6 +1052,7 @@
 				E05495DC17AE68E8005DDB72 /* ResourcesGroup.h in Headers */,
 				E05495DD17AE68E8005DDB72 /* ResourcesManager.h in Headers */,
 				E05495DE17AE68E8005DDB72 /* Screen.h in Headers */,
+				E01E2CE818B37B3C00D048DD /* WavLoader.h in Headers */,
 				E061355218AE697100BD63EC /* b2TimeStep.h in Headers */,
 				E05495DF17AE68E8005DDB72 /* Sprite.h in Headers */,
 				E05495E017AE68E8005DDB72 /* Table.h in Headers */,
@@ -1040,12 +1093,14 @@
 				E0A7197A17E1EE6200A0B298 /* ftchapters.h in Headers */,
 				E0A7197B17E1EE6200A0B298 /* ftcid.h in Headers */,
 				E061355B18AE697100BD63EC /* b2EdgeAndPolygonContact.h in Headers */,
+				E01E2CDA18B3617200D048DD /* StreamThreadAL.h in Headers */,
 				E0A7197C17E1EE6200A0B298 /* fterrdef.h in Headers */,
 				E0A7197D17E1EE6200A0B298 /* fterrors.h in Headers */,
 				E061354B18AE697100BD63EC /* b2Settings.h in Headers */,
 				E0A7197E17E1EE6200A0B298 /* ftgasp.h in Headers */,
 				E0A7197F17E1EE6200A0B298 /* ftglyph.h in Headers */,
 				E061356918AE697100BD63EC /* b2WheelJoint.h in Headers */,
+				E01E2CDC18B3639800D048DD /* BaseSoundAL.h in Headers */,
 				E0A7198017E1EE6200A0B298 /* ftgxval.h in Headers */,
 				E061356418AE697100BD63EC /* b2PrismaticJoint.h in Headers */,
 				E0A7198117E1EE6200A0B298 /* ftgzip.h in Headers */,
@@ -1086,7 +1141,9 @@
 				E0A7199C17E1EE6200A0B298 /* ftdriver.h in Headers */,
 				E0A7199D17E1EE6200A0B298 /* ftgloadr.h in Headers */,
 				E061354818AE697100BD63EC /* b2Draw.h in Headers */,
+				E01E2CE018B365A100D048DD /* StaticSoundAL.h in Headers */,
 				E061355618AE697100BD63EC /* b2ChainAndPolygonContact.h in Headers */,
+				E01E2CE618B3667800D048DD /* StreamSoundAL.h in Headers */,
 				E027964618B1449A00B1A4FE /* Mutex.h in Headers */,
 				E0A7199E17E1EE6200A0B298 /* ftmemory.h in Headers */,
 				E0A7199F17E1EE6200A0B298 /* ftobjs.h in Headers */,
@@ -1133,6 +1190,7 @@
 				E0A719B717E1EE6200A0B298 /* svtteng.h in Headers */,
 				E0A719B817E1EE6200A0B298 /* svttglyf.h in Headers */,
 				E061354318AE697100BD63EC /* b2CircleShape.h in Headers */,
+				E01E2CD318B35EBD00D048DD /* AudioAL.h in Headers */,
 				E0A719B917E1EE6200A0B298 /* svwinfnt.h in Headers */,
 				E061354A18AE697100BD63EC /* b2Math.h in Headers */,
 				E0A719BA17E1EE6200A0B298 /* svxf86nm.h in Headers */,
@@ -1213,8 +1271,10 @@
 				E054964317AE6907005DDB72 /* Config.cpp in Sources */,
 				E054964417AE6907005DDB72 /* Debug.cpp in Sources */,
 				E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */,
+				E01E2CDE18B363BC00D048DD /* BaseSoundAL.cpp in Sources */,
 				E054964517AE6907005DDB72 /* EString.cpp in Sources */,
 				E054964617AE6907005DDB72 /* ETime.cpp in Sources */,
+				E01E2CD818B3615B00D048DD /* StreamThreadAL.cpp in Sources */,
 				E054964717AE6907005DDB72 /* Font.cpp in Sources */,
 				E054964817AE6907005DDB72 /* FrameSet.cpp in Sources */,
 				E054964917AE6907005DDB72 /* FreeTypeFontLoader.cpp in Sources */,
@@ -1231,8 +1291,10 @@
 				E027964018B1447300B1A4FE /* ThreadPOSIX.cpp in Sources */,
 				E06134FB18AE670000BD63EC /* Audio.cpp in Sources */,
 				E054965E17AE6907005DDB72 /* Renderable.cpp in Sources */,
+				E01E2CE218B3660700D048DD /* StaticSoundAL.cpp in Sources */,
 				E054965F17AE6907005DDB72 /* RenderState.cpp in Sources */,
 				E054966017AE6907005DDB72 /* Resource.cpp in Sources */,
+				E01E2CE418B3666300D048DD /* StreamSoundAL.cpp in Sources */,
 				E08C634818AFB0D200A26E40 /* EStack.cpp in Sources */,
 				E06134FE18AE670B00BD63EC /* Image.cpp in Sources */,
 				E054966117AE6907005DDB72 /* ResourcesGroup.cpp in Sources */,
@@ -1242,7 +1304,9 @@
 				E054966517AE6907005DDB72 /* Table.cpp in Sources */,
 				E054966617AE6907005DDB72 /* Texture.cpp in Sources */,
 				E054966B17AE6907005DDB72 /* Timer.cpp in Sources */,
+				E01E2CEA18B37BBF00D048DD /* WavLoader.cpp in Sources */,
 				E054966C17AE6907005DDB72 /* Utility.cpp in Sources */,
+				E01E2CD618B35ECA00D048DD /* AudioAL.cpp in Sources */,
 				E089EAE817B2750E0055B59A /* Scene.cpp in Sources */,
 				E0937D1D17B5483300DEFFCD /* State.cpp in Sources */,
 			);
@@ -1262,6 +1326,7 @@
 				HEADER_SEARCH_PATHS = (
 					"dependencies-osx64/include/**",
 					include/cocoa/,
+					include/audio/,
 					include/,
 					./,
 				);
@@ -1287,6 +1352,7 @@
 				HEADER_SEARCH_PATHS = (
 					"dependencies-osx64/include/**",
 					include/cocoa/,
+					include/audio/,
 					include/,
 					./,
 				);

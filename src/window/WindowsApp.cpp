@@ -4,6 +4,7 @@
 #include <WindowsScreen.h>
 #include <WindowsInput.h>
 #include <Audio.h>
+#include <AudioAL.h>
 #include <Shlobj.h>
 #include <Debug.h>
 //window
@@ -16,7 +17,7 @@ WindowsApp::WindowsApp(const String& name)
 		   :Application(){
    screen=(Screen*)new WindowsScreen();
    input=(Input*)new WindowsInput();
-   audio=(Audio*)new Audio();//OpenAL
+   audio=(Audio*)new AudioAL();//OpenAL
    //savename
    appname=name;
    /////////////////////////////////////

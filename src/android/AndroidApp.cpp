@@ -6,6 +6,7 @@
 #include <AndroidInput.h>
 #include <AndroidMain.h>
 #include <Audio.h>
+#include <AudioAL.h>
 #include <Debug.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -37,7 +38,7 @@ AndroidApp::AndroidApp(const String& appname)
 		   :Application(){
 	screen=(Screen*)new AndroidScreen();
 	input=(Input*)new AndroidInput();
-	audio=new Audio();//use OpenAL // todo use OpenSL ES
+	audio=(Audio*)new AudioAL();//use OpenAL // todo use OpenSL ES
 	//set android userdata
 	setAndroidUserData((void*)this);
 

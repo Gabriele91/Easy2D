@@ -67,21 +67,13 @@ namespace Easy2D {
 		*/
 		virtual ~Audio();
 		/**
-		* subscription of the sound
-		*/
-		virtual void subscriptionSound(SoundInterface *sound);
-		/**
-		* unsubscription of the sound
-		*/
-		virtual void unsubscriptionSound(SoundInterface *sound);
-		/**
          * create a sound buffer
          */
 		virtual SoundInterface* createSound(void *raw,
 											size_t size,
 											size_t sempleRate,
 											Channels channels,
-											SempleBit sempleBit);
+											SempleBit sempleBit)=0;
 		/**
          * create a stream sound buffer
          */
@@ -90,7 +82,7 @@ namespace Easy2D {
                                                   size_t size,
                                                   size_t sempleRate,
                                                   Channels channels,
-                                                  SempleBit sempleBit);
+                                                  SempleBit sempleBit)=0;
 		/**
 		* change volume to all sounds
 		*/
@@ -99,6 +91,14 @@ namespace Easy2D {
 		* change volume to all sounds (in pecentual)
 		*/
 		virtual void changeVolume(float volume);
+		/**
+         * subscription of the sound
+         */
+		virtual void subscriptionSound(SoundInterface *sound);
+		/**
+         * unsubscription of the sound
+         */
+		virtual void unsubscriptionSound(SoundInterface *sound);
 		/**
 		* for each sounds
 		*/

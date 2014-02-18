@@ -25,9 +25,11 @@ GLUE_H =$(wildcard $(LOCAL_PATH)/$(GLUE_PATH_INCLUDE)/*.h)
 ######################################################################
 #easy2d paths
 EASY2D_PATH_SRC= $(EASY2D_PATH)/src
+EASY2D_PATH_SRC_AUDIO= $(EASY2D_PATH)/src/audio
 EASY2D_PATH_SRC_IMAGE= $(EASY2D_PATH)/src/Image
 EASY2D_PATH_SRC_THREAD= $(EASY2D_PATH)/src/thread
 EASY2D_PATH_INCLUDE= $(EASY2D_PATH)/include
+EASY2D_PATH_INCLUDE_AUDIO= $(EASY2D_PATH)/include/audio
 EASY2D_PATH_INCLUDE_THREAD= $(EASY2D_PATH)/include/thread
 #easy2d/android paths
 EASY2D_PATH_SRC_ANDROID= $(EASY2D_PATH)/src/android
@@ -35,12 +37,14 @@ EASY2D_PATH_INCLUDE_ANDROID= $(EASY2D_PATH)/include/android
 #cpp files
 EASY2D_C   =$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_ANDROID)/*.c)
 EASY2D_CPP =$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC)/*.cpp)
+EASY2D_CPP+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_AUDIO)/*.cpp)
 EASY2D_CPP+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_IMAGE)/*.cpp)
 EASY2D_CPP+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_THREAD)/*.cpp)
 EASY2D_CPP+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_SRC_ANDROID)/*.cpp)
 #h files
 EASY2D_H =$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE)/*.h)
+EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_AUDIO)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_THREAD)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)/*.h)
 #delete nano
@@ -71,6 +75,7 @@ LOCAL_C_INCLUDES:=$(LOCAL_PATH)/$(GLUE_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(DIP_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(EASY2D_PATH)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE)\
+                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_AUDIO)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_THREAD)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)		  
 #files

@@ -39,7 +39,9 @@
 	#include <android/log.h>
 	#include <android/native_activity.h>
 	#include <android_native_app_glue.h>
-	#include <android/OpenGLAndroid.h>
+    #include <android/OpenGLAndroid.h>
+    #include <AL/al.h>
+    #include <AL/alc.h>
 	namespace Easy2D{
 		int atexit(void (*function)(void));
 	};
@@ -53,8 +55,8 @@
 	#include <GL/gl.h>
 	#include <GL/glu.h>
 	#include <window/OpenGLWindow.h>
-	//#include <AL/al.h>
-	//#include <AL/alc.h>
+	#include <AL/al.h>
+	#include <AL/alc.h>
 #elif defined(__APPLE__)
     #include <TargetConditionals.h>
 	#define PLATFORM_UNIX
@@ -73,6 +75,8 @@
         #include <OpenGL/gl.h>
         #include <OpenGL/glu.h>
         #include <OpenGL/glext.h>
+        #include <OpenAL/al.h>
+        #include <OpenAL/alc.h>
     #endif
 
 #elif defined(__linux__)
