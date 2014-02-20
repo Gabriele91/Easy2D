@@ -125,11 +125,17 @@ extern void onFingerMove(void(*function)(void* data,int i,float x,float y,float 
 //callback
 extern int32_t __android_handle_input(struct android_app* app, AInputEvent* event){
 
-		unsigned int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
-        /* 
+		/*
+		Input source
+		*/
+		int nSourceId = AInputEvent_getSource( event );
+		if (!(nSourceId == AINPUT_SOURCE_TOUCHPAD || nSourceId == AINPUT_SOURCE_TOUCHSCREEN))
+	    	return 0;  // GJT: Volume? Keyboard? Gamepad? Aren't supported!
+	    //action
+		unsigned int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK; 
         unsigned int actionPointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-        */
-		if (action == AMOTION_EVENT_ACTION_DOWN /* || action == AMOTION_EVENT_ACTION_POINTER_DOWN */) {
+        
+		if (action == AMOTION_EVENT_ACTION_DOWN || action == AMOTION_EVENT_ACTION_POINTER_DOWN ) {
 			if(fingerDown){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
@@ -141,7 +147,7 @@ extern int32_t __android_handle_input(struct android_app* app, AInputEvent* even
 												 AMotionEvent_getPressure(event, i));
 				}
 			}
-		} else if (action == AMOTION_EVENT_ACTION_UP /* || action == AMOTION_EVENT_ACTION_POINTER_UP */) { //up			
+		} else if (action == AMOTION_EVENT_ACTION_UP || action == AMOTION_EVENT_ACTION_POINTER_UP ) { //up			
 			if(fingerUp){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
