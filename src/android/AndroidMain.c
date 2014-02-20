@@ -126,9 +126,10 @@ extern void onFingerMove(void(*function)(void* data,int i,float x,float y,float 
 extern int32_t __android_handle_input(struct android_app* app, AInputEvent* event){
 
 		unsigned int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK;
+        /* 
         unsigned int actionPointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
-
-		if (action == AMOTION_EVENT_ACTION_DOWN || action == AMOTION_EVENT_ACTION_POINTER_DOWN) {
+        */
+		if (action == AMOTION_EVENT_ACTION_DOWN /* || action == AMOTION_EVENT_ACTION_POINTER_DOWN */) {
 			if(fingerDown){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
@@ -140,7 +141,7 @@ extern int32_t __android_handle_input(struct android_app* app, AInputEvent* even
 												 AMotionEvent_getPressure(event, i));
 				}
 			}
-		} else if (action == AMOTION_EVENT_ACTION_UP || action == AMOTION_EVENT_ACTION_POINTER_UP) { //up			
+		} else if (action == AMOTION_EVENT_ACTION_UP /* || action == AMOTION_EVENT_ACTION_POINTER_UP */) { //up			
 			if(fingerUp){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
@@ -392,7 +393,8 @@ extern void android_main(struct android_app* state) {
     path_apk= (const char*) (*getEnv())->GetStringUTFChars(getEnv(), (jstring)result, &isCopy);
     ////////////////////////////
     //INIT openAL/backend
-    //JNI_OnLoad(activity->vm,0);
+    JNI_OnLoad(activity->vm,0);
+    //no in OpenSL ES backend
     ////////////////////////
 	//call main
     char *argv[2];

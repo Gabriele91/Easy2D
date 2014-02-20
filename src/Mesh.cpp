@@ -270,7 +270,7 @@ void BatchingMesh::createBufferByTriangles(size_t maxTriangles){
 void BatchingMesh::relase(){
 	countVertexs=0;
 }
-inline bool BatchingMesh::canAdd(Mesh::ptr mesh){	
+bool BatchingMesh::canAdd(Mesh::ptr mesh){
 	//ibo
 	size_t nI=mesh->getCpuIndexs().size();
 	size_t nV=mesh->getCpuVertexs().size();

@@ -63,8 +63,10 @@ AndroidInput::AndroidInput(){
 	});
 	onTermAndroid(
 	[](void* data){
+		/*
 		((AndroidInput*)Application::instance()->getInput())->ewindow.close=true;
 		((AndroidInput*)Application::instance()->getInput())->__callOnClose();
+		*/
 	});
 	onWindowResized(
 	[](void* data,int w,int h){

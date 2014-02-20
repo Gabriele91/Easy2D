@@ -170,7 +170,7 @@ public:
 
 };
 
-Application::ResouceStream* Application::getResouceStream(const String& path){
+Application::ResouceStream* AndroidApp::getResouceStream(const String& path){
     return new AResouceStream(path);
 }
 

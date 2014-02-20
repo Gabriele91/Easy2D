@@ -17,6 +17,11 @@ namespace Easy2D {
 		* destroy an window application
 		*/
 		virtual ~AndroidApp();
+        /**
+         * stream resource
+         * @return ResouceStream object
+         */
+        virtual ResouceStream* getResouceStream(const String& path);
 		/**
 		* load a binary file
 		* @return succes
