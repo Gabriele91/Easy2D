@@ -48,10 +48,8 @@ void Render::draw(){
 	glViewport( 0, 0, viewport.x, viewport.y );				
 	//set model view matrix
 	glMatrixMode(GL_MODELVIEW);
-	//matrix camera
-	if(camera)
-		glLoadMatrixf(camera->getGlobalMatrix());
-	else
+	//no matrix camera
+	if(!camera)
 		glLoadIdentity();
 	//for all layers
 	for(auto layer:layers){
@@ -61,6 +59,13 @@ void Render::draw(){
 			layer->dosort();
 			//get the first rendarable
 			rNext=layer->next();
+            //parallax
+            if(camera){
+                Matrix4x4 view=camera->getGlobalMatrix();
+                view[12]*=layer->getParallax().x;
+                view[13]*=layer->getParallax().y;
+                glLoadMatrixf(view);
+            }
 			//for all renderables
 			while(rNext!=NULL){
 				//get next rendarable
@@ -119,14 +124,16 @@ void Render::draw(){
 				//renderable is visible?
 				if(renderable->isVisible()){
 				//calc m4x4
-				if(camera)
-					glLoadMatrixf(
-						camera->getGlobalMatrix().mul2D(renderable->getGlobalMatrix()).entries
-						);
+                if(camera){
+                    //parallax
+                    Matrix4x4 view=camera->getGlobalMatrix();
+                    view[12]*=layer->getParallax().x;
+                    view[13]*=layer->getParallax().y;
+                    //modelview
+					glLoadMatrixf(view.mul2D(renderable->getGlobalMatrix()));
+                }
 				else
-					glLoadMatrixf(
-						renderable->getGlobalMatrix().entries
-						);
+					glLoadMatrixf(renderable->getGlobalMatrix());
 
 					//draw
 					if(oldState==NULL){

@@ -10,13 +10,14 @@ namespace Easy2D {
 	class Layer {
 
 		bool visible;
+        Vec2 parallax;
 
 	protected:
 
 		DFORCEINLINE void updateRenderable(Renderable *rnd, float dt){
 			rnd->update(dt);
 		}
-		Layer():visible(true){}
+		Layer():visible(true),parallax(Vec2::ONE){}
 
 	public:
 		//
@@ -41,6 +42,12 @@ namespace Easy2D {
 		}
 		DFORCEINLINE void hide(){
 			visible=false;
+		}
+		DFORCEINLINE void setParallax(const Vec2& offset){
+			parallax=offset;
+		}
+		DFORCEINLINE Vec2 getParallax(){
+			return parallax;
 		}
 
 	};
