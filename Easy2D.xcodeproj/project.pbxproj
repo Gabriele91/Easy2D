@@ -154,6 +154,7 @@
 		E061356918AE697100BD63EC /* b2WheelJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E061353918AE697100BD63EC /* b2WheelJoint.h */; };
 		E061356A18AE697100BD63EC /* b2Rope.h in Headers */ = {isa = PBXBuildFile; fileRef = E061353B18AE697100BD63EC /* b2Rope.h */; };
 		E061356C18AE697A00BD63EC /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E061356B18AE697A00BD63EC /* libBox2D.a */; };
+		E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */ = {isa = PBXBuildFile; fileRef = E06ADCA318BA0F0500A33558 /* Sortable.h */; };
 		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
 		E089991917AE58760063EAAC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E089991817AE58760063EAAC /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E089991A17AE587B0063EAAC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01964D0176B0D9800CF955A /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -411,6 +412,7 @@
 		E061353918AE697100BD63EC /* b2WheelJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2WheelJoint.h; sourceTree = "<group>"; };
 		E061353B18AE697100BD63EC /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
 		E061356B18AE697A00BD63EC /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBox2D.a; sourceTree = "<group>"; };
+		E06ADCA318BA0F0500A33558 /* Sortable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortable.h; sourceTree = "<group>"; };
 		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E089991817AE58760063EAAC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
@@ -624,6 +626,7 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E06ADCA318BA0F0500A33558 /* Sortable.h */,
 				E01E2CE718B37B3C00D048DD /* WavLoader.h */,
 				E01E2CD118B35EBD00D048DD /* audio */,
 				E027964118B1447C00B1A4FE /* thread */,
@@ -1020,6 +1023,7 @@
 				E05495BF17AE68E8005DDB72 /* Blend.h in Headers */,
 				E05495C017AE68E8005DDB72 /* BMFontLoader.h in Headers */,
 				E061354F18AE697100BD63EC /* b2ContactManager.h in Headers */,
+				E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */,
 				E05495C117AE68E8005DDB72 /* Camera.h in Headers */,
 				E05495C217AE68E8005DDB72 /* CocoaApp.h in Headers */,
 				E061355D18AE697100BD63EC /* b2PolygonContact.h in Headers */,

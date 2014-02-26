@@ -6,12 +6,13 @@
 #include <Camera.h>
 #include <Layer.h>
 #include <Color.h>
+#include <Sortable.h>
 #include <Renderable.h>
 #include <RenderState.h>
 
 namespace Easy2D {
 
-	class Render {
+	class Render : public Sortable {
 	protected:
 
 		std::vector<Layer *> layers;
@@ -28,6 +29,12 @@ namespace Easy2D {
 		#ifdef ENABLE_CPU_BATCHING_MESH 
 		BatchingMesh batchingMesh;
 		#endif
+		//reorder?
+		bool reorder;
+		//vector comparation items
+		static bool operator_lt(const Layer* lrs,const Layer* rrs);
+        virtual void change();
+        virtual void dosort();
 
 	public:
 		//

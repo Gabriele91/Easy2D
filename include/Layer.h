@@ -4,27 +4,48 @@
 #include <Config.h>
 #include <Camera.h>
 #include <Renderable.h>
+#include <Sortable.h>
 
 namespace Easy2D {
+    //Class declaration
+    class Layer;
+    class Render;
+    class LayerOrder;
+    class LayerUnorder;
 	//
-	class Layer {
+	class Layer : public Sortable {
 
+        Render *render;
 		bool visible;
         Vec2 parallax;
+        uint z;
 
 	protected:
-
+        
+        friend class Render;
 		DFORCEINLINE void updateRenderable(Renderable *rnd, float dt){
 			rnd->update(dt);
 		}
-		Layer():visible(true),parallax(Vec2::ONE){}
+		
+        Layer(Render *render=NULL)
+        :render(render)
+        ,visible(true)
+        ,parallax(Vec2::ONE)
+        ,z(0){}
+        
+        DFORCEINLINE void setRender(Render *rnd){
+            render=rnd;
+        }
+        
+        DFORCEINLINE void dtRender(){
+            render=NULL;
+        }
+        
 
 	public:
 		//
 		virtual Renderable* next()=0;
 		//
-		virtual void change()=0;
-		virtual void dosort()=0;
 		virtual void update(float dt)=0;
 		//
 		virtual void addRenderable(Renderable *rnd){
@@ -46,9 +67,24 @@ namespace Easy2D {
 		DFORCEINLINE void setParallax(const Vec2& offset){
 			parallax=offset;
 		}
-		DFORCEINLINE Vec2 getParallax(){
+		DFORCEINLINE Vec2 getParallax() const{
 			return parallax;
 		}
+        
+        DFORCEINLINE void setZ(uchar zvalue){
+            //save value
+            z=zvalue;
+            //do sort
+            if(render)
+               ((Sortable*)render)->change();
+        }
+        DFORCEINLINE uchar getZ() const{
+            return z;
+        }
+        
+        DFORCEINLINE Render* getRender() const{
+            return render;
+        }
 
 	};
 
@@ -61,7 +97,7 @@ namespace Easy2D {
 
 	public:
 		//
-		LayerUnorder():Layer(),it(renderables.begin()){}
+		LayerUnorder(Render *render):Layer(render),it(renderables.begin()){}
 		//get Renderable
 		virtual Renderable* next(){
 			if(it!=renderables.end()){
@@ -105,7 +141,7 @@ namespace Easy2D {
 
 	public:
 		//
-		LayerOrder():Layer(),reorder(true),it(0){}
+		LayerOrder(Render *render):Layer(render),reorder(true),it(0){}
 		//get Renderable
 		virtual Renderable* next(){
 			if(it<renderables.size())

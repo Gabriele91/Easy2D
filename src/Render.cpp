@@ -6,23 +6,43 @@
 /////////////////////////
 using namespace Easy2D;
 /////////////////////////
-
 Render::Render(){
 	camera=NULL;
 	screenAngle=0.0;
+    reorder=false;
 	//set orientation
 	updateProjection();
 }
 
+/**
+ * Sorting layers
+ */
+bool Render::operator_lt(const Layer* lrs,const Layer* rrs){
+    return lrs->getZ()<rrs->getZ();
+}
+void Render::change(){
+    this->reorder=true;
+}
+void Render::dosort(){
+    this->reorder=false;
+    std::sort(layers.begin(), layers.end(),  Render::operator_lt);
+}
+
 Layer* Render::addLayer(bool order){
-	Layer *newLayer=order? (Layer*)new LayerOrder():
-						   (Layer*)new LayerUnorder();
+    //make a layer
+	Layer *newLayer=order? (Layer*)new LayerOrder(this):
+						   (Layer*)new LayerUnorder(this);
 	layers.push_back(newLayer);
+    //resort
+    change();
+    //return new layer
 	return newLayer;
 }
 void Render::erseLayer(Layer* layer){
 	auto it=std::find(layers.begin(), layers.end(), layer);
-	layers.erase(it);
+	(*it)->dtRender();
+    layers.erase(it);
+    
 }
 
 void Render::draw(){
@@ -51,6 +71,9 @@ void Render::draw(){
 	//no matrix camera
 	if(!camera)
 		glLoadIdentity();
+    //reourder layers
+    if(reorder)
+        dosort();
 	//for all layers
 	for(auto layer:layers){
 		//layer is visible?
@@ -113,6 +136,9 @@ void Render::draw(){
 	glViewport( 0, 0, viewport.x, viewport.y );
 	//set model view matrix
 	glMatrixMode(GL_MODELVIEW);
+    //reourder layers
+    if(reorder)
+        dosort();
 	//for all layers
 	for(auto layer:layers){
 		//layer is visible?
