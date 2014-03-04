@@ -124,6 +124,29 @@ namespace Easy2D{
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
 		///////////////////////////////////////////////////////////////////////////
+		#ifdef BOX2D_H
+		// to Box2D vector pointer cast
+		operator Box2D::b2Vec2* (){
+			return reinterpret_cast <Box2D::b2Vec2*>(&(this->x));
+		}
+		operator const Box2D::b2Vec2* () const {
+			return reinterpret_cast <const Box2D::b2Vec2*>(&(this->x));
+		}
+		// to Box2D vector value cast
+		operator Box2D::b2Vec2 () const{
+			return Box2D::b2Vec2(x,y);
+		}
+		// to Box2D vector reference cast
+		operator Box2D::b2Vec2&(){
+			return *((Box2D::b2Vec2*)this);
+		}
+		operator const Box2D::b2Vec2&() const{
+			return *((Box2D::b2Vec2*)this);
+		}
+		//from Box2D
+		Vector2D(const Box2D::b2Vec2& v):x(v.x),y(v.y){};
+		#endif
+		///////////////////////////////////////////////////////////////////////////
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
 	};

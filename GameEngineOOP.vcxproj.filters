@@ -31,6 +31,12 @@
     <Filter Include="File di origine\thread">
       <UniqueIdentifier>{1694235b-5bd7-45d0-8d7a-55032b20b72c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di intestazione\audio">
+      <UniqueIdentifier>{bf7ede05-ce2e-4f37-8316-9278ae26832a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\audio">
+      <UniqueIdentifier>{e34de5f7-82cc-45b2-8f36-1500b2a8644a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -166,6 +172,24 @@
       <Filter>File di origine\thread</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\AudioAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\BaseSoundAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\StaticSoundAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\StreamSoundAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\StreamThreadAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -328,6 +352,27 @@
       <Filter>File di intestazione\thread</Filter>
     </ClInclude>
     <ClInclude Include="include\Audio.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\AudioAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\BaseSoundAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\StaticSoundAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\StreamSoundAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\StreamThreadAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physics.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Box2D.hpp">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
