@@ -5,13 +5,17 @@ using namespace Easy2D;
 //////////////////////
 Object::Object()
 			   :data(NULL),
-		        parentMode(DISABLE_PARENT),
+				changeValue(false),
+				del(false),
 		        parent(NULL),
-				changeValue(false){}
+		        parentMode(DISABLE_PARENT){}
 Object::~Object(){
 	for(auto obj : *this){
 		obj->parent=NULL;
-		delete obj;
+		if(obj->del)
+			delete obj;
+		else
+			obj->change();
 	}
 	childs.clear();
 }
@@ -20,9 +24,7 @@ void Object::setScale(const Vector2D &scale,bool global){
 	if(!global||!parent)
 		transform.scale=scale;
 	else{
-		//transform.scale=scale*(transform.scale/getGlobalMatrix().getScale2D());
-		transform.scale/=getGlobalMatrix().getScale2D();
-		transform.scale*=scale;
+		transform.scale=scale/parent->getScale(true);
 	}
 	change();
 }
@@ -30,8 +32,7 @@ void Object::setPosition(const Vector2D &position,bool global){
 	if(!global||!parent)
 		transform.position=position;
 	else
-		//transform.position=position+(transform.position-getGlobalMatrix().getTranslation2D());
-		transform.position-=getGlobalMatrix().getTranslation2D()-position;
+		transform.position=position-parent->getPosition(true);
 
 	change();
 }
@@ -39,7 +40,7 @@ void Object::setRotation(float alpha,bool global){
 	if(!global||!parent)
 		transform.alpha=alpha;
 	else
-		transform.alpha=alpha-getGlobalMatrix().getRotZ();
+		transform.alpha=alpha-parent->getRotation(true);
 	change();
 }
 void Object::setMove(const Vector2D &velocity){
@@ -92,21 +93,28 @@ void Object::change(){
 		changeValue=true;
 	}
 }
-void Object::addChild(Object *child,ParentMode type){
+void Object::addChild(Object *child,bool ptrdelete){
+	addChild(child,ParentMode::ENABLE_ALL,ptrdelete);
+}
+void Object::addChild(Object *child,ParentMode type,bool ptrdelete){
 
 	if(child->parent==this) return;
 	if(child==this) return;
 	if(child->parent) child->parent->erseChild(child);
-
+	
+	child->del=ptrdelete;
 	child->parent=this;
 	child->parentMode=type;
 	this->childs.push_back(child);
+
+	child->change();
 
 }
 void Object::erseChild(Object *child){
 	if(child->parent==this){
 		childs.remove(child);
 		child->parent=NULL;
+		child->change();
 	}
 }
 //
@@ -132,24 +140,25 @@ const Matrix4x4& Object::getGlobalMatrix(){
 
 			switch(parentMode & (ENABLE_POSITION | ENABLE_ROTATION)){
 
-				case ENABLE_ALL: //ENABLE_ALL //inutile
-				case 3: //ENABLE_POSITION+ENABLE_ROTATION
-					globalMat.setFastTransform2DTR(transform);
+				case ENABLE_ALL: 
+				case 3:			 //ENABLE_POSITION+ENABLE_ROTATION
+					globalMat.setTransform2D(transform);
 					mtmp.setRotZ(mtmp.getRotZ());
-					mtmp.entries[12]=tmpPos.x; mtmp.entries[13]=tmpPos.y;
+					mtmp.entries[12]=tmpPos.x; 
+					mtmp.entries[13]=tmpPos.y;
 					globalMat=mtmp.mul2D(globalMat);
 				break;
 
 				case ENABLE_POSITION:
 					globalMat.setRotZ(transform.alpha);
-					globalMat.entries[12]=mtmp.entries[12]+this->transform.position.x;
-					globalMat.entries[13]=mtmp.entries[13]+this->transform.position.y;
+					globalMat.entries[12]=tmpPos.x+transform.position.x;
+					globalMat.entries[13]=tmpPos.y+transform.position.y;
 				break;
 
 				case ENABLE_ROTATION:
-					globalMat.setRotZ(mtmp.getRotZ()+this->transform.alpha);
-					globalMat.entries[12]=this->transform.position.x;
-					globalMat.entries[13]=this->transform.position.y;
+					globalMat.setRotZ(mtmp.getRotZ()+transform.alpha);
+					globalMat.entries[12]=transform.position.x;
+					globalMat.entries[13]=transform.position.y;
 				break;
 				//VC9
 				default:break;
@@ -162,7 +171,7 @@ const Matrix4x4& Object::getGlobalMatrix(){
 			
 
 		}else
-			globalMat.setFastTransform2DTRS(transform);
+			globalMat.setTransform2D(transform);
 		//
 		changeValue=false;
 	 }
@@ -170,11 +179,13 @@ const Matrix4x4& Object::getGlobalMatrix(){
 return globalMat;
 }
 Vector2D  Object::getGlobalParentScale(){
-           //no steck over flu....
            Object *p=NULL;
            Vector2D out=transform.scale;
            for(p=this->parent; p; p=p->parent ){
-                out*=p->transform.scale;
+			   if(ENABLE_SCALE & p->parentMode)
+					out*=p->transform.scale;
+			   else
+					out=p->transform.scale;
            }
            return out;
 }

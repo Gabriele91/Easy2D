@@ -30,7 +30,8 @@ namespace Easy2D{
 		void setTranslation(const Vector2D &translation);
 		void setTurn(float alpha);
 		//childs
-		void addChild(Object *child,ParentMode type=ENABLE_ALL);
+		void addChild(Object *child,bool ptrdelete=true);
+		void addChild(Object *child,ParentMode type,bool ptrdelete=true);
 		void erseChild(Object *child);
 		void changeParentMode(ParentMode type);
 		//
@@ -59,29 +60,18 @@ namespace Easy2D{
 
 	private:
 		
-		struct Transform2D{
-			//
-			Transform2D():alpha(0),scale(1.0f,1.0f){}
-			//values
-			Vector2D position;
-			float alpha;
-			Vector2D scale;
-			//cast
-			operator float*() { return &position.x; }
-			operator const float*() const { return &position.x; }
-		};
 		//local
 		Transform2D transform;
 		//global
-        Matrix4x4 globalMat;
 		bool changeValue;
+        Matrix4x4 globalMat;
+		//parent
+		bool    del;
+		Object* parent;
+		ParentMode parentMode;
+		Vector2D   getGlobalParentScale();
 		//childs
 		std::list<Object*> childs;
-		//parent
-		ParentMode parentMode;
-		Object* parent;
-		Vector2D   getGlobalParentScale();
-		//
 	};
 
 

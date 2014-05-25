@@ -558,158 +558,16 @@ namespace Easy2D{
 
     };
 	///////////////////////////////////////////////////////////////////////////
-	//plane  ORIGIN + NORMAL(direction)
-	class Plane{
-	public:
-
-		//Ax + By + Cz + D
-		Vector3D normal; //a b c
-		float d;  //d
-
-		DFORCEINLINE float& a(){ return normal.x; }
-		DFORCEINLINE float& b(){ return normal.y; }
-		DFORCEINLINE float& c(){ return normal.z; }
-		DFORCEINLINE float a() const { return normal.x; }
-		DFORCEINLINE float b() const { return normal.y; }
-		DFORCEINLINE float c() const { return normal.z; }
-
-		Plane();
-		Plane(const Vector3D& normal,const Vector3D& origin);
-		Plane(const Vector3D& v1,const Vector3D& v2,const Vector3D& v3);
-		Plane(float a, float b, float c, float d);
-		//calc from point
-		void set3Points(const Vector3D& v1,const Vector3D& v2,const Vector3D& v3);
-		//Linear rapresetation
-		void setCoefficients(float a, float b, float c, float d);
-		//Parametric rapresetation
-		void setNormalAndOrigin(const Vector3D& normal,const Vector3D& origin);
-		//distance from point
-		float distance(const Vector3D& point) const;
-		//normalize
-		void normalize();
+	struct Transform2D{
 		//
-		String	toString(const String& start="(",const String& sep=" ",const String& end=")") const;
-	};
-	///////////////////////////////////////////////////////////////////////////
-    class AABox3{
-        
-        //box structure
-        Vec3 min;
-        Vec3 max;
-
-    public:
-        //costructor
-        AABox3(const Vec3& center, Vec3 size);
-        AABox3();
-        //destructor
-        ~AABox3();
-        //setting
-        void setBox(const Vec3& center, Vec3 size);
-        //getter
-        Vec3  getCenter() const{
-            return (min+max)*0.5;
-        }
-        Vec3  getSize() const{
-            return (max-min)*0.5;
-        }
-		const Vec3&  getMax() const{
-			return max;
-		}
-		const Vec3&  getMin() const{
-			return min;
-		}
-        // for use in frustum computations
-        Vec3 getVertexP(const Vec3 &normal) const ;
-        Vec3 getVertexN(const Vec3 &normal) const ;
-    };
-	///////////////////////////////////////////////////////////////////////////
-	class Quaternion{
-	public:
-		float w,x,y,z;
-
-		Quaternion();
-		Quaternion(float x,float y,float z,float w);
-
-		///identity
-		void identity();
-		///compute W coordinate
-		void computeW();
-		///normalise
-		void safe_normalise();
-		void normalise();
-		///inverse
-		Quaternion getInverse() const;
-		///Quaternion multiplication
-		Quaternion mul(const Quaternion &qt) const;
-		///Quaternion*vector
-		Quaternion mulVec(const Vector3D &v) const;
-        
-		///return matrix from quaternion
-		Matrix4x4 getMatrix() const;
-        void setMatrix(const Mat4& mat);
-        static Quaternion fromMatrix(const Mat4& mat);
-        
-        ///set pitch, yaw and roll
-        static  Quaternion fromEulero(const Vec3& pwr);
-		void setFromEulero(float pitch, float yaw, float roll);
-        void setFromEulero(const Vec3& pyr){
-                setFromEulero(pyr.x,pyr.y,pyr.z);
-        }
-        //look at vector
-        static  Quaternion fromLookRotation(const Vec3& lookAt,Vector3D up);
-        void setLookRotation(const Vector3D &lookAt,Vector3D up);
-        
-		///return pitch, yaw and roll
-		void getEulero(Vec3& euler) const ;
-		void getEulero(float &pitch, float &yaw, float &roll) const{
-            
-            Vec3 euler;
-            getEulero(euler);
-            
-            pitch=euler.x;
-            yaw=euler.y;
-            roll=euler.z;
-        }
-        
-		///set quaternion from axis angle
-		static Quaternion fromAxisAngle(Vector3D &vt,float angle);
-		void setFromAxisAngle(Vector3D &vt,float angle);
-        
-		///return axis angle from quaternion
-		void getAxisAngle(Vector3D &vt,float &angle) const;
-        
-		///return rotate point
-		Vector3D getRotatePoint(Vector3D & v) const;
-        
-        //slerp
-		Quaternion slerp(const Quaternion &q, float t);
-        
-		//standard op
-		float length() const;
-		float dot(const Quaternion& vec) const;
-		Quaternion getNormalize() const;
-		//overload op
-		DFORCEINLINE const Quaternion operator *(float f) const{
-			return Quaternion(x*f, y*f, z*f,w*f);
-		}
-		DFORCEINLINE const Quaternion operator /(float f) const{
-			return Quaternion(x/f, y/f, z/f,w/f);
-		}
-		DFORCEINLINE const Quaternion operator +(const Quaternion &q) const{
-			return Quaternion(x+q.x, y+q.y, z+q.z,w+q.w);
-		}
-		DFORCEINLINE const Quaternion operator -(const Quaternion &q) const{
-			return Quaternion(x-q.x, y-q.y, z-q.z,w-q.w);
-		}
-		DFORCEINLINE const Quaternion operator -(void) const{
-			return Quaternion(-x, -y, -z,-w);
-		}
-		///////////////////////////////////////////////////////////////////////////
-		operator float* ()  {return &this->x;}
-		operator const float* () const {return &this->x;}
-		///////////////////////////////////////////////////////////////////////////
-		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
-
+		Transform2D():alpha(0),scale(1.0f,1.0f){}
+		//values
+		Vector2D position;
+		float alpha;
+		Vector2D scale;
+		//cast
+		operator float*() { return &position.x; }
+		operator const float*() const { return &position.x; }
 	};
 	///////////////////////////////////////////////////////////////////////////
 	class Matrix4x4 {
@@ -792,10 +650,6 @@ namespace Easy2D{
 		void addScale(const Vector3D &v3);
 		void addScale(const Vector2D &v2);
 		///set scale
-		void setScale(const Vector3D *v3);
-		void addScale(const Vector3D *v3);
-		void addScale(const Vector2D *v2);
-		///set scale
 		void setScale(const Vector2D &v2);
 		///return scale
 		Vector3D getScale3D() const;
@@ -830,13 +684,7 @@ namespace Easy2D{
 		///return roll
 		float getRotZ() const;
 		///fast setting:  x,y | alpha | sx,sy
-		void setFastTransform2DTRS(float* list);
-		///fast setting:  x,y | alpha
-		void setFastTransform2DTR(float* list);
-		///fast setting:  sx,sy
-		void setFastTransform2DS(float* list);
-		///set quaternion transformation
-		void setQuaternion(const Quaternion &qt);
+		void setTransform2D(const Transform2D& t2d);
 		///set orthogonal transformation (projection matrix)
 		void setOrtho(float left, float right, float bottom,float top, float n, float f);
 		///set projection transformation (projection matrix)
