@@ -658,8 +658,6 @@ namespace Easy2D{
 		///set translation
 		void setTranslation(const Vector3D &v3);
 		///set translation
-		void setTranslation(const Vector3D *v3);
-		///set translation
 		void setTranslation(const Vector2D &v2);
 		///set concatenate trasformation:
 		void addTranslationOnX( float distance );
