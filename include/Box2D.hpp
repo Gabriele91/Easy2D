@@ -14,10 +14,10 @@ namespace Easy2D{
 	inline Vec2 cast(const Box2D::b2Vec2& v){
 		return Vec2(v.x,v.y);
 	}    
-    
 	inline Box2D::b2Vec2 cast(const Vec2& v){
 		return Box2D::b2Vec2(v.x,v.y);
 	}
+
 };
 
 #endif

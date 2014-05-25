@@ -6,6 +6,7 @@
 #include <EStack.h>
 #include <Debug.h>
 #include <Render.h>
+#include <World.h>
 
 namespace Easy2D {
 
@@ -14,7 +15,8 @@ namespace Easy2D {
 	class Input;
     class Game;
     
-	class Scene : public Render,
+	class Scene : public Render, //Graphics
+				  public World,  //Physics
                   public StateManager {
         
         struct SubScene{
@@ -26,7 +28,7 @@ namespace Easy2D {
         };
                       
         DUNORDERED_MAP<int,SubScene> scenes;
-        EStack<int> active;
+        EStack<int> actives;
                       
         bool isStarted;
         void _onStartResume(){
@@ -45,28 +47,27 @@ namespace Easy2D {
             //draw scene
            // Render::draw();
         }
-                      
+          
+
 	public:
         
-        bool sceneExist(int uid){
+        bool isContent(int uid){
             return scenes.find(uid)!=scenes.end();
         }
-        bool sceneActive(int uid){
-            return active.contains(uid);
+        bool isActive(int uid){
+            return actives.contains(uid);
         }
         Scene* getScene(int uid){
-            if(sceneExist(uid))
+            if(isContent(uid))
                 return scenes[uid].child;
             return NULL;
         }
-                      
         int getCurrentUID(){
-          return active.top();
+          return actives.top();
         }
-                      
         Scene* getCurrentScene(){
-            if(active.empty()) return NULL;
-            return scenes[active.top()].child;
+            if(actives.empty()) return NULL;
+            return scenes[actives.top()].child;
         }
                       
         //add sub scene
@@ -75,70 +76,45 @@ namespace Easy2D {
         }
         void addSceneAndActive(int uid,Scene* scene,bool destructible=true){
             addScene(uid,scene,destructible);
-            activeScene(uid);
+            active(uid);
         }
         //active a scene
-        void activeScene(int uid){
-            DEBUG_ASSERT(sceneExist(uid));
+        void active(int uid){
+            DEBUG_ASSERT(isContent(uid));
             //pause last scene
-            if(active.size())
-                scenes[active.top()].child->onPause();
+            if(actives.size())
+                scenes[actives.top()].child->onPause();
             //start last scene
             scenes[uid].child->_onStartResume();
-            active.push(uid);
+            actives.push(uid);
             
         }
-        void popScene(){
+        //pop a scene
+        void pop(){
             //pause last scene
-            if(active.size()){
-                scenes[active.top()].child->onPause();
-                active.pop();
+            if(actives.size()){
+                scenes[actives.top()].child->onPause();
+                actives.pop();
             }
         }
-        
-                      
-        Scene *eraseScene(int uid){
-          DEBUG_ASSERT(sceneExist(uid));
+        //erase a scene
+        Scene *erase(int uid){
+          DEBUG_ASSERT(isContent(uid));
           //get child
           auto it=scenes.find(uid);
           Scene *temp=it->second.child;
           //if olready active
-          while(active.size() && active.top()==uid)
-              popScene();
+          while(actives.size() && actives.top()==uid)
+              pop();
           //disable activation
-          while(active.contains(uid))
-              active.erase(uid);
+          while(actives.contains(uid))
+              actives.erase(uid);
           //delete from map
           scenes.erase(it);
           //return
           return temp;
         }
         
-        //application methos
-        virtual void start(){
-            _onStartResume();
-        }
-        virtual void run(float dt){
-            //update logic 
-            _onRunLogic(dt);
-            //update logic child
-            if(active.size())
-                scenes[active.top()].child->_onRunLogic(dt);
-            //draw all
-            _onRunDraw();
-            //draw child
-            if(active.size())
-                scenes[active.top()].child->_onRunDraw();
-        }
-        virtual void end(){
-            //call onEnd for all child activated
-            for(auto scene:scenes)
-                if(scene.second.child->isStarted)
-                    scene.second.child->onEnd();
-            //end scene
-            onEnd();
-        }
-
         //scene methos
         virtual void onStart()=0;
         virtual void onResume(){}
@@ -156,7 +132,31 @@ namespace Easy2D {
                 if(scene.second.destructible)
                     delete scene.second.child;
         }
-
+				
+        //application methos
+        virtual void start(){
+            _onStartResume();
+        }
+        virtual void run(float dt){
+            //update logic 
+            _onRunLogic(dt);
+            //update logic child
+            if(actives.size())
+                scenes[actives.top()].child->_onRunLogic(dt);
+            //draw all
+            _onRunDraw();
+            //draw child
+            if(actives.size())
+                scenes[actives.top()].child->_onRunDraw();
+        }
+        virtual void end(){
+            //call onEnd for all child activated
+            for(auto scene:scenes)
+                if(scene.second.child->isStarted)
+                    scene.second.child->onEnd();
+            //end scene
+            onEnd();
+        }    
 
 	};
 
