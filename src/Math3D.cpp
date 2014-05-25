@@ -579,6 +579,35 @@ Quaternion Quaternion::slerp(const Quaternion &q2, float time){
 String Quaternion::toString(const String& start,const String& sep,const String& end) const{
 	return start+String::toString(x)+sep+String::toString(y)+sep+String::toString(z)+sep+String::toString(w)+end;
 }
+/* AABBox */
+AABox2::AABox2(const Vec2& center,Vec2 size) {
+    setBox(center,size);
+}
+AABox2::AABox2(){}
+AABox2::~AABox2() {}
+
+void AABox2::setBox(const Vec2& center,Vec2 size) {
+    size.abs();
+    min=center-size*0.5;
+    max=center+size*0.5;
+}
+void AABox2::addPoint(const Vec2& p){
+	//found box                      m______
+	min.x=Math::min(min.x,p.x);  //  |\    |
+	min.y=Math::min(min.y,p.y);  //  | \.c |
+	max.x=Math::max(max.x,p.x);  //  |   \ |
+	max.y=Math::max(max.y,p.y);  //  |____\|M
+}
+bool AABox2::isIntersection(const AABox2& aabb2){
+	auto cdiff=(getCenter()-aabb2.getCenter()).getAbs();
+	auto ssum=getSize()+aabb2.getSize();
+	return  cdiff.x <= ssum.x && cdiff.y <= ssum.y;
+}
+bool AABox2::isIntersection(const Vec2& point){
+	auto cdiff=(getCenter()-point).getAbs();
+	auto size=getSize();
+	return  cdiff.x <= size.x && cdiff.y <= size.y;
+}
 
 /* PLANE */
 Plane::Plane():d(0.0f){}
@@ -649,21 +678,20 @@ String	Plane::toString(const String& start,
 		   +end;
 ;
 }
-/* AABBox */
-
-AABox::AABox(const Vec3& center,Vec3 size) {
+/* AABBox3 */
+AABox3::AABox3(const Vec3& center,Vec3 size) {
     setBox(center,size);
 }
-AABox::AABox(){}
-AABox::~AABox() {}
+AABox3::AABox3(){}
+AABox3::~AABox3() {}
 
-void AABox::setBox(const Vec3& center,Vec3 size) {
+void AABox3::setBox(const Vec3& center,Vec3 size) {
     size.abs();
     min=center-size*0.5;
     max=center+size*0.5;
 }
 
-Vec3 AABox::getVertexP(const Vec3 &normal) const {
+Vec3 AABox3::getVertexP(const Vec3 &normal) const {
     
 	Vec3 res = min;
     
@@ -678,7 +706,7 @@ Vec3 AABox::getVertexP(const Vec3 &normal) const {
     
 	return(res);
 }
-Vec3 AABox::getVertexN(const Vec3 &normal) const {
+Vec3 AABox3::getVertexN(const Vec3 &normal) const {
     
 	Vec3 res = max;
     

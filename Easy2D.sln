@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StressTest", "exemples\Stre
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUItools", "exemples\GUItools\GUItools.vcxproj", "{5513180A-3777-41B7-8F53-2A5E8E19F169}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,12 @@ Global
 		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
 		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release|Win32.ActiveCfg = Release|Win32
 		{7E20304C-1613-4494-B6A5-37088C2E32D6}.Release|Win32.Build.0 = Release|Win32
+		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Debug|Win32.Build.0 = Debug|Win32
+		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
+		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release|Win32.ActiveCfg = Release|Win32
+		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

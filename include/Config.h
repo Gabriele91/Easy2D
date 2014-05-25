@@ -244,7 +244,4 @@
     #include <Memory.h>
 #endif
 
-//external includes
-#include <Box2D.hpp>
-
 #endif

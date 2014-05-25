@@ -189,7 +189,7 @@
     <ClCompile Include="src\audio\StreamThreadAL.cpp">
       <Filter>File di origine\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics.cpp">
+    <ClCompile Include="src\Body.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -369,10 +369,10 @@
     <ClInclude Include="include\audio\StreamThreadAL.h">
       <Filter>File di intestazione\audio</Filter>
     </ClInclude>
-    <ClInclude Include="include\Physics.h">
-      <Filter>File di intestazione</Filter>
+    <ClInclude Include="src\Box2D.hpp">
+      <Filter>File di origine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Box2D.hpp">
+    <ClInclude Include="include\Body.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

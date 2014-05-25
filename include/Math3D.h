@@ -124,28 +124,6 @@ namespace Easy2D{
 		operator float* ()  {return &this->x;}
 		operator const float* () const {return &this->x;}
 		///////////////////////////////////////////////////////////////////////////
-		#ifdef BOX2D_H
-		// to Box2D vector pointer cast
-		operator Box2D::b2Vec2* (){
-			return reinterpret_cast <Box2D::b2Vec2*>(&(this->x));
-		}
-		operator const Box2D::b2Vec2* () const {
-			return reinterpret_cast <const Box2D::b2Vec2*>(&(this->x));
-		}
-		// to Box2D vector value cast
-		operator Box2D::b2Vec2 () const{
-			return Box2D::b2Vec2(x,y);
-		}
-		// to Box2D vector reference cast
-		operator Box2D::b2Vec2&(){
-			return *((Box2D::b2Vec2*)this);
-		}
-		operator const Box2D::b2Vec2&() const{
-			return *((Box2D::b2Vec2*)this);
-		}
-		//from Box2D
-		Vector2D(const Box2D::b2Vec2& v):x(v.x),y(v.y){};
-		#endif
 		///////////////////////////////////////////////////////////////////////////
 		String toString(const String& start="(",const String& sep=" ",const String& end=")\n") const;
 
@@ -541,7 +519,44 @@ namespace Easy2D{
         return Vector4D(v/vt.x,v/vt.y,v/vt.z,v/vt.w);
     }
 	///////////////////////////////////////////////////////////////////////////
-    
+    class AABox2{
+        
+        //box structure
+        Vec2 min;
+        Vec2 max;
+
+    public:
+        //costructor
+        AABox2(const Vec2& center,Vec2 size);
+        AABox2();
+        //destructor
+        ~AABox2();
+        //setting
+        void setBox(const Vec2& center,Vec2 size);
+		void addPoint(const Vec2& point);
+        //getter
+        Vec2  getCenter() const{
+            return (min+max)*0.5;
+        }
+        Vec2  getSize() const{
+            return (max-min)*0.5;
+        }
+		const Vec2&  getMax() const{
+			return max;
+		}
+		const Vec2&  getMin() const{
+			return min;
+		}
+		Vec2&  getMax(){
+			return max;
+		}
+		Vec2&  getMin(){
+			return min;
+		}
+		bool  isIntersection(const Vec2& point);
+		bool  isIntersection(const AABox2& aabb2);
+
+    };
 	///////////////////////////////////////////////////////////////////////////
 	//plane  ORIGIN + NORMAL(direction)
 	class Plane{
@@ -576,26 +591,33 @@ namespace Easy2D{
 		String	toString(const String& start="(",const String& sep=" ",const String& end=")") const;
 	};
 	///////////////////////////////////////////////////////////////////////////
-    class AABox{
+    class AABox3{
         
-    public:
         //box structure
         Vec3 min;
         Vec3 max;
+
+    public:
         //costructor
-        AABox(const Vec3& center, Vec3 size);
-        AABox();
+        AABox3(const Vec3& center, Vec3 size);
+        AABox3();
         //destructor
-        ~AABox();
+        ~AABox3();
         //setting
         void setBox(const Vec3& center, Vec3 size);
         //getter
-        Vec3 getCenter() const{
+        Vec3  getCenter() const{
             return (min+max)*0.5;
         }
-        Vec3 getSize() const{
-            return (max-getCenter());
+        Vec3  getSize() const{
+            return (max-min)*0.5;
         }
+		const Vec3&  getMax() const{
+			return max;
+		}
+		const Vec3&  getMin() const{
+			return min;
+		}
         // for use in frustum computations
         Vec3 getVertexP(const Vec3 &normal) const ;
         Vec3 getVertexN(const Vec3 &normal) const ;

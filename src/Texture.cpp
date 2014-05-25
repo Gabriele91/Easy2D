@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <Texture.h>
 #include <Debug.h>
+#include <Table.h>
 #include <Application.h>
 #define IMAGE_LOADER_OPENGL
 #include "Image/Image.h"
@@ -18,6 +19,10 @@ Texture::Texture(ResourcesManager<Texture> *rsmr,
 				,bFlipVertical(false)
 				,width(0)
 				,height(0)
+				,realWidth(0)
+				,realHeight(0)
+				,spriteWidth(0)
+				,spriteHeight(0)
 				,gpuid(0)
 				,offsetUV(1,1)
 				,po2Srpite(NULL){
@@ -100,8 +105,8 @@ void Texture::__build(){
 		if(po2Srpite->isLoad())
 			po2Srpite->unload();
 		//set size mesh
-		float hlSizeX=width*0.5;
-		float hlSizeY=height*0.5;
+		float hlSizeX=spriteWidth*0.5;
+		float hlSizeY=spriteHeight*0.5;
 		//add vertexs
 		po2Srpite->addVertex(  hlSizeX,
 							  -hlSizeY,
@@ -131,27 +136,55 @@ void Texture::__build(){
 bool Texture::load(){
 	/////////////////////////////////////////////////////////////////////
 	//cpu load
-	//get raw file
-	void *data=NULL; size_t len=0;
-	Application::instance()->loadData(rpath,data,len);
 	//load image
 	Image image;
-	image.loadFromData(data,
-					   len,
-					   Image::getTypeFromExtetion(rpath.getExtension()));
-	if(bFlipVertical)
-		image.flipY();
-	//free raw file
-	free(data);
+	Utility::Path imagePath=rpath;
+	//size sprite
+	spriteWidth=0;
+	spriteHeight=0;
+	//type of image
+	if(rpath.getExtension()=="e2d"){
+		//load table
+		Table texInfo(NULL,rpath);
+		texInfo.load();
+		//get image path
+		DEBUG_ASSERT_MSG(texInfo.exists("image"),"texture error:"
+											    "must to be setted image path"
+											    "(parameter:image), "+rpath.getPath());
+		imagePath=rpath.getDirectory()+'/'+texInfo.getString("image");
+		//get relative coordinate
+		spriteWidth=(uint)texInfo.getFloat("width");
+		spriteHeight=(uint)texInfo.getFloat("height");
+		//operations
+		flipVertical(((uint)texInfo.getFloat("flipVertical",(float)flipVertical()))!=0);
+		mipmaps(((uint)texInfo.getFloat("mipmaps",(float)mipmaps()))!=0);
+		bilinear(((uint)texInfo.getFloat("bilinear",(float)bilinear()))!=0);
+	}
+	//load image
+	{
+		//get raw file
+		void *data=NULL; size_t len=0;
+		Application::instance()->loadData(imagePath,data,len);
+		image.loadFromData(data,
+						   len,
+						   Image::getTypeFromExtetion(imagePath.getExtension()));
+		if(bFlipVertical)
+			image.flipY();
+		//save width end height
+		width=realWidth=image.width;
+		height=realHeight=image.height;
+		//set width end height
+		spriteWidth =spriteWidth ? spriteWidth  : realWidth;
+		spriteHeight=spriteHeight? spriteHeight : realHeight;
+		//free raw file
+		free(data);
+	}
 	/////////////////////////////////////////////////////////////////////
 	//gen gpu
 	//create an GPU texture
 	glGenTextures( 1, &gpuid );
 	//build
 	bind();
-	//save width end height
-	width=realWidth=image.width;
-	height=realHeight=image.height;
 	//support only pow of 2?
 	if(Application::instance()->onlyPO2()){
 		//

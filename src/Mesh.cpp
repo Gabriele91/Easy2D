@@ -29,19 +29,8 @@ Mesh::~Mesh(){
 }
 //metodo che aggiunge i vertici
 void Mesh::addVertex(const gVertex& gv){
-	//
-	if(mVertexs.size()){
-		//box value
-		//found box                          m______
-		min.x=Math::min(min.x,gv.vt.x);  //  |\    |
-		min.y=Math::min(min.y,gv.vt.y);  //  | \.c |
-		max.x=Math::max(max.x,gv.vt.x);  //  |   \ |
-		max.y=Math::max(max.y,gv.vt.y);  //  |____\|M
-		//
-	}
-	else{
-		min=max=gv.vt;
-	}
+	//update box
+	box.addPoint(gv.vt);
 	//add vertex
 	mVertexs.push_back(gv);
 }
@@ -96,13 +85,13 @@ void Mesh::build(){
 
 	//get vao/ibo/vbo errors
 	CHECK_GPU_ERRORS();
-
+	/*
     //aabb culling
 	extends.x=Math::max(fabs(max.x),fabs(min.y));
 	extends.y=Math::max(fabs(max.y),fabs(min.x));
 	center=(max+min)/2;
 	extends-=center;
-
+	*/
 }
 //resource
 bool Mesh::load(){

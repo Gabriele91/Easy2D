@@ -16,6 +16,7 @@ namespace Easy2D {
 		bool bBilinear,chBlr,bMipmaps,chMps,bFlipVertical;
 		uint width,height;
 		uint realWidth,realHeight;
+		uint spriteWidth,spriteHeight;
         uint gpuid;
 		Vec2 offsetUV;
 		//sprite pow of tow  
@@ -53,8 +54,23 @@ namespace Easy2D {
 		//query
 		DFORCEINLINE uint getWidth(){ return width; }    
 		DFORCEINLINE uint getRealWidth(){ return realWidth; }
+		DFORCEINLINE uint getSpriteWidth(){ return spriteWidth; }
 		DFORCEINLINE uint getHeight(){ return height; }    
 		DFORCEINLINE uint getRealHeight(){ return realHeight; }
+		DFORCEINLINE uint getSpriteHeight(){ return spriteHeight; }
+		
+		DFORCEINLINE Vec2 getSize(){ 
+			return Vec2((float)width,
+						(float)height); 
+		}
+		DFORCEINLINE Vec2 getRealSize(){ 
+			return Vec2((float)realWidth,
+						(float)realHeight); 
+		}
+		DFORCEINLINE Vec2 getSpriteSize(){ 
+			return Vec2((float)spriteWidth,
+						(float)spriteHeight); 
+		}
 		//overload
 		bool operator ==(const Texture&) const;
 		bool operator !=(const Texture&) const;

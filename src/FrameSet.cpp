@@ -18,34 +18,41 @@ FrameSet::~FrameSet(){
 void FrameSet::addFrame(const Vec4& frame){
 		//create a mesh
 		Mesh::ptr sprite(new Mesh());
+		//get frame size
+		Vec2 sizeFrame=Vec2(frame.z,frame.w);
+		//calc relative frame size
+		Vec2 scaleFactor=texture->getSpriteSize()/texture->getSize();
+		Vec4 rltFrame(frame.x/scaleFactor.x,
+					  frame.y/scaleFactor.y,
+					  frame.z/scaleFactor.x,
+					  frame.w/scaleFactor.y);
 		//save size
-		sizeFrames.push_back(Vec2(frame.z,frame.w));
+		sizeFrames.push_back(sizeFrame);
 		//upmapping
-		Vec2 start(frame.x/texture->getRealWidth(),
-				   frame.y/texture->getRealHeight());
-		Vec2 end(frame.z/texture->getRealWidth()+start.x,
-				 frame.w/texture->getRealHeight()+start.y);
+		Vec2 start(rltFrame.x/texture->getRealWidth(),
+				   rltFrame.y/texture->getRealHeight());
+		Vec2 end(  rltFrame.z/texture->getRealWidth()+start.x,
+				   rltFrame.w/texture->getRealHeight()+start.y);
 		//set size mesh
-		float hlSizeX=frame.z*0.5;
-		float hlSizeY=frame.w*0.5;
+		Vec2 hlSize(sizeFrame*0.5);
 		//add vertexs
-		sprite->addVertex(  hlSizeX,
-						   -hlSizeY,
+		sprite->addVertex(  hlSize.x,
+						   -hlSize.y,
 							end.x,
 							end.y);
 
-		sprite->addVertex(  hlSizeX,
-							hlSizeY,
+		sprite->addVertex(  hlSize.x,
+							hlSize.y,
 							end.x,
 							start.y);
 
-		sprite->addVertex( -hlSizeX,
-						   -hlSizeY,
+		sprite->addVertex( -hlSize.x,
+						   -hlSize.y,
 						    start.x,
 							end.y);
 
-		sprite->addVertex( -hlSizeX,
-							hlSizeY,
+		sprite->addVertex( -hlSize.x,
+							hlSize.y,
 							start.x,
 							start.y);
 		//end add vertexs
@@ -103,7 +110,7 @@ bool FrameSet::load(){
 		const Table& frameSplit=tbFrameSet.getTable("frameSplit");
 		
 		//get rect size
-		Vec4 imgrec(0, 0, texture->getWidth(), texture->getHeight());//default
+		Vec4 imgrec(0, 0, texture->getSpriteWidth(), texture->getSpriteHeight());//default
 		imgrec=frameSplit.getVector4D("subrec",imgrec);//load
 		//load frame size
 		Vec2 sizeframe(frameSplit.getVector2D("frame",Vec2::ZERO));

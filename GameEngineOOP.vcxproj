@@ -145,6 +145,7 @@
     <ClCompile Include="src\audio\StreamSoundAL.cpp" />
     <ClCompile Include="src\audio\StreamThreadAL.cpp" />
     <ClCompile Include="src\BMFontLoader.cpp" />
+    <ClCompile Include="src\Body.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\Config.cpp" />
@@ -163,7 +164,6 @@
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\EString.cpp" />
-    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\ResourcesGroup.cpp" />
     <ClCompile Include="src\ResourcesManager.cpp" />
@@ -203,7 +203,7 @@
     <ClInclude Include="include\audio\StreamThreadAL.h" />
     <ClInclude Include="include\Blend.h" />
     <ClInclude Include="include\BMFontLoader.h" />
-    <ClInclude Include="include\Box2D.hpp" />
+    <ClInclude Include="include\Body.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Config.h" />
@@ -223,7 +223,6 @@
     <ClInclude Include="include\MinMaxList.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\EString.h" />
-    <ClInclude Include="include\Physics.h" />
     <ClInclude Include="include\Render.h" />
     <ClInclude Include="include\ResourcesGroup.h" />
     <ClInclude Include="include\Scene.h" />
@@ -249,6 +248,7 @@
     <ClInclude Include="include\window\WindowsApp.h" />
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
+    <ClInclude Include="src\Box2D.hpp" />
     <ClInclude Include="src\Image\Image.h" />
     <ClInclude Include="src\Image\lodepng.h" />
     <ClInclude Include="src\Math3D_SSE2.h" />

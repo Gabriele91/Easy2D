@@ -209,7 +209,7 @@ void WindowsInput::update(){
 	HWND hWind=((WindowsScreen*)Application::instance()->getScreen())->hWind;
 	//update maximize
 	//get info
-	bool maximized=IsZoomed(hWind);
+	bool maximized=IsZoomed(hWind)!=FALSE;
 	//if is changed
 	if(ewindow.maximized!=maximized){
 		//change value
@@ -220,7 +220,7 @@ void WindowsInput::update(){
 	}
 	//update minimixed
 	//get info
-	bool minimized=IsIconic(hWind);
+	bool minimized=IsIconic(hWind)!=FALSE;
 	//if is changed
 	if(ewindow.minimized!=minimized){
 		//change value

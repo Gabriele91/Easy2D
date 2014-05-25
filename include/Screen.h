@@ -111,13 +111,13 @@ namespace Easy2D {
 		* return size of screen
 		*/
 		virtual Vec2 getSize(){
-			return Vec2(getWidth(),getHeight());
+			return Vec2((float)getWidth(),(float)getHeight());
 		}
 		/**
 		* return native size of screen
 		*/
 		virtual Vec2 getNativeSize(){
-			return Vec2(getNativeWidth(),getNativeHeight());
+			return Vec2((float)getNativeWidth(),(float)getNativeHeight());
 		}
 		/**
 		* return screen orientation

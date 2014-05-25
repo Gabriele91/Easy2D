@@ -53,9 +53,7 @@ namespace Easy2D {
 		//draw bind mesh
 		void __bind();
 		//AABB
-		Vector2D center;
-		Vector2D extends;
-		Vector2D min,max;
+		AABox2 box;
 
 	public:
 		//Surface
@@ -66,8 +64,7 @@ namespace Easy2D {
 		//distruttore
 		virtual ~Mesh();
 		//aabb
-		DFORCEINLINE const Vector2D& getCenter() const { return center; }
-		DFORCEINLINE const Vector2D& getExtends() const { return extends; }
+		DFORCEINLINE const AABox2& getAABox() const { return box; }
 		//metodo che aggiunge i vertici
         void addVertex(const gVertex& gv);
 		void addVertex(float x,float y, float u,float v){ 
@@ -79,13 +76,13 @@ namespace Easy2D {
 		void setDrawMode(DrawMode dmode);
 		void build();
 		//query on privates
-		DrawMode getDrawMode(){
+		DrawMode getDrawMode() const {
 			return dmode;
 		}
-		const ListGVertexs& getCpuVertexs(){
+		const ListGVertexs& getCpuVertexs() const{
 			return mVertexs;
 		}
-		const ListIndexs& getCpuIndexs(){
+		const ListIndexs& getCpuIndexs() const{
 			return mIndexs;
 		}
 		//resource

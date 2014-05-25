@@ -40,12 +40,20 @@ namespace Easy2D{
 		ParentMode getParentMode() const;
 		//math
 		void change();
-		const Matrix4x4& getGlobalMatrix();
+		virtual const Matrix4x4& getGlobalMatrix();
 		//for each methods
 		std::list<Object*>::iterator begin();
 		std::list<Object*>::iterator end();
+		std::list<Object*>::const_iterator begin() const;
+		std::list<Object*>::const_iterator end() const;
+
 		std::list<Object*>::reverse_iterator rbegin();
 		std::list<Object*>::reverse_iterator rend();
+		std::list<Object*>::const_reverse_iterator rbegin() const;
+		std::list<Object*>::const_reverse_iterator rend() const;
+
+	protected:
+
 		//data
 		void *data;
 

@@ -65,7 +65,7 @@ void Render::draw(){
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(projection);
 	//set view port
-	glViewport( 0, 0, viewport.x, viewport.y );				
+	glViewport( 0, 0, (GLsizei)viewport.x, (GLsizei)viewport.y );				
 	//set model view matrix
 	glMatrixMode(GL_MODELVIEW);
 	//no matrix camera
@@ -192,7 +192,7 @@ void Render::updateProjection(const Vec2& argViewport){
 	//set viewport
 	viewport=argViewport;
     //update projection is always the same
-	projection.setOrtho(-viewport.x*0.5,viewport.x*0.5, -viewport.y*0.5,viewport.y*0.5, 1,-1);
+	projection.setOrtho(-viewport.x*0.5f,viewport.x*0.5f, -viewport.y*0.5f,viewport.y*0.5f, 1.0f,-1.0f);
 
 }
 void Render::updateViewport(const Vec2& argViewport){

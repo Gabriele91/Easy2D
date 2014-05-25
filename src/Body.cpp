@@ -1,5 +1,6 @@
 #include <stdafx.h>
-#include <Physics.h>
+#include <Body.h>
+
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////

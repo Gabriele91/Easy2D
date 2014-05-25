@@ -6,7 +6,9 @@
 #include "WGL_ARB_multisample.h"
 ///////////////////////
 using namespace Easy2D;
+#ifndef ERROR_BAD_LENGTH
 #define ERROR_BAD_LENGTH 20 //by google
+#endif
 #define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
 //window methods
 void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA){
@@ -341,8 +343,8 @@ void WindowsScreen::setCursor(bool show){
 */
 void WindowsScreen::setPositionCursor(const Vec2& pos){
 	POINT mouse;
-	mouse.x=pos.x;
-	mouse.y=pos.y;
+	mouse.x=(LONG)pos.x;
+	mouse.y=(LONG)pos.y;
     ClientToScreen(hWind, &mouse);
 	SetCursorPos(mouse.x,mouse.y);
 }
