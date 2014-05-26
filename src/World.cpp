@@ -3,12 +3,11 @@
 #include <Debug.h>
 ///////////////////////
 using namespace Easy2D;
-using namespace Easy2D::Box2D;
 ///////////////////////
 #define B2(x)  cast(x)
 
 World::World(const Vec2& gravity){
-	world = new Box2D::b2World(B2(gravity));
+	world = new b2World(B2(gravity));
 }
 World::~World(){
 	if(world)

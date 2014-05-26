@@ -4,18 +4,15 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <Box2D/Box2D.h>
     
 namespace Easy2D{
-
-	namespace Box2D{
-		#include "Box2D/Box2D.h"
-	};
-	
-	inline Vec2 cast(const Box2D::b2Vec2& v){
+		
+	inline Vec2 cast(const b2Vec2& v){
 		return Vec2(v.x,v.y);
 	}    
-	inline Box2D::b2Vec2 cast(const Vec2& v){
-		return Box2D::b2Vec2(v.x,v.y);
+	inline b2Vec2 cast(const Vec2& v){
+		return b2Vec2(v.x,v.y);
 	}
 
 };

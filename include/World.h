@@ -9,7 +9,7 @@ namespace Easy2D {
 
 	class World{
 	
-		Box2D::b2World *world;
+		b2World *world;
 		
 	public:
 		
