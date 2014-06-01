@@ -154,6 +154,11 @@
 		E061356918AE697100BD63EC /* b2WheelJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E061353918AE697100BD63EC /* b2WheelJoint.h */; };
 		E061356A18AE697100BD63EC /* b2Rope.h in Headers */ = {isa = PBXBuildFile; fileRef = E061353B18AE697100BD63EC /* b2Rope.h */; };
 		E061356C18AE697A00BD63EC /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E061356B18AE697A00BD63EC /* libBox2D.a */; };
+		E0684EFF1939D29D00653833 /* Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684EFE1939D29D00653833 /* Body.cpp */; };
+		E0684F021939D2AC00653833 /* Body.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F001939D2AC00653833 /* Body.h */; };
+		E0684F031939D2AC00653833 /* World.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F011939D2AC00653833 /* World.h */; };
+		E0684F051939D32D00653833 /* Box2D.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E0684F041939D32D00653833 /* Box2D.hpp */; };
+		E0684F071939D34A00653833 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684F061939D34A00653833 /* World.cpp */; };
 		E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */ = {isa = PBXBuildFile; fileRef = E06ADCA318BA0F0500A33558 /* Sortable.h */; };
 		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
 		E089991917AE58760063EAAC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E089991817AE58760063EAAC /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -412,6 +417,11 @@
 		E061353918AE697100BD63EC /* b2WheelJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2WheelJoint.h; sourceTree = "<group>"; };
 		E061353B18AE697100BD63EC /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
 		E061356B18AE697A00BD63EC /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBox2D.a; sourceTree = "<group>"; };
+		E0684EFE1939D29D00653833 /* Body.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Body.cpp; sourceTree = "<group>"; };
+		E0684F001939D2AC00653833 /* Body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Body.h; sourceTree = "<group>"; };
+		E0684F011939D2AC00653833 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
+		E0684F041939D32D00653833 /* Box2D.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Box2D.hpp; sourceTree = "<group>"; };
+		E0684F061939D34A00653833 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
 		E06ADCA318BA0F0500A33558 /* Sortable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortable.h; sourceTree = "<group>"; };
 		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -626,6 +636,9 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E0684F041939D32D00653833 /* Box2D.hpp */,
+				E0684F001939D2AC00653833 /* Body.h */,
+				E0684F011939D2AC00653833 /* World.h */,
 				E06ADCA318BA0F0500A33558 /* Sortable.h */,
 				E01E2CE718B37B3C00D048DD /* WavLoader.h */,
 				E01E2CD118B35EBD00D048DD /* audio */,
@@ -687,6 +700,8 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E0684F061939D34A00653833 /* World.cpp */,
+				E0684EFE1939D29D00653833 /* Body.cpp */,
 				E01E2CE918B37BBF00D048DD /* WavLoader.cpp */,
 				E01E2CD418B35ECA00D048DD /* audio */,
 				E027963C18B1445500B1A4FE /* thread */,
@@ -1027,6 +1042,7 @@
 				E05495C117AE68E8005DDB72 /* Camera.h in Headers */,
 				E05495C217AE68E8005DDB72 /* CocoaApp.h in Headers */,
 				E061355D18AE697100BD63EC /* b2PolygonContact.h in Headers */,
+				E0684F031939D2AC00653833 /* World.h in Headers */,
 				E05495C317AE68E8005DDB72 /* CocoaInput.h in Headers */,
 				E05495C417AE68E8005DDB72 /* CocoaScreen.h in Headers */,
 				E05495C517AE68E8005DDB72 /* Color.h in Headers */,
@@ -1102,6 +1118,7 @@
 				E0A7197D17E1EE6200A0B298 /* fterrors.h in Headers */,
 				E061354B18AE697100BD63EC /* b2Settings.h in Headers */,
 				E0A7197E17E1EE6200A0B298 /* ftgasp.h in Headers */,
+				E0684F021939D2AC00653833 /* Body.h in Headers */,
 				E0A7197F17E1EE6200A0B298 /* ftglyph.h in Headers */,
 				E061356918AE697100BD63EC /* b2WheelJoint.h in Headers */,
 				E01E2CDC18B3639800D048DD /* BaseSoundAL.h in Headers */,
@@ -1178,6 +1195,7 @@
 				E0A719AA17E1EE6200A0B298 /* svcid.h in Headers */,
 				E0A719AB17E1EE6200A0B298 /* svgldict.h in Headers */,
 				E0A719AC17E1EE6200A0B298 /* svgxval.h in Headers */,
+				E0684F051939D32D00653833 /* Box2D.hpp in Headers */,
 				E0A719AD17E1EE6200A0B298 /* svkern.h in Headers */,
 				E0A719AE17E1EE6200A0B298 /* svmm.h in Headers */,
 				E0A719AF17E1EE6200A0B298 /* svotval.h in Headers */,
@@ -1278,6 +1296,7 @@
 				E01E2CDE18B363BC00D048DD /* BaseSoundAL.cpp in Sources */,
 				E054964517AE6907005DDB72 /* EString.cpp in Sources */,
 				E054964617AE6907005DDB72 /* ETime.cpp in Sources */,
+				E0684EFF1939D29D00653833 /* Body.cpp in Sources */,
 				E01E2CD818B3615B00D048DD /* StreamThreadAL.cpp in Sources */,
 				E054964717AE6907005DDB72 /* Font.cpp in Sources */,
 				E054964817AE6907005DDB72 /* FrameSet.cpp in Sources */,
@@ -1304,6 +1323,7 @@
 				E054966117AE6907005DDB72 /* ResourcesGroup.cpp in Sources */,
 				E054966217AE6907005DDB72 /* ResourcesManager.cpp in Sources */,
 				E054966317AE6907005DDB72 /* Screen.cpp in Sources */,
+				E0684F071939D34A00653833 /* World.cpp in Sources */,
 				E054966417AE6907005DDB72 /* Sprite.cpp in Sources */,
 				E054966517AE6907005DDB72 /* Table.cpp in Sources */,
 				E054966617AE6907005DDB72 /* Texture.cpp in Sources */,

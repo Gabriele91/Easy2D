@@ -565,6 +565,17 @@ namespace Easy2D{
 		Vector2D position;
 		float alpha;
 		Vector2D scale;
+        //operator
+        bool operator==(const Transform2D& t2d) const{
+            return alpha==t2d.alpha &&
+            position==t2d.position &&
+            scale==t2d.scale;
+        }
+        bool operator!=(const Transform2D& t2d) const{
+            return alpha!=t2d.alpha ||
+            position!=t2d.position ||
+            scale!=t2d.scale;
+        }
 		//cast
 		operator float*() { return &position.x; }
 		operator const float*() const { return &position.x; }

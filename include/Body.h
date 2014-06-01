@@ -3,21 +3,49 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <Box2D.hpp>
 
 namespace Easy2D {
-	
-
+	/////////////////////
+    class World;
+    class Object;
+	/////////////////////
 	class Body {
+        
+        //friend class
+        friend class World;
+        friend class Object;
+        
+        //objects
+        World*  world;
+        b2Body* body;
+        b2BodyDef bodyDefinition;
+        float mass; //not in bodyDefinition
+        
+        //word
+        void registerWorld(World *world);
+        void unregisterWorld(World *world);
+        
+        //list fixture
+        b2FixtureDef defaultFixture;
+        std::vector<b2Fixture*> fixtures;
+        std::vector<b2FixtureDef*> fixturesDef;
+        
+    protected:
 
+        Body();
+        virtual ~Body();
+        b2Body* getBody(){ return body; }
+        void getTransform(Transform2D& t2d) const;
+        
 	public:
 
 		enum Type{
-			DINAMIC,
-			KINEMATIC,
-			STATIC
+			DINAMIC=b2BodyType::b2_dynamicBody,
+			KINEMATIC=b2BodyType::b2_kinematicBody,
+			STATIC=b2BodyType::b2_staticBody
 		};
 
-		Body();
 		/*
 		* body
 		*/
@@ -28,33 +56,43 @@ namespace Easy2D {
 		bool getActive() const;
 		
 		void setAwake(bool);
-		bool getAwake();
+		bool getAwake() const;
 
 		void setBullet(bool);
 		bool getBullet();
 
-		void setMass(float);
+		//void setMass(float); in fixtures
 		float getMass() const;
 		
-		void setDensity(float);
-		float getDensity() const;
-
-		void setFriction(float);
-		float getFriction() const;
-				
 		void setLinearVelocity(const Vec2&); 
 		Vec2 getLinearVelocity() const;
 		Vec2 getLinearVelocityFromWorldPoint(const Vec2& world) const;
 		Vec2 getLinearVelocityFromLocalPoint(const Vec2& local) const;
+        
+		void setLinearDamping(float);
+		float getLinearDamping() const;
 		
 		void setAngularVelocity(float); 
 		float getAngularVelocity() const;
-
-		void setLinearDamping(float); 
-		float getLinearDamping() const;
 		
 		void setAngularDamping(float);
 		float getAngularDamping() const;
+        
+        void setAngle(float);
+        float getAngle() const;
+        
+        void setPosition(const Vec2& pos);
+        Vec2 getPosition() const;
+        
+        void setFixedAngle(bool);
+        bool getFixedAngle() const;
+        
+        void setGravityScale(float);
+        float getGravityScale() const;
+        
+        void setSleepingAllowed(bool);
+        bool getSleepingAllowed() const;
+
 		/*
 		* Groups
 		*/
@@ -66,22 +104,15 @@ namespace Easy2D {
 		/*
 		* Shapes
 		*/
-		ushort createCircleCollisionShape(float radius,
-										  const Vec2& pos=Vec2::ZERO);
+		ushort createCircleCollisionShape(float radius, const Vec2& pos=Vec2::ZERO);
+        ushort createBoxCollisionShape(const Vec2& size, const Vec2& pos=Vec2::ZERO, float angle=0.0);
 		ushort createPolygonCollisionShape(const std::vector<Vec2>& points);
-		ushort createBoxCollisionShape(const Vec2& size,
-									   const Vec2& pos=Vec2::ZERO,
-									   float angle=0.0);
-		
 		ushort createChainCollisionShape( const std::vector<Vec2>& points );
-
-		ushort createChainCollisionShape( const std::vector<Vec2>& points, 
+		ushort createChainCollisionShape( const std::vector<Vec2>& points,
 										  const Vec2& adjacentStartPoint, 
 										  const Vec2& adjacentEndPoint );
-		
 		ushort createEdgeCollisionShape( const Vec2& localPositionStart, 
 										 const Vec2& localPositionEnd);
-
 		ushort createEdgeCollisionShape( const Vec2& localPositionStart, 
 										 const Vec2& localPositionEnd, 
 										 const Vec2& adjacentStartPoint, 

@@ -39,6 +39,7 @@ namespace Easy2D {
 		//
 		void setColor(Color rcolor){ color=rcolor; }
 		void setTexture(Texture::ptr rtex){ rtexture=rtex; }
+		Texture::ptr getTexture(){ return rtexture; }
 		void setMesh(Mesh::ptr rm){ rmesh=rm; }
 		Mesh::ptr getMesh(){ return rmesh; }
 		//blend state

@@ -4,12 +4,13 @@
 using namespace Easy2D;
 //////////////////////
 Object::Object()
-			   :data(NULL),
-				changeValue(false),
-				del(false),
-		        parent(NULL),
-		        parentMode(DISABLE_PARENT){}
+			   :data(NULL)
+               ,changeValue(false)
+               ,del(false)
+               ,parent(NULL)
+               ,parentMode(DISABLE_PARENT){}
 Object::~Object(){
+    //destory childs
 	for(auto obj : *this){
 		obj->parent=NULL;
 		if(obj->del)
@@ -129,54 +130,60 @@ std::list<Object*>::const_reverse_iterator Object::rbegin() const { return child
 std::list<Object*>::const_reverse_iterator Object::rend() const { return childs.rend(); }
 //
 const Matrix4x4& Object::getGlobalMatrix(){
-	if(changeValue==true){
-		//
-		globalMat.identity();
-		//
-		if(parent){
-			Matrix4x4 mtmp;
-			mtmp=parent->getGlobalMatrix();
-			Vector2D tmpPos(mtmp.entries[12],mtmp.entries[13]);
+    
+    if(physics.getBody()){
+        physics.getTransform(transform);
+        change();
+    }
+    
+    if(changeValue==true){
+        //
+        globalMat.identity();
+        //
+        if(parent){
+            Matrix4x4 mtmp;
+            mtmp=parent->getGlobalMatrix();
+            Vector2D tmpPos(mtmp.entries[12],mtmp.entries[13]);
 
-			switch(parentMode & (ENABLE_POSITION | ENABLE_ROTATION)){
+            switch(parentMode & (ENABLE_POSITION | ENABLE_ROTATION)){
 
-				case ENABLE_ALL: 
-				case 3:			 //ENABLE_POSITION+ENABLE_ROTATION
-					globalMat.setTransform2D(transform);
-					mtmp.setRotZ(mtmp.getRotZ());
-					mtmp.entries[12]=tmpPos.x; 
-					mtmp.entries[13]=tmpPos.y;
-					globalMat=mtmp.mul2D(globalMat);
-				break;
+                case ENABLE_ALL: 
+                case 3:			 //ENABLE_POSITION+ENABLE_ROTATION
+                    globalMat.setTransform2D(transform);
+                    mtmp.setRotZ(mtmp.getRotZ());
+                    mtmp.entries[12]=tmpPos.x; 
+                    mtmp.entries[13]=tmpPos.y;
+                    globalMat=mtmp.mul2D(globalMat);
+                break;
 
-				case ENABLE_POSITION:
-					globalMat.setRotZ(transform.alpha);
-					globalMat.entries[12]=tmpPos.x+transform.position.x;
-					globalMat.entries[13]=tmpPos.y+transform.position.y;
-				break;
+                case ENABLE_POSITION:
+                    globalMat.setRotZ(transform.alpha);
+                    globalMat.entries[12]=tmpPos.x+transform.position.x;
+                    globalMat.entries[13]=tmpPos.y+transform.position.y;
+                break;
 
-				case ENABLE_ROTATION:
-					globalMat.setRotZ(mtmp.getRotZ()+transform.alpha);
-					globalMat.entries[12]=transform.position.x;
-					globalMat.entries[13]=transform.position.y;
-				break;
-				//VC9
-				default:break;
-			}
+                case ENABLE_ROTATION:
+                    globalMat.setRotZ(mtmp.getRotZ()+transform.alpha);
+                    globalMat.entries[12]=transform.position.x;
+                    globalMat.entries[13]=transform.position.y;
+                break;
+                //VC9
+                default:break;
+            }
 
-			if(ENABLE_SCALE & parentMode)
-				globalMat.addScale(getGlobalParentScale());
-			else
-				globalMat.addScale(transform.scale);
-			
+            if(ENABLE_SCALE & parentMode)
+                globalMat.addScale(getGlobalParentScale());
+            else
+                globalMat.addScale(transform.scale);
+            
 
-		}else
-			globalMat.setTransform2D(transform);
-		//
-		changeValue=false;
-	 }
+        }else
+            globalMat.setTransform2D(transform);
+        //
+        changeValue=false;
+     }
 
-return globalMat;
+    return globalMat;
 }
 Vector2D  Object::getGlobalParentScale(){
            Object *p=NULL;

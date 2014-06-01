@@ -21,6 +21,10 @@ namespace Easy2D {
 		Sprite(Texture::ptr image=NULL,Layer *layer=NULL);
 		//overload setTexture 
 		void setTexture(Texture::ptr texture);
+        //get pixel scale
+        Vec2 getPixelScale(){
+            return getTexture()->getSpriteSize()*getScale();
+        }
 
 	};
 

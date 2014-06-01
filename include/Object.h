@@ -3,9 +3,11 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <Body.h>
 
 namespace Easy2D{
 	
+    //game object
 	class Object
 	{
 	public:
@@ -52,6 +54,8 @@ namespace Easy2D{
 		std::list<Object*>::reverse_iterator rend();
 		std::list<Object*>::const_reverse_iterator rbegin() const;
 		std::list<Object*>::const_reverse_iterator rend() const;
+        //physics
+        Body physics;
 
 	protected:
 
@@ -72,6 +76,10 @@ namespace Easy2D{
 		Vector2D   getGlobalParentScale();
 		//childs
 		std::list<Object*> childs;
+        //friend class
+        friend class Body;
+        friend class World;
+        
 	};
 
 

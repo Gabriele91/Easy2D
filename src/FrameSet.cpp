@@ -136,7 +136,8 @@ bool FrameSet::load(){
 		   countXtiles>0 && 			//frames line x no size 0
 		   imagewidth>=framewidth &&	//size(frames)<=size(recimage)
 		   imageheight>=frameheight		//size(frames)<=size(recimage)
-		   ){
+		   )
+        {
 			for(int frm=first;frm<count;frm+=step){
 				int posX=(frm%countXtiles)*framewidth;
 				int posY=(frm/countXtiles)*frameheight;
