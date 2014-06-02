@@ -9,6 +9,8 @@ namespace Easy2D{
 
 	public:
 
+    static String VOID;
+        
 	String():std::string(){};
 	String(char c,unsigned int rep):std::string(rep,c){};
 	String(const String* str):std::string(){ (*this)=(*str); };

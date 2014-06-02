@@ -6,6 +6,11 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
+//statics
+Table Table::VOID;
+Table::Binary Table::Binary::VOID;
+
+//Table class
 Table::Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile)
 			:Resource(rsmr,pathfile)
@@ -228,7 +233,7 @@ DFORCEINLINE bool parseCString(int& countln,const char* in,String& out,const cha
         return false;
 }
 DFORCEINLINE bool parseName(const char* in,String& out,const char** cout=NULL){
-        if (!isStartName(*in)) false;
+        if (!isStartName(*in)) return false;
 		out+=*in; ++in;
 		while(isCharName(*in)){ out+=*in; ++in; }
 		(*cout)=in;
@@ -266,7 +271,7 @@ DFORCEINLINE void skeepSpaceAndComment(int& cntN,const char** inout){
 }
 
 DFORCEINLINE bool parseInclude(int& countln,const char* in,String& out,const char** cout=NULL){
-        if (!isIncludeStart(*in)) false;
+        if (!isIncludeStart(*in)) return false;
 		++in;//jmp <
 		skeepSpaceAndComment(countln,&in);//jump space
 		while(!isIncludeEnd(*in)&&(*in)!='\0'&&(*in)!=EOF){

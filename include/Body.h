@@ -9,6 +9,7 @@ namespace Easy2D {
 	/////////////////////
     class World;
     class Object;
+    typedef uint Shape;
 	/////////////////////
 	class Body {
         
@@ -104,31 +105,32 @@ namespace Easy2D {
 		/*
 		* Shapes
 		*/
-		ushort createCircleCollisionShape(float radius, const Vec2& pos=Vec2::ZERO);
-        ushort createBoxCollisionShape(const Vec2& size, const Vec2& pos=Vec2::ZERO, float angle=0.0);
-		ushort createPolygonCollisionShape(const std::vector<Vec2>& points);
-		ushort createChainCollisionShape( const std::vector<Vec2>& points );
-		ushort createChainCollisionShape( const std::vector<Vec2>& points,
-										  const Vec2& adjacentStartPoint, 
-										  const Vec2& adjacentEndPoint );
-		ushort createEdgeCollisionShape( const Vec2& localPositionStart, 
+		Shape createCircleCollisionShape(float radius, const Vec2& pos=Vec2::ZERO);
+        Shape createBoxCollisionShape(const Vec2& size, const Vec2& pos=Vec2::ZERO, float angle=0.0);
+		Shape createPolygonCollisionShape(const std::vector<Vec2>& points);
+		Shape createChainCollisionShape( const std::vector<Vec2>& points );
+		Shape createChainCollisionShape( const std::vector<Vec2>& points, bool startp ,
+                                                                          const Vec2& adjacentStartPoint,
+                                                                          bool endp,
+                                                                          const Vec2& adjacentEndPoint );
+		Shape createEdgeCollisionShape( const Vec2& localPositionStart,
 										 const Vec2& localPositionEnd);
-		ushort createEdgeCollisionShape( const Vec2& localPositionStart, 
+		Shape createEdgeCollisionShape( const Vec2& localPositionStart,
 										 const Vec2& localPositionEnd, 
 										 const Vec2& adjacentStartPoint, 
 										 const Vec2&  adjacentEndPoint );
 		
-		void setCollisionShapeDensity(ushort index,float density);
-		float getCollisionShapeDensity(ushort index);
+		void setCollisionShapeDensity(Shape index,float density);
+		float getCollisionShapeDensity(Shape index);
 
-		void setCollisionShapeFriction(ushort index,float friction);
-		float getCollisionShapeFriction(ushort index) const;
+		void setCollisionShapeFriction(Shape index,float friction);
+		float getCollisionShapeFriction(Shape index) const;
 		
-		void setCollisionShapeRestitution(ushort index,float restitution);
-		float getCollisionShapeRestitution(ushort index) const;
+		void setCollisionShapeRestitution(Shape index,float restitution);
+		float getCollisionShapeRestitution(Shape index) const;
 		
-		void setCollisionShapeIsSensor(ushort index,bool isSensor);
-		bool getCollisionShapeIsSensor(ushort index) const;
+		void setCollisionShapeIsSensor(Shape index,bool isSensor);
+		bool getCollisionShapeIsSensor(Shape index) const;
 
 
 	};

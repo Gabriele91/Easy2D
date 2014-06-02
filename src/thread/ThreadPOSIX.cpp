@@ -114,7 +114,8 @@ void * Thread::_thrd_wrapper_function(void * aArg){
     sigemptyset(&actions.sa_mask);
     actions.sa_flags = 0;
     actions.sa_handler = thread_exit_handler;
-    int rc = sigaction(SIGUSR1,&actions,NULL);
+    //int rc =
+    sigaction(SIGUSR1,&actions,NULL);
     ///
     Thread *_this = (Thread *) aArg;
     res=_this->run();

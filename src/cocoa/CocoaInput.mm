@@ -74,7 +74,7 @@ using namespace Easy2D;
 - (void)listen:(CocoaInput *) datainput:(NSWindow*) datawindow
 {
     easy2Dinput = datainput;
-    easy2Dwindow=datawindow;
+    easy2Dwindow= datawindow;
     NSNotificationCenter *center;
     NSView *view = [easy2Dwindow contentView];
         

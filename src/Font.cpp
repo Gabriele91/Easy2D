@@ -146,7 +146,7 @@ void Font::text(const Vec2& _pos,
 	//vector sprites
 	std::vector<float> xyUV(textDraw.size()*24,0);
 	//temp vars
-	int oldPage=0;
+	//int oldPage=0;
 	int countCharPage=0;
 	Character* chr=NULL;
 	Character* nextChr=getCharacter(textDraw[0]);

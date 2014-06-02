@@ -158,12 +158,23 @@ bool AABox2::isIntersection(const Vec2& point){
 }
 
 /* MATRIX4x4*/
+
 static float Matrix4x4Identity[]={
 	1.0,0.0,0.0,0.0,
 	0.0,1.0,0.0,0.0,
 	0.0,0.0,1.0,0.0,
 	0.0,0.0,0.0,1.0
 };
+static float Matrix4x4Zero[]={
+	0.0,0.0,0.0,0.0,
+	0.0,0.0,0.0,0.0,
+	0.0,0.0,0.0,0.0,
+	0.0,0.0,0.0,0.0
+};
+
+Matrix4x4 Matrix4x4::IDENTITY;
+Matrix4x4 Matrix4x4::ZERO(Matrix4x4Zero);
+
 
 static DFORCEINLINE bool gluInvertMatrix(const float m[16],float invOut[16]){
 	float inv[16], det;

@@ -623,7 +623,9 @@ namespace Easy2D{
             
 		};
 #endif
-
+        //statics
+        static Matrix4x4 IDENTITY;
+        static Matrix4x4 ZERO;
 		//constructors
 		Matrix4x4();
 		Matrix4x4(const Matrix4x4 &m4x4);
@@ -739,7 +741,7 @@ namespace Easy2D{
 		//fast swap
 		template<typename T>
 		static DFORCEINLINE void swap(T& x,T& y){
-			 register T temp = std::move(x);
+             T temp = std::move(x);
 			 x = std::move(y);
 			 y = std::move(temp);
 		}

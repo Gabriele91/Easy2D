@@ -119,6 +119,9 @@ namespace Easy2D{
 
 		/* binary type */
 		struct Binary{
+            //statics
+            static Binary VOID;
+            //class
 			void *value;
 			size_t len;
 			bool destroydata;
@@ -131,8 +134,8 @@ namespace Easy2D{
 
 	public:
 
-
-
+        //statics
+        static Table VOID;
 		/* costructor */
 		Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile="");
@@ -278,27 +281,27 @@ namespace Easy2D{
 			return vdefault;
 		}
 		/** return a Matrix4x4 associate a table/array key */
-		DFORCEINLINE const Matrix4x4& getMatrix4x4(const KeyTable& key,const Matrix4x4& vdefault=Matrix4x4()) const{
+		DFORCEINLINE const Matrix4x4& getMatrix4x4(const KeyTable& key,const Matrix4x4& vdefault=Matrix4x4::IDENTITY) const{
 			if(existsAsType(key,MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a string associate a table/array key */
-		DFORCEINLINE const String& getString(const KeyTable& key,const String& vdefault=String()) const{
+		DFORCEINLINE const String& getString(const KeyTable& key,const String& vdefault=String::VOID) const{
 			if(existsAsType(key,STRING)) return *((String*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a constant table/array associate a table/array key */
-		DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table()) const{
+		DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table::VOID) const{
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a table/array associate a table/array key */
-		DFORCEINLINE const Table& getTable(const KeyTable& key,const Table& vdefault=Table()){
+		DFORCEINLINE const Table& getTable(const KeyTable& key,const Table& vdefault=Table::VOID){
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a binary file associate a table/array key */
-		DFORCEINLINE const Binary& getBinary(const KeyTable& key,const Binary& vdefault=Binary()) const{
+		DFORCEINLINE const Binary& getBinary(const KeyTable& key,const Binary& vdefault=Binary::VOID) const{
 			if(existsAsType(key,BINARY)) return *((Binary*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}

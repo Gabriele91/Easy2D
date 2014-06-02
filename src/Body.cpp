@@ -1,8 +1,8 @@
 #include <stdafx.h>
 #include <Body.h>
 #include <World.h>
+#include <Debug.h>
 #include <Box2D.hpp>
-
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -307,7 +307,7 @@ bool Body::getSleepingAllowed() const{
 }
 
 
-ushort Body::createCircleCollisionShape(float radius, const Vec2& pos){
+Shape Body::createCircleCollisionShape(float radius, const Vec2& pos){
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2CircleShape* pShape = new b2CircleShape();
@@ -332,7 +332,7 @@ ushort Body::createCircleCollisionShape(float radius, const Vec2& pos){
     //return id
     return fixturesDef.size()-1;
 }
-ushort Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float angle){
+Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float angle){
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2PolygonShape* pShape = new b2PolygonShape();
@@ -357,3 +357,153 @@ ushort Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float an
     return fixturesDef.size()-1;
 }
 
+
+Shape Body::createPolygonCollisionShape( const std::vector<Vec2>& points ){
+    // Configure fixture definition.
+    b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
+    b2PolygonShape* pShape = new b2PolygonShape();
+    
+    DEBUG_ASSERT_MSG( points.size() >= 3 && points.size() <= b2_maxPolygonVertices ,
+                     "createChainCollisionShape error: "
+                     "points numbers must to be between 3 and "+
+                     String::toString(b2_maxPolygonVertices)+
+                     ", you added "+
+                     String::toString(points.size()));
+    
+    
+    pShape->Set((b2Vec2*)&points[0], points.size());
+    pFixtureDef->shape = pShape;
+    
+    if ( body )
+    {
+        // Create and push fixture.
+        fixtures.push_back( body->CreateFixture( pFixtureDef ) );
+        
+        // Destroy shape and fixture.
+        delete pShape;
+        delete pFixtureDef;
+        
+        //return id
+        return fixtures.size()-1;
+    }
+    // Push fixture definition.
+    fixturesDef.push_back( pFixtureDef );
+    //return id
+    return fixturesDef.size()-1;
+    
+}
+
+Shape Body::createChainCollisionShape( const std::vector<Vec2>& points ){
+    // Configure fixture definition.
+    b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
+    b2ChainShape* pShape = new b2ChainShape();
+
+    pShape->CreateChain((b2Vec2*)&points[0], points.size());
+    pFixtureDef->shape = pShape;
+    
+    if ( body )
+    {
+        // Create and push fixture.
+        fixtures.push_back( body->CreateFixture( pFixtureDef ) );
+        
+        // Destroy shape and fixture.
+        delete pShape;
+        delete pFixtureDef;
+        
+        //return id
+        return fixtures.size()-1;
+    }
+    // Push fixture definition.
+    fixturesDef.push_back( pFixtureDef );
+    //return id
+    return fixturesDef.size()-1;
+    
+}
+
+Shape Body::createChainCollisionShape( const std::vector<Vec2>& points,
+                                       bool startp ,
+                                       const Vec2& adjacentStartPoint,
+                                       bool endp,
+                                       const Vec2& adjacentEndPoint ){
+    // Configure fixture definition.
+    b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
+    b2ChainShape* pShape = new b2ChainShape();
+    
+    pShape->CreateChain((b2Vec2*)&points[0], points.size());
+    pFixtureDef->shape = pShape;
+    
+    if(startp)
+        pShape->SetPrevVertex(cast(adjacentStartPoint));
+    if(endp)
+        pShape->SetNextVertex(cast(adjacentEndPoint));
+    
+    if ( body )
+    {
+        // Create and push fixture.
+        fixtures.push_back( body->CreateFixture( pFixtureDef ) );
+        
+        // Destroy shape and fixture.
+        delete pShape;
+        delete pFixtureDef;
+        
+        //return id
+        return fixtures.size()-1;
+    }
+    // Push fixture definition.
+    fixturesDef.push_back( pFixtureDef );
+    //return id
+    return fixturesDef.size()-1;
+    
+}
+
+void Body::setCollisionShapeDensity(Shape index,float density){
+    if(body){
+        fixtures[index]->SetDensity(density);
+        return;
+    }
+    fixturesDef[index]->density=density;
+}
+float Body::getCollisionShapeDensity(Shape index){
+    if(body)
+        return fixtures[index]->GetDensity();
+    return fixturesDef[index]->density;
+}
+
+void Body::setCollisionShapeFriction(Shape index,float friction){
+    if(body){
+        fixtures[index]->SetFriction(friction);
+        return;
+    }
+    fixturesDef[index]->friction=friction;
+}
+float Body::getCollisionShapeFriction(Shape index) const{
+    if(body)
+        return fixtures[index]->GetFriction();
+    return fixturesDef[index]->friction;
+}
+
+void Body::setCollisionShapeRestitution(Shape index,float restitution){
+    if(body){
+        fixtures[index]->SetRestitution(restitution);
+        return;
+    }
+    fixturesDef[index]->restitution=restitution;
+}
+float Body::getCollisionShapeRestitution(Shape index) const{
+    if(body)
+        return fixtures[index]->GetRestitution();
+    return fixturesDef[index]->restitution;
+}
+
+void Body::setCollisionShapeIsSensor(Shape index,bool sensor){
+    if(body){
+        fixtures[index]->SetSensor(sensor);
+        return;
+    }
+    fixturesDef[index]->isSensor=sensor;
+}
+bool Body::getCollisionShapeIsSensor(Shape index) const{
+    if(body)
+        return fixtures[index]->IsSensor();
+    return fixturesDef[index]->isSensor;
+}

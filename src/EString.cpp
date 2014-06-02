@@ -4,7 +4,8 @@
 ////////////////////////
 using namespace Easy2D;
 ////////////////////////
-
+//a void string
+String String::VOID("");
 //
 int String::find(const String& value) const{
 	return basic_string::find(value);
