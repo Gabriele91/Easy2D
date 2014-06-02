@@ -115,10 +115,12 @@ namespace Easy2D {
                                                                           const Vec2& adjacentEndPoint );
 		Shape createEdgeCollisionShape( const Vec2& localPositionStart,
 										 const Vec2& localPositionEnd);
-		Shape createEdgeCollisionShape( const Vec2& localPositionStart,
-										 const Vec2& localPositionEnd, 
-										 const Vec2& adjacentStartPoint, 
-										 const Vec2&  adjacentEndPoint );
+		Shape createEdgeCollisionShape(const Vec2& localPositionStart,
+                                       const Vec2& localPositionEnd,
+                                       const bool hasAdjacentLocalPositionStart,
+                                       const Vec2& adjacentLocalPositionStart,
+                                       const bool hasAdjacentLocalPositionEnd,
+                                       const Vec2& adjacentLocalPositionEnd );
 		
 		void setCollisionShapeDensity(Shape index,float density);
 		float getCollisionShapeDensity(Shape index);

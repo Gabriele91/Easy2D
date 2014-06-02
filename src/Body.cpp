@@ -455,6 +455,70 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points,
     return fixturesDef.size()-1;
     
 }
+Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,  const Vec2& localPositionEnd){
+
+    // Configure fixture definition.
+    b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
+    b2EdgeShape* pShape = new b2EdgeShape();
+    pShape->Set(cast(localPositionStart), cast(localPositionEnd));
+    pFixtureDef->shape = pShape;
+    
+    
+    if ( body )
+    {
+        // Create and push fixture.
+        fixtures.push_back( body->CreateFixture( pFixtureDef ) );
+        
+        // Destroy shape and fixture.
+        delete pShape;
+        delete pFixtureDef;
+        
+        //return id
+        return fixtures.size()-1;
+    }
+    // Push fixture definition.
+    fixturesDef.push_back( pFixtureDef );
+    //return id
+    return fixturesDef.size()-1;
+
+}
+Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,
+                                      const Vec2& localPositionEnd,
+                                      const bool hasAdjacentLocalPositionStart,
+                                      const Vec2& adjacentLocalPositionStart,
+                                      const bool hasAdjacentLocalPositionEnd,
+                                      const Vec2& adjacentLocalPositionEnd ){
+    
+    
+    // Configure fixture definition.
+    b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
+    b2EdgeShape* pShape = new b2EdgeShape();
+    pShape->Set(cast(localPositionStart), cast(localPositionEnd));
+    pShape->m_hasVertex0      = hasAdjacentLocalPositionStart;
+    pShape->m_hasVertex3      = hasAdjacentLocalPositionEnd;
+    pShape->m_vertex0         = cast(adjacentLocalPositionStart);
+    pShape->m_vertex3         = cast(adjacentLocalPositionEnd);
+    pFixtureDef->shape = pShape;
+    
+    
+    if ( body )
+    {
+        // Create and push fixture.
+        fixtures.push_back( body->CreateFixture( pFixtureDef ) );
+        
+        // Destroy shape and fixture.
+        delete pShape;
+        delete pFixtureDef;
+        
+        //return id
+        return fixtures.size()-1;
+    }
+    // Push fixture definition.
+    fixturesDef.push_back( pFixtureDef );
+    //return id
+    return fixturesDef.size()-1;
+
+}
 
 void Body::setCollisionShapeDensity(Shape index,float density){
     if(body){
