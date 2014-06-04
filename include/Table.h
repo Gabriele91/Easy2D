@@ -120,7 +120,7 @@ namespace Easy2D{
 		/* binary type */
 		struct Binary{
             //statics
-            static Binary VOID;
+            static Binary NONE;
             //class
 			void *value;
 			size_t len;
@@ -135,7 +135,7 @@ namespace Easy2D{
 	public:
 
         //statics
-        static Table VOID;
+        static Table NONE;
 		/* costructor */
 		Table(ResourcesManager<Table> *rsmr,
 			  const String& pathfile="");
@@ -178,7 +178,7 @@ namespace Easy2D{
 
 			if(exists(key))
 				delete table[key];
-			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
+			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table(getResourcesManager(),rpath));
 			table[key]=ptr;
 
 			return *((Table*)ptr->getValue());
@@ -286,22 +286,22 @@ namespace Easy2D{
 			return vdefault;
 		}
 		/** return a string associate a table/array key */
-		DFORCEINLINE const String& getString(const KeyTable& key,const String& vdefault=String::VOID) const{
+		DFORCEINLINE const String& getString(const KeyTable& key,const String& vdefault=String::NONE) const{
 			if(existsAsType(key,STRING)) return *((String*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a constant table/array associate a table/array key */
-		DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table::VOID) const{
+		DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table::NONE) const{
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a table/array associate a table/array key */
-		DFORCEINLINE const Table& getTable(const KeyTable& key,const Table& vdefault=Table::VOID){
+		DFORCEINLINE const Table& getTable(const KeyTable& key,const Table& vdefault=Table::NONE){
 			if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
 		/** return a binary file associate a table/array key */
-		DFORCEINLINE const Binary& getBinary(const KeyTable& key,const Binary& vdefault=Binary::VOID) const{
+		DFORCEINLINE const Binary& getBinary(const KeyTable& key,const Binary& vdefault=Binary::NONE) const{
 			if(existsAsType(key,BINARY)) return *((Binary*)(table.find(key)->second->getValue()));
 			return vdefault;
 		}
@@ -328,6 +328,136 @@ namespace Easy2D{
 		const String& getDeserializeErros(){
 			return dErrors.toString();
 		}
+		/** data struct serialize/deserialize */
+		template<class T> 
+		class Translator{
+
+		   //single members
+		   typedef bool T::*BoolMember;
+		   typedef int T::*IntMember;
+		   typedef float T::*FloatMember;
+		   typedef String T::*StringMember;
+		   typedef Vec2 T::*Vec2Member;
+		   typedef Vec3 T::*Vec3Member;
+		   typedef Vec4 T::*Vec4Member;
+		   typedef Mat4 T::*Mat4Member;
+
+		   //ptr maps
+		   std::map<KeyTable, BoolMember, KeyTable::KeyCompare > bools;
+		   std::map<KeyTable, IntMember, KeyTable::KeyCompare > ints;
+		   std::map<KeyTable, FloatMember, KeyTable::KeyCompare > floats;
+		   std::map<KeyTable, StringMember, KeyTable::KeyCompare > strings;
+		   std::map<KeyTable, Vec2Member, KeyTable::KeyCompare > vec2s;
+		   std::map<KeyTable, Vec3Member, KeyTable::KeyCompare > vec3s;
+		   std::map<KeyTable, Vec4Member, KeyTable::KeyCompare > vec4s;
+		   std::map<KeyTable, Mat4Member, KeyTable::KeyCompare > mat4s;
+		   
+		public:
+						
+		  Translator& add(const KeyTable& key, BoolMember member){
+				bools[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, IntMember member){
+				ints[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, FloatMember member){
+				floats[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, StringMember member){
+				strings[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, Vec2Member member){
+				vec2s[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, Vec3Member member){
+				vec3s[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, Vec4Member member){
+				vec4s[key]=member;
+				return (*this);
+		  }
+		  Translator& add(const KeyTable& key, Mat4Member member){
+				mat4s[key]=member;
+				return (*this);
+		  }
+		  //fast encoding
+		  void decoder(const Table& table,T& astruct){
+			  for(auto abool:bools)
+				  astruct.*(abool.second)=table.getFloat(abool.first)!=0.0;
+			  for(auto aint:ints)
+				  astruct.*(aint.second)=(int)table.getFloat(aint.first);
+			  for(auto afloat:floats)
+				  astruct.*(afloat.second)=table.getFloat(afloat.first);
+			  for(auto astring:strings)
+				  astruct.*(astring.second)=table.getString(astring.first);
+			  for(auto avec2:vec2s)
+				  astruct.*(avec2.second)=table.getVector2D(avec2.first);
+			  for(auto avec3:vec3s)
+				  astruct.*(avec3.second)=table.getVector3D(avec3.first);
+			  for(auto avec4:vec4s)
+				  astruct.*(avec4.second)=table.getVector4D(avec4.first);
+			  for(auto amat4:mat4s)
+				  astruct.*(amat4.second)=table.getMatrix4x4(amat4.first);
+		  }
+		  void encoder(const T& astruct,Table& table){
+			  for(auto abool:bools)
+				  table.set(abool.first,FLOAT,(float)(astruct.*(abool.second)));
+			  for(auto aint:ints)
+				  table.set(aint.first,FLOAT,(float)(astruct.*(aint.second)));
+			  for(auto afloat:floats)
+				  table.set(afloat.first,FLOAT,astruct.*(afloat.second));
+			  for(auto astring:strings)
+				  table.set(astring.first,STRING,astruct.*(astring.second));
+			  for(auto avec2:vec2s)
+				  table.set(avec2.first,VECTOR2D,astruct.*(avec2.second));
+			  for(auto avec3:vec3s)
+				  table.set(avec3.first,VECTOR3D,astruct.*(avec3.second));
+			  for(auto avec4:vec4s)
+				  table.set(avec4.first,VECTOR4D,astruct.*(avec4.second));
+			  for(auto amat4:mat4s)
+				  table.set(amat4.first,MATRIX4X4,astruct.*(amat4.second));
+		  }
+		  
+		  void decoderStr(const String& textfile,T& astruct){
+				Table table;
+				table.deserialize(textfile);
+				decoder(table,astruct);
+		  }
+		  void encoderStr(const T& astruct,String& textfile){
+			Table table;
+			encoder(astruct,table);
+			textfile=table.serialize();
+		  }
+		  //easy encoding
+		  T decoder(const Table& table){
+			T astruct;
+			decoder(table,astruct);
+			return T;
+		  }
+		  Table encoder(const T& astruct){
+			Table table;
+			encoder(astruct,table);
+			return table;
+		  }
+		  
+		  T decoderStr(const String& textfile){
+			T astruct;
+			decoder(textfile,astruct);
+			return T;
+		  }
+		  String encoderStr(const T& astruct){
+			String textfile;
+			encoder(astruct,textfile);
+			return textfile;
+		  }
+		  
+		};
 
 	private:
 		/* private deserialize/serialize */
@@ -355,7 +485,7 @@ namespace Easy2D{
 
 			if(exists(key))
 				delete table[key];
-			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
+			DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table(getResourcesManager(),rpath));
 			table[key]=ptr;
 			//get max key
 			if(!key.isString()){

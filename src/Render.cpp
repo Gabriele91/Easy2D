@@ -99,7 +99,7 @@ void Render::draw(){
 					//add mesh
 					batchingMesh.addMesh(rCurrent->getGlobalMatrix(),
 										 rCurrent->getMesh(),
-									     rCurrent->getZ()/FLT_MAX);
+									     0);
 					//draw!?
 					if(!rNext || !rCurrent->canBatching(rNext) || !batchingMesh.canAdd(rNext->getMesh())){
 						//enable info draw

@@ -111,7 +111,7 @@ bool FrameSet::load(){
 		
 		//get rect size
 		Vec4 imgrec(0, 0, texture->getSpriteWidth(), texture->getSpriteHeight());//default
-		imgrec=frameSplit.getVector4D("subrec",imgrec);//load
+		imgrec=frameSplit.getVector4D("subtexture",imgrec);//load
 		//load frame size
 		Vec2 sizeframe(frameSplit.getVector2D("frame",Vec2::ZERO));
 		
@@ -126,8 +126,10 @@ bool FrameSet::load(){
 			countXtiles=imagewidth/framewidth;//width
 		if(frameheight>0)//no division by 0
 			countYtiles=imageheight/frameheight;//height
+		//calc sub frame
+		Vec4 subframe(frameSplit.getVector4D("subframe",Vec4(0,0,framewidth,frameheight)));
 		//set first and count
-		int first=Math::min(frameSplit.getFloat("first",1.0)-1.0,0.0);
+		int first=Math::max(frameSplit.getFloat("first",1.0)-1.0,0.0);
 		int count=frameSplit.getFloat("count",countXtiles*countYtiles);
 		int step=Math::max((int)frameSplit.getFloat("step",1),1);
 
@@ -138,24 +140,24 @@ bool FrameSet::load(){
 		   imageheight>=frameheight		//size(frames)<=size(recimage)
 		   )
         {
-			for(int frm=first;frm<count;frm+=step){
+			for(int frm=first;frm<(count+first);frm+=step){
 				int posX=(frm%countXtiles)*framewidth;
 				int posY=(frm/countXtiles)*frameheight;
-				addFrame(Vec4(posX+imgrec.x,
-							  posY+imgrec.y,
-							  framewidth,
-							  frameheight));
+				addFrame(Vec4(subframe.x+posX+imgrec.x,
+							  subframe.x+posY+imgrec.y,
+							  subframe.z,
+							  subframe.w));
 			}
 		}
 		else{
 			DEBUG_ASSERT_MSG(0,"frameset error:"
 							   "frameSplit invalid parameters"
-							   "(parameters:width, height, first, count)");
+							   "(parameters: subtexture, frame, subframe, first, count)");
 		}
 	}
 	else{
 		DEBUG_ASSERT_MSG(0,"frameset error:"
-				           "must to be setted a frameset/frameSplit table"
+				           "must to be setted a frames/frameSplit table"
 						   "(parameter:frames/frameSplit)");
 		return false;
 	}

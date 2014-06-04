@@ -7,8 +7,8 @@
 using namespace Easy2D;
 ///////////////////////
 //statics
-Table Table::VOID;
-Table::Binary Table::Binary::VOID;
+Table Table::NONE;
+Table::Binary Table::Binary::NONE;
 
 //Table class
 Table::Table(ResourcesManager<Table> *rsmr,

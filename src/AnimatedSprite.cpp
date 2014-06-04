@@ -40,10 +40,10 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames){
 	return crtAnimation;
 }
 int AnimatedSprite::addAnimation(FrameSet::ptr frames,
-								 float timePerFrame){
+								 float time){
 	//set current animation:
 	int anim=addAnimation(frames);
-	animations[anim]->setFrameTime(timePerFrame);
+	animations[anim]->setFrameTime(time);
 	//return id
 	return anim;
 }
@@ -57,7 +57,7 @@ void AnimatedSprite::setAnimation(int i){
 	//set sprite mesh
 	setMesh(animations[crtAnimation]->getCurrentFrame());
 }
-void AnimatedSprite::setAnimation(int i, float timePerFrame){
+void AnimatedSprite::setAnimation(int i, float time){
 
 	DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
 	DEBUG_ASSERT( ((int)animations.size()) > i );
@@ -66,7 +66,7 @@ void AnimatedSprite::setAnimation(int i, float timePerFrame){
 	//set sprite mesh
 	setMesh(animations[crtAnimation]->getCurrentFrame());
 	//set time
-	animations[crtAnimation]->setFrameTime(timePerFrame);
+	animations[crtAnimation]->setFrameTime(time);
 }
 
 void AnimatedSprite::setTime(float timePerFrame){

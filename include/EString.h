@@ -9,7 +9,7 @@ namespace Easy2D{
 
 	public:
 
-    static String VOID;
+    static String NONE;
         
 	String():std::string(){};
 	String(char c,unsigned int rep):std::string(rep,c){};

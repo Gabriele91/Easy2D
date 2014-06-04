@@ -2,6 +2,7 @@
 #define ANIMATEDSPRITE_H
 
 #include <Config.h>
+#include <Math3D.h>
 #include <Renderable.h>
 #include <FrameSet.h>
 #include <Debug.h>
@@ -28,17 +29,18 @@ namespace Easy2D {
 
 				DEBUG_ASSERT( frames!=NULL );				
 				if( timePerFrame == 0 )return;				
-				if( frames->size() <= 1 ) return;								
+				if( frames->size() <= 1 ) return;
+				//new time
 				animationTime = dt;
-				
-				//clamp in the time interval
-				while( animationTime >= totalTime ){
+				//update
+				while( animationTime >= timePerFrame ){
 					++currentFrame;
 					currentFrame%=frames->size();
-					animationTime -= totalTime;
+					animationTime -= timePerFrame;
 				}
-				
-				while( animationTime < 0 ) animationTime += totalTime;
+				//??
+				while( animationTime < 0 ) 
+					animationTime += totalTime;
 		}
 		//next frame
 		void update(float dt){
@@ -49,23 +51,19 @@ namespace Easy2D {
 				frames = frameset;
 				setFrameTime(tPerFrame);
         }
-		void setFrameTime( float tPerFrame ){
-            DEBUG_ASSERT( tPerFrame >= 0 );
+		void setFrameTime( float time ){
+            DEBUG_ASSERT( frames );
+            DEBUG_ASSERT( time >= 0 );
             animationTime = 0;
-            timePerFrame = tPerFrame;
+            timePerFrame =  time / frames->size();
             currentFrame = 0;
-            if( frames )
-                totalTime = timePerFrame * frames->size();
-            else
-                totalTime = 1;
+            totalTime = time;
         }
-		void setChangeFrameTime( float tPerFrame ){
-            DEBUG_ASSERT( tPerFrame >= 0 );
-            timePerFrame = tPerFrame;
-            if( frames )
-                totalTime = timePerFrame * frames->size();
-            else
-                totalTime = 1;
+		void setChangeFrameTime( float time ){
+            DEBUG_ASSERT( frames );
+            DEBUG_ASSERT( time >= 0 );
+            timePerFrame =  time / frames->size();
+            totalTime = time;
         }
         
 		void setForcedFrame(int i){
@@ -118,20 +116,33 @@ namespace Easy2D {
 		void setFrame(int animation,int frame);
 		//add an animation 
 		int addAnimation(FrameSet::ptr frames);
-		int addAnimation(FrameSet::ptr frames, float timePerFrame);
+		int addAnimation(FrameSet::ptr frames, float time);
 		//change an animation
 		void setAnimation(int i);
 		void setAnimation(int i, float timePerFrame);
 		//change time animation
 		void setTime(float timePerFrame);
 		void setChangeTime(float timePerFrame);
-		void setAnimationTime(int i, float timePerFrame);
+		void setAnimationTime(int i, float time);
         //query
         int getCurrentAnimation(){
             return crtAnimation;
         }
-        float getCurrentTime(){
+        float getCurrentTimePerFrame(){
             return animations[crtAnimation]->getTimePerFrame();
+        }
+        float getCurrentTotalTime(){
+            return animations[crtAnimation]->getTotalTime();
+        }
+        float getCurrentTime(){
+            return animations[crtAnimation]->getCurrentTime();
+        }
+        //get pixel scale
+        Vec2 getBoxScale(){
+			//get box
+			const AABox2& box=getMesh()->getAABox();
+			Vec2 scale=box.getMax()-box.getMin();
+            return scale*getScale();
         }
 	};
 

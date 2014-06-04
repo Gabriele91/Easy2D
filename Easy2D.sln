@@ -24,6 +24,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StressTest", "exemples\Stre
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GUItools", "exemples\GUItools\GUItools.vcxproj", "{5513180A-3777-41B7-8F53-2A5E8E19F169}"
+	ProjectSection(ProjectDependencies) = postProject
+		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "exemples\Physics\Physics.vcxproj", "{2D177503-24E6-475F-A438-F029A87D8F85}"
+	ProjectSection(ProjectDependencies) = postProject
+		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +77,12 @@ Global
 		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
 		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release|Win32.ActiveCfg = Release|Win32
 		{5513180A-3777-41B7-8F53-2A5E8E19F169}.Release|Win32.Build.0 = Release|Win32
+		{2D177503-24E6-475F-A438-F029A87D8F85}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2D177503-24E6-475F-A438-F029A87D8F85}.Debug|Win32.Build.0 = Debug|Win32
+		{2D177503-24E6-475F-A438-F029A87D8F85}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{2D177503-24E6-475F-A438-F029A87D8F85}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
+		{2D177503-24E6-475F-A438-F029A87D8F85}.Release|Win32.ActiveCfg = Release|Win32
+		{2D177503-24E6-475F-A438-F029A87D8F85}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

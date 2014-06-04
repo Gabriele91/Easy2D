@@ -57,7 +57,7 @@ namespace Easy2D{
 				//else make resource
 				//get path:
 				String path(pathFromName(objectname));
-				if(path!=String() /* void string */){
+				if(path!=String::NONE /* void string */){
 					//
 					DS_PTR<T> resource(new T(this,mapResources->getPath().getDirectory()+"/"+path));
 					//set into map
