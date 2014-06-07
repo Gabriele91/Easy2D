@@ -15,33 +15,42 @@
 using namespace Easy2D;
 
 Thread::Thread(actionOnDelete cad)
-:thisThFun(NULL)
-,thisThFunArgs(NULL)
-,cad(cad)
-,thr(NULL)
-,th_error(SUCCESSFUL){}
+    :thisThFun(NULL)
+    ,thisThFunArgs(NULL)
+    ,cad(cad)
+    ,thr(NULL)
+    ,th_error(SUCCESSFUL) {}
 
 Thread::Thread(threadFunction fn,
-			   void* args,
-			   actionOnDelete cad)
-:thisThFun(fn)
-,thisThFunArgs(args)
-,cad(cad)
-,thr(NULL)
-,th_error(SUCCESSFUL){}
+               void* args,
+               actionOnDelete cad)
+    :thisThFun(fn)
+    ,thisThFunArgs(args)
+    ,cad(cad)
+    ,thr(NULL)
+    ,th_error(SUCCESSFUL) {}
 
 
-Thread::~Thread(){
-    if(thr){
-        switch(cad){
-            case TERMINATE_JOIN: join(); break;
-            case TERMINATE_DELETE: destroy(); break;
-            default: break;
+Thread::~Thread()
+{
+    if(thr)
+    {
+        switch(cad)
+        {
+        case TERMINATE_JOIN:
+            join();
+            break;
+        case TERMINATE_DELETE:
+            destroy();
+            break;
+        default:
+            break;
         }
     }
 }
 
-bool Thread::start(){
+bool Thread::start()
+{
     if(pthread_create(&thr,NULL,
                       _thrd_wrapper_function,
                       (void *)this) != 0)
@@ -54,17 +63,21 @@ bool Thread::start(){
     return thr!=0;
 }
 
-void Thread::yield(){
+void Thread::yield()
+{
     sched_yield();
 }
 
-void Thread::sleepThread(unsigned int msec){
+void Thread::sleepThread(unsigned int msec)
+{
     usleep(msec * 1000);
 }
 
-void Thread::destroy(){
+void Thread::destroy()
+{
     int status=0;
-    if ( (status = pthread_kill(thr, SIGUSR1)) != 0){
+    if ( (status = pthread_kill(thr, SIGUSR1)) != 0)
+    {
         //error
 #ifndef __ANDROID__
         pthread_cancel(thr);
@@ -75,36 +88,43 @@ void Thread::destroy(){
     thr=NULL;
 }
 
-int Thread::join(){
+int Thread::join()
+{
     void *pres;
     int ires = 0;
-    if (pthread_join(thr, &pres) != 0){
-		this->th_error=ERROR_JOIN;
-		return -1;
+    if (pthread_join(thr, &pres) != 0)
+    {
+        this->th_error=ERROR_JOIN;
+        return -1;
     }
-    if (pres != NULL){
-		ires = *(int*)pres;
-		free(pres);
+    if (pres != NULL)
+    {
+        ires = *(int*)pres;
+        free(pres);
     }
     thr=NULL;
     return (int)ires;
 }
 
-int Thread::getError(){
+int Thread::getError()
+{
     return th_error;
 }
 
-int Thread::run(){
+int Thread::run()
+{
     if(thisThFun)
         return thisThFun(thisThFunArgs);
     else
         return 0;
 }
 
-void Thread::thread_exit_handler(int sig){
+void Thread::thread_exit_handler(int sig)
+{
     pthread_exit(0);
 }
-void * Thread::_thrd_wrapper_function(void * aArg){
+void * Thread::_thrd_wrapper_function(void * aArg)
+{
 
     int  res;
     void *pres;
@@ -123,7 +143,7 @@ void * Thread::_thrd_wrapper_function(void * aArg){
     pres = malloc(sizeof(int));
     if (pres != NULL)
     {
-		*(int*)pres = res;
+        *(int*)pres = res;
     }
 
     return pres;

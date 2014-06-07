@@ -7,7 +7,8 @@
 using namespace Easy2D;
 ///////////////////////
 //init
-Body::Body(){
+Body::Body()
+{
     world=NULL;
     body=NULL;
     mass = 0.0;
@@ -25,7 +26,7 @@ Body::Body(){
     bodyDefinition.type            = b2_dynamicBody;
     bodyDefinition.active          = true;
     bodyDefinition.gravityScale    = 1.0f;
-    
+
     defaultFixture.userData    = static_cast<void*>(this);
     defaultFixture.density     = 1.0f;
     defaultFixture.friction    = 0.2f;
@@ -34,28 +35,33 @@ Body::Body(){
     defaultFixture.shape       = NULL;
 }
 //free
-Body::~Body(){
-    if(body){
+Body::~Body()
+{
+    if(body)
+    {
         // Destroy the physics body.
         world->world->DestroyBody( body );
         //to null
         body=NULL;
     }
     //delete save fixatures
-    for( auto pFixtureDef : fixturesDef ){
+    for( auto pFixtureDef : fixturesDef )
+    {
         // Destroy fixture shape.
         delete pFixtureDef->shape;
         // Destroy fixture definition.
         delete pFixtureDef;
     }
 }
-void Body::getTransform(Transform2D& t2d) const{
+void Body::getTransform(Transform2D& t2d) const
+{
     t2d.position=getPosition();
     t2d.alpha=getAngle();
-    
+
 }
 //word
-void Body::registerWorld(World *wrd){
+void Body::registerWorld(World *wrd)
+{
     //save
     world=wrd;
     //create body
@@ -65,19 +71,20 @@ void Body::registerWorld(World *wrd){
     {
         // Create fixture.
         b2Fixture* pFixture = body->CreateFixture( pFixtureDef );
-        
+
         // Push fixture.
         fixtures.push_back( pFixture );
-        
+
         // Destroy fixture shape.
         delete pFixtureDef->shape;
-        
+
         // Destroy fixture definition.
         delete pFixtureDef;
     }
     fixturesDef.clear();
 }
-void Body::unregisterWorld(World *wrd){
+void Body::unregisterWorld(World *wrd)
+{
     // Transfer physics body configuration back to definition.
     world = NULL;
     mass  = getMass();
@@ -116,198 +123,241 @@ void Body::unregisterWorld(World *wrd){
 }
 
 
-void Body::setActive(bool active){
-    if(body){
+void Body::setActive(bool active)
+{
+    if(body)
+    {
         body->SetActive(active);
         return;
     }
     bodyDefinition.active=active;
 }
-bool Body::getActive() const{
+bool Body::getActive() const
+{
     if(body)
         return body->IsActive();
     return bodyDefinition.active;
 }
 
-void Body::setAwake(bool awake){
-    if(body){
+void Body::setAwake(bool awake)
+{
+    if(body)
+    {
         body->SetAwake(awake);
         return;
     }
     bodyDefinition.awake=awake;
 }
-bool Body::getAwake() const{
+bool Body::getAwake() const
+{
     if(body)
         return body->IsAwake();
     return bodyDefinition.awake;
 }
 
-void Body::setBullet(bool bullet){
-    if(body){
+void Body::setBullet(bool bullet)
+{
+    if(body)
+    {
         body->SetBullet(bullet);
         return;
     }
     bodyDefinition.bullet=bullet;
 }
-bool Body::getBullet(){
+bool Body::getBullet()
+{
     if(body)
         return body->IsBullet();
     return bodyDefinition.bullet;
 }
 
-void Body::setType(Type type){
-    if(body){
+void Body::setType(Type type)
+{
+    if(body)
+    {
         body->SetType((b2BodyType)type);
         return;
     }
     bodyDefinition.type=(b2BodyType)type;
 }
-Body::Type Body::getType() const{
+Body::Type Body::getType() const
+{
     if(body)
         return (Body::Type)body->GetType();
     return (Body::Type)bodyDefinition.type;
 }
 
-float Body::getMass() const{
+float Body::getMass() const
+{
     if(body)
         return body->GetMass();
     return mass;
 }
 
 
-void Body::setLinearVelocity(const Vec2& vl){
-    if(body){
+void Body::setLinearVelocity(const Vec2& vl)
+{
+    if(body)
+    {
         body->SetLinearVelocity(cast(vl));
         return;
     }
     bodyDefinition.linearVelocity=cast(vl);
 }
-Vec2 Body::getLinearVelocity() const{
+Vec2 Body::getLinearVelocity() const
+{
     if(body)
         return cast(body->GetLinearVelocity());
     return cast(bodyDefinition.linearVelocity);
 }
 
-Vec2 Body::getLinearVelocityFromWorldPoint(const Vec2& world) const{
+Vec2 Body::getLinearVelocityFromWorldPoint(const Vec2& world) const
+{
     if(body)
         return cast(body->GetLinearVelocityFromWorldPoint(cast(world)));
     return cast(bodyDefinition.linearVelocity);
 }
-Vec2 Body::getLinearVelocityFromLocalPoint(const Vec2& world) const{
+Vec2 Body::getLinearVelocityFromLocalPoint(const Vec2& world) const
+{
     if(body)
         return cast(body->GetLinearVelocityFromLocalPoint(cast(world)));
     return cast(bodyDefinition.linearVelocity);
 }
 
-void Body::setLinearDamping(float linearDamping){
-    if(body){
+void Body::setLinearDamping(float linearDamping)
+{
+    if(body)
+    {
         body->SetLinearDamping(linearDamping);
         return;
     }
     bodyDefinition.linearDamping=linearDamping;
 }
-float Body::getLinearDamping() const{
+float Body::getLinearDamping() const
+{
     if(body)
         return body->GetLinearDamping();
     return bodyDefinition.linearDamping;
 }
 
-void Body::setAngularVelocity(float angularVelocity){
-    if(body){
+void Body::setAngularVelocity(float angularVelocity)
+{
+    if(body)
+    {
         body->SetAngularVelocity(angularVelocity);
         return;
     }
     bodyDefinition.angularVelocity=angularVelocity;
 }
-float Body::getAngularVelocity() const{
+float Body::getAngularVelocity() const
+{
     if(body)
         return body->GetAngularVelocity();
     return bodyDefinition.angularVelocity;
 }
 
-void Body::setAngularDamping(float angularDamping){
-    
-    if(body){
+void Body::setAngularDamping(float angularDamping)
+{
+
+    if(body)
+    {
         body->SetAngularDamping(angularDamping);
         return;
     }
     bodyDefinition.angularDamping=angularDamping;
 }
-float Body::getAngularDamping() const{
+float Body::getAngularDamping() const
+{
     if(body)
         return body->GetAngularDamping();
     return bodyDefinition.angularDamping;
 }
 
 
-void Body::setAngle(float angle){
-    if(body){
+void Body::setAngle(float angle)
+{
+    if(body)
+    {
         body->SetTransform(body->GetPosition(), Math::torad(angle));
         return;
     }
     bodyDefinition.angle=Math::torad(angle);
 }
-float Body::getAngle() const{
+float Body::getAngle() const
+{
     if(body)
         return Math::todeg(body->GetAngle());
     return Math::todeg(bodyDefinition.angle);
 }
 
-void Body::setPosition(const Vec2& pos){
-    if(body){
+void Body::setPosition(const Vec2& pos)
+{
+    if(body)
+    {
         body->SetTransform(cast(pos), body->GetAngle());
         return;
     }
     bodyDefinition.position=cast(pos);
 }
-Vec2 Body::getPosition() const{
+Vec2 Body::getPosition() const
+{
     if(body)
         return cast(body->GetPosition());
     return cast(bodyDefinition.position);
 }
 
-void Body::setFixedAngle(bool fixed){
-    if(body){
+void Body::setFixedAngle(bool fixed)
+{
+    if(body)
+    {
         body->SetFixedRotation(fixed);
         return;
     }
     bodyDefinition.fixedRotation=fixed;
 }
-bool Body::getFixedAngle() const{
+bool Body::getFixedAngle() const
+{
     if(body)
         return body->IsFixedRotation();
     return bodyDefinition.fixedRotation;
 }
 
 
-void Body::setGravityScale(float gravityScale){
-    if(body){
+void Body::setGravityScale(float gravityScale)
+{
+    if(body)
+    {
         body->SetGravityScale(gravityScale);
         return;
     }
     bodyDefinition.gravityScale=gravityScale;
 }
-float Body::getGravityScale() const{
+float Body::getGravityScale() const
+{
     if(body)
         return body->GetGravityScale();
     return bodyDefinition.gravityScale;
 }
 
-void Body::setSleepingAllowed(bool sleepingAllowed){
-    if(body){
+void Body::setSleepingAllowed(bool sleepingAllowed)
+{
+    if(body)
+    {
         body->SetSleepingAllowed(sleepingAllowed);
         return;
     }
     bodyDefinition.allowSleep=sleepingAllowed;
 }
-bool Body::getSleepingAllowed() const{
+bool Body::getSleepingAllowed() const
+{
     if(body)
         return body->IsSleepingAllowed();
     return bodyDefinition.allowSleep;
 }
 
 
-Shape Body::createCircleCollisionShape(float radius, const Vec2& pos){
+Shape Body::createCircleCollisionShape(float radius, const Vec2& pos)
+{
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2CircleShape* pShape = new b2CircleShape();
@@ -319,11 +369,11 @@ Shape Body::createCircleCollisionShape(float radius, const Vec2& pos){
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -332,7 +382,8 @@ Shape Body::createCircleCollisionShape(float radius, const Vec2& pos){
     //return id
     return fixturesDef.size()-1;
 }
-Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float angle){
+Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float angle)
+{
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2PolygonShape* pShape = new b2PolygonShape();
@@ -343,11 +394,11 @@ Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float ang
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -358,31 +409,32 @@ Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float ang
 }
 
 
-Shape Body::createPolygonCollisionShape( const std::vector<Vec2>& points ){
+Shape Body::createPolygonCollisionShape( const std::vector<Vec2>& points )
+{
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2PolygonShape* pShape = new b2PolygonShape();
-    
+
     DEBUG_ASSERT_MSG( points.size() >= 3 && points.size() <= b2_maxPolygonVertices ,
-                     "createChainCollisionShape error: "
-                     "points numbers must to be between 3 and "+
-                     String::toString(b2_maxPolygonVertices)+
-                     ", you added "+
-                     String::toString(points.size()));
-    
-    
+                      "createChainCollisionShape error: "
+                      "points numbers must to be between 3 and "+
+                      String::toString(b2_maxPolygonVertices)+
+                      ", you added "+
+                      String::toString(points.size()));
+
+
     pShape->Set((b2Vec2*)&points[0], points.size());
     pFixtureDef->shape = pShape;
-    
+
     if ( body )
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -390,26 +442,27 @@ Shape Body::createPolygonCollisionShape( const std::vector<Vec2>& points ){
     fixturesDef.push_back( pFixtureDef );
     //return id
     return fixturesDef.size()-1;
-    
+
 }
 
-Shape Body::createChainCollisionShape( const std::vector<Vec2>& points ){
+Shape Body::createChainCollisionShape( const std::vector<Vec2>& points )
+{
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2ChainShape* pShape = new b2ChainShape();
 
     pShape->CreateChain((b2Vec2*)&points[0], points.size());
     pFixtureDef->shape = pShape;
-    
+
     if ( body )
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -417,35 +470,36 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points ){
     fixturesDef.push_back( pFixtureDef );
     //return id
     return fixturesDef.size()-1;
-    
+
 }
 
 Shape Body::createChainCollisionShape( const std::vector<Vec2>& points,
                                        bool startp ,
                                        const Vec2& adjacentStartPoint,
                                        bool endp,
-                                       const Vec2& adjacentEndPoint ){
+                                       const Vec2& adjacentEndPoint )
+{
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2ChainShape* pShape = new b2ChainShape();
-    
+
     pShape->CreateChain((b2Vec2*)&points[0], points.size());
     pFixtureDef->shape = pShape;
-    
+
     if(startp)
         pShape->SetPrevVertex(cast(adjacentStartPoint));
     if(endp)
         pShape->SetNextVertex(cast(adjacentEndPoint));
-    
+
     if ( body )
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -453,26 +507,27 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points,
     fixturesDef.push_back( pFixtureDef );
     //return id
     return fixturesDef.size()-1;
-    
+
 }
-Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,  const Vec2& localPositionEnd){
+Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,  const Vec2& localPositionEnd)
+{
 
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2EdgeShape* pShape = new b2EdgeShape();
     pShape->Set(cast(localPositionStart), cast(localPositionEnd));
     pFixtureDef->shape = pShape;
-    
-    
+
+
     if ( body )
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -487,9 +542,10 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,
                                       const bool hasAdjacentLocalPositionStart,
                                       const Vec2& adjacentLocalPositionStart,
                                       const bool hasAdjacentLocalPositionEnd,
-                                      const Vec2& adjacentLocalPositionEnd ){
-    
-    
+                                      const Vec2& adjacentLocalPositionEnd )
+{
+
+
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2EdgeShape* pShape = new b2EdgeShape();
@@ -499,17 +555,17 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,
     pShape->m_vertex0         = cast(adjacentLocalPositionStart);
     pShape->m_vertex3         = cast(adjacentLocalPositionEnd);
     pFixtureDef->shape = pShape;
-    
-    
+
+
     if ( body )
     {
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-        
+
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-        
+
         //return id
         return fixtures.size()-1;
     }
@@ -520,53 +576,65 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,
 
 }
 
-void Body::setCollisionShapeDensity(Shape index,float density){
-    if(body){
+void Body::setCollisionShapeDensity(Shape index,float density)
+{
+    if(body)
+    {
         fixtures[index]->SetDensity(density);
         return;
     }
     fixturesDef[index]->density=density;
 }
-float Body::getCollisionShapeDensity(Shape index){
+float Body::getCollisionShapeDensity(Shape index)
+{
     if(body)
         return fixtures[index]->GetDensity();
     return fixturesDef[index]->density;
 }
 
-void Body::setCollisionShapeFriction(Shape index,float friction){
-    if(body){
+void Body::setCollisionShapeFriction(Shape index,float friction)
+{
+    if(body)
+    {
         fixtures[index]->SetFriction(friction);
         return;
     }
     fixturesDef[index]->friction=friction;
 }
-float Body::getCollisionShapeFriction(Shape index) const{
+float Body::getCollisionShapeFriction(Shape index) const
+{
     if(body)
         return fixtures[index]->GetFriction();
     return fixturesDef[index]->friction;
 }
 
-void Body::setCollisionShapeRestitution(Shape index,float restitution){
-    if(body){
+void Body::setCollisionShapeRestitution(Shape index,float restitution)
+{
+    if(body)
+    {
         fixtures[index]->SetRestitution(restitution);
         return;
     }
     fixturesDef[index]->restitution=restitution;
 }
-float Body::getCollisionShapeRestitution(Shape index) const{
+float Body::getCollisionShapeRestitution(Shape index) const
+{
     if(body)
         return fixtures[index]->GetRestitution();
     return fixturesDef[index]->restitution;
 }
 
-void Body::setCollisionShapeIsSensor(Shape index,bool sensor){
-    if(body){
+void Body::setCollisionShapeIsSensor(Shape index,bool sensor)
+{
+    if(body)
+    {
         fixtures[index]->SetSensor(sensor);
         return;
     }
     fixturesDef[index]->isSensor=sensor;
 }
-bool Body::getCollisionShapeIsSensor(Shape index) const{
+bool Body::getCollisionShapeIsSensor(Shape index) const
+{
     if(body)
         return fixtures[index]->IsSensor();
     return fixturesDef[index]->isSensor;

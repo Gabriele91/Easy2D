@@ -5,22 +5,24 @@
 #include <Types.h>
 #include <ETime.h>
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-	class Timer {
+class Timer
+{
 
-		bool started;
-		double sTime;
+    bool started;
+    double sTime;
 
-	public:
+public:
 
-		Timer():started(false),sTime(0.0){}
-		void start();
-		double getGetCounter();
-		void reset();
-		void end();
+    Timer():started(false),sTime(0.0) {}
+    void start();
+    double getGetCounter();
+    void reset();
+    void end();
 
-	};
+};
 
 };
 

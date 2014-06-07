@@ -4,25 +4,27 @@
 #include <Config.h>
 #include <BaseSoundAL.h>
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-    
-    class StaticSoundAL : public BaseSoundAL{
-    protected:
-        
-        //buffer file
-        ALuint buffer;
-        
-    public:
-        ///constructor
-        StaticSoundAL(ALuint source,
-                      ALuint buffer,
-                      int format,
-                      float lenSound,
-                      float audioVolume);
-        ///destroy sound rerouce
-        virtual ~StaticSoundAL();
-    };
+
+class StaticSoundAL : public BaseSoundAL
+{
+protected:
+
+    //buffer file
+    ALuint buffer;
+
+public:
+    ///constructor
+    StaticSoundAL(ALuint source,
+                  ALuint buffer,
+                  int format,
+                  float lenSound,
+                  float audioVolume);
+    ///destroy sound rerouce
+    virtual ~StaticSoundAL();
+};
 
 };
 

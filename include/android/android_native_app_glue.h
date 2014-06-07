@@ -87,7 +87,8 @@ struct android_app;
  * Data associated with an ALooper fd that will be returned as the "outData"
  * when that source has data ready.
  */
-struct android_poll_source {
+struct android_poll_source
+{
     // The identifier of this source.  May be LOOPER_ID_MAIN or
     // LOOPER_ID_INPUT.
     int32_t id;
@@ -108,7 +109,8 @@ struct android_poll_source {
  * VM, although it will need to be in order to make JNI calls any
  * Java objects.
  */
-struct android_app {
+struct android_app
+{
     // The application can place a pointer to its own state object
     // here if it likes.
     void* userData;
@@ -184,7 +186,8 @@ struct android_app {
     ARect pendingContentRect;
 };
 
-enum {
+enum
+{
     /**
      * Looper data ID of commands coming from the app's main thread, which
      * is returned as an identifier from ALooper_pollOnce().  The data for this
@@ -209,7 +212,8 @@ enum {
     LOOPER_ID_USER = 3,
 };
 
-enum {
+enum
+{
     /**
      * Command from main thread: the AInputQueue has changed.  Upon processing
      * this command, android_app->inputQueue will be updated to the new queue

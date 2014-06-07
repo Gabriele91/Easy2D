@@ -5,51 +5,55 @@
 #include <EString.h>
 #include <ostream>
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-	class Debug{
-	public:
+class Debug
+{
+public:
 
-		static void breakpoint();
-		static std::ostream& message();
-		template<typename T>
-		static void doassert(const T& v,
-                             const char* value,
-                             const char* fileSource,
-                             int line){
-            if(!v){
-                message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
-                breakpoint();
-            }
+    static void breakpoint();
+    static std::ostream& message();
+    template<typename T>
+    static void doassert(const T& v,
+                         const char* value,
+                         const char* fileSource,
+                         int line)
+    {
+        if(!v)
+        {
+            message()<<"Assert : "<<value<<" : "<<line<<" : "<<fileSource<<"\n";
+            breakpoint();
         }
+    }
 
-		static void gpucheckerrors(const char* fileSource,int line);
+    static void gpucheckerrors(const char* fileSource,int line);
 
-	};
+};
 
 #ifdef _DEBUG
-	
-	#define DEBUG_CODE( x ) x
-	#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
-	#define DEBUG_MESSAGE_IF( x,y )  if(x) { Debug::message()<<y<<"\n"; }
-	#define DEBUG_ASSERT( x ) Debug::doassert((x),#x,__FILE__,__LINE__)
-	#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((x),#x,__FILE__,__LINE__)
-	#define DEBUG_ASSERT_REPLACE( x ) DEBUG_ASSERT(x)
-	#define DEBUG_ASSERT_MGS_REPLACE( x,y ) DEBUG_ASSERT_MSG(x,y)
-	#define DEBUG_BREAKPOINT() Debug::breakpoint()
-	#define CHECK_GPU_ERRORS() Debug::gpucheckerrors(__FILE__,__LINE__)
+
+#define DEBUG_CODE( x ) x
+#define DEBUG_MESSAGE( x ) Debug::message()<<x<<"\n"
+#define DEBUG_MESSAGE_IF( x,y )  if(x) { Debug::message()<<y<<"\n"; }
+#define DEBUG_ASSERT( x ) Debug::doassert((x),#x,__FILE__,__LINE__)
+#define DEBUG_ASSERT_MSG( x,y ) if(!(x)){Debug::message()<<y<<"\n";} Debug::doassert((x),#x,__FILE__,__LINE__)
+#define DEBUG_ASSERT_REPLACE( x ) DEBUG_ASSERT(x)
+#define DEBUG_ASSERT_MGS_REPLACE( x,y ) DEBUG_ASSERT_MSG(x,y)
+#define DEBUG_BREAKPOINT() Debug::breakpoint()
+#define CHECK_GPU_ERRORS() Debug::gpucheckerrors(__FILE__,__LINE__)
 
 #else
-	
-	#define DEBUG_CODE( x ) 
-	#define DEBUG_MESSAGE( x )
-	#define DEBUG_MESSAGE_IF( x,y )
-	#define DEBUG_ASSERT( x )
-	#define DEBUG_ASSERT_MSG( x,y )
-	#define DEBUG_ASSERT_MGS_REPLACE( x,y ) x
-	#define DEBUG_ASSERT_REPLACE( x ) x
-	#define DEBUG_BREAKPOINT()
-	#define CHECK_GPU_ERRORS()
+
+#define DEBUG_CODE( x )
+#define DEBUG_MESSAGE( x )
+#define DEBUG_MESSAGE_IF( x,y )
+#define DEBUG_ASSERT( x )
+#define DEBUG_ASSERT_MSG( x,y )
+#define DEBUG_ASSERT_MGS_REPLACE( x,y ) x
+#define DEBUG_ASSERT_REPLACE( x ) x
+#define DEBUG_BREAKPOINT()
+#define CHECK_GPU_ERRORS()
 
 #endif
 

@@ -7,30 +7,32 @@
 #include <Scene.h>
 #include <ResourcesGroup.h>
 
-namespace Easy2D {
-	
-
-    /** 
-    * Abstract class, represent the game instance
-	* @class Game <Game.h>
-    */
-	class Game : public ResourcesGroup, public Scene {
-	public:
-
-		Game(const String& name,
-			 uint width, 
-			 uint height, 
-			 uint bites=32,
-			 uint FreamPerSecond=60,
-			 bool fullscreen=false,
-			 int defaultNoAA=0);
-        
-		virtual ~Game(){};
+namespace Easy2D
+{
 
 
-	private:
+/**
+* Abstract class, represent the game instance
+* @class Game <Game.h>
+*/
+class Game : public ResourcesGroup, public Scene
+{
+public:
 
-	};
+    Game(const String& name,
+         uint width,
+         uint height,
+         uint bites=32,
+         uint FreamPerSecond=60,
+         bool fullscreen=false,
+         int defaultNoAA=0);
+
+    virtual ~Game() {};
+
+
+private:
+
+};
 
 };
 

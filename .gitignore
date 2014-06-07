@@ -1,6 +1,7 @@
 *.7z
 *.exe
 *.zip
+astyle/
 
 #test directory
 livel*/

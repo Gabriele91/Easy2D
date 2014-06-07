@@ -6,13 +6,16 @@
 #include <Utility.h>
 #include <Application.h>
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-	class WavLoader {
+class WavLoader
+{
 
-    public:
-    
-    struct InfoSound{
+public:
+
+    struct InfoSound
+    {
         Audio::SempleBit sempleBit;
         Audio::Channels cannels;
         size_t sempleRate;
@@ -20,11 +23,11 @@ namespace Easy2D {
         size_t rawPos;
         float time;
     };
-    
+
     static InfoSound getInfo(Application::ResouceStream *pResource);
     static Audio::SoundInterface* load(const Utility::Path& path);
 
-	};
+};
 
 };
 

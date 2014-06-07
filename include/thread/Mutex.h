@@ -4,23 +4,25 @@
 #include <Config.h>
 #include <MutexConf.h>
 
-namespace Easy2D{
-    
-class Mutex{
+namespace Easy2D
+{
+
+class Mutex
+{
 
 public:
 
-	Mutex();
-	virtual ~Mutex();
-	bool lock(bool block=true);
-	void unlock();
+    Mutex();
+    virtual ~Mutex();
+    bool lock(bool block=true);
+    void unlock();
 
 private:
 
-	mxrd_t mutex;
+    mxrd_t mutex;
 
 };
-    
+
 }
 
 #endif

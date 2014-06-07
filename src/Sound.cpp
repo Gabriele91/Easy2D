@@ -11,28 +11,32 @@ using namespace Easy2D;
 
 Sound::Sound(ResourcesManager<Sound> *rsmr,
              const String& pathfile)
-            :Resource(rsmr,pathfile)
-            ,pResource(NULL)
-            ,offsetStartStream(0)
+    :Resource(rsmr,pathfile)
+    ,pResource(NULL)
+    ,offsetStartStream(0)
 {
-	reloadable=true;
+    reloadable=true;
 }
 ///destroy sound rerouce
-Sound::~Sound(){
-	//release resource
-	release();
+Sound::~Sound()
+{
+    //release resource
+    release();
 }
 
 
 //load methods
-bool Sound::load(){
-    
+bool Sound::load()
+{
+
     bool stream=false;
     String path=getPath();
-    
-    if(getPath().getExtension()=="e2d"){
+
+    if(getPath().getExtension()=="e2d")
+    {
         //load file
-        void *data=NULL; size_t len=0;
+        void *data=NULL;
+        size_t len=0;
         Application::instance()->loadData(rpath,data,len);
         String filestring((char*)data);
         free(data);
@@ -43,13 +47,15 @@ bool Sound::load(){
         path=getPath().getDirectory()+'/'+soundTable.getString("file");
         stream=soundTable.getString("mode","stream")=="stream";
     }
-    
-    if(!stream){
+
+    if(!stream)
+    {
         //static
         //load sound
         iSound=WavLoader::load(path);
     }
-    else{
+    else
+    {
         //stream
         //open stream
         pResource=Application::instance()->getResouceStream(path);
@@ -59,15 +65,17 @@ bool Sound::load(){
         offsetStartStream=infoSound.rawPos;
         //crate a stream sound
         iSound=Application::instance()->getAudio()->
-        createStreamSound(
-        [this](uchar* buffer,size_t size) ->size_t {
+               createStreamSound(
+                   [this](uchar* buffer,size_t size) ->size_t
+        {
             //debug
             DEBUG_ASSERT(size);
             DEBUG_ASSERT(buffer);
             //load resource
             return pResource->read(buffer, 1, size);
         },
-        [this](){
+        [this]()
+        {
             //restart stream
             pResource->seek(offsetStartStream, Application::Seek::SET);
         },
@@ -77,14 +85,16 @@ bool Sound::load(){
         infoSound.sempleBit);
     }
     //is loaded
-	loaded=true;
+    loaded=true;
     return true;
 }
-bool Sound::unload(){
+bool Sound::unload()
+{
     //unload resounce
     delete iSound;
     //is a stream resource?
-    if(pResource){
+    if(pResource)
+    {
         delete pResource;
         pResource=NULL;
         offsetStartStream=0;
