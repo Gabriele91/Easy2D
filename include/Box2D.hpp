@@ -8,12 +8,15 @@
     
 namespace Easy2D{
 		
-	inline Vec2 cast(const b2Vec2& v){
-		return Vec2(v.x,v.y);
-	}    
-	inline b2Vec2 cast(const Vec2& v){
-		return b2Vec2(v.x,v.y);
-	}
+inline Vec2 cast(const b2Vec2& v)
+{
+    return Vec2(v.x,v.y);
+}
+
+inline b2Vec2 cast(const Vec2& v)
+{
+    return b2Vec2(v.x,v.y);
+}
 
 };
 
