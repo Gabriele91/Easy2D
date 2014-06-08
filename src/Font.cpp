@@ -122,10 +122,12 @@ void Font::text(const Vec2& _pos,
     GLint bs_src, bs_dst;
     Matrix4x4 old_projection,old_modelview;
     GLfloat old_color[4];
+    GLfloat old_viewport[4];
     glGetBooleanv(GL_CULL_FACE,&cull);
     glGetBooleanv(GL_BLEND , &blend);
     glGetIntegerv(GL_BLEND_SRC , &bs_src);
     glGetIntegerv(GL_BLEND_DST , &bs_dst);
+    glGetFloatv(GL_VIEWPORT ,  &old_viewport[0]);
     glGetFloatv(GL_PROJECTION_MATRIX ,  old_projection );
     glGetFloatv(GL_MODELVIEW_MATRIX , old_modelview );
     glGetFloatv(GL_CURRENT_COLOR, old_color);
@@ -252,6 +254,9 @@ void Font::text(const Vec2& _pos,
         glDisable( GL_BLEND );
     else
         glBlendFunc(bs_src,bs_dst);
+    //viewport
+    glViewport( old_viewport[0], old_viewport[1], 
+                old_viewport[2], old_viewport[3] );
     //matrix
     glMatrixMode(GL_PROJECTION);
     glLoadMatrixf(old_projection);
@@ -261,6 +266,58 @@ void Font::text(const Vec2& _pos,
     glColor4fv(old_color);
 }
 
+Vec2 Font::textSize( const String& textDraw,bool kerning)
+{
+    //////////////////////////////////////////////////////////////////
+    Vec2 cursor;
+    //temp vars
+    int countCharPage=0;
+    Character* chr=NULL;
+    Character* nextChr=getCharacter(textDraw[0]);
+    int pageLast=0;
+    //min max
+    Vec2 min= Vec2::MAX;
+    Vec2 max=-Vec2::MAX;
+    //
+    for(int i=0; i<textDraw.length(); ++i)
+    {
+        //string's char
+        char c=textDraw[i];
+        char nextC=textDraw[i+1];
+        //image's char
+        chr=nextChr;
+        //next char
+        nextChr=getCharacter(nextC);
+        //is special?
+        lambdaChar charFunction=isASpecialChar(c);
+        if(charFunction)
+            charFunction(fontSize,Vec2::ZERO,cursor);
+        else if(chr)
+        {
+            //page
+            pageLast=chr->page;
+            //
+            Vec2 sizePage(pages[chr->page]->getRealWidth(),
+                          pages[chr->page]->getRealHeight());
+            //opengl uv flipped error on y axis
+            float yoffset=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+            float xoffset=chr->xOff - (kerning? getKerningPairs(c,nextC) : 0);
+            Vec2 posChr(cursor+Vec2(xoffset,yoffset));
+            //get min
+            min.x=Math::min(min.x, cursor.x);
+            min.y=Math::min(min.y, cursor.y);
+            //get max
+            max.x=Math::max(max.x,          posChr.x+chr->srcW);
+            max.y=Math::max(max.y,fontSize-(posChr.y+chr->srcH));
+            //count this char
+            ++countCharPage;
+            //next pos
+            cursor.x+=chr->xAdv;
+        }
+    }
+
+    return (max-min);
+}
 /*
 OLD METHOD
 

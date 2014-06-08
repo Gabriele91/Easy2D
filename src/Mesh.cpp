@@ -147,7 +147,7 @@ bool Mesh::load()
             else
             {
                 DEBUG_ASSERT_MSG(0,"mesh error:"
-                                 "vertexes must be only Vec4 (x x x x) "
+                                 "vertexes must be only Vec4 (x y u v) "
                                  "(parameter:vertexes)");
             }
         }

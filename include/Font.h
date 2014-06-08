@@ -151,7 +151,8 @@ public:
               const String& textDraw,
               const Color& color=Color(255,255,255,255),
               bool kerning=true);
-
+    //text size
+    Vec2 textSize( const String& textDraw,bool kerning=true);
 
 };
 

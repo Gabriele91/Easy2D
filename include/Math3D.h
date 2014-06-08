@@ -558,6 +558,7 @@ public:
     Vector4D():x(0),y(0),z(0),w(0) {};
     Vector4D(float x,float y,float z,float w):x(x),y(y),z(z),w(w) {};
     Vector4D(Vector2D v,float z,float w):x(v.x),y(v.y),z(z),w(w) {};
+    Vector4D(Vector2D v1,Vector2D v2):x(v1.x),y(v1.y),z(v2.x),w(v2.y) {};
     Vector4D(const Vector3D& v,float w):x(v.x),y(v.y),z(v.z),w(w) {};
     ~Vector4D() {};
     ///////////////////////////////////////////////////////////////////////////
