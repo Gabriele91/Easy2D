@@ -300,15 +300,14 @@ Vec2 Font::textSize( const String& textDraw,bool kerning)
             Vec2 sizePage(pages[chr->page]->getRealWidth(),
                           pages[chr->page]->getRealHeight());
             //opengl uv flipped error on y axis
-            float yoffset=isBMFont ? -chr->srcH-chr->yOff : -fontSize-chr->srcH+chr->yOff;
+            float yoffset=isBMFont ?  chr->srcH+chr->yOff : -fontSize-chr->srcH+chr->yOff;
             float xoffset=chr->xOff - (kerning? getKerningPairs(c,nextC) : 0);
-            Vec2 posChr(cursor+Vec2(xoffset,yoffset));
             //get min
             min.x=Math::min(min.x, cursor.x);
             min.y=Math::min(min.y, cursor.y);
             //get max
-            max.x=Math::max(max.x,          posChr.x+chr->srcW);
-            max.y=Math::max(max.y,fontSize-(posChr.y+chr->srcH));
+            max.x=Math::max(max.x, cursor.x+xoffset+chr->srcW);
+            max.y=Math::max(max.y, cursor.y+yoffset+chr->srcH*.5f);
             //count this char
             ++countCharPage;
             //next pos

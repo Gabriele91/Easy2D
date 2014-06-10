@@ -175,6 +175,14 @@ void AABox2::addPoint(const Vec2& p)
     max.x=Math::max(max.x,p.x);  //  |   \ |
     max.y=Math::max(max.y,p.y);  //  |____\|M
 }
+void AABox2::setRegion(const AABox2& p)
+{
+    //found box                             m______
+    min.x=Math::max(min.x,p.min.x);      //  |\    |
+    min.y=Math::max(min.y,p.min.y);      //  | \.c |
+    max.x=Math::min(max.x,p.max.x);      //  |   \ |
+    max.y=Math::min(max.y,p.max.y);      //  |____\|M
+}
 bool AABox2::isIntersection(const AABox2& aabb2)
 {
     auto cdiff=(getCenter()-aabb2.getCenter()).getAbs();

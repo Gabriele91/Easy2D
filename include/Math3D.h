@@ -821,6 +821,7 @@ public:
     ~AABox2();
     //setting
     void setBox(const Vec2& center,Vec2 size);
+    void setRegion(const AABox2& aabox);
     void addPoint(const Vec2& point);
     //getter
     Vec2  getCenter() const
@@ -838,6 +839,14 @@ public:
     const Vec2&  getMin() const
     {
         return min;
+    }
+    void setMax(const Vec2& m) 
+    {
+        max=m;
+    }
+    void setMin(const Vec2& m) 
+    {
+        min=m;
     }
     Vec2&  getMax()
     {

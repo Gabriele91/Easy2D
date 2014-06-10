@@ -37,6 +37,12 @@
     <Filter Include="File di origine\audio">
       <UniqueIdentifier>{e34de5f7-82cc-45b2-8f36-1500b2a8644a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di intestazione\gui">
+      <UniqueIdentifier>{39500ab8-bd82-4ae5-a62d-980c34f0a19a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\gui">
+      <UniqueIdentifier>{86066041-35bc-4a78-b783-d8fae4d3893b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -194,6 +200,18 @@
     </ClCompile>
     <ClCompile Include="src\World.cpp">
       <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GuiManager.cpp">
+      <Filter>File di origine\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Panel.cpp">
+      <Filter>File di origine\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Button.cpp">
+      <Filter>File di origine\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\Label.cpp">
+      <Filter>File di origine\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,6 +398,21 @@
     </ClInclude>
     <ClInclude Include="include\Box2D.hpp">
       <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gui\Button.h">
+      <Filter>File di intestazione\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gui\Gui.h">
+      <Filter>File di intestazione\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gui\GuiManager.h">
+      <Filter>File di intestazione\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gui\Label.h">
+      <Filter>File di intestazione\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gui\Panel.h">
+      <Filter>File di intestazione\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

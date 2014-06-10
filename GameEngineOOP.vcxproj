@@ -72,7 +72,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -91,7 +91,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -116,7 +116,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -154,6 +154,10 @@
     <ClCompile Include="src\FrameSet.cpp" />
     <ClCompile Include="src\FreeTypeFontLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\gui\Button.cpp" />
+    <ClCompile Include="src\gui\GuiManager.cpp" />
+    <ClCompile Include="src\gui\Label.cpp" />
+    <ClCompile Include="src\gui\Panel.cpp" />
     <ClCompile Include="src\Image\Image.cpp" />
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -216,6 +220,11 @@
     <ClInclude Include="include\FrameSet.h" />
     <ClInclude Include="include\FreeTypeFontLoader.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\gui\Button.h" />
+    <ClInclude Include="include\gui\Gui.h" />
+    <ClInclude Include="include\gui\GuiManager.h" />
+    <ClInclude Include="include\gui\Label.h" />
+    <ClInclude Include="include\gui\Panel.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\InputList.h" />
     <ClInclude Include="include\Layer.h" />

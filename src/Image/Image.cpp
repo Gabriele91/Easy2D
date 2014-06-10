@@ -510,7 +510,7 @@ void Image::flipY()
     char* tmp=(char*)malloc(lineLen);
     size_t hOn2=height;
     hOn2/=2;
-    for(int y=0; y<hOn2; ++y)
+    for(uint y=0; y!=hOn2; ++y)
     {
         memcpy(tmp,&bytes[lineLen*y],lineLen);
         memcpy(&bytes[lineLen*y],&bytes[lineLen*(height-y-1)],lineLen);
@@ -719,9 +719,9 @@ void Image::scale(unsigned int newWidth,unsigned int newHeight)
             target += newWidth * channels;
             source += part;
             e += fract;
-            if (e >= newHeight)
+            if (e >= (int)newHeight)
             {
-                e -= newHeight;
+                e -= (int)newHeight;
                 source += width * channels;
             }
         }
