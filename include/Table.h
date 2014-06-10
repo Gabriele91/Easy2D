@@ -553,7 +553,7 @@ public:
         {
             T astruct;
             decoder(table,astruct);
-            return T;
+            return astruct;
         }
         Table encoder(const T& astruct)
         {
@@ -566,7 +566,7 @@ public:
         {
             T astruct;
             decoder(textfile,astruct);
-            return T;
+            return astruct;
         }
         String encoderStr(const T& astruct)
         {
