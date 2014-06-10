@@ -267,13 +267,9 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="livel\resources.rs.e2d" />
-    <None Include="livel\sprite.mesh.e2d" />
-    <None Include="livel\walk.frameSet.e2d" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="livel\light.png" />
-    <Image Include="livel\ninja_atlas.png" />
+    <None Include="excpython.bat" />
+    <None Include="made_class.py" />
+    <None Include="made_cpp_h.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

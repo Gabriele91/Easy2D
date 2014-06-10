@@ -416,22 +416,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="livel\resources.rs.e2d">
+    <None Include="made_class.py">
       <Filter>File di risorse</Filter>
     </None>
-    <None Include="livel\sprite.mesh.e2d">
+    <None Include="made_cpp_h.py">
       <Filter>File di risorse</Filter>
     </None>
-    <None Include="livel\walk.frameSet.e2d">
+    <None Include="excpython.bat">
       <Filter>File di risorse</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="livel\ninja_atlas.png">
-      <Filter>File di risorse</Filter>
-    </Image>
-    <Image Include="livel\light.png">
-      <Filter>File di risorse</Filter>
-    </Image>
   </ItemGroup>
 </Project>

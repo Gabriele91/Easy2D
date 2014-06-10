@@ -5,14 +5,39 @@
 
 namespace Easy2D{
 namespace Gui{
-    
+
+    class Popup 
+    {
+        class Item
+        {
+        public:
+            String text;
+            DFUNCTION<void()> selected;
+            Item(const String& text,DFUNCTION<void()> callback):text(text)
+                                                               ,selected(callback)
+            {
+            
+            }
+        };
+
+        std::list<Item> items;
+
+    public:
+
+        Popup& addItem(const String& text,DFUNCTION<void()> callback)
+        {
+            items.push_back(Item(text,callback));
+            return *this;
+        }
+
+    };
+
     class GuiManager : public Input::MouseHandler 
     {
         //friend class
         friend class Panel;
         friend class Button;
         friend class Label;
-        friend class Popup;
 
         enum Type
         {
@@ -71,6 +96,9 @@ namespace Gui{
            return box;
         }
 
+        //popup
+        Popup popup;
+
     public:
         
         GuiManager();
@@ -96,25 +124,7 @@ namespace Gui{
 
     };
 
-    class Popup 
-    {
-    
-    protected:
-
-        std::list<String> items;
-        DFUNCTION<void(const String& text)> eventSelect;
-        DFUNCTION<void()> eventOpen;
-        DFUNCTION<void()> eventClose;
-
-    public:
-
-        void addItem(const String& text);
-        void onSelect(DFUNCTION<void(const String& text)>);
-        void onOpen(DFUNCTION<void()>);
-        void onClose(DFUNCTION<void()>);
-        virtual void draw()=0;
-
-    };
+   
     
 };
 };
