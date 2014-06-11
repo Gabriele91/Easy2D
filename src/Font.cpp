@@ -25,26 +25,34 @@ bool Font::load()
 {
     //can't load this resource
     DEBUG_ASSERT(isReloadable());
-    //load font info
-    void *data=NULL;
-    size_t len=0;
-    Application::instance()->loadData(rpath,data,len);
-    String filestring((char*)data);
-    free(data);
-    //deserialize font info
-    Table fontInfo;
-    fontInfo.deserialize(filestring);
-    DEBUG_ASSERT_MSG(fontInfo.exists("font"),"font error:"
-                     "must to be setted font path"
-                     "(parameter:font), "+rpath.getPath());
-
-    Utility::Path pathFont(rpath.getDirectory()+"/"+fontInfo.getString("font"));
-
-    if((isBMFont=(pathFont.getExtension()=="fnt")))
-        BMFontLoader::load(*this,pathFont);
+    //is a BMFont format?
+    if(rpath.getExtension()=="fnt")
+    {
+        BMFontLoader::load(*this,rpath);
+    }
     else
-        FreeTypeFontLoader::load(*this,fontInfo,pathFont);
+    {
+        //is a Table
+        //load font info
+        void *data=NULL;
+        size_t len=0;
+        Application::instance()->loadData(rpath,data,len);
+        String filestring((char*)data);
+        free(data);
+        //deserialize font info
+        Table fontInfo;
+        fontInfo.deserialize(filestring);
+        DEBUG_ASSERT_MSG(fontInfo.exists("font"),"font error:"
+                                                 "must to be setted font path"
+                                                 "(parameter:font), "+rpath.getPath());
 
+        Utility::Path pathFont(rpath.getDirectory()+"/"+fontInfo.getString("font"));
+        
+        if((isBMFont=(pathFont.getExtension()=="fnt")))
+            BMFontLoader::load(*this,pathFont);
+        else
+            FreeTypeFontLoader::load(*this,fontInfo,pathFont);
+    }
     //errors
     CHECK_GPU_ERRORS();
     //is loaded
