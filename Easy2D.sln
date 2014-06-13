@@ -33,6 +33,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "exemples\Physics
 		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrototipeGame", "exemples\PrototipeGame\PrototipeGame.vcxproj", "{B8038175-0DAA-478F-B120-2EAAEB4AA947}"
+	ProjectSection(ProjectDependencies) = postProject
+		{905FC096-4AD6-4483-B71A-BA5FCEFFE134} = {905FC096-4AD6-4483-B71A-BA5FCEFFE134}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -83,6 +88,12 @@ Global
 		{2D177503-24E6-475F-A438-F029A87D8F85}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
 		{2D177503-24E6-475F-A438-F029A87D8F85}.Release|Win32.ActiveCfg = Release|Win32
 		{2D177503-24E6-475F-A438-F029A87D8F85}.Release|Win32.Build.0 = Release|Win32
+		{B8038175-0DAA-478F-B120-2EAAEB4AA947}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B8038175-0DAA-478F-B120-2EAAEB4AA947}.Debug|Win32.Build.0 = Debug|Win32
+		{B8038175-0DAA-478F-B120-2EAAEB4AA947}.Release_windows8|Win32.ActiveCfg = Release_windows8|Win32
+		{B8038175-0DAA-478F-B120-2EAAEB4AA947}.Release_windows8|Win32.Build.0 = Release_windows8|Win32
+		{B8038175-0DAA-478F-B120-2EAAEB4AA947}.Release|Win32.ActiveCfg = Release|Win32
+		{B8038175-0DAA-478F-B120-2EAAEB4AA947}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
