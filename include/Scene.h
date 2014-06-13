@@ -7,6 +7,7 @@
 #include <Debug.h>
 #include <Render.h>
 #include <World.h>
+#include <Object.h>
 
 namespace Easy2D
 {
@@ -17,8 +18,7 @@ class Input;
 class Game;
 
 class Scene : public Render, //Graphics
-    public World,  //Physics
-    public StateManager
+              public World   //Physics
 {
 
     struct SubScene
@@ -30,11 +30,12 @@ class Scene : public Render, //Graphics
         SubScene(Scene *child,bool destructible=true):child(child),destructible(destructible) {}
     };
 
+    DUNORDERED_MAP<Object*,Object*> objects;
     DUNORDERED_MAP<int,SubScene> scenes;
     EStack<int> actives;
 
     bool isStarted;
-    void _onStartResume()
+    void onStartResume()
     {
         if(isStarted) onResume();
         else
@@ -43,19 +44,22 @@ class Scene : public Render, //Graphics
             isStarted=true;
         }
     }
-    void _onRunLogic(float dt)
+    void onRunLogic(float dt)
     {
-        //update state machine
-        StateManager::update(dt);
+        //update objects
+        for(auto obj:objects)
+            obj.second->onSceneRun(dt);
         //update logic scene
         onRun(dt);
-        //update logic render
-        Render::update(dt);
+        //update physics
+        World::physics(dt);
     }
-    void _onRunDraw()
+    void onRunDraw()
     {
         //draw scene
-        // Render::draw();
+        Render::draw();
+        //draw debug
+        World::physicsDraw();
     }
 
 
@@ -85,6 +89,23 @@ public:
         return scenes[actives.top()].child;
     }
 
+    //add object
+    template<class T>
+    T* addObject(T *obj)
+    {
+        objects[obj]=(Object*)obj;
+        ((Object*)obj)->setScene(this);
+        return obj;
+    }
+    void eraseObject(Object *obj)
+    {
+        auto it=objects.find(obj);
+        if(it!=objects.end())
+        {
+            obj->eraseScene();
+            objects.erase(it);
+        }
+    }
     //add sub scene
     void addScene(int uid,Scene* scene,bool destructible=true)
     {
@@ -103,9 +124,8 @@ public:
         if(actives.size())
             scenes[actives.top()].child->onPause();
         //start last scene
-        scenes[uid].child->_onStartResume();
+        scenes[uid].child->onStartResume();
         actives.push(uid);
-
     }
     //pop a scene
     void pop()
@@ -149,29 +169,32 @@ public:
     //destoy a scene
     virtual ~Scene()
     {
-        //destoy all sub scene
+        //delete all sub scene
         for(auto scene:scenes)
             if(scene.second.destructible)
                 delete scene.second.child;
+        //delete all objects
+        for(auto obj:objects)
+            delete obj.second;
     }
 
     //application methos
     virtual void start()
     {
-        _onStartResume();
+        onStartResume();
     }
     virtual void run(float dt)
     {
         //update logic
-        _onRunLogic(dt);
+        onRunLogic(dt);
         //update logic child
         if(actives.size())
-            scenes[actives.top()].child->_onRunLogic(dt);
+            scenes[actives.top()].child->onRunLogic(dt);
         //draw all
-        _onRunDraw();
+        onRunDraw();
         //draw child
         if(actives.size())
-            scenes[actives.top()].child->_onRunDraw();
+            scenes[actives.top()].child->onRunDraw();
     }
     virtual void end()
     {
@@ -182,6 +205,13 @@ public:
         //end scene
         onEnd();
     }
+
+    //utility methos
+    Screen* getScreen();
+    Audio* getAudio();
+    Input* getInput();
+    Game* getGame();
+    ResourcesGroup* getResourcesGroup(const String& name);
 
 };
 

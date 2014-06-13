@@ -4,14 +4,22 @@
 #include <Config.h>
 #include <Math3D.h>
 #include <Body.h>
+#include <Component.h>
 
 namespace Easy2D
 {
-
+//dec class
+class World;
+class Scene;
+class Screen;
+class Input;
+class Audio;
+class Game;
+class ResourcesGroup;
 //game object
 class Object
 {
-public:
+    public:
 
     enum ParentMode
     {
@@ -21,7 +29,6 @@ public:
         ENABLE_SCALE=4,	   //100
         ENABLE_ALL=ENABLE_POSITION|ENABLE_ROTATION|ENABLE_SCALE //111
     };
-
 
     Object();
     virtual ~Object();
@@ -33,6 +40,15 @@ public:
     void setMove(const Vector2D &velocity);
     void setTranslation(const Vector2D &translation);
     void setTurn(float alpha);
+    //setTransform
+    void setTransform(const Transform2D& tr2d)
+    {
+        if(transform!=tr2d)
+        {
+            transform=tr2d;
+            change();
+        }
+    }
     //childs
     void addChild(Object *child,bool ptrdelete=true);
     void addChild(Object *child,ParentMode type,bool ptrdelete=true);
@@ -46,6 +62,11 @@ public:
     //math
     void change();
     virtual const Matrix4x4& getGlobalMatrix();
+    Scene* getScene()
+    {
+        return scene;
+    }
+
     //for each methods
     std::list<Object*>::iterator begin();
     std::list<Object*>::iterator end();
@@ -56,16 +77,175 @@ public:
     std::list<Object*>::reverse_iterator rend();
     std::list<Object*>::const_reverse_iterator rbegin() const;
     std::list<Object*>::const_reverse_iterator rend() const;
-    //physics
-    Body physics;
+    
+    //utility methos
+    Screen* getScreen();
+    Audio* getAudio();
+    Input* getInput();
+    Game* getGame();
+    ResourcesGroup* getResourcesGroup(const String& name);
 
-protected:
+    //components
+    template<class T> 
+    void addComponent(T* component)
+    {
+        Component* newcmp=dynamic_cast< Component* >(component);
+        if(newcmp!=nullptr)
+        {
+            if(!component->isAdded() && components.find(T::getComponentType())==components.end())
+            {
+                components[T::getComponentType()]=component;
+                component->setEntity(this);
+            }
+            else 
+            {
+                DEBUG_MESSAGE(component->getComponentName()<<" component olready edded");
+            }
+
+        }
+        else
+        {
+            DEBUG_MESSAGE("isn't a component");
+        }
+    } 
+    template<class T>
+    T* getComponent()
+    {
+        auto itc=components.find(T::getComponentType());
+
+        if(itc!=components.end())
+        {
+            return dynamic_cast<T*>(itc->second);
+        }
+
+        return nullptr;
+    }    
+    template<class T>
+    const T* getComponent() const
+    {
+        auto itc=components.find(T::getComponentType());
+
+        if(itc!=components.end())
+        {
+            return dynamic_cast<T*>(itc->second);
+        }
+
+        return nullptr;
+    }
+    template<class T>
+    void removeComponent()
+    {
+        auto itc=components.find(T::getComponentType());
+        if(itc!=components.end)
+        {
+            components.erase(itc);
+            component->removeEntity();
+        }
+    }
+    template<class T> 
+    void hasComponent()
+    {
+        auto itc=components.find(T::getComponentType());
+
+        if(itc!=components.end())
+        {
+            return true;
+        }
+
+        return false;
+    }
+    //send a message
+    void sendMessage(uint message)
+    {
+        //message to components
+        for(auto cmp:components)
+        {
+            cmp.second->onMessage(message);
+        }
+        //message to childs
+        for(auto child:childs)
+        {
+            child->sendMessage(message);
+        }
+    }
+    
+    //object call backs 
+    //update
+    virtual void onRun(float dt)
+    {
+        
+    }
+    virtual void onAttached(Scene* scene)
+    {
+        
+    }
+    virtual void onUnattached()
+    {
+        
+    }
+
+    protected:
 
     //data
-    void *data;
+    void*   data;
 
-private:
+    private:
 
+    Scene*  scene;
+    //components
+    std::map<const  type_info* , Component* > components;
+    //append a scene
+    void setScene(Scene* argscene)
+    {
+        //DEBUG_ASSERT(!scene);
+        scene=argscene;
+        //call back
+        onAttached(scene);
+        //message to components
+        for(auto cmp:components)
+        {
+            cmp.second->onSetScene(scene);
+        }
+        //message to childs
+        for(auto child:childs)
+        {
+            child->setScene(scene);
+        }
+    }
+    void eraseScene()
+    {
+        //DEBUG_ASSERT(scene);
+        //message to components
+        for(auto cmp:components)
+        {
+            cmp.second->onEraseScene();
+        }
+        //message to childs
+        for(auto child:childs)
+        {
+            child->eraseScene();
+        }
+        //call back
+        onUnattached();
+        //dt
+        scene=nullptr;
+    }
+    //scene run
+    void onSceneRun(float dt)
+    {
+        //update components
+        for(auto cmp:components)
+        {
+            cmp.second->onRun(dt);
+        }
+        //update 
+        onRun(dt);
+        //update childs
+        for(auto child:childs)
+        {
+            child->onSceneRun(dt);
+        }
+    }
     //local
     Transform2D transform;
     //global
@@ -81,6 +261,8 @@ private:
     //friend class
     friend class Body;
     friend class World;
+    friend class Scene;
+    
 
 };
 

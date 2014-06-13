@@ -3,6 +3,7 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <Component.h>
 #include <Box2D.hpp>
 
 namespace Easy2D
@@ -12,7 +13,7 @@ class World;
 class Object;
 typedef uint Shape;
 /////////////////////
-class Body
+class Body : public Component
 {
 
     //friend class
@@ -27,7 +28,7 @@ class Body
 
     //word
     void registerWorld(World *world);
-    void unregisterWorld(World *world);
+    void unregisterWorld();
 
     //list fixture
     b2FixtureDef defaultFixture;
@@ -36,13 +37,10 @@ class Body
 
 protected:
 
-    Body();
-    virtual ~Body();
     b2Body* getBody()
     {
         return body;
     }
-    void getTransform(Transform2D& t2d) const;
 
 public:
 
@@ -52,7 +50,9 @@ public:
         KINEMATIC=b2BodyType::b2_kinematicBody,
         STATIC=b2BodyType::b2_staticBody
     };
-
+    
+    Body();
+    virtual ~Body();
     /*
     * body
     */
@@ -140,7 +140,23 @@ public:
     void setCollisionShapeIsSensor(Shape index,bool isSensor);
     bool getCollisionShapeIsSensor(Shape index) const;
 
-
+    //component name
+    virtual const char* getComponentName() const
+    {
+        return "Body";
+    }    
+    static const  type_info* getComponentType()
+    {
+        return &typeid(Body);
+    }
+    //run
+    virtual void onRun(float dt) ;
+    //scene
+    virtual void onSetScene(Scene* scene);
+    virtual void onEraseScene();
+    //object
+    virtual void onSetObject(Object* object);
+    virtual void onEraseObject();
 };
 
 };

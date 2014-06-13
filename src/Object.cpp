@@ -1,14 +1,19 @@
 #include <stdafx.h>
 #include <Object.h>
+#include <Body.h>
+#include <Application.h>
 /* Easy2D */
 using namespace Easy2D;
 //////////////////////
 Object::Object()
-    :data(NULL)
+    :data(nullptr)
+    ,scene(nullptr)
     ,changeValue(false)
     ,del(false)
-    ,parent(NULL)
-    ,parentMode(DISABLE_PARENT) {}
+    ,parent(nullptr)
+    ,parentMode(DISABLE_PARENT) 
+{
+}
 Object::~Object()
 {
     //destory childs
@@ -21,6 +26,10 @@ Object::~Object()
             obj->change();
     }
     childs.clear();
+    //destroy components
+    for(auto cmp:components)
+        delete cmp.second;
+
 }
 
 void Object::setScale(const Vector2D &scale,bool global)
@@ -176,12 +185,6 @@ std::list<Object*>::const_reverse_iterator Object::rend() const
 const Matrix4x4& Object::getGlobalMatrix()
 {
 
-    if(physics.getBody())
-    {
-        physics.getTransform(transform);
-        change();
-    }
-
     if(changeValue==true)
     {
         //
@@ -250,3 +253,24 @@ Vector2D  Object::getGlobalParentScale()
     return out;
 }
 
+//utility methos
+Screen* Object::getScreen()
+{
+    return Application::instance()->getScreen();
+}
+Audio* Object::getAudio()
+{
+    return Application::instance()->getAudio();
+}
+Input* Object::getInput()
+{
+    return Application::instance()->getInput();
+}
+Game* Object::getGame()
+{
+    return Application::instance()->getGame();
+}
+ResourcesGroup* Object::getResourcesGroup(const String& name)
+{
+    return Application::instance()->getResourcesGroup(name);
+}

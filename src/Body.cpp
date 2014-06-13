@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include <Body.h>
-#include <World.h>
+#include <Scene.h>
 #include <Debug.h>
 #include <Box2D.hpp>
 ///////////////////////
@@ -9,8 +9,8 @@ using namespace Easy2D;
 //init
 Body::Body()
 {
-    world=NULL;
-    body=NULL;
+    world=nullptr;
+    body=nullptr;
     mass = 0.0;
     bodyDefinition.userData        = static_cast<void*>(this);
     bodyDefinition.position.Set(0.0f, 0.0f);
@@ -53,12 +53,6 @@ Body::~Body()
         delete pFixtureDef;
     }
 }
-void Body::getTransform(Transform2D& t2d) const
-{
-    t2d.position=getPosition();
-    t2d.alpha=getAngle();
-
-}
 //word
 void Body::registerWorld(World *wrd)
 {
@@ -83,10 +77,9 @@ void Body::registerWorld(World *wrd)
     }
     fixturesDef.clear();
 }
-void Body::unregisterWorld(World *wrd)
+void Body::unregisterWorld()
 {
     // Transfer physics body configuration back to definition.
-    world = NULL;
     mass  = getMass();
     bodyDefinition.type            = (b2BodyType)getType();
     bodyDefinition.position        = cast(getPosition());
@@ -111,15 +104,16 @@ void Body::unregisterWorld(World *wrd)
         pFixtureDef->restitution  = pFixture->GetRestitution();
         pFixtureDef->isSensor     = pFixture->IsSensor();
         pFixtureDef->userData     = this;
-        pFixtureDef->shape        = pFixture->GetShape()->Clone(&wrd->blockAllocator);
+        pFixtureDef->shape        = pFixture->GetShape()->Clone(&world->blockAllocator);
         // Push fixture definition.
         fixturesDef.push_back( pFixtureDef );
     }
     fixtures.clear();
     // Destroy the physics body.
-    wrd->world->DestroyBody( body );
+    world->world->DestroyBody( body );
     //to null
-    body=NULL;
+    body=nullptr;
+    world=nullptr;
 }
 
 
@@ -638,4 +632,39 @@ bool Body::getCollisionShapeIsSensor(Shape index) const
     if(body)
         return fixtures[index]->IsSensor();
     return fixturesDef[index]->isSensor;
+}
+
+
+void Body::onRun(float dt) 
+{
+    Transform2D t2d;
+    t2d.position=getPosition();
+    t2d.alpha=getAngle();
+    t2d.scale=getObject()->getScale();
+    getObject()->setTransform(t2d);
+}
+void Body::onSetScene(Scene* scene)
+{
+    if(!world)
+        registerWorld((World*)scene);
+    DEBUG_CODE(
+    else
+         DEBUG_ASSERT(world==((World*)scene))
+    );
+}
+void Body::onEraseScene()
+{
+    if(world)
+        unregisterWorld();
+}
+//object
+void Body::onSetObject(Object* object)
+{
+    if(object->getScene() && !world)
+        registerWorld((World*)getObject()->getScene());
+}
+void Body::onEraseObject()
+{
+    if(world)
+        unregisterWorld();
 }

@@ -30,16 +30,17 @@ class World
     b2BlockAllocator blockAllocator;
     GLDebugDraw      debugDraw;
 
-public:
+    protected:
+
+    void  physicsDraw();
+
+    public:
 
     World(const Vec2& gravity=Vec2::ZERO);
     virtual ~World();
-    void  addPhysics(Object* obj);
-    void  deletePhysics(Object* obj);
     void  setGravity(const Vec2& gravity);
     void  physics(float dt, uint velocityIterations=8, uint positionIterations=3);
     void  enableDebugDraw();
-    void  physicsDraw();
 };
 
 

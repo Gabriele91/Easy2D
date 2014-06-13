@@ -212,6 +212,7 @@
     <ClInclude Include="include\Box2D.hpp" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Color.h" />
+    <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Debug.h" />
     <ClInclude Include="include\Easy2D.h" />

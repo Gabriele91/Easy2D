@@ -24,14 +24,6 @@ void World::physics(float dt, uint velocityIterations, uint positionIterations)
 {
     world->Step(dt,velocityIterations,positionIterations);
 }
-void World::addPhysics(Object* obj)
-{
-    obj->physics.registerWorld(this);
-}
-void World::deletePhysics(Object* obj)
-{
-    obj->physics.unregisterWorld(this);
-}
 void World::enableDebugDraw()
 {
     debugDraw.SetFlags(b2Draw::e_shapeBit|

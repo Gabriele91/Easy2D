@@ -37,6 +37,8 @@ protected:
     static bool operator_lt(const Layer* lrs,const Layer* rrs);
     virtual void change();
     virtual void dosort();
+    //called from scene
+    void draw();
 
 public:
     //
@@ -54,9 +56,6 @@ public:
     //
     Layer* addLayer(bool order);
     void erseLayer(Layer* layer);
-    //
-    void draw();
-    void update(float dt);
     //
     DFORCEINLINE void setClear(const Color& color)
     {

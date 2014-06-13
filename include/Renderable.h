@@ -3,7 +3,7 @@
 
 #include <Config.h>
 #include <Mesh.h>
-#include <Object.h>
+#include <Component.h>
 #include <RenderState.h>
 #include <Blend.h>
 
@@ -12,14 +12,14 @@ namespace Easy2D
 //
 class Layer;
 //
-class Renderable : public Object, public RenderState
+class Renderable : public Component, 
+                   public RenderState
 {
 
     Layer *rlayer;
     bool visible;
     float zvalue;
     friend class Layer;
-    virtual void update(float dt) {}
 
 public:
 
@@ -52,6 +52,15 @@ public:
     DFORCEINLINE void hide()
     {
         visible=false;
+    }
+    //component name
+    virtual const char* getComponentName() const
+    {
+        return "Renderable";
+    }
+    static const  type_info* getComponentType()
+    {
+        return &typeid(Renderable);
     }
 };
 

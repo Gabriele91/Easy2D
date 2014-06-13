@@ -3,6 +3,7 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <Object.h>
 #include <Renderable.h>
 #include <FrameSet.h>
 #include <Debug.h>
@@ -115,16 +116,6 @@ protected:
     //animations
     std::vector<Animation*> animations;
     int crtAnimation;
-    //update frame
-    virtual void update(float dt)
-    {
-        if(crtAnimation>=0)
-        {
-            animations[crtAnimation]->update(dt);
-            //set sprite mesh
-            setMesh(animations[crtAnimation]->getCurrentFrame());
-        }
-    }
 
 public:
 
@@ -166,7 +157,21 @@ public:
         //get box
         const AABox2& box=getMesh()->getAABox();
         Vec2 scale=box.getMax()-box.getMin();
-        return scale*getScale();
+        return scale*getObject()->getScale();
+    }
+    //component
+    virtual const char* getComponentName() const
+    {
+        return "AnimatedSprite";
+    }
+    virtual void onRun(float dt)
+    {
+        if(crtAnimation>=0)
+        {
+            animations[crtAnimation]->update(dt);
+            //set sprite mesh
+            setMesh(animations[crtAnimation]->getCurrentFrame());
+        }
     }
 };
 

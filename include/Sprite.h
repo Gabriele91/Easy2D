@@ -3,6 +3,7 @@
 
 #include <Config.h>
 #include <Renderable.h>
+#include <Object.h>
 
 
 namespace Easy2D
@@ -27,8 +28,14 @@ public:
     //get pixel scale
     Vec2 getPixelScale()
     {
-        return getTexture()->getSpriteSize()*getScale();
+        return getTexture()->getSpriteSize()*getObject()->getScale();
     }
+    //component name
+    virtual const char* getComponentName() const
+    {
+        return "Sprite";
+    }
+
 
 };
 

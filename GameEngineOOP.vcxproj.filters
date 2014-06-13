@@ -414,6 +414,9 @@
     <ClInclude Include="include\gui\Panel.h">
       <Filter>File di intestazione\gui</Filter>
     </ClInclude>
+    <ClInclude Include="include\Component.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="made_class.py">

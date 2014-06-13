@@ -25,8 +25,8 @@ protected:
 public:
 
     RenderState()
-        :rtexture(NULL)
-        ,rmesh(NULL)
+        :rtexture(nullptr)
+        ,rmesh(nullptr)
         ,blending(false)
         ,blendSrc(BLEND::ONE)
         ,blendDst(BLEND::ZERO)

@@ -3,6 +3,7 @@
 #include <Screen.h>
 #include <Application.h>
 #include <Render.h>
+#include <Object.h>
 /////////////////////////
 using namespace Easy2D;
 /////////////////////////
@@ -59,9 +60,12 @@ void Render::draw()
     if(!batchingMesh.getBufferSize())
         batchingMesh.createBufferByTriangles(MAX_BUFFER_TRIANGLES);
     //old state
-    Renderable *lastDraw=NULL;
-    Renderable *rCurrent=NULL;
-    Renderable *rNext=NULL;
+    Object *lastDraw=nullptr;
+    Object *oCurrent=nullptr;
+    Object *oNext=nullptr;
+    //current renderable
+    Renderable *rCurrent=nullptr;
+    Renderable *rNext=nullptr;
     //clear
     glClearColor(clearClr.rNormalize(),
                  clearClr.gNormalize(),
@@ -90,7 +94,7 @@ void Render::draw()
             //update layer
             layer->dosort();
             //get the first rendarable
-            rNext=layer->next();
+            oNext=layer->next();
             //parallax
             if(camera)
             {
@@ -100,30 +104,35 @@ void Render::draw()
                 glLoadMatrixf(view);
             }
             //for all renderables
-            while(rNext!=NULL)
+            while(oNext!=NULL)
             {
                 //get next rendarable
-                rCurrent=rNext;
-                rNext=layer->next();
+                oCurrent=oNext;
+                oNext=layer->next();
+                //get randerable
+                rCurrent=oCurrent->getComponent<Renderable>();
+                rNext=oNext ? oNext->getComponent<Renderable>() : nullptr;
                 //renderable is visible?
                 if(rCurrent->isVisible())
                 {
                     //add mesh
-                    batchingMesh.addMesh(rCurrent->getGlobalMatrix(),
+                    batchingMesh.addMesh(oCurrent->getGlobalMatrix(),
                                          rCurrent->getMesh(),
                                          0);
                     //draw!?
-                    if(!rNext || !rCurrent->canBatching(rNext) || !batchingMesh.canAdd(rNext->getMesh()))
+                    if(!rNext || 
+                       !rCurrent->canBatching(rNext)  || 
+                       !batchingMesh.canAdd(rNext->getMesh()))
                     {
                         //enable info draw
                         if(lastDraw)
-                            rCurrent->enableStates(lastDraw);
+                            rCurrent->enableStates(lastDraw->getComponent<Renderable>());
                         else
                             rCurrent->enableStates();
                         //draw
                         batchingMesh.draw();
                         //save last draw
-                        lastDraw=rCurrent;
+                        lastDraw=oCurrent;
                         //draw errors
                         CHECK_GPU_ERRORS();
                         //restart batching
@@ -198,18 +207,11 @@ void Render::draw()
     }
 #endif
 }
-void Render::update(float dt)
-{
-    //update all layers
-    for(auto layer:layers)
-        layer->update(dt);
-}
 
 void Render::updateProjection()
 {
     updateProjection(Application::instance()->getScreen()->getSize());
 }
-
 void Render::updateProjection(const Vec2& argViewport)
 {
     //set viewport

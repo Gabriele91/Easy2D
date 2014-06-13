@@ -5,9 +5,9 @@
 using namespace Easy2D;
 ///////////////////////
 //sort
-bool LayerOrder::operator_lt(const Renderable* lrs,const Renderable* rrs)
+bool LayerOrder::operator_lt(const Object* lrs,const Object* rrs)
 {
-    return lrs->getZ() < rrs->getZ();
+    return lrs->getComponent<Renderable>()->getZ() < rrs->getComponent<Renderable>()->getZ();
 
 }
 void LayerOrder::dosort()
