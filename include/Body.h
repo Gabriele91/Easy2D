@@ -11,15 +11,27 @@ namespace Easy2D
 /////////////////////
 class World;
 class Object;
+class ContactListener;
+/////////////////////
 typedef uint Shape;
 /////////////////////
 class Body : public Component
 {
 
     //friend class
-    friend class World;
     friend class Object;
+    friend class World;
+    friend class ContactListener;
+    
+    public:
 
+    struct Info
+    {
+        Shape shapeA;
+        Shape shapeB;
+    };
+
+    private:
     //objects
     World*  world;
     b2Body* body;
@@ -34,15 +46,21 @@ class Body : public Component
     b2FixtureDef defaultFixture;
     std::vector<b2Fixture*> fixtures;
     std::vector<b2FixtureDef*> fixturesDef;
+    
+    protected:
 
-protected:
-
+    //collison call back
+    DFUNCTION<void (Object* tocollide,const Info& info)> cbBegin;
+    DFUNCTION<void (Object* tocollide,const Info& info)> cbEnd;
+    DFUNCTION<void (void)> cbPresolver;
+    DFUNCTION<void (void)> cbPostsolver;
+    
     b2Body* getBody()
     {
         return body;
     }
 
-public:
+    public:
 
     enum Type
     {
@@ -53,6 +71,17 @@ public:
     
     Body();
     virtual ~Body();
+    /*
+    * Listener
+    */
+    void setBeginListener(DFUNCTION<void (Object* tocollide,const Info& info)> cbBegin)
+    {
+        this->cbBegin=cbBegin;
+    }
+    void setEndListener(DFUNCTION<void (Object* tocollide,const Info& info)> cbEnd)
+    {
+        this->cbEnd=cbEnd;
+    }
     /*
     * body
     */
@@ -100,6 +129,29 @@ public:
     void setSleepingAllowed(bool);
     bool getSleepingAllowed() const;
 
+    /**
+    * applay
+    */
+    void applyForce(const Vec2& force, const Vec2& point, bool wake)
+    {
+        if(body) body->ApplyForce(cast(force),cast(point),wake);
+    }
+    void applyForceToCenter(const Vec2& force, bool wake)
+    {
+        if(body) body->ApplyForceToCenter(cast(force),wake);
+    }
+    void applyTorque(float torque, bool wake)
+    {
+        if(body) body->ApplyTorque(torque,wake);
+    }
+    void applyLinearImpulse(const Vec2& impulse, const Vec2& point, bool wake)
+    {
+        if(body) body->ApplyLinearImpulse(cast(impulse),cast(point),wake);
+    }
+	void applyAngularImpulse(float impulse, bool wake)
+    {
+        if(body) body->ApplyAngularImpulse(impulse,wake);
+    }
     /*
     * Groups
     */

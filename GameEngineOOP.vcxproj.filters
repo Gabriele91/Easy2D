@@ -213,6 +213,9 @@
     <ClCompile Include="src\gui\Label.cpp">
       <Filter>File di origine\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sound.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -415,6 +418,15 @@
       <Filter>File di intestazione\gui</Filter>
     </ClInclude>
     <ClInclude Include="include\Component.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sortable.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sound.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\WavLoader.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

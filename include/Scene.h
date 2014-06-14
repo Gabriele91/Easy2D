@@ -59,7 +59,7 @@ class Scene : public Render, //Graphics
         //draw scene
         Render::draw();
         //draw debug
-        World::physicsDraw();
+        World::physicsDraw(Render::getCamera());
     }
 
 

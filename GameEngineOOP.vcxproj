@@ -172,6 +172,7 @@
     <ClCompile Include="src\ResourcesGroup.cpp" />
     <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\thread\MutexWin32.cpp" />
@@ -238,6 +239,8 @@
     <ClInclude Include="include\Render.h" />
     <ClInclude Include="include\ResourcesGroup.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Sortable.h" />
+    <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\thread\Mutex.h" />
@@ -255,6 +258,7 @@
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\Table.h" />
     <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\WavLoader.h" />
     <ClInclude Include="include\window\gletx_header.h" />
     <ClInclude Include="include\window\OpenGLWindow.h" />
     <ClInclude Include="include\window\WindowsApp.h" />

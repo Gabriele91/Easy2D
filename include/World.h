@@ -5,6 +5,7 @@
 #include <Math3D.h>
 #include <Box2D.hpp>
 #include <Object.h>
+#include <Camera.h>
 
 namespace Easy2D
 {
@@ -22,6 +23,17 @@ class GLDebugDraw : public b2Draw
     virtual void DrawTransform(const b2Transform& xf);
 };
 /////////////////////
+class ContactListener : public b2ContactListener
+{
+    public:
+        ContactListener(){}
+
+        virtual void BeginContact(b2Contact* contact);
+        virtual void EndContact(b2Contact* contact);
+        virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
+        virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
+};
+/////////////////////
 class World
 {
 
@@ -32,7 +44,7 @@ class World
 
     protected:
 
-    void  physicsDraw();
+    void  physicsDraw(Camera* camera);
 
     public:
 

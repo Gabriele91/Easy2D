@@ -7,9 +7,75 @@
 using namespace Easy2D;
 ///////////////////////
 
+////////////////////////////////////////
+void ContactListener::BeginContact(b2Contact* contact)
+{
+    //Get body
+    Body* bodyA=(Body*)(contact->GetFixtureA()->GetBody()->GetUserData());
+    Body* bodyB=(Body*)(contact->GetFixtureB()->GetBody()->GetUserData());
+    //Get body
+    Object* objectA=(bodyA->getObject());
+    Object* objectB=(bodyB->getObject());
+    //get index
+    size_t indexA=(size_t)(contact->GetFixtureA()->GetUserData());
+    size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
+    //callback
+    if(bodyA->cbBegin)
+    {
+        Body::Info info;
+        info.shapeA=indexA;
+        info.shapeB=indexB;
+        bodyA->cbBegin(objectB,info);
+    }
+    if(bodyB->cbBegin)
+    {
+        Body::Info info;
+        info.shapeB=indexA;
+        info.shapeA=indexB;
+        bodyB->cbBegin(objectA,info);
+    }
+}
+void ContactListener::EndContact(b2Contact* contact)
+{
+    //Get body
+    Body* bodyA=(Body*)(contact->GetFixtureA()->GetBody()->GetUserData());
+    Body* bodyB=(Body*)(contact->GetFixtureB()->GetBody()->GetUserData());
+    //Get body
+    Object* objectA=(bodyA->getObject());
+    Object* objectB=(bodyB->getObject());
+    //get index
+    size_t indexA=(size_t)(contact->GetFixtureA()->GetUserData());
+    size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
+    //callback
+    if(bodyA->cbEnd)
+    {
+        Body::Info info;
+        info.shapeA=indexA;
+        info.shapeB=indexB;
+        bodyA->cbEnd(objectB,info);
+    }
+    if(bodyB->cbEnd)
+    {
+        Body::Info info;
+        info.shapeB=indexA;
+        info.shapeA=indexB;
+        bodyB->cbEnd(objectA,info);
+    }
+}
+void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+{
+            
+}
+void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
+{
+            
+}
+
+////////////////////////////////////////
 World::World(const Vec2& gravity)
 {
     world = new b2World(cast(gravity));
+    world->SetContactListener(new ContactListener());
 }
 World::~World()
 {
@@ -33,7 +99,7 @@ void World::enableDebugDraw()
                        b2Draw::e_centerOfMassBit);
     world->SetDebugDraw(&debugDraw);
 }
-void World::physicsDraw()
+void World::physicsDraw(Camera* camera)
 {   
     //set projection matrix 
     //NOTE: GET CAMERA, VIEWPORT
@@ -49,7 +115,10 @@ void World::physicsDraw()
     */
     //GET pos camera
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    if(camera)
+        glLoadMatrixf(camera->getGlobalMatrix());
+    else
+        glLoadIdentity();
     //no vbo/ibo
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  0 );

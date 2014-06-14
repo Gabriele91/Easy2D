@@ -94,6 +94,7 @@ void Body::unregisterWorld()
     bodyDefinition.fixedRotation   = getFixedAngle();
     bodyDefinition.bullet          = getBullet();
     bodyDefinition.active          = getActive();
+    bodyDefinition.userData        = body->GetUserData(); //this...
     //Copy fixtures to fixture definitions.
     for( auto pFixture : fixtures )
     {
@@ -103,7 +104,7 @@ void Body::unregisterWorld()
         pFixtureDef->friction     = pFixture->GetFriction();
         pFixtureDef->restitution  = pFixture->GetRestitution();
         pFixtureDef->isSensor     = pFixture->IsSensor();
-        pFixtureDef->userData     = this;
+        pFixtureDef->userData     = pFixture->GetUserData();    //array id...
         pFixtureDef->shape        = pFixture->GetShape()->Clone(&world->blockAllocator);
         // Push fixture definition.
         fixturesDef.push_back( pFixtureDef );
@@ -361,16 +362,18 @@ Shape Body::createCircleCollisionShape(float radius, const Vec2& pos)
     //
     if ( body )
     {
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
-
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;
-
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
@@ -386,6 +389,9 @@ Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float ang
     //
     if ( body )
     {
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
+
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
 
@@ -396,6 +402,8 @@ Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float ang
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
@@ -422,6 +430,9 @@ Shape Body::createPolygonCollisionShape( const std::vector<Vec2>& points )
 
     if ( body )
     {
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
+
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
 
@@ -432,6 +443,8 @@ Shape Body::createPolygonCollisionShape( const std::vector<Vec2>& points )
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
@@ -450,6 +463,9 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points )
 
     if ( body )
     {
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
+
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
 
@@ -460,6 +476,8 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points )
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
@@ -487,6 +505,9 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points,
 
     if ( body )
     {
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
+
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
 
@@ -497,6 +518,8 @@ Shape Body::createChainCollisionShape( const std::vector<Vec2>& points,
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
@@ -515,6 +538,9 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,  const Vec
 
     if ( body )
     {
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
+
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
 
@@ -525,6 +551,8 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,  const Vec
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
@@ -553,6 +581,10 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,
 
     if ( body )
     {
+        
+        //save id
+        pFixtureDef->userData=(void*)fixtures.size();
+
         // Create and push fixture.
         fixtures.push_back( body->CreateFixture( pFixtureDef ) );
 
@@ -563,6 +595,8 @@ Shape Body::createEdgeCollisionShape( const Vec2& localPositionStart,
         //return id
         return fixtures.size()-1;
     }
+    //save id
+    pFixtureDef->userData=(void*)fixturesDef.size();
     // Push fixture definition.
     fixturesDef.push_back( pFixtureDef );
     //return id
