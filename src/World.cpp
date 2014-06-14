@@ -147,6 +147,10 @@ void World::setGravity(const Vec2& gravity)
 {
     world->SetGravity(cast(gravity));
 }
+Vec2 World::getGravity()
+{
+   return cast(world->GetGravity());
+}
 void World::physics(float dt, uint velocityIterations, uint positionIterations)
 {
     world->Step(dt,velocityIterations,positionIterations);

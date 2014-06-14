@@ -45,13 +45,14 @@ class World
     protected:
 
     void  physicsDraw(Camera* camera);
+    void  physics(float dt, uint velocityIterations=8, uint positionIterations=3);
 
     public:
 
     World(const Vec2& gravity=Vec2::ZERO);
     virtual ~World();
     void  setGravity(const Vec2& gravity);
-    void  physics(float dt, uint velocityIterations=8, uint positionIterations=3);
+    Vec2  getGravity();
     void  enableDebugDraw();
 };
 

@@ -149,6 +149,19 @@ class Body : public Component
 
     //void setMass(float); in fixtures
     float getMass() const;
+    //world info
+    Vec2 getWorldCenter() const
+    {
+        if(body)
+            return cast(body->GetWorldCenter());
+        return Vec2::ZERO;
+    }
+    Vec2 getWorldPoint(const Vec2& local) const
+    {
+        if(body)
+            return cast(body->GetWorldPoint(cast(local)));
+        return Vec2::ZERO;
+    }
 
     void setLinearVelocity(const Vec2&);
     Vec2 getLinearVelocity() const;

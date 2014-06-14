@@ -37,6 +37,8 @@ WindowsApp::WindowsApp(const String& name)
     DWORD error=GetLastError();
     DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);
     //DEBUG_ASSERT(error != ERROR_ALREADY_EXISTS);
+    //REALTIME APPLICATION
+    SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
     /////////////////////////////////////
     //not exit from loop
     doexit=false;
