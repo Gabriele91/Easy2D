@@ -119,7 +119,7 @@ void WindowsApp::loop()
         millipass=timer.getGetCounter();
         //calc dt and sleep time
         sleepTime=msToSleep-millipass;
-        while(sleepTime>0 && sleepTime<60000 )
+        while(sleepTime>0 && sleepTime<60000.0 )
         {
             Sleep(sleepTime>10?1:0);
             millipass=timer.getGetCounter();
@@ -129,9 +129,9 @@ void WindowsApp::loop()
         dt=millipass/1000.0;
         timer.reset();
         //save dt
-        lastDeltaTime=dt;
+        lastDeltaTime=(float)dt;
         //update
-        update(dt);
+        update((float)dt);
         //update opengl
         screen->swap();
     }

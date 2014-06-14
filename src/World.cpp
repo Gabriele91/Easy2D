@@ -13,23 +13,26 @@ void ContactListener::BeginContact(b2Contact* contact)
     //Get body
     Body* bodyA=(Body*)(contact->GetFixtureA()->GetBody()->GetUserData());
     Body* bodyB=(Body*)(contact->GetFixtureB()->GetBody()->GetUserData());
+    //no callback?
+    if( !bodyA->cbBegin && !bodyB->cbBegin ) return;
     //Get body
     Object* objectA=(bodyA->getObject());
     Object* objectB=(bodyB->getObject());
     //get index
     size_t indexA=(size_t)(contact->GetFixtureA()->GetUserData());
-    size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
+    size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());    
+    //get info
+    Body::Info info;
+    info.manifold.setManifold(*contact->GetManifold());
     //callback
     if(bodyA->cbBegin)
     {
-        Body::Info info;
         info.shapeA=indexA;
         info.shapeB=indexB;
         bodyA->cbBegin(objectB,info);
     }
     if(bodyB->cbBegin)
     {
-        Body::Info info;
         info.shapeB=indexA;
         info.shapeA=indexB;
         bodyB->cbBegin(objectA,info);
@@ -40,23 +43,26 @@ void ContactListener::EndContact(b2Contact* contact)
     //Get body
     Body* bodyA=(Body*)(contact->GetFixtureA()->GetBody()->GetUserData());
     Body* bodyB=(Body*)(contact->GetFixtureB()->GetBody()->GetUserData());
+    //no callback?
+    if( !bodyA->cbEnd && !bodyB->cbEnd ) return;
     //Get body
     Object* objectA=(bodyA->getObject());
     Object* objectB=(bodyB->getObject());
     //get index
     size_t indexA=(size_t)(contact->GetFixtureA()->GetUserData());
     size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
+    //get info
+    Body::Info info;
+    info.manifold.setManifold(*contact->GetManifold());
     //callback
     if(bodyA->cbEnd)
     {
-        Body::Info info;
         info.shapeA=indexA;
         info.shapeB=indexB;
         bodyA->cbEnd(objectB,info);
     }
     if(bodyB->cbEnd)
     {
-        Body::Info info;
         info.shapeB=indexA;
         info.shapeA=indexB;
         bodyB->cbEnd(objectA,info);
@@ -64,13 +70,68 @@ void ContactListener::EndContact(b2Contact* contact)
 }
 void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
-            
+    //Get body
+    Body* bodyA=(Body*)(contact->GetFixtureA()->GetBody()->GetUserData());
+    Body* bodyB=(Body*)(contact->GetFixtureB()->GetBody()->GetUserData());
+    //no callback?
+    if( !bodyA->cbPreSolver && !bodyB->cbPreSolver ) return;
+    //Get body
+    Object* objectA=(bodyA->getObject());
+    Object* objectB=(bodyB->getObject());
+    //get index
+    size_t indexA=(size_t)(contact->GetFixtureA()->GetUserData());
+    size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
+    //get info
+    Body::Info info;
+    info.manifold.setManifold(*contact->GetManifold());
+    Body::Manifold oldmf;
+    oldmf.setManifold(*oldManifold);
+    //callback
+    if(bodyA->cbPreSolver)
+    {
+        info.shapeA=indexA;
+        info.shapeB=indexB;
+        bodyA->cbPreSolver(objectB,info,oldmf);
+    }
+    if(bodyB->cbPreSolver)
+    {
+        info.shapeB=indexA;
+        info.shapeA=indexB;
+        bodyB->cbPreSolver(objectA,info,oldmf);
+    }   
 }
-void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
+void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* b2impulse)
 {
-            
+    //Get body
+    Body* bodyA=(Body*)(contact->GetFixtureA()->GetBody()->GetUserData());
+    Body* bodyB=(Body*)(contact->GetFixtureB()->GetBody()->GetUserData());
+    //no callback?
+    if( !bodyA->cbPostSolver && !bodyB->cbPostSolver ) return;
+    //Get body
+    Object* objectA=(bodyA->getObject());
+    Object* objectB=(bodyB->getObject());
+    //get index
+    size_t indexA=(size_t)(contact->GetFixtureA()->GetUserData());
+    size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
+    //get info
+    Body::Info info;
+    info.manifold.setManifold(*contact->GetManifold());
+    Body::Impulse impulse;
+    impulse.setContactImpulse(*b2impulse);
+    //callback
+    if(bodyA->cbPostSolver)
+    {
+        info.shapeA=indexA;
+        info.shapeB=indexB;
+        bodyA->cbPostSolver(objectB,info,impulse);
+    }
+    if(bodyB->cbPostSolver)
+    {
+        info.shapeB=indexA;
+        info.shapeA=indexB;
+        bodyB->cbPostSolver(objectA,info,impulse);
+    }   
 }
-
 ////////////////////////////////////////
 World::World(const Vec2& gravity)
 {

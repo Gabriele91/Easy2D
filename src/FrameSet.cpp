@@ -127,10 +127,10 @@ bool FrameSet::load()
         //load frame size
         Vec2 sizeframe(frameSplit.getVector2D("frame",Vec2::ZERO));
 
-        int imagewidth=imgrec.z-imgrec.x;
-        int imageheight=imgrec.w-imgrec.y;
-        int framewidth=sizeframe.x;
-        int frameheight=sizeframe.y;
+        int imagewidth=int(imgrec.z-imgrec.x);
+        int imageheight=int(imgrec.w-imgrec.y);
+        int framewidth=int(sizeframe.x);
+        int frameheight=int(sizeframe.y);
         int countXtiles=0;
         int countYtiles=0;
         //calc count
@@ -139,7 +139,7 @@ bool FrameSet::load()
         if(frameheight>0)//no division by 0
             countYtiles=imageheight/frameheight;//height
         //calc sub frame
-        Vec4 subframe(frameSplit.getVector4D("subframe",Vec4(0,0,framewidth,frameheight)));
+        Vec4 subframe(frameSplit.getVector4D("subframe",Vec4(.0f,.0f,(float)framewidth,(float)frameheight)));
         //set first and count
         int first=Math::max(frameSplit.getFloat("first",1.0)-1.0,0.0);
         int count=frameSplit.getFloat("count",countXtiles*countYtiles);

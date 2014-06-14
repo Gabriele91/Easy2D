@@ -98,12 +98,12 @@ specialChars[]=
     },
     {
         ' ',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
-            cursor.x+=fontSize*0.5;
+            cursor.x+=fontSize*0.5f;
         }
     },
     {
         '\t',[](int fontSize,Vec2 pos,Vec2& cursor)->void{
-            cursor.x+=fontSize*2.0;
+            cursor.x+=fontSize*2.0f;
         }
     }
 };

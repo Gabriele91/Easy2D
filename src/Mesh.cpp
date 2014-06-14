@@ -167,7 +167,7 @@ bool Mesh::load()
         for(auto param:tbIndexs)
         {
             if(param.second->asType(Table::FLOAT))
-                addIndex(param.second->get<float>());
+                addIndex((ushort)param.second->get<float>());
             else
             {
                 DEBUG_ASSERT_MSG(0,"mesh error:"
@@ -326,7 +326,7 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,int z)
     DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINE_STRIP);
 
 #define AddVertexML(gvt)\
-				mVertexs[countVertexs].vtz=Vec3(modelView.mul2D(gvt.vt),z);\
+				mVertexs[countVertexs].vtz=Vec3(modelView.mul2D(gvt.vt),(float)z);\
 				mVertexs[countVertexs].uv=gvt.uv;\
 				++countVertexs;
 
@@ -363,7 +363,7 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,int z)
             AddVertexML(refVBO[refIBO[1]])
             AddVertexML(refVBO[refIBO[2]])
             //
-            for (int i=1; i < nI-2; ++i)
+            for (size_t i=1; i != nI-2; ++i)
             {
                 //TRIANGLE_STRIP -> TRIANGLE
                 if(i&1)
@@ -387,7 +387,7 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,int z)
             AddVertexML(refVBO[1])
             AddVertexML(refVBO[2])
             //cycle
-            for (int i=1; i < nV-2; ++i)
+            for (size_t i=1; i != nV-2; ++i)
             {
                 //TRIANGLE_STRIP -> TRIANGLE
                 if(i&1)

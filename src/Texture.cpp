@@ -119,8 +119,8 @@ void Texture::__build()
         if(po2Srpite->isLoad())
             po2Srpite->unload();
         //set size mesh
-        float hlSizeX=spriteWidth*0.5;
-        float hlSizeY=spriteHeight*0.5;
+        float hlSizeX=spriteWidth*0.5f;
+        float hlSizeY=spriteHeight*0.5f;
         //add vertexs
         po2Srpite->addVertex(  hlSizeX,
                                -hlSizeY,

@@ -226,7 +226,7 @@ std::vector<String> Path::getFiles() const
 #elif defined(PLATFORM_WINDOW)
 
     WIN32_FIND_DATA ffd;
-    struct stat st;
+    //struct stat st;
     String std_dir=directory+"/";
     String path_all=std_dir+"*";
     String namefile;
@@ -279,7 +279,7 @@ std::vector<String> Path::getSubDirs() const
 #elif defined(PLATFORM_WINDOW)
 
     WIN32_FIND_DATA ffd;
-    struct stat st;
+    //struct stat st;
     String std_dir=directory+"/";
     String path_all=std_dir+"*";
     String namefile;

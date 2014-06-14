@@ -12,8 +12,8 @@ Vec2 Camera::getSMouse()
     Input& input=*Application::instance()->getInput();
     Screen& screen=*Application::instance()->getScreen();
     //get mouse pos
-    Vec2 relative(input.getMouse().x-screen.getSize().x*0.5,
-                  screen.getSize().y*0.5-input.getMouse().y);
+    Vec2 relative(input.getMouse().x-screen.getSize().x*0.5f,
+                  screen.getSize().y*0.5f-input.getMouse().y);
 
     return relative;
 }

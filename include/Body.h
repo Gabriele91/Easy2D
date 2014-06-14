@@ -25,10 +25,52 @@ class Body : public Component
     
     public:
 
+    struct Impulse
+    {
+        uchar npoints;
+        float normalImpulse[2];
+        float tangentImpulse[2];
+        //info from b2ContactImpulse
+        void setContactImpulse(const b2ContactImpulse& im)
+        {
+            npoints=im.count;
+            for(uchar i=0;i!=npoints;++i)
+            {
+                normalImpulse[i]=im.normalImpulses[i];
+                tangentImpulse[i]=im.tangentImpulses[i];
+            }
+        }
+    };
+
+    struct Manifold
+    {
+        //contact info
+        uchar npoints;
+        Vec2 normal;
+        Vec2 points[2];
+        float normalImpulse[2];
+        float tangentImpulse[2];
+        //info from b2Manifold
+        void setManifold(const b2Manifold& m)
+        {
+            //normal
+            normal=cast(m.localNormal);
+            //points
+            npoints=m.pointCount;
+            for(uchar i=0;i!=npoints;++i)
+            {
+                points[i]=cast(m.points[i].localPoint);
+                normalImpulse[i]=m.points[i].normalImpulse;
+                tangentImpulse[i]=m.points[i].tangentImpulse;
+            }
+        }
+    };
+
     struct Info
     {
         Shape shapeA;
         Shape shapeB;
+        Manifold manifold;
     };
 
     private:
@@ -52,8 +94,8 @@ class Body : public Component
     //collison call back
     DFUNCTION<void (Object* tocollide,const Info& info)> cbBegin;
     DFUNCTION<void (Object* tocollide,const Info& info)> cbEnd;
-    DFUNCTION<void (void)> cbPresolver;
-    DFUNCTION<void (void)> cbPostsolver;
+    DFUNCTION<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver;
+    DFUNCTION<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver;
     
     b2Body* getBody()
     {
@@ -81,6 +123,14 @@ class Body : public Component
     void setEndListener(DFUNCTION<void (Object* tocollide,const Info& info)> cbEnd)
     {
         this->cbEnd=cbEnd;
+    }
+    void setPreSolverListener(DFUNCTION<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver)
+    {
+        this->cbPreSolver=cbPreSolver;
+    }
+    void setPostSolverListener(DFUNCTION<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver)
+    {
+        this->cbPostSolver=cbPostSolver;
     }
     /*
     * body
