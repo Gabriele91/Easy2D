@@ -31,12 +31,14 @@ void ContactListener::BeginContact(b2Contact* contact)
     {
         info.shapeA=indexA;
         info.shapeB=indexB;
+        info.orderCase=1;
         bodyA->cbBegin(objectB,info);
     }
     if(bodyB->cbBegin)
     {
         info.shapeB=indexA;
         info.shapeA=indexB;
+        info.orderCase=2;
         bodyB->cbBegin(objectA,info);
     }
 }
@@ -62,12 +64,14 @@ void ContactListener::EndContact(b2Contact* contact)
     {
         info.shapeA=indexA;
         info.shapeB=indexB;
+        info.orderCase=1;
         bodyA->cbEnd(objectB,info);
     }
     if(bodyB->cbEnd)
     {
         info.shapeB=indexA;
         info.shapeA=indexB;
+        info.orderCase=2;
         bodyB->cbEnd(objectA,info);
     }
 }
@@ -95,12 +99,14 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
     {
         info.shapeA=indexA;
         info.shapeB=indexB;
+        info.orderCase=1;
         bodyA->cbPreSolver(objectB,info,oldmf);
     }
     if(bodyB->cbPreSolver)
     {
         info.shapeB=indexA;
         info.shapeA=indexB;
+        info.orderCase=2;
         bodyB->cbPreSolver(objectA,info,oldmf);
     }   
 }
@@ -128,12 +134,14 @@ void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* b2im
     {
         info.shapeA=indexA;
         info.shapeB=indexB;
+        info.orderCase=1;
         bodyA->cbPostSolver(objectB,info,impulse);
     }
     if(bodyB->cbPostSolver)
     {
         info.shapeB=indexA;
         info.shapeA=indexB;
+        info.orderCase=2;
         bodyB->cbPostSolver(objectA,info,impulse);
     }   
 }

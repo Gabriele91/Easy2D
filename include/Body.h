@@ -72,6 +72,7 @@ class Body : public Component
         Shape shapeB;
         b2Contact* contact;
         Manifold manifold;
+        uchar orderCase;
     };
 
     private:
