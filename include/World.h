@@ -34,18 +34,33 @@ class ContactListener : public b2ContactListener
         virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
 };
 /////////////////////
-class World
+class World : public b2DestructionListener
 {
 
     friend class Body;
+    //world
     b2World *world;
     b2BlockAllocator blockAllocator;
-    GLDebugDraw      debugDraw;
+    GLDebugDraw      glDebugDraw;
+    uint velocityIterations;
+    uint positionIterations;
+    //listener
+    virtual void SayGoodbye( b2Joint* pJoint );
+    virtual void SayGoodbye( b2Fixture* pFixture ) {}
+    //join
+    uint autoIdJoin;
+    DUNORDERED_MAP<uint, b2Joint*> jointHash;
+    DUNORDERED_MAP<b2Joint*, uint> reverseJointHash;
+    uint createJoint( const b2JointDef& def );
+    void deleteJoint(uint id);
+    //join utility
+    b2Joint* findB2Joint(uint id);
+    uint findJoint(b2Joint* join);
 
     protected:
 
     void  physicsDraw(Camera* camera);
-    void  physics(float dt, uint velocityIterations=8, uint positionIterations=3);
+    void  physics(float dt);
 
     public:
 
@@ -53,7 +68,88 @@ class World
     virtual ~World();
     void  setGravity(const Vec2& gravity);
     Vec2  getGravity();
-    void  enableDebugDraw();
+    void  debugDraw(bool enable);
+
+    ///Box2d item
+    b2World*  getWorld()
+    {
+        return world;
+    }
+    const b2World*  getWorld() const
+    {
+        return world;
+    }
+    
+    ///iterations
+    void setVelocityIterations( uint iterations ) 
+    {
+        velocityIterations = iterations;
+    }
+    uint getVelocityIterations() const
+    { 
+        return velocityIterations;
+    }
+    void setPositionIterations( uint iterations ) { 
+        positionIterations = iterations; 
+    }
+    uint getPositionIterations() const { 
+        return positionIterations; 
+    }
+
+
+    /// Joints
+
+    /// Distance joint.
+    uint createDistanceJoint(const Object* objectA,
+                             const Object* objectB,
+                             const Vec2& localAnchorA = Vec2::ZERO, 
+                             const Vec2& localAnchorB = Vec2::ZERO, 
+                             float length = -1.0f,
+                             float frequency = 0.0f,
+                             float dampingRatio = 0.0f,
+                             bool collideConnected = false );
+
+    void setDistanceJointLength(uint jointId,float length);
+
+    float getDistanceJointLength(uint jointId);
+
+    void setDistanceJointFrequency(uint jointId,float frequency);
+
+    float getDistanceJointFrequency(uint jointId);
+
+    void setDistanceJointDampingRatio(uint jointId,float dampingRatio);
+
+    float getDistanceJointDampingRatio(uint jointId);
+    
+    /// Revolute joint.
+    uint createRevoluteJoint(const Object* objectA, 
+                             const Object* objectB,
+                             const Vec2& localAnchorA = Vec2::ZERO, 
+                             const Vec2& localAnchorB = Vec2::ZERO,
+                             bool collideConnected = false );
+
+    void setRevoluteJointLimit(uint jointId,
+                               bool enableLimit,
+                               float lowerAngle,
+                               float upperAngle );
+
+    bool getRevoluteJointLimit(uint jointId,
+                               bool& enableLimit,
+                               float& lowerAngle,
+                               float& upperAngle );
+
+    void setRevoluteJointMotor(uint jointId,
+                               bool enableMotor,
+                               float motorSpeed = Math::PI,
+                               float maxMotorTorque = 0.0f );
+
+    bool getRevoluteJointMotor(uint jointId,
+                               bool& enableMotor,
+                               float& motorSpeed,
+                               float& maxMotorTorque );
+
+    float getRevoluteJointAngle(uint jointId);
+    float getRevoluteJointSpeed(uint jointId);
 };
 
 

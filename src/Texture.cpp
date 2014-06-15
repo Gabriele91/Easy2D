@@ -157,6 +157,8 @@ bool Texture::load()
     //size sprite
     spriteWidth=0;
     spriteHeight=0;
+    //offset?
+    bool textureUVOffset=false;
     //type of image
     if(rpath.getExtension()=="e2d")
     {
@@ -175,6 +177,12 @@ bool Texture::load()
         flipVertical(((uint)texInfo.getFloat("flipVertical",(float)flipVertical()))!=0);
         mipmaps(((uint)texInfo.getFloat("mipmaps",(float)mipmaps()))!=0);
         bilinear(((uint)texInfo.getFloat("bilinear",(float)bilinear()))!=0);
+        //offset
+        if(texInfo.existsAsType("uv",Table::VECTOR2D))
+        {
+            textureUVOffset=true;
+            offsetUV=texInfo.getVector2D("uv",Vec2::ONE);
+        }
     }
     //load image
     {
@@ -205,15 +213,27 @@ bool Texture::load()
     //support only pow of 2?
     if(Application::instance()->onlyPO2())
     {
-        //
-        if(!Math::isPowerOfTwo(realWidth))
+        bool isNotPO2Width =!Math::isPowerOfTwo(realWidth);
+        bool isNotPO2Height=!Math::isPowerOfTwo(realHeight);
+        bool isNotPO2=(isNotPO2Width||isNotPO2Height);
+
+        if(isNotPO2Width)
             realWidth=Math::nextPowerOfTwo(realWidth);
-        if(!Math::isPowerOfTwo(realHeight))
+        if(isNotPO2Width)
             realHeight=Math::nextPowerOfTwo(realHeight);
-        //calc offset uv
-        offsetUV.x=(float)width/realWidth;
-        offsetUV.y=(float)height/realHeight;
+        
+        DEBUG_MESSAGE_IF(textureUVOffset && isNotPO2 ,"WARRNING Texture: "
+                                                      "the device isn't support non-power-of-two texture, "
+                                                      "uv mapping is probably failed");
+        
+        if(!textureUVOffset && isNotPO2)
+        {
+            //calc offset uv
+            offsetUV.x=(float)width/realWidth;
+            offsetUV.y=(float)height/realHeight;
+        }
     }
+
 #ifdef OPENGL_ES
     DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: android not support alpha texture");
     if(image.type==TYPE_ALPHA8)

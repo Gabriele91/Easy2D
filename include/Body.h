@@ -70,6 +70,7 @@ class Body : public Component
     {
         Shape shapeA;
         Shape shapeB;
+        b2Contact* contact;
         Manifold manifold;
     };
 
@@ -97,12 +98,17 @@ class Body : public Component
     DFUNCTION<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver;
     DFUNCTION<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver;
     
+
+    public:
+        
     b2Body* getBody()
     {
         return body;
     }
-
-    public:
+    const b2Body* getBody() const
+    {
+        return body;
+    }
 
     enum Type
     {
@@ -149,7 +155,7 @@ class Body : public Component
 
     //void setMass(float); in fixtures
     float getMass() const;
-    //world info
+    //get world
     Vec2 getWorldCenter() const
     {
         if(body)
@@ -162,7 +168,27 @@ class Body : public Component
             return cast(body->GetWorldPoint(cast(local)));
         return Vec2::ZERO;
     }
-
+    //get local
+    Vec2 getLocalVector(const Vec2& worldVector) const
+    {
+        if(body)
+            return cast(body->GetLocalVector(cast(worldVector)));
+        return Vec2::ZERO;
+    }
+    Vec2 getLocalPoint(const Vec2& worldPoint) const
+    {
+        if(body)
+            return cast(body->GetLocalPoint(cast(worldPoint)));
+        return Vec2::ZERO;
+    }
+    Vec2 getLocalCenter() const
+    {
+        if(body)
+            return cast(body->GetLocalCenter());
+        return Vec2::ZERO;
+    }
+   
+    //velocity
     void setLinearVelocity(const Vec2&);
     Vec2 getLinearVelocity() const;
     Vec2 getLinearVelocityFromWorldPoint(const Vec2& world) const;

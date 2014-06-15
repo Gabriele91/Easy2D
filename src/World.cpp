@@ -1,7 +1,8 @@
 #include <stdafx.h>
 #include <World.h>
-#include <Debug.h>
 #include <Body.h>
+#include <Scene.h>
+#include <Debug.h>
 
 ///////////////////////
 using namespace Easy2D;
@@ -23,6 +24,7 @@ void ContactListener::BeginContact(b2Contact* contact)
     size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());    
     //get info
     Body::Info info;
+    info.contact=contact;
     info.manifold.setManifold(*contact->GetManifold());
     //callback
     if(bodyA->cbBegin)
@@ -53,6 +55,7 @@ void ContactListener::EndContact(b2Contact* contact)
     size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
     //get info
     Body::Info info;
+    info.contact=contact;
     info.manifold.setManifold(*contact->GetManifold());
     //callback
     if(bodyA->cbEnd)
@@ -85,6 +88,7 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
     Body::Info info;
     info.manifold.setManifold(*contact->GetManifold());
     Body::Manifold oldmf;
+    info.contact=contact;
     oldmf.setManifold(*oldManifold);
     //callback
     if(bodyA->cbPreSolver)
@@ -115,6 +119,7 @@ void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* b2im
     size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
     //get info
     Body::Info info;
+    info.contact=contact;
     info.manifold.setManifold(*contact->GetManifold());
     Body::Impulse impulse;
     impulse.setContactImpulse(*b2impulse);
@@ -133,10 +138,341 @@ void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* b2im
     }   
 }
 ////////////////////////////////////////
-World::World(const Vec2& gravity)
+void World::SayGoodbye( b2Joint* join )
+{
+    //get iterator
+    auto rit=reverseJointHash.find(join);
+    //delete from map
+    if(rit!=reverseJointHash.end())
+    {
+        jointHash.erase(rit->second);
+        reverseJointHash.erase(rit);
+    }
+}
+uint World::createJoint( const b2JointDef& def )
+{
+    // Create Joint.
+    b2Joint* pJoint = world->CreateJoint( &def );
+    //add join into map
+    jointHash[autoIdJoin]=pJoint;
+    reverseJointHash[pJoint]=autoIdJoin;
+    //next id
+    ++autoIdJoin;
+    //return id
+    return autoIdJoin-1;
+}
+void World::deleteJoint(uint id)
+{   
+    //get join
+    b2Joint* join=findB2Joint(id);
+    //if is not null
+    if(join)
+    {
+        SayGoodbye(join);
+        world->DestroyJoint(join);
+    }
+}
+b2Joint* World::findB2Joint(uint id)
+{    
+    //get iterator
+    auto rit=jointHash.find(id);
+    //get id from map
+    if(rit!=jointHash.end())
+    {
+        return rit->second;
+    }
+    //else return null
+    return nullptr;
+    
+}
+uint World::findJoint(b2Joint* join)
+{
+    //get iterator
+    auto rit=reverseJointHash.find(join);
+    //get id from map
+    if(rit!=reverseJointHash.end())
+    {
+        return rit->second;
+    }
+    //else return 0
+    return 0;
+}
+
+/// Distance joint.
+uint World::createDistanceJoint(const Object* objectA,
+                                const Object* objectB,
+                                const Vec2& localAnchorA, 
+                                const Vec2& localAnchorB, 
+                                float length,
+                                float frequency,
+                                float dampingRatio,
+                                bool collideConnected)
+{
+    
+    DEBUG_ASSERT(objectA);
+    DEBUG_ASSERT(static_cast<const World*>(objectA->getScene())==this);
+    DEBUG_ASSERT(objectB);
+    DEBUG_ASSERT(static_cast<const World*>(objectB->getScene())==this);
+    
+    const Body* bodyA=objectA->getComponent<Body>();
+    const Body* bodyB=objectB->getComponent<Body>();
+
+    b2DistanceJointDef jointDef;
+    jointDef.userData = this;
+    jointDef.collideConnected = collideConnected;
+    jointDef.bodyA = bodyA->body;
+    jointDef.bodyB = bodyB->body;
+    jointDef.localAnchorA = cast(localAnchorA);
+    jointDef.localAnchorB = cast(localAnchorB);
+    jointDef.length       = length < 0.0f ? (jointDef.bodyA ->GetWorldPoint( jointDef.localAnchorB ) - 
+                                             jointDef.bodyA ->GetWorldPoint( jointDef.localAnchorA )).Length() : length;
+    jointDef.frequencyHz  = frequency;
+    jointDef.dampingRatio = dampingRatio;
+
+    return createJoint(jointDef);
+}
+
+void World::setDistanceJointLength(uint jointId,float length)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setDistanceJointLength, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
+    realJoint->SetLength( length );
+}
+float World::getDistanceJointLength(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getDistanceJointLength, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
+    return realJoint->GetLength();
+}
+
+void World::setDistanceJointFrequency(uint jointId,float frequency)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setDistanceJointFrequency, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
+    realJoint->SetFrequency( frequency );
+}
+float World::getDistanceJointFrequency(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getDistanceJointFrequency, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
+    return realJoint->GetFrequency();
+}
+
+void World::setDistanceJointDampingRatio(uint jointId,float dampingRatio)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setDistanceJointDampingRatio, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
+    realJoint->SetDampingRatio( dampingRatio );
+}
+float World::getDistanceJointDampingRatio(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getDistanceJointDampingRatio, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
+    return realJoint->GetDampingRatio();
+}
+
+/// Revolute joint.
+uint World::createRevoluteJoint(const Object* objectA, 
+                                const Object* objectB,
+                                const Vec2& localAnchorA, 
+                                const Vec2& localAnchorB,
+                                bool collideConnected)
+{
+    DEBUG_ASSERT(objectA);
+    DEBUG_ASSERT(static_cast<const World*>(objectA->getScene())==this);
+    DEBUG_ASSERT(objectB);
+    DEBUG_ASSERT(static_cast<const World*>(objectB->getScene())==this);
+    
+    const Body* bodyA=objectA->getComponent<Body>();
+    const Body* bodyB=objectB->getComponent<Body>();
+
+    b2RevoluteJointDef jointDef;
+    jointDef.userData = this;
+    jointDef.collideConnected = collideConnected;
+    jointDef.bodyA = bodyA->body;
+    jointDef.bodyB = bodyB->body;
+    jointDef.localAnchorA = cast(localAnchorA);
+    jointDef.localAnchorB = cast(localAnchorB);
+    jointDef.collideConnected = collideConnected;
+
+    return createJoint(jointDef);
+}
+
+void World::setRevoluteJointLimit(uint jointId,
+                                  bool enableLimit,
+                                  float lowerAngle,
+                                  float upperAngle )
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setRevoluteJointLimit, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2RevoluteJoint* realJoint = static_cast<b2RevoluteJoint*>( joint );
+    realJoint->SetLimits(Math::torad(lowerAngle),Math::torad(upperAngle));    
+    realJoint->EnableLimit( enableLimit );
+}
+bool World::getRevoluteJointLimit(uint jointId,
+                                  bool& enableLimit,
+                                  float& lowerAngle,
+                                  float& upperAngle )
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getRevoluteJointLimit, invalid joint type ");
+        return false;
+    }
+    // set distance
+    b2RevoluteJoint* realJoint = static_cast<b2RevoluteJoint*>( joint );
+    enableLimit=realJoint->IsLimitEnabled();
+    lowerAngle=Math::todeg(realJoint->GetLowerLimit());
+    upperAngle=Math::todeg(realJoint->GetUpperLimit());    
+    return true;
+}
+
+void World::setRevoluteJointMotor(uint jointId,
+                                  bool enableMotor,
+                                  float motorSpeed,
+                                  float maxMotorTorque)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setRevoluteJointMotor, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2RevoluteJoint* realJoint = static_cast<b2RevoluteJoint*>( joint );
+    realJoint->SetMotorSpeed(motorSpeed);    
+    realJoint->SetMaxMotorTorque(maxMotorTorque);    
+    realJoint->EnableMotor(enableMotor);
+}
+bool World::getRevoluteJointMotor(uint jointId,
+                                  bool& enableMotor,
+                                  float& motorSpeed,
+                                  float& maxMotorTorque )
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getRevoluteJointMotor, invalid joint type ");
+        return false;
+    }
+    // set distance
+    b2RevoluteJoint* realJoint = static_cast<b2RevoluteJoint*>( joint );
+    enableMotor=realJoint->IsMotorEnabled();
+    motorSpeed=realJoint->GetMotorSpeed();
+    maxMotorTorque=realJoint->GetMaxMotorTorque();
+    return true;
+}
+
+float World::getRevoluteJointAngle(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getRevoluteJointAngle, invalid joint type ");
+        return 0.0;
+    }
+    // set distance
+    b2RevoluteJoint* realJoint = static_cast<b2RevoluteJoint*>( joint );
+    return realJoint->GetJointAngle();
+}
+float World::getRevoluteJointSpeed(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_distanceJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getRevoluteJointSpeed, invalid joint type ");
+        return 0.0;
+    }
+    // set distance
+    b2RevoluteJoint* realJoint = static_cast<b2RevoluteJoint*>( joint );
+    return realJoint->GetJointSpeed();
+}
+////////////////////////////////////////
+World::World(const Vec2& gravity):autoIdJoin(1)
+                                 ,velocityIterations(8)
+                                 ,positionIterations(3)
 {
     world = new b2World(cast(gravity));
     world->SetContactListener(new ContactListener());
+    world->SetDestructionListener(this);
 }
 World::~World()
 {
@@ -151,18 +487,25 @@ Vec2 World::getGravity()
 {
    return cast(world->GetGravity());
 }
-void World::physics(float dt, uint velocityIterations, uint positionIterations)
+void World::physics(float dt)
 {
     world->Step(dt,velocityIterations,positionIterations);
 }
-void World::enableDebugDraw()
+void World::debugDraw(bool enable)
 {
-    debugDraw.SetFlags(b2Draw::e_shapeBit|
-                       b2Draw::e_jointBit|
-                       b2Draw::e_aabbBit|
-                       b2Draw::e_pairBit|
-                       b2Draw::e_centerOfMassBit);
-    world->SetDebugDraw(&debugDraw);
+    if(enable)
+    {
+        glDebugDraw.SetFlags(b2Draw::e_shapeBit|
+                             b2Draw::e_jointBit|
+                             b2Draw::e_aabbBit|
+                             b2Draw::e_pairBit|
+                             b2Draw::e_centerOfMassBit);
+        world->SetDebugDraw(&glDebugDraw);
+    }
+    else
+    {
+        world->SetDebugDraw(NULL);
+    }
 }
 void World::physicsDraw(Camera* camera)
 {   

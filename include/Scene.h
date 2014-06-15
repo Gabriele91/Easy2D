@@ -62,7 +62,6 @@ class Scene : public Render, //Graphics
         World::physicsDraw(Render::getCamera());
     }
 
-
 public:
 
     bool isContent(int uid)
@@ -160,6 +159,7 @@ public:
     virtual void onStart()=0;
     virtual void onResume() {}
     virtual void onRun(float dt)=0;
+    virtual void onPostDraw(float dt){};
     virtual void onPause() {}
     virtual void onEnd()=0;
 
@@ -185,16 +185,25 @@ public:
     }
     virtual void run(float dt)
     {
+        ///////////////////////////////////////////////
         //update logic
         onRunLogic(dt);
         //update logic child
         if(actives.size())
             scenes[actives.top()].child->onRunLogic(dt);
+        ///////////////////////////////////////////////
         //draw all
         onRunDraw();
         //draw child
         if(actives.size())
             scenes[actives.top()].child->onRunDraw();
+        ///////////////////////////////////////////////
+        //post draw all
+        onPostDraw(dt);
+        //post draw all
+        if(actives.size())
+            scenes[actives.top()].child->onPostDraw(dt);
+        ///////////////////////////////////////////////
     }
     virtual void end()
     {

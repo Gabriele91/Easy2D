@@ -66,6 +66,10 @@ class Object
     {
         return scene;
     }
+    const Scene* getScene() const
+    {
+        return scene;
+    }
 
     //for each methods
     std::list<Object*>::iterator begin();
@@ -183,14 +187,20 @@ class Object
     {
         
     }
-
-    protected:
-
+    
+    void  setUserData(void* data)
+    {
+        this->data=data;
+    }
+    void* getUserData()
+    {
+        return data;
+    }
+    
+    private:
     //data
     void*   data;
-
-    private:
-
+    //scene
     Scene*  scene;
     //components
     std::map<const  type_info* , Component* > components;
