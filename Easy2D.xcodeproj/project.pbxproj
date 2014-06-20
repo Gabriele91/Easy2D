@@ -25,6 +25,8 @@
 		E027964718B1449A00B1A4FE /* MutexConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964318B1449A00B1A4FE /* MutexConf.h */; };
 		E027964818B1449A00B1A4FE /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964418B1449A00B1A4FE /* Thread.h */; };
 		E027964918B1449A00B1A4FE /* ThreadConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964518B1449A00B1A4FE /* ThreadConf.h */; };
+		E04FBB2D194F0EFF00164D77 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = E04FBB2C194F0EFF00164D77 /* Component.h */; };
+		E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04FBB2E194F0F1B00164D77 /* Component.cpp */; };
 		E05495BD17AE68E8005DDB72 /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958817AE68E8005DDB72 /* AnimatedSprite.h */; };
 		E05495BE17AE68E8005DDB72 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958917AE68E8005DDB72 /* Application.h */; };
 		E05495BF17AE68E8005DDB72 /* Blend.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958A17AE68E8005DDB72 /* Blend.h */; };
@@ -295,6 +297,8 @@
 		E027964318B1449A00B1A4FE /* MutexConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutexConf.h; path = thread/MutexConf.h; sourceTree = "<group>"; };
 		E027964418B1449A00B1A4FE /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = thread/Thread.h; sourceTree = "<group>"; };
 		E027964518B1449A00B1A4FE /* ThreadConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThreadConf.h; path = thread/ThreadConf.h; sourceTree = "<group>"; };
+		E04FBB2C194F0EFF00164D77 /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
+		E04FBB2E194F0F1B00164D77 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		E054958817AE68E8005DDB72 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
 		E054958917AE68E8005DDB72 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E054958A17AE68E8005DDB72 /* Blend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blend.h; sourceTree = "<group>"; };
@@ -650,6 +654,7 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E04FBB2C194F0EFF00164D77 /* Component.h */,
 				E0A1AE601946EE9700D1438A /* gui */,
 				E0684F041939D32D00653833 /* Box2D.hpp */,
 				E0684F001939D2AC00653833 /* Body.h */,
@@ -715,6 +720,7 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E04FBB2E194F0F1B00164D77 /* Component.cpp */,
 				E0A1AE571946EE8500D1438A /* gui */,
 				E0684F061939D34A00653833 /* World.cpp */,
 				E0684EFE1939D29D00653833 /* Body.cpp */,
@@ -1078,6 +1084,7 @@
 				E05495C017AE68E8005DDB72 /* BMFontLoader.h in Headers */,
 				E061354F18AE697100BD63EC /* b2ContactManager.h in Headers */,
 				E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */,
+				E04FBB2D194F0EFF00164D77 /* Component.h in Headers */,
 				E05495C117AE68E8005DDB72 /* Camera.h in Headers */,
 				E05495C217AE68E8005DDB72 /* CocoaApp.h in Headers */,
 				E061355D18AE697100BD63EC /* b2PolygonContact.h in Headers */,
@@ -1353,6 +1360,7 @@
 				E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */,
 				E054964E17AE6907005DDB72 /* Input.cpp in Sources */,
 				E054964F17AE6907005DDB72 /* Layer.cpp in Sources */,
+				E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */,
 				E054965417AE6907005DDB72 /* Math3D.cpp in Sources */,
 				E054965717AE6907005DDB72 /* Math3D_SSE2.cpp in Sources */,
 				E054965B17AE6907005DDB72 /* Mesh.cpp in Sources */,
@@ -1424,6 +1432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = (
 					"dependencies-osx64/include/**",
+					include/gui,
 					include/cocoa/,
 					include/audio/,
 					include/,

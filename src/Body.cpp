@@ -6,6 +6,8 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
+REGISTERED_COMPONENT(Body, "Body")
+///////////////////////
 //init
 Body::Body()
 {
@@ -384,7 +386,7 @@ Shape Body::createBoxCollisionShape(const Vec2& size, const Vec2& pos, float ang
     // Configure fixture definition.
     b2FixtureDef* pFixtureDef = new b2FixtureDef( defaultFixture );
     b2PolygonShape* pShape = new b2PolygonShape();
-    pShape->SetAsBox(size.x, size.y, cast(pos), angle);
+    pShape->SetAsBox(size.x, size.y, cast(pos), Math::torad(angle));
     pFixtureDef->shape = pShape;
     //
     if ( body )
@@ -701,4 +703,222 @@ void Body::onEraseObject()
 {
     if(world)
         unregisterWorld();
+}
+
+static inline void shapeSerialize(Table& tshape,const b2Shape* bShape)
+{
+    Table& tgeometry=tshape.createTable("geometry");
+    switch (bShape->GetType())
+    {	
+    case b2Shape::e_circle:
+    {
+        b2CircleShape* shape=((b2CircleShape*)bShape);
+        tgeometry.set("type","circle");
+        tgeometry.set("radius", shape->m_radius);
+        tgeometry.set("position", cast(shape->m_p));
+    }
+    break;
+    case b2Shape::e_edge:
+    {
+        tgeometry.set("type","edge");
+        b2EdgeShape* shape=((b2EdgeShape*)bShape);
+        if(shape->m_hasVertex0)
+            tgeometry.set("v0", cast(shape->m_vertex0));
+
+        tgeometry.set("v1", cast(shape->m_vertex1));
+        tgeometry.set("v2", cast(shape->m_vertex2));
+
+        if(shape->m_hasVertex3)
+            tgeometry.set("v3", cast(shape->m_vertex3));
+    }
+    break;
+    case b2Shape::e_polygon:
+    {
+        tgeometry.set("type","polygon");
+        Table& tpoints=tgeometry.createTable("points");
+        b2PolygonShape* shape=((b2PolygonShape*)bShape);
+
+        for(uint i=0;i!=shape->m_count;++i)
+        {
+            tpoints.set(cast(shape->m_vertices[i]));
+        }
+    }
+    break;
+    case b2Shape::e_chain:
+    {
+        tgeometry.set("type","chain");
+
+        Table& tpoints=tgeometry.createTable("points");
+        b2ChainShape* shape=((b2ChainShape*)bShape);
+        
+        if(shape->m_hasPrevVertex)
+            tgeometry.set("start", cast(shape->m_prevVertex));
+        if(shape->m_hasNextVertex)
+            tgeometry.set("end", cast(shape->m_nextVertex));
+
+        for(uint i=0;i!=shape->m_count;++i)
+        {
+            tpoints.set(cast(shape->m_vertices[i]));
+        }
+    }
+    break;
+    case b2Shape::e_typeCount:
+    default: break; //wrong
+    }
+}
+static inline Body::Type getBodyType(const String& name)
+{
+    if(name=="dynamic") return Body::DINAMIC;
+    if(name=="kinematic") return Body::KINEMATIC;
+    return Body::STATIC;
+}
+static inline String getBodyType(Body::Type type)
+{
+    if(type==b2_dynamicBody) return "dynamic";
+    if(type==b2_kinematicBody) return "kinematic";
+    return "static";
+}
+
+void Body::serialize(Table& table)
+{
+    Table& rbody=table.createTable(getComponentName());
+    rbody.set("position",getPosition());
+    rbody.set("rotation",getAngle());
+    rbody.set("linearVelocity",getLinearVelocity());
+    rbody.set("angularVelocity",getAngularVelocity());
+    rbody.set("gravityScale",getGravityScale());
+    rbody.set("allowSleep",getSleepingAllowed());
+    rbody.set("awake",getAwake());
+    rbody.set("fixedRotation",getFixedAngle());
+    rbody.set("bullet",getBullet());
+    rbody.set("active",getActive()); 
+    rbody.set("type",getBodyType(getType())); 
+    //TODO: SAVE FIXATURES
+    if(body)
+    {
+        Table& tshapes=rbody.createTable("shapes");
+        for( auto pFixture : fixtures )
+        {
+            Table& tshape=tshapes.createTable();
+            tshape.set("density",pFixture->GetDensity());
+            tshape.set("friction",pFixture->GetFriction());
+            tshape.set("restitution",pFixture->GetRestitution());
+            tshape.set("sensor",pFixture->IsSensor());
+            //shape      
+            shapeSerialize(tshape,pFixture->GetShape());
+        }
+    }
+    else
+    {
+        Table& tshapes=rbody.createTable("shapes");
+        for( auto pFixDef : fixturesDef )
+        {
+            Table& tshape=tshapes.createTable();
+            tshape.set("density",pFixDef->density);
+            tshape.set("friction",pFixDef->friction);
+            tshape.set("restitution",pFixDef->restitution);
+            tshape.set("sensor",pFixDef->isSensor);
+            //shape      
+            shapeSerialize(tshape,pFixDef->shape);
+        }
+    }
+}
+
+void Body::deserialize(const Table& table)
+{
+    setPosition( table.getVector2D("position", getPosition()) );
+    setAngle( table.getFloat("rotation", getAngle()) );
+    setLinearVelocity( table.getVector2D("linearVelocity", getLinearVelocity()) );
+    setAngularVelocity( table.getFloat("angularVelocity", getAngularVelocity()) );
+    setGravityScale( table.getFloat("gravityScale",getGravityScale()) );
+    setSleepingAllowed( table.getFloat("allowSleep", getSleepingAllowed()) );
+    setAwake( table.getFloat("awake", getAwake()) );
+    setFixedAngle( table.getFloat("fixedRotation", getFixedAngle()) );
+    setBullet( table.getFloat("bullet", getBullet()) );
+    setActive( table.getFloat("active", getActive()) );
+    setType( getBodyType(table.getString("type", getBodyType(getType()))) );
+
+
+    if(table.existsAsType("shapes",Table::TABLE))
+    {
+        const Table& shapes=table.getConstTable("shapes");
+        for(auto ashape:shapes)
+        {
+            DEBUG_ASSERT(ashape.second->asType(Table::TABLE));
+            const Table& shape=ashape.second->get<Table>();
+            const Table& geometry=shape.getConstTable("geometry");
+            const String& type=geometry.getString("type","none");
+            uint idshape=0;
+
+            if(type=="circle")
+            {
+                idshape=createCircleCollisionShape(
+                    geometry.getFloat("radius"),
+                    geometry.getVector2D("position")
+                );
+            }
+            else if(type=="edge")
+            {
+                Vec2 v1=geometry.getVector2D("v1");
+                Vec2 v2=geometry.getVector2D("v2");
+                Vec2 v0=geometry.getVector2D("v0");
+                Vec2 v3=geometry.getVector2D("v3");
+                bool bv0=geometry.existsAsType("v0",Table::VECTOR2D);
+                bool bv3=geometry.existsAsType("v3",Table::VECTOR2D);
+                idshape=createEdgeCollisionShape(v1,v2,
+                                                 bv0,v0,
+                                                 bv3,v3);
+            }
+            else if(type=="box")
+            {
+                
+                DEBUG_ASSERT(geometry.existsAsType("scale",Table::VECTOR2D));
+                Vec2 scale=geometry.getVector2D("scale");
+                Vec2 position=geometry.getVector2D("position");
+                float angle=geometry.getFloat("angle");
+                idshape=createBoxCollisionShape(scale,position,angle);
+            }
+            else if(type=="polygon")
+            {
+                
+                DEBUG_ASSERT(geometry.existsAsType("points",Table::TABLE));
+                const Table& points=geometry.getConstTable("points");
+                std::vector<Vec2> vp;
+                for(auto point:points)
+                {
+                    DEBUG_ASSERT(point.second->asType(Table::VECTOR2D));
+                    vp.push_back(point.second->get<Vec2>());
+                }
+                idshape=createPolygonCollisionShape(vp);
+            }
+            else if(type=="chain")
+            {
+                
+                DEBUG_ASSERT(geometry.existsAsType("points",Table::TABLE));
+                const Table& points=geometry.getConstTable("points");
+                std::vector<Vec2> vp;
+                for(auto point:points)
+                {
+                    DEBUG_ASSERT(point.second->asType(Table::VECTOR2D));
+                    vp.push_back(point.second->get<Vec2>());
+                }
+                
+                Vec2 vstart=geometry.getVector2D("start");
+                Vec2 vend=geometry.getVector2D("end");
+                bool bstart=geometry.existsAsType("start",Table::VECTOR2D);
+                bool bend=geometry.existsAsType("end",Table::VECTOR2D);
+
+                idshape=createChainCollisionShape(vp,bstart,vstart,
+                                                     bend,vend);
+            }
+            else
+            {
+                DEBUG_ASSERT(0);
+            }
+            setCollisionShapeDensity(idshape,shape.getFloat("density",defaultFixture.density));
+            setCollisionShapeFriction(idshape,shape.getFloat("friction",defaultFixture.friction));
+            setCollisionShapeRestitution(idshape,shape.getFloat("restitution",defaultFixture.restitution));
+            setCollisionShapeIsSensor(idshape,shape.getFloat("sensor",defaultFixture.isSensor));
+        }
+    }
 }

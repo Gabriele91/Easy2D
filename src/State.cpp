@@ -12,6 +12,8 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
+REGISTERED_COMPONENT(StateManager,"StateManager")
+///////////////////////
 
 //event: run
 void StateManager::onRun(float dt)
@@ -79,4 +81,17 @@ int StateManager::getCurrentState()
 int StateManager::getNextState()
 {
     return next;
+}
+
+
+void StateManager::serialize(Table& table)
+{
+    Table& rbody=table.createTable(getComponentName());
+    if(current>=0) rbody.set("current",current);
+    if(next>=0)    rbody.set("next",next);
+}
+void StateManager::deserialize(const Table& table)
+{
+    current=(int)table.getFloat("current",-1);
+    next   =(int)table.getFloat("next",-1);
 }

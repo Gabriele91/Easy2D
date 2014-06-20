@@ -135,6 +135,10 @@ public:
     {
         return rsgr;
     }
+    ResourcesGroup* getResourcesGroup() const
+    {
+        return rsgr;
+    }
 
 private:
     //ptr resource group

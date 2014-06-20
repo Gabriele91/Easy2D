@@ -282,7 +282,7 @@ Vec2 Font::textSize( const String& textDraw,bool kerning)
     int countCharPage=0;
     Character* chr=NULL;
     Character* nextChr=getCharacter(textDraw[0]);
-    int pageLast=0;
+    //int pageLast=0;
     //min max
     Vec2 min= Vec2::MAX;
     Vec2 max=-Vec2::MAX;
@@ -303,7 +303,7 @@ Vec2 Font::textSize( const String& textDraw,bool kerning)
         else if(chr)
         {
             //page
-            pageLast=chr->page;
+            //pageLast=chr->page;
             //
             Vec2 sizePage(pages[chr->page]->getRealWidth(),
                           pages[chr->page]->getRealHeight());

@@ -35,7 +35,10 @@ public:
     {
         return "Sprite";
     }
-
+    
+    //serialize/deserialize
+    virtual void serialize(Table& table);
+    virtual void deserialize(const Table& table);
 
 };
 

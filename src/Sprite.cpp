@@ -1,8 +1,13 @@
 #include <stdafx.h>
 #include <Sprite.h>
+#include <Resource.h>
+#include <ResourcesManager.h>
+#include <ResourcesGroup.h>
 
 ///////////////////////
 using namespace Easy2D;
+///////////////////////
+REGISTERED_COMPONENT(Sprite,"Sprite")
 ///////////////////////
 Sprite::Sprite(Texture::ptr texture,Layer *layer)
     :Renderable(NULL,texture,layer,true)
@@ -28,4 +33,23 @@ void Sprite::setTexture(Texture::ptr texture)
     Renderable::setTexture(texture);
     //get sprite mesh
     setMesh(texture->getPO2Sprite());
+}
+
+
+//serialize/deserialize
+void Sprite::serialize(Table& table)
+{
+    Table& rsprite=table.createTable(getComponentName());
+    rsprite.set("texture",getTexture()->getName());
+}
+void Sprite::deserialize(const Table& table)
+{;
+    if(table.existsAsType("texture",Table::STRING))
+    {
+        auto rsmanager=table.getResourcesManager();
+        DEBUG_ASSERT(rsmanager);
+        auto rsgroup=rsmanager->getResourcesGroup();
+        DEBUG_ASSERT(rsgroup);
+        setTexture(rsgroup->load<Texture>(table.getString("texture")));
+    }
 }

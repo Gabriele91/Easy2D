@@ -594,7 +594,7 @@ String Table::__serialize(int countSpace,bool havename) const
     //
     String lspace(' ',countSpace);
     //open table
-    String outtextfile(( havename? String("") :lspace )+ "{\n");
+    String outtextfile(/*( havename? String("") :lspace )+*/ " {\n");
     for(auto value :  *this )
     {
 

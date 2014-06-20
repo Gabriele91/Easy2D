@@ -58,10 +58,17 @@ public:
     {
         return "Renderable";
     }
-    static const  type_info* getComponentType()
+    static const  cppTypeInfo* getComponentType()
     {
         return &typeid(Renderable);
+    }    
+    virtual const cppTypeInfo* getComponentInfo() const
+    {
+        return getComponentType();
     }
+    //serialize/deserialize
+    virtual void serialize(Table& table);
+    virtual void deserialize(const Table& table);
 };
 
 };

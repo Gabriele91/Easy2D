@@ -6,7 +6,7 @@
 #include <X11/extensions/xf86vmode.h>
 #include <GL/glx.h>
 #include <Config.h>
-#include <Math2D.h>
+#include <Math3D.h>
 #include <Input.h>
 #include <LinuxApp.h>
 

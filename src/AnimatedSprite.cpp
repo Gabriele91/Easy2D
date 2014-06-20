@@ -1,10 +1,13 @@
 #include <stdafx.h>
 #include <AnimatedSprite.h>
+#include <ResourcesManager.h>
+#include <ResourcesGroup.h>
 
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-
+REGISTERED_COMPONENT(AnimatedSprite, "AnimatedSprite")
+///////////////////////
 
 AnimatedSprite::AnimatedSprite(Layer *layer)
     :Renderable(NULL,NULL,layer,true)
@@ -93,4 +96,41 @@ void AnimatedSprite::setAnimationTime(int i,float timePerFrame)
     DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
     DEBUG_ASSERT( ((int)animations.size()) > i );
     animations[i]->setFrameTime(timePerFrame);
+}
+
+void AnimatedSprite::serialize(Table& table)
+{
+    Table& rsprite=table.createTable(getComponentName());
+    rsprite.set("currentAnimation",getCurrentAnimation());
+
+    for(auto anim : animations)
+    {
+        Table& tanim=rsprite.createTable();
+        tanim.set("frameSet",anim->getFrameSet()->getName());
+        tanim.set("time",anim->getTotalTime());
+    }
+}
+void AnimatedSprite::deserialize(const Table& table)
+{
+    //get resource
+    auto rsmanager=table.getResourcesManager();
+    DEBUG_ASSERT(rsmanager);
+    auto rsgroup=rsmanager->getResourcesGroup();
+    DEBUG_ASSERT(rsgroup);
+    //current animation
+    crtAnimation=table.getFloat("currentAnimation",getCurrentAnimation());
+
+    for(auto rsp:table)
+    {
+        if(rsp.second->asType(Table::TABLE))
+        {
+            Table& tbl=rsp.second->get<Table>();
+            //frame set
+            FrameSet::ptr fms=rsgroup->get<FrameSet>(tbl.getString("frameSet"));
+            //default time
+            float time=tbl.getFloat("time",fms->getDefaultTime());
+            //times
+            addAnimation(fms,time);
+        }
+    }
 }

@@ -289,7 +289,7 @@ public:
         set(key,STRING,value);
     }
     /** set a binary file in an associative table */
-    DFORCEINLINE void set(const String& key, void *value, size_t len,bool destroydata=false)
+    DFORCEINLINE void set(const String& key, void *value, size_t len,bool destroydata)
     {
         if(exists(key))
             delete table[key];
@@ -338,7 +338,7 @@ public:
         ++index;
     }
     /** set a binary file in an array */
-    DFORCEINLINE void set(void *value, size_t len,bool destroydata=false)
+    DFORCEINLINE void set(void *value, size_t len,bool destroydata)
     {
         DefineValue<Binary> *ptr=new DefineValue<Binary>(TABLE,Binary());
         ((Binary*)ptr->getValue())->len=len;

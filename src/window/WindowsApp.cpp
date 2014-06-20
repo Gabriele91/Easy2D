@@ -48,13 +48,13 @@ WindowsApp::~WindowsApp()
 {
     //delete audio
     delete audio;
-    audio=NULL;
+    audio=nullptr;
     //delete screen
     delete screen;
-    screen=NULL;
+    screen=nullptr;
     //delete input
     delete input;
-    input=NULL;
+    input=nullptr;
 }
 
 bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len)

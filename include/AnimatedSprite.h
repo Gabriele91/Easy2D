@@ -81,6 +81,10 @@ public:
         currentFrame=i%frames->size();
     }
     //getters
+    DFORCEINLINE FrameSet::ptr getFrameSet()
+    {
+        return frames;
+    }
     DFORCEINLINE Mesh::ptr getCurrentFrame()
     {
         return frames->getFrame(currentFrame);
@@ -173,6 +177,9 @@ public:
             setMesh(animations[crtAnimation]->getCurrentFrame());
         }
     }
+    //serialize/deserialize
+    virtual void serialize(Table& table);
+    virtual void deserialize(const Table& table);
 };
 
 };

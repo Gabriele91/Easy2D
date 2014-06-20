@@ -148,6 +148,8 @@ int atexit(void (*function)(void));
 #endif
 
 #if ( (__GNUC__>=4) && (__GNUC_MINOR__ >=6) || defined(__ANDROID__) ) || defined(__llvm__)
+//types
+#define cppTypeInfo std::type_info
 
 #ifndef DISABLE_FORCE_INLINE
 #define DFORCEINLINE __attribute__ ((always_inline))
@@ -175,7 +177,10 @@ int atexit(void (*function)(void));
 #endif
 #endif
 
+
 #elif defined( _MSC_VER )
+//types
+#define cppTypeInfo type_info
 
 #ifndef DISABLE_FORCE_INLINE
 #define DFORCEINLINE __forceinline

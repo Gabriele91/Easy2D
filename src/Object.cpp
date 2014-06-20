@@ -14,6 +14,16 @@ Object::Object()
     ,parentMode(DISABLE_PARENT) 
 {
 }
+Object::Object(const String& argname)
+    :data(nullptr)
+    ,scene(nullptr)
+    ,changeValue(false)
+    ,del(false)
+    ,parent(nullptr)
+    ,parentMode(DISABLE_PARENT) 
+    ,name(argname)
+{
+}
 Object::~Object()
 {
     //destory childs
@@ -273,4 +283,57 @@ Game* Object::getGame()
 ResourcesGroup* Object::getResourcesGroup(const String& name)
 {
     return Application::instance()->getResourcesGroup(name);
+}
+
+//serialize/deserialize
+void Object::serialize(Table& table)
+{
+    Table& robj=table.createTable("Object");
+    if(getName()!="")
+        robj.set("name",getName());
+    robj.set("position",getPosition());
+    robj.set("rotation",getRotation());
+    robj.set("scale",getScale());
+    //components
+    Table& rcomponents=robj.createTable("components");
+    for(auto component:components)
+    {
+        component.second->serialize(rcomponents);
+    }
+    //childs
+    Table& rchilds=robj.createTable("childs");
+    for(auto child:childs)
+    {
+        child->serialize(rchilds);
+    }
+
+}
+void Object::deserialize(const Table& table)
+{
+    //////////////////////////////////////////////////
+    setName(table.getString("name",getName()));
+    setPosition(table.getVector2D("position",getPosition()));
+    setRotation(table.getFloat("rotation",getRotation()));
+    setScale(table.getVector2D("scale",getScale()));
+    //////////////////////////////////////////////////
+    //component
+    const Table& rcomponents=table.getConstTable("Components");
+    for(auto component:rcomponents)
+    {
+        DEBUG_ASSERT(component.second->asType(Table::TABLE));
+        Component* cmp=ComponentMap::create(component.first.string());
+        cmp->deserialize(component.second->get<Table>());
+        components[cmp->getComponentInfo()]=cmp;
+        cmp->setEntity(this);
+    }
+    //childs
+    const Table& rchilds=table.getConstTable("Childs");
+    for(auto child:rchilds)
+    {
+        auto obj=new Object();
+        obj->deserialize(child.second->get<Table>());
+        obj->addChild(obj,true);
+    }    
+    //////////////////////////////////////////////////
+
 }

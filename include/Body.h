@@ -257,7 +257,8 @@ class Body : public Component
     Shape createBoxCollisionShape(const Vec2& size, const Vec2& pos=Vec2::ZERO, float angle=0.0);
     Shape createPolygonCollisionShape(const std::vector<Vec2>& points);
     Shape createChainCollisionShape( const std::vector<Vec2>& points );
-    Shape createChainCollisionShape( const std::vector<Vec2>& points, bool startp ,
+    Shape createChainCollisionShape( const std::vector<Vec2>& points, 
+                                     bool startp ,
                                      const Vec2& adjacentStartPoint,
                                      bool endp,
                                      const Vec2& adjacentEndPoint );
@@ -287,9 +288,13 @@ class Body : public Component
     {
         return "Body";
     }    
-    static const  type_info* getComponentType()
+    static const  cppTypeInfo* getComponentType()
     {
         return &typeid(Body);
+    }
+    virtual const cppTypeInfo* getComponentInfo() const
+    {
+        return getComponentType();
     }
     //run
     virtual void onRun(float dt) ;
@@ -299,6 +304,9 @@ class Body : public Component
     //object
     virtual void onSetObject(Object* object);
     virtual void onEraseObject();
+    //serialize/deserialize
+    virtual void serialize(Table& table);
+    virtual void deserialize(const Table& table);
 };
 
 };

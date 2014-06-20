@@ -4,29 +4,47 @@
 #include <LinuxApp.h>
 #include <LinuxScreen.h>
 #include <LinuxInput.h>
+#include <Audio.h>
+#include <AudioAL.h>
 #include <Debug.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 ///////////////////////
 using namespace Easy2D;
 
-LinuxApp::LinuxApp()
+LinuxApp::LinuxApp(const String& appdir)
     :Application()
 {
     screen=(Screen*)new LinuxScreen();
     input=(Input*)new LinuxInput();
+    audio=(Audio*)new AudioAL();//OpenAL
+    //get home directory
+    struct passwd *pw = getpwuid(getuid());
+    //create path
+    String localDir("/."+appdir);
+    dataPath=pw->pw_dir+localDir;
+    //create directory
+    struct stat st = {0};
+    if (stat(dataPath, &st) == -1) {
+        mkdir(dataPath, 0700);
+    }
     //not exit form loop
     doexit=false;
 }
 
 LinuxApp::~LinuxApp()
 {
+    //delete audio
+    delete audio;
+    audio=nullptr;
     //delete screen
     delete screen;
-    screen=NULL;
+    screen=nullptr;
     //delete input
     delete input;
-    input=NULL;
+    input=nullptr;
 }
 
 bool LinuxApp::loadData(const String& path,void*& ptr,size_t &len)
@@ -50,7 +68,7 @@ bool LinuxApp::loadData(const String& path,void*& ptr,size_t &len)
 
 String LinuxApp::appDataDirectory()
 {
-    return "";
+    return dataPath;
 }
 
 String LinuxApp::appWorkingDirectory()

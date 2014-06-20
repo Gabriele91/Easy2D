@@ -4,7 +4,9 @@
 #include <Config.h>
 #include <Math3D.h>
 #include <Body.h>
+#include <Table.h>
 #include <Component.h>
+#include <Debug.h>
 
 namespace Easy2D
 {
@@ -29,8 +31,9 @@ class Object
         ENABLE_SCALE=4,	   //100
         ENABLE_ALL=ENABLE_POSITION|ENABLE_ROTATION|ENABLE_SCALE //111
     };
-
+    
     Object();
+    Object(const String& name);
     virtual ~Object();
     //methods
     void setScale(const Vector2D &scale,bool global=false);
@@ -82,13 +85,6 @@ class Object
     std::list<Object*>::const_reverse_iterator rbegin() const;
     std::list<Object*>::const_reverse_iterator rend() const;
     
-    //utility methos
-    Screen* getScreen();
-    Audio* getAudio();
-    Input* getInput();
-    Game* getGame();
-    ResourcesGroup* getResourcesGroup(const String& name);
-
     //components
     template<class T> 
     void addComponent(T* component)
@@ -137,17 +133,23 @@ class Object
         return nullptr;
     }
     template<class T>
-    void removeComponent()
+    T* removeComponent()
     {
         auto itc=components.find(T::getComponentType());
-        if(itc!=components.end)
+        if(itc!=components.end())
         {
+            auto component=(*itc);
+            
             components.erase(itc);
+            
             component->removeEntity();
+            
+            return component;
         }
+        return nullptr;
     }
     template<class T> 
-    void hasComponent()
+    bool hasComponent()
     {
         auto itc=components.find(T::getComponentType());
 
@@ -195,15 +197,39 @@ class Object
     void* getUserData()
     {
         return data;
+    }   
+    
+    //serialize/deserialize
+    virtual void serialize(Table& table);
+    virtual void deserialize(const Table& table);
+    
+    void setName(const String& argname)
+    {
+        name=argname;
+    }
+    const String& getName()
+    {
+       return name;
     }
     
+    protected:
+
+    //utility methos
+    Screen* getScreen();
+    Audio* getAudio();
+    Input* getInput();
+    Game* getGame();
+    ResourcesGroup* getResourcesGroup(const String& name);
+
     private:
+    //name
+    String name;
     //data
     void*   data;
     //scene
     Scene*  scene;
     //components
-    std::map<const  type_info* , Component* > components;
+    std::map<const  cppTypeInfo* , Component* > components;
     //append a scene
     void setScene(Scene* argscene)
     {

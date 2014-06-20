@@ -63,8 +63,11 @@ public:
 protected:
     //exit loop?
     bool doexit;
-    //
-    LinuxApp();
+    //protected constructor
+    LinuxApp(const Easy2D::String& appdir);
+    //file data path
+    String dataPath;
+
     friend class Application;
 
 };

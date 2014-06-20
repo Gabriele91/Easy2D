@@ -51,7 +51,7 @@ public:
     {
         return name;
     }
-    DFORCEINLINE ResourcesManager<T>* getResourcesManager()
+    DFORCEINLINE ResourcesManager<T>* getResourcesManager() const
     {
         return ptrResources;
     }

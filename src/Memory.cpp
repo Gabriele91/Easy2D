@@ -25,7 +25,7 @@
 using namespace Easy2D;
 
 //==================================================================
-void *operator new( size_t size )
+void *operator new( size_t size ) throw_alloc
 {
     void *p = _mm_malloc( size, 64 );
 
@@ -36,7 +36,7 @@ void *operator new( size_t size )
 }
 
 //==================================================================
-void *operator new [] ( size_t size )
+void *operator new [] ( size_t size ) throw_alloc
 {
     void *p = _mm_malloc( size, 64 );
 
@@ -47,14 +47,14 @@ void *operator new [] ( size_t size )
 }
 
 //==================================================================
-void operator delete( void *p )
+void operator delete( void *p ) throw_dealloc
 {
     if ( p )
         _mm_free( p );
 }
 
 //==================================================================
-void operator delete [] ( void *p )
+void operator delete [] ( void *p ) throw_dealloc
 {
     if ( p )
         _mm_free( p );

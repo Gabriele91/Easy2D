@@ -16,14 +16,19 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add option="-std=gnu++0x" />
+					<Add option="-std=gnu++11" />
 					<Add option="-fpermissive" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-DENABLE_SIMD" />
 					<Add directory="./" />
 					<Add directory="include" />
 					<Add directory="include/linux" />
+					<Add directory="include/thread" />
+					<Add directory="include/gui" />
+					<Add directory="include/audio" />
 					<Add directory="dependencies-linux64/include" />
 				</Compiler>
 				<Linker>
@@ -32,7 +37,8 @@
 					<Add option="-lGL" />
 					<Add option="-lGLU" />
 					<Add option="-lopenal" />
-					<Add library="..\..\dependencies-linux64\lib\libfreetype250_gcc48.so" />
+					<Add library="dependencies-linux64/lib/libfreetype250_gcc48.so" />
+					<Add library="dependencies-linux64/lib/libBox2D.a" />
 					<Add directory="dependencies-linux64/lib" />
 				</Linker>
 			</Target>
@@ -45,14 +51,19 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-std=gnu++0x" />
+					<Add option="-std=gnu++11" />
 					<Add option="-fpermissive" />
+					<Add option="-msse" />
+					<Add option="-msse2" />
 					<Add option="-DORDERED_TABLE" />
 					<Add option="-DENABLE_SIMD" />
 					<Add directory="./" />
 					<Add directory="include" />
 					<Add directory="include/linux" />
+					<Add directory="include/thread" />
+					<Add directory="include/gui" />
 					<Add directory="dependencies-linux64/include" />
+					<Add directory="include/audio" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -61,7 +72,8 @@
 					<Add option="-lGL" />
 					<Add option="-lGLU" />
 					<Add option="-lopenal" />
-					<Add library="..\..\dependencies-linux64\lib\libfreetype250_gcc48.so" />
+					<Add library="dependencies-linux64/lib/libfreetype250_gcc48.so" />
+					<Add library="dependencies-linux64/lib/libBox2D.a" />
 					<Add directory="dependencies-linux64/lib" />
 				</Linker>
 			</Target>
@@ -133,10 +145,14 @@
 		</Compiler>
 		<Unit filename="include/AnimatedSprite.h" />
 		<Unit filename="include/Application.h" />
+		<Unit filename="include/Audio.h" />
 		<Unit filename="include/BMFontLoader.h" />
 		<Unit filename="include/Blend.h" />
+		<Unit filename="include/Body.h" />
+		<Unit filename="include/Box2D.hpp" />
 		<Unit filename="include/Camera.h" />
 		<Unit filename="include/Color.h" />
+		<Unit filename="include/Component.h" />
 		<Unit filename="include/Config.h" />
 		<Unit filename="include/Debug.h" />
 		<Unit filename="include/EStack.h" />
@@ -163,6 +179,8 @@
 		<Unit filename="include/ResourcesManager.h" />
 		<Unit filename="include/Scene.h" />
 		<Unit filename="include/Screen.h" />
+		<Unit filename="include/Sortable.h" />
+		<Unit filename="include/Sound.h" />
 		<Unit filename="include/Sprite.h" />
 		<Unit filename="include/State.h" />
 		<Unit filename="include/Table.h" />
@@ -170,6 +188,19 @@
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/Types.h" />
 		<Unit filename="include/Utility.h" />
+		<Unit filename="include/WavLoader.h" />
+		<Unit filename="include/World.h" />
+		<Unit filename="include/android/AndroidApp.h" />
+		<Unit filename="include/android/AndroidInput.h" />
+		<Unit filename="include/android/AndroidMain.h" />
+		<Unit filename="include/android/AndroidScreen.h" />
+		<Unit filename="include/android/OpenGLAndroid.h" />
+		<Unit filename="include/android/android_native_app_glue.h" />
+		<Unit filename="include/gui/Button.h" />
+		<Unit filename="include/gui/Gui.h" />
+		<Unit filename="include/gui/GuiManager.h" />
+		<Unit filename="include/gui/Label.h" />
+		<Unit filename="include/gui/Panel.h" />
 		<Unit filename="include/linux/LinuxApp.h">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
@@ -212,9 +243,12 @@
 		</Unit>
 		<Unit filename="src/AnimatedSprite.cpp" />
 		<Unit filename="src/Application.cpp" />
+		<Unit filename="src/Audio.cpp" />
 		<Unit filename="src/BMFontLoader.cpp" />
+		<Unit filename="src/Body.cpp" />
 		<Unit filename="src/Camera.cpp" />
 		<Unit filename="src/Color.cpp" />
+		<Unit filename="src/Component.cpp" />
 		<Unit filename="src/Config.cpp" />
 		<Unit filename="src/Debug.cpp" />
 		<Unit filename="src/EStack.cpp" />
@@ -244,12 +278,24 @@
 		<Unit filename="src/ResourcesManager.cpp" />
 		<Unit filename="src/Scene.cpp" />
 		<Unit filename="src/Screen.cpp" />
+		<Unit filename="src/Sound.cpp" />
 		<Unit filename="src/Sprite.cpp" />
 		<Unit filename="src/State.cpp" />
 		<Unit filename="src/Table.cpp" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/Utility.cpp" />
+		<Unit filename="src/WavLoader.cpp" />
+		<Unit filename="src/World.cpp" />
+		<Unit filename="src/audio/AudioAL.cpp" />
+		<Unit filename="src/audio/BaseSoundAL.cpp" />
+		<Unit filename="src/audio/StaticSoundAL.cpp" />
+		<Unit filename="src/audio/StreamSoundAL.cpp" />
+		<Unit filename="src/audio/StreamThreadAL.cpp" />
+		<Unit filename="src/gui/Button.cpp" />
+		<Unit filename="src/gui/GuiManager.cpp" />
+		<Unit filename="src/gui/Label.cpp" />
+		<Unit filename="src/gui/Panel.cpp" />
 		<Unit filename="src/linux/LinuxApp.cpp">
 			<Option target="Debug Linux" />
 			<Option target="Release Linux" />
