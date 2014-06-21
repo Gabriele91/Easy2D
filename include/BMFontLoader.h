@@ -6,13 +6,15 @@
 #include <Texture.h>
 #include <Utility.h>
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-	class BMFontLoader{
-	public:
-		static bool load(Font& font,const Utility::Path& file);
-	
-	};
+class BMFontLoader
+{
+public:
+    static bool load(Font& font,const Utility::Path& file);
+
+};
 
 };
 

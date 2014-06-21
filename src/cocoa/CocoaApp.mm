@@ -219,8 +219,6 @@ void CocoaApp::exit(){
  */
 void CocoaApp::loop(){
     
-    COCOAAPP
-
 	Timer timer;
 	double msToSleep=1000.0/(static_cast<double>(screen->getFrameRate()));
 	double millipass=0;

@@ -25,6 +25,8 @@
 		E027964718B1449A00B1A4FE /* MutexConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964318B1449A00B1A4FE /* MutexConf.h */; };
 		E027964818B1449A00B1A4FE /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964418B1449A00B1A4FE /* Thread.h */; };
 		E027964918B1449A00B1A4FE /* ThreadConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964518B1449A00B1A4FE /* ThreadConf.h */; };
+		E04FBB2D194F0EFF00164D77 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = E04FBB2C194F0EFF00164D77 /* Component.h */; };
+		E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04FBB2E194F0F1B00164D77 /* Component.cpp */; };
 		E05495BD17AE68E8005DDB72 /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958817AE68E8005DDB72 /* AnimatedSprite.h */; };
 		E05495BE17AE68E8005DDB72 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958917AE68E8005DDB72 /* Application.h */; };
 		E05495BF17AE68E8005DDB72 /* Blend.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958A17AE68E8005DDB72 /* Blend.h */; };
@@ -154,12 +156,15 @@
 		E061356918AE697100BD63EC /* b2WheelJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E061353918AE697100BD63EC /* b2WheelJoint.h */; };
 		E061356A18AE697100BD63EC /* b2Rope.h in Headers */ = {isa = PBXBuildFile; fileRef = E061353B18AE697100BD63EC /* b2Rope.h */; };
 		E061356C18AE697A00BD63EC /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E061356B18AE697A00BD63EC /* libBox2D.a */; };
+		E0684EFF1939D29D00653833 /* Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684EFE1939D29D00653833 /* Body.cpp */; };
+		E0684F021939D2AC00653833 /* Body.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F001939D2AC00653833 /* Body.h */; };
+		E0684F031939D2AC00653833 /* World.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F011939D2AC00653833 /* World.h */; };
+		E0684F051939D32D00653833 /* Box2D.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E0684F041939D32D00653833 /* Box2D.hpp */; };
+		E0684F071939D34A00653833 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684F061939D34A00653833 /* World.cpp */; };
 		E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */ = {isa = PBXBuildFile; fileRef = E06ADCA318BA0F0500A33558 /* Sortable.h */; };
 		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
 		E089991917AE58760063EAAC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E089991817AE58760063EAAC /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E089991A17AE587B0063EAAC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01964D0176B0D9800CF955A /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		E0899A5917AE672D0063EAAC /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0899A5817AE672D0063EAAC /* libbz2.dylib */; };
-		E0899A5B17AE67330063EAAC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0899A5A17AE67320063EAAC /* libz.dylib */; };
 		E089EAE817B2750E0055B59A /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
 		E089EAEC17B2751B0055B59A /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEA17B2751B0055B59A /* Scene.h */; };
 		E089EAED17B2751B0055B59A /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEB17B2751B0055B59A /* State.h */; };
@@ -167,6 +172,15 @@
 		E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634718AFB0D200A26E40 /* Sound.cpp */; };
 		E08C634B18AFB0E000A26E40 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = E08C634A18AFB0E000A26E40 /* Sound.h */; };
 		E0937D1D17B5483300DEFFCD /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0937D1B17B5483300DEFFCD /* State.cpp */; };
+		E0A1AE5C1946EE8500D1438A /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE581946EE8500D1438A /* Button.cpp */; };
+		E0A1AE5D1946EE8500D1438A /* GuiManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE591946EE8500D1438A /* GuiManager.cpp */; };
+		E0A1AE5E1946EE8500D1438A /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5A1946EE8500D1438A /* Label.cpp */; };
+		E0A1AE5F1946EE8500D1438A /* Panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5B1946EE8500D1438A /* Panel.cpp */; };
+		E0A1AE661946EE9700D1438A /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE611946EE9700D1438A /* Button.h */; };
+		E0A1AE671946EE9700D1438A /* Gui.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE621946EE9700D1438A /* Gui.h */; };
+		E0A1AE681946EE9700D1438A /* GuiManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE631946EE9700D1438A /* GuiManager.h */; };
+		E0A1AE691946EE9700D1438A /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE641946EE9700D1438A /* Label.h */; };
+		E0A1AE6A1946EE9700D1438A /* Panel.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE651946EE9700D1438A /* Panel.h */; };
 		E0A7196C17E1EE6200A0B298 /* ftconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7191017E1EE6200A0B298 /* ftconfig.h */; };
 		E0A7196D17E1EE6200A0B298 /* ftheader.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7191117E1EE6200A0B298 /* ftheader.h */; };
 		E0A7196E17E1EE6200A0B298 /* ftmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7191217E1EE6200A0B298 /* ftmodule.h */; };
@@ -283,6 +297,8 @@
 		E027964318B1449A00B1A4FE /* MutexConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutexConf.h; path = thread/MutexConf.h; sourceTree = "<group>"; };
 		E027964418B1449A00B1A4FE /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Thread.h; path = thread/Thread.h; sourceTree = "<group>"; };
 		E027964518B1449A00B1A4FE /* ThreadConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThreadConf.h; path = thread/ThreadConf.h; sourceTree = "<group>"; };
+		E04FBB2C194F0EFF00164D77 /* Component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Component.h; sourceTree = "<group>"; };
+		E04FBB2E194F0F1B00164D77 /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Component.cpp; sourceTree = "<group>"; };
 		E054958817AE68E8005DDB72 /* AnimatedSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedSprite.h; sourceTree = "<group>"; };
 		E054958917AE68E8005DDB72 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		E054958A17AE68E8005DDB72 /* Blend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blend.h; sourceTree = "<group>"; };
@@ -412,6 +428,11 @@
 		E061353918AE697100BD63EC /* b2WheelJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2WheelJoint.h; sourceTree = "<group>"; };
 		E061353B18AE697100BD63EC /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
 		E061356B18AE697A00BD63EC /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBox2D.a; sourceTree = "<group>"; };
+		E0684EFE1939D29D00653833 /* Body.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Body.cpp; sourceTree = "<group>"; };
+		E0684F001939D2AC00653833 /* Body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Body.h; sourceTree = "<group>"; };
+		E0684F011939D2AC00653833 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
+		E0684F041939D32D00653833 /* Box2D.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Box2D.hpp; sourceTree = "<group>"; };
+		E0684F061939D34A00653833 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
 		E06ADCA318BA0F0500A33558 /* Sortable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortable.h; sourceTree = "<group>"; };
 		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -425,6 +446,15 @@
 		E08C634718AFB0D200A26E40 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		E08C634A18AFB0E000A26E40 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		E0937D1B17B5483300DEFFCD /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
+		E0A1AE581946EE8500D1438A /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
+		E0A1AE591946EE8500D1438A /* GuiManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiManager.cpp; sourceTree = "<group>"; };
+		E0A1AE5A1946EE8500D1438A /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
+		E0A1AE5B1946EE8500D1438A /* Panel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Panel.cpp; sourceTree = "<group>"; };
+		E0A1AE611946EE9700D1438A /* Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Button.h; sourceTree = "<group>"; };
+		E0A1AE621946EE9700D1438A /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
+		E0A1AE631946EE9700D1438A /* GuiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuiManager.h; sourceTree = "<group>"; };
+		E0A1AE641946EE9700D1438A /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
+		E0A1AE651946EE9700D1438A /* Panel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panel.h; sourceTree = "<group>"; };
 		E0A7191017E1EE6200A0B298 /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		E0A7191117E1EE6200A0B298 /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		E0A7191217E1EE6200A0B298 /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -522,8 +552,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E061356C18AE697A00BD63EC /* libBox2D.a in Frameworks */,
-				E0899A5B17AE67330063EAAC /* libz.dylib in Frameworks */,
-				E0899A5917AE672D0063EAAC /* libbz2.dylib in Frameworks */,
 				E089991A17AE587B0063EAAC /* OpenGL.framework in Frameworks */,
 				E089991917AE58760063EAAC /* Cocoa.framework in Frameworks */,
 				E061350418AE675300BD63EC /* OpenAL.framework in Frameworks */,
@@ -626,6 +654,11 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E04FBB2C194F0EFF00164D77 /* Component.h */,
+				E0A1AE601946EE9700D1438A /* gui */,
+				E0684F041939D32D00653833 /* Box2D.hpp */,
+				E0684F001939D2AC00653833 /* Body.h */,
+				E0684F011939D2AC00653833 /* World.h */,
 				E06ADCA318BA0F0500A33558 /* Sortable.h */,
 				E01E2CE718B37B3C00D048DD /* WavLoader.h */,
 				E01E2CD118B35EBD00D048DD /* audio */,
@@ -687,6 +720,10 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E04FBB2E194F0F1B00164D77 /* Component.cpp */,
+				E0A1AE571946EE8500D1438A /* gui */,
+				E0684F061939D34A00653833 /* World.cpp */,
+				E0684EFE1939D29D00653833 /* Body.cpp */,
 				E01E2CE918B37BBF00D048DD /* WavLoader.cpp */,
 				E01E2CD418B35ECA00D048DD /* audio */,
 				E027963C18B1445500B1A4FE /* thread */,
@@ -865,6 +902,29 @@
 			path = Rope;
 			sourceTree = "<group>";
 		};
+		E0A1AE571946EE8500D1438A /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				E0A1AE581946EE8500D1438A /* Button.cpp */,
+				E0A1AE591946EE8500D1438A /* GuiManager.cpp */,
+				E0A1AE5A1946EE8500D1438A /* Label.cpp */,
+				E0A1AE5B1946EE8500D1438A /* Panel.cpp */,
+			);
+			path = gui;
+			sourceTree = "<group>";
+		};
+		E0A1AE601946EE9700D1438A /* gui */ = {
+			isa = PBXGroup;
+			children = (
+				E0A1AE611946EE9700D1438A /* Button.h */,
+				E0A1AE621946EE9700D1438A /* Gui.h */,
+				E0A1AE631946EE9700D1438A /* GuiManager.h */,
+				E0A1AE641946EE9700D1438A /* Label.h */,
+				E0A1AE651946EE9700D1438A /* Panel.h */,
+			);
+			path = gui;
+			sourceTree = "<group>";
+		};
 		E0A7190C17E1EE6200A0B298 /* dependencies-osx64 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1024,9 +1084,11 @@
 				E05495C017AE68E8005DDB72 /* BMFontLoader.h in Headers */,
 				E061354F18AE697100BD63EC /* b2ContactManager.h in Headers */,
 				E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */,
+				E04FBB2D194F0EFF00164D77 /* Component.h in Headers */,
 				E05495C117AE68E8005DDB72 /* Camera.h in Headers */,
 				E05495C217AE68E8005DDB72 /* CocoaApp.h in Headers */,
 				E061355D18AE697100BD63EC /* b2PolygonContact.h in Headers */,
+				E0684F031939D2AC00653833 /* World.h in Headers */,
 				E05495C317AE68E8005DDB72 /* CocoaInput.h in Headers */,
 				E05495C417AE68E8005DDB72 /* CocoaScreen.h in Headers */,
 				E05495C517AE68E8005DDB72 /* Color.h in Headers */,
@@ -1035,6 +1097,7 @@
 				E05495C817AE68E8005DDB72 /* Easy2D.h in Headers */,
 				E05495C917AE68E8005DDB72 /* EString.h in Headers */,
 				E05495CA17AE68E8005DDB72 /* ETime.h in Headers */,
+				E0A1AE661946EE9700D1438A /* Button.h in Headers */,
 				E05495CB17AE68E8005DDB72 /* Font.h in Headers */,
 				E061356518AE697100BD63EC /* b2PulleyJoint.h in Headers */,
 				E05495CC17AE68E8005DDB72 /* FrameSet.h in Headers */,
@@ -1053,6 +1116,7 @@
 				E05495DA17AE68E8005DDB72 /* RenderState.h in Headers */,
 				E061354018AE697100BD63EC /* b2DynamicTree.h in Headers */,
 				E05495DB17AE68E8005DDB72 /* Resource.h in Headers */,
+				E0A1AE671946EE9700D1438A /* Gui.h in Headers */,
 				E05495DC17AE68E8005DDB72 /* ResourcesGroup.h in Headers */,
 				E05495DD17AE68E8005DDB72 /* ResourcesManager.h in Headers */,
 				E05495DE17AE68E8005DDB72 /* Screen.h in Headers */,
@@ -1102,6 +1166,8 @@
 				E0A7197D17E1EE6200A0B298 /* fterrors.h in Headers */,
 				E061354B18AE697100BD63EC /* b2Settings.h in Headers */,
 				E0A7197E17E1EE6200A0B298 /* ftgasp.h in Headers */,
+				E0684F021939D2AC00653833 /* Body.h in Headers */,
+				E0A1AE681946EE9700D1438A /* GuiManager.h in Headers */,
 				E0A7197F17E1EE6200A0B298 /* ftglyph.h in Headers */,
 				E061356918AE697100BD63EC /* b2WheelJoint.h in Headers */,
 				E01E2CDC18B3639800D048DD /* BaseSoundAL.h in Headers */,
@@ -1138,6 +1204,7 @@
 				E0A7199617E1EE6200A0B298 /* fttypes.h in Headers */,
 				E0A7199717E1EE6200A0B298 /* ftwinfnt.h in Headers */,
 				E027964918B1449A00B1A4FE /* ThreadConf.h in Headers */,
+				E0A1AE6A1946EE9700D1438A /* Panel.h in Headers */,
 				E0A7199817E1EE6200A0B298 /* ftxf86.h in Headers */,
 				E0A7199917E1EE6200A0B298 /* autohint.h in Headers */,
 				E0A7199A17E1EE6200A0B298 /* ftcalc.h in Headers */,
@@ -1178,6 +1245,7 @@
 				E0A719AA17E1EE6200A0B298 /* svcid.h in Headers */,
 				E0A719AB17E1EE6200A0B298 /* svgldict.h in Headers */,
 				E0A719AC17E1EE6200A0B298 /* svgxval.h in Headers */,
+				E0684F051939D32D00653833 /* Box2D.hpp in Headers */,
 				E0A719AD17E1EE6200A0B298 /* svkern.h in Headers */,
 				E0A719AE17E1EE6200A0B298 /* svmm.h in Headers */,
 				E0A719AF17E1EE6200A0B298 /* svotval.h in Headers */,
@@ -1196,6 +1264,7 @@
 				E061354318AE697100BD63EC /* b2CircleShape.h in Headers */,
 				E01E2CD318B35EBD00D048DD /* AudioAL.h in Headers */,
 				E0A719B917E1EE6200A0B298 /* svwinfnt.h in Headers */,
+				E0A1AE691946EE9700D1438A /* Label.h in Headers */,
 				E061354A18AE697100BD63EC /* b2Math.h in Headers */,
 				E0A719BA17E1EE6200A0B298 /* svxf86nm.h in Headers */,
 				E0A719BB17E1EE6200A0B298 /* sfnt.h in Headers */,
@@ -1264,6 +1333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E054963B17AE6907005DDB72 /* AnimatedSprite.cpp in Sources */,
+				E0A1AE5E1946EE8500D1438A /* Label.cpp in Sources */,
 				E054963C17AE6907005DDB72 /* Application.cpp in Sources */,
 				E054963D17AE6907005DDB72 /* BMFontLoader.cpp in Sources */,
 				E054963E17AE6907005DDB72 /* Camera.cpp in Sources */,
@@ -1272,21 +1342,25 @@
 				E06134FC18AE670000BD63EC /* Memory.cpp in Sources */,
 				E054964117AE6907005DDB72 /* CocoaScreen.mm in Sources */,
 				E054964217AE6907005DDB72 /* Color.cpp in Sources */,
+				E0A1AE5F1946EE8500D1438A /* Panel.cpp in Sources */,
 				E054964317AE6907005DDB72 /* Config.cpp in Sources */,
 				E054964417AE6907005DDB72 /* Debug.cpp in Sources */,
 				E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */,
 				E01E2CDE18B363BC00D048DD /* BaseSoundAL.cpp in Sources */,
 				E054964517AE6907005DDB72 /* EString.cpp in Sources */,
 				E054964617AE6907005DDB72 /* ETime.cpp in Sources */,
+				E0684EFF1939D29D00653833 /* Body.cpp in Sources */,
 				E01E2CD818B3615B00D048DD /* StreamThreadAL.cpp in Sources */,
 				E054964717AE6907005DDB72 /* Font.cpp in Sources */,
 				E054964817AE6907005DDB72 /* FrameSet.cpp in Sources */,
 				E054964917AE6907005DDB72 /* FreeTypeFontLoader.cpp in Sources */,
 				E027963F18B1447300B1A4FE /* MutexPOSIX.cpp in Sources */,
+				E0A1AE5D1946EE8500D1438A /* GuiManager.cpp in Sources */,
 				E054964A17AE6907005DDB72 /* Game.cpp in Sources */,
 				E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */,
 				E054964E17AE6907005DDB72 /* Input.cpp in Sources */,
 				E054964F17AE6907005DDB72 /* Layer.cpp in Sources */,
+				E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */,
 				E054965417AE6907005DDB72 /* Math3D.cpp in Sources */,
 				E054965717AE6907005DDB72 /* Math3D_SSE2.cpp in Sources */,
 				E054965B17AE6907005DDB72 /* Mesh.cpp in Sources */,
@@ -1304,8 +1378,10 @@
 				E054966117AE6907005DDB72 /* ResourcesGroup.cpp in Sources */,
 				E054966217AE6907005DDB72 /* ResourcesManager.cpp in Sources */,
 				E054966317AE6907005DDB72 /* Screen.cpp in Sources */,
+				E0684F071939D34A00653833 /* World.cpp in Sources */,
 				E054966417AE6907005DDB72 /* Sprite.cpp in Sources */,
 				E054966517AE6907005DDB72 /* Table.cpp in Sources */,
+				E0A1AE5C1946EE8500D1438A /* Button.cpp in Sources */,
 				E054966617AE6907005DDB72 /* Texture.cpp in Sources */,
 				E054966B17AE6907005DDB72 /* Timer.cpp in Sources */,
 				E01E2CEA18B37BBF00D048DD /* WavLoader.cpp in Sources */,
@@ -1329,6 +1405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = (
 					"dependencies-osx64/include/**",
+					include/gui,
 					include/cocoa/,
 					include/audio/,
 					include/,
@@ -1355,6 +1432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = (
 					"dependencies-osx64/include/**",
+					include/gui,
 					include/cocoa/,
 					include/audio/,
 					include/,

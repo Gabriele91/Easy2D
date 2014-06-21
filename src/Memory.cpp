@@ -14,50 +14,50 @@
 #if defined(DOVERRIDE_NEW_DEL)
 
 #ifdef _MSC_VER
-    #include <malloc.h>
+#include <malloc.h>
 #elif defined(__MACH__)
-    //#include <mm_malloc.h>
+//#include <mm_malloc.h>
 #else
-    #include <mm_malloc.h>
+#include <mm_malloc.h>
 #endif
 
 
 using namespace Easy2D;
 
 //==================================================================
-void *operator new( size_t size )
+void *operator new( size_t size ) throw_alloc
 {
     void *p = _mm_malloc( size, 64 );
-    
-	if NOT( p )
-		Debug::message()<<( "new failed !\n" );
-    
+
+    if NOT( p )
+        Debug::message()<<( "new failed !\n" );
+
     return p;
 }
 
 //==================================================================
-void *operator new [] ( size_t size )
+void *operator new [] ( size_t size ) throw_alloc
 {
     void *p = _mm_malloc( size, 64 );
-    
-	if NOT( p )
-		Debug::message()<<( "new failed !\n" );
-        
-        return p;
+
+    if NOT( p )
+        Debug::message()<<( "new failed !\n" );
+
+    return p;
 }
 
 //==================================================================
-void operator delete( void *p )
+void operator delete( void *p ) throw_dealloc
 {
-	if ( p )
-		_mm_free( p );
+    if ( p )
+        _mm_free( p );
 }
 
 //==================================================================
-void operator delete [] ( void *p )
+void operator delete [] ( void *p ) throw_dealloc
 {
-	if ( p )
-		_mm_free( p );
+    if ( p )
+        _mm_free( p );
 }
 
 #endif

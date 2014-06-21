@@ -3,12 +3,13 @@
 
 #include <Config.h>
 
-class Sortable {
+class Sortable
+{
 
 public:
-	
-	virtual void change()=0;
-	virtual void dosort()=0;
+
+    virtual void change()=0;
+    virtual void dosort()=0;
 
 };
 

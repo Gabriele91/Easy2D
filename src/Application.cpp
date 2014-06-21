@@ -5,15 +5,15 @@
 #include <ETime.h>
 #if defined( PLATFORM_IOS )
 #elif defined( PLATFORM_OSX )
-    #include <CocoaApp.h>
+#include <CocoaApp.h>
 #elif defined( PLATFORM_WINDOW )
-    #include <WindowsApp.h>
+#include <WindowsApp.h>
 #elif defined( PLATFORM_LINUX )
-    #include <LinuxApp.h>
+#include <LinuxApp.h>
 #elif defined( PLATFORM_ANDROID )
-    #include <AndroidApp.h>
+#include <AndroidApp.h>
 #elif defined( PLATFORM_EMSCRIPTEN )
-    #include <EmscriptenApp.h>
+#include <EmscriptenApp.h>
 #endif
 
 ///////////////////////
@@ -22,13 +22,15 @@ using namespace Easy2D;
 /**
  * default stream use C filelib i/o
  */
-class CResouceStream : public Application::ResouceStream {
+class CResouceStream : public Application::ResouceStream
+{
 
     FILE *pFile;
-    
+
 public:
-    
-    CResouceStream(const String& path){
+
+    CResouceStream(const String& path)
+    {
         /**
          * Open file
          */
@@ -36,37 +38,51 @@ public:
         DEBUG_MESSAGE("open stream file: "<<path);
         DEBUG_ASSERT_MSG(pFile,"error open stream file: "<<path);
     }
-    
-    virtual ~CResouceStream(){
+
+    virtual ~CResouceStream()
+    {
         if(pFile)
             close();
     }
     ///close file
-    virtual void close(){
+    virtual void close()
+    {
         fclose(pFile);
         pFile=NULL;
     }
     ///read from file
-    virtual size_t read(void * ptr, size_t size, size_t count){
-       return fread(ptr,size,count,pFile);
+    virtual size_t read(void * ptr, size_t size, size_t count)
+    {
+        return fread(ptr,size,count,pFile);
     }
     ///seek from file
-    virtual size_t seek (size_t offset, Application::Seek origin ){
+    virtual size_t seek (size_t offset, Application::Seek origin )
+    {
         int cseek=0;
-        switch (origin){
-            case Application::Seek::CUR: cseek=SEEK_CUR; break;
-            case Application::Seek::SET: cseek=SEEK_SET; break;
-            case Application::Seek::END: cseek=SEEK_END; break;
-            default:  break;
+        switch (origin)
+        {
+        case Application::Seek::CUR:
+            cseek=SEEK_CUR;
+            break;
+        case Application::Seek::SET:
+            cseek=SEEK_SET;
+            break;
+        case Application::Seek::END:
+            cseek=SEEK_END;
+            break;
+        default:
+            break;
         }
         return fseek (pFile, offset, cseek);
     }
     ///returns the current value of the position indicator of the stream
-    virtual size_t tell(){
+    virtual size_t tell()
+    {
         return ftell(pFile);
     }
     ///get file size
-    virtual size_t size(){
+    virtual size_t size()
+    {
         size_t pos=tell();
         seek(0,Application::Seek::END);
         size_t sizefile=tell();
@@ -74,13 +90,15 @@ public:
         return sizefile;
     }
     ///return a uchar cast in int
-    virtual int getc(){
+    virtual int getc()
+    {
         char c;
         read(&c, 1, 1);
         return c;
     }
     ///rewind from file
-    virtual void rewind (){
+    virtual void rewind ()
+    {
         seek(0,Application::Seek::SET);
     }
 
@@ -89,72 +107,81 @@ public:
 Application *Application::appSingleton=NULL;
 ///////////////////////
 Application::Application()
-	:lastDeltaTime(0.0f)
+    :lastDeltaTime(0.0f)
     ,mainInstance(NULL)
-	,screen(NULL)
-	,input(NULL)
-	,audio(NULL){
+    ,screen(NULL)
+    ,input(NULL)
+    ,audio(NULL)
+{
 
 }
-Application::~Application(){
-	appSingleton=NULL;	
+Application::~Application()
+{
+    appSingleton=NULL;
 }
 
-Application *Application::create(const String& name){
+Application *Application::create(const String& name)
+{
 
-	DEBUG_ASSERT(!appSingleton);
-	
-	Math::seedRandom((uint)GetTime());
+    DEBUG_ASSERT(!appSingleton);
+
+    Math::seedRandom((uint)GetTime());
 
 #if defined( PLATFORM_IOS )
-#elif defined( PLATFORM_OSX )    
-	appSingleton=new CocoaApp(name);
+#elif defined( PLATFORM_OSX )
+    appSingleton=new CocoaApp(name);
 #elif defined( PLATFORM_WINDOW )
-	appSingleton=new WindowsApp(name);
+    appSingleton=new WindowsApp(name);
 #elif defined( PLATFORM_LINUX )
-	appSingleton=new LinuxApp(name);
+    appSingleton=new LinuxApp(name);
 #elif defined( PLATFORM_ANDROID )
-	appSingleton=new AndroidApp(name);
+    appSingleton=new AndroidApp(name);
 #elif defined( PLATFORM_EMSCRIPTEN )
-	appSingleton=new EmscriptenApp(name);
+    appSingleton=new EmscriptenApp(name);
 #endif
-	//registration delete at exit
-	atexit([](){ 
-		delete Application::instance(); 
-	});
-	//
-	return appSingleton;
+    //registration delete at exit
+    atexit([]()
+    {
+        delete Application::instance();
+    });
+    //
+    return appSingleton;
 }
 
-Application *Application::instance(){
-	return appSingleton;
+Application *Application::instance()
+{
+    return appSingleton;
 }
 /**
  * stream resource
  * @return ResouceStream object
  */
-Application::ResouceStream* Application::getResouceStream(const String& path){
+Application::ResouceStream* Application::getResouceStream(const String& path)
+{
     return new CResouceStream(/* appResourcesDirectory()+'/'+ */ path);
 }
 /**
 * save a resourcesGroup
 */
-void Application::subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr){
-	DEBUG_ASSERT(rsGr);
-	groups[name]=rsGr;
+void Application::subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr)
+{
+    DEBUG_ASSERT(rsGr);
+    groups[name]=rsGr;
 }
 /**
 * get a resourcesGroup
 */
-ResourcesGroup* Application::getResourcesGroup(const String& name){
-	auto it=groups.find(name);
-	if(it!=groups.end()) return it->second;
-	return NULL;
+ResourcesGroup* Application::getResourcesGroup(const String& name)
+{
+    auto it=groups.find(name);
+    if(it!=groups.end()) return it->second;
+    return NULL;
 }
 /**
 * erase a resourcesGroup
 */
-void Application::unsubscriptionResourcesGroup(const String& name){
-	auto it=groups.find(name);
-	if(it!=groups.end()) groups.erase(it);
+void Application::unsubscriptionResourcesGroup(const String& name)
+{
+    auto it=groups.find(name);
+    if(it!=groups.end()) groups.erase(it);
 }

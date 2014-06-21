@@ -4,160 +4,67 @@
 #include <Config.h>
 #include <Application.h>
 #include <Debug.h>
+#include <Component.h>
 
 //FSM event-driven: http://en.wikipedia.org/wiki/Event-driven_finite-state_machine
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-    
-    /////////////////////
-    class StateManager;
-    class StateInterface;
-    /////////////////////
-    
-    class StateInterface{
-    
-        StateManager* _manager;
-        friend class StateManager;
-        void setManager(StateManager* manager){
-            _manager=manager;
+    class StateManager : public Component
+    {
+        //friend whit object
+        friend class Object;
+        //states
+        int current;
+        int next;
+        //a state
+        struct State
+        {
+            DFUNCTION< void (void) > start;
+            DFUNCTION< void (float)> run;
+            DFUNCTION< void (void) > end;
+        };
+        std::map< int , State > states;
+        //event: run
+        virtual void onRun(float dt);
+
+    public:
+
+        StateManager():current(-1)
+                      ,next(-1)
+        {
         }
         
-    public:
-        
-        //manager
-        StateManager* getManager(){ return _manager; }
-        int getLastMessage();
-        void sendMessage(int msg);
-        
-        //update state
-        virtual bool onStateTranslate(float dt){ return true; }
-        virtual void onStateMessage(int message){}
-        
-        //state events
-        virtual void onStateStart(){}
-        virtual void onStateRun(float dt){}
-        virtual void onStateEnd(){}
-    };
-    
-    class StateLambda : public StateInterface{
-        
-        std::function<bool (float)> _onStateTranslate;
-        std::function<void ()> _onStateStart;
-        std::function<void (float)> _onStateRun;
-        std::function<void (int)> _onStateMessage;
-        std::function<void ()> _onStateEnd;
-        
-    public:
-        
-        StateLambda(const std::function<void (float)>& _onStateRun=[](float){}):
-        _onStateTranslate([](float)->bool{return true;}),
-        _onStateStart([](){}),
-        _onStateRun(_onStateRun),
-        _onStateMessage([](int){}),
-        _onStateEnd([](){})
-        {}
-        
-        StateLambda(const std::function<void (int)>& _onStateMessage,
-                    const std::function<void (float)>& _onStateRun):
-        _onStateTranslate([](float)->bool{return true;}),
-        _onStateStart([](){}),
-        _onStateRun(_onStateRun),
-        _onStateMessage(_onStateMessage),
-        _onStateEnd([](){})
-        {}
-        
-        StateLambda(
-           const std::function<void ()>& _onStateStart,
-           const std::function<void (float)>& _onStateRun,
-           const std::function<void ()>& _onStateEnd,
-           const std::function<void (int)>& _onStateMessage=[](int){},
-           const std::function<bool (float)>& _onStateTranslate=[](float)->bool{return true;}
-        )
-        :_onStateTranslate(_onStateTranslate),
-         _onStateStart(_onStateStart),
-         _onStateRun(_onStateRun),
-         _onStateMessage(_onStateMessage),
-         _onStateEnd(_onStateEnd)
-        {}
-        
-        //update state
-        virtual bool onStateTranslate(float dt){ return _onStateTranslate(dt); }
-        virtual void onStateMessage(int message){ return _onStateMessage(message); }
-        
-        //state events
-        virtual void onStateStart(){ _onStateStart(); }
-        virtual void onStateRun(float dt){ _onStateRun(dt); }
-        virtual void onStateEnd(){ _onStateEnd(); }
-        
-    };
-    
-	class StateManager : public StateInterface {
-        
-        struct State{
-            
-            StateInterface* ptr;
-            bool destructible;
-            
-            State()
-            :ptr(NULL),destructible(false){}
-            
-            State(StateInterface* ptr,bool destructible=true)
-            :ptr(ptr),destructible(destructible){}
-            
-            bool exist(){
-                return ptr!=NULL;
-            }
-            
-        };
-        
-        //////////////////////////////////////
-        int message;
-        int current;
-        int nextState;
-        DUNORDERED_MAP < int , State > states;
-        //////////////////////////////////////
-        bool exists(int state);
-        void _setNextState(float dt);
-        //////////////////////////////////////
-        std::list< StateManager * > smChilds;
-        StateManager *smParent;
-        bool destructible;
-        //////////////////////////////////////
-        
-    public:
-        
-        //application methos
-        virtual void update(float dt);
-        //parents methos
-        void addChild(StateManager *child,bool destructible=true);
-		void erseChild(StateManager *child);
-        
-        //init
-        StateManager();
-        virtual ~StateManager();
-        
-        //state manager
-        void addState(int stateid,StateInterface* state=NULL,bool destructible=true);
+        StateManager* addState(int name, DFUNCTION<void (float)> srun );
+        StateManager* addState(int name, DFUNCTION<void (void) > sstart,
+                                         DFUNCTION<void (float)> srun,
+                                         DFUNCTION<void (void) > send=nullptr );
+        void eraseState(int name);
+
         void setNextState(int stateid);
         void setCurrentState(int stateid);
-        //add event
-        void sendMessage(int msg);
-        
-        //query
-        int getLastMessage();
-        int getCurrentStateID();
-        int getNextStateID();
-        StateInterface *getCuttentState();
-        StateInterface *getNextState();
-		
-        //utility methos
-        Screen* getScreen();
-        Audio* getAudio();
-        Input* getInput();
-        Game* getGame();
-		ResourcesGroup* getResourcesGroup(const String& name);
-	};
+
+        int getCurrentState();
+        int getNextState();
+        //component
+        virtual const char* getComponentName() const
+        {
+            return "StateManager";
+        }
+        static const  cppTypeInfo* getComponentType()
+        {
+            return &typeid(StateManager);
+        }
+        virtual const cppTypeInfo* getComponentInfo() const
+        {
+            return getComponentType();
+        }
+        //serialize/deserialize
+        virtual void serialize(Table& table);
+        virtual void deserialize(const Table& table);
+
+    };
 
 };
 

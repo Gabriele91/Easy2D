@@ -5,15 +5,20 @@
 #include <Object.h>
 
 
-namespace Easy2D {
+namespace Easy2D
+{
 
-	class Camera : public Object {
+class Camera : public Object
+{
 
-	public:
+public:
+    //constructor
+    Camera() {}
+    //get mouse
+    Vec2 getWMouse();
+    Vec2 getSMouse();
 
-		Camera(){}
-
-	};
+};
 
 };
 

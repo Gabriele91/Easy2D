@@ -14,7 +14,7 @@
 
 /*
 //rewrite cout
-class androidbuf: public std::streambuf 
+class androidbuf: public std::streambuf
 {
 
 	public:
@@ -37,7 +37,7 @@ public:
     typedef typename traits_type::int_type int_type;
     typedef typename traits_type::pos_type pos_type;
     typedef typename traits_type::off_type off_type;
- 
+
     // You can use any method that you want, but here, we'll just take in a raw streambuf as a
     // slave I/O object.  xor_char is what each character is xored with before output.
     explicit androidbuf()
@@ -47,19 +47,20 @@ public:
         // so we need to use valid pointers.
         this->setp(out_buf_, out_buf_ + BUFF_SIZE - 1);
     }
- 
+
     // It's a good idea to release any resources when done using them.
-    ~androidbuf() {
+    ~androidbuf()
+    {
         delete [] out_buf_;
     }
- 
+
 protected:
     // This is called when there are too many characters in the buffer (thus, a write needs to be performed).
     virtual int_type overflow(int_type c);
     // This is called when the buffer needs to be flushed.
     virtual int_type sync();
- 
- 
+
+
 private:
     // Output buffer
     charT* out_buf_;
@@ -70,30 +71,31 @@ androidbuf<charT, traits>::overflow(androidbuf<charT, traits>::int_type c)
 {
     charT* ibegin = this->out_buf_;
     charT* iend = this->pptr();
- 
+
     // Reset the put pointers to indicate that the buffer is free
     // (at least it will be at the end of this function).
     setp(out_buf_, out_buf_ + BUFF_SIZE + 1);
- 
+
     // If this is the end, add an eof character to the buffer.
     // This is why the pointers passed to setp are off by 1
     // (to reserve room for this).
-    if(!traits_type::eq_int_type(c, traits_type::eof())) {
+    if(!traits_type::eq_int_type(c, traits_type::eof()))
+    {
         *iend++ = traits_type::to_char_type(c);
     }
- 
+
     // Compute the write length.
     int_type ilen = iend - ibegin;
- 
+
     //Do something with the string
     //printf("String: %.*s\n", ilen, out_buf_);
     std::string buffer;
-	buffer.assign(out_buf_, ilen);
-	LOGWRE(buffer.c_str());
- 
+    buffer.assign(out_buf_, ilen);
+    LOGWRE(buffer.c_str());
+
     return traits_type::not_eof(c);
 }
- 
+
 // This is called to flush the buffer.
 // This is called when we're done with the file stream (or when .flush() is called).
 template <typename charT, typename traits>
@@ -104,11 +106,13 @@ androidbuf<charT, traits>::sync()
                                     traits_type::eof()) ? -1 : 0;
 }
 
-extern "C" void overloadSTDCOUT(){
-	std::cout.rdbuf(new androidbuf<char>());
+extern "C" void overloadSTDCOUT()
+{
+    std::cout.rdbuf(new androidbuf<char>());
 }
-extern "C" void unoverloadSTDCOUT(){
-	delete std::cout.rdbuf(0);
+extern "C" void unoverloadSTDCOUT()
+{
+    delete std::cout.rdbuf(0);
 }
 
 

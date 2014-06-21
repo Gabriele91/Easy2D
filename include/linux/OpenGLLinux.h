@@ -18,15 +18,15 @@ extern PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
 extern PFNGLBINDVERTEXARRAYPROC  glBindVertexArray;
 extern PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
 #if !defined(__linux__)
-    //multi texture
-    extern PFNGLACTIVETEXTUREPROC glActiveTexture;
-    extern PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture;
-    extern PFNGLDRAWRANGEELEMENTSEXTPROC glDrawRangeElements;
-    //blend effect
-    extern PFNGLBLENDEQUATIONPROC		glBlendEquation;
-    //vsync
-    typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC)(int interval);
-    extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+//multi texture
+extern PFNGLACTIVETEXTUREPROC glActiveTexture;
+extern PFNGLCLIENTACTIVETEXTUREPROC glClientActiveTexture;
+extern PFNGLDRAWRANGEELEMENTSEXTPROC glDrawRangeElements;
+//blend effect
+extern PFNGLBLENDEQUATIONPROC		glBlendEquation;
+//vsync
+typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC)(int interval);
+extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 #endif
 //FBO
 extern PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT ;
@@ -77,9 +77,10 @@ extern PFNGLGETSHADERIVPROC			 glGetShaderiv;
 extern PFNGLGETPROGRAMIVPROC		 glGetProgramiv;
 extern PFNGLGETPROGRAMINFOLOGPROC	 glGetProgramInfoLog;
 
-namespace Easy2D {
-	//init openGL2
-	extern void initOpenGL2();
+namespace Easy2D
+{
+//init openGL2
+extern void initOpenGL2();
 };
 
 #endif

@@ -18,13 +18,13 @@ StreamSoundAL::StreamSoundAL( StreamThreadAL* streamThread,
                               int   format,
                               float lenSound,
                               float audioVolume):
-                                BaseSoundAL(source,format,lenSound,audioVolume),
-                                streamThread(streamThread),
-                                readStream(readStream),
-                                restartStream(restartStream),
-                                sizeData(size),
-                                sempleRate(sempleRate),
-                                sizeSemple(sizeSemple)
+    BaseSoundAL(source,format,lenSound,audioVolume),
+    streamThread(streamThread),
+    readStream(readStream),
+    restartStream(restartStream),
+    sizeData(size),
+    sempleRate(sempleRate),
+    sizeSemple(sizeSemple)
 {
     /**
      *  create buffers
@@ -37,7 +37,8 @@ StreamSoundAL::StreamSoundAL( StreamThreadAL* streamThread,
     lastRead=0;
 }
 ///destroy sound rerouce
-StreamSoundAL::~StreamSoundAL(){
+StreamSoundAL::~StreamSoundAL()
+{
     if(isPlay()) stop();
     //unschedule
     streamThread->erase(this);
@@ -45,55 +46,64 @@ StreamSoundAL::~StreamSoundAL(){
     alDeleteBuffers(AL_STREAM_N_BUFFERS,buffers);
 };
 //overload play
-void StreamSoundAL::play() {
+void StreamSoundAL::play()
+{
     /////////////////////////////////////////////////////////////////////
     //restat stream
     restart();
     /////////////////////////////////////////////////////////////////////
     //stream file/data
-    for(size_t i=0;i!=AL_STREAM_N_BUFFERS;++i) read(buffers[i]);
+    for(size_t i=0; i!=AL_STREAM_N_BUFFERS; ++i) read(buffers[i]);
     /////////////////////////////////////////////////////////////////////
     alSourceQueueBuffers(source, AL_STREAM_N_BUFFERS, buffers);
     BaseSoundAL::play();
 }
 
 //overload loop
-void StreamSoundAL::loop(){
+void StreamSoundAL::loop()
+{
     if(!isPlay()) play();
     if(!isLoop()) looping=true;
 }
 ///enable loop
-void StreamSoundAL::enableLoop(){
+void StreamSoundAL::enableLoop()
+{
     looping=true;
 }
 ///disable loop
-void StreamSoundAL::disableLoop(){
+void StreamSoundAL::disableLoop()
+{
     looping=false;
 }
 ///playback Time
-float StreamSoundAL::playbackTime(){
+float StreamSoundAL::playbackTime()
+{
     int bytesBufferRead;
     alGetSourcei(source, AL_BYTE_OFFSET , &bytesBufferRead);
     float  result=((float)(Math::min(lastRead+bytesBufferRead,sizeData))/sizeSemple);
     return result;
 }
 ///global time duration
-float StreamSoundAL::duration(){
+float StreamSoundAL::duration()
+{
     return lenSound;
 }
 ///is in looping mode!?
-bool StreamSoundAL::isLoop(){
+bool StreamSoundAL::isLoop()
+{
     return looping ;
 }
 
 //restat steam
-void StreamSoundAL::restart(){
+void StreamSoundAL::restart()
+{
     restartStream();
     leftRead=0;
     lastRead=0;
 }
 //stream buffer
-size_t StreamSoundAL::read(ALuint alBuffer){
+size_t StreamSoundAL::read(ALuint alBuffer)
+{
     //buffer
     uchar loadBuffer[AL_STREAM_BUFFER_SIZE];
     //stream file/data
@@ -109,10 +119,12 @@ size_t StreamSoundAL::read(ALuint alBuffer){
 /**
  * Streaming sound implementation
  */
-void StreamSoundAL::update(){
+void StreamSoundAL::update()
+{
     //
     if(!isPlay()&&!isLoop()) return;
-    if(!isPlay()&&isLoop())/* wrong */{
+    if(!isPlay()&&isLoop())/* wrong */
+    {
         play();
     }
     //buffer info
@@ -136,5 +148,5 @@ void StreamSoundAL::update(){
         //change buffer
         alSourceQueueBuffers(source, 1, &alBuffer);
     }
-    
+
 }

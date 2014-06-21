@@ -12,13 +12,14 @@ StaticSoundAL::StaticSoundAL( ALuint source,
                               int format,
                               float lenSound,
                               float audioVolume):
-BaseSoundAL(source,format,lenSound,audioVolume),
-buffer(buffer)
+    BaseSoundAL(source,format,lenSound,audioVolume),
+    buffer(buffer)
 {
 }
 
 ///destroy sound rerouce
-StaticSoundAL::~StaticSoundAL(){
+StaticSoundAL::~StaticSoundAL()
+{
     if(isPlay()) stop();
     alDeleteBuffers(1,&buffer);
 };

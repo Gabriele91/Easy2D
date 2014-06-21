@@ -5,10 +5,6 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release_windows8|Win32">
-      <Configuration>Release_windows8</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -33,13 +29,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -47,9 +36,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -63,17 +49,12 @@
     <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'">
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(ProjectDir)\lib</OutDir>
-    <TargetName>$(ProjectName)_windows8</TargetName>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -91,33 +72,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <OmitFramePointers>false</OmitFramePointers>
-      <OpenMPSupport>false</OpenMPSupport>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
-      <AdditionalOptions>
-      </AdditionalOptions>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>freetype250.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -145,14 +101,21 @@
     <ClCompile Include="src\audio\StreamSoundAL.cpp" />
     <ClCompile Include="src\audio\StreamThreadAL.cpp" />
     <ClCompile Include="src\BMFontLoader.cpp" />
+    <ClCompile Include="src\Body.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Color.cpp" />
+    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Debug.cpp" />
+    <ClCompile Include="src\EStack.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\FrameSet.cpp" />
     <ClCompile Include="src\FreeTypeFontLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\gui\Button.cpp" />
+    <ClCompile Include="src\gui\GuiManager.cpp" />
+    <ClCompile Include="src\gui\Label.cpp" />
+    <ClCompile Include="src\gui\Panel.cpp" />
     <ClCompile Include="src\Image\Image.cpp" />
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -163,11 +126,11 @@
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\EString.cpp" />
-    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\ResourcesGroup.cpp" />
     <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\thread\MutexWin32.cpp" />
@@ -181,16 +144,17 @@
     <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\Table.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\WavLoader.cpp" />
     <ClCompile Include="src\window\OpenGLWindow.cpp" />
     <ClCompile Include="src\window\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_windows8|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\window\WGL_ARB_multisample.cpp" />
     <ClCompile Include="src\window\WindowsApp.cpp" />
     <ClCompile Include="src\window\WindowsInput.cpp" />
     <ClCompile Include="src\window\WindowsScreen.cpp" />
+    <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AnimatedSprite.h" />
@@ -203,9 +167,11 @@
     <ClInclude Include="include\audio\StreamThreadAL.h" />
     <ClInclude Include="include\Blend.h" />
     <ClInclude Include="include\BMFontLoader.h" />
+    <ClInclude Include="include\Body.h" />
     <ClInclude Include="include\Box2D.hpp" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Color.h" />
+    <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Debug.h" />
     <ClInclude Include="include\Easy2D.h" />
@@ -214,6 +180,11 @@
     <ClInclude Include="include\FrameSet.h" />
     <ClInclude Include="include\FreeTypeFontLoader.h" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\gui\Button.h" />
+    <ClInclude Include="include\gui\Gui.h" />
+    <ClInclude Include="include\gui\GuiManager.h" />
+    <ClInclude Include="include\gui\Label.h" />
+    <ClInclude Include="include\gui\Panel.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\InputList.h" />
     <ClInclude Include="include\Layer.h" />
@@ -223,10 +194,11 @@
     <ClInclude Include="include\MinMaxList.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\EString.h" />
-    <ClInclude Include="include\Physics.h" />
     <ClInclude Include="include\Render.h" />
     <ClInclude Include="include\ResourcesGroup.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Sortable.h" />
+    <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\thread\Mutex.h" />
@@ -244,11 +216,13 @@
     <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\Table.h" />
     <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\WavLoader.h" />
     <ClInclude Include="include\window\gletx_header.h" />
     <ClInclude Include="include\window\OpenGLWindow.h" />
     <ClInclude Include="include\window\WindowsApp.h" />
     <ClInclude Include="include\window\WindowsInput.h" />
     <ClInclude Include="include\window\WindowsScreen.h" />
+    <ClInclude Include="include\World.h" />
     <ClInclude Include="src\Image\Image.h" />
     <ClInclude Include="src\Image\lodepng.h" />
     <ClInclude Include="src\Math3D_SSE2.h" />
@@ -256,13 +230,9 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="livel\resources.rs.e2d" />
-    <None Include="livel\sprite.mesh.e2d" />
-    <None Include="livel\walk.frameSet.e2d" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="livel\light.png" />
-    <Image Include="livel\ninja_atlas.png" />
+    <None Include="excpython.bat" />
+    <None Include="made_class.py" />
+    <None Include="made_cpp_h.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

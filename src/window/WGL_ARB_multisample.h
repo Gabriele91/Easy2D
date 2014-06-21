@@ -25,7 +25,7 @@
 // (CSAA) on the Windows platform.
 //
 // NVIDIA GeForce 8 series and higher GPUs support a new anti-aliasing method
-// called coverage sample anti-aliasing (CSAA). CSAA is usually used with 
+// called coverage sample anti-aliasing (CSAA). CSAA is usually used with
 // framebuffer objects (FBOs) for offscreen rendering. However CSAA can also be
 // used in an application window.
 //
@@ -99,7 +99,7 @@ extern "C" {
 #define GL_SAMPLE_COVERAGE_INVERT_ARB      0x80AB
 #define GL_MULTISAMPLE_BIT_ARB             0x20000000
 
-extern void glSampleCoverageARB(GLclampf value, GLboolean invert);
+    extern void glSampleCoverageARB(GLclampf value, GLboolean invert);
 
 // GL_NV_multisample_coverage
 
@@ -163,9 +163,9 @@ extern void glSampleCoverageARB(GLclampf value, GLboolean invert);
 #define WGL_TYPE_RGBA_ARB                  0x202B
 #define WGL_TYPE_COLORINDEX_ARB            0x202C
 
-extern BOOL wglGetPixelFormatAttribivARB(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-extern BOOL wglGetPixelFormatAttribfvARB(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, FLOAT *pfValues);
-extern BOOL wglChoosePixelFormatARB(HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);
+    extern BOOL wglGetPixelFormatAttribivARB(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
+    extern BOOL wglGetPixelFormatAttribfvARB(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, FLOAT *pfValues);
+    extern BOOL wglChoosePixelFormatARB(HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);
 
 // WGL_NV_multisample_coverage
 
@@ -175,20 +175,20 @@ extern BOOL wglChoosePixelFormatARB(HDC hdc, const int *piAttribIList, const FLO
 // Returns the highest quality hardware accelerated anti-aliasing pixel format.
 // If a suitable MSAA or CSAA pixel format was found it will be returned in the
 // 'pf' integer reference argument. Otherwise '0' will be returned.
-extern void ChooseBestAntiAliasingPixelFormat(int &pf);
+    extern void ChooseBestAntiAliasingPixelFormat(int &pf);
 
 // Returns a hardware accelerated anti-aliasing (MSAA or CSAA) pixel format
 // that supports the specified samples per pixel. If a matching MSAA or CSAA
 // pixel format was found it will be returned in the 'pf' integer reference
 // argument. Otherwise '0' will be returned.
-extern void ChooseAntiAliasingPixelFormat(int &pf, int samples);
-extern void ChooseCSAntiAliasingPixelFormat(int &pf, int samples);
-extern void ChooseMSAntiAliasingPixelFormat(int &pf, int samples);
+    extern void ChooseAntiAliasingPixelFormat(int &pf, int samples);
+    extern void ChooseCSAntiAliasingPixelFormat(int &pf, int samples);
+    extern void ChooseMSAntiAliasingPixelFormat(int &pf, int samples);
 
 // Returns a string containing a description of the anti-aliasing pixel format
 // selected by the most recent call to ChooseBestAntiAliasingPixelFormat() or
 // ChooseAntiAliasingPixelFormat().
-extern const char *GetAntiAliasingPixelFormatString();
+    extern const char *GetAntiAliasingPixelFormatString();
 
 } // extern "C"
 #endif
