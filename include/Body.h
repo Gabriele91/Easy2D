@@ -81,6 +81,8 @@ class Body : public Component
     b2Body* body;
     b2BodyDef bodyDefinition;
     float mass; //not in bodyDefinition
+    float metersUnit; 
+    float metersInPixel; 
 
     //word
     void registerWorld(World *world);
@@ -89,7 +91,30 @@ class Body : public Component
     //list fixture
     b2FixtureDef defaultFixture;
     std::vector<b2Fixture*> fixtures;
-    std::vector<b2FixtureDef*> fixturesDef;
+
+    struct ShapeDef
+    {
+        //type
+        b2Shape::Type type;
+        //fixature def
+        b2FixtureDef  fixature;
+        //info sphere
+        Vec2 position;
+        float radius;
+        uchar flags;
+        Vec2  prev,
+              next;
+        //info other
+        std::vector<Vec2> points;
+        //build shape
+        void buildShape(float metersUnit);
+    };
+    //shape def
+    std::vector<ShapeDef> shapesDef;
+    //
+    uint  pushShape(b2FixtureDef* fixature, b2Shape* shape);
+    //push shape
+    uint addFixatureShape(b2FixtureDef* fixature,b2Shape* shape);
     
     protected:
 
@@ -157,37 +182,12 @@ class Body : public Component
     //void setMass(float); in fixtures
     float getMass() const;
     //get world
-    Vec2 getWorldCenter() const
-    {
-        if(body)
-            return cast(body->GetWorldCenter());
-        return Vec2::ZERO;
-    }
-    Vec2 getWorldPoint(const Vec2& local) const
-    {
-        if(body)
-            return cast(body->GetWorldPoint(cast(local)));
-        return Vec2::ZERO;
-    }
+    Vec2 getWorldCenter() const;
+    Vec2 getWorldPoint(const Vec2& local) const;
     //get local
-    Vec2 getLocalVector(const Vec2& worldVector) const
-    {
-        if(body)
-            return cast(body->GetLocalVector(cast(worldVector)));
-        return Vec2::ZERO;
-    }
-    Vec2 getLocalPoint(const Vec2& worldPoint) const
-    {
-        if(body)
-            return cast(body->GetLocalPoint(cast(worldPoint)));
-        return Vec2::ZERO;
-    }
-    Vec2 getLocalCenter() const
-    {
-        if(body)
-            return cast(body->GetLocalCenter());
-        return Vec2::ZERO;
-    }
+    Vec2 getLocalVector(const Vec2& worldVector) const;
+    Vec2 getLocalPoint(const Vec2& worldPoint) const;
+    Vec2 getLocalCenter() const;
    
     //velocity
     void setLinearVelocity(const Vec2&);
@@ -222,26 +222,11 @@ class Body : public Component
     /**
     * applay
     */
-    void applyForce(const Vec2& force, const Vec2& point, bool wake)
-    {
-        if(body) body->ApplyForce(cast(force),cast(point),wake);
-    }
-    void applyForceToCenter(const Vec2& force, bool wake)
-    {
-        if(body) body->ApplyForceToCenter(cast(force),wake);
-    }
-    void applyTorque(float torque, bool wake)
-    {
-        if(body) body->ApplyTorque(torque,wake);
-    }
-    void applyLinearImpulse(const Vec2& impulse, const Vec2& point, bool wake)
-    {
-        if(body) body->ApplyLinearImpulse(cast(impulse),cast(point),wake);
-    }
-	void applyAngularImpulse(float impulse, bool wake)
-    {
-        if(body) body->ApplyAngularImpulse(impulse,wake);
-    }
+    void applyForce(const Vec2& force, const Vec2& point, bool wake);
+    void applyForceToCenter(const Vec2& force, bool wake);
+    void applyTorque(float torque, bool wake);
+    void applyLinearImpulse(const Vec2& impulse, const Vec2& point, bool wake);
+	void applyAngularImpulse(float impulse, bool wake);
     /*
     * Groups
     */
@@ -282,6 +267,7 @@ class Body : public Component
 
     void setCollisionShapeIsSensor(Shape index,bool isSensor);
     bool getCollisionShapeIsSensor(Shape index) const;
+
 
     //component name
     virtual const char* getComponentName() const

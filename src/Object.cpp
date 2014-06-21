@@ -322,9 +322,9 @@ void Object::deserialize(const Table& table)
     {
         DEBUG_ASSERT(component.second->asType(Table::TABLE));
         Component* cmp=ComponentMap::create(component.first.string());
-        cmp->deserialize(component.second->get<Table>());
         components[cmp->getComponentInfo()]=cmp;
         cmp->setEntity(this);
+        cmp->deserialize(component.second->get<Table>());
     }
     //childs
     const Table& rchilds=table.getConstTable("Childs");

@@ -7,7 +7,9 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-
+#define PTM_RATIO *metersUnit
+#define PIXEL_RATIO *metersInPixel
+#define WORLD_PIXEL_RATIO *world->metersInPixel
 ////////////////////////////////////////
 void ContactListener::BeginContact(b2Contact* contact)
 {
@@ -26,6 +28,8 @@ void ContactListener::BeginContact(b2Contact* contact)
     Body::Info info;
     info.contact=contact;
     info.manifold.setManifold(*contact->GetManifold());
+    info.manifold.points[0]=info.manifold.points[0] WORLD_PIXEL_RATIO;
+    info.manifold.points[1]=info.manifold.points[1] WORLD_PIXEL_RATIO;
     //callback
     if(bodyA->cbBegin)
     {
@@ -59,6 +63,8 @@ void ContactListener::EndContact(b2Contact* contact)
     Body::Info info;
     info.contact=contact;
     info.manifold.setManifold(*contact->GetManifold());
+    info.manifold.points[0]=info.manifold.points[0] WORLD_PIXEL_RATIO;
+    info.manifold.points[1]=info.manifold.points[1] WORLD_PIXEL_RATIO;
     //callback
     if(bodyA->cbEnd)
     {
@@ -90,10 +96,15 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
     size_t indexB=(size_t)(contact->GetFixtureB()->GetUserData());
     //get info
     Body::Info info;
-    info.manifold.setManifold(*contact->GetManifold());
-    Body::Manifold oldmf;
     info.contact=contact;
-    oldmf.setManifold(*oldManifold);
+    info.manifold.setManifold(*contact->GetManifold());
+    info.manifold.points[0]=info.manifold.points[0] WORLD_PIXEL_RATIO;
+    info.manifold.points[1]=info.manifold.points[1] WORLD_PIXEL_RATIO;
+
+    Body::Manifold oldmf;
+    oldmf.setManifold(*oldManifold);    
+    oldmf.points[0]=oldmf.points[0] WORLD_PIXEL_RATIO;
+    oldmf.points[1]=oldmf.points[1] WORLD_PIXEL_RATIO;
     //callback
     if(bodyA->cbPreSolver)
     {
@@ -127,6 +138,9 @@ void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* b2im
     Body::Info info;
     info.contact=contact;
     info.manifold.setManifold(*contact->GetManifold());
+    info.manifold.points[0]=info.manifold.points[0] WORLD_PIXEL_RATIO;
+    info.manifold.points[1]=info.manifold.points[1] WORLD_PIXEL_RATIO;
+
     Body::Impulse impulse;
     impulse.setContactImpulse(*b2impulse);
     //callback
@@ -353,8 +367,8 @@ uint World::createRevoluteJoint(const Object* objectA,
     jointDef.collideConnected = collideConnected;
     jointDef.bodyA = bodyA->body;
     jointDef.bodyB = bodyB->body;
-    jointDef.localAnchorA = cast(localAnchorA);
-    jointDef.localAnchorB = cast(localAnchorB);
+    jointDef.localAnchorA = cast(localAnchorA PTM_RATIO );
+    jointDef.localAnchorB = cast(localAnchorB PTM_RATIO );
     jointDef.collideConnected = collideConnected;
 
     return createJoint(jointDef);
@@ -474,12 +488,16 @@ float World::getRevoluteJointSpeed(uint jointId)
     return realJoint->GetJointSpeed();
 }
 ////////////////////////////////////////
-World::World(const Vec2& gravity):autoIdJoin(1)
+World::World(const Vec2& gravity):glDebugDraw(this)
+                                 ,cListener(this)
+                                 ,autoIdJoin(1)
                                  ,velocityIterations(8)
                                  ,positionIterations(3)
+                                 ,metersUnit(1.0)
+                                 ,metersInPixel(1.0)
 {
     world = new b2World(cast(gravity));
-    world->SetContactListener(new ContactListener());
+    world->SetContactListener(&cListener);
     world->SetDestructionListener(this);
 }
 World::~World()
@@ -529,12 +547,15 @@ void World::physicsDraw(Camera* camera)
     //set view port
     //glViewport( viewport.x, viewport.y, (GLsizei)viewport.z, (GLsizei)viewport.w );
     */
-    //GET pos camera
+    //pixel scale
+    Mat4 scale;
+    scale.setScale(Vec2(metersInPixel,metersInPixel));
+    //camera pos
     glMatrixMode(GL_MODELVIEW);
     if(camera)
-        glLoadMatrixf(camera->getGlobalMatrix());
+        glLoadMatrixf(camera->getGlobalMatrix().mul2D(scale));
     else
-        glLoadIdentity();
+        glLoadMatrixf(scale);
     //no vbo/ibo
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  0 );

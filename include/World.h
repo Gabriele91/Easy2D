@@ -11,10 +11,19 @@ namespace Easy2D
 {
 /////////////////////
 class Body;
+class World;
+class GLDebugDraw;
+class ContactListener;
 /////////////////////
 class GLDebugDraw : public b2Draw
 {
+
+    World* world;
+
     public:
+
+    GLDebugDraw(World* world):world(world){}
+
     virtual void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color);
     virtual void DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color);
     virtual void DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color);
@@ -25,23 +34,29 @@ class GLDebugDraw : public b2Draw
 /////////////////////
 class ContactListener : public b2ContactListener
 {
-    public:
-        ContactListener(){}
+    World* world;
 
-        virtual void BeginContact(b2Contact* contact);
-        virtual void EndContact(b2Contact* contact);
-        virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
-        virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
+    public:
+
+    ContactListener(World* world):world(world){}
+
+    virtual void BeginContact(b2Contact* contact);
+    virtual void EndContact(b2Contact* contact);
+    virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
+    virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
 };
 /////////////////////
 class World : public b2DestructionListener
 {
 
     friend class Body;
+    friend class GLDebugDraw;
+    friend class ContactListener;  
     //world
     b2World *world;
     b2BlockAllocator blockAllocator;
     GLDebugDraw      glDebugDraw;
+    ContactListener  cListener;
     uint velocityIterations;
     uint positionIterations;
     //listener
@@ -56,6 +71,9 @@ class World : public b2DestructionListener
     //join utility
     b2Joint* findB2Joint(uint id);
     uint findJoint(b2Joint* join);
+    //meters unit
+    float metersUnit;
+    float metersInPixel;
 
     protected:
 
@@ -80,6 +98,20 @@ class World : public b2DestructionListener
         return world;
     }
     
+    ///scale
+    void setMetersInPixel( float pixel )
+    {
+        metersUnit=1.0/pixel;
+        metersInPixel=pixel;
+    }
+    float getMetersInPixel() const
+    {
+        return metersInPixel;
+    }
+    float getMetersUint() const
+    {
+        return metersUnit;
+    }
     ///iterations
     void setVelocityIterations( uint iterations ) 
     {
