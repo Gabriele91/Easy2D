@@ -470,6 +470,9 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
             }
             //set this path
             tmp->rpath=rpath;
+            //set name
+            if(key.isString())
+                tmp->name=key.string();
             //save lines count
             cntEL=(int)fl;
             prtC+=i;
@@ -528,6 +531,9 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
             tmp->reloadable=true;
             //load file
             tmp->load();
+            //set name
+            if(key.isString())
+                tmp->name=key.string();
             //get errors
             if(tmp->dErrors.hasErrors())
             {

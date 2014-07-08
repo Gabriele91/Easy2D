@@ -3,6 +3,7 @@
 #include <Math3D.h>
 #include <Application.h>
 #include <ETime.h>
+#include <Script.h>
 #if defined( PLATFORM_IOS )
 #elif defined( PLATFORM_OSX )
 #include <CocoaApp.h>
@@ -120,29 +121,41 @@ Application::~Application()
     appSingleton=NULL;
 }
 
-Application *Application::create(const String& name)
+Application *Application::create(const String& name,Application* implementation)
 {
 
     DEBUG_ASSERT(!appSingleton);
-
+    //init random value
     Math::seedRandom((uint)GetTime());
-
-#if defined( PLATFORM_IOS )
-#elif defined( PLATFORM_OSX )
-    appSingleton=new CocoaApp(name);
-#elif defined( PLATFORM_WINDOW )
-    appSingleton=new WindowsApp(name);
-#elif defined( PLATFORM_LINUX )
-    appSingleton=new LinuxApp(name);
-#elif defined( PLATFORM_ANDROID )
-    appSingleton=new AndroidApp(name);
-#elif defined( PLATFORM_EMSCRIPTEN )
-    appSingleton=new EmscriptenApp(name);
-#endif
+    //init vm
+    LuaState::init();
+    //init app
+    if(!implementation)
+    {
+    #if defined( PLATFORM_IOS )
+    #elif defined( PLATFORM_OSX )
+        appSingleton=new CocoaApp(name);
+    #elif defined( PLATFORM_WINDOW )
+        appSingleton=new WindowsApp(name);
+    #elif defined( PLATFORM_LINUX )
+        appSingleton=new LinuxApp(name);
+    #elif defined( PLATFORM_ANDROID )
+        appSingleton=new AndroidApp(name);
+    #elif defined( PLATFORM_EMSCRIPTEN )
+        appSingleton=new EmscriptenApp(name);
+    #endif
+    }
+    else
+    {
+        appSingleton=implementation;
+    }
     //registration delete at exit
     atexit([]()
-    {
+    { 
+        //delete app
         delete Application::instance();
+        //delete vm
+        LuaState::destroy();
     });
     //
     return appSingleton;

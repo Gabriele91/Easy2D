@@ -17,7 +17,7 @@ int String::rfind(const String& value) const
 }
 ///
 void String::split(const String& delimiters ,
-                   std::vector<String>& tokens)
+                   std::vector<String>& tokens) const
 {
     // Skip delimiters at beginning.
     std::string::size_type lastPos = find_first_not_of(delimiters, 0);

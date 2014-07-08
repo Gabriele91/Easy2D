@@ -7,65 +7,101 @@
 /////////////////////////
 using namespace Easy2D;
 /////////////////////////
+#define MAX_BUFFER_TRIANGLES 2000 //2K
+
 Render::Render()
 {
-    camera=NULL;
-    screenAngle=0.0;
-    reorder=false;
-    //set orientation
-    updateProjection();
+    camera=nullptr;
 }
 
-/**
- * Sorting layers
- */
-bool Render::operator_lt(const Layer* lrs,const Layer* rrs)
+void Render::append(Object* obj)
 {
-    return lrs->getZ()<rrs->getZ();
-}
-void Render::change()
-{
-    this->reorder=true;
-}
-void Render::dosort()
-{
-    this->reorder=false;
-    std::sort(layers.begin(), layers.end(),  Render::operator_lt);
+    //is randerable
+    auto rable=obj->getComponent<Renderable>();
+    if(rable && !rable->isVisible()) return;
+    
+    //draw randerable
+    if(rable)
+    {    
+        ////////////////////////////////////////////////////////////////////////
+        //CULLING (SLOW)
+        //get box
+        const AABox2& box=rable->getMesh()->getAABox();
+        const AABox2& mbox=rable->canTransform() ? 
+                           box.applay(obj->getGlobalMatrix()) : 
+                           box;
+        //get viewport box
+        const AABox2& vpBox=camera->getBoxViewport();
+        //applay camera matrix
+        const AABox2& wbox=mbox.applay(camera->getGlobalMatrix());
+        ////////////////////////////////////////////////////////////////////////
+        //culling
+        if(vpBox.isIntersection(wbox))
+            queue.push(obj);
+    }
+    //childs
+    for(auto child:*obj)
+        append(child);
 }
 
-Layer* Render::addLayer(bool order)
+//add a element in queue
+void Render::Queue::push(Object* obj)
 {
-    //make a layer
-    Layer *newLayer=order? (Layer*)new LayerOrder(this):
-                    (Layer*)new LayerUnorder(this);
-    layers.push_back(newLayer);
-    //resort
-    change();
-    //return new layer
-    return newLayer;
+    //obj values
+    float obZ=obj->getZ(true);
+    RenderState* objRS=obj->getComponent<Renderable>();
+    //it values
+    float itZ=0;
+    RenderState* itRS=nullptr;
+    //push object
+    for(ItObjs it=objs.begin();
+                it!=objs.end();
+                ++it)
+    {
+        itZ=(*it)->getZ(true);
+        //z sort
+        if(itZ>obZ)
+        {
+            objs.insert(it,obj);
+            return;
+        }
+        //like material sort
+        else if(itZ==obZ)
+        {
+            itRS=(*it)->getComponent<Renderable>();
+            if((*itRS)==(*objRS))
+            {
+                objs.insert(it,obj);
+                return; 
+            }
+        }
+    }
+    //else
+    objs.push_back(obj);
 }
-void Render::erseLayer(Layer* layer)
-{
-    auto it=std::find(layers.begin(), layers.end(), layer);
-    (*it)->dtRender();
-    layers.erase(it);
 
+//called from scene
+void Render::buildQueue(const std::list<Object*>& objs)
+{
+    //clear queue
+    queue.clear();
+    //add objcts
+    for(auto obj:objs)
+        append(obj);
 }
 
 void Render::draw()
-{
-#ifdef ENABLE_CPU_BATCHING_MESH
-#define MAX_BUFFER_TRIANGLES 2000 //2K
+{   
+    if(!camera) return;
+	///////////////////////////////////////////////
     //create buffer
-    if(!batchingMesh.getBufferSize())
+    if(!batchingMesh.getMaxSize())
         batchingMesh.createBufferByTriangles(MAX_BUFFER_TRIANGLES);
-    //old state
-    Object *lastDraw=nullptr;
-    Object *oCurrent=nullptr;
-    Object *oNext=nullptr;
-    //current renderable
-    Renderable *rCurrent=nullptr;
-    Renderable *rNext=nullptr;
+    //set view port
+    glViewport(0, 
+               0, 
+               (GLsizei)camera->getViewport().x, 
+               (GLsizei)camera->getViewport().y );
     //clear
     glClearColor(clearClr.rNormalize(),
                  clearClr.gNormalize(),
@@ -74,154 +110,199 @@ void Render::draw()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     //set projection matrix
     glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(projection);
-    //set view port
-    glViewport( 0, 0, (GLsizei)viewport.x, (GLsizei)viewport.y );
+    glLoadMatrixf(camera->getProjection());
     //set model view matrix
-    glMatrixMode(GL_MODELVIEW);
-    //no matrix camera
-    if(!camera)
-        glLoadIdentity();
-    //reourder layers
-    if(reorder)
-        dosort();
-    //for all layers
-    for(auto layer:layers)
+    glMatrixMode(GL_MODELVIEW);   
+    //return if queue is empty
+    if(queue.begin()==queue.end()) return;
+	///////////////////////////////////////////////
+    //matrix camera
+    glLoadMatrixf(camera->getGlobalMatrix());
+    //info data
+    auto drawIt=queue.begin();
+    auto drawNext=drawIt; ++drawNext;
+    Object* lastDraw=nullptr;
+    //draw queue
+    while(drawIt!=queue.end())
     {
-        //layer is visible?
-        if(layer->isVisible())
+        //info temp
+        Object*     oCurrent=*drawIt;
+        Renderable* rCurrent=oCurrent->getComponent<Renderable>();
+
+        Object*     oNext= drawNext!=queue.end() ? *drawNext : nullptr;
+        Renderable* rNext= oNext ? oNext->getComponent<Renderable>() : nullptr;
+        //Matrix
+        const Mat4& otrasform=( rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY );
+  
+        //can add this mesh in the pool?
+        if(rCurrent->doBatching())
         {
-            //update layer
-            layer->dosort();
-            //get the first rendarable
-            oNext=layer->next();
-            //parallax
-            if(camera)
+            //batching
+            batchingMesh.addMesh(otrasform,
+                                 rCurrent->getMesh());
+            // draw?
+            if(!rNext ||
+               !rNext->doBatching() || //n.b. zbuffer...
+               !rCurrent->canBatching(rNext)  || 
+               !batchingMesh.canAdd(rNext->getMesh()))
             {
-                Matrix4x4 view=camera->getGlobalMatrix();
-                view[12]*=layer->getParallax().x;
-                view[13]*=layer->getParallax().y;
-                glLoadMatrixf(view);
+                //enable info draw
+                if(lastDraw)
+                    rCurrent->enableStates(lastDraw->getComponent<Renderable>());
+                else
+                    rCurrent->enableStates();
+                //draw
+                batchingMesh.draw();
+                //save last draw
+                lastDraw=oCurrent;
+                //draw errors
+                CHECK_GPU_ERRORS();
+                //restart batching
+                batchingMesh.relase();
             }
-            //for all renderables
-            while(oNext!=NULL)
+        }
+        //direct draw
+        else
+        {
+            //model view matrix
+            glLoadMatrixf(camera->getGlobalMatrix().mul2D(otrasform));
+            //enable info draw
+            if(lastDraw)
+                rCurrent->enableStates(lastDraw->getComponent<Renderable>());
+            else
+                rCurrent->enableStates();
+            //draw
+            rCurrent->draw();
+            //save last draw
+            lastDraw=oCurrent;
+            //draw errors
+            CHECK_GPU_ERRORS();
+            //matrix camera
+            glLoadMatrixf(camera->getGlobalMatrix());
+        }
+        //next
+        drawIt=drawNext;
+        if(drawNext!=queue.end())
+            ++drawNext;
+    }
+}
+
+//pikking
+Object* Render::picking(const Vec2& point)
+{
+    //return if queue is empty
+    if(queue.begin()==queue.end()) return nullptr;
+    //seach
+    for(Object* obj: Utility::reverse(queue) )
+    {
+        Renderable* renderable=nullptr;
+        if(renderable=obj->getComponent<Renderable>())
+        {
+            const AABox2& box=renderable->getMesh()->getAABox();
+            const AABox2& wbox= renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
+            if(wbox.isIntersection(point))
             {
-                //get next rendarable
-                oCurrent=oNext;
-                oNext=layer->next();
-                //get randerable
-                rCurrent=oCurrent->getComponent<Renderable>();
-                rNext=oNext ? oNext->getComponent<Renderable>() : nullptr;
-                //renderable is visible?
-                if(rCurrent->isVisible())
-                {
-                    //add mesh
-                    batchingMesh.addMesh(oCurrent->getGlobalMatrix(),
-                                         rCurrent->getMesh(),
-                                         0);
-                    //draw!?
-                    if(!rNext || 
-                       !rCurrent->canBatching(rNext)  || 
-                       !batchingMesh.canAdd(rNext->getMesh()))
-                    {
-                        //enable info draw
-                        if(lastDraw)
-                            rCurrent->enableStates(lastDraw->getComponent<Renderable>());
-                        else
-                            rCurrent->enableStates();
-                        //draw
-                        batchingMesh.draw();
-                        //save last draw
-                        lastDraw=oCurrent;
-                        //draw errors
-                        CHECK_GPU_ERRORS();
-                        //restart batching
-                        batchingMesh.relase();
-                    }
-                }
+                return obj;
             }
         }
     }
-#else
-    //old state
-    RenderState *oldState=NULL;
-    //clear
-    glClearColor(clearClr.rNormalize(),
-                 clearClr.gNormalize(),
-                 clearClr.bNormalize(),
-                 clearClr.aNormalize());
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    return nullptr;
+}
+
+
+inline void drawAABox2(const AABox2& aabox2, const Color& color) 
+{
+
+    glColor4ub(color.r, color.g, color.b, color.a);
+    const float vertices[]=
+    {
+        aabox2.getMin().x,aabox2.getMin().y,
+        aabox2.getMax().x,aabox2.getMin().y,
+        aabox2.getMax().x,aabox2.getMax().y,
+        aabox2.getMin().x,aabox2.getMax().y,
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glDrawArrays(GL_LINE_LOOP, 0, 4);
+
+}
+inline void drawFillAABox2(const AABox2& aabox2, const Color& color) 
+{
+
+    glColor4ub(color.r, color.g, color.b, color.a);
+    const float vertices[]=
+    {
+        aabox2.getMin().x,aabox2.getMin().y,
+        aabox2.getMax().x,aabox2.getMin().y,
+        aabox2.getMin().x,aabox2.getMax().y,
+        aabox2.getMax().x,aabox2.getMax().y,
+    };
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+}
+
+void Render::aabox2Draw()
+{   
+    //return if queue is empty
+    if(queue.begin()==queue.end()) return;
     //set projection matrix
     glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(projection);
+    glLoadMatrixf(camera->getProjection());
     //set view port
-    glViewport( 0, 0, viewport.x, viewport.y );
+    glViewport(0, 
+               0, 
+               (GLsizei)camera->getViewport().x, 
+               (GLsizei)camera->getViewport().y );
     //set model view matrix
-    glMatrixMode(GL_MODELVIEW);
-    //reourder layers
-    if(reorder)
-        dosort();
-    //for all layers
-    for(auto layer:layers)
+    glMatrixMode(GL_MODELVIEW);   
+    glLoadMatrixf(camera->getGlobalMatrix());
+    //////////////////////////////////////////////////////////////////
+    GLboolean cull,blend;
+    GLint bs_src, bs_dst;
+    glGetBooleanv(GL_CULL_FACE,&cull);
+    glGetBooleanv(GL_BLEND , &blend);
+    glGetIntegerv(GL_BLEND_SRC , &bs_src);
+    glGetIntegerv(GL_BLEND_DST , &bs_dst);    
+    //change param
+    glDisable(GL_CULL_FACE);
+    //blend
+    if(!blend) glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //color
+    GLfloat saveGLColor4f[4];
+    glGetFloatv(GL_CURRENT_COLOR, saveGLColor4f);
+    //////////////////////////////////////////////////////////////////
+    //no vbo/ibo
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  0 );
+    //no texture
+    glDisable( GL_TEXTURE_2D );
+    //////////////////////////////////////////////////////////////////
+    //all aabbox
+    for(Object* obj: Utility::reverse(queue) )
     {
-        //layer is visible?
-        if(layer->isVisible())
+        Renderable* renderable=nullptr;
+        if(renderable=obj->getComponent<Renderable>())
         {
-            //update layer
-            layer->dosort();
-            //for all renderables
-            while(Renderable *renderable=layer->next())
-            {
-                //renderable is visible?
-                if(renderable->isVisible())
-                {
-                    //calc m4x4
-                    if(camera)
-                    {
-                        //parallax
-                        Matrix4x4 view=camera->getGlobalMatrix();
-                        view[12]*=layer->getParallax().x;
-                        view[13]*=layer->getParallax().y;
-                        //modelview
-                        glLoadMatrixf(view.mul2D(renderable->getGlobalMatrix()));
-                    }
-                    else
-                        glLoadMatrixf(renderable->getGlobalMatrix());
-
-                    //draw
-                    if(oldState==NULL)
-                    {
-                        renderable->draw();
-                    }
-                    else
-                    {
-                        renderable->draw(oldState);
-                    }
-                    //set old state
-                    oldState=(RenderState*)renderable;
-                    //draw errors
-                    CHECK_GPU_ERRORS();
-                }
-            }
+            const AABox2& box=renderable->getMesh()->getAABox();
+            const AABox2& wbox= renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
+            
+            drawAABox2(wbox,Color((uchar(wbox.getSize().x)),
+                                  (uchar(wbox.getSize().y)),
+                                  (uchar(wbox.getSize().x+wbox.getSize().y)),
+                                  128));
+            drawFillAABox2(wbox,Color(25,128,(uchar(wbox.getSize().x+wbox.getSize().y)),40));
         }
     }
-#endif
-}
-
-void Render::updateProjection()
-{
-    updateProjection(Application::instance()->getScreen()->getSize());
-}
-void Render::updateProjection(const Vec2& argViewport)
-{
-    //set viewport
-    viewport=argViewport;
-    //update projection is always the same
-    projection.setOrtho(-viewport.x*0.5f,viewport.x*0.5f, -viewport.y*0.5f,viewport.y*0.5f, 1.0f,-1.0f);
-
-}
-void Render::updateViewport(const Vec2& argViewport)
-{
-    //set viewport
-    viewport=argViewport;
+    //////////////////////////////////////////////////////////////////
+    if(cull)
+        glEnable( GL_CULL_FACE );
+    //blend
+    if(!blend)
+        glDisable( GL_BLEND );
+    else
+        glBlendFunc(bs_src,bs_dst);
+    //color
+    glColor4fv(saveGLColor4f);
+    //////////////////////////////////////////////////////////////////
 }

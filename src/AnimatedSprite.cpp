@@ -6,11 +6,9 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-REGISTERED_COMPONENT(AnimatedSprite, "AnimatedSprite")
-///////////////////////
 
-AnimatedSprite::AnimatedSprite(Layer *layer)
-    :Renderable(NULL,NULL,layer,true)
+AnimatedSprite::AnimatedSprite()
+    :Renderable(nullptr,nullptr,true)
     ,crtAnimation(0)
 {
     //blend mode
@@ -36,9 +34,22 @@ void AnimatedSprite::setFrame(int animation,int frame)
 
 int AnimatedSprite::addAnimation(FrameSet::ptr frames)
 {
+    //return id
+    return addAnimation(frames,frames->getDefaultTime(),frames->getDefaultLoop());
+}
+int AnimatedSprite::addAnimation(FrameSet::ptr frames,
+                                 float time)
+{
+    //return id
+    return addAnimation(frames,time,frames->getDefaultLoop());
+}
+int AnimatedSprite::addAnimation(FrameSet::ptr frames,
+                                 float time,
+                                 bool loop)
+{
     //set current animation:
     Renderable::setTexture(frames->getTexture());
-    Animation* anim=new Animation(frames,frames->getDefaultTime());
+    Animation* anim=new Animation(frames, time, loop);
     crtAnimation=animations.size();
     animations.push_back(anim);
     //set sprite mesh
@@ -46,19 +57,9 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames)
     //return id
     return crtAnimation;
 }
-int AnimatedSprite::addAnimation(FrameSet::ptr frames,
-                                 float time)
-{
-    //set current animation:
-    int anim=addAnimation(frames);
-    animations[anim]->setFrameTime(time);
-    //return id
-    return anim;
-}
 
 void AnimatedSprite::setAnimation(int i)
-{
-
+{    
     DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
     DEBUG_ASSERT( ((int)animations.size()) > i );
     //set animation
@@ -68,16 +69,21 @@ void AnimatedSprite::setAnimation(int i)
 }
 void AnimatedSprite::setAnimation(int i, float time)
 {
-
-    DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
-    DEBUG_ASSERT( ((int)animations.size()) > i );
-    //set animation
-    crtAnimation=i;
-    //set sprite mesh
-    setMesh(animations[crtAnimation]->getCurrentFrame());
-    //set time
+    setAnimation(i);
     animations[crtAnimation]->setFrameTime(time);
 }
+void AnimatedSprite::setAnimation(int i, float time, bool  loop)
+{
+    setAnimation(i);
+    animations[crtAnimation]->setFrameTime(time);
+    animations[crtAnimation]->setLoop(loop);
+}
+void AnimatedSprite::setAnimation(int i, bool loop)
+{    
+    setAnimation(i);
+    animations[crtAnimation]->setLoop(loop);
+}
+
 
 void AnimatedSprite::setTime(float timePerFrame)
 {
@@ -89,7 +95,14 @@ void AnimatedSprite::setChangeTime(float timePerFrame)
     //set time
     animations[crtAnimation]->setChangeFrameTime(timePerFrame);
 }
-
+void AnimatedSprite::setPause(bool pause)
+{
+    animations[crtAnimation]->setPause(pause);
+}
+void AnimatedSprite::setLoop(bool loop)
+{
+    animations[crtAnimation]->setLoop(loop);
+}
 void AnimatedSprite::setAnimationTime(int i,float timePerFrame)
 {
 
@@ -97,15 +110,31 @@ void AnimatedSprite::setAnimationTime(int i,float timePerFrame)
     DEBUG_ASSERT( ((int)animations.size()) > i );
     animations[i]->setFrameTime(timePerFrame);
 }
+void AnimatedSprite::setAnimationPause(int i, bool pause)
+{
+    DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
+    DEBUG_ASSERT( ((int)animations.size()) > i );
+    animations[i]->setPause(pause);
+}
+void AnimatedSprite::setAnimationLoop(int i, bool loop)
+{
+    DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
+    DEBUG_ASSERT( ((int)animations.size()) > i );
+    animations[i]->setLoop(loop);
+}
+
 
 void AnimatedSprite::serialize(Table& table)
 {
-    Table& rsprite=table.createTable(getComponentName());
-    rsprite.set("currentAnimation",getCurrentAnimation());
+    Table& rsprite=table;
+    //serialize render state
+    rsSerialize(table);
+    //serialize ASprite
+    table.set("currentAnimation",getCurrentAnimation());
 
     for(auto anim : animations)
     {
-        Table& tanim=rsprite.createTable();
+        Table& tanim=table.createTable();
         tanim.set("frameSet",anim->getFrameSet()->getName());
         tanim.set("time",anim->getTotalTime());
     }
@@ -117,6 +146,8 @@ void AnimatedSprite::deserialize(const Table& table)
     DEBUG_ASSERT(rsmanager);
     auto rsgroup=rsmanager->getResourcesGroup();
     DEBUG_ASSERT(rsgroup);
+    //deserialize rander state
+    rsDeserialize(table);
     //current animation
     crtAnimation=table.getFloat("currentAnimation",getCurrentAnimation());
 

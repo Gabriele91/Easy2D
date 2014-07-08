@@ -12,6 +12,7 @@
 #include <FrameSet.h>
 #include <Font.h>
 #include <Sound.h>
+#include <Script.h>
 
 namespace Easy2D
 {
@@ -25,6 +26,7 @@ class ResourcesGroup
     ResourcesManager<FrameSet> frameSets;
     ResourcesManager<Font> fonts;
     ResourcesManager<Sound> sounds;
+    ResourcesManager<Script> scripts;
 
 public:
 
@@ -33,41 +35,7 @@ public:
     {
         return NULL;
     }
-
-
-#ifdef COMPILER_VISUAL_STUDIO
-    template<>
-    ResourcesManager<Texture>& getManager<Texture>()
-    {
-        return textures;
-    }
-    template<>
-    ResourcesManager<Table>& getManager<Table>()
-    {
-        return tables;
-    }
-    template<>
-    ResourcesManager<Mesh>& getManager<Mesh>()
-    {
-        return meshes;
-    }
-    template<>
-    ResourcesManager<FrameSet>& getManager<FrameSet>()
-    {
-        return frameSets;
-    }
-    template<>
-    ResourcesManager<Font>& getManager<Font>()
-    {
-        return fonts;
-    }
-    template<>
-    ResourcesManager<Sound>& getManager<Sound>()
-    {
-        return sounds;
-    }
-#endif
-
+    
 private:
 
     //teble resources
@@ -151,6 +119,7 @@ public:
         frameSets.load();
         fonts.load();
         sounds.load();
+        scripts.load();
     }
     /** unload all resources returned  */
     DFORCEINLINE void unload(bool destroy)
@@ -161,27 +130,59 @@ public:
         frameSets.unload(destroy);
         fonts.unload(destroy);
         sounds.unload(destroy);
+        scripts.load();
     }
     /** reload only gpu resource */
     void reloadGpuResouce();
 
+    /** return resources trable  */
+    const Table& getTable() const
+    {
+        return  resources;       
+    }
+    Table& getTable()
+    {
+        return  resources;       
+    }
+
 };
 
-// GCC SUCK //
-#ifdef COMPILER_GCC
 template<>
-ResourcesManager<Texture>& ResourcesGroup::getManager<Texture>();
+inline ResourcesManager<Texture>& ResourcesGroup::getManager<Texture>()
+{
+    return textures;
+}
 template<>
-ResourcesManager<Table>& ResourcesGroup::getManager<Table>();
+inline ResourcesManager<Table>& ResourcesGroup::getManager<Table>()
+{
+    return tables;
+}
 template<>
-ResourcesManager<Mesh>& ResourcesGroup::getManager<Mesh>();
+inline ResourcesManager<Mesh>& ResourcesGroup::getManager<Mesh>()
+{
+    return meshes;
+}
 template<>
-ResourcesManager<FrameSet>& ResourcesGroup::getManager<FrameSet>();
+inline ResourcesManager<FrameSet>& ResourcesGroup::getManager<FrameSet>()
+{
+    return frameSets;
+}
 template<>
-ResourcesManager<Font>& ResourcesGroup::getManager<Font>();
+inline ResourcesManager<Font>& ResourcesGroup::getManager<Font>()
+{
+    return fonts;
+}
 template<>
-ResourcesManager<Sound>& ResourcesGroup::getManager<Sound>();
-#endif
+inline ResourcesManager<Sound>& ResourcesGroup::getManager<Sound>()
+{
+    return sounds;
+}
+template<>
+inline ResourcesManager<Script>& ResourcesGroup::getManager<Script>()
+{
+    return scripts;
+}
+
 };
 
 #endif

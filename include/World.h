@@ -59,6 +59,8 @@ class World : public b2DestructionListener
     ContactListener  cListener;
     uint velocityIterations;
     uint positionIterations;
+    //draw debug status
+    bool debugFlag;
     //listener
     virtual void SayGoodbye( b2Joint* pJoint );
     virtual void SayGoodbye( b2Fixture* pFixture ) {}
@@ -87,21 +89,10 @@ class World : public b2DestructionListener
     void  setGravity(const Vec2& gravity);
     Vec2  getGravity();
     void  debugDraw(bool enable);
-
-    ///Box2d item
-    b2World*  getWorld()
-    {
-        return world;
-    }
-    const b2World*  getWorld() const
-    {
-        return world;
-    }
-    
     ///scale
     void setMetersInPixel( float pixel )
     {
-        metersUnit=1.0/pixel;
+        metersUnit=1.0f/pixel;
         metersInPixel=pixel;
     }
     float getMetersInPixel() const
@@ -111,6 +102,18 @@ class World : public b2DestructionListener
     float getMetersUint() const
     {
         return metersUnit;
+    }
+    ///serialize/deserialize
+    void serialize(Table& table);
+    void deserialize(const Table& table);
+    ///Box2d item
+    b2World*  getWorld()
+    {
+        return world;
+    }
+    const b2World*  getWorld() const
+    {
+        return world;
     }
     ///iterations
     void setVelocityIterations( uint iterations ) 
@@ -130,7 +133,6 @@ class World : public b2DestructionListener
 
 
     /// Joints
-
     /// Distance joint.
     uint createDistanceJoint(const Object* objectA,
                              const Object* objectB,

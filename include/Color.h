@@ -1,6 +1,9 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#include <Config.h>
+#include <Math3D.h>
+
 namespace Easy2D
 {
 /* pixel structure */
@@ -32,13 +35,13 @@ struct Color
            WHITE,
            YELLOW;
     //
-    unsigned char r,g,b,a;
+    uchar r,g,b,a;
     Color()
     {
         r=g=b=a=255;
     }
-    Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a):r(r),g(g),b(b),a(a) {}
-    void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
+    Color(uchar r, uchar g, uchar b, uchar a):r(r),g(g),b(b),a(a) {}
+    void setColor(uchar r, uchar g, uchar b, uchar a)
     {
         this->r=r;
         this->g=g;
@@ -48,11 +51,21 @@ struct Color
 
     Color operator + (const Color& v)
     {
-        return (Color(r+v.r,g+v.g,b+v.b,a+v.a));
+        Color out;
+        out.r=(uchar)Math::clamp(r+v.r,255,0);
+        out.g=(uchar)Math::clamp(g+v.g,255,0);
+        out.b=(uchar)Math::clamp(b+v.b,255,0);
+        out.a=(uchar)Math::clamp(a+v.a,255,0);
+        return out;
     }
     Color operator - (const Color& v)
     {
-        return (Color(r-v.r,g-v.g,b-v.b,a-v.a));
+        Color out;
+        out.r=(uchar)Math::clamp(r-v.r,255,0);
+        out.g=(uchar)Math::clamp(g-v.g,255,0);
+        out.b=(uchar)Math::clamp(b-v.b,255,0);
+        out.a=(uchar)Math::clamp(a-v.a,255,0);
+        return out;
     }
     bool operator == (const Color& v)
     {
@@ -62,31 +75,64 @@ struct Color
     {
         return r!=v.r || g!=v.g || b!=v.b || a!=v.a;
     }
-
-    operator const unsigned char* () const
+    Color operator * (const float factor)
     {
-        return (const unsigned char*) this;
-    }
-    operator unsigned char* () const
-    {
-        return (unsigned char*) this;
+        Color out;
+        out.r=(uchar)Math::clamp(r*factor,255.0f,0.0f);
+        out.g=(uchar)Math::clamp(g*factor,255.0f,0.0f);
+        out.b=(uchar)Math::clamp(b*factor,255.0f,0.0f);
+        out.a=(uchar)Math::clamp(a*factor,255.0f,0.0f);
+        return out;
     }
 
-    float rNormalize()
+    operator const uchar* () const
+    {
+        return (const uchar*) this;
+    }
+    operator uchar* () const
+    {
+        return (uchar*) this;
+    }
+
+    float rNormalize() const
     {
         return (float)r/255;
     }
-    float gNormalize()
+    float gNormalize() const
     {
         return (float)g/255;
     }
-    float bNormalize()
+    float bNormalize() const
     {
         return (float)b/255;
     };
-    float aNormalize()
+    float aNormalize() const
     {
         return (float)a/255;
+    }
+    Vec4 toNormalize() const
+    {
+        return Vec4(r,g,b,a)/255.0;
+    }
+    const Color& fromNormalize(const Vec4& v)
+    {
+        r=uchar(v.r*255.0f);
+        g=uchar(v.g*255.0f);
+        b=uchar(v.b*255.0f);
+        a=uchar(v.a*255.0f);
+        return *this;
+    }
+    Vec4 toVec4() const
+    {
+        return Vec4(r,g,b,a);
+    }
+    const Color& fromVec4(const Vec4& v)
+    {
+        r=uchar(v.r);
+        g=uchar(v.g);
+        b=uchar(v.b);
+        a=uchar(v.a);
+        return *this;
     }
 };
 };

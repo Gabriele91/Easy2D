@@ -22,6 +22,9 @@ class ResourcesGroup;
 class Object
 {
     public:
+                
+    typedef std::map<const  cppTypeInfo* , Component* > Components;
+    typedef std::list<Object*> Childs;
 
     enum ParentMode
     {
@@ -32,6 +35,8 @@ class Object
         ENABLE_ALL=ENABLE_POSITION|ENABLE_ROTATION|ENABLE_SCALE //111
     };
     
+    public:
+
     Object();
     Object(const String& name);
     virtual ~Object();
@@ -56,15 +61,27 @@ class Object
     void addChild(Object *child,bool ptrdelete=true);
     void addChild(Object *child,ParentMode type,bool ptrdelete=true);
     void erseChild(Object *child);
-    void changeParentMode(ParentMode type);
+    void setParentMode(ParentMode type);
+    size_t countChilds();
+    size_t depthChilds();
     //
     Vector2D getScale(bool global=false);
     Vector2D getPosition(bool global=false);
     float getRotation(bool global=false);
     ParentMode getParentMode() const;
+    Object* getParent();
+    const Object* getParent() const;
+
+    //set/get z
+    void setZ(int z,bool global=false);
+    int getZ(bool global=false);
+    void changeZ();
+
     //math
     void change();
     virtual const Matrix4x4& getGlobalMatrix();
+
+    //scene
     Scene* getScene()
     {
         return scene;
@@ -75,17 +92,21 @@ class Object
     }
 
     //for each methods
-    std::list<Object*>::iterator begin();
-    std::list<Object*>::iterator end();
-    std::list<Object*>::const_iterator begin() const;
-    std::list<Object*>::const_iterator end() const;
+    Childs::iterator begin();
+    Childs::iterator end();
+    Childs::const_iterator begin() const;
+    Childs::const_iterator end() const;
 
-    std::list<Object*>::reverse_iterator rbegin();
-    std::list<Object*>::reverse_iterator rend();
-    std::list<Object*>::const_reverse_iterator rbegin() const;
-    std::list<Object*>::const_reverse_iterator rend() const;
+    Childs::reverse_iterator rbegin();
+    Childs::reverse_iterator rend();
+    Childs::const_reverse_iterator rbegin() const;
+    Childs::const_reverse_iterator rend() const;
     
-    //components
+    //components by name
+    Component* component(const String& name);
+    //components list
+    const Components& getComponents();
+    //components by template
     template<class T> 
     void addComponent(T* component)
     {
@@ -160,35 +181,15 @@ class Object
 
         return false;
     }
+
     //send a message
-    void sendMessage(uint message)
-    {
-        //message to components
-        for(auto cmp:components)
-        {
-            cmp.second->onMessage(message);
-        }
-        //message to childs
-        for(auto child:childs)
-        {
-            child->sendMessage(message);
-        }
-    }
+    void sendMessage(uint message);
+    void sendLocalMessage(uint message);
     
-    //object call backs 
-    //update
-    virtual void onRun(float dt)
-    {
-        
-    }
-    virtual void onAttached(Scene* scene)
-    {
-        
-    }
-    virtual void onUnattached()
-    {
-        
-    }
+    //object callbacks 
+    virtual void onRun(float dt){ }
+    virtual void onAttached(Scene* scene){ }
+    virtual void onUnattached(){ }
     
     void  setUserData(void* data)
     {
@@ -198,19 +199,14 @@ class Object
     {
         return data;
     }   
-    
     //serialize/deserialize
     virtual void serialize(Table& table);
     virtual void deserialize(const Table& table);
-    
-    void setName(const String& argname)
-    {
-        name=argname;
-    }
-    const String& getName()
-    {
-       return name;
-    }
+    //query info
+    Object* getObject(const String& argname);
+    Object* getChild(const String& argname);
+    void setName(const String& argname);
+    const String& getName();
     
     protected:
 
@@ -222,6 +218,9 @@ class Object
     ResourcesGroup* getResourcesGroup(const String& name);
 
     private:
+    //find child
+    Object* getPrivateObject(const std::vector<String>& names,size_t i);
+    
     //name
     String name;
     //data
@@ -229,64 +228,21 @@ class Object
     //scene
     Scene*  scene;
     //components
-    std::map<const  cppTypeInfo* , Component* > components;
+    Components components;
     //append a scene
-    void setScene(Scene* argscene)
-    {
-        //DEBUG_ASSERT(!scene);
-        scene=argscene;
-        //call back
-        onAttached(scene);
-        //message to components
-        for(auto cmp:components)
-        {
-            cmp.second->onSetScene(scene);
-        }
-        //message to childs
-        for(auto child:childs)
-        {
-            child->setScene(scene);
-        }
-    }
-    void eraseScene()
-    {
-        //DEBUG_ASSERT(scene);
-        //message to components
-        for(auto cmp:components)
-        {
-            cmp.second->onEraseScene();
-        }
-        //message to childs
-        for(auto child:childs)
-        {
-            child->eraseScene();
-        }
-        //call back
-        onUnattached();
-        //dt
-        scene=nullptr;
-    }
+    void setScene(Scene* argscene);
+    void eraseScene();
     //scene run
-    void onSceneRun(float dt)
-    {
-        //update components
-        for(auto cmp:components)
-        {
-            cmp.second->onRun(dt);
-        }
-        //update 
-        onRun(dt);
-        //update childs
-        for(auto child:childs)
-        {
-            child->onSceneRun(dt);
-        }
-    }
+    void onSceneRun(float dt);
     //local
     Transform2D transform;
     //global
     bool changeValue;
     Matrix4x4 globalMat;
+    //float z
+    int zLocal;
+    int zGlobal;
+    bool changeZValue;
     //parent
     bool    del;
     Object* parent;

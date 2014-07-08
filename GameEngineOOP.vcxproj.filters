@@ -25,9 +25,6 @@
     <Filter Include="File di origine\Image">
       <UniqueIdentifier>{44874d2d-3431-452f-9cc7-2a31f4259a4d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File di intestazione\thread">
-      <UniqueIdentifier>{1f950abe-6b46-4c69-bd16-8c11a23779c4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="File di origine\thread">
       <UniqueIdentifier>{1694235b-5bd7-45d0-8d7a-55032b20b72c}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,15 @@
     </Filter>
     <Filter Include="File di origine\gui">
       <UniqueIdentifier>{86066041-35bc-4a78-b783-d8fae4d3893b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\script">
+      <UniqueIdentifier>{e11b2846-6349-4755-bafa-f09a6e6e785a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\script">
+      <UniqueIdentifier>{9b3df3a9-8889-4d09-8e54-7e923f87237c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\thread">
+      <UniqueIdentifier>{1f950abe-6b46-4c69-bd16-8c11a23779c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +112,6 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera.cpp">
-      <Filter>File di origine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Layer.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="src\window\OpenGLWindow.cpp">
@@ -225,6 +228,33 @@
     <ClCompile Include="src\WavLoader.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Parallax.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BatchingColorMesh.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BatchingMesh.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Script.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\LuaEasy2D.cpp">
+      <Filter>File di origine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\LuaMath3D.cpp">
+      <Filter>File di origine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\LuaScript.cpp">
+      <Filter>File di origine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\LuaState.cpp">
+      <Filter>File di origine\script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -289,9 +319,6 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Camera.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Layer.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\window\gletx_header.h">
@@ -437,6 +464,27 @@
     </ClInclude>
     <ClInclude Include="include\WavLoader.h">
       <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Parallax.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParticleSystem.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BatchingColorMesh.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BatchingMesh.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Script.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\script\ELuaState.h">
+      <Filter>File di intestazione\script</Filter>
+    </ClInclude>
+    <ClInclude Include="include\script\ELuaScript.h">
+      <Filter>File di intestazione\script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

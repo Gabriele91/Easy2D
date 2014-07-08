@@ -21,12 +21,14 @@ class Animation
           totalTime,
           timePerFrame;
     int   currentFrame;
+    bool  loop;
+    bool  pause;
 
 public:
     //costructor
-    Animation( FrameSet::ptr frameset, float timePerFrame)
+    Animation( FrameSet::ptr frameset, float timePerFrame, bool loop)
     {
-        setFrameSet(frameset,timePerFrame);
+        setFrameSet(frameset,timePerFrame,loop);
     }
     //animation update
     void setFrame(float dt)
@@ -35,27 +37,38 @@ public:
         DEBUG_ASSERT( frames!=NULL );
         if( timePerFrame == 0 )return;
         if( frames->size() <= 1 ) return;
+        if( isStop() ) return;
         //new time
         animationTime = dt;
         //update
         while( animationTime >= timePerFrame )
         {
             ++currentFrame;
-            currentFrame%=frames->size();
             animationTime -= timePerFrame;
         }
-        //??
+        //fix last frame in next loop
         while( animationTime < 0 )
             animationTime += totalTime;
+        //is loop?
+        if(loop)
+            currentFrame%=frames->size();
+        else if(currentFrame>lastFrame())
+            currentFrame=lastFrame();
     }
     //next frame
     void update(float dt)
     {
-        setFrame(animationTime+dt);
+        if(!pause)
+            setFrame(animationTime+dt);
     }
     //setters
-    void setFrameSet( FrameSet::ptr frameset, float tPerFrame )
+    void setFrameSet( FrameSet::ptr frameset, 
+                      float tPerFrame,
+                      bool  doloop,
+                      bool  dopause=false)
     {
+        loop = doloop;
+        pause = dopause;
         frames = frameset;
         setFrameTime(tPerFrame);
     }
@@ -75,10 +88,30 @@ public:
         timePerFrame =  time / frames->size();
         totalTime = time;
     }
-
     void setForcedFrame(int i)
     {
         currentFrame=i%frames->size();
+    }
+    void setLoop(bool doloop)
+    {
+        loop=doloop;
+    }
+    void setPause(bool dopause)
+    {
+        pause=dopause;
+    }
+    //if is stopped
+    bool isStop()
+    {
+        return !loop && currentFrame==lastFrame();
+    }
+    void restart()
+    {
+        currentFrame=0;
+    }
+    int lastFrame()
+    {
+        return frames->size()-1;
     }
     //getters
     DFORCEINLINE FrameSet::ptr getFrameSet()
@@ -97,13 +130,21 @@ public:
     {
         return animationTime;
     }
+    DFORCEINLINE float getTimePerFrame()
+    {
+        return timePerFrame;
+    }
     DFORCEINLINE float getTotalTime()
     {
         return totalTime;
     }
-    DFORCEINLINE float getTimePerFrame()
+    DFORCEINLINE bool getLoop()
     {
-        return timePerFrame;
+        return loop;
+    }
+    DFORCEINLINE bool getPause()
+    {
+        return pause;
     }
 
 };
@@ -124,20 +165,32 @@ protected:
 public:
 
     //costructor
-    AnimatedSprite(Layer *layer=NULL);
+    AnimatedSprite();
     virtual ~AnimatedSprite();
     //set animation frame
     void setFrame(int animation,int frame);
     //add an animation
     int addAnimation(FrameSet::ptr frames);
     int addAnimation(FrameSet::ptr frames, float time);
+    int addAnimation(FrameSet::ptr frames, float time,bool loop);
     //change an animation
     void setAnimation(int i);
     void setAnimation(int i, float timePerFrame);
+    void setAnimation(int i, bool  loop);
+    void setAnimation(int i, float timePerFrame, bool  loop);
     //change time animation
     void setTime(float timePerFrame);
     void setChangeTime(float timePerFrame);
+    void setPause(bool pause);
+    void setLoop(bool loop);
     void setAnimationTime(int i, float time);
+    void setAnimationPause(int i, bool pause);
+    void setAnimationLoop(int i, bool loop);
+    //restart
+    void currentRestart()
+    {
+        return animations[crtAnimation]->restart();
+    }
     //query
     int getCurrentAnimation()
     {
@@ -155,6 +208,18 @@ public:
     {
         return animations[crtAnimation]->getCurrentTime();
     }
+    bool getCurrentLoop()
+    {
+        return animations[crtAnimation]->getLoop();
+    }
+    bool getCurrentPause()
+    {
+        return animations[crtAnimation]->getPause();
+    }
+    bool getCurrentIsStop()
+    {
+        return animations[crtAnimation]->isStop();
+    }
     //get pixel scale
     Vec2 getBoxScale()
     {
@@ -164,10 +229,6 @@ public:
         return scale*getObject()->getScale();
     }
     //component
-    virtual const char* getComponentName() const
-    {
-        return "AnimatedSprite";
-    }
     virtual void onRun(float dt)
     {
         if(crtAnimation>=0)
@@ -177,10 +238,13 @@ public:
             setMesh(animations[crtAnimation]->getCurrentFrame());
         }
     }
+    //is a component
+    DERIVATE_COMPONENT(AnimatedSprite)
     //serialize/deserialize
     virtual void serialize(Table& table);
     virtual void deserialize(const Table& table);
 };
+REGISTERED_COMPONENT(AnimatedSprite, "AnimatedSprite")
 
 };
 

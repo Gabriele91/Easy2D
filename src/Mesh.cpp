@@ -10,14 +10,37 @@ using namespace Easy2D;
 //#undef ENABLE_VAOS
 //
 
+Mesh::Mesh(DFUNCTION<void(void)> fun,
+           ResourcesManager<Mesh> *rsmr,
+           const String& pathfile)
+           :BasicMesh(fun)
+           ,Resource(rsmr,pathfile)
+           ,vertexBuffer(0)
+           ,indexBuffer(0)
+           ,dmode(TRIANGLE)
+{
+    //is reloadable?
+    if(!rsmr||pathfile=="") reloadable=false;
+
+#ifdef ENABLE_VAOS
+    vbaDraw=(0);
+#endif
+}
+
 Mesh::Mesh(ResourcesManager<Mesh> *rsmr,
            const String& pathfile)
-    :Resource(rsmr,pathfile)
-    ,vertexBuffer(0)
-    ,indexBuffer(0)
-    ,dmode(TRIANGLE)
+           :BasicMesh([this](){
+                //create cpu buffer
+                cpuBuffers=CpuBuffers::ptr(new MCBuffers());
+            })
+           ,Resource(rsmr,pathfile)
+           ,vertexBuffer(0)
+           ,indexBuffer(0)
+           ,dmode(TRIANGLE)
 {
+    //is reloadable?
     if(!rsmr||pathfile=="") reloadable=false;
+
 #ifdef ENABLE_VAOS
     vbaDraw=(0);
 #endif
@@ -34,27 +57,27 @@ void Mesh::addVertex(const gVertex& gv)
     //update box
     box.addPoint(gv.vt);
     //add vertex
-    mVertexs.push_back(gv);
+    cpuVertexs().push_back(gv);
 }
 void Mesh::addIndex(ushort mIndex)
 {
-    mIndexs.push_back(mIndex);
+    cpuIndexs().push_back(mIndex);
 }
 void Mesh::addTriangleIndexs(ushort v1,ushort v2,ushort v3)
 {
-    mIndexs.push_back(v1);
-    mIndexs.push_back(v2);
-    mIndexs.push_back(v3);
+    cpuIndexs().push_back(v1);
+    cpuIndexs().push_back(v2);
+    cpuIndexs().push_back(v3);
 }
 void Mesh::addQuadIndexs(ushort v1,ushort v2,ushort v3,ushort v4)
 {
-    mIndexs.push_back(v1);
-    mIndexs.push_back(v2);
-    mIndexs.push_back(v3);
+    cpuIndexs().push_back(v1);
+    cpuIndexs().push_back(v2);
+    cpuIndexs().push_back(v3);
 
-    mIndexs.push_back(v2);
-    mIndexs.push_back(v3);
-    mIndexs.push_back(v4);
+    cpuIndexs().push_back(v2);
+    cpuIndexs().push_back(v3);
+    cpuIndexs().push_back(v4);
 }
 //
 void Mesh::setDrawMode(DrawMode dmode)
@@ -69,14 +92,14 @@ void Mesh::build()
     if( !vertexBuffer )
         glGenBuffers(1, &vertexBuffer );
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gVertex) * mVertexs.size(), &mVertexs[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(gVertex) * cpuVertexs().size(), &cpuVertexs()[0], GL_STATIC_DRAW);
     //create the IBO
-    if(mIndexs.size())
+    if(cpuIndexs().size())
     {
         if( !indexBuffer )
             glGenBuffers(1, &indexBuffer );
         glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(ushort) * mIndexs.size(), &mIndexs[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(ushort) * cpuIndexs().size(), &cpuIndexs()[0], GL_STATIC_DRAW);
     }
 
 #ifdef ENABLE_VAOS
@@ -106,7 +129,6 @@ bool Mesh::load()
 {
     //can't load this resource
     DEBUG_ASSERT(isReloadable());
-    //
     //load file
     void *data=NULL;
     size_t len=0;
@@ -209,7 +231,7 @@ void Mesh::__bind()
     glVertexPointer(2, GL_FLOAT, sizeof(gVertex), 0 );
     glTexCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec2) );
     //bind IBO
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mIndexs.size() ? indexBuffer : 0 );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, cpuIndexs().size() ? indexBuffer : 0 );
 
 }
 void Mesh::draw()
@@ -239,203 +261,12 @@ void Mesh::draw()
         break;
     }
     //draw mesh
-    if( !mIndexs.size() )
-        glDrawArrays( glMode, 0, mVertexs.size() );
+    if( !cpuIndexs().size() )
+        glDrawArrays( glMode, 0, cpuVertexs().size() );
     else
-        glDrawElements( glMode, mIndexs.size(), GL_UNSIGNED_SHORT, 0 );
+        glDrawElements( glMode, cpuIndexs().size(), GL_UNSIGNED_SHORT, 0 );
 
 #ifdef ENABLE_VAOS
     glBindVertexArray( 0 );
 #endif
-}
-
-
-/*BatchingMesh*/
-
-BatchingMesh::BatchingMesh():countVertexs(0),maxSize(0)
-{
-#ifdef ENABLE_STREAM_BUFFER
-    vertexBuffer=(0);
-#endif
-}
-//distruttore
-BatchingMesh::~BatchingMesh()
-{
-#ifdef ENABLE_STREAM_BUFFER	//unload mesh
-    if( vertexBuffer )
-        glDeleteBuffers(1, &vertexBuffer );
-#endif
-}
-
-void BatchingMesh::createBuffer(size_t maxSize)
-{
-    //save max size
-    this->maxSize=maxSize;
-    //create the VBO
-#ifdef ENABLE_STREAM_BUFFER
-    if( !vertexBuffer )
-        glGenBuffers(1, &vertexBuffer );
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, maxSize,0, GL_STREAM_DRAW);
-#endif
-}
-void BatchingMesh::createBufferByVertexs(size_t maxVertexs)
-{
-    //gpu alloc
-    createBuffer(maxVertexs*sizeof(gVertex));
-    //cpu alloc
-    mVertexs.resize(maxVertexs);
-}
-void BatchingMesh::createBufferByTriangles(size_t maxTriangles)
-{
-    createBufferByVertexs(maxTriangles*3);
-}
-
-
-void BatchingMesh::relase()
-{
-    countVertexs=0;
-}
-bool BatchingMesh::canAdd(Mesh::ptr mesh)
-{
-    //ibo
-    size_t nI=mesh->getCpuIndexs().size();
-    size_t nV=mesh->getCpuVertexs().size();
-    //invalid mesh vertexs count
-    int nVfuture=(nI ? nI : nV);
-    if(nVfuture <3) return false;
-    //future size < max size?
-    size_t futuresize=bitesSize();
-    //olready superated!?
-    if(futuresize>maxSize)
-        return false;
-    else if(mesh->getDrawMode()==Mesh::DrawMode::TRIANGLE)
-        futuresize+=nVfuture *sizeof(gVertex);
-    else if(mesh->getDrawMode()==Mesh::DrawMode::TRIANGLE_STRIP)
-        futuresize+=((nVfuture-3) * 3 + 3)*sizeof(gVertex);
-    //and now!?
-    if(futuresize>maxSize)
-        return false;
-    //you can batching this mesh
-    return true;
-}
-
-bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,int z)
-{
-    DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINES);
-    DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINE_STRIP);
-
-#define AddVertexML(gvt)\
-				mVertexs[countVertexs].vtz=Vec3(modelView.mul2D(gvt.vt),(float)z);\
-				mVertexs[countVertexs].uv=gvt.uv;\
-				++countVertexs;
-
-#define AddLastVertexML3(i)\
-				mVertexs[countVertexs]=mVertexs[countVertexs+i];\
-				++countVertexs;
-    //ibo
-    size_t nI=mesh->getCpuIndexs().size();
-    size_t nV=mesh->getCpuVertexs().size();
-    const auto& refIBO=mesh->getCpuIndexs();
-    const auto& refVBO=mesh->getCpuVertexs();
-    //invalid mesh
-    if(!canAdd(mesh)) return false;
-    //
-    switch (mesh->getDrawMode())
-    {
-    case Mesh::DrawMode::TRIANGLE:
-        if(nI) //ibo?
-            for(auto i:refIBO)
-            {
-                AddVertexML(refVBO[i])
-            }
-        else
-            for(auto& gvt:refVBO)
-            {
-                AddVertexML(gvt)
-            };
-        break;
-    case Mesh::DrawMode::TRIANGLE_STRIP:
-        if(nI)  //ibo?
-        {
-            //first vetexts
-            AddVertexML(refVBO[refIBO[0]])
-            AddVertexML(refVBO[refIBO[1]])
-            AddVertexML(refVBO[refIBO[2]])
-            //
-            for (size_t i=1; i != nI-2; ++i)
-            {
-                //TRIANGLE_STRIP -> TRIANGLE
-                if(i&1)
-                {
-                    AddLastVertexML3(-1)
-                    AddLastVertexML3(-3)
-                    AddVertexML(refVBO[refIBO[i+2]])
-                }
-                else
-                {
-                    AddLastVertexML3(-2)
-                    AddLastVertexML3(-2)
-                    AddVertexML(refVBO[refIBO[i+2]])
-                }
-            }
-        }
-        else
-        {
-            //first vetexts
-            AddVertexML(refVBO[0])
-            AddVertexML(refVBO[1])
-            AddVertexML(refVBO[2])
-            //cycle
-            for (size_t i=1; i != nV-2; ++i)
-            {
-                //TRIANGLE_STRIP -> TRIANGLE
-                if(i&1)
-                {
-                    AddLastVertexML3(-1)
-                    AddLastVertexML3(-3)
-                    AddVertexML(refVBO[i+2])
-                }
-                else
-                {
-                    AddLastVertexML3(-2)
-                    AddLastVertexML3(-2)
-                    AddVertexML(refVBO[i+2])
-                }
-            }
-        }
-        break;
-    default:
-        break;
-    }
-
-    return true;
-}
-void BatchingMesh::draw()
-{
-    //disable IBO
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-
-#ifdef ENABLE_STREAM_BUFFER
-    //enable VBO
-    glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
-    //send vertexs
-    glBufferSubData(GL_ARRAY_BUFFER, //target
-                    0,               //offset
-                    sizeof(BatchingMesh::gVertex)*countVertexs, //size
-                    &mVertexs[0] //data
-                   );
-    //set vertex
-    glVertexPointer(3, GL_FLOAT, sizeof(gVertex), 0 );
-    glTexCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec3) );
-#else
-    //disable VBO
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-    //set vertex
-    static const size_t sizeofGV=sizeof(BatchingMesh::gVertex);
-    glVertexPointer(3, GL_FLOAT, sizeofGV, &mVertexs[0].vtz.x );
-    glTexCoordPointer(2, GL_FLOAT, sizeofGV, &mVertexs[0].uv.x );
-#endif
-    //draw
-    glDrawArrays( GL_TRIANGLES, 0, countVertexs );
 }

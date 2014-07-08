@@ -1591,7 +1591,7 @@
 1402937887 /home/Gabriele/Git/Easy2D//stdafx.h
 	<Config.h>
 
-1402948282 /home/Gabriele/Git/Easy2D/include/Config.h
+1403765752 /home/Gabriele/Git/Easy2D/include/Config.h
 	<cmath>
 	<cassert>
 	<cstdlib>
@@ -1675,7 +1675,7 @@
 1402950716 /home/Gabriele/Git/Easy2D/include/Memory.h
 	<Config.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/AnimatedSprite.h
+1403765760 /home/Gabriele/Git/Easy2D/include/AnimatedSprite.h
 	<Config.h>
 	<Math3D.h>
 	<Object.h>
@@ -1693,20 +1693,24 @@
 
 1402937887 /home/Gabriele/Git/Easy2D/include/MinMaxList.h
 
-1402948282 /home/Gabriele/Git/Easy2D/include/Object.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Object.h
 	<Config.h>
 	<Math3D.h>
 	<Body.h>
+	<Table.h>
 	<Component.h>
 	<Debug.h>
 
-1402948282 /home/Gabriele/Git/Easy2D/include/Body.h
+1403765760 /home/Gabriele/Git/Easy2D/include/Body.h
 	<Config.h>
 	<Math3D.h>
 	<Component.h>
 	<Box2D.hpp>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Component.h
+1403765760 /home/Gabriele/Git/Easy2D/include/Component.h
+	<Config.h>
+	<EString.h>
+	<Table.h>
 
 1402937887 /home/Gabriele/Git/Easy2D/include/Box2D.hpp
 	<Config.h>
@@ -1880,20 +1884,20 @@
 	<EString.h>
 	<ostream>
 
-1402948282 /home/Gabriele/Git/Easy2D/include/Renderable.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Renderable.h
 	<Config.h>
 	<Mesh.h>
 	<Component.h>
 	<RenderState.h>
 	<Blend.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Mesh.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Mesh.h
 	<Config.h>
 	<Math3D.h>
 	<EString.h>
 	<Resource.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Resource.h
+1403278096 /home/Gabriele/Git/Easy2D/include/Resource.h
 	<Config.h>
 	<EString.h>
 	<Utility.h>
@@ -1903,12 +1907,13 @@
 	<string>
 	<EString.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/RenderState.h
+1403733967 /home/Gabriele/Git/Easy2D/include/RenderState.h
 	<Config.h>
 	<Mesh.h>
 	<Texture.h>
 	<Blend.h>
 	<Color.h>
+	<Table.h>
 
 1402937887 /home/Gabriele/Git/Easy2D/include/Texture.h
 	<Config.h>
@@ -1922,9 +1927,11 @@
 1402937887 /home/Gabriele/Git/Easy2D/include/Blend.h
 	<Config.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Color.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Color.h
+	<Config.h>
+	<Math3D.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/FrameSet.h
+1403733967 /home/Gabriele/Git/Easy2D/include/FrameSet.h
 	<Config.h>
 	<Math3D.h>
 	<EString.h>
@@ -1964,7 +1971,7 @@
 	<Scene.h>
 	<ResourcesGroup.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Scene.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Scene.h
 	<Config.h>
 	<State.h>
 	<EStack.h>
@@ -1973,7 +1980,7 @@
 	<World.h>
 	<Object.h>
 
-1402948282 /home/Gabriele/Git/Easy2D/include/State.h
+1403765760 /home/Gabriele/Git/Easy2D/include/State.h
 	<Config.h>
 	<Application.h>
 	<Debug.h>
@@ -1984,11 +1991,11 @@
 	<list>
 	<algorithm>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Render.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Render.h
+	<queue>
 	<Config.h>
 	<Screen.h>
 	<Camera.h>
-	<Layer.h>
 	<Color.h>
 	<Sortable.h>
 	<Renderable.h>
@@ -2012,7 +2019,7 @@
 1402937887 /home/Gabriele/Git/Easy2D/include/Sortable.h
 	<Config.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/World.h
+1403733967 /home/Gabriele/Git/Easy2D/include/World.h
 	<Config.h>
 	<Math3D.h>
 	<Box2D.hpp>
@@ -2031,14 +2038,14 @@
 	<Font.h>
 	<Sound.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/ResourcesManager.h
+1403278096 /home/Gabriele/Git/Easy2D/include/ResourcesManager.h
 	<Config.h>
 	<Debug.h>
 	<EString.h>
 	<Resource.h>
 	<Table.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Table.h
+1403278096 /home/Gabriele/Git/Easy2D/include/Table.h
 	<Config.h>
 	<Math3D.h>
 	<EString.h>
@@ -2130,9 +2137,10 @@
 	<stdafx.h>
 	<Color.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/Component.cpp
+1403278096 source:/home/Gabriele/Git/Easy2D/src/Component.cpp
 	<stdafx.h>
 	<Component.h>
+	<Debug.h>
 
 1402937887 source:/home/Gabriele/Git/Easy2D/src/Config.cpp
 	<stdafx.h>
@@ -2176,7 +2184,7 @@
 	<Table.h>
 	<Font.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/FrameSet.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/FrameSet.cpp
 	<stdafx.h>
 	<FrameSet.h>
 	<Application.h>
@@ -2339,25 +2347,28 @@
 	<Debug.h>
 	<Application.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/Object.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/Object.cpp
 	<stdafx.h>
 	<Object.h>
 	<Body.h>
+	<Scene.h>
 	<Application.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/Render.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/Render.cpp
 	<Debug.h>
 	<Screen.h>
 	<Application.h>
 	<Render.h>
 	<Object.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/Renderable.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/Renderable.cpp
 	<stdafx.h>
 	<Renderable.h>
-	<Layer.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/RenderState.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/RenderState.cpp
 	<stdafx.h>
 	<RenderState.h>
 
@@ -2397,11 +2408,14 @@
 	<Utility.h>
 	<Application.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/Sprite.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/Sprite.cpp
 	<stdafx.h>
 	<Sprite.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Sprite.h
+1403765760 /home/Gabriele/Git/Easy2D/include/Sprite.h
 	<Config.h>
 	<Renderable.h>
 	<Object.h>
@@ -2411,7 +2425,7 @@
 	<State.h>
 	<Application.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/Table.cpp
+1403278096 source:/home/Gabriele/Git/Easy2D/src/Table.cpp
 	<Table.h>
 	<Debug.h>
 	<Application.h>
@@ -2456,7 +2470,7 @@
 	<WavLoader.h>
 	<Debug.h>
 
-1402937887 source:/home/Gabriele/Git/Easy2D/src/World.cpp
+1403733967 source:/home/Gabriele/Git/Easy2D/src/World.cpp
 	<stdafx.h>
 	<World.h>
 	<Body.h>
@@ -2477,7 +2491,7 @@
 	<Button.h>
 	<Label.h>
 
-1402937887 /home/Gabriele/Git/Easy2D/include/Easy2D.h
+1403733967 /home/Gabriele/Git/Easy2D/include/Easy2D.h
 	<Config.h>
 	<Debug.h>
 	<Types.h>
@@ -2496,20 +2510,21 @@
 	<Game.h>
 	<Math3D.h>
 	<World.h>
-	<Body.h>
 	<Sound.h>
 	<Object.h>
 	<Camera.h>
 	<RenderState.h>
-	<Renderable.h>
 	<Texture.h>
 	<Mesh.h>
 	<Font.h>
-	<Sprite.h>
 	<FrameSet.h>
+	<Renderable.h>
+	<Sprite.h>
 	<AnimatedSprite.h>
+	<Body.h>
+	<State.h>
+	<Parallax.h>
 	<Render.h>
-	<Layer.h>
 	<Scene.h>
 	<Gui.h>
 
@@ -2534,4 +2549,50 @@
 1402937887 source:/home/Gabriele/Git/Easy2D/src/gui/Panel.cpp
 	<stdafx.h>
 	<Panel.h>
+
+1402937887 source:/home/Gabriele/Git/Easy2D/src/audio/AudioAL.cpp
+	<stdafx.h>
+	<AudioAL.h>
+	<StaticSoundAL.h>
+	<StreamSoundAL.h>
+	<EString.h>
+	<Debug.h>
+
+1402937887 /home/Gabriele/Git/Easy2D/include/audio/StaticSoundAL.h
+	<Config.h>
+	<BaseSoundAL.h>
+
+1402937887 /home/Gabriele/Git/Easy2D/include/audio/BaseSoundAL.h
+	<Config.h>
+	<Audio.h>
+
+1402937887 /home/Gabriele/Git/Easy2D/include/audio/StreamSoundAL.h
+	<Config.h>
+	<BaseSoundAL.h>
+	<StreamThreadAL.h>
+
+1402937887 source:/home/Gabriele/Git/Easy2D/src/audio/BaseSoundAL.cpp
+	<stdafx.h>
+	<Application.h>
+	<BaseSoundAL.h>
+
+1402937887 source:/home/Gabriele/Git/Easy2D/src/audio/StaticSoundAL.cpp
+	<stdafx.h>
+	<StaticSoundAL.h>
+
+1402937887 source:/home/Gabriele/Git/Easy2D/src/audio/StreamSoundAL.cpp
+	<stdafx.h>
+	<Math3D.h>
+	<Debug.h>
+	<StreamSoundAL.h>
+
+1402937887 source:/home/Gabriele/Git/Easy2D/src/audio/StreamThreadAL.cpp
+	<stdafx.h>
+	<StreamThreadAL.h>
+
+1403765760 /home/Gabriele/Git/Easy2D/include/Parallax.h
+	<Config.h>
+	<Component.h>
+	<Camera.h>
+	<Scene.h>
 

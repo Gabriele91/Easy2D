@@ -270,18 +270,7 @@ class Body : public Component
 
 
     //component name
-    virtual const char* getComponentName() const
-    {
-        return "Body";
-    }    
-    static const  cppTypeInfo* getComponentType()
-    {
-        return &typeid(Body);
-    }
-    virtual const cppTypeInfo* getComponentInfo() const
-    {
-        return getComponentType();
-    }
+    ADD_COMPONENT_METHOS(Body)
     //run
     virtual void onRun(float dt) ;
     //scene
@@ -294,6 +283,7 @@ class Body : public Component
     virtual void serialize(Table& table);
     virtual void deserialize(const Table& table);
 };
+REGISTERED_COMPONENT(Body,"Body")
 
 };
 

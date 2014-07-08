@@ -30,9 +30,9 @@ class Scene : public Render, //Graphics
         SubScene(Scene *child,bool destructible=true):child(child),destructible(destructible) {}
     };
 
-    DUNORDERED_MAP<Object*,Object*> objects;
     DUNORDERED_MAP<int,SubScene> scenes;
     EStack<int> actives;
+    std::list<Object*> objects;
 
     bool isStarted;
     void onStartResume()
@@ -48,14 +48,16 @@ class Scene : public Render, //Graphics
     {
         //update objects
         for(auto obj:objects)
-            obj.second->onSceneRun(dt);
+            obj/*.second*/->onSceneRun(dt);
         //update logic scene
         onRun(dt);
         //update physics
         World::physics(dt);
     }
     void onRunDraw()
-    {
+    { 
+        //rebuild queue
+        buildQueue(objects);
         //draw scene
         Render::draw();
         //draw debug
@@ -92,18 +94,48 @@ public:
     template<class T>
     T* addObject(T *obj)
     {
-        objects[obj]=(Object*)obj;
+        objects.push_back((Object*)obj);
         ((Object*)obj)->setScene(this);
         return obj;
     }
     void eraseObject(Object *obj)
     {
-        auto it=objects.find(obj);
+        auto it=std::find(objects.begin(),
+                          objects.end(),
+                          obj);
         if(it!=objects.end())
         {
             obj->eraseScene();
             objects.erase(it);
         }
+    }
+    Object* getObject(const String& argname)
+    {
+        //names list
+        std::vector<String> names;
+        argname.split(".",names);
+        //search
+        if(names.size()!=0)
+        {
+            for(auto obj:objects)
+            {
+                Object* tmp=obj->getPrivateObject(names,0);
+                if(tmp) return tmp;
+            }
+        }
+
+        return nullptr;
+        
+    }
+    void clearObjects(bool hardDelete=true)
+    {
+        if(hardDelete)
+        {
+            //delete all objects
+            for(auto obj:objects)
+                delete obj/*.second*/;
+        }
+        objects.clear();
     }
     //add sub scene
     void addScene(int uid,Scene* scene,bool destructible=true)
@@ -154,7 +186,25 @@ public:
         //return
         return temp;
     }
-
+    //deserialize
+    void deserialize(const Table& table)
+    {
+        //world
+        World::deserialize(table);
+        //objects
+        const Table& objects=table.getConstTable("Objects");
+        //load objects
+        for(auto it:objects)
+        {
+            if(it.second->asType(Table::TABLE))
+            {
+                //get table
+                const Table& table=it.second->get<Table>();
+                DEBUG_ASSERT(it.first.isString());
+                addObject(new Object())->deserialize(table);
+            }
+        }
+    }
     //scene methos
     virtual void onStart()=0;
     virtual void onResume() {}
@@ -175,7 +225,7 @@ public:
                 delete scene.second.child;
         //delete all objects
         for(auto obj:objects)
-            delete obj.second;
+            delete obj/*.second*/;
     }
 
     //application methos

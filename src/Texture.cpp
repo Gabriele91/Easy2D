@@ -25,7 +25,7 @@ Texture::Texture(ResourcesManager<Texture> *rsmr,
     ,spriteHeight(0)
     ,gpuid(0)
     ,offsetUV(1,1)
-    ,po2Srpite(NULL)
+    ,po2Srpite(nullptr)
 {
     //is not loaded
     loaded=false;
@@ -101,9 +101,11 @@ Mesh::ptr Texture::getPO2Sprite()
 {
     //create texture
     if(!po2Srpite)
+    {
         po2Srpite=Mesh::ptr (new Mesh());
-    //if loaded build mesh
-    __build();
+        //if loaded build mesh
+        __build();
+    }
     //
     return po2Srpite;
 }

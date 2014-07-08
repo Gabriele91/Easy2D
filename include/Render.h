@@ -1,43 +1,71 @@
 #ifndef RENDER_H
 #define RENDER_H
 
+#include <queue>
 #include <Config.h>
 #include <Screen.h>
 #include <Camera.h>
-#include <Layer.h>
 #include <Color.h>
 #include <Sortable.h>
 #include <Renderable.h>
 #include <RenderState.h>
+#include <BatchingMesh.h>
 
 namespace Easy2D
 {
 
-class Render : public Sortable
+class Render /*: public Sortable*/
 {
 protected:
-
-    std::vector<Layer *> layers;
-    //projection matrix
-    Matrix4x4 projection;
     //info screen
     Camera *camera;
-    Vector2D viewport;
-    float screenAngle;
     //colors
     Color clearClr;
     Color ambientClr;
     //Batching
-#ifdef ENABLE_CPU_BATCHING_MESH
     BatchingMesh batchingMesh;
-#endif
-    //reorder?
-    bool reorder;
-    //vector comparation items
-    static bool operator_lt(const Layer* lrs,const Layer* rrs);
-    virtual void change();
-    virtual void dosort();
+    //redner queue
+    class Queue
+    {
+        std::list<Object*> objs;
+        typedef std::list<Object*>::iterator ItObjs;
+        typedef std::list<Object*>::reverse_iterator revItObjs;
+
+    public:
+
+        void push(Object* obj);
+        void clear()
+        {
+            objs.clear();
+        }
+        size_t size()
+        {
+            return objs.size();
+        }
+        ItObjs begin()
+        {
+            return objs.begin();
+        }
+        ItObjs end()
+        {
+            return objs.end();
+        }
+        revItObjs rbegin()
+        {
+            return objs.rbegin();
+        }
+        revItObjs rend()
+        {
+            return objs.rend();
+        }
+    };
+    //render queue
+    Queue queue;
+    //ricorsive append a child
+    void append(Object* obj);
     //called from scene
+    void buildQueue(const std::list<Object*>& objs);
+    //draw
     void draw();
 
 public:
@@ -54,17 +82,19 @@ public:
         return camera;
     }
     //
-    Layer* addLayer(bool order);
-    void erseLayer(Layer* layer);
-    //
     DFORCEINLINE void setClear(const Color& color)
     {
         clearClr=color;
     }
     //
-    void updateProjection();
-    void updateProjection(const Vec2& viewport);
-    void updateViewport(const Vec2& viewport);
+    Object* picking(const Vec2& point);
+    void aabox2Draw();
+    //
+    size_t queueSize()
+    {
+        return queue.size();
+    }
+
 };
 
 };

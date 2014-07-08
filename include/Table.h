@@ -391,7 +391,7 @@ public:
         return vdefault;
     }
     /** return a table/array associate a table/array key */
-    DFORCEINLINE const Table& getTable(const KeyTable& key,const Table& vdefault=Table::NONE)
+    DFORCEINLINE Table& getTable(const KeyTable& key,Table& vdefault=Table::NONE)
     {
         if(existsAsType(key,TABLE)) return *((Table*)(table.find(key)->second->getValue()));
         return vdefault;
@@ -428,6 +428,16 @@ public:
     const String& getDeserializeErros()
     {
         return dErrors.toString();
+    }
+    /** get table name */
+    const String& getName() const
+    {
+        return name;
+    }
+    /** set table name */
+    void setName(const String& name)
+    {
+        this->name=name;
     }
     /** data struct serialize/deserialize */
     template<class T>
@@ -578,6 +588,8 @@ public:
     };
 
 private:
+    /* private name */
+    String name;
     /* private deserialize/serialize */
     int __deserialize(const String& intextfile,int* lenRead=NULL,unsigned int* line=NULL);
     String __serialize(int countspace=0,bool havename=false) const;

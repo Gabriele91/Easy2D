@@ -11,13 +11,22 @@ namespace Easy2D
 class ResourcesGroup;
 template<class T> class ResourcesManager;
 template <class T> class Resource;
-//
+
 template <class T>
-class Resource
+class Pointers
 {
 public:
-    //define ptr
+    //define shared ptr
     typedef DS_PTR<T> ptr;
+    //define weak ptr
+    typedef DW_PTR<T> wptr;
+};
+
+//
+template <class T>
+class Resource : public Pointers<T>
+{
+public:
     //create a resource
     Resource(ResourcesManager<T> *rsmr=NULL,
              const String& sfile="")
@@ -47,7 +56,7 @@ public:
     virtual bool load()=0;
     virtual bool unload()=0;
     //no virtual methods
-    DFORCEINLINE const String& getName()
+    DFORCEINLINE const String& getName() const
     {
         return name;
     }
@@ -55,7 +64,7 @@ public:
     {
         return ptrResources;
     }
-    DFORCEINLINE const Utility::Path& getPath()
+    DFORCEINLINE const Utility::Path& getPath() const
     {
         return rpath;
     }

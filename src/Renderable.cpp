@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include <Renderable.h>
-#include <Layer.h>
 #include <Resource.h>
 #include <ResourcesManager.h>
 #include <ResourcesGroup.h>
@@ -9,23 +8,13 @@ using namespace Easy2D;
 ///////////////////////
 REGISTERED_COMPONENT(Renderable,"Renderable")
 ///////////////////////
-Renderable::Renderable(Mesh::ptr rmesh, Texture::ptr rtex, Layer *rlayer, bool visible)
+Renderable::Renderable(Mesh::ptr rmesh, Texture::ptr rtex, bool visible)
     :RenderState()
-    ,rlayer(rlayer)
     ,visible(visible)
-    ,zvalue(0.0)
 {
     setTexture(rtex);
     setMesh(rmesh);
 }
-void  Renderable::setZ(float z)
-{
-    zvalue=z;
-    if(rlayer)
-    {
-        rlayer->change();
-    }
-};
 bool Renderable::canBatching(Renderable *oldstate)
 {
     return  rtexture==oldstate->rtexture &&
@@ -40,11 +29,17 @@ bool Renderable::canBatching(Renderable *oldstate)
 void Renderable::serialize(Table& table)
 {
     Table& rsprite=table.createTable(getComponentName());
+    //serialize render state
+    rsSerialize(rsprite);
+    //serialize renderable
     rsprite.set("texture",getTexture()->getName());
     rsprite.set("mesh",getMesh()->getName());
 }
 void Renderable::deserialize(const Table& table)
 {
+    //deserialize rander state
+    rsDeserialize(table);
+    //deserialize renderable
     if(table.existsAsType("texture",Table::STRING))
     {
         auto rsmanager=table.getResourcesManager();

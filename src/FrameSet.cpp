@@ -10,7 +10,11 @@ using namespace Easy2D;
 ///////////////////////
 //create a frame set
 FrameSet::FrameSet(ResourcesManager<FrameSet> *rsmr,const String& path)
-    :Resource(rsmr,path) {}
+    :Resource(rsmr,path)
+{
+    defaultTime=1.0;
+    defaultLoop=true;
+}
 FrameSet::~FrameSet()
 {
     //release resource
@@ -178,7 +182,8 @@ bool FrameSet::load()
     }
 
     //set time
-    defaultTime=tbFrameSet.getFloat("time",0.0);
+    defaultTime=tbFrameSet.getFloat("time",defaultTime);
+    defaultLoop=((int)tbFrameSet.getFloat("loop",(float)defaultLoop))!=0;
 
     //is loaded
     loaded=true;

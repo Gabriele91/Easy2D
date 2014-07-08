@@ -11,60 +11,50 @@
 namespace Easy2D
 {
 
-    class StateManager : public Component
+class StateManager : public Component
+{
+    //friend whit object
+    friend class Object;
+    //states
+    int current;
+    int next;
+    //a state
+    struct State
     {
-        //friend whit object
-        friend class Object;
-        //states
-        int current;
-        int next;
-        //a state
-        struct State
-        {
-            DFUNCTION< void (void) > start;
-            DFUNCTION< void (float)> run;
-            DFUNCTION< void (void) > end;
-        };
-        std::map< int , State > states;
-        //event: run
-        virtual void onRun(float dt);
+        DFUNCTION< void (void) > start;
+        DFUNCTION< void (float)> run;
+        DFUNCTION< void (void) > end;
+    };
+    std::map< int , State > states;
+    //event: run
+    virtual void onRun(float dt);
 
     public:
 
-        StateManager():current(-1)
-                      ,next(-1)
-        {
-        }
+    StateManager():current(-1)
+                    ,next(-1)
+    {
+    }
         
-        StateManager* addState(int name, DFUNCTION<void (float)> srun );
-        StateManager* addState(int name, DFUNCTION<void (void) > sstart,
-                                         DFUNCTION<void (float)> srun,
-                                         DFUNCTION<void (void) > send=nullptr );
-        void eraseState(int name);
+    StateManager* addState(int name, DFUNCTION<void (float)> srun );
+    StateManager* addState(int name, DFUNCTION<void (void) > sstart,
+                                        DFUNCTION<void (float)> srun,
+                                        DFUNCTION<void (void) > send=nullptr );
+    void eraseState(int name);
 
-        void setNextState(int stateid);
-        void setCurrentState(int stateid);
+    void setNextState(int stateid);
+    void setCurrentState(int stateid);
 
-        int getCurrentState();
-        int getNextState();
-        //component
-        virtual const char* getComponentName() const
-        {
-            return "StateManager";
-        }
-        static const  cppTypeInfo* getComponentType()
-        {
-            return &typeid(StateManager);
-        }
-        virtual const cppTypeInfo* getComponentInfo() const
-        {
-            return getComponentType();
-        }
-        //serialize/deserialize
-        virtual void serialize(Table& table);
-        virtual void deserialize(const Table& table);
+    int getCurrentState();
+    int getNextState();
+    //component
+    ADD_COMPONENT_METHOS(StateManager)
+    //serialize/deserialize
+    virtual void serialize(Table& table);
+    virtual void deserialize(const Table& table);
 
-    };
+};
+REGISTERED_COMPONENT(StateManager,"StateManager")
 
 };
 

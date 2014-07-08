@@ -53,8 +53,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -72,8 +72,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -100,6 +100,8 @@
     <ClCompile Include="src\audio\StaticSoundAL.cpp" />
     <ClCompile Include="src\audio\StreamSoundAL.cpp" />
     <ClCompile Include="src\audio\StreamThreadAL.cpp" />
+    <ClCompile Include="src\BatchingColorMesh.cpp" />
+    <ClCompile Include="src\BatchingMesh.cpp" />
     <ClCompile Include="src\BMFontLoader.cpp" />
     <ClCompile Include="src\Body.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -119,17 +121,23 @@
     <ClCompile Include="src\Image\Image.cpp" />
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\Math3D.cpp" />
     <ClCompile Include="src\Math3D_SSE2.cpp" />
     <ClCompile Include="src\Memory.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\EString.cpp" />
+    <ClCompile Include="src\Parallax.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\ResourcesGroup.cpp" />
     <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Script.cpp" />
+    <ClCompile Include="src\script\LuaEasy2D.cpp" />
+    <ClCompile Include="src\script\LuaMath3D.cpp" />
+    <ClCompile Include="src\script\LuaScript.cpp" />
+    <ClCompile Include="src\script\LuaState.cpp" />
     <ClCompile Include="src\Sound.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\State.cpp" />
@@ -165,6 +173,8 @@
     <ClInclude Include="include\audio\StaticSoundAL.h" />
     <ClInclude Include="include\audio\StreamSoundAL.h" />
     <ClInclude Include="include\audio\StreamThreadAL.h" />
+    <ClInclude Include="include\BatchingColorMesh.h" />
+    <ClInclude Include="include\BatchingMesh.h" />
     <ClInclude Include="include\Blend.h" />
     <ClInclude Include="include\BMFontLoader.h" />
     <ClInclude Include="include\Body.h" />
@@ -187,16 +197,20 @@
     <ClInclude Include="include\gui\Panel.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\InputList.h" />
-    <ClInclude Include="include\Layer.h" />
     <ClInclude Include="include\Math3D.h" />
     <ClInclude Include="include\Memory.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\MinMaxList.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\EString.h" />
+    <ClInclude Include="include\Parallax.h" />
+    <ClInclude Include="include\ParticleSystem.h" />
     <ClInclude Include="include\Render.h" />
     <ClInclude Include="include\ResourcesGroup.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Script.h" />
+    <ClInclude Include="include\script\ELuaScript.h" />
+    <ClInclude Include="include\script\ELuaState.h" />
     <ClInclude Include="include\Sortable.h" />
     <ClInclude Include="include\Sound.h" />
     <ClInclude Include="include\Sprite.h" />

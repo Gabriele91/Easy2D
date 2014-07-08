@@ -19,6 +19,7 @@ class FrameSet : public Resource<FrameSet>
     void addFrame(const Vec4& frame);
     std::vector<Vec2> sizeFrames;
     float defaultTime;
+    bool  defaultLoop;
 
 public:
     //create a frame set
@@ -44,6 +45,10 @@ public:
     DFORCEINLINE float getDefaultTime()
     {
         return defaultTime;
+    }
+    DFORCEINLINE bool getDefaultLoop()
+    {
+        return defaultLoop;
     }
     //return a frame
     Mesh::ptr getFrame(uint i);

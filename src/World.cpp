@@ -219,7 +219,6 @@ uint World::findJoint(b2Joint* join)
     //else return 0
     return 0;
 }
-
 /// Distance joint.
 uint World::createDistanceJoint(const Object* objectA,
                                 const Object* objectB,
@@ -495,6 +494,7 @@ World::World(const Vec2& gravity):glDebugDraw(this)
                                  ,positionIterations(3)
                                  ,metersUnit(1.0)
                                  ,metersInPixel(1.0)
+                                 ,debugFlag(false)
 {
     world = new b2World(cast(gravity));
     world->SetContactListener(&cListener);
@@ -527,14 +527,19 @@ void World::debugDraw(bool enable)
                              b2Draw::e_pairBit|
                              b2Draw::e_centerOfMassBit);
         world->SetDebugDraw(&glDebugDraw);
+        debugFlag=true;
     }
     else
     {
         world->SetDebugDraw(NULL);
+        debugFlag=false;
     }
 }
 void World::physicsDraw(Camera* camera)
 {   
+    //draw if only is enable
+    if(!debugFlag) return; 
+
     //set projection matrix 
     //NOTE: GET CAMERA, VIEWPORT
     /*
@@ -547,6 +552,19 @@ void World::physicsDraw(Camera* camera)
     //set view port
     //glViewport( viewport.x, viewport.y, (GLsizei)viewport.z, (GLsizei)viewport.w );
     */
+    //////////////////////////////////////////////////////////////////
+    GLboolean cull,blend;
+    GLint bs_src, bs_dst;
+    glGetBooleanv(GL_CULL_FACE,&cull);
+    glGetBooleanv(GL_BLEND , &blend);
+    glGetIntegerv(GL_BLEND_SRC , &bs_src);
+    glGetIntegerv(GL_BLEND_DST , &bs_dst);    
+    //change param
+    glDisable(GL_CULL_FACE);
+    //blend
+    if(!blend) glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //////////////////////////////////////////////////////////////////
     //pixel scale
     Mat4 scale;
     scale.setScale(Vec2(metersInPixel,metersInPixel));
@@ -561,9 +579,31 @@ void World::physicsDraw(Camera* camera)
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  0 );
     //no texture
     glDisable( GL_TEXTURE_2D );
-    world->DrawDebugData();
+    world->DrawDebugData();    
+    //////////////////////////////////////////////////////////////////
+    if(cull)
+        glEnable( GL_CULL_FACE );
+    //blend
+    if(!blend)
+        glDisable( GL_BLEND );
+    else
+        glBlendFunc(bs_src,bs_dst);
+    //////////////////////////////////////////////////////////////////
 }
 
+////////////////////////////////////////
+void World::serialize(Table& table)
+{
+    Table& tworld=table;
+    tworld.set("gravity",getGravity());
+    tworld.set("metersInPixel",getMetersInPixel());
+}
+void World::deserialize(const Table& table)
+{
+    const Table& tworld=table;
+    setGravity(tworld.getVector2D("gravity",getGravity()));
+    setMetersInPixel(tworld.getFloat("metersInPixel",getMetersInPixel()));
+}
 ////////////////////////////////////////
 #define SAVE_COLOR\
     GLfloat saveGLColor4f[4];\

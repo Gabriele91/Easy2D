@@ -54,6 +54,8 @@ namespace Easy2D {
         virtual void onMessage(uint message){}
         //event: run
         virtual void onRun(float dt){}
+        //event: run post logic
+        virtual void onFixedRun(float dt){}
         //get name
         virtual const char* getComponentName() const=0;
         //get info
@@ -83,19 +85,34 @@ namespace Easy2D {
         
         static Component* create()
         {
-            return new T();
+            return (Component*)new T();
         }
-        
-    public:
         
         ComponentItem(const String& name)
         {
             ComponentMap::append(name,ComponentItem<T>::create);
         }
+
+    public:
+        
+
+        static ComponentItem<T>& Instance(const std::string& name)
+        {
+            static ComponentItem<T> componentItem(name);
+            return componentItem;
+        }
         
     };
     #define REGISTERED_COMPONENT(classname,name)\
-        namespace{ Easy2D::ComponentItem<classname> _ ## classname ## _ComponentItem(name); };
+    namespace{  static const ComponentItem<classname>& _Easy2D_ ## classname ## _ComponentItem=ComponentItem<classname>::Instance(name);}
+
+    #define DERIVATE_COMPONENT(T)\
+        virtual const char* getComponentName() const{ return #T ; };
+
+    #define ADD_COMPONENT_METHOS(T)\
+        DERIVATE_COMPONENT(T)\
+        virtual const cppTypeInfo* getComponentInfo() const{ return &typeid(T) ; };\
+        static const  cppTypeInfo* getComponentType(){ return &typeid(T) ; };
     /////////////////////
 
     

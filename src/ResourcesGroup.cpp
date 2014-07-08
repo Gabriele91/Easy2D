@@ -46,6 +46,7 @@ void ResourcesGroup::loadResourceFile()
     loadAResource(resources.getPath(),"frameSets",frameSets);
     loadAResource(resources.getPath(),"fonts",fonts);
     loadAResource(resources.getPath(),"sounds",sounds);
+    loadAResource(resources.getPath(),"scripts",scripts);
 
 }
 
@@ -75,37 +76,3 @@ void ResourcesGroup::reloadGpuResouce()
     frameSets.__forceReload();
     fonts.__forceReload();
 }
-
-// GCC SUCK //
-#ifdef COMPILER_GCC
-template<>
-ResourcesManager<Texture>& ResourcesGroup::getManager<Texture>()
-{
-    return textures;
-}
-template<>
-ResourcesManager<Table>& ResourcesGroup::getManager<Table>()
-{
-    return tables;
-}
-template<>
-ResourcesManager<Mesh>& ResourcesGroup::getManager<Mesh>()
-{
-    return meshes;
-}
-template<>
-ResourcesManager<FrameSet>& ResourcesGroup::getManager<FrameSet>()
-{
-    return frameSets;
-}
-template<>
-ResourcesManager<Font>& ResourcesGroup::getManager<Font>()
-{
-    return fonts;
-}
-template<>
-ResourcesManager<Sound>& ResourcesGroup::getManager<Sound>()
-{
-    return sounds;
-}
-#endif

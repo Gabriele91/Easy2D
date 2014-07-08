@@ -158,8 +158,16 @@ AABox2::AABox2(const Vec2& center,Vec2 size)
 {
     setBox(center,size);
 }
-AABox2::AABox2() {}
-AABox2::~AABox2() {}
+AABox2::AABox2()
+{
+    //bad init
+    min=Vec2::MAX;
+    max=-Vec2::MAX;
+}
+AABox2::~AABox2()
+{
+
+}
 
 void AABox2::setBox(const Vec2& center,Vec2 size)
 {
@@ -169,6 +177,11 @@ void AABox2::setBox(const Vec2& center,Vec2 size)
 }
 void AABox2::addPoint(const Vec2& p)
 {
+    if(min==Vec2::MAX && max==-Vec2::MAX) //in bad state?
+    {
+        min=max=p;
+        return;
+    }
     //found box                      m______
     min.x=Math::min(min.x,p.x);  //  |\    |
     min.y=Math::min(min.y,p.y);  //  | \.c |
@@ -183,19 +196,33 @@ void AABox2::setRegion(const AABox2& p)
     max.x=Math::min(max.x,p.max.x);      //  |   \ |
     max.y=Math::min(max.y,p.max.y);      //  |____\|M
 }
-bool AABox2::isIntersection(const AABox2& aabb2)
+bool AABox2::isIntersection(const AABox2& aabb2) const
 {
     auto cdiff=(getCenter()-aabb2.getCenter()).getAbs();
     auto ssum=getSize()+aabb2.getSize();
     return  cdiff.x <= ssum.x && cdiff.y <= ssum.y;
 }
-bool AABox2::isIntersection(const Vec2& point)
+bool AABox2::isIntersection(const Vec2& point) const
 {
     auto cdiff=(getCenter()-point).getAbs();
     auto size=getSize();
     return  cdiff.x <= size.x && cdiff.y <= size.y;
 }
-
+AABox2 AABox2::applay(const Matrix4x4& m4) const
+{
+    AABox2 newbox;
+    //new center
+    auto left_up=m4.mul2D(Vec2(min.x,min.y));
+    auto left_down=m4.mul2D(Vec2(min.x,max.y));
+    auto right_up=m4.mul2D(Vec2(max.x,min.y));
+    auto right_down=m4.mul2D(Vec2(max.y,max.y));
+    newbox.max.x=Math::max(Math::max(left_up.x,right_up.x),Math::max(left_down.x,right_down.x));
+    newbox.max.y=Math::max(Math::max(left_up.y,right_up.y),Math::max(left_down.y,right_down.y));
+    newbox.min.x=Math::min(Math::min(left_up.x,right_up.x),Math::min(left_down.x,right_down.x));
+    newbox.min.y=Math::min(Math::min(left_up.y,right_up.y),Math::min(left_down.y,right_down.y));
+    //return
+    return newbox;
+}
 /* MATRIX4x4*/
 
 static float Matrix4x4Identity[]=

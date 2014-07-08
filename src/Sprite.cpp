@@ -9,8 +9,7 @@ using namespace Easy2D;
 ///////////////////////
 REGISTERED_COMPONENT(Sprite,"Sprite")
 ///////////////////////
-Sprite::Sprite(Texture::ptr texture,Layer *layer)
-    :Renderable(NULL,texture,layer,true)
+Sprite::Sprite(Texture::ptr texture):Renderable(nullptr,texture,true)
 {
     //blend mode
     enableBlend();
@@ -39,11 +38,17 @@ void Sprite::setTexture(Texture::ptr texture)
 //serialize/deserialize
 void Sprite::serialize(Table& table)
 {
-    Table& rsprite=table.createTable(getComponentName());
+    Table& rsprite=table;
+    //serialize render state
+    rsSerialize(rsprite);
+    //serialize texture
     rsprite.set("texture",getTexture()->getName());
 }
 void Sprite::deserialize(const Table& table)
-{;
+{
+    //deserialize rander state
+    rsDeserialize(table);
+    //get texture
     if(table.existsAsType("texture",Table::STRING))
     {
         auto rsmanager=table.getResourcesManager();

@@ -47,7 +47,7 @@ public:
     }
     //
     //split
-    void split(const String& delimiters , std::vector<String>& tokens);
+    void split(const String& delimiters , std::vector<String>& tokens) const;
     //
     template<class T> static String toString(T dato)
     {

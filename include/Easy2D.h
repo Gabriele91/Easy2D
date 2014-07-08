@@ -14,6 +14,9 @@
 #include <ResourcesManager.h>
 #include <ResourcesGroup.h>
 #include <Table.h>
+#include <Texture.h>
+#include <Mesh.h>
+#include <Script.h>
 //Application
 #include <Application.h>
 #include <Screen.h>
@@ -24,7 +27,6 @@
 #include <Math3D.h>
 //Physics
 #include <World.h>
-#include <Body.h>
 //Audio
 #include <Sound.h>
 //Objects
@@ -32,16 +34,23 @@
 #include <Camera.h>
 //Randerables
 #include <RenderState.h>
-#include <Renderable.h>
 #include <Texture.h>
 #include <Mesh.h>
+#include <BatchingMesh.h>
+#include <BatchingColorMesh.h>
 #include <Font.h>
-#include <Sprite.h>
 #include <FrameSet.h>
+//components
+#include <Renderable.h>
+#include <Sprite.h>
 #include <AnimatedSprite.h>
+#include <ParticleSystem.h>
+#include <Body.h>
+#include <State.h>
+#include <Parallax.h>
+#include <ELuaScript.h>
 //Rander manager
 #include <Render.h>
-#include <Layer.h>
 #include <Scene.h>
 //gui
 #include <Gui.h>

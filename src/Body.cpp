@@ -6,7 +6,6 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-REGISTERED_COMPONENT(Body, "Body")
 #define PTM_RATIO *metersUnit
 #define PIXEL_RATIO *metersInPixel
 ///////////////////////
@@ -149,8 +148,8 @@ void Body::ShapeDef::buildShape(float metersUnit)
 
             shape->Set(cast(points[0] PTM_RATIO ), 
                        cast(points[1] PTM_RATIO ));
-            shape->m_hasVertex0      = flags & 0x01 != 0 ;
-            shape->m_hasVertex3      = flags & 0x02 != 0 ;
+            shape->m_hasVertex0      = (flags & 0x01) != 0 ;
+            shape->m_hasVertex3      = (flags & 0x02) != 0 ;
             shape->m_vertex0         = cast(prev PTM_RATIO );
             shape->m_vertex3         = cast(next PTM_RATIO );
                 
@@ -177,10 +176,10 @@ void Body::ShapeDef::buildShape(float metersUnit)
             //set vertexs
             shape->CreateChain((b2Vec2*)&points[0], points.size());
             
-            if(flags & 0x01 != 0)
+            if((flags & 0x01) != 0)
                 shape->SetPrevVertex(cast(prev PTM_RATIO));
 
-            if(flags & 0x02 != 0)
+            if((flags & 0x02) != 0)
                 shape->SetNextVertex(cast(next PTM_RATIO));
                 
             fixature.shape=shape;
@@ -190,7 +189,7 @@ void Body::ShapeDef::buildShape(float metersUnit)
     default: break; //wrong
     }
 }
-size_t Body::pushShape(b2FixtureDef* fixature,  b2Shape* shape)
+uint Body::pushShape(b2FixtureDef* fixature,  b2Shape* shape)
 {
    //alloc
    shapesDef.push_back(ShapeDef());
@@ -881,7 +880,7 @@ static inline String getBodyType(Body::Type type)
 
 void Body::serialize(Table& table)
 {
-    Table& rbody=table.createTable(getComponentName());
+    Table& rbody=table;
     rbody.set("position",getPosition());
     rbody.set("rotation",getAngle());
     rbody.set("linearVelocity",getLinearVelocity());

@@ -22,7 +22,7 @@ protected:
 public:
 
     //costructor
-    Sprite(Texture::ptr image=NULL,Layer *layer=NULL);
+    Sprite(Texture::ptr image=nullptr);
     //overload setTexture
     void setTexture(Texture::ptr texture);
     //get pixel scale
@@ -30,17 +30,14 @@ public:
     {
         return getTexture()->getSpriteSize()*getObject()->getScale();
     }
-    //component name
-    virtual const char* getComponentName() const
-    {
-        return "Sprite";
-    }
-    
+    //is a component
+    DERIVATE_COMPONENT(Sprite)
     //serialize/deserialize
     virtual void serialize(Table& table);
     virtual void deserialize(const Table& table);
 
 };
+REGISTERED_COMPONENT(Sprite, "Sprite")
 
 };
 

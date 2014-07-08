@@ -6,6 +6,7 @@
 #include <Texture.h>
 #include <Blend.h>
 #include <Color.h>
+#include <Table.h>
 
 namespace Easy2D
 {
@@ -21,6 +22,9 @@ protected:
     uint blendSrc,blendDst;
     uint cullmode;
     Color color;
+    //serialize/deserialize (utility)
+    virtual void rsSerialize(Table& table);
+    virtual void rsDeserialize(const Table& table);
 
 public:
 
@@ -39,9 +43,13 @@ public:
     void enableStates();
     void enableStates(RenderState *oldstate);
     //
-    void setColor(Color rcolor)
+    void setColor(const Color& rcolor)
     {
         color=rcolor;
+    }
+    const Color& getColor() const 
+    {
+        return color;
     }
     void setTexture(Texture::ptr rtex)
     {

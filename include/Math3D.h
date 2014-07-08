@@ -856,8 +856,9 @@ public:
     {
         return min;
     }
-    bool  isIntersection(const Vec2& point);
-    bool  isIntersection(const AABox2& aabb2);
+    bool  isIntersection(const Vec2& point) const;
+    bool  isIntersection(const AABox2& aabb2) const;
+    AABox2 applay(const Matrix4x4& m4) const;
 
 };
 ///////////////////////////////////////////////////////////////////////////

@@ -55,7 +55,7 @@ public:
     /**
     * create singleton (if already created raises an exception)
     */
-    static Application *create(const String& name);
+    static Application *create(const String& name,Application* implementation=nullptr);
     /**
     * return singleton istance
     */

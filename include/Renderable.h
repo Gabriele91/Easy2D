@@ -18,27 +18,22 @@ class Renderable : public Component,
 
     Layer *rlayer;
     bool visible;
-    float zvalue;
     friend class Layer;
 
 public:
 
-    Renderable(Mesh::ptr rmesh=NULL,
-               Texture::ptr rtex=NULL,
-               Layer *rlayer=NULL,
+    Renderable(Mesh::ptr rmesh=nullptr,
+               Texture::ptr rtex=nullptr,
                bool visible=true);
     //I can batching!?
-    bool canBatching(Renderable *oldstate);
-    //z order
-    DFORCEINLINE float getZ() const
+    virtual bool canBatching(Renderable *oldstate);
+    virtual bool doBatching()
     {
-        return zvalue;
+        return true && (!getMesh() || getMesh()->supportBatching());
     }
-    void  setZ(float z);
-    //sort:
-    bool operator <(const Renderable& rhs) const
+    virtual bool canTransform()
     {
-        return zvalue < rhs.zvalue;
+        return true;
     }
     //other...
     DFORCEINLINE bool isVisible() const
@@ -53,19 +48,8 @@ public:
     {
         visible=false;
     }
-    //component name
-    virtual const char* getComponentName() const
-    {
-        return "Renderable";
-    }
-    static const  cppTypeInfo* getComponentType()
-    {
-        return &typeid(Renderable);
-    }    
-    virtual const cppTypeInfo* getComponentInfo() const
-    {
-        return getComponentType();
-    }
+    //component
+    ADD_COMPONENT_METHOS(Renderable)
     //serialize/deserialize
     virtual void serialize(Table& table);
     virtual void deserialize(const Table& table);
