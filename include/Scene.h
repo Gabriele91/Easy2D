@@ -90,7 +90,7 @@ public:
         return scenes[actives.top()].child;
     }
 
-    //add object
+    //Objects
     template<class T>
     T* addObject(T *obj)
     {
@@ -109,7 +109,7 @@ public:
             objects.erase(it);
         }
     }
-    Object* getObject(const String& argname)
+    Object* getObject(const String& argname) const
     {
         //names list
         std::vector<String> names;
@@ -136,6 +136,10 @@ public:
                 delete obj/*.second*/;
         }
         objects.clear();
+    }
+    const std::list<Object*>& getObjects() const
+    {
+        return objects;
     }
     //add sub scene
     void addScene(int uid,Scene* scene,bool destructible=true)
@@ -191,6 +195,8 @@ public:
     {
         //world
         World::deserialize(table);
+        //render
+        Render::deserialize(table);
         //objects
         const Table& objects=table.getConstTable("Objects");
         //load objects

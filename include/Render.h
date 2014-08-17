@@ -86,6 +86,18 @@ public:
     {
         clearClr=color;
     }
+    DFORCEINLINE const Color& getClear() const
+    {
+        return clearClr;
+    }
+    DFORCEINLINE void setAmbientLight(const Color& color)
+    {
+        ambientClr=color;
+    }
+    DFORCEINLINE const Color& getAmbientLight() const
+    {
+        return ambientClr;
+    }
     //
     Object* picking(const Vec2& point);
     void aabox2Draw();
@@ -93,6 +105,17 @@ public:
     size_t queueSize()
     {
         return queue.size();
+    }
+    //deserrialize
+    void deserialize(const Table& table)
+    {
+        Color clear,ambient;
+        //set clear color
+        clear.fromVec4(table.getVector4D("clearColor",Vec4(255,255,255,255)));
+        setClear(clear);
+        //get ambient color
+        ambient.fromVec4(table.getVector4D("ambientLight",Vec4(255,255,255,255)));
+        setAmbientLight(ambient);
     }
 
 };

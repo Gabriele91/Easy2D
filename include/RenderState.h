@@ -7,6 +7,7 @@
 #include <Blend.h>
 #include <Color.h>
 #include <Table.h>
+#include <RenderContext.h>
 
 namespace Easy2D
 {
@@ -20,7 +21,7 @@ protected:
     Mesh::ptr rmesh;
     bool blending;
     uint blendSrc,blendDst;
-    uint cullmode;
+    CullFace cullmode;
     Color color;
     //serialize/deserialize (utility)
     virtual void rsSerialize(Table& table);
@@ -34,14 +35,12 @@ public:
         ,blending(false)
         ,blendSrc(BLEND::ONE)
         ,blendDst(BLEND::ZERO)
-        ,cullmode(GL_BACK)
+        ,cullmode(BACK)
     {}
     //draw
     void draw();
-    void draw(RenderState *oldstate);
     //enable setting (no draw)
     void enableStates();
-    void enableStates(RenderState *oldstate);
     //
     void setColor(const Color& rcolor)
     {
@@ -82,9 +81,13 @@ public:
         blendDst=dst;
     }
     //cullmode
-    void setCull(uint mode)
+    void setCull(CullFace mode)
     {
         cullmode=mode;
+    }
+    CullFace getCullFace()
+    {
+        return cullmode;
     }
     //operators
     bool operator==(const RenderState& rs)

@@ -63,7 +63,7 @@ void FrameSet::addFrame(const Vec4& frame)
                        start.y);
     //end add vertexs
     //set draw mode
-    sprite->setDrawMode(Mesh::TRIANGLE_STRIP);
+    sprite->setDrawMode(TRIANGLE_STRIP);
     //build mesh
     sprite->build();
     //add frame

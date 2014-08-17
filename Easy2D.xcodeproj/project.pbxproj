@@ -46,7 +46,6 @@
 		E05495CD17AE68E8005DDB72 /* FreeTypeFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959917AE68E8005DDB72 /* FreeTypeFontLoader.h */; };
 		E05495CE17AE68E8005DDB72 /* Game.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959A17AE68E8005DDB72 /* Game.h */; };
 		E05495CF17AE68E8005DDB72 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959B17AE68E8005DDB72 /* Input.h */; };
-		E05495D017AE68E8005DDB72 /* Layer.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959C17AE68E8005DDB72 /* Layer.h */; };
 		E05495D517AE68E8005DDB72 /* Math3D.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A217AE68E8005DDB72 /* Math3D.h */; };
 		E05495D617AE68E8005DDB72 /* Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A317AE68E8005DDB72 /* Mesh.h */; };
 		E05495D717AE68E8005DDB72 /* Object.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A417AE68E8005DDB72 /* Object.h */; };
@@ -83,7 +82,6 @@
 		E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960617AE6907005DDB72 /* lodepng.cpp */; };
 		E054964D17AE6907005DDB72 /* lodepng.h in Headers */ = {isa = PBXBuildFile; fileRef = E054960717AE6907005DDB72 /* lodepng.h */; };
 		E054964E17AE6907005DDB72 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960817AE6907005DDB72 /* Input.cpp */; };
-		E054964F17AE6907005DDB72 /* Layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960917AE6907005DDB72 /* Layer.cpp */; };
 		E054965417AE6907005DDB72 /* Math3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960F17AE6907005DDB72 /* Math3D.cpp */; };
 		E054965717AE6907005DDB72 /* Math3D_SSE2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961217AE6907005DDB72 /* Math3D_SSE2.cpp */; };
 		E054965817AE6907005DDB72 /* Math3D_SSE2.h in Headers */ = {isa = PBXBuildFile; fileRef = E054961317AE6907005DDB72 /* Math3D_SSE2.h */; };
@@ -162,6 +160,27 @@
 		E0684F051939D32D00653833 /* Box2D.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E0684F041939D32D00653833 /* Box2D.hpp */; };
 		E0684F071939D34A00653833 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684F061939D34A00653833 /* World.cpp */; };
 		E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */ = {isa = PBXBuildFile; fileRef = E06ADCA318BA0F0500A33558 /* Sortable.h */; };
+		E06FB1BC197CE71500239DA6 /* BatchingColorMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B6197CE71500239DA6 /* BatchingColorMesh.h */; };
+		E06FB1BD197CE71500239DA6 /* BatchingMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B7197CE71500239DA6 /* BatchingMesh.h */; };
+		E06FB1BE197CE71500239DA6 /* FluidGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B8197CE71500239DA6 /* FluidGrid.h */; };
+		E06FB1BF197CE71500239DA6 /* Parallax.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B9197CE71500239DA6 /* Parallax.h */; };
+		E06FB1C0197CE71500239DA6 /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1BA197CE71500239DA6 /* ParticleSystem.h */; };
+		E06FB1C1197CE71500239DA6 /* Script.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1BB197CE71500239DA6 /* Script.h */; };
+		E06FB1C5197CE9E200239DA6 /* ELuaScript.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1C3197CE9E200239DA6 /* ELuaScript.h */; };
+		E06FB1C6197CE9E200239DA6 /* ELuaState.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1C4197CE9E200239DA6 /* ELuaState.h */; };
+		E06FB1CD197CEA1B00239DA6 /* BatchingColorMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C7197CEA1B00239DA6 /* BatchingColorMesh.cpp */; };
+		E06FB1CE197CEA1B00239DA6 /* BatchingMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C8197CEA1B00239DA6 /* BatchingMesh.cpp */; };
+		E06FB1CF197CEA1B00239DA6 /* FluidGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C9197CEA1B00239DA6 /* FluidGrid.cpp */; };
+		E06FB1D0197CEA1B00239DA6 /* Parallax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1CA197CEA1B00239DA6 /* Parallax.cpp */; };
+		E06FB1D1197CEA1B00239DA6 /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1CB197CEA1B00239DA6 /* ParticleSystem.cpp */; };
+		E06FB1D2197CEA1B00239DA6 /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1CC197CEA1B00239DA6 /* Script.cpp */; };
+		E06FB1D8197CEA3B00239DA6 /* LuaEasy2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D4197CEA3B00239DA6 /* LuaEasy2D.cpp */; };
+		E06FB1D9197CEA3B00239DA6 /* LuaMath3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D5197CEA3B00239DA6 /* LuaMath3D.cpp */; };
+		E06FB1DA197CEA3B00239DA6 /* LuaScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D6197CEA3B00239DA6 /* LuaScript.cpp */; };
+		E06FB1DB197CEA3B00239DA6 /* LuaState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D7197CEA3B00239DA6 /* LuaState.cpp */; };
+		E0709D7419967FE40079E7E1 /* RenderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E0709D7319967FE40079E7E1 /* RenderContext.h */; };
+		E0709D761997AB300079E7E1 /* RenderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E0709D751997AB300079E7E1 /* RenderContext.h */; };
+		E0709D781997B6A80079E7E1 /* RenderContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0709D771997B6A80079E7E1 /* RenderContext.cpp */; };
 		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
 		E089991917AE58760063EAAC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E089991817AE58760063EAAC /* Cocoa.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E089991A17AE587B0063EAAC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E01964D0176B0D9800CF955A /* OpenGL.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -318,7 +337,6 @@
 		E054959917AE68E8005DDB72 /* FreeTypeFontLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreeTypeFontLoader.h; sourceTree = "<group>"; };
 		E054959A17AE68E8005DDB72 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		E054959B17AE68E8005DDB72 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
-		E054959C17AE68E8005DDB72 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
 		E05495A217AE68E8005DDB72 /* Math3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math3D.h; sourceTree = "<group>"; };
 		E05495A317AE68E8005DDB72 /* Mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mesh.h; sourceTree = "<group>"; };
 		E05495A417AE68E8005DDB72 /* Object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Object.h; sourceTree = "<group>"; };
@@ -355,7 +373,6 @@
 		E054960617AE6907005DDB72 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		E054960717AE6907005DDB72 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		E054960817AE6907005DDB72 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
-		E054960917AE6907005DDB72 /* Layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Layer.cpp; sourceTree = "<group>"; };
 		E054960F17AE6907005DDB72 /* Math3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math3D.cpp; sourceTree = "<group>"; };
 		E054961217AE6907005DDB72 /* Math3D_SSE2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math3D_SSE2.cpp; sourceTree = "<group>"; };
 		E054961317AE6907005DDB72 /* Math3D_SSE2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math3D_SSE2.h; sourceTree = "<group>"; };
@@ -434,6 +451,27 @@
 		E0684F041939D32D00653833 /* Box2D.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Box2D.hpp; sourceTree = "<group>"; };
 		E0684F061939D34A00653833 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
 		E06ADCA318BA0F0500A33558 /* Sortable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortable.h; sourceTree = "<group>"; };
+		E06FB1B6197CE71500239DA6 /* BatchingColorMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchingColorMesh.h; sourceTree = "<group>"; };
+		E06FB1B7197CE71500239DA6 /* BatchingMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchingMesh.h; sourceTree = "<group>"; };
+		E06FB1B8197CE71500239DA6 /* FluidGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FluidGrid.h; sourceTree = "<group>"; };
+		E06FB1B9197CE71500239DA6 /* Parallax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parallax.h; sourceTree = "<group>"; };
+		E06FB1BA197CE71500239DA6 /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		E06FB1BB197CE71500239DA6 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
+		E06FB1C3197CE9E200239DA6 /* ELuaScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELuaScript.h; sourceTree = "<group>"; };
+		E06FB1C4197CE9E200239DA6 /* ELuaState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELuaState.h; sourceTree = "<group>"; };
+		E06FB1C7197CEA1B00239DA6 /* BatchingColorMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchingColorMesh.cpp; sourceTree = "<group>"; };
+		E06FB1C8197CEA1B00239DA6 /* BatchingMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BatchingMesh.cpp; sourceTree = "<group>"; };
+		E06FB1C9197CEA1B00239DA6 /* FluidGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FluidGrid.cpp; sourceTree = "<group>"; };
+		E06FB1CA197CEA1B00239DA6 /* Parallax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Parallax.cpp; sourceTree = "<group>"; };
+		E06FB1CB197CEA1B00239DA6 /* ParticleSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleSystem.cpp; sourceTree = "<group>"; };
+		E06FB1CC197CEA1B00239DA6 /* Script.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Script.cpp; sourceTree = "<group>"; };
+		E06FB1D4197CEA3B00239DA6 /* LuaEasy2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEasy2D.cpp; sourceTree = "<group>"; };
+		E06FB1D5197CEA3B00239DA6 /* LuaMath3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaMath3D.cpp; sourceTree = "<group>"; };
+		E06FB1D6197CEA3B00239DA6 /* LuaScript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaScript.cpp; sourceTree = "<group>"; };
+		E06FB1D7197CEA3B00239DA6 /* LuaState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaState.cpp; sourceTree = "<group>"; };
+		E0709D7319967FE40079E7E1 /* RenderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderContext.h; sourceTree = "<group>"; };
+		E0709D751997AB300079E7E1 /* RenderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderContext.h; sourceTree = "<group>"; };
+		E0709D771997B6A80079E7E1 /* RenderContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContext.cpp; sourceTree = "<group>"; };
 		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E089991817AE58760063EAAC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
@@ -654,6 +692,14 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E0709D7319967FE40079E7E1 /* RenderContext.h */,
+				E06FB1C2197CE9E200239DA6 /* script */,
+				E06FB1B6197CE71500239DA6 /* BatchingColorMesh.h */,
+				E06FB1B7197CE71500239DA6 /* BatchingMesh.h */,
+				E06FB1B8197CE71500239DA6 /* FluidGrid.h */,
+				E06FB1B9197CE71500239DA6 /* Parallax.h */,
+				E06FB1BA197CE71500239DA6 /* ParticleSystem.h */,
+				E06FB1BB197CE71500239DA6 /* Script.h */,
 				E04FBB2C194F0EFF00164D77 /* Component.h */,
 				E0A1AE601946EE9700D1438A /* gui */,
 				E0684F041939D32D00653833 /* Box2D.hpp */,
@@ -686,12 +732,12 @@
 				E054959917AE68E8005DDB72 /* FreeTypeFontLoader.h */,
 				E054959A17AE68E8005DDB72 /* Game.h */,
 				E054959B17AE68E8005DDB72 /* Input.h */,
-				E054959C17AE68E8005DDB72 /* Layer.h */,
 				E05495A217AE68E8005DDB72 /* Math3D.h */,
 				E05495A317AE68E8005DDB72 /* Mesh.h */,
 				E05495A417AE68E8005DDB72 /* Object.h */,
 				E05495A517AE68E8005DDB72 /* Render.h */,
 				E05495A617AE68E8005DDB72 /* Renderable.h */,
+				E0709D751997AB300079E7E1 /* RenderContext.h */,
 				E05495A717AE68E8005DDB72 /* RenderState.h */,
 				E05495A817AE68E8005DDB72 /* Resource.h */,
 				E05495A917AE68E8005DDB72 /* ResourcesGroup.h */,
@@ -720,6 +766,14 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E0709D771997B6A80079E7E1 /* RenderContext.cpp */,
+				E06FB1D3197CEA3B00239DA6 /* script */,
+				E06FB1C7197CEA1B00239DA6 /* BatchingColorMesh.cpp */,
+				E06FB1C8197CEA1B00239DA6 /* BatchingMesh.cpp */,
+				E06FB1C9197CEA1B00239DA6 /* FluidGrid.cpp */,
+				E06FB1CA197CEA1B00239DA6 /* Parallax.cpp */,
+				E06FB1CB197CEA1B00239DA6 /* ParticleSystem.cpp */,
+				E06FB1CC197CEA1B00239DA6 /* Script.cpp */,
 				E04FBB2E194F0F1B00164D77 /* Component.cpp */,
 				E0A1AE571946EE8500D1438A /* gui */,
 				E0684F061939D34A00653833 /* World.cpp */,
@@ -748,7 +802,6 @@
 				E054960217AE6907005DDB72 /* Game.cpp */,
 				E054960317AE6907005DDB72 /* Image */,
 				E054960817AE6907005DDB72 /* Input.cpp */,
-				E054960917AE6907005DDB72 /* Layer.cpp */,
 				E054960F17AE6907005DDB72 /* Math3D.cpp */,
 				E054961217AE6907005DDB72 /* Math3D_SSE2.cpp */,
 				E054961317AE6907005DDB72 /* Math3D_SSE2.h */,
@@ -900,6 +953,26 @@
 				E061353B18AE697100BD63EC /* b2Rope.h */,
 			);
 			path = Rope;
+			sourceTree = "<group>";
+		};
+		E06FB1C2197CE9E200239DA6 /* script */ = {
+			isa = PBXGroup;
+			children = (
+				E06FB1C3197CE9E200239DA6 /* ELuaScript.h */,
+				E06FB1C4197CE9E200239DA6 /* ELuaState.h */,
+			);
+			path = script;
+			sourceTree = "<group>";
+		};
+		E06FB1D3197CEA3B00239DA6 /* script */ = {
+			isa = PBXGroup;
+			children = (
+				E06FB1D4197CEA3B00239DA6 /* LuaEasy2D.cpp */,
+				E06FB1D5197CEA3B00239DA6 /* LuaMath3D.cpp */,
+				E06FB1D6197CEA3B00239DA6 /* LuaScript.cpp */,
+				E06FB1D7197CEA3B00239DA6 /* LuaState.cpp */,
+			);
+			path = script;
 			sourceTree = "<group>";
 		};
 		E0A1AE571946EE8500D1438A /* gui */ = {
@@ -1105,9 +1178,9 @@
 				E05495CE17AE68E8005DDB72 /* Game.h in Headers */,
 				E05495CF17AE68E8005DDB72 /* Input.h in Headers */,
 				E061354C18AE697100BD63EC /* b2StackAllocator.h in Headers */,
-				E05495D017AE68E8005DDB72 /* Layer.h in Headers */,
 				E05495D517AE68E8005DDB72 /* Math3D.h in Headers */,
 				E05495D617AE68E8005DDB72 /* Mesh.h in Headers */,
+				E0709D7419967FE40079E7E1 /* RenderContext.h in Headers */,
 				E05495D717AE68E8005DDB72 /* Object.h in Headers */,
 				E061355318AE697100BD63EC /* b2World.h in Headers */,
 				E061355518AE697100BD63EC /* b2ChainAndCircleContact.h in Headers */,
@@ -1120,13 +1193,17 @@
 				E05495DC17AE68E8005DDB72 /* ResourcesGroup.h in Headers */,
 				E05495DD17AE68E8005DDB72 /* ResourcesManager.h in Headers */,
 				E05495DE17AE68E8005DDB72 /* Screen.h in Headers */,
+				E06FB1C6197CE9E200239DA6 /* ELuaState.h in Headers */,
 				E01E2CE818B37B3C00D048DD /* WavLoader.h in Headers */,
+				E06FB1C5197CE9E200239DA6 /* ELuaScript.h in Headers */,
 				E061355218AE697100BD63EC /* b2TimeStep.h in Headers */,
+				E06FB1BD197CE71500239DA6 /* BatchingMesh.h in Headers */,
 				E05495DF17AE68E8005DDB72 /* Sprite.h in Headers */,
 				E05495E017AE68E8005DDB72 /* Table.h in Headers */,
 				E05495E117AE68E8005DDB72 /* Texture.h in Headers */,
 				E05495E217AE68E8005DDB72 /* Timer.h in Headers */,
 				E05495E317AE68E8005DDB72 /* Types.h in Headers */,
+				E06FB1BF197CE71500239DA6 /* Parallax.h in Headers */,
 				E05495E417AE68E8005DDB72 /* Utility.h in Headers */,
 				E054964B17AE6907005DDB72 /* Image.h in Headers */,
 				E061355918AE697100BD63EC /* b2ContactSolver.h in Headers */,
@@ -1178,6 +1255,7 @@
 				E0A7198317E1EE6200A0B298 /* ftincrem.h in Headers */,
 				E061353F18AE697100BD63EC /* b2Distance.h in Headers */,
 				E0A7198417E1EE6200A0B298 /* ftlcdfil.h in Headers */,
+				E06FB1C1197CE71500239DA6 /* Script.h in Headers */,
 				E061355418AE697100BD63EC /* b2WorldCallbacks.h in Headers */,
 				E0A7198517E1EE6200A0B298 /* ftlist.h in Headers */,
 				E0A7198617E1EE6200A0B298 /* ftlzw.h in Headers */,
@@ -1192,12 +1270,15 @@
 				E027964718B1449A00B1A4FE /* MutexConf.h in Headers */,
 				E0A7198D17E1EE6200A0B298 /* ftpfr.h in Headers */,
 				E0A7198E17E1EE6200A0B298 /* ftrender.h in Headers */,
+				E06FB1BE197CE71500239DA6 /* FluidGrid.h in Headers */,
 				E0A7198F17E1EE6200A0B298 /* ftsizes.h in Headers */,
 				E0A7199017E1EE6200A0B298 /* ftsnames.h in Headers */,
 				E0A7199117E1EE6200A0B298 /* ftstroke.h in Headers */,
 				E0A7199217E1EE6200A0B298 /* ftsynth.h in Headers */,
 				E0A7199317E1EE6200A0B298 /* ftsystem.h in Headers */,
 				E0A7199417E1EE6200A0B298 /* fttrigon.h in Headers */,
+				E0709D761997AB300079E7E1 /* RenderContext.h in Headers */,
+				E06FB1BC197CE71500239DA6 /* BatchingColorMesh.h in Headers */,
 				E08C634B18AFB0E000A26E40 /* Sound.h in Headers */,
 				E0A7199517E1EE6200A0B298 /* ftttdrv.h in Headers */,
 				E061354718AE697100BD63EC /* b2BlockAllocator.h in Headers */,
@@ -1254,6 +1335,7 @@
 				E0A719B117E1EE6200A0B298 /* svpostnm.h in Headers */,
 				E0A719B217E1EE6200A0B298 /* svprop.h in Headers */,
 				E0A719B317E1EE6200A0B298 /* svpscmap.h in Headers */,
+				E06FB1C0197CE71500239DA6 /* ParticleSystem.h in Headers */,
 				E0A719B417E1EE6200A0B298 /* svpsinfo.h in Headers */,
 				E061350218AE671C00BD63EC /* Memory.h in Headers */,
 				E0A719B517E1EE6200A0B298 /* svsfnt.h in Headers */,
@@ -1339,14 +1421,17 @@
 				E054963E17AE6907005DDB72 /* Camera.cpp in Sources */,
 				E054963F17AE6907005DDB72 /* CocoaApp.mm in Sources */,
 				E054964017AE6907005DDB72 /* CocoaInput.mm in Sources */,
+				E06FB1CE197CEA1B00239DA6 /* BatchingMesh.cpp in Sources */,
 				E06134FC18AE670000BD63EC /* Memory.cpp in Sources */,
 				E054964117AE6907005DDB72 /* CocoaScreen.mm in Sources */,
 				E054964217AE6907005DDB72 /* Color.cpp in Sources */,
 				E0A1AE5F1946EE8500D1438A /* Panel.cpp in Sources */,
+				E06FB1DB197CEA3B00239DA6 /* LuaState.cpp in Sources */,
 				E054964317AE6907005DDB72 /* Config.cpp in Sources */,
 				E054964417AE6907005DDB72 /* Debug.cpp in Sources */,
 				E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */,
 				E01E2CDE18B363BC00D048DD /* BaseSoundAL.cpp in Sources */,
+				E06FB1CF197CEA1B00239DA6 /* FluidGrid.cpp in Sources */,
 				E054964517AE6907005DDB72 /* EString.cpp in Sources */,
 				E054964617AE6907005DDB72 /* ETime.cpp in Sources */,
 				E0684EFF1939D29D00653833 /* Body.cpp in Sources */,
@@ -1355,17 +1440,22 @@
 				E054964817AE6907005DDB72 /* FrameSet.cpp in Sources */,
 				E054964917AE6907005DDB72 /* FreeTypeFontLoader.cpp in Sources */,
 				E027963F18B1447300B1A4FE /* MutexPOSIX.cpp in Sources */,
+				E06FB1D2197CEA1B00239DA6 /* Script.cpp in Sources */,
 				E0A1AE5D1946EE8500D1438A /* GuiManager.cpp in Sources */,
 				E054964A17AE6907005DDB72 /* Game.cpp in Sources */,
 				E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */,
 				E054964E17AE6907005DDB72 /* Input.cpp in Sources */,
-				E054964F17AE6907005DDB72 /* Layer.cpp in Sources */,
 				E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */,
 				E054965417AE6907005DDB72 /* Math3D.cpp in Sources */,
+				E0709D781997B6A80079E7E1 /* RenderContext.cpp in Sources */,
+				E06FB1D1197CEA1B00239DA6 /* ParticleSystem.cpp in Sources */,
+				E06FB1D9197CEA3B00239DA6 /* LuaMath3D.cpp in Sources */,
 				E054965717AE6907005DDB72 /* Math3D_SSE2.cpp in Sources */,
 				E054965B17AE6907005DDB72 /* Mesh.cpp in Sources */,
 				E054965C17AE6907005DDB72 /* Object.cpp in Sources */,
 				E054965D17AE6907005DDB72 /* Render.cpp in Sources */,
+				E06FB1D8197CEA3B00239DA6 /* LuaEasy2D.cpp in Sources */,
+				E06FB1CD197CEA1B00239DA6 /* BatchingColorMesh.cpp in Sources */,
 				E027964018B1447300B1A4FE /* ThreadPOSIX.cpp in Sources */,
 				E06134FB18AE670000BD63EC /* Audio.cpp in Sources */,
 				E054965E17AE6907005DDB72 /* Renderable.cpp in Sources */,
@@ -1382,9 +1472,11 @@
 				E054966417AE6907005DDB72 /* Sprite.cpp in Sources */,
 				E054966517AE6907005DDB72 /* Table.cpp in Sources */,
 				E0A1AE5C1946EE8500D1438A /* Button.cpp in Sources */,
+				E06FB1D0197CEA1B00239DA6 /* Parallax.cpp in Sources */,
 				E054966617AE6907005DDB72 /* Texture.cpp in Sources */,
 				E054966B17AE6907005DDB72 /* Timer.cpp in Sources */,
 				E01E2CEA18B37BBF00D048DD /* WavLoader.cpp in Sources */,
+				E06FB1DA197CEA3B00239DA6 /* LuaScript.cpp in Sources */,
 				E054966C17AE6907005DDB72 /* Utility.cpp in Sources */,
 				E01E2CD618B35ECA00D048DD /* AudioAL.cpp in Sources */,
 				E089EAE817B2750E0055B59A /* Scene.cpp in Sources */,
@@ -1407,6 +1499,7 @@
 					"dependencies-osx64/include/**",
 					include/gui,
 					include/cocoa/,
+					include/script/,
 					include/audio/,
 					include/,
 					./,
@@ -1417,6 +1510,7 @@
 					"-D_DEBUG",
 					"-DORDERED_TABLE",
 					"-DSIMD_SSE2",
+					"-DUSE_LUA",
 				);
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
@@ -1434,6 +1528,7 @@
 					"dependencies-osx64/include/**",
 					include/gui,
 					include/cocoa/,
+					include/script/,
 					include/audio/,
 					include/,
 					./,
@@ -1443,6 +1538,7 @@
 					"-D_DEBUG",
 					"-DORDERED_TABLE",
 					"-DSIMD_SSE2",
+					"-DUSE_LUA",
 				);
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;

@@ -1,5 +1,5 @@
-#ifndef PARTICLE_SYSTEM_H
-#define PARTICL_ESYSTEM_H
+#ifndef PARTICLESYSTEM_H
+#define PARTICLESYSTEM_H
 
 #include <Config.h>
 #include <Color.h>
@@ -173,6 +173,7 @@ class Emitter : public Renderable
         if(particles)
         {
             delete[] particles;
+            particles=nullptr;
             size=0;
             emissionCount=0;
             active.reset();

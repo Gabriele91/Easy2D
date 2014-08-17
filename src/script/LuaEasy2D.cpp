@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include <ELuaState.h>
-#include <LuaBridge/LuaBridge.h>
 #include <Renderable.h>
 #include <Sprite.h>
 #include <AnimatedSprite.h>

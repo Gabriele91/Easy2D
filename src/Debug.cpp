@@ -2,6 +2,7 @@
 #include <Debug.h>
 #include <EString.h>
 #include <iostream>
+#include <RenderContext.h>
 
 #ifdef PLATFORM_UNIX
 #include <signal.h>
@@ -67,6 +68,10 @@ void Debug::gpucheckerrors(const char* fileSource,int line)
 
     if(glerror)
     {
+        DEBUG_MESSAGE( "OpenGL Local state" );
+        DEBUG_CODE(RenderContext::debugCurrentState());
+        DEBUG_MESSAGE( "OpenGL Native state" );
+        DEBUG_CODE(RenderContext::debugNativeState());
         DEBUG_ASSERT_MSG(0,"OpenGL encountered");
     }
 }

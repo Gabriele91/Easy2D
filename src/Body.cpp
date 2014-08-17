@@ -942,16 +942,26 @@ void Body::serialize(Table& table)
 
 void Body::deserialize(const Table& table)
 {
-    setPosition( table.getVector2D("position", getPosition()) );
-    setAngle( table.getFloat("rotation", getAngle()) );
+    Vec2  position(getPosition());
+    float angle(getAngle());
+    //from object?
+    if(getObject())
+    {
+        if(table.getString("position","false")=="true")
+            position=getObject()->getPosition(true);
+        if(table.getString("rotation","false")=="true")
+            angle=getObject()->getRotation(true);
+    }
+    setPosition( table.getVector2D("position", position) );
+    setAngle( table.getFloat("rotation", angle ) );
     setLinearVelocity( table.getVector2D("linearVelocity", getLinearVelocity()) );
     setAngularVelocity( table.getFloat("angularVelocity", getAngularVelocity()) );
     setGravityScale( table.getFloat("gravityScale",getGravityScale()) );
-    setSleepingAllowed( table.getFloat("allowSleep", getSleepingAllowed()) );
-    setAwake( table.getFloat("awake", getAwake()) );
-    setFixedAngle( table.getFloat("fixedRotation", getFixedAngle()) );
-    setBullet( table.getFloat("bullet", getBullet()) );
-    setActive( table.getFloat("active", getActive()) );
+    setSleepingAllowed( table.getFloat("allowSleep", (float)getSleepingAllowed())!=0.0f );
+    setAwake( table.getFloat("awake", (float)getAwake())!=0.0f );
+    setFixedAngle( table.getFloat("fixedRotation", (float)getFixedAngle())!=0.0f );
+    setBullet( table.getFloat("bullet", (float)getBullet())!=0.0f );
+    setActive( table.getFloat("active", (float)getActive())!=0.0f );
     setType( getBodyType(table.getString("type", getBodyType(getType()))) );
 
 
@@ -1034,7 +1044,7 @@ void Body::deserialize(const Table& table)
             setCollisionShapeDensity(idshape,shape.getFloat("density",defaultFixture.density));
             setCollisionShapeFriction(idshape,shape.getFloat("friction",defaultFixture.friction));
             setCollisionShapeRestitution(idshape,shape.getFloat("restitution",defaultFixture.restitution));
-            setCollisionShapeIsSensor(idshape,shape.getFloat("sensor",defaultFixture.isSensor));
+            setCollisionShapeIsSensor(idshape,shape.getFloat("sensor",(float)defaultFixture.isSensor)!=0.0f);
         }
     }
 }

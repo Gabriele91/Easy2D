@@ -37,7 +37,8 @@ public:
     }
     
 private:
-
+    //is subscribe
+    bool isSubscribed;
     //teble resources
     Table resources;
     //key version
@@ -131,6 +132,11 @@ public:
         fonts.unload(destroy);
         sounds.unload(destroy);
         scripts.load();
+    }
+    /** directory of resources */
+    String getResourcesDirectory()
+    {
+        return resources.getPath().getDirectory();
     }
     /** reload only gpu resource */
     void reloadGpuResouce();

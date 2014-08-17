@@ -11,7 +11,7 @@
 #import <AppKit/NSOpenGLView.h>
 #import <AppKit/NSWindow.h>
 #import <AppKit/NSScreen.h>
-
+#include <RenderContext.h>
 using namespace Easy2D;
 #define TOCOCOAWINDOW Easy2DWindow * window=(Easy2DWindow *)(cocoaWindow);
 #define RELOADCOCOAWINDOW  window=(Easy2DWindow *)(cocoaWindow);
@@ -105,17 +105,20 @@ NSScreen* getNSScreen(){
 }
 */
 
-struct CocoaInfo{
+struct CocoaInfo
+{
     CGDisplayModeRef saveMode;
     CGDisplayModeRef fullscreenMode;
 };
-struct ScreenMode {
+struct ScreenMode
+{
     size_t width;
     size_t height;
     size_t bitsPerPixel;
 };
 
-size_t displayBitsPerPixelForMode(CGDisplayModeRef mode) {
+size_t displayBitsPerPixelForMode(CGDisplayModeRef mode)
+{
 	
 	size_t depth = 0;
 	
@@ -129,7 +132,8 @@ size_t displayBitsPerPixelForMode(CGDisplayModeRef mode) {
     
     return depth;
 }
-CGDisplayModeRef bestMatchForMode( ScreenMode screenMode ){
+CGDisplayModeRef bestMatchForMode( ScreenMode screenMode )
+{
 	
 	bool exactMatch = false;
 	
@@ -142,7 +146,8 @@ CGDisplayModeRef bestMatchForMode( ScreenMode screenMode ){
     // If no match is found, try to find a mode with greater depth and same or greater dimensions.
     // If still no match is found, just use the current mode.
     CFArrayRef allModes = CGDisplayCopyAllDisplayModes(kCGDirectMainDisplay, NULL);
-    for(int i = 0; i < CFArrayGetCount(allModes); i++)	{
+    for(int i = 0; i < CFArrayGetCount(allModes); i++)
+    {
 		CGDisplayModeRef mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, i);
         
 		if(displayBitsPerPixelForMode( mode ) != screenMode.bitsPerPixel)
@@ -185,7 +190,8 @@ size_t currentDisplayBitsPerPixel(){
 }
 
 
-void CocoaScreen::__openWindow(int w,int h,const char *title,bool fullscreen){
+void CocoaScreen::__openWindow(int w,int h,const char *title,bool fullscreen)
+{
     
     //GC
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -196,11 +202,13 @@ void CocoaScreen::__openWindow(int w,int h,const char *title,bool fullscreen){
     int mask;
 	//save info
     this->fullscreen=fullscreen;
-    if(fullscreen){
+    if(fullscreen)
+    {
         frame=[[NSScreen mainScreen] frame];
         mask=NSBorderlessWindowMask ;
     }
-    else{
+    else
+    {
         frame.origin.x = 0;
         frame.origin.y = 0;
         frame.size.width = w;
@@ -216,10 +224,12 @@ void CocoaScreen::__openWindow(int w,int h,const char *title,bool fullscreen){
                          defer: false];
     
     //set center of screen
-    if(!fullscreen){
+    if(!fullscreen)
+    {
         [window center];
     }
-    else{
+    else
+    {
         // Set the window level to be above the menu bar
         [window setLevel:NSMainMenuWindowLevel+1];
         // Perform any other window configuration you desire
@@ -257,7 +267,8 @@ void CocoaScreen::__openWindow(int w,int h,const char *title,bool fullscreen){
         onCocoaWindowCreated(cocoaWindow);
     
 }
-void CocoaScreen::__closeWindow(){
+void CocoaScreen::__closeWindow()
+{
     
     TOCOCOAWINDOW
     [window close];
@@ -270,7 +281,8 @@ void CocoaScreen::__closeWindow(){
     
 
 }
-void CocoaScreen::__createContext(int msaa){
+void CocoaScreen::__createContext(int msaa)
+{
     //COCOA OPENGL CONTEXT
     NSOpenGLContext *openGLContext=NULL;
     
@@ -311,29 +323,17 @@ void CocoaScreen::__createContext(int msaa){
 
 
 }
-void CocoaScreen::__deleteContext(){
+void CocoaScreen::__deleteContext()
+{
     TOCOCOACONTEXT
     [NSOpenGLContext clearCurrentContext];
     [openGLContext clearDrawable];
     [openGLContext release];
 }
-void CocoaScreen::__initOpenGL(){
-    //enable culling
-    glEnable( GL_CULL_FACE );
-    glCullFace( GL_BACK );
-    //default status for blending
-    glEnable(GL_ALPHA_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc( GL_ONE , GL_ZERO );
-    //disable zbuffer
-    glDisable(GL_DEPTH_TEST);
-    //disable light
-    glDisable(GL_LIGHTING);
-    //enable texturing
-    glEnable( GL_TEXTURE_2D );
-    //always active!
-    glEnableClientState( GL_VERTEX_ARRAY );
-    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+void CocoaScreen::__initOpenGL()
+{
+    //set default state
+    RenderContext::setDefaultRenderState();
     //find errors:
     CHECK_GPU_ERRORS();
     
@@ -374,72 +374,79 @@ CocoaScreen::~CocoaScreen(){
 /**
  * return screen width
  */
-uint CocoaScreen::getWidth(){
+uint CocoaScreen::getWidth()
+{
 	return screenWidth;
 }
 /**
  * return screen height
  */
-uint CocoaScreen::getHeight(){
+uint CocoaScreen::getHeight()
+{
 	return screenHeight;
 }
 /**
  * return screen native width
  */
-uint CocoaScreen::getNativeWidth(){
+uint CocoaScreen::getNativeWidth()
+{
 	return nativeWidth;
 }
 /**
  * return screen  native height
  */
-uint CocoaScreen::getNativeHeight(){
+uint CocoaScreen::getNativeHeight()
+{
 	return nativeHeight;
 }
 /**
  * return screen orientation
  */
-Screen::Orientation CocoaScreen::getOrientation(){
+Screen::Orientation CocoaScreen::getOrientation()
+{
 	return Screen::LANDSCAPE;
 }
 /**
  * return frame rate
  */
-uint CocoaScreen::getFrameRate(){
+uint CocoaScreen::getFrameRate()
+{
 	return freamPerSecond;    
 }
 
 /**
  * set the specified thread's current rendering context
  */
-void CocoaScreen::acquireContext(){
+void CocoaScreen::acquireContext()
+{
     
     TOCOCOACONTEXT
     
 	[openGLContext makeCurrentContext];
-    
 }
 /**
  * swap the buffers
  */
-void CocoaScreen::swap(){
-    
+void CocoaScreen::swap()
+{
     //TOCOCOACONTEXT
     glSwapAPPLE();
 	//[openGLContext flushBuffer];
-    
 }
 /**
  * show or hide mouse cursor
  * @param show, set true if you want show cursor otherwise false
  */
-void CocoaScreen::setCursor(bool show){
+void CocoaScreen::setCursor(bool show)
+{
     if (show) CGDisplayShowCursor(kCGDirectMainDisplay);
     else CGDisplayHideCursor(kCGDirectMainDisplay);
 }
 /**
  * set position cursor
  */
-void CocoaScreen::setPositionCursor(const Vec2& pos){
+void CocoaScreen::setPositionCursor(const Vec2& pos)
+{
     
     TOCOCOAWINDOW
     NSView* view=window.contentView;
@@ -463,13 +470,15 @@ void CocoaScreen::setPositionCursor(const Vec2& pos){
 /**
  * return if cursor is shown or hidden
  */
-bool CocoaScreen::getCursor(){
+bool CocoaScreen::getCursor()
+{
 	return CGCursorIsVisible();;
 }
 /**
  * enable or disable full screen
  */
-void CocoaScreen::setFullscreen(bool fullscreen){
+void CocoaScreen::setFullscreen(bool fullscreen)
+{
     if(this->fullscreen!=fullscreen){
         
         TOCOCOAWINDOW
@@ -519,7 +528,8 @@ void CocoaScreen::setFullscreen(bool fullscreen){
 /**
  * return if fullscreen is enable return true
  */
-bool CocoaScreen::isFullscreen(){
+bool CocoaScreen::isFullscreen()
+{
 	return fullscreen;
 }
 
@@ -532,7 +542,8 @@ void CocoaScreen::createWindow(const char* appname,
                           uint bites,
                           uint freamPerSecond,
                           bool fullscreen,
-                          AntiAliasing dfAA){
+                          AntiAliasing dfAA)
+{
     this->fullscreen=fullscreen;
     this->cocoaGLContext=NULL;
     this->cocoaWindow=NULL;
@@ -544,7 +555,8 @@ void CocoaScreen::createWindow(const char* appname,
     //save
     cocoaInfo->saveMode=CGDisplayCopyDisplayMode(kCGDirectMainDisplay);
     //display mode
-    if(fullscreen){
+    if(fullscreen)
+    {
         //search new mode
         cocoaInfo->fullscreenMode=bestMatchForMode({wantWidth,wantHeight,bites});
         //set new mode
@@ -577,6 +589,7 @@ void CocoaScreen::createWindow(const char* appname,
 /*
  * close window
  */
-void CocoaScreen::closeWindow(){
+void CocoaScreen::closeWindow()
+{
     __closeWindow();    
 }

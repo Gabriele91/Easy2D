@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <Utility.h>
 #include <Application.h>
+#include <Math3D.h>
 #ifdef  PLATFORM_UNIX
 #include<sys/stat.h>
 #include<unistd.h>
@@ -414,3 +415,79 @@ bool Path::convertToCanonicalPath(String& path)
     //
     return absolute;
 }
+Path Path::getRelativePathTo(const Path& path) const
+{
+    //from path
+    auto from=path.getAbsolute();
+    //to path
+    auto to=getAbsolute();
+    //calc path
+#ifdef  PLATFORM_UNIX
+    //dirs from
+    std::vector<String> fromDirs;
+    from.getDirectory().split("/",fromDirs);
+    //dirs to
+    std::vector<String> toDirs;
+    to.getDirectory().split("/",toDirs);
+    
+    //vars
+    auto maxLoop=Math::min(fromDirs.size(),toDirs.size());
+    String newPath;
+    size_t i=0;
+    //search dif
+    for(i=0;i!=maxLoop;++i)
+    {
+        if(fromDirs[i]!=toDirs[i]) break;
+    }
+    //back
+    if(maxLoop-i)
+    {
+        newPath=String("../")*(maxLoop-i);
+    }
+    //next
+    if(maxLoop<toDirs.size())
+    {
+        for(i=maxLoop;i!=toDirs.size();++i)
+        {
+            newPath+=toDirs[i]+"/";
+        }
+    }
+    //add file
+    if(to.getFilename().size())
+    {
+        newPath+=to.getFilename();
+    }
+    //return
+    return newPath;
+#elif defined(PLATFORM_WINDOW)
+    //calc relative
+    char szOut[MAX_PATH];
+    PathRelativePathTo(szOut,
+                       from.getDirectory(),
+                       FILE_ATTRIBUTE_DIRECTORY,
+                       to.getPath(),
+                       FILE_ATTRIBUTE_NORMAL);
+    //return
+    return szOut;
+#endif
+
+}
+
+Path Path::getRelativePath() const
+{
+    //get working directory
+    Path workingDir(Application::instance()->appWorkingDirectory());
+    //return
+    return getRelativePathTo(workingDir);
+}
+Path Path::getAbsolute() const
+{
+    if(!isAbsolute()) return *this;
+    //get absolute
+    char szOut[PATH_MAX];
+    realpath(getPath(),szOut);
+    return szOut;
+}
+
+
+

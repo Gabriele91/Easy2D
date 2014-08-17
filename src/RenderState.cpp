@@ -8,51 +8,21 @@ void RenderState::enableStates()
     //enable blend
     if(blending)
     {
-        glEnable(GL_BLEND);
-        glBlendFunc(blendSrc,blendDst);
+        RenderContext::setBlend(true);
+        RenderContext::setBlendFunction(blendSrc,blendDst);
     }
     //disable blend
     else
-        glDisable(GL_BLEND);
+        RenderContext::setBlend(false);
     ///////////////////////////////////
     //cull mode
-    glCullFace(cullmode);
+    RenderContext::setCullFace(cullmode);
     ///////////////////////////////////
     //color mode
-    glColor4ub(color.r,color.g,
-               color.b,color.a);
+    RenderContext::setColor(color);
     ///////////////////////////////////
     //set texture
     rtexture->bind();
-}
-void RenderState::enableStates(RenderState *oldstate)
-{
-    ///////////////////////////////////
-    //enable blend
-    if(blending)
-    {
-        if(oldstate->blending!=blending)
-            glEnable(GL_BLEND);
-        if(oldstate->blendSrc!=blendSrc||
-                oldstate->blendDst!=blendDst)
-            glBlendFunc(blendSrc,blendDst);
-    }
-    //disable blend
-    else if(oldstate->blending!=blending)
-        glDisable(GL_BLEND);
-    ///////////////////////////////////
-    //cull mode
-    if(oldstate->cullmode!=cullmode)
-        glCullFace(cullmode);
-    ///////////////////////////////////
-    //color mode
-    if(oldstate->color!=color)
-        glColor4ub(color.r,color.g,
-                   color.b,color.a);
-    ///////////////////////////////////
-    //set texture
-    if((*oldstate->rtexture)!=(*rtexture))
-        rtexture->bind();
 }
 
 void RenderState::draw()
@@ -65,18 +35,8 @@ void RenderState::draw()
     rmesh->draw();
 }
 
-void RenderState::draw(RenderState *oldstate)
-{
-    ///////////////////////////////////
-    //enable state settings
-    enableStates(oldstate);
-    ///////////////////////////////////
-    //draw mesh
-    rmesh->draw();
-}
 
-
-inline String funcBlendToString(int fun)
+static inline String funcBlendToString(int fun)
 {
     switch (fun)
     {
@@ -98,22 +58,26 @@ inline String funcBlendToString(int fun)
         default: return "";
     }
 }
-inline int stringToFuncBlend(const String& fun,int vlDefault)
+static inline int stringToFuncBlend(String fun,int vlDefault)
 {
-    if(fun.toUpper()=="ONE") return GL_ONE;
-    if(fun.toUpper()=="ZERO") return GL_ZERO;
-
-    if(fun.toUpper()=="ONE::MINUS::DST::COLOR") return GL_ONE_MINUS_DST_COLOR;
-    if(fun.toUpper()=="ONE::MINUS::DST::ALPHA") return GL_ONE_MINUS_DST_ALPHA;
-    if(fun.toUpper()=="ONE::MINUS::SRC::COLOR") return GL_ONE_MINUS_SRC_COLOR;
-    if(fun.toUpper()=="ONE::MINUS::SRC::ALPHA") return GL_ONE_MINUS_SRC_ALPHA;
-    
-    if(fun.toUpper()=="DST::COLOR") return GL_DST_COLOR;
-    if(fun.toUpper()=="DST::ALPHA") return GL_DST_ALPHA;
-
-    if(fun.toUpper()=="SRC::COLOR") return GL_SRC_COLOR;
-    if(fun.toUpper()=="SRC::ALPHA") return GL_SRC_ALPHA;
-    if(fun.toUpper()=="SRC::ALPHA::SATURATE") return GL_SRC_ALPHA_SATURATE;
+    //normalize
+    fun.replaceAll(" ","");
+    fun=fun.toUpper();
+    //
+    if(fun=="ONE") return GL_ONE;
+    if(fun=="ZERO") return GL_ZERO;
+    //
+    if(fun=="ONE::MINUS::DST::COLOR") return GL_ONE_MINUS_DST_COLOR;
+    if(fun=="ONE::MINUS::DST::ALPHA") return GL_ONE_MINUS_DST_ALPHA;
+    if(fun=="ONE::MINUS::SRC::COLOR") return GL_ONE_MINUS_SRC_COLOR;
+    if(fun=="ONE::MINUS::SRC::ALPHA") return GL_ONE_MINUS_SRC_ALPHA;
+    //
+    if(fun=="DST::COLOR") return GL_DST_COLOR;
+    if(fun=="DST::ALPHA") return GL_DST_ALPHA;
+    //
+    if(fun=="SRC::COLOR") return GL_SRC_COLOR;
+    if(fun=="SRC::ALPHA") return GL_SRC_ALPHA;
+    if(fun=="SRC::ALPHA::SATURATE") return GL_SRC_ALPHA_SATURATE;
 
     return vlDefault;
 }
@@ -121,15 +85,15 @@ inline String cullToString(int cull)
 {
     switch (cull)
     {
-        case GL_BACK: return "BACK";
-        case GL_FRONT: return "FRONT";
+        case BACK: return "BACK";
+        case FRONT: return "FRONT";
         default: return "";
     }
 }
-inline int stringToCall(const String& cull)
+inline CullFace stringToCall(const String& cull)
 {
-    if(cull.toUpper()=="FRONT") return GL_FRONT;
-    return GL_BACK;
+    if(cull.toUpper()=="FRONT") return FRONT;
+    return BACK;
 }
 
 void RenderState::rsSerialize(Table& table)

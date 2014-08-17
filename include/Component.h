@@ -9,13 +9,17 @@ namespace Easy2D {
     /////////////////////
     class Scene;
     class Object;
+    class Component;
     class ComponentMap;
+    template<class T>
+    class ComponentItem;
     /////////////////////
 	class Component
     {
 
         //friend class
         friend class Object;
+        friend class ComponentMap;
         //private info
         Object* object;
 
@@ -35,6 +39,10 @@ namespace Easy2D {
         {
         }
     
+        virtual ~Component()
+        {
+        }
+        
         bool isAdded()
         {
             return object!=nullptr;
@@ -58,8 +66,7 @@ namespace Easy2D {
         virtual void onFixedRun(float dt){}
         //get name
         virtual const char* getComponentName() const=0;
-        //get info
-        virtual const cppTypeInfo* getComponentInfo() const=0;
+        virtual uint  getComponentFamily() const=0;
         //serialize methos
         virtual void serialize(Table& table){}
         virtual void deserialize(const Table& table){}
@@ -68,14 +75,22 @@ namespace Easy2D {
     /////////////////////
     class ComponentMap
     {
-        
+        //components
         typedef Component* (*createComponent)();
         static DUNORDERED_MAP<String,createComponent>* cmap;
+        static DUNORDERED_MAP<String,uint>* fmap;
         
         public:
         
         static Component* create(const String& name);
-        static void append(const String& name,createComponent);
+        static uint getFamily(const String& name);
+        static void append(const String& name,createComponent fun,uint family);
+        //family
+        static uint newFamilyID()
+        {
+            static uint value=0;
+            return ++value;
+        }
         
     };
     /////////////////////
@@ -90,7 +105,9 @@ namespace Easy2D {
         
         ComponentItem(const String& name)
         {
-            ComponentMap::append(name,ComponentItem<T>::create);
+            ComponentMap::append(name,
+                                 ComponentItem<T>::create,
+                                 T::Family());
         }
 
     public:
@@ -104,15 +121,19 @@ namespace Easy2D {
         
     };
     #define REGISTERED_COMPONENT(classname,name)\
-    namespace{  static const ComponentItem<classname>& _Easy2D_ ## classname ## _ComponentItem=ComponentItem<classname>::Instance(name);}
+    namespace\
+    {\
+    static const ComponentItem<classname>& _Easy2D_ ## classname ## _ComponentItem=\
+                                           ComponentItem<classname>::Instance(name);\
+    }
 
-    #define DERIVATE_COMPONENT(T)\
-        virtual const char* getComponentName() const{ return #T ; };
+    #define DERIVATE_COMPONENT(Name)\
+        virtual const char* getComponentName() const{ return #Name ; };
 
-    #define ADD_COMPONENT_METHOS(T)\
-        DERIVATE_COMPONENT(T)\
-        virtual const cppTypeInfo* getComponentInfo() const{ return &typeid(T) ; };\
-        static const  cppTypeInfo* getComponentType(){ return &typeid(T) ; };
+    #define ADD_COMPONENT_METHOS(Name)\
+        virtual const char*  getComponentName() const { return #Name ; };\
+        virtual uint getComponentFamily() const { return Family() ; };\
+        static  uint Family(){ static uint id=ComponentMap::newFamilyID() ; return id ; };
     /////////////////////
 
     

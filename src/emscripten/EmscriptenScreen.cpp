@@ -2,6 +2,7 @@
 #include  <X11/Xlib.h>
 #include  <X11/Xatom.h>
 #include  <X11/Xutil.h>
+#include <RenderContext.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -23,20 +24,8 @@ EmscriptenScreen::EmscriptenScreen()
 
 void EmscriptenScreen::__initOpenGL()
 {
-    //enable culling
-    glEnable( GL_CULL_FACE );
-    glCullFace( GL_BACK );
-    //default status for blending
-    glEnable(GL_ALPHA_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc( GL_ONE , GL_ZERO );
-    //disable light
-    glDisable(GL_LIGHTING);
-    //enable texturing
-    glEnable( GL_TEXTURE_2D );
-    //always active!
-    glEnableClientState( GL_VERTEX_ARRAY );
-    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    //set default state
+    RenderContext::setDefaultRenderState();
     //find errors:
     CHECK_GPU_ERRORS();
 

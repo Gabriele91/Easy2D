@@ -161,7 +161,7 @@ AABox2::AABox2(const Vec2& center,Vec2 size)
 AABox2::AABox2()
 {
     //bad init
-    min=Vec2::MAX;
+    min= Vec2::MAX;
     max=-Vec2::MAX;
 }
 AABox2::~AABox2()
@@ -177,17 +177,25 @@ void AABox2::setBox(const Vec2& center,Vec2 size)
 }
 void AABox2::addPoint(const Vec2& p)
 {
+#if 0
     if(min==Vec2::MAX && max==-Vec2::MAX) //in bad state?
     {
         min=max=p;
         return;
     }
+#endif
     //found box                      m______
     min.x=Math::min(min.x,p.x);  //  |\    |
     min.y=Math::min(min.y,p.y);  //  | \.c |
     max.x=Math::max(max.x,p.x);  //  |   \ |
     max.y=Math::max(max.y,p.y);  //  |____\|M
 }
+void AABox2::addBox(const AABox2& p)
+{
+    addPoint(p.getMin());
+    addPoint(p.getMax());
+}
+
 void AABox2::setRegion(const AABox2& p)
 {
     //found box                             m______
@@ -210,16 +218,34 @@ bool AABox2::isIntersection(const Vec2& point) const
 }
 AABox2 AABox2::applay(const Matrix4x4& m4) const
 {
+    //new box
     AABox2 newbox;
-    //new center
+#if 0
+    //new points
     auto left_up=m4.mul2D(Vec2(min.x,min.y));
     auto left_down=m4.mul2D(Vec2(min.x,max.y));
     auto right_up=m4.mul2D(Vec2(max.x,min.y));
-    auto right_down=m4.mul2D(Vec2(max.y,max.y));
-    newbox.max.x=Math::max(Math::max(left_up.x,right_up.x),Math::max(left_down.x,right_down.x));
-    newbox.max.y=Math::max(Math::max(left_up.y,right_up.y),Math::max(left_down.y,right_down.y));
-    newbox.min.x=Math::min(Math::min(left_up.x,right_up.x),Math::min(left_down.x,right_down.x));
-    newbox.min.y=Math::min(Math::min(left_up.y,right_up.y),Math::min(left_down.y,right_down.y));
+    auto right_down=m4.mul2D(Vec2(max.x,max.y));
+    newbox.addPoint(left_up);
+    newbox.addPoint(left_down);
+    newbox.addPoint(right_up);
+    newbox.addPoint(right_down);  
+#else
+    //size
+    Vec2 hsize=(max-min)*.5;
+    Vec2 center=m4.mul2D((max+min)*.5);
+    //rotscale
+    Vec2 up=m4.mul2D(Vec2(hsize.x,hsize.y))-m4.getTranslation2D();
+    Vec2 down=m4.mul2D(Vec2(hsize.x,-hsize.y))-m4.getTranslation2D();
+    up.abs();
+    down.abs();
+    //final size
+    Vec2 fhsize;
+    fhsize.x=Math::max(up.x,down.x);
+    fhsize.y=Math::max(up.y,down.y);
+    //set
+    newbox.setBox(center,fhsize*2.0);
+#endif
     //return
     return newbox;
 }

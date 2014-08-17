@@ -34,9 +34,8 @@ void BatchingColorMesh::createBuffer(size_t maxSize)
     //create the VBO
 #ifdef ENABLE_STREAM_BUFFER
     if( !vertexBuffer )
-        glGenBuffers(1, &vertexBuffer );
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, maxSize,0, GL_STREAM_DRAW);
+        vertexBuffer=RenderContext::createBuffer();
+    RenderContext::bufferData(vertexBuffer, STREAM, 0, maxSize);
 #endif
 }
 void BatchingColorMesh::createBufferByVertexs(size_t maxVertexs)
@@ -58,6 +57,7 @@ void BatchingColorMesh::relase()
 }
 bool BatchingColorMesh::canAdd(Mesh::ptr mesh)
 {
+    if(!mesh->supportBatching()) return false;
     //ibo
     size_t nI=mesh->getCpuIndexs()->size();
     size_t nV=mesh->getCpuVertexs()->size();
@@ -82,8 +82,8 @@ bool BatchingColorMesh::canAdd(Mesh::ptr mesh)
 
 bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4& color)
 {
-    DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINES);
-    DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINE_STRIP);
+    DEBUG_ASSERT(mesh->getDrawMode()!=DrawMode::LINES);
+    DEBUG_ASSERT(mesh->getDrawMode()!=DrawMode::LINE_STRIP);
     
     if(!mesh->supportBatching())
         return false;
@@ -108,7 +108,7 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
     //
     switch (mesh->getDrawMode())
     {
-    case Mesh::DrawMode::TRIANGLE:
+    case DrawMode::TRIANGLE:
         if(nI) //ibo?
             for(auto i:refIBO)
             {
@@ -120,7 +120,7 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
                 AddVertexCML(gvt)
             };
         break;
-    case Mesh::DrawMode::TRIANGLE_STRIP:
+    case DrawMode::TRIANGLE_STRIP:
         if(nI)  //ibo?
         {
             //first vetexts
@@ -178,38 +178,29 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
 }
 void BatchingColorMesh::draw()
 {
+    if(!countVertexs) return;
+    //////////////////////////////////////////
+    RenderContext::setClientState(true, false, true, true);
     //////////////////////////////////////////
     //disable IBO
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-    //enable color
-    glEnableClientState( GL_COLOR_ARRAY );
-    //////////////////////////////////////////
+    RenderContext::unbindIndexBuffer();
 #ifdef ENABLE_STREAM_BUFFER
     //enable VBO
-    glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
+    RenderContext::bindVertexBuffer(vertexBuffer);
     //send vertexs
-    glBufferSubData(GL_ARRAY_BUFFER, //target
-                    0,               //offset
-                    sizeof(gCVertex)*countVertexs, //size
-                    &cpuVertexs()[0] //data
-                   );
+    RenderContext::bufferSubData(vertexBuffer, &cpuVertexs()[0], 0, sizeof(gCVertex)*countVertexs);
     //set vertex
-    glVertexPointer(2, GL_FLOAT, sizeof(gCVertex), 0 );
-    glTexCoordPointer(2, GL_FLOAT, sizeof(gCVertex), (void*)(sizeof(float)*2) );
-    glColorPointer(4, GL_FLOAT, sizeof(gCVertex), (void*)(sizeof(float)*4) );
+    RenderContext::vertexPointer(2, GL_FLOAT, sizeof(gCVertex), 0 );
+    RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(gCVertex), (void*)(offsetof(gCVertex,uv)) );
+    RenderContext::colorPointer(4, GL_FLOAT, sizeof(gCVertex), (void*)(offsetof(gCVertex,color)) );
 #else
     //disable VBO
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    RenderContext::unbindVertexBuffer();
     //set vertex
-    static const size_t sizeofGV=sizeof(gCVertex);
-    glVertexPointer(2, GL_FLOAT, sizeofGV, &cpuVertexs()[0].vt.x );
-    glTexCoordPointer(2, GL_FLOAT, sizeofGV, &cpuVertexs()[0].uv.x );
-    glColorPointer(4, GL_FLOAT, sizeofGV, &cpuVertexs()[0].color.x );
+    RenderContext::vertexPointer(2, GL_FLOAT, sizeof(gCVertex), &cpuVertexs()[0].vt.x );
+    RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(gCVertex), &cpuVertexs()[0].uv.x );
+    RenderContext::colorPointer(4, GL_FLOAT, sizeof(gCVertex), &cpuVertexs()[0].color.x );
 #endif
     //draw
-    glDrawArrays( GL_TRIANGLES, 0, countVertexs );
-    //////////////////////////////////////////
-    //disable
-    glDisableClientState( GL_COLOR_ARRAY );
-    //////////////////////////////////////////
+    RenderContext::drawPrimitive(TRIANGLE, 0, countVertexs);
 }

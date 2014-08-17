@@ -90,6 +90,10 @@ public:
     {
         return isabs;
     }
+    //return relative path
+    Path getRelativePathTo(const Path& path) const;
+    Path getRelativePath() const;
+    Path getAbsolute() const;
     //
     bool existsFile();
     bool existsDirectory();

@@ -179,6 +179,7 @@ Application::ResouceStream* Application::getResouceStream(const String& path)
 void Application::subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr)
 {
     DEBUG_ASSERT(rsGr);
+    DEBUG_ASSERT(groups.find(name)==groups.end());
     groups[name]=rsGr;
 }
 /**

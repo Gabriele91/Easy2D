@@ -56,29 +56,35 @@ String String::toUpper() const
     return out;
 }
 //String buffer for printf
-String Easy2D::operator*(const String& s,const char* c)
+String Easy2D::operator*(const String& s,short c)
 {
-    return String::toString(c);
-}
-String Easy2D::operator*(const String& s,char* c)
-{
-    return String::toString(c);
+    return s*((ushort)c);
 }
 String Easy2D::operator*(const String& s,int c)
 {
-    return String::toString(c);
+    return s*((uint)c);
 }
-String Easy2D::operator*(const String& s,unsigned int c)
+String Easy2D::operator*(const String& s,long c)
 {
-    return String::toString(c);
+    return s*((ulong)c);
 }
-String Easy2D::operator*(const String& s,float c)
+String Easy2D::operator*(const String& s,ushort c)
 {
-    return String::toString(c);
+    String out;
+    for(ushort i=0;i!=c;++i) out+=s;
+    return out;
 }
-String Easy2D::operator*(const String& s,double c)
+String Easy2D::operator*(const String& s,uint c)
 {
-    return String::toString(c);
+    String out;
+    for(uint i=0;i!=c;++i) out+=s;
+    return out;
+}
+String Easy2D::operator*(const String& s,ulong c)
+{
+    String out;
+    for(ulong i=0;i!=c;++i) out+=s;
+    return out;
 }
 ///
 //converti una stringa a qualunque tipo

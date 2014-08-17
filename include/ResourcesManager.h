@@ -16,7 +16,12 @@ class ResourcesManager
 {
     //private costructor
     friend class ResourcesGroup;
-    ResourcesManager():rsgr(NULL),version("default") {}
+    ResourcesManager():rsgr(nullptr)
+                      ,version("default")
+                      ,mapResources(nullptr)
+                      ,deleteTable(false)
+    {
+    }
 
     //
 public:
@@ -25,7 +30,7 @@ public:
                      const Utility::Path& path,
                      const Table::KeyTable& version="default")
         :rsgr(rsgr)
-        ,mapResources( new Table (NULL,path) )
+        ,mapResources( new Table (nullptr,path) )
         ,deleteTable(true)
         ,version(version)
     {
@@ -43,7 +48,14 @@ public:
     //
     ~ResourcesManager()
     {
-        if(deleteTable) delete mapResources;
+        if(deleteTable)
+            delete mapResources;
+        //dt all resources
+        for(auto rs:rsMap)
+        {
+            rs.second.lock()->
+            Resource<T>::setReleaseCallBack([](Resource<T>* rs){});
+        }
     }
     //manager mathos
     DS_PTR<T> find(const String &objectname)
@@ -70,9 +82,10 @@ public:
             //set into map
             rsMap[objectname]=resource;
             resource->Resource<T>::setName(objectname);
-            resource->Resource<T>::setReleaseCallBack([this](Resource<T>* rs)
+            resource->Resource<T>::setReleaseCallBack(
+            [this](Resource<T>* rs)
             {
-                this->erase(rs->getName());
+                this->rsMap.erase(rs->getName());
             });
             //
             return resource;
@@ -127,8 +140,15 @@ public:
     //
     void erase(const String &objectname)
     {
+        //find
+        auto it=rsMap.find(objectname);
+        //if not find, return
+        if(it==rsMap.end()) return;
+        //dt object
+        it->second.lock()->
+        Resource<T>::setReleaseCallBack([](Resource<T>* rs){});
         //erase a resources reference
-        rsMap.erase(objectname);
+        rsMap.erase(it);
     }
     //
     ResourcesGroup* getResourcesGroup()

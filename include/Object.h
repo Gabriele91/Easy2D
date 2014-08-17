@@ -23,7 +23,7 @@ class Object
 {
     public:
                 
-    typedef std::map<const  cppTypeInfo* , Component* > Components;
+    typedef std::map<uint, Component*> Components;
     typedef std::list<Object*> Childs;
 
     enum ParentMode
@@ -58,9 +58,11 @@ class Object
         }
     }
     //childs
+    bool hasChild(Object *child);
+    bool hasChild(const String& name);
     void addChild(Object *child,bool ptrdelete=true);
     void addChild(Object *child,ParentMode type,bool ptrdelete=true);
-    void erseChild(Object *child);
+    void eraseChild(Object *child);
     void setParentMode(ParentMode type);
     size_t countChilds();
     size_t depthChilds();
@@ -106,16 +108,50 @@ class Object
     Component* component(const String& name);
     //components list
     const Components& getComponents();
+    //get a component
+    Component* getComponent(const String& name)
+    {
+        auto it=components.find(ComponentMap::getFamily(name));
+        if(it==components.end()) return nullptr;
+        return it->second;
+    }
+    const Component* getComponent(const String& name) const
+    {
+        auto it=components.find(ComponentMap::getFamily(name));
+        if(it==components.end()) return nullptr;
+        return it->second;
+    }
+    Component* removeComponent(const String& name)
+    {
+        auto itc=components.find(ComponentMap::getFamily(name));
+        if(itc!=components.end())
+        {
+            auto component=itc->second;
+            
+            components.erase(itc);
+            
+            component->removeEntity();
+            
+            return component;
+        }
+        return nullptr;
+    }
+    bool hasComponent(const String& name)
+    {
+        auto it=components.find(ComponentMap::getFamily(name));
+        if(it==components.end()) return false;
+        return true;
+    }
     //components by template
-    template<class T> 
+    template<class T>
     void addComponent(T* component)
     {
         Component* newcmp=dynamic_cast< Component* >(component);
         if(newcmp!=nullptr)
         {
-            if(!component->isAdded() && components.find(T::getComponentType())==components.end())
+            if(!component->isAdded() && components.find(T::Family())==components.end())
             {
-                components[T::getComponentType()]=component;
+                components[T::Family()]=component;
                 component->setEntity(this);
             }
             else 
@@ -132,7 +168,7 @@ class Object
     template<class T>
     T* getComponent()
     {
-        auto itc=components.find(T::getComponentType());
+        auto itc=components.find(T::Family());
 
         if(itc!=components.end())
         {
@@ -144,7 +180,7 @@ class Object
     template<class T>
     const T* getComponent() const
     {
-        auto itc=components.find(T::getComponentType());
+        auto itc=components.find(T::Family());
 
         if(itc!=components.end())
         {
@@ -156,10 +192,10 @@ class Object
     template<class T>
     T* removeComponent()
     {
-        auto itc=components.find(T::getComponentType());
+        auto itc=components.find(T::Family());
         if(itc!=components.end())
         {
-            auto component=(*itc);
+            auto component=itc->second;
             
             components.erase(itc);
             
@@ -172,7 +208,7 @@ class Object
     template<class T> 
     bool hasComponent()
     {
-        auto itc=components.find(T::getComponentType());
+        auto itc=components.find(T::Family());
 
         if(itc!=components.end())
         {

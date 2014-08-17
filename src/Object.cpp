@@ -22,9 +22,12 @@ Object::Object(const String& argname)
     :data(nullptr)
     ,scene(nullptr)
     ,changeValue(false)
+    ,zLocal(0)
+    ,zGlobal(0)
+    ,changeZValue(false)
     ,del(false)
     ,parent(nullptr)
-    ,parentMode(DISABLE_PARENT) 
+    ,parentMode(DISABLE_PARENT)
     ,name(argname)
 {
 }
@@ -61,8 +64,18 @@ void Object::setPosition(const Vector2D &position,bool global)
     if(!global||!parent)
         transform.position=position;
     else
-        transform.position=position-parent->getPosition(true);
-
+    {
+        Mat4 mat;
+        ///applay parent rotation
+        mat.setRotZ(Math::torad(parent->getRotation(true)));
+        //add translation
+        mat.entries[12]=parent->getPosition(true).x;
+        mat.entries[13]=parent->getPosition(true).y;
+        //calc inv
+        mat.inverse();
+        //calc new pos
+        transform.position=mat.mul2D(position);
+    }
     change();
 }
 void Object::setRotation(float alpha,bool global)
@@ -171,6 +184,17 @@ void Object::changeZ()
     }
 }
 //CHILDS
+bool Object::hasChild(Object *child)
+{
+    return std::find(begin(),end(),child)!=end();
+}
+bool Object::hasChild(const String& name)
+{
+    for(auto child:*this) 
+        if(child->name==name) 
+            return true;
+    return false;
+}
 void Object::change()
 {
     if(!changeValue)
@@ -184,30 +208,38 @@ void Object::change()
 }
 void Object::addChild(Object *child,bool ptrdelete)
 {
-    addChild(child,ParentMode::ENABLE_ALL,ptrdelete);
+    ParentMode mode=ParentMode::ENABLE_ALL;
+    if(child->parent) mode=child->getParentMode();
+    addChild(child,mode,ptrdelete);
 }
 void Object::addChild(Object *child,ParentMode type,bool ptrdelete)
 {
 
     if(child->parent==this) return;
     if(child==this) return;
-    if(child->parent) child->parent->erseChild(child);
+    if(child->parent) child->parent->eraseChild(child);
 
     child->del=ptrdelete;
     child->parent=this;
     child->parentMode=type;
+    //push
     this->childs.push_back(child);
-    this->setScene(getScene());
-
     child->change();
+    //event
+    child->setScene(getScene());
+
 
 }
-void Object::erseChild(Object *child)
+void Object::eraseChild(Object *child)
 {
     if(child->parent==this)
     {
-        childs.remove(child);
+        //events
+        child->eraseScene();
         child->parent=NULL;
+        //remove
+        childs.remove(child);
+        //send
         child->change();
     }
 }
@@ -316,10 +348,16 @@ Object* Object::getPrivateObject(const std::vector<String>& names,size_t i)
 Component* Object::component(const String& name)
 {
     auto cmp=ComponentMap::create(name);
-    auto it=components.find(cmp->getComponentInfo());
+    auto it=components.find(cmp->getComponentFamily());
     if(it==components.end())
-    {   
-        components[cmp->getComponentInfo()]=cmp;
+    {
+        //set entity
+        cmp->setEntity(this);
+        //set scene
+        if(getScene()) cmp->onSetScene(scene);
+        //add component
+        components[cmp->getComponentFamily()]=cmp;
+        //return
         return cmp;
     }
     DEBUG_ASSERT_MSG(0,"component "<<name<<" in "<<getName()<<" olready exist");
@@ -510,9 +548,9 @@ static String parentToString(Object::ParentMode mode)
     if(mode == Object::ENABLE_ALL) return "ALL";
 
     String smode;
-    if(mode & Object::ENABLE_POSITION) smode= "POSITION";
-    if(mode & Object::ENABLE_ROTATION) smode=String(smode.size() ? "|" : "") + "ROTATION";
-    if(mode & Object::ENABLE_SCALE)    smode=String(smode.size() ? "|" : "") + "SCALE";
+    if(mode & Object::ENABLE_POSITION) smode = "POSITION";
+    if(mode & Object::ENABLE_ROTATION) smode+=String(smode.size() ? "|" : "") + "ROTATION";
+    if(mode & Object::ENABLE_SCALE)    smode+=String(smode.size() ? "|" : "") + "SCALE";
 
     return smode;
 }
@@ -552,6 +590,8 @@ void Object::serialize(Table& table)
     robj.set("position",getPosition());
     robj.set("rotation",getRotation());
     robj.set("scale",getScale());
+    robj.set("z",getZ());
+    
     if(parent)
         robj.set("parentMode",parentToString(parentMode));
     //components

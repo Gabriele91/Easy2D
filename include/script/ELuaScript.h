@@ -43,7 +43,20 @@ class LuaScript :  public Component
         if(luaObject)
             delete luaObject;
     }
-
+    //methods
+    LuaState::LuaObject* getLuaObject() const
+    {
+        return luaObject;
+    }
+    Script::ptr getScript() const
+    {
+        return luaClass;
+    }
+    const String& getScriptName() const 
+    {
+        return getScript()->getName();
+    }
+    //update
     virtual void onRun(float dt);
     //component
     ADD_COMPONENT_METHOS(LuaScript)

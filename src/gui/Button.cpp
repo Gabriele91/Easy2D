@@ -100,7 +100,7 @@ Button::Button(GuiManager* guim):GuiObject(guim)
     //setup render state
     enableBlend();
     setBlend(BLEND::SRC::ALPHA,BLEND::ONE::MINUS::SRC::ALPHA);
-    setCull(GL_BACK);
+    setCull(BACK);
 }
 Button::~Button()
 {

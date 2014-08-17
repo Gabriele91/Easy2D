@@ -10,23 +10,28 @@ ResourcesGroup::ResourcesGroup(const String& rsname,
                                const String& version)
     :resources(NULL,path)
     ,version(version)
+    ,isSubscribed(false)
 {
     loadResourceFile();
     subscription(rsname);
 }
 
-ResourcesGroup::ResourcesGroup():version("default")
+ResourcesGroup::ResourcesGroup():version("default"),isSubscribed(false)
+
 {
 }
 void ResourcesGroup::subscription(const String& rgname)
 {
     //debug
+    DEBUG_ASSERT(isSubscribed==false);
     DEBUG_ASSERT(rgname.size());
     DEBUG_ASSERT(name.size()==0);
     //save name
     name=rgname;
     //regist this resource group
     Application::instance()->subscriptionResourcesGroup (name,this);
+    //is subscribed
+    isSubscribed=true;
 }
 void ResourcesGroup::unsubscription()
 {
@@ -65,7 +70,8 @@ void ResourcesGroup::addResourceFiles(const String& rsname,
 ResourcesGroup::~ResourcesGroup()
 {
     //unregist this resource group
-    unsubscription();
+    if(isSubscribed)
+        unsubscription();
 }
 
 /** reload only gpu resource */

@@ -92,7 +92,7 @@ public:
     Vector2D getNormalize() const;
     Vector2D projected(const Vector2D& axis) const;
     ///////////////////////////////////////////////////////////////////////////
-    DFORCEINLINE float squaredLength()
+    DFORCEINLINE float squaredLength() const
     {
         return x*x+y*y;
     };
@@ -344,7 +344,7 @@ public:
         return direction * dot(direction);
     }
     ///////////////////////////////////////////////////////////////////////////
-    DFORCEINLINE float squaredLength()
+    DFORCEINLINE float squaredLength() const
     {
         return x*x+y*y+z*z;
     };
@@ -635,7 +635,7 @@ public:
     float distancePow2(const Vector4D& vec) const;
     Vector4D getNormalize() const;
     ///////////////////////////////////////////////////////////////////////////
-    DFORCEINLINE float squaredLength()
+    DFORCEINLINE float squaredLength() const
     {
         return x*x+y*y+z*z+w*w;
     };
@@ -823,6 +823,7 @@ public:
     void setBox(const Vec2& center,Vec2 size);
     void setRegion(const AABox2& aabox);
     void addPoint(const Vec2& point);
+    void addBox(const AABox2& aabox);
     //getter
     Vec2  getCenter() const
     {

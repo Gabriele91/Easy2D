@@ -49,7 +49,9 @@
 #include <State.h>
 #include <Parallax.h>
 #include <ELuaScript.h>
+#include <FluidGrid.h>
 //Rander manager
+#include <RenderContext.h>
 #include <Render.h>
 #include <Scene.h>
 //gui

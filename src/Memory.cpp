@@ -10,6 +10,7 @@
 #include <Memory.h>
 #include <Debug.h>
 #define NOT(x) (!(x))
+#define BYTESALING 16
 
 #if defined(DOVERRIDE_NEW_DEL)
 
@@ -27,7 +28,7 @@ using namespace Easy2D;
 //==================================================================
 void *operator new( size_t size ) throw_alloc
 {
-    void *p = _mm_malloc( size, 64 );
+    void *p = _mm_malloc( size, BYTESALING );
 
     if NOT( p )
         Debug::message()<<( "new failed !\n" );
@@ -38,7 +39,7 @@ void *operator new( size_t size ) throw_alloc
 //==================================================================
 void *operator new [] ( size_t size ) throw_alloc
 {
-    void *p = _mm_malloc( size, 64 );
+    void *p = _mm_malloc( size, BYTESALING );
 
     if NOT( p )
         Debug::message()<<( "new failed !\n" );

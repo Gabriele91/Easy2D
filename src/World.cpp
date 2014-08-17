@@ -3,6 +3,7 @@
 #include <Body.h>
 #include <Scene.h>
 #include <Debug.h>
+#include <RenderContext.h>
 
 ///////////////////////
 using namespace Easy2D;
@@ -542,52 +543,33 @@ void World::physicsDraw(Camera* camera)
 
     //set projection matrix 
     //NOTE: GET CAMERA, VIEWPORT
-    /*
-    Vec4 viewport;
-    glGetFloatv(GL_VIEWPORT, viewport);
-    glMatrixMode(GL_PROJECTION);
-    Mat4 projection;
-    projection.setOrtho(viewport.x,viewport.z, viewport.y,viewport.w, 1.0f,-1.0f);
-    glLoadMatrixf(projection);
-    //set view port
-    //glViewport( viewport.x, viewport.y, (GLsizei)viewport.z, (GLsizei)viewport.w );
-    */
     //////////////////////////////////////////////////////////////////
-    GLboolean cull,blend;
-    GLint bs_src, bs_dst;
-    glGetBooleanv(GL_CULL_FACE,&cull);
-    glGetBooleanv(GL_BLEND , &blend);
-    glGetIntegerv(GL_BLEND_SRC , &bs_src);
-    glGetIntegerv(GL_BLEND_DST , &bs_dst);    
+    auto state=RenderContext::getRenderState();
     //change param
-    glDisable(GL_CULL_FACE);
+    RenderContext::setCullFace(DISABLE);
     //blend
-    if(!blend) glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderContext::setBlend(true);
+    RenderContext::setBlendFunction(BLEND::SRC::ALPHA, BLEND::ONE::MINUS::SRC::ALPHA);
+    //texture
+    RenderContext::setTexture(false);
+    //clients
+    RenderContext::setClientState(true, false, false, false);
+    //no vbo/ibo
+    RenderContext::unbindVertexBuffer();
+    RenderContext::unbindIndexBuffer();
     //////////////////////////////////////////////////////////////////
     //pixel scale
     Mat4 scale;
     scale.setScale(Vec2(metersInPixel,metersInPixel));
     //camera pos
-    glMatrixMode(GL_MODELVIEW);
     if(camera)
-        glLoadMatrixf(camera->getGlobalMatrix().mul2D(scale));
+        RenderContext::setModelView(camera->getGlobalMatrix().mul2D(scale));
     else
-        glLoadMatrixf(scale);
-    //no vbo/ibo
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  0 );
+        RenderContext::setModelView(scale);
     //no texture
-    glDisable( GL_TEXTURE_2D );
-    world->DrawDebugData();    
+    world->DrawDebugData();
     //////////////////////////////////////////////////////////////////
-    if(cull)
-        glEnable( GL_CULL_FACE );
-    //blend
-    if(!blend)
-        glDisable( GL_BLEND );
-    else
-        glBlendFunc(bs_src,bs_dst);
+    RenderContext::setRenderState(state);
     //////////////////////////////////////////////////////////////////
 }
 
@@ -605,38 +587,33 @@ void World::deserialize(const Table& table)
     setMetersInPixel(tworld.getFloat("metersInPixel",getMetersInPixel()));
 }
 ////////////////////////////////////////
-#define SAVE_COLOR\
-    GLfloat saveGLColor4f[4];\
-    glGetFloatv(GL_CURRENT_COLOR, saveGLColor4f);
-#define RESET_COLOR\
-    glColor4fv(saveGLColor4f);
+
 
 void GLDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) 
 {
-    SAVE_COLOR
-    glColor4f(color.r, color.g, color.b,1);
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
-    glDrawArrays(GL_LINE_LOOP, 0, vertexCount);
-    RESET_COLOR
+    Color e2color;
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1.0));
+    RenderContext::setColor(e2color);
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
 }
 void GLDebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
-    SAVE_COLOR
-
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
-
-    glColor4f(color.r, color.g, color.b,0.5f);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
-
-    glColor4f(color.r, color.g, color.b,1);
-    glDrawArrays(GL_LINE_LOOP, 0, vertexCount);
+    Color e2color;
     
-    RESET_COLOR
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,.5));
+    RenderContext::setColor(e2color);
+    RenderContext::drawPrimitive(TRIANGLE_FAN, 0, vertexCount);
+
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
+    RenderContext::setColor(e2color);
+    RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
+    
 }
 void GLDebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) 
 {
-    SAVE_COLOR
-
     const float32 k_segments = 16.0f;
     const int vertexCount=16;
     const float32 k_increment = 2.0f * b2_pi / k_segments;
@@ -650,17 +627,17 @@ void GLDebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color
         theta += k_increment;
     }
     
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    Color e2color;
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
+    RenderContext::setColor(e2color);
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
 
-    glColor4f(color.r, color.g, color.b,1);
-    glDrawArrays(GL_LINE_LOOP, 0, vertexCount);
-
-    RESET_COLOR
 }
 void GLDebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
-    SAVE_COLOR
-
+    
+    Color e2color;
     const float32 k_segments = 16.0f;
     const int vertexCount=16;
     const float32 k_increment = 2.0f * b2_pi / k_segments;
@@ -674,29 +651,30 @@ void GLDebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2
         theta += k_increment;
     }
     
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
 
-    glColor4f(color.r, color.g, color.b,0.5f);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, vertexCount);
-
-    glColor4f(color.r, color.g, color.b,1);
-    glDrawArrays(GL_LINE_LOOP, 0, vertexCount);
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,.5));
+    RenderContext::setColor(e2color);
+    RenderContext::drawPrimitive(TRIANGLE_FAN, 0, vertexCount);
     
-    RESET_COLOR
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
+    RenderContext::setColor(e2color);
+    RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
+    
 }
 void GLDebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
-    SAVE_COLOR
-
+    
     GLfloat vertices[] = 
     {
         p1.x,p1.y,p2.x,p2.y
     };
-    glColor4f(color.r, color.g, color.b,1);
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
-    glDrawArrays(GL_LINES, 0, 2);
+    Color e2color;
+    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
+    RenderContext::setColor(e2color);
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::drawPrimitive(LINES, 0, 2);
 
-    RESET_COLOR
 }
 void GLDebugDraw::DrawTransform(const b2Transform& xf)
 {

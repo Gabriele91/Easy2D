@@ -124,7 +124,7 @@ Panel::Panel(GuiManager* guim):GuiObject(guim)
     //setup render state
     enableBlend();
     setBlend(BLEND::SRC::ALPHA,BLEND::ONE::MINUS::SRC::ALPHA);
-    setCull(GL_BACK);
+    setCull(BACK);
 }
 void Panel::draw()
 {

@@ -173,6 +173,8 @@ public:
     int addAnimation(FrameSet::ptr frames);
     int addAnimation(FrameSet::ptr frames, float time);
     int addAnimation(FrameSet::ptr frames, float time,bool loop);
+    //return frameset list
+    void getFrameSets(std::vector<FrameSet::ptr>& frames);
     //change an animation
     void setAnimation(int i);
     void setAnimation(int i, float timePerFrame);

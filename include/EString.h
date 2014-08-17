@@ -83,13 +83,13 @@ public:
     }
 
 };
-
-String operator*(const String& s,const char* c);
-String operator*(const String& s,char* c);
+    
+String operator*(const String& s,short c);
 String operator*(const String& s,int c);
-String operator*(const String& s,unsigned int c);
-String operator*(const String& s,float c);
-String operator*(const String& s,double c);
+String operator*(const String& s,long c);
+String operator*(const String& s,ushort c);
+String operator*(const String& s,uint c);
+String operator*(const String& s,ulong c);
 //operatori
 //int operator
 String operator+(const String& s,int v);

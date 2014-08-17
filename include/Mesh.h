@@ -6,6 +6,7 @@
 #include <Color.h>
 #include <EString.h>
 #include <Resource.h>
+#include <RenderContext.h>
 
 namespace Easy2D
 {
@@ -38,15 +39,6 @@ class BasicMesh
         //cast op
         gCVertex(){}
     };
-    //draw mode
-    enum DrawMode
-    {
-        TRIANGLE,
-        TRIANGLE_STRIP,
-        LINE_STRIP,
-        LINES
-    };
-    
     //typedef
     //list type
     typedef std::vector<gVertex> ListGVertexs;
@@ -142,14 +134,19 @@ public:
         return box;
     }
 
+    virtual const bool supportBatching() const
+    {
+        return batching;
+    }   
+    virtual void setBatching(bool bch)
+    {
+        batching=bch;
+    }
+
 protected:
     //buffer GPU
     uint vertexBuffer;
     uint indexBuffer;
-    //vba GPU
-#ifdef ENABLE_VAOS
-    uint vbaDraw;
-#endif
     //cpu buffer
     class MCBuffers : public CpuBuffers
     {
@@ -167,6 +164,8 @@ protected:
     }
     //tipo di disegno
     DrawMode dmode;
+    //benchable
+    bool batching;
     //draw bind mesh
     void __bind();
     //AABB

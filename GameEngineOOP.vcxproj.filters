@@ -255,6 +255,9 @@
     <ClCompile Include="src\script\LuaState.cpp">
       <Filter>File di origine\script</Filter>
     </ClCompile>
+    <ClCompile Include="src\FluidGrid.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Config.h">
@@ -485,6 +488,9 @@
     </ClInclude>
     <ClInclude Include="include\script\ELuaScript.h">
       <Filter>File di intestazione\script</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FluidGrid.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

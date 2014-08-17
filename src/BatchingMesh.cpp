@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <BatchingMesh.h>
 #include <Debug.h>
+#include <RenderContext.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -27,9 +28,8 @@ void BatchingMesh::createBuffer(size_t maxSize)
     //create the VBO
 #ifdef ENABLE_STREAM_BUFFER
     if( !vertexBuffer )
-        glGenBuffers(1, &vertexBuffer );
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, maxSize,0, GL_STREAM_DRAW);
+        vertexBuffer=RenderContext::createBuffer();
+    RenderContext::bufferData(vertexBuffer, STREAM, 0, maxSize);
 #endif
 }
 void BatchingMesh::createBufferByVertexs(size_t maxVertexs)
@@ -75,8 +75,8 @@ bool BatchingMesh::canAdd(Mesh::ptr mesh)
 
 bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh)
 {
-    DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINES);
-    DEBUG_ASSERT(mesh->getDrawMode()!=Mesh::DrawMode::LINE_STRIP);
+    DEBUG_ASSERT(mesh->getDrawMode()!=DrawMode::LINES);
+    DEBUG_ASSERT(mesh->getDrawMode()!=DrawMode::LINE_STRIP);
     
     if(!mesh->supportBatching())
         return false;
@@ -100,7 +100,7 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh)
     //
     switch (mesh->getDrawMode())
     {
-    case Mesh::DrawMode::TRIANGLE:
+    case DrawMode::TRIANGLE:
         if(nI) //ibo?
             for(auto i:refIBO)
             {
@@ -112,7 +112,7 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh)
                 AddVertexML(gvt)
             };
         break;
-    case Mesh::DrawMode::TRIANGLE_STRIP:
+    case DrawMode::TRIANGLE_STRIP:
         if(nI)  //ibo?
         {
             //first vetexts
@@ -170,30 +170,27 @@ bool BatchingMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh)
 }
 void BatchingMesh::draw()
 {
+    if(!countVertexs) return;
+    //clients
+    RenderContext::setClientState(true, false, true, false);
     //disable IBO
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-
+    RenderContext::unbindIndexBuffer();
 #ifdef ENABLE_STREAM_BUFFER
     //enable VBO
-    glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
+    RenderContext::bindVertexBuffer(vertexBuffer);
     //send vertexs
-    glBufferSubData(GL_ARRAY_BUFFER, //target
-                    0,               //offset
-                    sizeof(gVertex)*countVertexs, //size
-                    &cpuVertexs()[0] //data
-                   );
+    RenderContext::bufferSubData(vertexBuffer, &cpuVertexs()[0], 0, sizeof(gVertex)*countVertexs);
     //set vertex
-    glVertexPointer(2, GL_FLOAT, sizeof(gVertex), 0 );
-    glTexCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec2) );
+    RenderContext::vertexPointer(2, GL_FLOAT, sizeof(gVertex), 0 );
+    RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec2) );
 #else
     //disable VBO
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    RenderContext::unbindVertexBuffer();
     //set vertex
-    static const size_t sizeofGV=sizeof(gVertex);
-    glVertexPointer(2, GL_FLOAT, sizeofGV, &cpuVertexs()[0].vt.x );
-    glTexCoordPointer(2, GL_FLOAT, sizeofGV, &cpuVertexs()[0].uv.x );
+    RenderContext::vertexPointer(2, GL_FLOAT, sizeof(gVertex), &cpuVertexs()[0].vt.x );
+    RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(gVertex), &cpuVertexs()[0].uv.x );
 #endif
     //draw
-    glDrawArrays( GL_TRIANGLES, 0, countVertexs );
+    RenderContext::drawPrimitive(TRIANGLE, 0, countVertexs);
 }
 

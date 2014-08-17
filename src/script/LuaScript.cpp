@@ -25,6 +25,10 @@ void LuaScript::onRun(float dt)
             {
                 DEBUG_ASSERT_MSG(0,"LuaState call \'onInit\', error:\n" << e.what() );
             }
+            catch (std::exception const& e) 
+            {
+                DEBUG_ASSERT_MSG(0,"LuaState call \'onInit\', error:\n" << e.what() );
+            }
             break;
         case Easy2D::LuaScript::ON_RUN:
             try 
@@ -32,6 +36,10 @@ void LuaScript::onRun(float dt)
                 luaOnRun(getObject(),dt);
             }
             catch (luabridge::LuaException const& e) 
+            {
+                DEBUG_ASSERT_MSG(0,"LuaState call \'onRun\', error:\n" << e.what() );
+            }
+            catch (std::exception const& e) 
             {
                 DEBUG_ASSERT_MSG(0,"LuaState call \'onRun\', error:\n" << e.what() );
             }
@@ -43,6 +51,10 @@ void LuaScript::onRun(float dt)
                 state=ON_VOID;
             }
             catch (luabridge::LuaException const& e) 
+            {
+                DEBUG_ASSERT_MSG(0,"LuaState call \'onEnd\', error:\n" << e.what() );
+            }
+            catch (std::exception const& e) 
             {
                 DEBUG_ASSERT_MSG(0,"LuaState call \'onEnd\', error:\n" << e.what() );
             }

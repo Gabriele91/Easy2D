@@ -14,12 +14,12 @@ void Parallax::onFixedRun(float dt)
         if(camera)
         {
             //pos
-            Vec2 pos=getObject()->getPosition()-moved;
+            Vec2 pos=getObject()->getPosition(true)-moved;
             //pos cam
-            Vec2 posCam=camera->getPosition();
+            Vec2 posCam=camera->getPosition(true);
             //move
             moved=posCam*parallax-posCam;
-            getObject()->setPosition(pos+moved);
+            getObject()->setPosition(pos+moved,true);
         }
     }
 }

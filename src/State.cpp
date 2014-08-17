@@ -84,8 +84,8 @@ int StateManager::getNextState()
 void StateManager::serialize(Table& table)
 {
     Table& rstate=table;
-    if(current>=0) rstate.set("current",current);
-    if(next>=0)    rstate.set("next",next);
+    if(current>=0) rstate.set("current",(float)current);
+    if(next>=0)    rstate.set("next",(float)next);
 }
 void StateManager::deserialize(const Table& table)
 {

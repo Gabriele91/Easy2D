@@ -58,6 +58,14 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames,
     return crtAnimation;
 }
 
+void AnimatedSprite::getFrameSets(std::vector<FrameSet::ptr>& frames)
+{
+    for(auto anim:animations)
+    {
+        frames.push_back(anim->getFrameSet());
+    }
+}
+
 void AnimatedSprite::setAnimation(int i)
 {    
     DEBUG_ASSERT( ((int)crtAnimation) >= 0 );
@@ -83,7 +91,6 @@ void AnimatedSprite::setAnimation(int i, bool loop)
     setAnimation(i);
     animations[crtAnimation]->setLoop(loop);
 }
-
 
 void AnimatedSprite::setTime(float timePerFrame)
 {
@@ -130,7 +137,7 @@ void AnimatedSprite::serialize(Table& table)
     //serialize render state
     rsSerialize(table);
     //serialize ASprite
-    table.set("currentAnimation",getCurrentAnimation());
+    table.set("currentAnimation",(float)getCurrentAnimation());
 
     for(auto anim : animations)
     {
@@ -149,7 +156,7 @@ void AnimatedSprite::deserialize(const Table& table)
     //deserialize rander state
     rsDeserialize(table);
     //current animation
-    crtAnimation=table.getFloat("currentAnimation",getCurrentAnimation());
+    crtAnimation=table.getFloat("currentAnimation",(float)getCurrentAnimation());
 
     for(auto rsp:table)
     {

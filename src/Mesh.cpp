@@ -18,13 +18,10 @@ Mesh::Mesh(DFUNCTION<void(void)> fun,
            ,vertexBuffer(0)
            ,indexBuffer(0)
            ,dmode(TRIANGLE)
+           ,batching(true)
 {
     //is reloadable?
     if(!rsmr||pathfile=="") reloadable=false;
-
-#ifdef ENABLE_VAOS
-    vbaDraw=(0);
-#endif
 }
 
 Mesh::Mesh(ResourcesManager<Mesh> *rsmr,
@@ -37,13 +34,10 @@ Mesh::Mesh(ResourcesManager<Mesh> *rsmr,
            ,vertexBuffer(0)
            ,indexBuffer(0)
            ,dmode(TRIANGLE)
+           ,batching(true)
 {
     //is reloadable?
     if(!rsmr||pathfile=="") reloadable=false;
-
-#ifdef ENABLE_VAOS
-    vbaDraw=(0);
-#endif
 }
 //distruttore
 Mesh::~Mesh()
@@ -90,39 +84,17 @@ void Mesh::build()
 
     //create the VBO
     if( !vertexBuffer )
-        glGenBuffers(1, &vertexBuffer );
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(gVertex) * cpuVertexs().size(), &cpuVertexs()[0], GL_STATIC_DRAW);
+        vertexBuffer=RenderContext::createBuffer();
+    RenderContext::bufferData(vertexBuffer, STATIC, &cpuVertexs()[0], sizeof(gVertex) * cpuVertexs().size());
     //create the IBO
     if(cpuIndexs().size())
     {
         if( !indexBuffer )
-            glGenBuffers(1, &indexBuffer );
-        glBindBuffer(GL_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(ushort) * cpuIndexs().size(), &cpuIndexs()[0], GL_STATIC_DRAW);
+            indexBuffer=RenderContext::createBuffer();
+        RenderContext::bufferData(indexBuffer, STATIC, &cpuIndexs()[0], sizeof(ushort) * cpuIndexs().size());
     }
-
-#ifdef ENABLE_VAOS
-    //create the VAO
-    if( !vbaDraw )
-        glGenVertexArrays( 1, &vbaDraw );
-    glBindVertexArray( vbaDraw );
-    //bind mesh
-    __bind();
-    //disable vao
-    glBindVertexArray( 0 );
-
-#endif
-
     //get vao/ibo/vbo errors
     CHECK_GPU_ERRORS();
-    /*
-    //aabb culling
-    extends.x=Math::max(fabs(max.x),fabs(min.y));
-    extends.y=Math::max(fabs(max.y),fabs(min.x));
-    center=(max+min)/2;
-    extends-=center;
-    */
 }
 //resource
 bool Mesh::load()
@@ -209,13 +181,11 @@ bool Mesh::unload()
 {
     //unload mesh
     if( vertexBuffer )
-        glDeleteBuffers(1, &vertexBuffer );
+        RenderContext::deleteBuffer(vertexBuffer);
     if( indexBuffer )
-        glDeleteBuffers(1, &indexBuffer );
-#ifdef ENABLE_VAOS
-    if( vbaDraw )
-        glDeleteVertexArrays( 1, &vbaDraw );
-#endif
+        RenderContext::deleteBuffer(indexBuffer);
+    //reset box
+    box=AABox2();
     //is loaded?
     loaded=false;
     //
@@ -224,49 +194,52 @@ bool Mesh::unload()
 //draw
 void Mesh::__bind()
 {
-
-    //bind VBO
-    glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
-    //set vertex
-    glVertexPointer(2, GL_FLOAT, sizeof(gVertex), 0 );
-    glTexCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec2) );
-    //bind IBO
-    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, cpuIndexs().size() ? indexBuffer : 0 );
-
+    //clients
+    RenderContext::setClientState(true, false, true, false);
+    
+    //vbo
+    if(vertexBuffer)
+    {
+        //bind VBO
+        RenderContext::bindVertexBuffer(vertexBuffer);
+        //set vertex
+        RenderContext::vertexPointer(2, GL_FLOAT, sizeof(gVertex), 0 );
+        RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)sizeof(Vec2) );
+    }
+    //vba
+    else
+    {
+        //unbind VBO
+        RenderContext::unbindVertexBuffer();
+        //set vertex
+        RenderContext::vertexPointer(2, GL_FLOAT, sizeof(gVertex), &cpuVertexs()[0] );
+        RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(gVertex), (void*)(&cpuVertexs()[0].uv) );
+    }
+    
+    //IBO
+    if(indexBuffer)
+        RenderContext::bindIndexBuffer(indexBuffer);
+    //DRAW ARRAY
+    else
+        RenderContext::unbindIndexBuffer();
 }
 void Mesh::draw()
 {
     //bind mesh
-#ifdef ENABLE_VAOS
-    DEBUG_ASSERT(vbaDraw);
-    glBindVertexArray( vbaDraw );
-#else
     __bind();
-#endif
-    //get openGL draw mode
-    uint glMode;
-    switch( dmode )
-    {
-    case Mesh::TRIANGLE:
-        glMode = GL_TRIANGLES;
-        break;
-    case Mesh::TRIANGLE_STRIP:
-        glMode = GL_TRIANGLE_STRIP;
-        break;
-    case Mesh::LINE_STRIP:
-        glMode = GL_LINE_STRIP;
-        break;
-    case Mesh::LINES:
-        glMode = GL_LINES;
-        break;
-    }
     //draw mesh
     if( !cpuIndexs().size() )
-        glDrawArrays( glMode, 0, cpuVertexs().size() );
+    {
+        RenderContext::drawPrimitive(dmode, 0, cpuVertexs().size());
+    }
+    //IBO
+    else if(indexBuffer)
+    {
+        RenderContext::drawPrimitiveIndexed(dmode, cpuIndexs().size(), UNSIGNED_SHORT, 0 );
+    }
+    //IBA
     else
-        glDrawElements( glMode, cpuIndexs().size(), GL_UNSIGNED_SHORT, 0 );
-
-#ifdef ENABLE_VAOS
-    glBindVertexArray( 0 );
-#endif
+    {
+        RenderContext::drawPrimitiveIndexed(dmode, cpuIndexs().size(), UNSIGNED_SHORT, &cpuIndexs()[0] );
+    }
 }

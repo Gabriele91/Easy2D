@@ -49,7 +49,7 @@ struct Color
         this->a=a;
     }
 
-    Color operator + (const Color& v)
+    Color operator + (const Color& v) const
     {
         Color out;
         out.r=(uchar)Math::clamp(r+v.r,255,0);
@@ -58,7 +58,7 @@ struct Color
         out.a=(uchar)Math::clamp(a+v.a,255,0);
         return out;
     }
-    Color operator - (const Color& v)
+    Color operator - (const Color& v) const
     {
         Color out;
         out.r=(uchar)Math::clamp(r-v.r,255,0);
@@ -67,15 +67,24 @@ struct Color
         out.a=(uchar)Math::clamp(a-v.a,255,0);
         return out;
     }
-    bool operator == (const Color& v)
+    Color operator * (const Color& v) const
+    {
+        Color out;
+        out.r=(uchar)Math::clamp((r*v.r)/255,255,0);
+        out.g=(uchar)Math::clamp((g*v.g)/255,255,0);
+        out.b=(uchar)Math::clamp((b*v.b)/255,255,0);
+        out.a=(uchar)Math::clamp((a*v.a)/255,255,0);
+        return out;
+    }
+    bool operator == (const Color& v) const
     {
         return r==v.r && g==v.g && b==v.b && a==v.a;
     }
-    bool operator != (const Color& v)
+    bool operator != (const Color& v) const
     {
         return r!=v.r || g!=v.g || b!=v.b || a!=v.a;
     }
-    Color operator * (const float factor)
+    Color operator * (const float factor) const
     {
         Color out;
         out.r=(uchar)Math::clamp(r*factor,255.0f,0.0f);

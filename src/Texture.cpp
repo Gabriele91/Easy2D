@@ -3,6 +3,7 @@
 #include <Debug.h>
 #include <Table.h>
 #include <Application.h>
+#include <RenderContext.h>
 #define IMAGE_LOADER_OPENGL
 #include "Image/Image.h"
 
@@ -24,7 +25,7 @@ Texture::Texture(ResourcesManager<Texture> *rsmr,
     ,spriteWidth(0)
     ,spriteHeight(0)
     ,gpuid(0)
-    ,offsetUV(1,1)
+    ,offsetUV(0,0,1,1)
     ,po2Srpite(nullptr)
 {
     //is not loaded
@@ -51,20 +52,30 @@ void Texture::bind(uint ntexture)
     //
     DEBUG_ASSERT(gpuid);
     //
-    glActiveTexture( GL_TEXTURE0 + ntexture );
-    glEnable( GL_TEXTURE_2D );
-    glBindTexture( GL_TEXTURE_2D, (GLuint)gpuid );
-    //settings
+    RenderContext::bindTexture(gpuid,ntexture);
+    //filters
 #ifndef DISABLE_MIDMAP
-    if(chBlr)
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,bBilinear?GL_LINEAR:GL_NEAREST);
-    if(chMps)
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,bMipmaps?GL_LINEAR_MIPMAP_NEAREST:GL_LINEAR);
+    if(chBlr || chMps)
+    {
+        //change filter
+        auto filterMag=bBilinear?GL_LINEAR:GL_NEAREST;
+        auto filter= bBilinear ?  ( bMipmaps ? GL_LINEAR_MIPMAP_LINEAR   : GL_LINEAR  ):
+                                  ( bMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST );
+        RenderContext::filterTexture(filter,filterMag);
+        CHECK_GPU_ERRORS();
+
+        //update
+        chMps=chBlr=false;
+    }
 #else
     if(chBlr)
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-    if(chMps)
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    {
+        //change filter
+        auto filter=bBilinear?GL_LINEAR:GL_NEAREST;
+        RenderContext::filterTexture(filter,filter);
+        //update
+        chBlr=false;
+    }
 #endif
 }
 //setting
@@ -126,23 +137,23 @@ void Texture::__build()
         //add vertexs
         po2Srpite->addVertex(  hlSizeX,
                                -hlSizeY,
-                               offsetUV.x,
-                               offsetUV.y);
+                               offsetUV.z,
+                               offsetUV.w);
         po2Srpite->addVertex(  hlSizeX,
                                hlSizeY,
-                               offsetUV.x,
-                               0.0);
+                               offsetUV.z,
+                               offsetUV.y);
         po2Srpite->addVertex( -hlSizeX,
                               -hlSizeY,
-                              0.0,
-                              offsetUV.y);
+                              offsetUV.x,
+                              offsetUV.w);
         po2Srpite->addVertex( -hlSizeX,
                               hlSizeY,
-                              0.0,
-                              0.0);
+                              offsetUV.x,
+                              offsetUV.y);
         //end add vertexs
         //set draw mode
-        po2Srpite->setDrawMode(Mesh::TRIANGLE_STRIP);
+        po2Srpite->setDrawMode(TRIANGLE_STRIP);
         //build mesh
         po2Srpite->build();
     }
@@ -183,7 +194,13 @@ bool Texture::load()
         if(texInfo.existsAsType("uv",Table::VECTOR2D))
         {
             textureUVOffset=true;
-            offsetUV=texInfo.getVector2D("uv",Vec2::ONE);
+            auto uv2=texInfo.getVector2D("uv",Vec2::ONE);
+            offsetUV=Vec4(0,0,uv2.x,uv2.y);
+        }
+        else if(texInfo.existsAsType("uv",Table::VECTOR4D))
+        {
+            textureUVOffset=true;
+            offsetUV=texInfo.getVector4D("uv",Vec4::ONE);
         }
     }
     //load image
@@ -208,69 +225,42 @@ bool Texture::load()
     }
     /////////////////////////////////////////////////////////////////////
     //gen gpu
-    //create an GPU texture
-    glGenTextures( 1, &gpuid );
-    //build
-    bind();
     //support only pow of 2?
     if(Application::instance()->onlyPO2())
     {
         bool isNotPO2Width =!Math::isPowerOfTwo(realWidth);
         bool isNotPO2Height=!Math::isPowerOfTwo(realHeight);
         bool isNotPO2=(isNotPO2Width||isNotPO2Height);
-
+        
         if(isNotPO2Width)
             realWidth=Math::nextPowerOfTwo(realWidth);
         if(isNotPO2Width)
             realHeight=Math::nextPowerOfTwo(realHeight);
         
         DEBUG_MESSAGE_IF(textureUVOffset && isNotPO2 ,"WARRNING Texture: "
-                                                      "the device isn't support non-power-of-two texture, "
-                                                      "uv mapping is probably failed");
+                         "the device isn't support non-power-of-two texture, "
+                         "uv mapping is probably failed");
         
         if(!textureUVOffset && isNotPO2)
         {
             //calc offset uv
-            offsetUV.x=(float)width/realWidth;
-            offsetUV.y=(float)height/realHeight;
+            offsetUV.z=(float)width/realWidth;
+            offsetUV.w=(float)height/realHeight;
         }
     }
-
 #ifdef OPENGL_ES
-    DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: android not support alpha texture");
+    DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: OpenGL ES not support alpha texture");
     if(image.type==TYPE_ALPHA8)
         image.convertAlphaTo32bit();
-    GLuint type=image.type;
+    uint type=image.type;
 #else
-    GLuint type= image.type== GL_ALPHA8 ? GL_ALPHA : image.type;
+    uint type= image.type== GL_ALPHA8 ? GL_ALPHA : image.type;
 #endif
-    //save internal type
-    GLuint typeInternal=image.type;
-    //create a gpu texture
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        typeInternal,
-        realWidth,
-        realHeight,
-        0,
-        type,
-        GL_UNSIGNED_BYTE,
-        NULL );
-#ifndef DISABLE_MIDMAP
-    //create mipmaps
-    if(bMipmaps)
-        glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
-#endif
-    //send to GPU
-    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
-                     width,
-                     height,
-                     type,
-                     GL_UNSIGNED_BYTE,
-                     image.bytes );
-
-    CHECK_GPU_ERRORS();
+    //create texture
+    loadFromBinaryData(image.bytes,
+                       width,height,
+                       realWidth,realHeight,
+                       image.type,type);
     //is loaded
     loaded=true;
     //if olready getted, build mesh
@@ -296,49 +286,63 @@ bool Texture::unload()
     //return
     return !loaded;
 }
+
+
 bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
+                                 uint width,
+                                 uint height,
+                                 uint format,
+                                 uint type)
+{
+    return loadFromBinaryData(&bytes[0],width,height,width,height,format,type);
+}
+bool Texture::loadFromBinaryData(std::vector<uchar>& bytes,
+                                 uint width,
+                                 uint height,
+                                 uint gpuwidth,
+                                 uint gpuheight,
+                                 uint format,
+                                 uint type)
+{
+    return loadFromBinaryData(&bytes[0],width,height,gpuwidth,gpuwidth,format,type);
+}
+
+bool Texture::loadFromBinaryData(const uchar* bytes,
+                                 uint width,
+                                 uint height,
+                                 uint format,
+                                 uint type)
+{
+    return loadFromBinaryData(bytes,width,height,width,height,format,type);
+}
+bool Texture::loadFromBinaryData(const uchar* bytes,
                                  uint argWidth,
                                  uint argHeight,
+                                 uint argGpuWidth,
+                                 uint argGpuHeight,
                                  uint format,
                                  uint type)
 {
     //error if olready loaded
     DEBUG_ASSERT(!loaded);
     /////////////////////////////////////////////////////////////////////
-    //gen gpu
-    //create an GPU texture
-    glGenTextures( 1, &gpuid );
-    //build
-    bind();
     //save width end height
-    width=realWidth=argWidth;
-    height=realHeight=argHeight;
+    width=argWidth;
+    height=argHeight;
+    realWidth=argGpuWidth;
+    realHeight=argGpuHeight;
     //resize
     //create a gpu texture
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        format,
-        realWidth,
-        realHeight,
-        0,
-        type,
-        GL_UNSIGNED_BYTE,
-        NULL );
-
 #ifndef DISABLE_MIDMAP
-    //create mipmaps
-    glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, bMipmaps );
+    gpuid=RenderContext::createTexture(format, type,  realWidth, realHeight, 0, bMipmaps);
+#else   
+    gpuid=RenderContext::createTexture(format, type,  realWidth, realHeight, 0);
 #endif
-
-    //send to GPU
-    glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0,
-                     width,
-                     height,
-                     type,
-                     GL_UNSIGNED_BYTE,
-                     &bytes[0] );
-
+    //bind
+    bind();
+    CHECK_GPU_ERRORS();
+    //add image
+    RenderContext::subTexture(type,width, height, bytes);
     CHECK_GPU_ERRORS();
     //is loaded
     loaded=true;

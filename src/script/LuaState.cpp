@@ -2,7 +2,6 @@
 #include <Debug.h>
 #include <Application.h>
 #include <ELuaState.h>
-#include <LuaBridge/LuaBridge.h>
 
 using namespace Easy2D;
 

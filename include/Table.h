@@ -226,6 +226,28 @@ public:
     {
         return table.find(key);
     }
+    /* erase */
+    Value* erase(const KeyTable& key)
+    {
+        UNMAPTable::iterator it=table.find(key);
+        if(it!=table.end())
+        {
+			auto element=it->second;
+			table.erase(it);
+            return element;
+        }
+        return nullptr;
+    }
+    void deleteElement(const KeyTable& key)
+    {
+        UNMAPTable::iterator it=table.find(key);
+        if(it!=table.end())
+        {
+			auto element=it->second;
+			table.erase(it);
+            delete element;
+        }
+    }
 
     /** return table-array size  */
     unsigned int indexUnnomed() const
@@ -244,18 +266,22 @@ public:
         DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table());
         table[index]=ptr;
         ++index;
-        return *((Table*)ptr->getValue());
+        return ptr->get<Table>();
     }
     /** create a sub table with a name */
     DFORCEINLINE Table& createTable(const String& key)
     {
-
+        //delete old
         if(exists(key))
             delete table[key];
+        //new
         DefineValue<Table> *ptr=new DefineValue<Table>(TABLE,Table(getResourcesManager(),rpath));
+        //set name
+        ptr->get<Table>().setName(key);
+        //save
         table[key]=ptr;
-
-        return *((Table*)ptr->getValue());
+        //return
+        return ptr->get<Table>();
     }
 
     /** set a floating in an associative table */

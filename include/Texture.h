@@ -20,7 +20,7 @@ class Texture : public Resource<Texture>
     uint realWidth,realHeight;
     uint spriteWidth,spriteHeight;
     uint gpuid;
-    Vec2 offsetUV;
+    Vec4 offsetUV;
     //sprite pow of tow
     Mesh::ptr po2Srpite;
     void __build();
@@ -39,9 +39,33 @@ public:
     //load methods
     virtual bool load();
     virtual bool unload();
+    //loading from buffer
+    
     bool loadFromBinaryData(std::vector<uchar>& bytes,
                             uint width,
                             uint height,
+                            uint format,
+                            uint type);
+    
+    bool loadFromBinaryData(std::vector<uchar>& bytes,
+                            uint width,
+                            uint height,
+                            uint gpuwidth,
+                            uint gpuheight,
+                            uint format,
+                            uint type);
+    
+    bool loadFromBinaryData(const uchar* bytes,
+                            uint width,
+                            uint height,
+                            uint format,
+                            uint type);
+    
+    bool loadFromBinaryData(const uchar* bytes,
+                            uint width,
+                            uint height,
+                            uint gpuwidth,
+                            uint gpuheight,
                             uint format,
                             uint type);
     //settings
@@ -50,7 +74,11 @@ public:
     bool mipmaps();
     bool mipmaps(bool value);
     //offset UV (npow)
-    DFORCEINLINE Vec2& getOffestUV()
+    DFORCEINLINE Vec2 getOffestUV() const
+    {
+        return Vec2(offsetUV.z,offsetUV.w);
+    }
+    DFORCEINLINE const Vec4& getOffestUV4() const
     {
         return offsetUV;
     }

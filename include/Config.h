@@ -27,17 +27,6 @@
 #define ENABLE_ORDERED_TABLE
 #endif
 
-//enable lua jit or lua
-#if !defined(USE_LUA) &&  !defined(USE_LUA_JIT)
-    #error "must to be define USE_LUA or USE_LUA_JIT"
-#elif defined(USE_LUA) &&  defined(USE_LUA_JIT)
-    #error "must to be defined only USE_LUA or only USE_LUA_JIT"
-#endif
-
-#if !defined(USE_LUA) || !defined(USE_LUA_JIT)
-    #include <Easy2DLua.h>
-#endif 
-
 
 #if defined(__ANDROID__)
 #define PLATFORM_ANDROID
@@ -267,5 +256,16 @@ int atexit(void (*function)(void));
 #define DOVERRIDE_NEW_DEL
 #include <Memory.h>
 #endif
+
+//enable lua jit or lua
+#if !defined(USE_LUA) &&  !defined(USE_LUA_JIT)
+    #error "must to be define USE_LUA or USE_LUA_JIT"
+#elif defined(USE_LUA) &&  defined(USE_LUA_JIT)
+    #error "must to be defined only USE_LUA or only USE_LUA_JIT"
+#endif
+
+#if !defined(USE_LUA) || !defined(USE_LUA_JIT)
+    #include <Easy2DLua.h>
+#endif 
 
 #endif

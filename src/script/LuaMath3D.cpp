@@ -1,7 +1,6 @@
 #include <stdafx.h>
 #include <Math3D.h>
 #include <ELuaState.h>
-#include <LuaBridge/LuaBridge.h>
 
 using namespace Easy2D;
 
