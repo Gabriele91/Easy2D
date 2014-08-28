@@ -87,13 +87,14 @@ inline String cullToString(int cull)
     {
         case BACK: return "BACK";
         case FRONT: return "FRONT";
-        default: return "";
+        default: return "DISABLE";
     }
 }
 inline CullFace stringToCall(const String& cull)
 {
     if(cull.toUpper()=="FRONT") return FRONT;
-    return BACK;
+    if(cull.toUpper()=="BACK") return BACK;
+    return DISABLE;
 }
 
 void RenderState::rsSerialize(Table& table)

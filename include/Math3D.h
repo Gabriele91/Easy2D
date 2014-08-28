@@ -867,6 +867,12 @@ struct Transform2D
 {
     //
     Transform2D():alpha(0),scale(1.0f,1.0f) {}
+    Transform2D(const Vector2D& position,
+                float alpha,
+                const Vector2D& scale)
+                :position(position),
+                 alpha(alpha),
+                 scale(scale) {}
     //values
     Vector2D position;
     float alpha;
@@ -965,6 +971,8 @@ public:
     void inverse();
     ///matrix inverse (only 2D transformation)
     void inverse2D();
+    //get matrix determinant
+    float getDeterminant() const;
     ///matrix multiplication
     Matrix4x4 mul(const Matrix4x4 &m4x4) const;
     ///matrix multiplication (only 2D transformation)
@@ -981,25 +989,30 @@ public:
     Matrix4x4 getTranspose() const;
     ///set scale
     void setScale(const Vector3D &v3);
+    void setScale(const Vector2D &v2);
+    ///concatenate trasformation
     void addScale(const Vector3D &v3);
     void addScale(const Vector2D &v2);
-    ///set scale
-    void setScale(const Vector2D &v2);
+    ///force scale trasformation
+    void unsafeScale(const Vector3D &v3);
+    void unsafeScale(const Vector2D &v2);
     ///return scale
     Vector3D getScale3D() const;
-    ///return scale
     Vector2D getScale2D() const;
     ///set translation
     void setTranslation(const Vector3D &v3);
-    ///set translation
     void setTranslation(const Vector2D &v2);
-    ///set concatenate trasformation:
+    ///concatenate trasformation
+    void addTranslation( const Vector3D &v3 );
+    void addTranslation( const Vector2D &v2 );
     void addTranslationOnX( float distance );
     void addTranslationOnY( float distance );
     void addTranslationOnZ( float distance );
+    ///force translation translation
+    void unsafeTranslation(const Vector3D &v3);
+    void unsafeTranslation(const Vector2D &v2);
     ///return translation
     Vector3D getTranslation3D() const;
-    ///return translation
     Vector2D getTranslation2D() const;
     ///add a euler rotarion
     void addEulerRotation(const Vec3& euler);
@@ -1015,7 +1028,9 @@ public:
     float getRotY() const;
     ///return roll
     float getRotZ() const;
-    ///fast setting:  x,y | alpha | sx,sy
+    ///rotation
+    Vec3  getRotation() const;
+    ///add a tranform
     void setTransform2D(const Transform2D& t2d);
     ///set orthogonal transformation (projection matrix)
     void setOrtho(float left, float right, float bottom,float top, float n, float f);

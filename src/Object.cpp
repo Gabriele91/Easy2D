@@ -2,6 +2,7 @@
 #include <Object.h>
 #include <Body.h>
 #include <Scene.h>
+#include <Debug.h>
 #include <Application.h>
 /* Easy2D */
 using namespace Easy2D;
@@ -51,36 +52,58 @@ Object::~Object()
 
 void Object::setScale(const Vector2D &scale,bool global)
 {
-    if(!global||!parent)
+    if(!global||!parent || !(parentMode & ENABLE_SCALE))
         transform.scale=scale;
     else
     {
-        transform.scale=scale/parent->getScale(true);
+        transform.scale=scale/getGlobalParentScale();
     }
     change();
 }
 void Object::setPosition(const Vector2D &position,bool global)
 {
-    if(!global||!parent)
+    if( !global || !parent || !(parentMode & ENABLE_POSITION))
         transform.position=position;
     else
     {
-        Mat4 mat;
-        ///applay parent rotation
-        mat.setRotZ(Math::torad(parent->getRotation(true)));
-        //add translation
-        mat.entries[12]=parent->getPosition(true).x;
-        mat.entries[13]=parent->getPosition(true).y;
-        //calc inv
-        mat.inverse();
-        //calc new pos
-        transform.position=mat.mul2D(position);
+        
+        Vector2D newposition;
+        
+        switch (parentMode)
+        {
+            //rotation
+            default:
+            {
+                //get word position
+                Mat4 wordPos;
+                Transform2D toWord;
+                computeMatrix(toWord, wordPos);
+                wordPos.inverse();
+                newposition=wordPos.mul2D(position);
+                
+                if(!(parentMode & ENABLE_SCALE))
+                    newposition/=getGlobalParentScale();
+            }
+            break;
+            //no rotation
+            case ENABLE_POSITION:
+            case ENABLE_POSITION|ENABLE_SCALE:
+            {
+                Mat4 pRotation;
+                pRotation.setRotZ(Math::PI2-parent->getGlobalMatrix().getRotZ());
+                newposition  = pRotation.mul2D( position  - parent->getPosition(true))  / getGlobalParentScale();
+            }
+            break;
+        }
+        
+        transform.position=newposition;
+
     }
     change();
 }
 void Object::setRotation(float alpha,bool global)
 {
-    if(!global||!parent)
+    if(!global||!parent || !(parentMode & ENABLE_ROTATION))
         transform.alpha=alpha;
     else
         transform.alpha=alpha-parent->getRotation(true);
@@ -91,7 +114,7 @@ void Object::setMove(const Vector2D &velocity)
     //
     float lcosf=std::cos(Math::torad(transform.alpha));
     float lsinf=std::sin(Math::torad(transform.alpha));
-    //like openGL
+    //like OpenGL
     transform.position.x+= velocity.x*lcosf+velocity.y*lsinf;
     transform.position.y+=-velocity.x*lsinf+velocity.y*lcosf;
     //
@@ -107,7 +130,7 @@ void Object::setTurn(float alpha)
     transform.alpha+=alpha;
     change();
 }
-void Object::setParentMode(Object::ParentMode type)
+void Object::setParentMode(int type)
 {
     if(parentMode!=type)
     {
@@ -118,26 +141,37 @@ void Object::setParentMode(Object::ParentMode type)
 //
 Vector2D Object::getScale(bool global)
 {
-    if(!global||!parent)
+    if(!global||!parent || !(parentMode & ENABLE_SCALE))
         return transform.scale;
     else
-        return getGlobalMatrix().getScale2D();
+        return getGlobalParentScale()*transform.scale;
 }
 Vector2D Object::getPosition(bool global)
 {
-    if(!global||!parent)
+    if(!global||!parent || !(parentMode & ENABLE_POSITION))
         return transform.position;
     else
         return getGlobalMatrix().getTranslation2D();
 }
+inline float rotation2D(const Mat4& m4,const Vec2& scale)
+{
+    float a=m4.m00;
+    float b=m4.m01;
+    if(a<=0.00001 && a>=-0.00001) a=0.0;
+    if(b<=0.00001 && b>=-0.00001) b=0.0;
+    float angle=atan2(b,a);
+    if(scale.x<0.0) angle+=Math::PI;
+    return Math::todeg(angle);
+}
 float Object::getRotation(bool global)
 {
-    if(!global||!parent)
+    if(!global||!parent || !(parentMode & ENABLE_ROTATION))
         return transform.alpha;
     else
-        return Math::todeg(getGlobalMatrix().getRotZ());
+        return rotation2D(getGlobalMatrix(),getScale(true));
+        //return Math::todeg(getGlobalMatrix().getRotZ());
 }
-Object::ParentMode Object::getParentMode() const
+int Object::getParentMode() const
 {
     return parentMode;
 }
@@ -208,11 +242,11 @@ void Object::change()
 }
 void Object::addChild(Object *child,bool ptrdelete)
 {
-    ParentMode mode=ParentMode::ENABLE_ALL;
+    int mode=ParentMode::ENABLE_ALL;
     if(child->parent) mode=child->getParentMode();
     addChild(child,mode,ptrdelete);
 }
-void Object::addChild(Object *child,ParentMode type,bool ptrdelete)
+void Object::addChild(Object *child,int parentMode,bool ptrdelete)
 {
 
     if(child->parent==this) return;
@@ -221,12 +255,13 @@ void Object::addChild(Object *child,ParentMode type,bool ptrdelete)
 
     child->del=ptrdelete;
     child->parent=this;
-    child->parentMode=type;
+    child->parentMode=parentMode;
     //push
     this->childs.push_back(child);
     child->change();
     //event
-    child->setScene(getScene());
+    if(getScene())
+        child->setScene(getScene());
 
 
 }
@@ -388,74 +423,137 @@ void Object::sendLocalMessage(uint message)
         cmp.second->onMessage(message);
     }
 }
+//force transform
+void Object::forceTransform(const Transform2D& tr2d,bool global)
+{
+    transform=tr2d;
+    //calc
+    if(global)
+        globalMat.setTransform2D(transform);
+    else
+        computeMatrix(transform,globalMat);
+    
+    //change
+    change();
+    //only chailds
+    changeValue=false;
+}
 //Matrix
 const Matrix4x4& Object::getGlobalMatrix()
 {
-
     if(changeValue==true)
     {
-        //
-        globalMat.identity();
-        //
-        if(parent)
-        {
-            Matrix4x4 mtmp;
-            mtmp=parent->getGlobalMatrix();
-            Vector2D tmpPos(mtmp.entries[12],mtmp.entries[13]);
-
-            switch(parentMode & (ENABLE_POSITION | ENABLE_ROTATION))
-            {
-
-            case ENABLE_ALL:
-            case 3:			 //ENABLE_POSITION+ENABLE_ROTATION
-                globalMat.setTransform2D(transform);
-                mtmp.setRotZ(mtmp.getRotZ());
-                mtmp.entries[12]=tmpPos.x;
-                mtmp.entries[13]=tmpPos.y;
-                globalMat=mtmp.mul2D(globalMat);
-                break;
-
-            case ENABLE_POSITION:
-                globalMat.setRotZ(Math::torad(transform.alpha));
-                globalMat.entries[12]=tmpPos.x+transform.position.x;
-                globalMat.entries[13]=tmpPos.y+transform.position.y;
-                break;
-
-            case ENABLE_ROTATION:
-                globalMat.setRotZ(mtmp.getRotZ()+Math::torad(transform.alpha));
-                globalMat.entries[12]=transform.position.x;
-                globalMat.entries[13]=transform.position.y;
-                break;
-            //VC9
-            default:
-                break;
-            }
-
-            if(ENABLE_SCALE & parentMode)
-                globalMat.addScale(getGlobalParentScale());
-            else
-                globalMat.addScale(transform.scale);
-
-
-        }
-        else
-            globalMat.setTransform2D(transform);
-        //
+        //update
         changeValue=false;
+        //calc
+        computeMatrix(transform,globalMat);
+        //sending event to components
+        for(auto component:components)
+            component.second->onChangedMatrix();
     }
-
+    
     return globalMat;
 }
-Vector2D  Object::getGlobalParentScale()
+void Object::computeMatrix(const Transform2D& transform,Matrix4x4& globalMat) const
 {
-    Object *p=NULL;
-    Vector2D out=transform.scale;
-    for(p=this->parent; p; p=p->parent )
+    //
+    //globalMat.identity();
+    //
+    if(parent)
     {
-        if(ENABLE_SCALE & p->parentMode)
-            out*=p->transform.scale;
-        else
-            out=p->transform.scale;
+
+        switch(parentMode)
+        {
+            case ENABLE_ALL:
+            {
+                Mat4 pmodel=parent->getGlobalMatrix();
+                globalMat.setTransform2D(transform);
+                globalMat=pmodel.mul2D(globalMat);
+            }
+            break;
+            case ENABLE_POSITION | ENABLE_ROTATION:
+            {
+                Mat4 pmodel=parent->getGlobalMatrix();
+                //pivot
+                Vec2 pivot = pmodel.mul2D(transform.position);
+                //set tranform
+                Transform2D local=transform;
+                local.position=pivot;
+                local.alpha+=Math::todeg(pmodel.getRotZ());
+                globalMat.setTransform2D(local);
+
+            }
+            break;
+            case ENABLE_POSITION:
+            case ENABLE_POSITION|ENABLE_SCALE:
+            {
+                Mat4 pmodel=parent->getGlobalMatrix();
+                Vec2 pivot=pmodel.mul2D(transform.position);
+                Transform2D local=transform;
+                local.position=pivot;
+                
+                if(parentMode&ENABLE_SCALE)
+                {
+                    local.scale*=getGlobalParentScale();
+                }
+                
+                globalMat.setTransform2D(local);
+            }
+            break;
+            case ENABLE_ROTATION:
+            case ENABLE_ROTATION|ENABLE_SCALE:
+            {
+                Mat4 pmodel=parent->getGlobalMatrix();
+                Transform2D local=transform;
+                local.alpha+=Math::todeg(pmodel.getRotZ());
+                
+                if(parentMode&ENABLE_SCALE)
+                {
+                    local.scale*=getGlobalParentScale();
+                }
+                
+                globalMat.setTransform2D(local);
+            }
+            break;
+            case ENABLE_SCALE:
+            {
+                Transform2D local=transform;
+                
+                if(parentMode&ENABLE_SCALE)
+                {
+                    local.scale*=getGlobalParentScale();
+                }
+                
+                globalMat.setTransform2D(local);
+            }
+            break;
+            case DISABLE_PARENT:
+                globalMat.setTransform2D(transform);
+            break;
+            default:
+                DEBUG_ASSERT_MSG(0,"invalid parentMode");
+            break;
+        }
+        
+    }
+    else
+        globalMat.setTransform2D(transform);
+    
+}
+
+Vector2D  Object::getGlobalParentScale() const
+{
+    //no parent?
+    if(!parent) return Vec2::ONE;
+    //calc
+    Object *p1=NULL;
+    Object *p2=NULL;
+    Vector2D out=parent->transform.scale;
+    //bottom up
+    for(p1=parent,p2=parent->parent; p2 ; p1=p2,p2=p2->parent )
+    {
+        if(ENABLE_SCALE & p1->parentMode)
+            out*=p2->transform.scale;
     }
     return out;
 }
@@ -542,7 +640,7 @@ ResourcesGroup* Object::getResourcesGroup(const String& name)
     return Application::instance()->getResourcesGroup(name);
 }
 
-static String parentToString(Object::ParentMode mode)
+static String parentToString(int mode)
 {
     if(mode == Object::DISABLE_PARENT) return "DISABLE";
     if(mode == Object::ENABLE_ALL) return "ALL";
@@ -554,7 +652,7 @@ static String parentToString(Object::ParentMode mode)
 
     return smode;
 }
-static Object::ParentMode stringToParent(const String& argsmode)
+static int stringToParent(const String& argsmode)
 {
     if(!argsmode.size()) return Object::DISABLE_PARENT;
     //normalize
@@ -581,7 +679,7 @@ static Object::ParentMode stringToParent(const String& argsmode)
         if(mode==Object::ENABLE_ALL)
             return Object::ENABLE_ALL;
     }
-    return (Object::ParentMode)mode;
+    return mode;
 }
 //serialize/deserialize
 void Object::serialize(Table& table)

@@ -118,9 +118,17 @@ public:
     {
         return frames;
     }
-    DFORCEINLINE Mesh::ptr getCurrentFrame()
+    DFORCEINLINE Mesh::ptr getCurrentFrameMesh()
     {
         return frames->getFrame(currentFrame);
+    }
+    DFORCEINLINE Texture::ptr getTexture()
+    {
+        return frames->getTexture();
+    }
+    DFORCEINLINE int getCurrentFrame()
+    {
+        return currentFrame;
     }
     DFORCEINLINE Vec2 getCurrentFrameSize()
     {
@@ -168,11 +176,13 @@ public:
     AnimatedSprite();
     virtual ~AnimatedSprite();
     //set animation frame
+    void setFrame(int frame);
     void setFrame(int animation,int frame);
     //add an animation
     int addAnimation(FrameSet::ptr frames);
     int addAnimation(FrameSet::ptr frames, float time);
     int addAnimation(FrameSet::ptr frames, float time,bool loop);
+    void clearAnimations();
     //return frameset list
     void getFrameSets(std::vector<FrameSet::ptr>& frames);
     //change an animation
@@ -193,34 +203,97 @@ public:
     {
         return animations[crtAnimation]->restart();
     }
+    //info
+    int countAnimations()
+    {
+        return animations.size();
+    }
     //query
     int getCurrentAnimation()
     {
         return crtAnimation;
     }
+    int getCurrentFrame()
+    {
+        DEBUG_ASSERT(animations.size());
+        return animations[crtAnimation]->getCurrentFrame();
+    }
     float getCurrentTimePerFrame()
     {
+        DEBUG_ASSERT(animations.size());
         return animations[crtAnimation]->getTimePerFrame();
     }
     float getCurrentTotalTime()
     {
+        DEBUG_ASSERT(animations.size());
         return animations[crtAnimation]->getTotalTime();
     }
     float getCurrentTime()
     {
+        DEBUG_ASSERT(animations.size());
         return animations[crtAnimation]->getCurrentTime();
     }
     bool getCurrentLoop()
     {
+        DEBUG_ASSERT(animations.size());
         return animations[crtAnimation]->getLoop();
     }
     bool getCurrentPause()
     {
+        DEBUG_ASSERT(animations.size());
         return animations[crtAnimation]->getPause();
     }
-    bool getCurrentIsStop()
+    bool getCurrentStop()
     {
+        DEBUG_ASSERT(animations.size());
         return animations[crtAnimation]->isStop();
+    }
+    int getCurrentAnimationSize()
+    {
+        DEBUG_ASSERT(animations.size());
+        return animations[crtAnimation]->getFrameSet()->size();
+    }
+    
+    //query oid
+    int getCurrentFrame(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getCurrentFrame();
+    }
+    float getTimePerFrame(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getTimePerFrame();
+    }
+    float getTotalTime(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getTotalTime();
+    }
+    float getTime(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getCurrentTime();
+    }
+    bool getLoop(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getLoop();
+    }
+    bool getPause(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getPause();
+    }
+    bool getStop(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->isStop();
+    }
+    int getAnimationSize(int anim)
+    {
+        DEBUG_ASSERT(anim<animations.size());
+        return animations[anim]->getFrameSet()->size();
     }
     //get pixel scale
     Vec2 getBoxScale()
@@ -233,11 +306,11 @@ public:
     //component
     virtual void onRun(float dt)
     {
-        if(crtAnimation>=0)
+        if(animations.size())
         {
             animations[crtAnimation]->update(dt);
             //set sprite mesh
-            setMesh(animations[crtAnimation]->getCurrentFrame());
+            setMesh(animations[crtAnimation]->getCurrentFrameMesh());
         }
     }
     //is a component

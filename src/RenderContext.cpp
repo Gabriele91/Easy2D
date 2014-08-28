@@ -654,12 +654,65 @@ void RenderContext::drawFillBox(const AABox2& aabox2,const Color& color)
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
     RenderContext::drawPrimitive(TRIANGLE_STRIP, 0, 4);
 }
-void RenderContext::drawCircle(const Vec2& pos,float r,const Color& color)
+void RenderContext::drawCircle(const Vec2& center,float radius,const Color& e2color)
 {
+    const float segments = 32.0f;
+    const uint  vertexCount=32;
+    const float increment =  Math::PI2 / segments;
+    float theta = 0.0f;
+    Vec2 vertices[vertexCount];
+    //disable ibo/vbo
+    setClientState(true, false, false, false);
+    unbindIndexBuffer();
+    unbindVertexBuffer();
+    //draw
+    RenderContext::setColor(e2color);
+    for (uint i = 0; i != segments; ++i)
+    {
+        vertices[i]= center + radius * Vec2(cosf(theta), sinf(theta));
+        theta += increment;
+    }
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
 }
-void RenderContext::drawFillCircle(const Vec2& pos,float r,const Color& color)
+void RenderContext::drawFillCircle(const Vec2& center,float radius,const Color& e2color)
 {
+    const float segments = 32.0f;
+    const uint  vertexCount=32;
+    const float increment =  Math::PI2 / segments;
+    float theta = 0.0f;
+    Vec2 vertices[vertexCount];
+    //disable ibo/vbo
+    setClientState(true, false, false, false);
+    unbindIndexBuffer();
+    unbindVertexBuffer();
+    //draw
+    RenderContext::setColor(e2color);
+    for (uint i = 0; i != segments; ++i)
+    {
+        vertices[i]= center + radius * Vec2(cosf(theta), sinf(theta));
+        theta += increment;
+    }
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::drawPrimitive(TRIANGLE_FAN, 0, vertexCount);
 }
+void RenderContext::drawLine(const Vec2& v1,const Vec2& v2,const Color& color)
+{
+    //disable ibo/vbo
+    setClientState(true, false, false, false);
+    unbindIndexBuffer();
+    unbindVertexBuffer();
+    //draw
+    setColor(color);
+    const float vertices[]=
+    {
+        v1.x,v1.y,
+        v2.x,v2.y
+    };
+    vertexPointer(2, GL_FLOAT, 0, vertices);
+    drawPrimitive(LINES, 0, 2);
+}
+
 static void debugARenderState(RenderContext::RenderState state)
 {
  /*

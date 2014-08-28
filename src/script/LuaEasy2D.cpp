@@ -412,6 +412,33 @@ class LuaAnimatedSprite : public AnimatedSprite
         } 
         return 0;
     }
+    /*
+     void setFrame(int frame)
+     void setFrame(int animation,int frame);
+     */
+    int setFrame (lua_State* luaVM)
+    {
+        int const nargs = lua_gettop (luaVM);
+        //good cast
+        auto rsthis=((AnimatedSprite*)(this));//1=self/this
+        //args
+        if(lua_isnumber(luaVM,2) && nargs==2)
+        {
+            rsthis->setFrame(luabridge::Stack <int>::get(luaVM,2));
+        }
+        else
+        if(lua_isnumber(luaVM,2) && lua_isnumber(luaVM,3) && nargs==3)
+        {
+            rsthis->setFrame(luabridge::Stack <int>::get(luaVM,2),
+                             luabridge::Stack <int>::get(luaVM,3));
+        }
+        else
+        {
+            luaL_argerror(luaVM,nargs,"AnimatedSprite:setFrame fail");
+        }
+        return 0;
+        
+    }
     //towatch
     int __towatch (lua_State* luaVM)
     {
@@ -578,7 +605,7 @@ void LuaState::addComponentsLib()
     luabridge::getGlobalNamespace(luaVM)
         .deriveClass <AnimatedSprite,Renderable> ("Sprite")
         .addConstructor <void (*) (void)> () //set animation frame
-        .addFunction("setFrame",&AnimatedSprite::setFrame)
+        .addCFunction("setFrame",(int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::setFrame)
         //add an animation
         .addCFunction("addAnimation",(int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::addAnimation)
         //change an animation
@@ -600,7 +627,14 @@ void LuaState::addComponentsLib()
         .addFunction("getCurrentTime",&AnimatedSprite::getCurrentTime)
         .addFunction("getCurrentLoop",&AnimatedSprite::getCurrentLoop)
         .addFunction("getCurrentPause",&AnimatedSprite::getCurrentPause)
-        .addFunction("getCurrentIsStop",&AnimatedSprite::getCurrentIsStop)
+        .addFunction("getCurrentStop",&AnimatedSprite::getCurrentStop)
+    
+        .addFunction("getTimePerFrame",&AnimatedSprite::getTimePerFrame)
+        .addFunction("getTotalTime",&AnimatedSprite::getTotalTime)
+        .addFunction("getTime",&AnimatedSprite::getTime)
+        .addFunction("getLoop",&AnimatedSprite::getLoop)
+        .addFunction("getPause",&AnimatedSprite::getPause)
+        .addFunction("getStop",&AnimatedSprite::getStop)
         //get pixel scale
         .addFunction("getBoxScale",&AnimatedSprite::getBoxScale)
         .addCFunction("__towatch",  (int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::__towatch);

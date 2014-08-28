@@ -23,6 +23,35 @@ class Body : public Component
     friend class World;
     friend class ContactListener;
     
+    
+    //list fixture (word)
+    b2FixtureDef defaultFixture;
+    DUNORDERED_MAP< Shape, b2Fixture* > fixtures;
+    typedef DUNORDERED_MAP< Shape, b2Fixture* >::iterator ITFixtures;
+    typedef DUNORDERED_MAP< Shape, b2Fixture* >::const_iterator CITFixtures;
+    //save boxy (no word)
+    struct ShapeDef
+    {
+        //type
+        b2Shape::Type type;
+        //fixature def
+        b2FixtureDef  fixature;
+        //info sphere
+        Vec2 position;
+        float radius;
+        uchar flags;
+        Vec2  prev,
+        next;
+        //info other
+        std::vector<Vec2> points;
+        //build shape
+        void buildShape(float metersUnit);
+    };
+    //shape def
+    DUNORDERED_MAP< Shape, ShapeDef > shapesDef;
+    typedef DUNORDERED_MAP< Shape, ShapeDef >::iterator ITShapeDef;
+    typedef DUNORDERED_MAP< Shape, ShapeDef >::const_iterator CITShapeDef;
+    
     public:
 
     struct Impulse
@@ -75,46 +104,170 @@ class Body : public Component
         uchar orderCase;
     };
 
+    //ShapeIteratos
+    class ShapeIterator
+    {
+        //////////////////
+        friend class Body;
+        //////////////////
+        
+        bool isFix;
+        ITFixtures itFix;
+        ITShapeDef itShape;
+        
+        
+        ShapeIterator(ITFixtures itFix)
+        :itFix(itFix)
+        ,isFix(true)
+        {
+            
+        }
+        
+        ShapeIterator(ITShapeDef itShape)
+        :itShape(itShape)
+        ,isFix(false)
+        {
+            
+        }
+        
+    public:
+        
+        ShapeIterator operator++()
+        {
+            if(isFix)
+                return ShapeIterator(++itFix);
+            else
+                return ShapeIterator(++itShape);
+        }
+        
+        Shape operator*() const
+        {
+            if(isFix)
+                return itFix->first;
+            else
+                return itShape->first;
+        }
+        
+        bool operator==(const ShapeIterator& rhs) const
+        {
+            if(isFix!=rhs.isFix)
+                return false;
+            
+            if(isFix)
+                return itFix==rhs.itFix;
+            else
+                return itShape==rhs.itShape;
+        }
+        
+        bool operator!=(const ShapeIterator& rhs) const
+        {
+            if(isFix!=rhs.isFix)
+                return true;
+            
+            if(isFix)
+                return itFix!=rhs.itFix;
+            else
+                return itShape!=rhs.itShape;
+        }
+        
+    };
+    //ShapeIteratos
+    class CShapeIterator
+    {
+        //////////////////
+        friend class Body;
+        //////////////////
+        
+        bool isFix;
+        CITFixtures itFix;
+        CITShapeDef itShape;
+        
+        CShapeIterator(CITFixtures itFix)
+        :itFix(itFix)
+        ,isFix(true)
+        {
+            
+        }
+        
+        CShapeIterator(CITShapeDef itShape)
+        :itShape(itShape)
+        ,isFix(false)
+        {
+            
+        }
+        
+    public:
+        
+        CShapeIterator operator++()
+        {
+            if(isFix)
+                return CShapeIterator(++itFix);
+            else
+                return CShapeIterator(++itShape);
+        }
+        
+        const Shape operator*() const
+        {
+            if(isFix)
+                return itFix->first;
+            else
+                return itShape->first;
+        }
+        
+        bool operator==(const CShapeIterator& rhs) const
+        {
+            if(isFix!=rhs.isFix)
+                return false;
+            
+            if(isFix)
+                return itFix==rhs.itFix;
+            else
+                return itShape==rhs.itShape;
+        }
+        
+        bool operator!=(const CShapeIterator& rhs) const
+        {
+            if(isFix!=rhs.isFix)
+                return true;
+            
+            if(isFix)
+                return itFix!=rhs.itFix;
+            else
+                return itShape!=rhs.itShape;
+        }
+        
+    };
+
+    
     private:
+    
     //objects
     World*  world;
     b2Body* body;
     b2BodyDef bodyDefinition;
     float mass; //not in bodyDefinition
     float metersUnit; 
-    float metersInPixel; 
+    float metersInPixel;
 
     //word
+    void updatePixelScale(float metersUnit,float mPixel);
     void registerWorld(World *world);
     void unregisterWorld();
-
-    //list fixture
-    b2FixtureDef defaultFixture;
-    std::vector<b2Fixture*> fixtures;
-
-    struct ShapeDef
+    //create b2Fixture* to shapedef
+    Shape  pushShape(Shape index,b2FixtureDef* fixature, b2Shape* shape);
+    //create shape in shapedef or b2Fixture*
+    Shape addFixatureShape(b2FixtureDef* fixature,b2Shape* shape);
+    //counter id shape
+    Shape idShapeGen;
+    //create id
+    Shape newShapeId()
     {
-        //type
-        b2Shape::Type type;
-        //fixature def
-        b2FixtureDef  fixature;
-        //info sphere
-        Vec2 position;
-        float radius;
-        uchar flags;
-        Vec2  prev,
-              next;
-        //info other
-        std::vector<Vec2> points;
-        //build shape
-        void buildShape(float metersUnit);
-    };
-    //shape def
-    std::vector<ShapeDef> shapesDef;
-    //
-    uint  pushShape(b2FixtureDef* fixature, b2Shape* shape);
-    //push shape
-    uint addFixatureShape(b2FixtureDef* fixature,b2Shape* shape);
+        return idShapeGen++;
+    }
+    void resetShapeId()
+    {
+        idShapeGen=0;
+    }
     
     protected:
 
@@ -124,23 +277,52 @@ class Body : public Component
     DFUNCTION<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver;
     DFUNCTION<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver;
     
-
-    public:
-        
+    //return raw body
     b2Body* getBody()
     {
         return body;
     }
+    //return raw body (const)
     const b2Body* getBody() const
     {
         return body;
     }
-
+    
+    //change b2Body angle
+    void setAngle(float);
+    //get b2Body angle
+    float getAngle() const;
+    //set b2Body posizion
+    void setPosition(const Vec2& pos);
+    //get b2Body posizion
+    Vec2 getPosition() const;
+    
+    //scale utility
+    bool enableScale;
+    Vec2 lastScale;
+    
+    void setScale(const Vec2& scale);
+    void addScaleB2DShapes(const Vec2& scale,float radius);
+    void addScaleE2DShapes(const Vec2& scale,float radius);
+    
+    
+    
+    public:
+    
     enum Type
     {
         DINAMIC=b2BodyType::b2_dynamicBody,
         KINEMATIC=b2BodyType::b2_kinematicBody,
         STATIC=b2BodyType::b2_staticBody
+    };
+    
+    enum GeometryType
+    {
+        CIRCLE=b2Shape::e_circle,
+        CHAIN=b2Shape::e_chain,
+        POLYGON=b2Shape::e_polygon,
+        EDGE=b2Shape::e_edge,
+        NEXTGT=b2Shape::e_typeCount,
     };
     
     Body();
@@ -177,8 +359,11 @@ class Body : public Component
     bool getAwake() const;
 
     void setBullet(bool);
-    bool getBullet();
-
+    bool getBullet() const;
+    
+    //scale
+    void setEnableScale(bool);
+    bool getEnableScale() const;
     //void setMass(float); in fixtures
     float getMass() const;
     //get world
@@ -203,12 +388,6 @@ class Body : public Component
 
     void setAngularDamping(float);
     float getAngularDamping() const;
-
-    void setAngle(float);
-    float getAngle() const;
-
-    void setPosition(const Vec2& pos);
-    Vec2 getPosition() const;
 
     void setFixedAngle(bool);
     bool getFixedAngle() const;
@@ -238,37 +417,118 @@ class Body : public Component
     /*
     * Shapes
     */
-    Shape createCircleCollisionShape(float radius, const Vec2& pos=Vec2::ZERO);
-    Shape createBoxCollisionShape(const Vec2& size, const Vec2& pos=Vec2::ZERO, float angle=0.0);
-    Shape createPolygonCollisionShape(const std::vector<Vec2>& points);
-    Shape createChainCollisionShape( const std::vector<Vec2>& points );
-    Shape createChainCollisionShape( const std::vector<Vec2>& points, 
-                                     bool startp ,
-                                     const Vec2& adjacentStartPoint,
-                                     bool endp,
-                                     const Vec2& adjacentEndPoint );
-    Shape createEdgeCollisionShape( const Vec2& localPositionStart,
-                                    const Vec2& localPositionEnd);
-    Shape createEdgeCollisionShape(const Vec2& localPositionStart,
-                                   const Vec2& localPositionEnd,
-                                   const bool hasAdjacentLocalPositionStart,
-                                   const Vec2& adjacentLocalPositionStart,
-                                   const bool hasAdjacentLocalPositionEnd,
-                                   const Vec2& adjacentLocalPositionEnd );
+    Shape createCircleShape(float radius, const Vec2& pos=Vec2::ZERO);
+    Shape createBoxShape(const Vec2& size, const Vec2& pos=Vec2::ZERO, float angle=0.0);
+    Shape createPolygonShape(const std::vector<Vec2>& points);
+    Shape createChainShape( const std::vector<Vec2>& points );
+    Shape createChainShape( const std::vector<Vec2>& points,
+                            bool startp ,
+                            const Vec2& adjacentStartPoint,
+                            bool endp,
+                            const Vec2& adjacentEndPoint );
+    Shape createEdgeShape( const Vec2& localPositionStart,
+                           const Vec2& localPositionEnd);
+    Shape createEdgeShape( const Vec2& localPositionStart,
+                           const Vec2& localPositionEnd,
+                           const bool hasAdjacentLocalPositionStart,
+                           const Vec2& adjacentLocalPositionStart,
+                           const bool hasAdjacentLocalPositionEnd,
+                           const Vec2& adjacentLocalPositionEnd );
 
-    void setCollisionShapeDensity(Shape index,float density);
-    float getCollisionShapeDensity(Shape index);
+    void setShapeDensity(Shape index,float density);
+    float getShapeDensity(Shape index) const;
 
-    void setCollisionShapeFriction(Shape index,float friction);
-    float getCollisionShapeFriction(Shape index) const;
+    void setShapeFriction(Shape index,float friction);
+    float getShapeFriction(Shape index) const;
 
-    void setCollisionShapeRestitution(Shape index,float restitution);
-    float getCollisionShapeRestitution(Shape index) const;
+    void setShapeRestitution(Shape index,float restitution);
+    float getShapeRestitution(Shape index) const;
 
-    void setCollisionShapeIsSensor(Shape index,bool isSensor);
-    bool getCollisionShapeIsSensor(Shape index) const;
+    void setShapeIsSensor(Shape index,bool isSensor);
+    bool getShapeIsSensor(Shape index) const;
+
+    /**
+    * Shape geometry info
+    */
+    size_t       countShape() const;
+    GeometryType getShapeType(Shape index) const;
+    //it
+    ShapeIterator begin()
+    {
+        if(body)
+            return ShapeIterator(fixtures.begin());
+        else
+            return ShapeIterator(shapesDef.begin());
+    }
+    ShapeIterator end()
+    {
+        if(body)
+            return ShapeIterator(fixtures.end());
+        else
+            return ShapeIterator(shapesDef.end());
+    }
+    CShapeIterator begin() const
+    {
+        if(body)
+            return CShapeIterator(fixtures.cbegin());
+        else
+            return CShapeIterator(shapesDef.cbegin());
+    }
+    CShapeIterator cbegin() const
+    {
+        if(body)
+            return CShapeIterator(fixtures.cbegin());
+        else
+            return CShapeIterator(shapesDef.cbegin());
+    }
+    CShapeIterator end() const
+    {
+        if(body)
+            return CShapeIterator(fixtures.cend());
+        else
+            return CShapeIterator(shapesDef.cend());
+    }
+    CShapeIterator cend() const
+    {
+        if(body)
+            return CShapeIterator(fixtures.cend());
+        else
+            return CShapeIterator(shapesDef.cend());
+    }
+    //circle
+    Vec2  getCirclePosition(Shape index) const;
+    float getCircleRadius(Shape index) const;
+    //polygon
+    void  getPolygonPoints(Shape index,std::vector<Vec2>& points) const;
+    //chain
+    void  getChainPoints(Shape index,std::vector<Vec2>& points) const;
+    bool  getChainStartPoint(Shape index,Vec2& point) const;
+    bool  getChainEndPoint(Shape index,Vec2& point) const;
+    //edge
+    void  getEdgePoints(Shape index,Vec2& start,Vec2& end) const;
+    bool  getEdgeStartPoint(Shape index,Vec2& point) const;
+    bool  getEdgeEndPoint(Shape index,Vec2& point) const;
+    
+    //Geometry change
+    //Circle
+    void changeCirclePosition(Shape index,const Vec2& pos);
+    void changeCircleRadius(Shape index,float r);
+    //Polygon
+    void changePolygonPoints(Shape index,const std::vector<Vec2>& points);
+    //Chain
+    void changeChainPoints(Shape index,const std::vector<Vec2>& points);
+    void changeChainPoints(Shape index,const std::vector<Vec2>& points,
+                           bool startp,
+                           const Vec2& adjacentStartPoint,
+                           bool endp,
+                           const Vec2& adjacentEndPoint);
+    
+    
+    //delete a shape
+    void deleteShape(Shape index);
 
 
+    
     //component name
     ADD_COMPONENT_METHOS(Body)
     //run
@@ -278,6 +538,7 @@ class Body : public Component
     virtual void onEraseScene();
     //object
     virtual void onSetObject(Object* object);
+    virtual void onChangedMatrix();
     virtual void onEraseObject();
     //serialize/deserialize
     virtual void serialize(Table& table);

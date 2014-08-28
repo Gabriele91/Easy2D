@@ -86,6 +86,10 @@ public:
     {
         return ext;
     }
+    DFORCEINLINE const String& getLeftExtension() const
+    {
+        return leftext;
+    }
     DFORCEINLINE const bool isAbsolute() const
     {
         return isabs;
@@ -122,6 +126,7 @@ private:
     String file;
     String filebasename;
     String ext;
+    String leftext;
     bool   isabs;
 };
 

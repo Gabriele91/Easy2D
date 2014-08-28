@@ -21,6 +21,10 @@ AnimatedSprite::~AnimatedSprite()
         delete anim;
 }
 
+void AnimatedSprite::setFrame(int frame)
+{
+    setFrame(crtAnimation,frame);
+}
 
 void AnimatedSprite::setFrame(int animation,int frame)
 {
@@ -29,7 +33,7 @@ void AnimatedSprite::setFrame(int animation,int frame)
     //set frame
     animations[animation]->setForcedFrame(frame);
     //set sprite mesh
-    setMesh(animations[crtAnimation]->getCurrentFrame());
+    setMesh(animations[crtAnimation]->getCurrentFrameMesh());
 }
 
 int AnimatedSprite::addAnimation(FrameSet::ptr frames)
@@ -48,14 +52,27 @@ int AnimatedSprite::addAnimation(FrameSet::ptr frames,
                                  bool loop)
 {
     //set current animation:
-    Renderable::setTexture(frames->getTexture());
+    setTexture(frames->getTexture());
     Animation* anim=new Animation(frames, time, loop);
     crtAnimation=animations.size();
     animations.push_back(anim);
     //set sprite mesh
-    setMesh(anim->getCurrentFrame());
+    setMesh(anim->getCurrentFrameMesh());
     //return id
     return crtAnimation;
+}
+
+void AnimatedSprite::clearAnimations()
+{
+    //clear animations
+    for(auto anim:animations)
+        delete anim;
+    animations.clear();
+    //init animation
+    crtAnimation=0;
+    //set sprite mesh
+    setMesh(nullptr);
+    setTexture(nullptr);
 }
 
 void AnimatedSprite::getFrameSets(std::vector<FrameSet::ptr>& frames)
@@ -73,7 +90,8 @@ void AnimatedSprite::setAnimation(int i)
     //set animation
     crtAnimation=i;
     //set sprite mesh
-    setMesh(animations[crtAnimation]->getCurrentFrame());
+    setMesh(animations[crtAnimation]->getCurrentFrameMesh());
+    setTexture(animations[crtAnimation]->getTexture());
 }
 void AnimatedSprite::setAnimation(int i, float time)
 {
@@ -133,17 +151,22 @@ void AnimatedSprite::setAnimationLoop(int i, bool loop)
 
 void AnimatedSprite::serialize(Table& table)
 {
-    Table& rsprite=table;
     //serialize render state
     rsSerialize(table);
     //serialize ASprite
     table.set("currentAnimation",(float)getCurrentAnimation());
-
+    table.set("currentFrame",(float)getCurrentFrame());
+    //table list frames
+    Table& frames=table.createTable("frameSets");
+    //
     for(auto anim : animations)
     {
-        Table& tanim=table.createTable();
+        Table& tanim=frames.createTable();
         tanim.set("frameSet",anim->getFrameSet()->getName());
-        tanim.set("time",anim->getTotalTime());
+        if(anim->getFrameSet()->getDefaultTime()!=anim->getTimePerFrame())
+            tanim.set("time",anim->getTotalTime());
+        if(anim->getLoop())
+            tanim.set("loop",anim->getLoop());
     }
 }
 void AnimatedSprite::deserialize(const Table& table)
@@ -157,18 +180,27 @@ void AnimatedSprite::deserialize(const Table& table)
     rsDeserialize(table);
     //current animation
     crtAnimation=table.getFloat("currentAnimation",(float)getCurrentAnimation());
-
-    for(auto rsp:table)
+    
+    //frames table
+    auto frames=table.getConstTable("frameSets");
+    
+    for(auto rsp:frames)
     {
         if(rsp.second->asType(Table::TABLE))
         {
             Table& tbl=rsp.second->get<Table>();
             //frame set
-            FrameSet::ptr fms=rsgroup->get<FrameSet>(tbl.getString("frameSet"));
+            FrameSet::ptr fms=rsgroup->load<FrameSet>(tbl.getString("frameSet"));
             //default time
             float time=tbl.getFloat("time",fms->getDefaultTime());
+            //default time
+            bool loop=tbl.getFloat("loop",0.0)!=0.0;
             //times
-            addAnimation(fms,time);
+            addAnimation(fms,time,loop);
         }
     }
+    
+    //current frame
+    setFrame(table.getFloat("currentFrame",(float)getCurrentFrame()));
+
 }

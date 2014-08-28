@@ -90,11 +90,7 @@ class World : public b2DestructionListener
     Vec2  getGravity();
     void  debugDraw(bool enable);
     ///scale
-    void setMetersInPixel( float pixel )
-    {
-        metersUnit=1.0f/pixel;
-        metersInPixel=pixel;
-    }
+    void setMetersInPixel( float pixel );
     float getMetersInPixel() const
     {
         return metersInPixel;
@@ -103,6 +99,8 @@ class World : public b2DestructionListener
     {
         return metersUnit;
     }
+    //reset
+    void resetWorld();
     ///serialize/deserialize
     void serialize(Table& table);
     void deserialize(const Table& table);

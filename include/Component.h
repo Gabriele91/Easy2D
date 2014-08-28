@@ -54,6 +54,7 @@ namespace Easy2D {
         }   
         //event: object
         virtual void onSetObject(Object* obj){}
+        virtual void onChangedMatrix(){};
         virtual void onEraseObject(){};
         //event: scene
         virtual void onSetScene(Scene* scene){}

@@ -364,8 +364,25 @@ void Matrix4x4::zero()
 {
     memset(entries,0,sizeof(float)*16);
 }
-
-
+float Matrix4x4::getDeterminant() const
+{
+    
+    float a0 = entries[0] * entries[5] - entries[1] * entries[4];
+    float a1 = entries[0] * entries[6] - entries[2] * entries[4];
+    float a2 = entries[0] * entries[7] - entries[3] * entries[4];
+    float a3 = entries[1] * entries[6] - entries[2] * entries[5];
+    float a4 = entries[1] * entries[7] - entries[3] * entries[5];
+    float a5 = entries[2] * entries[7] - entries[3] * entries[6];
+    float b0 = entries[8] * entries[13] - entries[9] * entries[12];
+    float b1 = entries[8] * entries[14] - entries[10] * entries[12];
+    float b2 = entries[8] * entries[15] - entries[11] * entries[12];
+    float b3 = entries[9] * entries[14] - entries[10] * entries[13];
+    float b4 = entries[9] * entries[15] - entries[11] * entries[13];
+    float b5 = entries[10] * entries[15] - entries[11] * entries[14];
+    
+    // Calculate the determinant.
+    return (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
+}
 Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const
 {
 
@@ -649,7 +666,7 @@ Matrix4x4 Matrix4x4::getTranspose() const
     return newMat;
 #endif
 }
-
+///set scale
 void Matrix4x4::setScale(const Vector3D &v3)
 {
     identity();
@@ -657,6 +674,25 @@ void Matrix4x4::setScale(const Vector3D &v3)
     entries[5]=v3.y;
     entries[10]=v3.z;
 }
+void Matrix4x4::setScale(const Vector2D &v2)
+{
+    identity();
+    entries[0]=v2.x;
+    entries[5]=v2.y;
+}
+///force scale trasformation
+void Matrix4x4::unsafeScale(const Vector3D &v3)
+{
+    entries[0]=v3.x;
+    entries[5]=v3.y;
+    entries[10]=v3.z;
+}
+void Matrix4x4::unsafeScale(const Vector2D &v2)
+{
+    entries[0]=v2.x;
+    entries[5]=v2.y;
+}
+///concatenate trasformation
 void Matrix4x4::addScale(const Vector3D &v3)
 {
     entries[0]*=v3.x;
@@ -678,21 +714,19 @@ void Matrix4x4::addScale(const Vector2D &v2)
     entries[8]*=v2.x;
     entries[9]*=v2.y;
 }
-void Matrix4x4::setScale(const Vector2D &v2)
-{
-    identity();
-    entries[0]=v2.x;
-    entries[5]=v2.y;
-}
+///return scale
 Vector3D Matrix4x4::getScale3D() const
 {
-    return Vector3D( entries[0], entries[5], entries[10]);
+    return Vec3(Vec3(entries[0],entries[4],entries[8]) .length(),
+                Vec3(entries[1],entries[5],entries[9]) .length(),
+                Vec3(entries[2],entries[6],entries[10]).length());
 }
 Vector2D Matrix4x4::getScale2D() const
 {
-    return Vector2D( entries[0], entries[5]);
+    return Vec2(Vec2(entries[0],entries[4]).length(),
+                Vec2(entries[1],entries[5]).length());
 }
-
+//set translation
 void Matrix4x4::setTranslation(const Vector3D &v3)
 {
     identity();
@@ -706,6 +740,19 @@ void Matrix4x4::setTranslation(const Vector2D &v2)
     entries[12]=v2.x;
     entries[13]=v2.y;
 }
+///force translation translation
+void Matrix4x4::unsafeTranslation(const Vector3D &v3)
+{
+    entries[12]=v3.x;
+    entries[13]=v3.y;
+    entries[14]=v3.z;
+}
+void Matrix4x4::unsafeTranslation(const Vector2D &v2)
+{
+    entries[12]=v2.x;
+    entries[13]=v2.y;
+}
+///return translation
 Vector3D Matrix4x4::getTranslation3D() const
 {
     return Vector3D( entries[12], entries[13], entries[14]);
@@ -714,8 +761,18 @@ Vector2D Matrix4x4::getTranslation2D() const
 {
     return Vector2D( entries[12], entries[13]);
 }
-
 ///set concatenate trasformation:
+void Matrix4x4::addTranslation( const Vector3D &v3 )
+{
+    addTranslationOnX(v3.x);
+    addTranslationOnX(v3.y);
+    addTranslationOnX(v3.z);
+}
+void Matrix4x4::addTranslation( const Vector2D &v2 )
+{
+    addTranslationOnX(v2.x);
+    addTranslationOnX(v2.y);
+}
 void Matrix4x4::addTranslationOnX( float distance )
 {
     entries[0] = entries[0] + distance * entries[3];
@@ -831,8 +888,8 @@ float Matrix4x4::getRotY() const
     //****
     float a=entries[8];
     float b=entries[10];
-    if(a<=0.0001 && a>=-0.0001) a=0;
-    if(b<=0.0001 && b>=-0.0001) b=0;
+    //if(a<=0.0001 && a>=-0.0001) a=0;
+    //if(b<=0.0001 && b>=-0.0001) b=0;
     return atan2(a,b);
 }
 float Matrix4x4::getRotX() const
@@ -844,23 +901,40 @@ float Matrix4x4::getRotX() const
     //****
     float ang=std::atan2( entries[9],std::sqrt( entries[8]*entries[8]+entries[10]*entries[10] ) );
 
-    if(ang<=0.0001 && ang>=-0.0001) ang=0;
+    //if(ang<=0.0001 && ang>=-0.0001) ang=0;
 
     return ang;
 
 }
 float Matrix4x4::getRotZ() const
 {
-    //*@**
-    //*@**
+    //@@**
     //****
     //****
-    //return z rot
-    float a=entries[1];
-    float b=entries[5];
-    if(a<=0.0001 && a>=-0.0001) a=0.0;
-    if(b<=0.0001 && b>=-0.0001) b=0.0;
-    return atan2(a,b);
+    //****
+    float a=entries[0];
+    float b=entries[1];
+    //if(a<=0.00001 && a>=-0.00001) a=0.0;
+    //if(b<=0.00001 && b>=-0.00001) b=0.0;
+    return atan2(b,a);
+}
+Vec3  Matrix4x4::getRotation() const
+{
+    Vec3 r;
+    r.x = asin(m12);
+    
+    if(cos(r.x) != 0.f)
+    {
+        r.y = atan2(-m02, m22);
+        r.z = atan2(-m10, m11);
+    }
+    else
+    {
+        r.y = 0.f;
+        r.z = atan2(m01, m00);
+    }
+    
+    return r;
 }
 // x,y | alpha | sx,sy
 void Matrix4x4::setTransform2D(const Transform2D& t2d)

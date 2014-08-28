@@ -181,6 +181,13 @@ void Path::costructor(const String& _path)
         if(point>=0)
             ext=file.substr(point+1,path.size()-point-1);
     }
+    //left extension
+    if(file.size())
+    {
+        int point=file.find(".");
+        if(point>=0)
+            leftext=file.substr(point+1,path.size()-point-1);
+    }
 }
 bool Path::existsFile()
 {

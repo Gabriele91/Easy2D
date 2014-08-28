@@ -104,7 +104,8 @@ void Render::draw()
     RenderContext::setViewport(Vec4(0,0,camera->getViewport().x,camera->getViewport().y));
     //clear
     RenderContext::setColorClear(clearClr);
-    RenderContext::doClear();
+    if(enableClear)
+        RenderContext::doClear();
     //safe state
     RenderContext::unbindVertexBuffer();
     RenderContext::unbindIndexBuffer();

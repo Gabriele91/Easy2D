@@ -20,6 +20,7 @@ protected:
     //info screen
     Camera *camera;
     //colors
+    bool  enableClear;
     Color clearClr;
     Color ambientClr;
     //Batching
@@ -82,13 +83,22 @@ public:
         return camera;
     }
     //
-    DFORCEINLINE void setClear(const Color& color)
+    DFORCEINLINE void setClear(const Color& color,bool enable=true)
     {
         clearClr=color;
+        enableClear=enable;
+    }
+    DFORCEINLINE void setEnableClear(bool enable)
+    {
+        enableClear=enable;
     }
     DFORCEINLINE const Color& getClear() const
     {
         return clearClr;
+    }
+    DFORCEINLINE const bool getClearIsEnable() const
+    {
+        return enableClear;
     }
     DFORCEINLINE void setAmbientLight(const Color& color)
     {
@@ -106,6 +116,12 @@ public:
     {
         return queue.size();
     }
+    void serialize(Table& table)
+    {
+        table.set("clearColor",getClear().toVec4());
+        table.set("enableClear",(float)getClearIsEnable());
+        table.set("ambientLight",getAmbientLight().toVec4());
+    }
     //deserrialize
     void deserialize(const Table& table)
     {
@@ -113,6 +129,8 @@ public:
         //set clear color
         clear.fromVec4(table.getVector4D("clearColor",Vec4(255,255,255,255)));
         setClear(clear);
+        //if enable?
+        setEnableClear(table.getFloat("enableClear",(float)enableClear)!=0.0);
         //get ambient color
         ambient.fromVec4(table.getVector4D("ambientLight",Vec4(255,255,255,255)));
         setAmbientLight(ambient);

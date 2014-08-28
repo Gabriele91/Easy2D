@@ -32,6 +32,7 @@ class Object
         ENABLE_POSITION=1, //1
         ENABLE_ROTATION=2, //10
         ENABLE_SCALE=4,	   //100
+        ENABLE_POSITION_ROTATION=ENABLE_POSITION|ENABLE_ROTATION, //11
         ENABLE_ALL=ENABLE_POSITION|ENABLE_ROTATION|ENABLE_SCALE //111
     };
     
@@ -57,20 +58,21 @@ class Object
             change();
         }
     }
+    void forceTransform(const Transform2D& tr2d,bool global=false);
     //childs
     bool hasChild(Object *child);
     bool hasChild(const String& name);
     void addChild(Object *child,bool ptrdelete=true);
-    void addChild(Object *child,ParentMode type,bool ptrdelete=true);
+    void addChild(Object *child,int parentMode,bool ptrdelete=true);
     void eraseChild(Object *child);
-    void setParentMode(ParentMode type);
+    void setParentMode(int type);
     size_t countChilds();
     size_t depthChilds();
     //
     Vector2D getScale(bool global=false);
     Vector2D getPosition(bool global=false);
     float getRotation(bool global=false);
-    ParentMode getParentMode() const;
+    int getParentMode() const;
     Object* getParent();
     const Object* getParent() const;
 
@@ -256,7 +258,6 @@ class Object
     private:
     //find child
     Object* getPrivateObject(const std::vector<String>& names,size_t i);
-    
     //name
     String name;
     //data
@@ -282,8 +283,9 @@ class Object
     //parent
     bool    del;
     Object* parent;
-    ParentMode parentMode;
-    Vector2D   getGlobalParentScale();
+    int parentMode;
+    void computeMatrix(const Transform2D& transform,Matrix4x4& globalMat) const;
+    Vector2D   getGlobalParentScale() const;
     //childs
     std::list<Object*> childs;
     //friend class

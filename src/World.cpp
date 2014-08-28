@@ -11,6 +11,17 @@ using namespace Easy2D;
 #define PTM_RATIO *metersUnit
 #define PIXEL_RATIO *metersInPixel
 #define WORLD_PIXEL_RATIO *world->metersInPixel
+
+
+#if 0
+    #define FORCE_PTM_RATIO *metersUnit
+    #define FORCE_PIXEL_RATIO *metersInPixel
+#else //OLREADY ADDED IN BODY SCALE GRAVITY
+    #define FORCE_PTM_RATIO
+    #define FORCE_PIXEL_RATIO
+#endif
+
+
 ////////////////////////////////////////
 void ContactListener::BeginContact(b2Contact* contact)
 {
@@ -497,7 +508,7 @@ World::World(const Vec2& gravity):glDebugDraw(this)
                                  ,metersInPixel(1.0)
                                  ,debugFlag(false)
 {
-    world = new b2World(cast(gravity));
+    world = new b2World(cast(gravity FORCE_PTM_RATIO));
     world->SetContactListener(&cListener);
     world->SetDestructionListener(this);
 }
@@ -508,12 +519,57 @@ World::~World()
 }
 void World::setGravity(const Vec2& gravity)
 {
-    world->SetGravity(cast(gravity));
+    world->SetGravity(cast(gravity FORCE_PTM_RATIO));
 }
 Vec2 World::getGravity()
 {
-   return cast(world->GetGravity());
+   return cast(world->GetGravity()) FORCE_PIXEL_RATIO;
 }
+
+void World::setMetersInPixel( float pixel )
+{
+    metersUnit=1.0f/pixel;
+    metersInPixel=pixel;
+    //update bodies
+    for(auto body = world->GetBodyList(); body; body = body->GetNext())
+    {
+        auto e2body=(Body*)body->GetUserData();
+        e2body->updatePixelScale(metersUnit,metersInPixel);
+    }
+}
+
+void World::resetWorld()
+{
+    //create bodys list
+    std::vector<Body*> listBody;
+    for(auto body = world->GetBodyList(); body; body = body->GetNext())
+    {
+        listBody.push_back((Body*)body->GetUserData());
+    }
+    
+    //unregister all objects
+    for(auto bodies:listBody)
+    {
+        bodies->unregisterWorld();
+    }
+    
+    //delete world
+    delete world;
+    auto gravity=getGravity();
+    world = new b2World(cast(gravity FORCE_PTM_RATIO));
+    world->SetContactListener(&cListener);
+    world->SetDestructionListener(this);
+    
+    //ri-reg all objects
+    for(auto bodies:listBody)
+    {
+        bodies->registerWorld(this);
+    }
+    
+}
+
+
+
 void World::physics(float dt)
 {
     world->Step(dt,velocityIterations,positionIterations);
@@ -577,14 +633,14 @@ void World::physicsDraw(Camera* camera)
 void World::serialize(Table& table)
 {
     Table& tworld=table;
-    tworld.set("gravity",getGravity());
     tworld.set("metersInPixel",getMetersInPixel());
+    tworld.set("gravity",getGravity());
 }
 void World::deserialize(const Table& table)
 {
     const Table& tworld=table;
-    setGravity(tworld.getVector2D("gravity",getGravity()));
     setMetersInPixel(tworld.getFloat("metersInPixel",getMetersInPixel()));
+    setGravity(tworld.getVector2D("gravity",getGravity()));
 }
 ////////////////////////////////////////
 
