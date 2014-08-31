@@ -80,17 +80,29 @@ public:
         blendSrc=src;
         blendDst=dst;
     }
+    uint getBlendSrc() const
+    {
+        return blendSrc;
+    }
+    uint getBlendDst() const
+    {
+        return blendDst;
+    }
+    bool getIsEnableBlend() const
+    {
+        return blending;
+    }
     //cullmode
     void setCull(CullFace mode)
     {
         cullmode=mode;
     }
-    CullFace getCullFace()
+    CullFace getCullFace() const
     {
         return cullmode;
     }
     //operators
-    bool operator==(const RenderState& rs)
+    bool operator==(const RenderState& rs) const
     {
         return rtexture==rs.rtexture &&
                rmesh==rs.rmesh &&
@@ -100,7 +112,7 @@ public:
                cullmode==rs.cullmode&&
                color==rs.color ;
     }
-    bool operator!=(const RenderState& rs)
+    bool operator!=(const RenderState& rs) const
     {
         return !((*this)==rs);
     }

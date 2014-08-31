@@ -153,6 +153,8 @@ void AnimatedSprite::serialize(Table& table)
 {
     //serialize render state
     rsSerialize(table);
+    //size?
+    if(!animations.size()) return;
     //serialize ASprite
     table.set("currentAnimation",(float)getCurrentAnimation());
     table.set("currentFrame",(float)getCurrentFrame());
@@ -199,8 +201,9 @@ void AnimatedSprite::deserialize(const Table& table)
             addAnimation(fms,time,loop);
         }
     }
-    
-    //current frame
+    //no animation?
+    if(!animations.size()) return;
+    //else get current frame
     setFrame(table.getFloat("currentFrame",(float)getCurrentFrame()));
 
 }

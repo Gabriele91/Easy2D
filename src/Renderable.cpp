@@ -32,8 +32,10 @@ void Renderable::serialize(Table& table)
     //serialize render state
     rsSerialize(rsprite);
     //serialize renderable
-    rsprite.set("texture",getTexture()->getName());
-    rsprite.set("mesh",getMesh()->getName());
+    if(getTexture())
+        rsprite.set("texture",getTexture()->getName());
+    if(getMesh())
+        rsprite.set("mesh",getMesh()->getName());
 }
 void Renderable::deserialize(const Table& table)
 {

@@ -42,7 +42,8 @@ void Sprite::serialize(Table& table)
     //serialize render state
     rsSerialize(rsprite);
     //serialize texture
-    rsprite.set("texture",getTexture()->getName());
+    if(getTexture())
+        rsprite.set("texture",getTexture()->getName());
 }
 void Sprite::deserialize(const Table& table)
 {

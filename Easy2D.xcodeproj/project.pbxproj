@@ -289,6 +289,7 @@
 		E0A719C217E1EE6200A0B298 /* ttunpat.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7196817E1EE6200A0B298 /* ttunpat.h */; };
 		E0A719C317E1EE6200A0B298 /* ft2build.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A7196917E1EE6200A0B298 /* ft2build.h */; };
 		E0A719C417E1EE6200A0B298 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A7196B17E1EE6200A0B298 /* libfreetype.a */; };
+		E0B5835B19B1B6570001D40A /* Blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B5835A19B1B6570001D40A /* Blend.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -582,6 +583,7 @@
 		E0A7196817E1EE6200A0B298 /* ttunpat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ttunpat.h; sourceTree = "<group>"; };
 		E0A7196917E1EE6200A0B298 /* ft2build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft2build.h; sourceTree = "<group>"; };
 		E0A7196B17E1EE6200A0B298 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
+		E0B5835A19B1B6570001D40A /* Blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blend.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -820,6 +822,7 @@
 				E054962B17AE6907005DDB72 /* Timer.cpp */,
 				E054962C17AE6907005DDB72 /* Utility.cpp */,
 				E0937D1B17B5483300DEFFCD /* State.cpp */,
+				E0B5835A19B1B6570001D40A /* Blend.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1449,6 +1452,7 @@
 				E054965417AE6907005DDB72 /* Math3D.cpp in Sources */,
 				E0709D781997B6A80079E7E1 /* RenderContext.cpp in Sources */,
 				E06FB1D1197CEA1B00239DA6 /* ParticleSystem.cpp in Sources */,
+				E0B5835B19B1B6570001D40A /* Blend.cpp in Sources */,
 				E06FB1D9197CEA3B00239DA6 /* LuaMath3D.cpp in Sources */,
 				E054965717AE6907005DDB72 /* Math3D_SSE2.cpp in Sources */,
 				E054965B17AE6907005DDB72 /* Mesh.cpp in Sources */,

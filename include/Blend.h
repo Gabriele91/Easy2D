@@ -63,6 +63,9 @@ struct SRC
     };
 };
 
+    //utilities
+    String toString(uint blend);
+    uint fromString(String blend,int vlDefault=BLEND::ZERO);
 
 };
 };

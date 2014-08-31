@@ -208,21 +208,7 @@ class Emitter : public Renderable
 
     public:
 
-    Emitter(size_t size=0):
-           emissionRate(0)
-          ,emissionCount(0)
-          ,duration(-1)
-          ,durationCount(0)
-          ,relative(false)
-          ,size(0)
-          ,particles(nullptr)
-          ,pause(false)
-          ,stop(false)
-    {
-        mesh=new BatchingColorMesh();
-        setMesh(Mesh::ptr((Mesh*)mesh));
-        if(size)  setMaxParticles(size);
-    }
+    Emitter(size_t size=0);
     virtual ~Emitter()
     {
         destroyBuffer();
@@ -249,7 +235,7 @@ class Emitter : public Renderable
         return duration;
     }
     //relative
-    bool getRelative()
+    bool getRelative() const
     {
         return relative;
     }

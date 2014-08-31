@@ -9,6 +9,33 @@
 using namespace Easy2D;
 ///////////////////////
 
+
+Emitter::Emitter(size_t size):
+                emissionRate(0)
+                ,emissionCount(0)
+                ,duration(-1)
+                ,durationCount(0)
+                ,relative(false)
+                ,size(0)
+                ,particles(nullptr)
+                ,pause(false)
+                ,stop(false)
+{
+    //blend mode
+    enableBlend();
+    setBlend(BLEND::SRC::ALPHA,
+             BLEND::ONE::MINUS::SRC::ALPHA);
+    //default parametes
+    setStartScale(Vec2::ONE);
+    setStartColor(Color::WHITE);
+    setLife(1.0);
+    //mesh
+    mesh=new BatchingColorMesh();
+    setMesh(Mesh::ptr((Mesh*)mesh));
+    //size
+    if(size)  setMaxParticles(size);
+}
+
 void Emitter::Particle::doRelative(Object* obj)
 {
     relative.pos=obj->getPosition(true);
@@ -164,6 +191,8 @@ void  Emitter::build()
 {
     //restart
     mesh->relase();
+    //texture?
+    if(!getTexture()) return;
     //add particles
     for(Particle* p=active.getLast();p;p=p->prev)
     {
@@ -229,7 +258,8 @@ void  Emitter::serialize(Table& table)
     table.set("lifeVar",getLifeVar());
     //////////////////////////////////////////////////////////
     //serialize texture
-    table.set("texture",getTexture()->getName());
+    if(getTexture())
+        table.set("texture",getTexture()->getName());
     
 }
 void  Emitter::deserialize(const Table& table)
