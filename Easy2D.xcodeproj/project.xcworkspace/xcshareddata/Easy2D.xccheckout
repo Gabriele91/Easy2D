@@ -10,29 +10,29 @@
 	<string>Easy2D</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>9C60CB87-8C37-4936-9E30-E1FE79D01FB1</key>
-		<string>gabriele@188.226.192.49:GitRepositories/Easy2D.git</string>
+		<key>FAFBBACDA2C14CAFE0D5D69A91FB89782A73777E</key>
+		<string>ssh://www.vector3d.xyz/~/GitRepositories/Easy2D.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Easy2D.xcodeproj/project.xcworkspace</string>
+	<string>Easy2D.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>9C60CB87-8C37-4936-9E30-E1FE79D01FB1</key>
+		<key>FAFBBACDA2C14CAFE0D5D69A91FB89782A73777E</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>gabriele@188.226.192.49:GitRepositories/Easy2D.git</string>
+	<string>ssh://www.vector3d.xyz/~/GitRepositories/Easy2D.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9C60CB87-8C37-4936-9E30-E1FE79D01FB1</string>
+	<string>FAFBBACDA2C14CAFE0D5D69A91FB89782A73777E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9C60CB87-8C37-4936-9E30-E1FE79D01FB1</string>
+			<string>FAFBBACDA2C14CAFE0D5D69A91FB89782A73777E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Easy2D</string>
 		</dict>

@@ -49,6 +49,12 @@
     <Filter Include="File di intestazione\thread">
       <UniqueIdentifier>{1f950abe-6b46-4c69-bd16-8c11a23779c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di intestazione\angleproject">
+      <UniqueIdentifier>{24d7d2ca-046f-4d9c-b9c8-d8ecad397697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di origine\angleproject">
+      <UniqueIdentifier>{c021c6a6-d40c-4a09-9dad-5b57a3881b92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -256,6 +262,33 @@
       <Filter>File di origine\script</Filter>
     </ClCompile>
     <ClCompile Include="src\FluidGrid.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blend.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderContextOGL2.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderContextOES2.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\OpenGLAngle.cpp">
+      <Filter>File di origine\angleproject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\AngleApp.cpp">
+      <Filter>File di origine\angleproject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\AngleInput.cpp">
+      <Filter>File di origine\angleproject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\AngleScreen.cpp">
+      <Filter>File di origine\angleproject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderQueue.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -490,6 +523,27 @@
       <Filter>File di intestazione\script</Filter>
     </ClInclude>
     <ClInclude Include="include\FluidGrid.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderContext.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shader.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\AngleApp.h">
+      <Filter>File di intestazione\angleproject</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\AngleInput.h">
+      <Filter>File di intestazione\angleproject</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\AngleScreen.h">
+      <Filter>File di intestazione\angleproject</Filter>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\OpenGLAngle.h">
+      <Filter>File di intestazione\angleproject</Filter>
+    </ClInclude>
+    <ClInclude Include="include\RenderQueue.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
