@@ -25,6 +25,9 @@ void onAccelerometerEvent(void (*function)(void* data,float x,float y,float z,fl
 void onFingerDown(void(*function)(void* data,int i,float x,float y,float p));
 void onFingerUp(void(*function)(void* data,int i,float x,float y,float p));
 void onFingerMove(void(*function)(void* data,int i,float x,float y,float p));
+//input keyboard handle
+void onKeyDown(void(*function)(void* data,int code));
+void onKeyUp(void(*function)(void* data,int code));
 //cmd handle
 void onInitAndroid(void (*function)(void* data));
 void onResumeAndroid(void (*function)(void* data));

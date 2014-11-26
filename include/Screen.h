@@ -7,7 +7,7 @@
 namespace Easy2D
 {
 ////////////////////
-class Game;
+class Scene;
 class Application;
 ////////////////////
 class Screen
@@ -191,7 +191,7 @@ protected:
     * Application is a friend class
     */
     friend class Application;
-    friend class Game;
+	friend class Scene;
 
 };
 

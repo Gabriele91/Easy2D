@@ -188,6 +188,8 @@ FluidGrid::FluidGrid(Texture::ptr texture)
              BLEND::ONE::MINUS::SRC::ALPHA);
     //create mesh
     bcmesh=new BatchingMesh();
+    //disable batching
+    bcmesh->setBatching(false);
     //add mesh
     setMesh(Mesh::ptr((Mesh*)bcmesh));
 }
@@ -283,7 +285,7 @@ void FluidGrid::pushLine(const Vec2& start,const Vec2& end,float size)
 void FluidGrid::onRun(float dt)
 {
     //release mesh
-    bcmesh->relase();
+    bcmesh->restart();
     //update grid
     grid.update();
     //update
@@ -368,8 +370,12 @@ void FluidGrid::serialize(Table& table)
     Table& rfgrid=table;
     //serialize render state
     rsSerialize(rfgrid);
+    //serialize shader
+    if(getShader())
+        table.set("shader",getShader()->getName());
     //serialize texture
-    rfgrid.set("texture",getTexture()->getName());
+    if(getTexture())
+        table.set("texture",getTexture()->getName());
     //save size and spacing
     rfgrid.set("size",grid.getSize());
     rfgrid.set("spacing",grid.getSpacing());
@@ -379,6 +385,15 @@ void FluidGrid::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
+    //get shader
+    if(table.existsAsType("shader",Table::STRING))
+    {
+        auto rsmanager=table.getResourcesManager();
+        DEBUG_ASSERT(rsmanager);
+        auto rsgroup=rsmanager->getResourcesGroup();
+        DEBUG_ASSERT(rsgroup);
+        setShader(rsgroup->load<Shader>(table.getString("shader")));
+    }
     //get texture
     if(table.existsAsType("texture",Table::STRING))
     {
@@ -410,6 +425,9 @@ FluidMesh::FluidMesh(Texture::ptr texture)
              BLEND::ONE::MINUS::SRC::ALPHA);
     //create mesh
     mesh=Mesh::ptr(new Mesh());
+    //disable batching
+    mesh->setBatching(false);
+    mesh->setDrawMode(TRIANGLE_STRIP);
     //add mesh
     setMesh(mesh);
 }
@@ -502,7 +520,6 @@ void FluidMesh::onRun(float dt)
     //release mesh
     mesh->cpuClear();
     mesh->release();
-    mesh->setDrawMode(TRIANGLE_STRIP);
     //update grid
     grid.update();
     //update
@@ -554,8 +571,12 @@ void FluidMesh::serialize(Table& table)
     Table& rfgrid=table;
     //serialize render state
     rsSerialize(rfgrid);
+    //serialize shader
+    if(getShader())
+        table.set("shader",getShader()->getName());
     //serialize texture
-    rfgrid.set("texture",getTexture()->getName());
+    if(getTexture())
+        table.set("texture",getTexture()->getName());
     //save size and spacing
     rfgrid.set("size",grid.getSize());
     rfgrid.set("spacing",grid.getSpacing());
@@ -565,6 +586,15 @@ void FluidMesh::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
+    //get shader
+    if(table.existsAsType("shader",Table::STRING))
+    {
+        auto rsmanager=table.getResourcesManager();
+        DEBUG_ASSERT(rsmanager);
+        auto rsgroup=rsmanager->getResourcesGroup();
+        DEBUG_ASSERT(rsgroup);
+        setShader(rsgroup->load<Shader>(table.getString("shader")));
+    }
     //get texture
     if(table.existsAsType("texture",Table::STRING))
     {

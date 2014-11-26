@@ -52,6 +52,7 @@ void ResourcesGroup::loadResourceFile()
     loadAResource(resources.getPath(),"fonts",fonts);
     loadAResource(resources.getPath(),"sounds",sounds);
     loadAResource(resources.getPath(),"scripts",scripts);
+    loadAResource(resources.getPath(),"shaders",shaders);
 
 }
 
@@ -81,4 +82,5 @@ void ResourcesGroup::reloadGpuResouce()
     meshes.__forceReload();
     frameSets.__forceReload();
     fonts.__forceReload();
+    shaders.__forceReload();
 }

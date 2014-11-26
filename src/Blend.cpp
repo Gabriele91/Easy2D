@@ -33,7 +33,7 @@ Easy2D::String Easy2D::BLEND::toString(uint blend)
         default: return "";
     }
 }
-uint Easy2D::BLEND::fromString(Easy2D::String blend,int vlDefault)
+Easy2D::uint Easy2D::BLEND::fromString(Easy2D::String blend,int vlDefault)
 {
     //normalize
     blend.replaceAll(" ","");

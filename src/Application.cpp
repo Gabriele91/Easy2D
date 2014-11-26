@@ -5,10 +5,15 @@
 #include <ETime.h>
 #include <Script.h>
 #if defined( PLATFORM_IOS )
+#include <AppiOS.h>
 #elif defined( PLATFORM_OSX )
 #include <CocoaApp.h>
 #elif defined( PLATFORM_WINDOW )
-#include <WindowsApp.h>
+	#ifndef ES2_ANGLEPROJECT
+		#include <WindowsApp.h>
+	#else
+		#include <AngleApp.h>
+	#endif
 #elif defined( PLATFORM_LINUX )
 #include <LinuxApp.h>
 #elif defined( PLATFORM_ANDROID )
@@ -133,10 +138,15 @@ Application *Application::create(const String& name,Application* implementation)
     if(!implementation)
     {
     #if defined( PLATFORM_IOS )
+        appSingleton=new AppiOS(name);
     #elif defined( PLATFORM_OSX )
         appSingleton=new CocoaApp(name);
     #elif defined( PLATFORM_WINDOW )
-        appSingleton=new WindowsApp(name);
+		#ifndef ES2_ANGLEPROJECT
+			appSingleton=new WindowsApp(name);
+		#else
+			appSingleton=new AngleApp(name);
+		#endif
     #elif defined( PLATFORM_LINUX )
         appSingleton=new LinuxApp(name);
     #elif defined( PLATFORM_ANDROID )

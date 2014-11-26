@@ -10,15 +10,11 @@
 namespace Easy2D
 {
 //
-class Layer;
-//
 class Renderable : public Component, 
                    public RenderState
 {
-
-    Layer *rlayer;
+    
     bool visible;
-    friend class Layer;
 
 public:
 

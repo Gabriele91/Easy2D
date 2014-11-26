@@ -15,6 +15,8 @@ using namespace Easy2D::Utility;
 #include <limits.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include <Shlwapi.h>
+
 char *realpath(const char *path, char resolved_path[MAX_PATH])
 {
     char *return_path = 0;
@@ -469,7 +471,7 @@ Path Path::getRelativePathTo(const Path& path) const
 #elif defined(PLATFORM_WINDOW)
     //calc relative
     char szOut[MAX_PATH];
-    PathRelativePathTo(szOut,
+    PathRelativePathToA(szOut,
                        from.getDirectory(),
                        FILE_ATTRIBUTE_DIRECTORY,
                        to.getPath(),
@@ -491,7 +493,11 @@ Path Path::getAbsolute() const
 {
     if(!isAbsolute()) return *this;
     //get absolute
+#if defined(PLATFORM_WINDOW)
+    char szOut[MAX_PATH];
+#else
     char szOut[PATH_MAX];
+#endif
     realpath(getPath(),szOut);
     return szOut;
 }

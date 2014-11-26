@@ -11,8 +11,10 @@
 using namespace Easy2D;
 void Debug::breakpoint()
 {
-#if defined( PLATFORM_IOS ) || defined( PLATFORM_OSX )
+#if defined( PLATFORM_IPHONE_SIMULATOR ) || defined( PLATFORM_OSX )
     __asm__("int $3");
+#elif defined( PLATFORM_IPHONE )
+    raise(SIGTRAP);
 #elif defined( PLATFORM_WINDOW )
     DebugBreak();
 #elif defined( PLATFORM_LINUX )

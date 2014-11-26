@@ -41,6 +41,9 @@ void Sprite::serialize(Table& table)
     Table& rsprite=table;
     //serialize render state
     rsSerialize(rsprite);
+    //serialize shader
+    if(getShader())
+        rsprite.set("shader",getShader()->getName());
     //serialize texture
     if(getTexture())
         rsprite.set("texture",getTexture()->getName());
@@ -49,6 +52,15 @@ void Sprite::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
+    //get shader
+    if(table.existsAsType("shader",Table::STRING))
+    {
+        auto rsmanager=table.getResourcesManager();
+        DEBUG_ASSERT(rsmanager);
+        auto rsgroup=rsmanager->getResourcesGroup();
+        DEBUG_ASSERT(rsgroup);
+        setShader(rsgroup->load<Shader>(table.getString("shader")));
+    }
     //get texture
     if(table.existsAsType("texture",Table::STRING))
     {

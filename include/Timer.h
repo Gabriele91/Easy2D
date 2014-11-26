@@ -21,6 +21,10 @@ public:
     double getGetCounter();
     void reset();
     void end();
+    bool isStarted()
+    {
+        return started;
+    }
 
 };
 

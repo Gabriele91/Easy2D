@@ -295,7 +295,7 @@ void Body::ShapeDef::buildShape(float metersUnit)
     default: break; //wrong
     }
 }
-Shape Body::pushShape(Shape index,b2FixtureDef* fixature,  b2Shape* shape)
+void Body::pushShape(Shape index,b2FixtureDef* fixature,  b2Shape* shape)
 {
    //alloc
    shapesDef[index]=ShapeDef();
@@ -1256,9 +1256,9 @@ void Body::setScale(const Vec2& argScale)
     //safe scale
     SAFE_SCALE(
         if(std::abs((float)scale.x) <=  SCALE_EPSILON)
-               scale.x=SCALE_EPSILON*(1.0-2.0*signbit(scale.x));
+               scale.x=SCALE_EPSILON*(1.0-2.0*std::signbit(scale.x));
         if(std::abs((float)scale.y) <=  SCALE_EPSILON)
-               scale.y=SCALE_EPSILON*(1.0-2.0*signbit(scale.y));
+               scale.y=SCALE_EPSILON*(1.0-2.0*std::signbit(scale.y));
     );
     //max scale
     float maxLastScale=Math::max(fabs(lastScale.x),fabs(lastScale.y));

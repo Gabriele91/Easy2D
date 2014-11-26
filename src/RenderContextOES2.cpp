@@ -5,17 +5,19 @@
 ///////////////////////////
 using namespace Easy2D;
 ///////////////////////////
-#define FAST_MODE(x) x
-//////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //globals
+RenderContext::StandardShader RenderContext::standardShader=RenderContext::SHADER_VERTEX;
+std::vector<Shader::ptr> RenderContext::shaders;
 RenderContext::Context RenderContext::context;
 RenderContext::RenderState RenderContext::state=
 {
     BACK,                     //cullface
     false,                    //zbuffer
     Vec4::ZERO,               //viewport
-    true,                     //alpha
+    false,                    //alpha
     true,                     //blend
     GL_ONE,                   //blend source
     GL_ZERO,                  //blend dst
@@ -28,6 +30,91 @@ RenderContext::RenderState RenderContext::state=
     true,                     //texture coords client state
     false                     //colors client statst
 };
+RenderContext::RenderTarget RenderContext::buffers=
+{
+ 0,        //frame buffer
+ 0,        //color buffer
+ 0,        //df buffer
+ false
+};
+static GLuint RenderContextOES_vertexArray=0;
+//////////////////////////////////////////////////////////////////////
+inline static void e2dBlendFunc(GLenum x,GLenum y) 
+{
+	glBlendFuncSeparate(x,y,x,y);
+	//glBlendFunc(x,y);
+}
+inline static void rebindTextures()
+{
+	//context
+	const auto& context=RenderContext::getContext();
+	//rebind texture
+	for(int ntex=0;ntex<20;++ntex)
+	{
+	    //get text context
+	    const auto& texture=context.binds.textures[ntex];
+	    //enable
+	    if(texture.enable)
+	    {
+	        glActiveTexture( GL_TEXTURE0 + ntex );
+	        glBindTexture( GL_TEXTURE_2D, texture.idtexture);
+	    }
+	}
+}
+inline static void selectShader()
+{
+	//context
+	const auto& context=RenderContext::getContext();
+    //is a standard shader
+    if(context.binds.idprogram==RenderContext::getStandardShaderProgram())
+    {
+        //select shader
+        RenderContext::selectStandardShader();
+        //and bind
+        RenderContext::enableProgram(RenderContext::getStandardShaderProgram());
+    }
+}
+inline static void bindStanrdadShader()
+{
+	//context
+	const auto& context=RenderContext::getContext();
+    //is a standard shader
+    if(context.binds.idprogram==RenderContext::getStandardShaderProgram())
+    {
+        //select shader
+        RenderContext::selectStandardShader();
+        //bind shader
+        RenderContext::bindStandardShader();  
+    }
+}
+inline static void enableAttributes()
+{
+	//state
+	const auto& state=RenderContext::getRenderState();
+
+    //disable 0 array
+    glDisableVertexAttribArray(0);
+    //array state
+    if(state.vertexsArray)
+        glEnableVertexAttribArray(Shader::ATTRIBUTE_POSITION);
+    else
+        glDisableVertexAttribArray(Shader::ATTRIBUTE_POSITION);
+    
+    if(state.normalsArray)
+        glEnableVertexAttribArray(Shader::ATTRIBUTE_NORMAL);
+    else
+        glDisableVertexAttribArray(Shader::ATTRIBUTE_NORMAL);
+    
+    if(state.colorsArray)
+        glEnableVertexAttribArray(Shader::ATTRIBUTE_COLOR);
+    else
+        glDisableVertexAttribArray(Shader::ATTRIBUTE_COLOR);
+    
+    if(state.texcoordsArray)
+        glEnableVertexAttribArray(Shader::ATTRIBUTE_TEXTCOOR);
+    else
+        glDisableVertexAttribArray(Shader::ATTRIBUTE_TEXTCOOR);
+}
 //////////////////////////////////////////////////////////////////////
 //buffer
 uint RenderContext::createBuffer()
@@ -43,7 +130,7 @@ void RenderContext::deleteBuffer(uint buffer)
 void RenderContext::bufferData(uint buffer,BufferType type,void* data,size_t size)
 {
     //bind buffer
-    FAST_MODE(if(context.binds.vertexBuffer!=buffer))
+    if(context.binds.vertexBuffer!=buffer)
         glBindBuffer(GL_ARRAY_BUFFER, buffer);                      //(bind on vertex buffer)
     
     glBufferData(GL_ARRAY_BUFFER, size, data,
@@ -53,26 +140,26 @@ void RenderContext::bufferData(uint buffer,BufferType type,void* data,size_t siz
     );
     
     //(re)bind last buffer
-    FAST_MODE(if(context.binds.vertexBuffer!=buffer))
+    if(context.binds.vertexBuffer!=buffer)
         glBindBuffer(GL_ARRAY_BUFFER, context.binds.vertexBuffer);  //(reset vertex buffer)
 }
 void RenderContext::bufferSubData(uint buffer,void* data,size_t offset,size_t size)
 {
     //bind buffer
-    FAST_MODE(if(context.binds.vertexBuffer!=buffer))
+    if(context.binds.vertexBuffer!=buffer)
         glBindBuffer(GL_ARRAY_BUFFER, buffer);                      //(bind on vertex buffer)
     
     //set data
     glBufferSubData(GL_ARRAY_BUFFER, offset,size, data);
     
     //(re)bind last buffer
-    FAST_MODE(if(context.binds.vertexBuffer!=buffer))
+    if(context.binds.vertexBuffer!=buffer)
         glBindBuffer(GL_ARRAY_BUFFER, context.binds.vertexBuffer);  //(reset vertex buffer)
 }
 //vertex buffer
 void RenderContext::bindVertexBuffer(uint buffer)
 {
-    FAST_MODE(if(context.binds.vertexBuffer==buffer) return);
+    if(context.binds.vertexBuffer==buffer) return;
     //save
     context.binds.vertexBuffer=buffer;
     //set
@@ -86,7 +173,7 @@ void RenderContext::unbindVertexBuffer()
 //index buffer
 void RenderContext::bindIndexBuffer(uint buffer)
 {
-    FAST_MODE(if(context.binds.indexBuffer==buffer) return;)
+    if(context.binds.indexBuffer==buffer) return;
     //save
     context.binds.indexBuffer=buffer;
     //set
@@ -98,7 +185,7 @@ void RenderContext::unbindIndexBuffer()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 //////////////////////////////////////////////////////////////////////
-static GLuint getGLPrimitiveType(DrawMode mode)
+static GLenum getGLPrimitiveType(DrawMode mode)
 {
     switch( mode )
     {
@@ -111,19 +198,40 @@ static GLuint getGLPrimitiveType(DrawMode mode)
         default: return 0;
     }
 }
-static GLuint getGLVectorType(VectorType type)
+static GLenum getGLVectorType(VectorType type)
 {
     switch (type)
     {
-        case INT: return GL_INT;
-        case SHORT: return GL_SHORT;
-        case UNSIGNED_INT: return GL_UNSIGNED_INT;
-        case UNSIGNED_SHORT: return GL_UNSIGNED_SHORT;
-        default: return 0;
+	case VectorType::INT: return GL_INT;
+	case VectorType::SHORT: return GL_SHORT;
+	case VectorType::UNSIGNED_INT: return GL_UNSIGNED_INT;
+	case VectorType::UNSIGNED_SHORT: return GL_UNSIGNED_SHORT;
+    default: return 0;
     }
 }
+
+
+
 void RenderContext::drawPrimitive(DrawMode mode, int first, int count)
 {
+    //is a standard shader
+    if(context.binds.idprogram==getStandardShaderProgram())
+    {
+        //select shader
+        selectStandardShader();
+        //is change
+        if(context.binds.idprogram!=getStandardShaderProgram())
+        {
+            //bind shader
+            bindStandardShader();
+        }
+        else
+            //update
+            updateStandardUniform();
+    }
+    //enable attributes
+    enableAttributes();
+    //draw
     glDrawArrays( getGLPrimitiveType(mode), first, count );
 }
 void RenderContext::drawPrimitiveIndexed(DrawMode mode,
@@ -131,6 +239,22 @@ void RenderContext::drawPrimitiveIndexed(DrawMode mode,
                                          VectorType type,
                                          void* indexs)
 {
+    //is a standard shader
+    if(context.binds.idprogram==getStandardShaderProgram())
+    {
+        //select shader
+        selectStandardShader();
+        //is change
+        if(context.binds.idprogram!=getStandardShaderProgram())
+            //bind shader
+            bindStandardShader();
+        else
+            //update
+            updateStandardUniform();
+    }
+    //enable attributes
+    enableAttributes();
+    //draw
     glDrawElements( getGLPrimitiveType(mode), count, getGLVectorType(type),indexs);
 }
 //////////////////////////////////////////////////////////////////////
@@ -140,11 +264,6 @@ void RenderContext::setTexture(bool enable)
     if(state.texture==enable) return;
     //save
     state.texture=enable;
-    //set
-    if(enable)
-        glEnable(GL_TEXTURE_2D);
-    else
-        glDisable(GL_TEXTURE_2D);
 }
 bool RenderContext::getTexture()
 {
@@ -175,8 +294,8 @@ uint RenderContext::createTexture(uint format,
     //mip mapping
     if(mipmap)
     {
-        glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, true );
-    }
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
     //return
     return texture;
 }
@@ -199,20 +318,40 @@ void RenderContext::subTexture(uint type,
 }
 void RenderContext::bindTexture(uint texture,ushort ntex)
 {
+    DEBUG_ASSERT(ntex<20);
     glActiveTexture( GL_TEXTURE0 + ntex );
-    glEnable( GL_TEXTURE_2D );
+
+
+
     glBindTexture( GL_TEXTURE_2D, (GLuint)texture );
+    //state texture
+    context.binds.textures[ntex].enable=true;
+    context.binds.textures[ntex].idtexture=texture;
 }
 void RenderContext::unbindTexture(ushort ntex)
 {
     glActiveTexture(GL_TEXTURE0 + ntex);
-    glDisable(GL_TEXTURE_2D);
+
+
+
+    glBindTexture( GL_TEXTURE_2D, 0);
+
+    //state texture
+    context.binds.textures[ntex].enable=false;
+    context.binds.textures[ntex].idtexture=0;
 }
 void RenderContext::filterTexture(uint min,uint mag)
 {
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,mag);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,min);
 }
+void RenderContext::wrapTexture(uint s,uint t)
+{
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, s);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t);
+}
+
+
 
 //render state
 void RenderContext::setRenderState(const RenderState& newState, bool force)
@@ -230,24 +369,28 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
             glEnable(GL_CULL_FACE);
             glCullFace(newState.cullface==CullFace::FRONT?GL_FRONT:GL_BACK);
         }
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //zbuffer
         if(newState.zbuffer)
             glEnable(GL_DEPTH_TEST);
         else
             glDisable(GL_DEPTH_TEST);
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //viewport
         glViewport(newState.viewport.x,
                    newState.viewport.y,
                    newState.viewport.z,
                    newState.viewport.w);
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
-        //alpha
-        if(newState.alpha)
-            glEnable(GL_ALPHA_TEST);
-        else
-            glDisable(GL_ALPHA_TEST);
+        //alpha NO
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //blend
         if(newState.blend)
@@ -255,31 +398,26 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
         else
             glDisable(GL_BLEND);
         //set
-        glBlendFunc(newState.blendSRC, newState.blendDST);
+        e2dBlendFunc(newState.blendSRC, newState.blendDST);
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
-        //texture
-        if(newState.texture)
-            glEnable(GL_TEXTURE_2D);
-        else
-            glDisable(GL_TEXTURE_2D);
+        //texture NO 
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //clear color = new clear color
         glClearColor(newState.clearColor.rNormalize(),
                      newState.clearColor.gNormalize(),
                      newState.clearColor.bNormalize(),
                      newState.clearColor.aNormalize());
-        //colors
-        glColor4ubv(newState.color*newState.ambientColor);
+        //colors :)
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
-        //clients
-        if(newState.vertexsArray)    glEnableClientState( GL_VERTEX_ARRAY );
-        else                         glDisableClientState( GL_VERTEX_ARRAY );
-        if(newState.normalsArray)    glEnableClientState( GL_NORMAL_ARRAY );
-        else                         glDisableClientState( GL_NORMAL_ARRAY );
-        if(newState.texcoordsArray)  glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        else                         glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-        if(newState.colorsArray)     glEnableClientState( GL_COLOR_ARRAY );
-        else                         glDisableClientState( GL_COLOR_ARRAY );
+        //clients select texture?
+        //find errors:
+        CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //overwrite context state
         state=newState;
@@ -308,25 +446,25 @@ const RenderContext::RenderState& RenderContext::getRenderState()
 }
 void RenderContext::setDefaultRenderState()
 {
-    setRenderState(
-                   {
-                       BACK,                     //cullface
-                       false,                    //zbuffer
-                       Vec4::ZERO,               //viewport
-                       true,                     //alpha
-                       true,                     //blend
-                       GL_ONE,                   //blend source
-                       GL_ZERO,                  //blend dst
-                       true,                     //texture
-                       Color::WHITE,             //color
-                       Color::BLUE,              //clear color
-                       Color(128,128,128,255),   //ambient light
-                       true,                     //vertexs client state
-                       false,                    //normals client state
-                       true,                     //texture coords client state
-                       false                     //colors client statst
-                   },
-                   true);
+	RenderContext::RenderState defaultState=
+    {
+        BACK,                     //cullface
+        false,                    //zbuffer
+        Vec4::ZERO,               //viewport
+        false,                    //alpha
+        true,                     //blend
+        GL_ONE,                   //blend source
+        GL_ZERO,                  //blend dst
+        true,                     //texture
+        Color::WHITE,             //color
+        Color::BLUE,              //clear color
+        Color(128,128,128,255),   //ambient light
+        true,                     //vertexs client state
+        false,                    //normals client state
+        true,                     //texture coords client state
+        false                     //colors client statst
+    };
+    setRenderState(defaultState, true);
 }
 
 
@@ -373,11 +511,7 @@ void RenderContext::setAlpha(bool enable)
     if(state.alpha==enable) return;
     //save
     state.alpha=enable;
-    //set
-    if(enable)
-        glEnable(GL_ALPHA_TEST);
-    else
-        glDisable(GL_ALPHA_TEST);
+    //set NO(?)
 }
 bool RenderContext::getAlpha()
 {
@@ -391,9 +525,13 @@ void RenderContext::setBlend(bool enable)
     state.blend=enable;
     //set
     if(enable)
+    {
         glEnable(GL_BLEND);
+    }
     else
+    {
         glDisable(GL_BLEND);
+    }
 }
 bool RenderContext::getBlend()
 {
@@ -406,7 +544,7 @@ void RenderContext::setBlendFunction(uint source, uint dest)
     state.blendSRC=source;
     state.blendDST=dest;
     //set
-    glBlendFunc(source, dest);
+    e2dBlendFunc(source, dest);
 }
 uint RenderContext::getBlendSrc()
 {
@@ -438,14 +576,11 @@ void RenderContext::setColor(const Color& color)
     if(state.color==color) return;
     //save
     state.color=color;
-    //set
-    glColor4ubv(state.color*state.ambientColor);
 }
 const Color& RenderContext::getColor()
 {
     return state.color;
 }
-
 //clear
 void RenderContext::setColorClear(const Color& color)
 {
@@ -473,80 +608,54 @@ void RenderContext::setAmbientColor(const Color& color)
     if(state.ambientColor==color) return;
     //save
     state.ambientColor=color;
-    //set
-    glColor4ubv(state.color*state.ambientColor);
 }
 const Color& RenderContext::getAmbientColor()
 {
     return state.ambientColor;
 }
 
-
-
-
 //client states
 void RenderContext::setClientState(bool vertex,bool normal,bool texcoord,bool color)
 {
-    if(state.vertexsArray!=vertex)
-    {
-        if(vertex) glEnableClientState( GL_VERTEX_ARRAY );
-        else       glDisableClientState( GL_VERTEX_ARRAY );
-        state.vertexsArray=vertex;
-    }
-    if(state.normalsArray!=normal)
-    {
-        if(normal) glEnableClientState( GL_NORMAL_ARRAY );
-        else       glDisableClientState( GL_NORMAL_ARRAY );
-        state.normalsArray=normal;
-    }
-    if(state.texcoordsArray!=texcoord)
-    {
-        if(texcoord) glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        else       glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-        state.texcoordsArray=texcoord;
-    }
-    if(state.colorsArray!=color)
-    {
-        if(color)  glEnableClientState( GL_COLOR_ARRAY );
-        else       glDisableClientState( GL_COLOR_ARRAY );
-        state.colorsArray=color;
-    }
+	state.vertexsArray=vertex;
+    state.normalsArray=normal;
+    state.texcoordsArray=texcoord;
+    state.colorsArray=color;
+    //select
+    selectShader();
 }
 void RenderContext::setVertexClientState(bool enable)
 {
     if(state.vertexsArray==enable) return;
     //save
     state.vertexsArray=enable;
-    //set
-    if(enable) glEnableClientState( GL_VERTEX_ARRAY );
-    else       glDisableClientState( GL_VERTEX_ARRAY );
+	//select
+    selectShader();
 }
 void RenderContext::setNormalClientState(bool enable)
 {
     if(state.normalsArray==enable) return;
     //save
     state.normalsArray=enable;
-    //set
-    if(enable) glEnableClientState( GL_NORMAL_ARRAY );
-    else       glDisableClientState( GL_NORMAL_ARRAY );
+	//select
+    selectShader();
 }
 void RenderContext::setTexCoordClientState(bool enable)
 {
     if(state.texcoordsArray==enable) return;
     //save
     state.texcoordsArray=enable;
-    //set
-    if(enable) glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-    else       glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    //select
+	selectShader();
 }
 void RenderContext::setColorClientState(bool enable)
 {
     if(state.colorsArray==enable) return;
     //save
     state.colorsArray=enable;
-    //set
-    if(enable) glEnableClientState( GL_COLOR_ARRAY );
-    else       glDisableClientState( GL_COLOR_ARRAY );
+	//select
+    selectShader();
+
 }
 bool RenderContext::getVertexClientState()
 {
@@ -572,35 +681,50 @@ void RenderContext::vertexPointer(uint  	size,
                                   size_t  	stride,
                                   const void *pointer)
 {
-    glVertexPointer(size,type,stride,pointer);
+
+	glVertexAttribPointer(Shader::ATTRIBUTE_POSITION,size,type, GL_FALSE ,stride,pointer);
+
+
+
 }
-void RenderContext::normalPointer(uint  	type,
+void RenderContext::normalPointer(uint  	size,
+								  uint  	type,
                                   size_t  	stride,
                                   const void *pointer)
 {
-    glNormalPointer(type,stride,pointer);
+
+	glVertexAttribPointer(Shader::ATTRIBUTE_NORMAL,size,type, GL_FALSE ,stride,pointer);
+
+
+
 }
 void RenderContext::texCoordPointer(uint  	size,
                                     uint  	type,
                                     size_t  	stride,
                                     const void *pointer)
 {
-    glTexCoordPointer(size,type,stride,pointer);
+
+    glVertexAttribPointer(Shader::ATTRIBUTE_TEXTCOOR,size,type, GL_FALSE ,stride,pointer);
+
+
+
 }
 void RenderContext::colorPointer(uint  	size,
                                  uint  	type,
                                  size_t  	stride,
                                  const void *pointer)
 {
-    glColorPointer(size,type,stride,pointer);
+
+    glVertexAttribPointer(Shader::ATTRIBUTE_COLOR,size,type, GL_FALSE ,stride,pointer);
+
+
+
 }
 
 //matrix
 void RenderContext::setModelView(const Mat4& mv)
 {
     context.matrixs.modelView=mv;
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(mv);
 }
 const Mat4& RenderContext::getModelView()
 {
@@ -609,12 +733,125 @@ const Mat4& RenderContext::getModelView()
 void RenderContext::setProjection(const Mat4& pj)
 {
     context.matrixs.projection=pj;
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(pj);
+    context.matrixs.updateGProjection();
 }
 const Mat4& RenderContext::getProjection()
 {
     return context.matrixs.projection;
+}
+const Mat4& RenderContext::getGlobalProjection()
+{
+    return context.matrixs.gProjection;
+}
+void RenderContext::setDisplay(const Mat4& dy)
+{
+    context.matrixs.display=dy;
+    context.matrixs.updateGProjection();
+}
+const Mat4& RenderContext::getDisplay()
+{
+    return context.matrixs.display;
+}
+
+//render target
+RenderContext::RenderTarget  RenderContext::createRenderTarget(uint colorbuffer)
+{
+    //save last target
+    auto lastTarget=context.binds.idtarget;
+    //----------------------------------------------------------------------------------------------------
+    //new render target
+    RenderTarget render;
+    //Create FBO
+    glGenFramebuffers(1, &render.target);
+	glBindFramebuffer(GL_FRAMEBUFFER, render.target);
+    //----------------------------------------------------------------------------------------------------
+    //save color buffer
+    render.color=colorbuffer;
+    //Attach color buffer to FBO
+    glFramebufferTexture2D(GL_FRAMEBUFFER,  GL_COLOR_ATTACHMENT0 , GL_TEXTURE_2D, colorbuffer, 0);
+    //----------------------------------------------------------------------------------------------------
+    render.hasDepth=false;
+    //----------------------------------------------------------------------------------------------------
+    //renable last target
+    glBindFramebuffer(GL_FRAMEBUFFER,lastTarget);
+    //return runder buffer
+    return render;
+
+}
+RenderContext::RenderTarget  RenderContext::createRenderDepthTarget(uint colorbuffer,size_t width,size_t height)
+{
+    //save last target
+    auto lastTarget=context.binds.idtarget;
+    //----------------------------------------------------------------------------------------------
+    //new render target
+    RenderTarget render;
+    //Create FBO
+    glGenFramebuffers(1, &render.target);
+	glBindFramebuffer(GL_FRAMEBUFFER, render.target);
+    //----------------------------------------------------------------------------------------------
+    //save color buffer
+    render.color=colorbuffer;
+    //Attach color buffer to FBO
+    glFramebufferTexture2D(GL_FRAMEBUFFER,  GL_COLOR_ATTACHMENT0 , GL_TEXTURE_2D, colorbuffer, 0);
+    //---------------------------------------------------------------------------------------------
+    render.hasDepth=true;
+    //df buffer
+    glGenRenderbuffers(1, &render.depth);
+    glBindRenderbuffer(GL_RENDERBUFFER, render.depth);
+    glRenderbufferStorage(GL_RENDERBUFFER,  GL_DEPTH_COMPONENT32, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    //Attach depth buffer to FBO
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,  GL_RENDERBUFFER, render.depth);
+    //---------------------------------------------------------------------------------------------
+    //renable last target
+    glBindFramebuffer(GL_FRAMEBUFFER,lastTarget);
+    //return runder buffer
+    return render;
+}
+
+void RenderContext::enableRenderTarget(const RenderContext::RenderTarget& target)
+{
+    if(context.binds.idtarget==target.target) return;
+    //enable target
+    glBindFramebuffer(GL_FRAMEBUFFER,target.target);
+    //save
+    context.binds.idtarget=target.target;
+}
+void RenderContext::disableRenderTarget()
+{
+    if(context.binds.idtarget==buffers.target) return;
+    //enable target
+    glBindFramebuffer(GL_FRAMEBUFFER,buffers.target);
+    //save
+    context.binds.idtarget=buffers.target;
+}
+void RenderContext::deleteRenderTarget(const RenderTarget& target)
+{
+    //delete frame buffer
+    glDeleteFramebuffers(1,&target.target);
+    //delete zbuffer
+    if(target.hasDepth)
+    {
+        glDeleteRenderbuffers(1,&target.depth);
+    }
+}
+
+//shader program
+void RenderContext::enableProgram(uint program)
+{
+    if(context.binds.idprogram==program) return;
+    //enable shader
+    glUseProgram(program);
+    //save
+    context.binds.idprogram=program;
+}
+void RenderContext::disableProgram()
+{
+    if(context.binds.idprogram==getStandardShaderProgram()) return;
+    //disable shader
+    glUseProgram(getStandardShaderProgram());
+    //save
+    context.binds.idprogram=getStandardShaderProgram();
 }
 
 //utilities
@@ -713,36 +950,8 @@ void RenderContext::drawLine(const Vec2& v1,const Vec2& v2,const Color& color)
     drawPrimitive(LINES, 0, 2);
 }
 
-static void debugARenderState(RenderContext::RenderState state)
+static void debugARenderState(const RenderContext::RenderState& state)
 {
- /*
-	struct RenderState
-	{
-		//state cullface
-		CullFace cullface;
-		//state zbuffer
-		bool     zbuffer;
-		//state viewport
-		Vec4     viewport;
-        //state alpha
-        bool     alpha;
-		//state blend
-		bool     blend;
-		uchar    blendSRC,
-        blendDST;
-		//state texture
-		bool     texture;
-		//colors
-		Color    color,
-        clearColor,
-        ambientColor;
-		//client states
-		bool vertexsArray,
-        normalsArray,
-        texcoordsArray,
-        colorsArray;
-	};
-*/
     Debug::message()<< "Render state:\n";
     Debug::message()<< " cullface: " << (state.cullface == DISABLE ? "DISABLE" : (state.cullface==BACK ? "BACK" : "FRONT")) << "\n";
     Debug::message()<< " zbuffer: " << (state.zbuffer  ? "TRUE" : "FALSE") << "\n";
@@ -778,28 +987,27 @@ void RenderContext::debugNativeState()
     else
         glstate.cullface=DISABLE;
     //get zbuffer
-    glstate.zbuffer=glIsEnabled(GL_DEPTH_TEST);
+    	glstate.zbuffer=glIsEnabled(GL_DEPTH_TEST);
     //viewport
-    glGetFloatv(GL_VIEWPORT ,  &glstate.viewport.x);
+		glstate.viewport=state.viewport;
     //get alpha
-    glstate.alpha=glIsEnabled(GL_ALPHA_TEST);
+		glstate.alpha=state.alpha;
+	
     //get blend
     glstate.blend=glIsEnabled(GL_BLEND);
     //get
-    glGetIntegerv(GL_BLEND_SRC, (GLint*)&(glstate.blendSRC));
-    glGetIntegerv(GL_BLEND_DST, (GLint*)&(glstate.blendDST));
+		glstate.blendSRC=state.blendSRC;
+		glstate.blendDST=state.blendDST;
     //get texture
-    glstate.texture=glIsEnabled(GL_TEXTURE_2D);
+        glstate.texture=state.texture;
     //color
-    Vec4 color;
-    glGetFloatv(GL_CURRENT_COLOR, &color.x);
-    glstate.color.fromNormalize(color);
-    glstate.ambientColor=state.ambientColor;
+		glstate.color=state.color;
+		glstate.ambientColor=state.ambientColor;
     //clients
-    glstate.vertexsArray=glIsEnabled(GL_VERTEX_ARRAY);
-    glstate.normalsArray=glIsEnabled(GL_NORMAL_ARRAY);
-    glstate.texcoordsArray=glIsEnabled(GL_TEXTURE_COORD_ARRAY);
-    glstate.colorsArray=glIsEnabled(GL_COLOR_ARRAY);
+		glstate.vertexsArray=state.vertexsArray;
+		glstate.normalsArray=state.normalsArray;
+		glstate.texcoordsArray=state.texcoordsArray;
+		glstate.colorsArray=state.colorsArray;
     //print...
     debugARenderState(glstate);
     
@@ -850,4 +1058,147 @@ String RenderContext::blendConstantToString(int fun)
         default: return "?";
     }
 }
+
+//////////////////////////////////////////////////////////////////////
+// Standard Shader
+void RenderContext::selectStandardShader()
+{
+
+    //default
+    standardShader=SHADER_VERTEX;
+    //else
+    if(getTexCoordClientState() && getColorClientState())
+    {
+        standardShader=SHADER_VERTEX_TCOORDS_COLOR;
+    }
+    else if(getTexCoordClientState())
+    {
+        standardShader=SHADER_VERTEX_TCOORDS;
+    }
+    else if(getColorClientState())
+    {
+        standardShader=SHADER_VERTEX_COLOR;
+    }
+
+}
+void RenderContext::bindStandardShader()
+{
+
+    //bind shader
+    shaders[standardShader]->bind();
+
+}
+void RenderContext::updateStandardUniform()
+{
+
+    //bind shader
+    shaders[standardShader]->updateStandardUniform();
+
+}
+uint RenderContext::getStandardShaderProgram()
+{
+
+    return shaders[standardShader]->programID();
+}
+// Render Context
+
+void RenderContext::initContext()
+{
+    if(!RenderContextOES_vertexArray)
+    {
+        glGenVertexArrays(1, &RenderContextOES_vertexArray);
+    }
+    glBindVertexArray(RenderContextOES_vertexArray);
+    //init state
+    setDefaultRenderState();
+    //find errors:
+    CHECK_GPU_ERRORS();
+    //init shaders
+    auto vertex=
+    "#ifdef VERTEX_COLOR           \n"
+    "   varying  vec4 e2dVColor;   \n"
+    "#endif //VERTEX_COLOR         \n"
+    "vec4 vertex()                 \n"
+    "{                             \n"
+    "#ifdef  VERTEX_COLOR          \n"
+    "    e2dVColor=e2dVertexColor; \n"
+    "#endif //VERTEX_COLOR         \n"
+    "return ftransform();          \n"
+    "}";
+    auto fragment=
+    "#ifdef   VERTEX_COLOR                                 \n"
+    "   varying  vec4 e2dVColor;                           \n"
+    "#endif //VERTEX_COLOR                                 \n"
+    "vec4 fragment(Texture tex,vec4 coord)                 \n"
+    "{                                                     \n"
+    "     vec4 frag=e2dColor*e2dAmbientColor;              \n"
+    "     #ifdef  VERTEX_TCOORDS                           \n"
+    "     frag*=texture2D(tex,coord.xy);                   \n"
+    "     #endif //VERTEX_TCOORDS                          \n"
+    "     #ifdef  VERTEX_COLOR                             \n"
+    "     frag*=e2dVColor;                                 \n"
+    "     #endif //VERTEX_COLOR                            \n"
+    "     return frag;                                     \n"
+    "}";
+    //alloc shaders
+    Shader::ptr cVertex=Shader::ptr(new Shader());
+    Shader::ptr cVtxTCoords=Shader::ptr(new Shader());
+    Shader::ptr cVtxColor=Shader::ptr(new Shader());
+    Shader::ptr cVtxTCoordsColor=Shader::ptr(new Shader());
+    //vector defines
+    std::vector<String> defines;
+    
+    //vertex only
+    cVertex->load(vertex,fragment,defines);
+    
+    //resize
+    defines.resize(1);
+    //coords
+    defines[0]="VERTEX_TCOORDS";
+    cVtxTCoords->load(vertex,fragment,defines);
+    //colors
+    defines[0]="VERTEX_COLOR";
+    cVtxColor->load(vertex,fragment,defines);
+    
+    //resize
+    defines.resize(2);
+    //coords & colors
+    defines[0]="VERTEX_TCOORDS";
+    defines[1]="VERTEX_COLOR";
+    cVtxTCoordsColor->load(vertex,fragment,defines);
+    
+    //push shaders
+    shaders.resize(4);
+    shaders[SHADER_VERTEX]=cVertex;
+    shaders[SHADER_VERTEX_TCOORDS]=cVtxTCoords;
+    shaders[SHADER_VERTEX_COLOR]=cVtxColor;
+    shaders[SHADER_VERTEX_TCOORDS_COLOR]=cVtxTCoordsColor;
+    //force get default uniforms
+    for(auto shader:shaders)
+    {
+        enableProgram(shader->programID());
+        shader->getDefaultUniform();
+    }
+    //set default program
+    disableProgram();
+
+    
+
+}
+void RenderContext::releaseContext()
+{
+    //delete shaders
+    shaders.resize(0);
+    //void
+    glBindVertexArray(0);
+    if(RenderContextOES_vertexArray)
+    {
+        glDeleteVertexArrays(1, &RenderContextOES_vertexArray);
+        RenderContextOES_vertexArray=0;
+    }
+}
+//////////////////////////////////////////////////////////////////////
+
+
+
 

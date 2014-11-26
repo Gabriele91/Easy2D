@@ -35,6 +35,8 @@ PFNGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT =NULL;
 PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT =NULL;
 PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =NULL;
 PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT =NULL;
+//Blend
+PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate =NULL;
 //shader
 PFNGLENABLEVERTEXATTRIBARRAYPROC    glEnableVertexAttribArray=NULL;
 PFNGLVERTEXATTRIBPOINTERPROC       glVertexAttribPointer=NULL;
@@ -55,8 +57,6 @@ PFNGLUNIFORM2FPROC	glUniform2f=NULL;
 PFNGLUNIFORM3FPROC	glUniform3f=NULL;
 PFNGLUNIFORM4FPROC	glUniform4f=NULL;
 PFNGLUNIFORM1IPROC	glUniform1i=NULL;
-PFNGLUNIFORM4UIPROC	glUniform4ui=NULL;
-PFNGLUNIFORM4UIVPROC	glUniform4uiv=NULL;
 PFNGLUNIFORM1IVPROC	glUniform1iv=NULL;
 PFNGLUNIFORM2IVPROC	glUniform2iv=NULL;
 PFNGLUNIFORM3IVPROC	glUniform3iv=NULL;
@@ -138,6 +138,9 @@ void Easy2D::initOpenGL2()
     DEBUG_ASSERT(glRenderbufferStorageEXT);
     glFramebufferRenderbufferEXT= (PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC)wglGetProcAddress("glFramebufferRenderbufferEXT");
     DEBUG_ASSERT(glFramebufferRenderbufferEXT);
+	//Blend
+	glBlendFuncSeparate=(PFNGLBLENDFUNCSEPARATEPROC) wglGetProcAddress("glBlendFuncSeparate");
+	DEBUG_ASSERT(glBlendFuncSeparate);
     //shader
     glCreateShader=(PFNGLCREATESHADERPROC)wglGetProcAddress("glCreateShader");
     DEBUG_ASSERT(glCreateShader);
@@ -174,10 +177,6 @@ void Easy2D::initOpenGL2()
     DEBUG_ASSERT(glUniform4f);
     glUniform1i=(PFNGLUNIFORM1IPROC)wglGetProcAddress("glUniform1i");
     DEBUG_ASSERT(glUniform1i);
-    glUniform4ui=(PFNGLUNIFORM4UIPROC)wglGetProcAddress("glUniform4ui");
-    DEBUG_ASSERT(glUniform4ui);
-    glUniform4uiv=(PFNGLUNIFORM4UIVPROC)wglGetProcAddress("glUniform4uiv");
-    DEBUG_ASSERT(glUniform4uiv);
     glUniform1iv=(PFNGLUNIFORM1IVPROC)wglGetProcAddress("glUniform1iv");
     DEBUG_ASSERT(glUniform1iv);
     glUniform2iv=(PFNGLUNIFORM2IVPROC)wglGetProcAddress("glUniform2iv");

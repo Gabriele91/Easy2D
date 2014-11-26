@@ -253,8 +253,8 @@ class Body : public Component
     void updatePixelScale(float metersUnit,float mPixel);
     void registerWorld(World *world);
     void unregisterWorld();
-    //create b2Fixture* to shapedef
-    Shape  pushShape(Shape index,b2FixtureDef* fixature, b2Shape* shape);
+    //fromr b2Fixture* to shapedef
+    void  pushShape(Shape index,b2FixtureDef* fixature, b2Shape* shape);
     //create shape in shapedef or b2Fixture*
     Shape addFixatureShape(b2FixtureDef* fixature,b2Shape* shape);
     //counter id shape

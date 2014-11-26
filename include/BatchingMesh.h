@@ -12,48 +12,34 @@ class BatchingMesh : private Mesh
 {
  
 public:
+    
     //costruttore
     BatchingMesh();
     //distruttore
     virtual ~BatchingMesh();
-
+    //gen buffer
     void createBufferByVertexs(size_t maxVertexs);
     void createBufferByTriangles(size_t maxTriangles);
-    size_t getMaxSize()
-    {
-        return maxSize;
-    }    
-    size_t getCurrentSize()
-    {
-        return countVertexs;
-    }
-    size_t bitesSize()
-    {
-        return countVertexs*sizeof(gVertex);
-    }
-    size_t realBitesSize()
-    {
-        return cpuVertexs().capacity()*sizeof(gVertex);
-    }
-
-    void relase();
+    //relase
+    void restart(bool force=false);
+    //info
     bool canAdd(Mesh::ptr mesh);
+    //add mesh
     bool addMesh(const Mat4& modelView,Mesh::ptr mesh);
-
-    //basic mesh
-    virtual void draw();
-    virtual DrawMode getDrawMode() const
+    
+    //draw
+    virtual void draw() const;
+    //unbatchable
+    virtual void setBatching(bool enable)
     {
-        return TRIANGLE;
+        /* none */
     }
 
 private:
-    //buffer CPU
+    //vertex edded
     size_t countVertexs;
-    //size buffer
-    size_t maxSize;
-    //alloc memory
-    void createBuffer(size_t maxSize);
+    //alloc GPU memory
+    void createBuffer();
 
 };
 

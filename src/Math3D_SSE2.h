@@ -3,7 +3,7 @@
 #include <Config.h>
 #include <Math3D.h>
 
-#if defined( SIMD_SSE2 )
+#if defined( SIMD_SSE2 ) && !defined(_ARM_ARCH_7) && !defined(_ARM_ARCH_6)
 namespace Easy2D
 {
 //matrix * line

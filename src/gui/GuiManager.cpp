@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <Panel.h>
 #include <GuiManager.h>
+#include <RenderContext.h>
 
 using namespace Easy2D;
 using namespace Easy2D::Gui;
@@ -45,7 +46,7 @@ void GuiManager::setMat4(const Vec2& position,const Vec2& scale)
     Mat4 mat4;
     mat4.setTranslation(getFlipY(position,scale));
     mat4.addScale(scale);
-    glLoadMatrixf(mat4);
+	RenderContext::setModelView(mat4);
 }
 Vec2 GuiManager::getOrigin()
 {
@@ -59,9 +60,6 @@ Vec2 GuiManager::getSize()
 //draw utility
 void GuiManager::setProjection()
 {
-    //set projection matrix
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(projection);
     //flip y
     Vec4 viewPFY=getFlipViewport(viewport);
     //set view port
@@ -69,23 +67,19 @@ void GuiManager::setProjection()
                  (GLsizei)viewPFY.y,
                  (GLsizei)viewPFY.z, 
                  (GLsizei)viewPFY.w );
-    //model matrix
-    glMatrixMode(GL_MODELVIEW);
+    //set view port
+	RenderContext::setViewport(viewPFY);
+	//set projection matrix
+	RenderContext::setProjection(projection);
 }
 void GuiManager::setProjection(const Vec4& argviewport)
 {
-    //set projection matrix
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(projection);
     //flip y
     Vec4 viewPFY=getFlipViewport(argviewport);
     //set view port
-    glViewport(  (GLsizei)viewPFY.x,
-                 (GLsizei)viewPFY.y,
-                 (GLsizei)viewPFY.z, 
-                 (GLsizei)viewPFY.w );
-    //model matrix
-    glMatrixMode(GL_MODELVIEW);
+	RenderContext::setViewport(viewPFY);
+	//set projection matrix
+	RenderContext::setProjection(projection);
 }
 
 void drawItems();

@@ -41,6 +41,7 @@ void LuaState::init()
     addComponentsLib();
     //compile
     //indexing and object (table obj or global)
+    /*
     compile(
     "__context__mt={               \n" 
     "    __index=function (ctx,k)  \n"
@@ -48,7 +49,32 @@ void LuaState::init()
     "    end                       \n"
     "}                             \n"
     );
-
+     */
+    //function index
+    auto __index=(int(*)(lua_State*))(
+                  [](lua_State* L)->int
+                  {
+                      bool isvallid=true;
+                      isvallid = isvallid &&  lua_istable(L,1);                         //1  ctx
+                      isvallid = isvallid && (lua_isstring(L,2) || lua_isnumber(L, 2)); //2  k
+                      //is valid
+                      if(isvallid)
+                      {
+                          //repush
+                          lua_getfield(L, 1, "__TMP_G");                                //3 ctx.__TMP_G
+                          lua_pushvalue(L, 2);                                          //4 k
+                          lua_gettable(L,-2);                                           //push return element 3[4]
+                          return 1;                                                     //return last element
+                      }
+                      luaL_argerror(luaVM,2,"__context__mt:__index fail");
+                      return 0;
+                  });
+    //push new table
+    lua_newtable(luaVM);                    //   push {}        1
+    lua_pushstring(luaVM, "__index");       //   push __index   2
+    lua_pushcfunction(luaVM, __index);      //   push function  3
+    lua_settable(luaVM, -3);                //   into table     1<-[2]=3
+    lua_setglobal(luaVM,"__context__mt");   //   _G[__context__mt]=table
 }
 void LuaState::compile(const String& script)
 {
@@ -206,7 +232,7 @@ void LuaState::printTable()
         if(lua_isstring(luaVM, -1))
             printf("%s = %s\n", lua_tostring(luaVM, -2), lua_tostring(luaVM, -1));
         else if(lua_isnumber(luaVM, -1))
-            printf("%s = %d\n", lua_tostring(luaVM, -2), lua_tonumber(luaVM, -1));
+            printf("%s = %0.2f\n", lua_tostring(luaVM, -2), lua_tonumber(luaVM, -1));
         else if(lua_isboolean(luaVM, -1))
             printf("%s = %s\n", lua_tostring(luaVM, -2), lua_toboolean(luaVM, -1) ? "true" : "false");
         else if(lua_iscfunction(luaVM, -1))

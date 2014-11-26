@@ -6,6 +6,21 @@
 
 namespace Easy2D
 {
+
+template <>
+struct luabridge::Stack <String>
+{
+
+    static void push (lua_State* L,const String& s)
+    {
+        lua_pushstring (L, s.c_str());
+    }
+    
+    static String get (lua_State* L, int index)
+    {
+        return String (luaL_checkstring (L, index));
+    }
+};
     
 class LuaState
 {
@@ -40,6 +55,11 @@ class LuaState
             //get object
             objectRef[var.c_str()]=ref;                 
         };
+        //get fields
+        luabridge::Iterator getFields()
+        {
+            return  luabridge::Iterator(objectRef);
+        }
     };
     //script class
     class LuaClass
@@ -59,6 +79,8 @@ class LuaState
     static void init();
     static void addMath3DLib();
     static void addEasy2DLib();
+    static void addBodyLib();
+    static void addRenderableLib();
     static void addComponentsLib();
     static void compile(const String& script);
     static void execute(const String& smain);

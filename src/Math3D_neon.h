@@ -1,5 +1,5 @@
-#ifndef MATH_2D_NEON
-#define MATH_2D_NEON
+#ifndef MATH3D_NEON_H
+#define MATH3D_NEON_H
 
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1)
 #ifdef _ARM_ARCH_7

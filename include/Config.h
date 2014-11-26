@@ -34,9 +34,8 @@
 #define DCPP_11
 #define DISABLE_VAOS
 #define OPENGL_ES
+#define DISABLE_MIDMAP //ALPHA COVERAGE BUGS
 #include <stdint.h>
-//#include <AL/al.h>
-//#include <AL/alc.h>
 #include <android/log.h>
 #include <android/native_activity.h>
 #include <android_native_app_glue.h>
@@ -54,33 +53,71 @@ int atexit(void (*function)(void));
 #define NOMINMAX
 #endif
 #include <windows.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <window/OpenGLWindow.h>
 #include <AL/al.h>
 #include <AL/alc.h>
+#ifdef ES2_ANGLEPROJECT
+	#define DISABLE_MIDMAP
+	#include <angleproject/OpenGLAngle.h>
+#else
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+	#include <window/OpenGLWindow.h>
+#endif
 #elif defined(__APPLE__)
 #include <TargetConditionals.h>
 #define PLATFORM_UNIX
 
 #if TARGET_OS_IPHONE
-#define PLATFORM_IPHONE
-#define PLATFORM_IOS
-#elif TARGET_IPHONE_SIMULATOR
-#define PLATFORM_IPHONE_SIMULATOR
-#define PLATFORM_IOS
-#elif TARGET_OS_MAC
-#define PLATFORM_MAC_OS_X
-#define PLATFORM_OSX
-#define PLATFORM_UNIX
-#define DCPP_11
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#include <OpenGL/glext.h>
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#endif
+    #define PLATFORM_IPHONE
+    #define PLATFORM_IOS
 
+    //#define DISABLE_STREAM_BUFFER
+    //#define DISABLE_VAOS
+    //#define OPENGL_ES
+    #define DISABLE_MIDMAP //ALPHA COVERAGE BUGS
+
+    #include <OpenAL/al.h>
+    #include <OpenAL/alc.h>
+    #define DCPP_11
+    #define PLATFORM_UNIX
+    #include <OpenGLiOS.h>
+
+    //no sse in arm (nano, automatic)
+    #ifdef ENABLE_SIMD
+        #undef ENABLE_SIMD
+    #endif
+
+#elif TARGET_IPHONE_SIMULATOR
+    #define PLATFORM_IPHONE_SIMULATOR
+    #define PLATFORM_IOS
+
+    //#define DISABLE_STREAM_BUFFER
+    //#define DISABLE_VAOS
+    //#define OPENGL_ES
+    #define DISABLE_MIDMAP //ALPHA COVERAGE BUGS
+
+    #include <OpenAL/al.h>
+    #include <OpenAL/alc.h>
+    #define DCPP_11
+    #define PLATFORM_UNIX
+    #include <OpenGLiOS.h>
+
+    //no sse in emulator
+    #ifdef ENABLE_SIMD
+        #undef ENABLE_SIMD
+    #endif
+
+#elif TARGET_OS_MAC
+    #define PLATFORM_MAC_OS_X
+    #define PLATFORM_OSX
+    #define PLATFORM_UNIX
+    #define DCPP_11
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+    #include <OpenGL/glext.h>
+    #include <OpenAL/al.h>
+    #include <OpenAL/alc.h>
+#endif
 #elif defined(__linux__)
 #define PLATFORM_LINUX
 #define PLATFORM_UNIX
@@ -198,16 +235,22 @@ int atexit(void (*function)(void));
 #define decltype(...) \
 		  std::identity<decltype(__VA_ARGS__)>::type
 #endif
+#if _MSC_VER < 1800
+namespace std
+{
+	inline bool signbit(double num) { return _copysign(1.0, num) < 0; }
+}
+#endif
 
 #define GCCALIGNED(size)
 #define VSALIGNED(size)  __declspec(align(size))
 
 #if defined(ENABLE_SIMD)
 #if  _M_IX86_FP>=1
-#define SIMD_SSE
+    #define SIMD_SSE
 #endif
 #if _M_IX86_FP>=2
-#define SIMD_SSE2
+    #define SIMD_SSE2
 #endif
 #endif
 

@@ -29,6 +29,8 @@ public:
     */
     virtual Vec2 getFinger(Key::Finger id) const
     {
+        if(getFingerDown(id))
+            return efingers.fingerPos[id].xy();
         return Vec2::ZERO;
     }
     /**
@@ -59,7 +61,7 @@ public:
     */
     virtual bool getKeyDown(Key::Keyboard id) const
     {
-        return false;
+        return ekeyboard.status[id] ? true : false;
     }
     /**
     *  Return true if go up keyboard button
@@ -68,7 +70,7 @@ public:
     */
     virtual bool getKeyUp(Key::Keyboard id) const
     {
-        return false;
+        return !ekeyboard.status[id];
     }
     /**
     *  Return true if hit keyboard button
@@ -77,6 +79,10 @@ public:
     */
     virtual bool getKeyHit(Key::Keyboard id) const
     {
+        for(int i=0; i<10&&i<ekeyboard.nPress; ++i)
+        {
+            if( ekeyboard.hit[i]==id ) return true;
+        }
         return false;
     }
     /**
@@ -233,9 +239,58 @@ protected:
             }
         }
     } efingers;
+    //keyboard inputs
+    struct EventKeyboard
+    {
+        int nPress,nDown;
+        Key::Keyboard hit[10];
+        Key::Keyboard down[10];
+        char status[Key::KEYBOARDMAX];
+
+        void __init()
+        {
+            nPress=0;
+            nDown=0;
+            memset(hit,false,10);
+            memset(down,Key::KEY_NULL,10);
+            memset(status,Key::KEY_NULL,Key::KEYBOARDMAX);
+        }
+        void __keyboardDown(Key::Keyboard k)
+        {
+            status[k]=(char)(0x0001 | 0x0002*(status[k]&0x0001));
+            down[nDown++]=k;
+            nDown%=10;
+        }
+        void __keyboardUp(Key::Keyboard k)
+        {
+            if(status[k]== 0x0001 && nPress<9)
+                hit[nPress++]=k;
+
+            for(auto& kd:down) 
+                if(kd==k)
+                    kd=Key::Keyboard::KEY_NULL;
+
+            status[k]=false;
+        }
+        void __clearHit()
+        {
+            memset(hit,false,10);
+            nPress=0;
+        }
+        void __update(AndroidInput *self)
+        {
+            for(auto& kd:down)
+                if(kd!=Key::Keyboard::KEY_NULL)
+                    self->__callOnKeyDown(kd);
+        }
+
+    } ekeyboard;
     //accellerometer
     AccelerometerValues accelerometerVs;
     //calls
+    void __callOnKeyPress(Key::Keyboard key);
+    void __callOnKeyRelease(Key::Keyboard key);
+    void __callOnKeyDown(Key::Keyboard key);
     void __callOnFingerMove(const Vec3& fingerPosition, Key::Finger fingerId);
     void __callOnFingerPress(const Vec3& fingerPosition, Key::Finger fingerId);
     void __callOnFingerDown(const Vec3& fingerPosition, Key::Finger fingerId);

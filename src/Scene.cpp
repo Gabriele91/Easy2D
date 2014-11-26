@@ -6,6 +6,36 @@
 using namespace Easy2D;
 ///////////////////////
 
+Scene::Scene(const String& app,
+			 unsigned int width,
+			 unsigned int height,
+		 	 unsigned int bites,
+			 unsigned int freamPerSecond,
+			 bool fullscreen,
+			 int dfAA) 
+			 :isStarted(false) 
+{
+	//init context
+	Application::instance()
+		->getScreen()
+		->createWindow(app.c_str(),
+		width,
+		height,
+		bites,
+		freamPerSecond,
+		fullscreen,
+		(Screen::AntiAliasing)dfAA);
+	//init render
+	Render::init();
+}
+Scene::Scene(bool initRender) :isStarted(false)
+{
+	//init render
+	if (initRender)
+	{
+		Render::init();
+	}
+}
 //utility methos
 Easy2D::Screen* Scene::getScreen()
 {

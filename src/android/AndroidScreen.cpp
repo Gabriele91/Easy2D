@@ -1,4 +1,4 @@
-﻿#include <AndroidScreen.h>
+#include <AndroidScreen.h>
 #include <AndroidMain.h>
 #include <RenderContext.h>
 ///////////////////////
@@ -76,17 +76,123 @@ void eglPrintError(EGLint eg)
 ///////////////////////////////////////////////////////////
 static const EGLint attribsEGL[] =
 {
+    //type surface
     EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+    //buffer type
     EGL_BLUE_SIZE, 8,
     EGL_GREEN_SIZE, 8,
     EGL_RED_SIZE, 8,
+    EGL_ALPHA_SIZE, 8,
+    //zbuffer
+    EGL_DEPTH_SIZE, 16,
+    //context type
+    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+    /* FSAA
+    EGL_SAMPLE_BUFFERS, (flags & ES_WINDOW_MULTISAMPLE) ? 1 : 0,
+    EGL_SAMPLES, 4,
+    */
     EGL_NONE
 };
 const EGLint attrib_listEGL [] =
 {
-    EGL_CONTEXT_CLIENT_VERSION, 1,
+    EGL_CONTEXT_CLIENT_VERSION, 2, //OpenGL ES 2
     EGL_NONE
 };
+//FROM TEGRA SDK
+static bool defaultEGLChooser(EGLDisplay disp, EGLConfig& bestConfig)
+{
+
+    EGLint count = 0;
+    if (!eglGetConfigs(disp, NULL, 0, &count))
+    {
+        DEBUG_MESSAGE("defaultEGLChooser cannot query count of all configs");
+        return false;
+    }
+
+    DEBUG_MESSAGE("Config count = "<< count);
+
+    EGLConfig* configs = new EGLConfig[count];
+    if (!eglGetConfigs(disp, configs, count, &count))
+    {
+        DEBUG_MESSAGE("defaultEGLChooser cannot query all configs");
+        return false;
+    }
+
+    int bestMatch = 1<<30;
+    int bestIndex = -1;
+
+    int i;
+    for (i = 0; i < count; i++)
+    {
+        int match = 0;
+        EGLint surfaceType = 0;
+        EGLint blueBits = 0;
+        EGLint greenBits = 0;
+        EGLint redBits = 0;
+        EGLint alphaBits = 0;
+        EGLint depthBits = 0;
+        EGLint stencilBits = 0;
+        EGLint renderableFlags = 0;
+
+        eglGetConfigAttrib(disp, configs[i], EGL_SURFACE_TYPE, &surfaceType);
+        eglGetConfigAttrib(disp, configs[i], EGL_BLUE_SIZE, &blueBits);
+        eglGetConfigAttrib(disp, configs[i], EGL_GREEN_SIZE, &greenBits);
+        eglGetConfigAttrib(disp, configs[i], EGL_RED_SIZE, &redBits);
+        eglGetConfigAttrib(disp, configs[i], EGL_ALPHA_SIZE, &alphaBits);
+        eglGetConfigAttrib(disp, configs[i], EGL_DEPTH_SIZE, &depthBits);
+        eglGetConfigAttrib(disp, configs[i], EGL_STENCIL_SIZE, &stencilBits);
+        eglGetConfigAttrib(disp, configs[i], EGL_RENDERABLE_TYPE, &renderableFlags);
+        DEBUG_MESSAGE("Config["<<i<<"]: R"<<redBits<<
+                                       "G"<<greenBits<<
+                                       "B"<<blueBits<<
+                                       "A"<<alphaBits<<
+                                       " D"<<depthBits<<
+                                       "S"<<stencilBits<<
+                                       " Type="<<surfaceType<<
+                                       " Render="<<renderableFlags);
+
+        if ((surfaceType & EGL_WINDOW_BIT) == 0)
+            continue;
+        if ((renderableFlags & EGL_OPENGL_ES2_BIT) == 0)
+            continue;
+        if (depthBits < 16)
+            continue;
+        if ((redBits < 5) || (greenBits < 6) || (blueBits < 5))
+            continue;
+
+        int penalty = depthBits - 16;
+        match += penalty * penalty;
+        penalty = redBits - 5;
+        match += penalty * penalty;
+        penalty = greenBits - 6;
+        match += penalty * penalty;
+        penalty = blueBits - 5;
+        match += penalty * penalty;
+        penalty = alphaBits;
+        match += penalty * penalty;
+        penalty = stencilBits;
+        match += penalty * penalty;
+
+        if ((match < bestMatch) || (bestIndex == -1))
+        {
+            bestMatch = match;
+            bestIndex = i;
+            DEBUG_MESSAGE("Config["<<i<<"] is the new best config "<<configs[i]);
+        }
+    }
+
+    if (bestIndex < 0)
+    {
+        delete[] configs;
+        return false;
+    }
+    
+    DEBUG_MESSAGE("Select Config["<<bestIndex<<"]");
+    bestConfig = configs[bestIndex];
+    delete[] configs;
+
+    return true; 
+}
 
 void AndroidScreen::__setupScreen()
 {
@@ -96,9 +202,15 @@ void AndroidScreen::__setupScreen()
     display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     DEBUG_ASSERT( display );
     eglInitialize(display, 0, 0);
-    //set openGL configuration
-    eglChooseConfig(display, attribsEGL, &config, 1, &numConfigs);
-    eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+    //set OpenGL ES2 configuration
+#if 0
+    //eglChooseConfig(display, attribsEGL, &config, 1, &numConfigs);
+    //eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+#else
+    //select default
+    DEBUG_ASSERT(defaultEGLChooser(display,config));
+#endif
+
     ANativeWindow_setBuffersGeometry(getAndroidApp()->window, 0, 0, format);
 }
 void AndroidScreen::__createSurface()
@@ -117,7 +229,7 @@ void AndroidScreen::__createSurface()
 void AndroidScreen::__createContext()
 {
     //create gl context
-    //openGL ES 1.0 //1, EGL_NONE
+    //OpenGL ES 2.0 //1, EGL_NONE
     context = eglCreateContext(display, config, NULL, attrib_listEGL);
     DEBUG_ASSERT( context );
 }
@@ -157,6 +269,9 @@ void AndroidScreen::__deleteContext()
 {
     if (context != EGL_NO_CONTEXT)
     {
+        //delete context
+        RenderContext::releaseContext();
+        //delete OpenGL Context
         eglDestroyContext(display, context);
         context = EGL_NO_CONTEXT;
     }
@@ -200,8 +315,10 @@ void AndroidScreen::__initStateOpenGLES()
 {
     //get function pointer
     initOpenGLES();
+    //find errors:
+    CHECK_GPU_ERRORS();
     //set default state
-    RenderContext::setDefaultRenderState();
+    RenderContext::initContext();
     //find errors:
     CHECK_GPU_ERRORS();
 }
@@ -219,8 +336,8 @@ void AndroidScreen::createWindow(const char* argappname,
 {
 
     // appname=argappname;
-    screenWidth= width;
-    screenHeight= height;
+    // screenWidth= width;  //ignore
+    // screenHeight= height;//ignore
     this->freamPerSecond=freamPerSecond;
     //get window,
     //create surface
@@ -232,8 +349,12 @@ void AndroidScreen::createWindow(const char* argappname,
     acquireContext();
     __initStateOpenGLES();
     //enable AA
+    #ifndef OPENGL_ES2
     if(dfAA!=NOAA)
+    {
         glEnable( GL_MULTISAMPLE );
+    }
+    #endif
 }
 /**
 * close window

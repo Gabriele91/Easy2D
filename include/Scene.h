@@ -64,6 +64,16 @@ class Scene : public Render, //Graphics
         World::physicsDraw(Render::getCamera());
     }
 
+	//friend class
+	friend class Game;
+	Scene(const String& name,
+		  uint width,
+		  uint height,
+		  uint bites = 32,
+		  uint FreamPerSecond = 60,
+		  bool fullscreen = false,
+		  int defaultNoAA = 0);
+
 public:
 
     bool isContent(int uid)
@@ -220,7 +230,7 @@ public:
     virtual void onEnd()=0;
 
     //costructor
-    Scene():isStarted(false) {}
+	Scene(bool initRender=true);
 
     //destoy a scene
     virtual ~Scene()

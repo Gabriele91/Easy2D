@@ -85,6 +85,10 @@ public:
     //mesh size this..
     Mesh::ptr getPO2Sprite();
     //query
+    DFORCEINLINE uint getGpuID()
+    {
+        return gpuid;
+    }
     DFORCEINLINE uint getWidth()
     {
         return width;

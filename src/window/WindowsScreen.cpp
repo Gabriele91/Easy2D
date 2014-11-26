@@ -127,7 +127,7 @@ void WindowsScreen::__initOpenGL()
     //init openGL2
     initOpenGL2();
     //set default state
-    RenderContext::setDefaultRenderState();
+	RenderContext::initContext();
     //find errors:
     CHECK_GPU_ERRORS();
 }
@@ -144,6 +144,9 @@ void WindowsScreen::__destroyWindow()
     wglMakeCurrent( NULL, NULL );
     if(hGLCxt)
     {
+		//delete context
+		RenderContext::releaseContext();
+		//delete OpenGL Context
         DEBUG_ASSERT_REPLACE(wglDeleteContext(hGLCxt));
     }
     //destroy window

@@ -153,6 +153,9 @@ void AnimatedSprite::serialize(Table& table)
 {
     //serialize render state
     rsSerialize(table);
+    //shader
+    if(getShader())
+        table.set("shader",getShader()->getName());
     //size?
     if(!animations.size()) return;
     //serialize ASprite
@@ -180,12 +183,21 @@ void AnimatedSprite::deserialize(const Table& table)
     DEBUG_ASSERT(rsgroup);
     //deserialize rander state
     rsDeserialize(table);
+    //get shader
+    if(table.existsAsType("shader",Table::STRING))
+    {
+        auto rsmanager=table.getResourcesManager();
+        DEBUG_ASSERT(rsmanager);
+        auto rsgroup=rsmanager->getResourcesGroup();
+        DEBUG_ASSERT(rsgroup);
+        setShader(rsgroup->load<Shader>(table.getString("shader")));
+    }
+    
     //current animation
     crtAnimation=table.getFloat("currentAnimation",(float)getCurrentAnimation());
-    
     //frames table
     auto frames=table.getConstTable("frameSets");
-    
+    //all frames
     for(auto rsp:frames)
     {
         if(rsp.second->asType(Table::TABLE))

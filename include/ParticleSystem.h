@@ -32,6 +32,13 @@ class Emitter : public Renderable
         Particle():prev(nullptr)
                   ,next(nullptr)
         {
+            relative.c=0.0f;
+            relative.s=0.0f;
+            spin=0.0;
+            deltaSpin=0.0;
+            time=0.0;
+            prev=nullptr;
+            next=nullptr;
         }
         //relative
         void doRelative(Object* obj);
@@ -52,6 +59,9 @@ class Emitter : public Renderable
             ,endSpin(0)
             ,life(0)
         {
+            startSpin=0.0f;
+            endSpin=0.0f;
+            life=0.0f;
         }
     };
     ParticleInfo center;
@@ -155,7 +165,7 @@ class Emitter : public Renderable
         emissionCount=0;
         active.reset();
         inactive.reset();
-        mesh->relase();
+        mesh->restart(true);
         //save size
         size=argsize;
         //new buffer
@@ -165,6 +175,7 @@ class Emitter : public Renderable
         //linking
         for(size_t i=0;i!=size;++i)
         {
+            particles[i]=Particle();
             inactive.append(&particles[i]);
         }
     }
@@ -191,15 +202,16 @@ class Emitter : public Renderable
         active.erase(np);
         inactive.append(np);
     }
-    void memoryRestart()
+    void memoryRestart(bool force=false)
     {   
         durationCount=0;
         emissionCount=0;
         active.reset();
         inactive.reset();
-        mesh->relase();
+        mesh->restart(force);
         for(size_t i=0;i!=size;++i)
         {
+            particles[i]=Particle();
             inactive.append(&particles[i]);
         }
     }

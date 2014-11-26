@@ -117,6 +117,17 @@ lambdaChar isASpecialChar(int c)
 }
 
 
+inline void Font::drawListCharArray(int page,float *xyUV0,float *xyUV2,int size)
+{
+    //bind texture
+    pages[page]->bind();
+    //set vertex
+    RenderContext::vertexPointer(2, GL_FLOAT, sizeof(float)*4,  xyUV0);
+    RenderContext::texCoordPointer(2, GL_FLOAT, sizeof(float)*4,  xyUV2);
+    //draw array
+    RenderContext::drawPrimitive(TRIANGLE, 0, size);
+}
+
 //other methods
 void Font::text(const Vec2& _pos,
                 const String& textDraw,

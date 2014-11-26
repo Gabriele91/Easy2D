@@ -122,16 +122,7 @@ private:
             return it->second;
         return NULL;
     }
-    void drawListCharArray(int page,float *xyUV0,float *xyUV2,int size)
-    {
-        //bind texture
-        pages[page]->bind();
-        //set vertex
-        glVertexPointer(  2, GL_FLOAT, sizeof(float)*4,  xyUV0);
-        glTexCoordPointer(2, GL_FLOAT, sizeof(float)*4,  xyUV2);
-        //draw array
-        glDrawArrays(GL_TRIANGLES, 0, size);
-    }
+    void drawListCharArray(int page,float *xyUV0,float *xyUV2,int size);
     //friend class
     friend class FreeTypeFontLoader;
     friend class BMFontLoader;

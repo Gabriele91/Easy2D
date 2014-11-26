@@ -274,7 +274,10 @@ public:
     };
     ///////////////////////////////////////////////////////////////////////////
     Vector3D():x(0),y(0),z(0) {};
-    Vector3D(Vector2D v,float z):x(v.x),y(v.y),z(z) {};
+	//Vector3D(Vector2D v, float z) :x(v.x), y(v.y), z(z) {}; 
+	//Vector3D(float x, Vector2D v) :x(x), y(v.x), z(v.y) {};
+	Vector3D(const Vector2D& v, float z) :x(v.x), y(v.y), z(z) {};
+	Vector3D(float x, const Vector2D& v) :x(x), y(v.x), z(v.y) {};
     Vector3D(float x,float y,float z):x(x),y(y),z(z) {};
     ~Vector3D() {};
     ///////////////////////////////////////////////////////////////////////////
@@ -557,9 +560,18 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     Vector4D():x(0),y(0),z(0),w(0) {};
     Vector4D(float x,float y,float z,float w):x(x),y(y),z(z),w(w) {};
-    Vector4D(Vector2D v,float z,float w):x(v.x),y(v.y),z(z),w(w) {};
+	/*
+	Vector4D(Vector2D v, float z, float w) :x(v.x), y(v.y), z(z), w(w) {};
+	Vector4D(float x, Vector2D v, float w) :x(x), y(v.x), z(v.y), w(w) {};
+	Vector4D(float x, float y, Vector2D v) :x(x), y(y), z(v.x), w(v.y) {};
     Vector4D(Vector2D v1,Vector2D v2):x(v1.x),y(v1.y),z(v2.x),w(v2.y) {};
-    Vector4D(const Vector3D& v,float w):x(v.x),y(v.y),z(v.z),w(w) {};
+	*/
+	Vector4D(const Vector2D& v, float z, float w) :x(v.x), y(v.y), z(z), w(w) {};
+	Vector4D(float x, const Vector2D& v, float w) :x(x), y(v.x), z(v.y), w(w) {};
+	Vector4D(float x, float y, const Vector2D& v) :x(x), y(y), z(v.x), w(v.y) {};
+	Vector4D(const Vector2D& v1, const Vector2D& v2) :x(v1.x), y(v1.y), z(v2.x), w(v2.y) {};
+
+	Vector4D(const Vector3D& v, float w) :x(v.x), y(v.y), z(v.z), w(w) {};
     ~Vector4D() {};
     ///////////////////////////////////////////////////////////////////////////
     DFORCEINLINE Vec2 xy() const
@@ -1101,6 +1113,44 @@ public:
         rot=std::fmod(rot,(float)Math::PI2);
         return rot<0 ? rot+=Math::PI2 : rot;
     }
+    //vector swap
+    static DFORCEINLINE void memswap( byte *a, byte *b, size_t sizeBytes ){
+        size_t sizeTrunc = sizeBytes & ~(sizeof(size_t) - 1);
+        byte  *aTruncEnd = a + sizeTrunc;
+        byte  *aEnd = a + sizeBytes;
+        size_t tmpT;
+        byte   tmp1;
+        
+        while ( a != aTruncEnd ){
+            tmpT = *((size_t *)b);
+            *((size_t *)b) = *((size_t *)a);
+            *((size_t *)a) = tmpT;
+            a += sizeof(size_t);
+            b += sizeof(size_t);
+        }
+        
+        while(a!=aEnd){
+            tmp1 = *b;
+            *b = *a;
+            *a = tmp1;
+            ++a;
+            ++b;
+        }
+    }
+    static DFORCEINLINE void memcpy( byte *destination, const byte *source, size_t sizeBytes ){
+        size_t sizeTrunc = sizeBytes & ~(sizeof(size_t) - 1);
+        byte  *destinationTruncEnd = destination + sizeTrunc;
+        byte  *destinationEnd = destination + sizeBytes;
+        
+        while ( destination != destinationTruncEnd ){
+            *((size_t *)destination) = *((size_t *)source);
+            destination += sizeof(size_t);
+            source += sizeof(size_t);
+        }
+        while(destination!=destinationEnd){
+            *destination++ = *source++;
+        }
+    }
     //fast swap
     template<typename T>
     static DFORCEINLINE void swap(T& x,T& y)
@@ -1252,6 +1302,11 @@ public:
             if (m % (i+2) == 0) return false;
         }
         return true;
+    }
+    //sup multiple Of X
+    static DFORCEINLINE size_t multipleOfX(size_t size, size_t x) //constexpr
+    {
+        return ((size / x) + ((size % x) != 0)) * x;
     }
     //random values
     static void seedRandom(unsigned int seed=0) ;

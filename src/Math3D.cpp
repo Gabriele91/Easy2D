@@ -489,7 +489,6 @@ Vector4D Matrix4x4::mul(const Vector4D &v4) const
 #elif defined( SIMD_SSE2 )
     Vector4D out;
     out.row=SSE2_lincomb(v4.row,*this);
-    return out;
 #else
     Vector4D out;
 
@@ -497,9 +496,9 @@ Vector4D Matrix4x4::mul(const Vector4D &v4) const
     out.y=entries[1] * v4.x + entries[5] * v4.y + entries[9]  * v4.z + entries[13] * v4.w;
     out.z=entries[2] * v4.x + entries[6] * v4.y + entries[10] * v4.z + entries[14] * v4.w;
     out.w=entries[3] * v4.x + entries[7] * v4.y + entries[11] * v4.z + entries[15] * v4.w;
-
-    return out;
 #endif
+    
+    return out;
 }
 Vector2D Matrix4x4::mul2D(const Vector2D &v2) const
 {

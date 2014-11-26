@@ -21,6 +21,11 @@ void RenderState::enableStates()
     //color mode
     RenderContext::setColor(color);
     ///////////////////////////////////
+    //set shader
+    if(getShader()) getShader()->bind();
+    //else
+    else RenderContext::disableProgram();
+    ///////////////////////////////////
     //set texture
     rtexture->bind();
 }

@@ -4,6 +4,7 @@
 #include <Config.h>
 #include <Mesh.h>
 #include <Texture.h>
+#include <Shader.h>
 #include <Blend.h>
 #include <Color.h>
 #include <Table.h>
@@ -19,6 +20,7 @@ protected:
 
     Texture::ptr rtexture;
     Mesh::ptr rmesh;
+    Shader::ptr rshader;
     bool blending;
     uint blendSrc,blendDst;
     CullFace cullmode;
@@ -32,6 +34,7 @@ public:
     RenderState()
         :rtexture(nullptr)
         ,rmesh(nullptr)
+        ,rshader(nullptr)
         ,blending(false)
         ,blendSrc(BLEND::ONE)
         ,blendDst(BLEND::ZERO)
@@ -65,6 +68,14 @@ public:
     Mesh::ptr getMesh()
     {
         return rmesh;
+    }
+    void setShader(Shader::ptr rs)
+    {
+        rshader=rs;
+    }
+    Shader::ptr getShader()
+    {
+        return rshader;
     }
     //blend state
     void enableBlend()
@@ -106,6 +117,7 @@ public:
     {
         return rtexture==rs.rtexture &&
                rmesh==rs.rmesh &&
+               rshader==rs.rshader &&
                blending==rs.blending&&
                blendSrc==rs.blendSrc&&
                blendDst==rs.blendDst&&

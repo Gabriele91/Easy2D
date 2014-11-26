@@ -12,9 +12,7 @@ namespace Easy2D
 class LuaScript :  public Component
 {
     
-    Script::ptr luaClass;
-    LuaState::LuaObject* luaObject;
-
+    //Component state
     enum State
     {
         ON_VOID,
@@ -23,38 +21,59 @@ class LuaScript :  public Component
         ON_END
     };
     State state;
-    LuaState::LuaRef luaOnInit;
-    LuaState::LuaRef luaOnRun;
-    LuaState::LuaRef luaOnEnd;
+    //script objects
+    class ScriptObject : public Pointers<ScriptObject>
+    {
+    public:
+        Script::ptr luaClass;
+        LuaState::LuaObject* luaObject;
+        
+        LuaState::LuaRef luaOnInit;
+        LuaState::LuaRef luaOnRun;
+        LuaState::LuaRef luaOnEnd;
+        
+        ScriptObject():
+         luaObject(nullptr)
+        ,luaOnInit(LuaState::getVM())
+        ,luaOnRun(LuaState::getVM())
+        ,luaOnEnd(LuaState::getVM())
+        {
+        }
+        ~ScriptObject()
+        {
+            if(luaObject)
+                delete luaObject;
+        }
+    };
+    //list of objects
+    std::vector<ScriptObject::ptr> objects;
 
     public:
 
     LuaScript():Component()
-               ,luaObject(nullptr)
-               ,luaOnInit(LuaState::getVM())
-               ,luaOnRun(LuaState::getVM())
-               ,luaOnEnd(LuaState::getVM())
                ,state(ON_VOID)
     {
 
     }
     virtual ~LuaScript()
     {
-        if(luaObject)
-            delete luaObject;
     }
     //methods
-    LuaState::LuaObject* getLuaObject() const
+    LuaState::LuaObject* getLuaObject(int i) const
     {
-        return luaObject;
+        return objects[i]->luaObject;
     }
-    Script::ptr getScript() const
+    Script::ptr getScript(int i) const
     {
-        return luaClass;
+        return objects[i]->luaClass;
     }
-    const String& getScriptName() const 
+    const String& getScriptName(int i) const
     {
-        return getScript()->getName();
+        return getScript(i)->getName();
+    }
+    size_t countScripts()
+    {
+        return objects.size();
     }
     //update
     virtual void onRun(float dt);

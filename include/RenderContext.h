@@ -5,6 +5,7 @@
 #include <Color.h>
 #include <Math3D.h>
 #include <Blend.h>
+#include <Shader.h>
 
 namespace Easy2D
 {
@@ -53,13 +54,27 @@ class RenderContext
             //index buffer oid
             uint indexBuffer;
             //texture oid
-            uint idtexture;
+            struct Texture
+            {
+                uint idtexture;
+                bool enable;
+                Texture()
+                {
+                    idtexture=0;
+                    enable=false;
+                }
+            };
+            Texture textures[20];
+            //render target oid
+            uint idtarget;
+            //shader program
+            uint idprogram;
             //init
             Bind()
             {
                 vertexBuffer=0;
                 indexBuffer=0;
-                idtexture=0;
+                idtarget=0;
             }
         }binds;
         
@@ -67,10 +82,46 @@ class RenderContext
         {
             Mat4	 modelView;
             Mat4     projection;
+            Mat4     display;
+            Mat4     gProjection;
+            //calc global projection
+            void updateGProjection()
+            {
+                gProjection=projection.mul(display);
+                //gProjection=display.mul(projection);
+            }
         }matrixs;
+        
     };
     
+    
     public:
+    
+    struct RenderTarget
+    {
+        uint target;
+        uint color;
+        uint depth;
+        bool hasDepth;
+        
+        RenderTarget()
+        {
+            target   = 0;
+            color    = 0;
+            depth    = 0;
+            hasDepth = false;
+        }
+        RenderTarget(uint _target,
+                     uint _color,
+                     uint _depth,
+                     bool _hasDepth)
+        {
+            target   = _target;
+            color    = _color;
+            depth    = _depth;
+            hasDepth = _hasDepth;
+        }
+    };
     
 	struct RenderState
 	{
@@ -136,12 +187,34 @@ class RenderContext
     static void bindTexture(uint texture,ushort ntex=0);
     static void unbindTexture(ushort ntex=0);
     static void filterTexture(uint min,uint mag);
+    static void wrapTexture(uint s,uint t);
+    
+    //render to texture
+    static void setDefaultRenderTarget(RenderTarget target)
+    {
+        buffers=target;
+    }
+    static RenderTarget createRenderTarget(uint colorbuffer);
+    static RenderTarget createRenderDepthTarget(uint colorbuffer,size_t width,size_t height);
+    static void enableRenderTarget(const RenderTarget& target);
+    static void disableRenderTarget();
+    static void deleteRenderTarget(const RenderTarget& target);
+    
+    //shader program
+    static void enableProgram(uint program);
+    static void disableProgram();
     
     //render state
     static void setRenderState(const RenderState& state, bool force=false);
     static const RenderState& getRenderState();
     static void setDefaultRenderState();
-    
+
+    //context
+    static const Context& getContext()
+    {
+        return context;
+    }
+
     //cullface
     static void setCullFace(CullFace cullface);
     static CullFace getCullFace();
@@ -194,7 +267,8 @@ class RenderContext
                               uint  	type,
                               size_t  	stride,
                               const void *pointer);
-    static void normalPointer(uint  	type,
+    static void normalPointer(uint  	size,
+							  uint  	type,
                               size_t  	stride,
                               const void *pointer);
     static void texCoordPointer(uint  	size,
@@ -211,6 +285,27 @@ class RenderContext
     static const Mat4& getModelView();
     static void setProjection(const Mat4& pj);
     static const Mat4& getProjection();
+    static const Mat4& getGlobalProjection();
+    static void setDisplay(const Mat4& dy);
+    static const Mat4& getDisplay();
+    
+    //corrent
+    static const Context::Bind::Texture& currentTexture(uint ntex)
+    {
+        return context.binds.textures[ntex];
+    }
+    static uint currentTarget()
+    {
+        return context.binds.idtarget;
+    }
+    static uint currentVertexBuffer()
+    {
+        return context.binds.vertexBuffer;
+    }
+    static uint currentIndexBuffer()
+    {
+        return context.binds.indexBuffer;
+    }
     
     //utilities
     static void drawBox(const AABox2& box,const Color& color);
@@ -226,10 +321,32 @@ class RenderContext
     static int stringToBlendContant(String fun,int vDefault=GL_ONE);
     static String blendConstantToString(int);
     
-	private:
+    //init/release render context
+    static void initContext();
+    static void releaseContext();
+    
+    //current shader standar
+    static void selectStandardShader();
+    static void bindStandardShader();
+    static void updateStandardUniform();
+    static uint getStandardShaderProgram();
 
+    private:
+    /////////////////////////////////////////
+    //shaders
+    enum StandardShader
+    {
+        SHADER_VERTEX,
+        SHADER_VERTEX_TCOORDS,
+        SHADER_VERTEX_COLOR,
+        SHADER_VERTEX_TCOORDS_COLOR
+    };
+    static StandardShader standardShader;
+    static std::vector<Shader::ptr>  shaders;
+    /////////////////////////////////////////
 	static Context context;
 	static RenderState state;
+    static RenderTarget buffers;
 
 };
 

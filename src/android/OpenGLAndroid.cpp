@@ -14,7 +14,6 @@ void Easy2D::initOpenGLES()
     DEBUG_MESSAGE("Renderer:" << glGetString(GL_RENDERER));
     DEBUG_MESSAGE("OpenGL Version: " << glGetString(GL_VERSION) );
 
-
     glGenVertexArraysOESEXT=(PFNGLGENVERTEXARRAYSOESPROC)eglGetProcAddress("glGenVertexArraysOES");
     DEBUG_ASSERT(glGenVertexArraysOESEXT);
 
@@ -23,5 +22,4 @@ void Easy2D::initOpenGLES()
 
     glDeleteVertexArraysOESEXT=(PFNGLDELETEVERTEXARRAYSOESPROC)eglGetProcAddress("glDeleteVertexArraysOES");
     DEBUG_ASSERT(glDeleteVertexArraysOESEXT);
-
 }

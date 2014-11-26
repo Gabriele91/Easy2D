@@ -10,7 +10,7 @@ using namespace Easy2D;
 void LuaScript::onRun(float dt)
 {
     //call run
-    if(luaObject)
+    if(objects.size())
     {
         //call init
         switch (state)
@@ -18,7 +18,8 @@ void LuaScript::onRun(float dt)
         case Easy2D::LuaScript::ON_INIT:
             try 
             {
-                luaOnInit(getObject());
+                //init alls
+                for(auto obj:objects) obj->luaOnInit(getObject());
                 state=ON_RUN;
             }
             catch (luabridge::LuaException const& e) 
@@ -33,7 +34,8 @@ void LuaScript::onRun(float dt)
         case Easy2D::LuaScript::ON_RUN:
             try 
             {
-                luaOnRun(getObject(),dt);
+                //run alls
+                for(auto obj:objects) obj->luaOnRun(getObject(),dt);
             }
             catch (luabridge::LuaException const& e) 
             {
@@ -47,7 +49,8 @@ void LuaScript::onRun(float dt)
         case Easy2D::LuaScript::ON_END:
             try 
             {
-                luaOnEnd(getObject());
+                //end alls
+                for(auto obj:objects) obj->luaOnEnd(getObject());
                 state=ON_VOID;
             }
             catch (luabridge::LuaException const& e) 
@@ -69,64 +72,77 @@ void LuaScript::onRun(float dt)
 
 void  LuaScript::serialize(Table& table)
 {
-    if(luaObject && luaClass)
+    for(auto& scrobj:objects)
     {
-        table.set("class",luaClass->getName());
+        table.createTable(scrobj->luaClass->getName());
     }
 }
 void LuaScript::deserialize(const Table& table)
 {
-    if(table.existsAsType("class",Table::STRING))
+    auto rsmanager=table.getResourcesManager();
+    DEBUG_ASSERT(rsmanager);
+    auto rsgroup=rsmanager->getResourcesGroup();
+    DEBUG_ASSERT(rsgroup);
+    
+    for (auto& element:table)
     {
-        auto rsmanager=table.getResourcesManager();
-        DEBUG_ASSERT(rsmanager);
-        auto rsgroup=rsmanager->getResourcesGroup();
-        DEBUG_ASSERT(rsgroup);
-        //save class 
-        String className=table.getString("class");
-        luaClass=rsgroup->load<Script>(className);
-        //new object script
-        luaObject=luaClass->newObject();
-        //get fields
-        luaObject->field("onInit",luaOnInit);
-        luaObject->field("onRun",luaOnRun);
-        luaObject->field("onEnd",luaOnEnd);
-        //set some global variable
-        if(table.existsAsType("parameters",Table::TABLE))
+        
+        bool table=element.first.isString() && element.second->asType(Table::TABLE) ;
+        bool name =!element.first.isString() && element.second->asType(Table::STRING) ;
+        
+        if( table || name )
         {
-            const Table& parameters=table.getConstTable("parameters");
-
-            for(auto param:parameters)
+            //alloc new obj
+            auto obj=ScriptObject::ptr(new ScriptObject());
+            //get name class
+            const String& nameClass= table ? element.first.string() : element.second->get<String>();
+            //get class object
+            obj->luaClass=rsgroup->load<Script>(nameClass);
+            //new object script
+            obj->luaObject=obj->luaClass->newObject();
+            //get fields
+            obj->luaObject->field("onInit",obj->luaOnInit);
+            obj->luaObject->field("onRun",obj->luaOnRun);
+            obj->luaObject->field("onEnd",obj->luaOnEnd);
+            //set default params
+            if(table)
             {
-                if(param.first.isString())
+                const Table& parameters=element.second->get<Table>();
+                for(auto param:parameters)
                 {
-                    //set ref
-                    switch (param.second->type)
+                    if(param.first.isString())
                     {
-                        case Table::FLOAT: 
-                            luaObject->setField(param.first.string(),param.second->get<float>());
-                        break;
-                        case Table::STRING: 
-                            luaObject->setField(param.first.string(),param.second->get<String>().c_str());
-                        break;
-                        case Table::VECTOR2D: 
-                            luaObject->setField(param.first.string(),param.second->get<Vec2>());
-                        break;
-                        case Table::VECTOR3D: 
-                            luaObject->setField(param.first.string(),param.second->get<Vec3>());
-                        break;/*
-                        case Table::VECTOR4D: 
-                            luaObject->setField(param.first.string(),param.second->get<Vec4>());
-                        break;
-                        case Table::MATRIX4X4: 
-                            luaObject->setField(param.first.string(),param.second->get<Mat4>());
-                        break;*/
-                        default: /* wrong */ break;
+                        //set ref
+                        switch (param.second->type)
+                        {
+                            case Table::FLOAT:
+                                obj->luaObject->setField(param.first.string(),param.second->get<float>());
+                                break;
+                            case Table::STRING:
+                                obj->luaObject->setField(param.first.string(),param.second->get<String>().c_str());
+                                break;
+                            case Table::VECTOR2D:
+                                obj->luaObject->setField(param.first.string(),param.second->get<Vec2>());
+                                break;
+                            case Table::VECTOR3D:
+                                obj->luaObject->setField(param.first.string(),param.second->get<Vec3>());
+                                break;
+                            case Table::VECTOR4D:
+                                obj->luaObject->setField(param.first.string(),param.second->get<Vec4>());
+                                break;
+                            case Table::MATRIX4X4:
+                                obj->luaObject->setField(param.first.string(),param.second->get<Mat4>());
+                                break;
+                            default: /* wrong */ break;
+                        }
                     }
                 }
             }
+            //push
+            objects.push_back(obj);
         }
-
-        state=ON_INIT;
-    }    
+    }
+    state=ON_INIT;
 }
+
+

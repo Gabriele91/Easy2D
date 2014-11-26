@@ -14,7 +14,7 @@ public:
     static String NONE;
 
     String():std::string() {};
-    String(char c,unsigned int rep):std::string(rep,c) {};
+    String(char c,unsigned int rep=1):std::string(rep,c) {};
     String(const String* str):std::string()
     {
         (*this)=(*str);
@@ -55,6 +55,55 @@ public:
         br << dato;//aggiungo il valore
         return br.str();//converto in stringa e lo restituisco
     }
+    
+    static DFORCEINLINE void split(const String& in, std::vector<String> & out, char delim) {
+		//var dec
+		size_t i = 0, s = 0, j = 0, alloc_s = 1;
+		//memory alloc
+		for (size_t i = 0; i != in.size(); ++i){
+			if (in[i] == delim)
+				++alloc_s;
+		}
+		out.resize(alloc_s);
+		//loop
+		while (i != in.size()) {
+			if (in[i] == delim){
+				out[j] = (in.substr(s, i - s));
+				++j;
+				s = i + 1;
+			}
+			++i;
+		}
+		//end case
+		if (s != (in.size() - 1)){
+			out[j] = in.substr(s, i - s);
+		}
+	}
+	static DFORCEINLINE void unsafe_split(String* in, std::vector<char *> & out, char delim) {
+		//var dec
+		size_t i = 0, s = 0, j = 0, alloc_s = 1;
+		//memory alloc
+		for (size_t i = 0; i != (*in).size(); ++i){
+			if ((*in)[i] == delim)
+				++alloc_s;
+		}
+		out.resize(alloc_s);
+		//loop
+		while (i != (*in).size()) {
+			if ((*in)[i] == delim){
+				out[j] = &((*in)[s]);
+				(*in)[i] = '\0';
+				++j;
+				s = i + 1;
+			}
+			++i;
+		}
+		//end case
+		if (s != ((*in).size() - 1)){
+			out[j] = (char*)&((*in)[s]);
+			(*in)[i] = '\0';
+		}
+	}
     //lower/upper string
     String toLower() const;
     String toUpper() const;

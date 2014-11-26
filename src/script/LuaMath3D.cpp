@@ -4,7 +4,7 @@
 
 using namespace Easy2D;
 
-int LuaNewVec2(lua_State* lVM)
+static int LuaNewVec2(lua_State* lVM)
 {  
     int const nargs = lua_gettop (lVM);
     //push a new vec2
@@ -32,7 +32,7 @@ int LuaNewVec2(lua_State* lVM)
     }
     return 1;
 }
-int LuaNewVec3(lua_State* lVM)
+static int LuaNewVec3(lua_State* lVM)
 {  
     int const nargs = lua_gettop (lVM);
     //push a new vec3
@@ -70,7 +70,7 @@ int LuaNewVec3(lua_State* lVM)
     }
     return 1;
 }
-int LuaNewVec4(lua_State* lVM)
+static int LuaNewVec4(lua_State* lVM)
 {  
     int const nargs = lua_gettop (lVM);
     //push a new vec4
@@ -120,7 +120,7 @@ int LuaNewVec4(lua_State* lVM)
     }
     return 1;
 }
-int LuaNewMat4(lua_State* lVM)
+static int LuaNewMat4(lua_State* lVM)
 {  
     int const nargs = lua_gettop (lVM);
     //push a new Mat4

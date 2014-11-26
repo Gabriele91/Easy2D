@@ -9,65 +9,138 @@
 #include <Sortable.h>
 #include <Renderable.h>
 #include <RenderState.h>
+#include <RenderQueue.h>
 #include <BatchingMesh.h>
 
 namespace Easy2D
 {
+//class declaretion
+class Render;
+class RenderQueue;
+class PostEffects;
 
-class Render /*: public Sortable*/
+//effects
+class PostEffects : public Pointers<PostEffects>
+{
+    
+    //friend class
+    friend class Render;
+    //model
+    Mesh                        plane;
+    //render mode
+    class Effect
+    {
+    public:
+    
+        bool blend;
+        uint bsrc,bdst;
+        Shader::ptr shader;
+        
+        //init effect
+        Effect(Shader::ptr shader=nullptr)
+        :blend(true)
+        ,bsrc(BLEND::ONE)
+        ,bdst(BLEND::ZERO)
+        ,shader(shader)
+        {
+        }
+        //shader and blend
+        Effect(Shader::ptr shader,
+               bool blend,
+               uint bsrc,
+               uint bdst)
+        :blend(blend)
+        ,bsrc(bsrc)
+        ,bdst(bdst)
+        ,shader(shader)
+        {
+        }
+        //cast operator
+        operator Shader::ptr ()
+        {
+            return shader;
+        }
+        //equal operator
+        bool  operator == (Shader::ptr shader)
+        {
+            return this->shader==shader;
+        }
+    
+    };
+    //list of effects
+    std::vector<Effect>   effects;
+    //post effect costructor
+    PostEffects();
+    
+public:
+    
+    //post effect destructor
+    ~PostEffects();
+    //add shaders effect
+    void addEffect(Shader::ptr shader)
+    {
+        effects.push_back(shader);
+    }
+    void addEffect(Shader::ptr shader,uint bsrc, uint bdst)
+    {
+        effects.push_back(Effect(shader,true,bsrc,bdst));
+    }
+    void addEffect(Shader::ptr shader,bool blend,uint bsrc, uint bdst)
+    {
+        effects.push_back(Effect(shader,blend,bsrc,bdst));
+    }
+    //remove shader
+    void removeEffect(Shader::ptr shader)
+    {
+        effects.erase(findEffect(shader));
+    }
+    std::vector<Effect>::iterator findEffect(Shader::ptr shader)
+    {
+        std::vector<Effect>::iterator first=effects.begin();
+        while (first!=effects.end())
+        {
+            if (*first==shader)
+            {
+                return first;
+            }
+            ++first;
+        }
+        return effects.end();
+    }
+    //draw effects
+    void draw(const RenderContext::RenderTarget& target);
+    //has a post effect
+    bool hasPostEffects() const
+    {
+        return effects.size()!=0;
+    }
+    
+};
+
+//Render
+class Render
 {
 protected:
+    //post effect
+    PostEffects::ptr  effects;
     //info screen
     Camera *camera;
     //colors
+    bool enableBatching;
     bool  enableClear;
     Color clearClr;
     Color ambientClr;
     //Batching
     BatchingMesh batchingMesh;
-    //redner queue
-    class Queue
-    {
-        std::list<Object*> objs;
-        typedef std::list<Object*>::iterator ItObjs;
-        typedef std::list<Object*>::reverse_iterator revItObjs;
-
-    public:
-
-        void push(Object* obj);
-        void clear()
-        {
-            objs.clear();
-        }
-        size_t size()
-        {
-            return objs.size();
-        }
-        ItObjs begin()
-        {
-            return objs.begin();
-        }
-        ItObjs end()
-        {
-            return objs.end();
-        }
-        revItObjs rbegin()
-        {
-            return objs.rbegin();
-        }
-        revItObjs rend()
-        {
-            return objs.rend();
-        }
-    };
     //render queue
-    Queue queue;
-    //ricorsive append a child
-    void append(Object* obj);
+    RenderQueue::ptr queue;
+	friend class RenderQueue;
     //called from scene
     void buildQueue(const std::list<Object*>& objs);
     //draw
     void draw();
+	//init render
+	virtual void init(); 
 
 public:
     //
@@ -88,6 +161,10 @@ public:
         clearClr=color;
         enableClear=enable;
     }
+    DFORCEINLINE void setEnableBatching(bool enable)
+    {
+        enableBatching=enable;
+    }
     DFORCEINLINE void setEnableClear(bool enable)
     {
         enableClear=enable;
@@ -100,6 +177,10 @@ public:
     {
         return enableClear;
     }
+    DFORCEINLINE const bool getBatchingIsEnable() const
+    {
+        return enableBatching;
+    }
     DFORCEINLINE void setAmbientLight(const Color& color)
     {
         ambientClr=color;
@@ -108,18 +189,32 @@ public:
     {
         return ambientClr;
     }
-    //
+    ///////////////////////////////////////////////////
+    //POST EFFECT
+    DFORCEINLINE void addPostEffect(Shader::ptr shader, bool blend=false,uint bsrc=BLEND::ONE,uint bdst=BLEND::ZERO)
+    {
+        if(!effects) effects=PostEffects::ptr(new PostEffects);
+        effects->addEffect(shader,blend,bsrc,bdst);
+    }
+    DFORCEINLINE void removePostEffect(Shader::ptr shader)
+    {
+        if(!effects) effects=PostEffects::ptr(new PostEffects);
+        effects->removeEffect(shader);
+    }
+    ///////////////////////////////////////////////////
+    //utility
     Object* picking(const Vec2& point);
     void aabox2Draw();
-    //
+    ///////////////////////////////////////////////////
     size_t queueSize()
     {
-        return queue.size();
+        return queue->size();
     }
     void serialize(Table& table)
     {
         table.set("clearColor",getClear().toVec4());
         table.set("enableClear",(float)getClearIsEnable());
+        table.set("enableBatching",(float)getBatchingIsEnable());
         table.set("ambientLight",getAmbientLight().toVec4());
     }
     //deserrialize
@@ -131,6 +226,7 @@ public:
         setClear(clear);
         //if enable?
         setEnableClear(table.getFloat("enableClear",(float)enableClear)!=0.0);
+        setEnableBatching(table.getFloat("enableBatching",(float)enableBatching)!=0.0);
         //get ambient color
         ambient.fromVec4(table.getVector4D("ambientLight",Vec4(255,255,255,255)));
         setAmbientLight(ambient);

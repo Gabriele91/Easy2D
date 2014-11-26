@@ -1,6 +1,7 @@
 #ifndef OPENGLWINDOW_H
 #define OPENGLWINDOW_H
-
+#define GL_2_1_EXT_TO_STANDARD
+//#define GL_VERSION_2_1
 #include <gletx_header.h>
 
 //vbo
@@ -37,6 +38,8 @@ extern PFNGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT;
 extern PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT;
 extern PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
 extern PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT;
+//Blend
+extern PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
 //shader
 extern PFNGLENABLEVERTEXATTRIBARRAYPROC	    glEnableVertexAttribArray;
 extern PFNGLVERTEXATTRIBPOINTERPROC	        glVertexAttribPointer;
@@ -57,8 +60,6 @@ extern PFNGLUNIFORM2FPROC                   glUniform2f;
 extern PFNGLUNIFORM3FPROC                   glUniform3f;
 extern PFNGLUNIFORM4FPROC                   glUniform4f;
 extern PFNGLUNIFORM1IPROC                   glUniform1i;
-extern PFNGLUNIFORM4UIPROC					glUniform4ui;
-extern PFNGLUNIFORM4UIVPROC				    glUniform4uiv;
 extern PFNGLUNIFORM1IVPROC                  glUniform1iv;
 extern PFNGLUNIFORM2IVPROC                  glUniform2iv;
 extern PFNGLUNIFORM3IVPROC                  glUniform3iv;
@@ -79,5 +80,37 @@ namespace Easy2D
 //init openGL2
 extern void initOpenGL2();
 };
+
+
+#ifdef GL_2_1_EXT_TO_STANDARD
+	//VSYNC
+	#define wglSwapInterval wglSwapIntervalEXT
+	//FBO
+	#define glGenFramebuffers glGenFramebuffersEXT  
+	#define glDeleteFramebuffers glDeleteFramebuffersEXT
+	#define glBindFramebuffer glBindFramebufferEXT
+	#define glFramebufferTexture2D glFramebufferTexture2DEXT
+	#define glCheckFramebufferStatus glCheckFramebufferStatusEXT
+	//RBO
+	#define glGenRenderbuffers glGenRenderbuffersEXT
+	#define glDeleteRenderbuffers glDeleteRenderbuffersEXT
+	#define glBindRenderbuffer glBindRenderbufferEXT
+	#define glRenderbufferStorage glRenderbufferStorageEXT
+	#define glFramebufferRenderbuffer glFramebufferRenderbufferEXT
+
+	//defines //Not necesary GL_DEPTH_COMPONENT32 GL_DEPTH_COMPONENT32_EXT
+	#ifndef GL_RENDERBUFFER
+		#define GL_RENDERBUFFER GL_RENDERBUFFER_EXT
+	#endif
+	#ifndef GL_DEPTH_ATTACHMENT
+		#define GL_DEPTH_ATTACHMENT GL_DEPTH_ATTACHMENT_EXT
+	#endif
+	#ifndef GL_COLOR_ATTACHMENT0
+		#define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_EXT
+	#endif
+	#ifndef GL_FRAMEBUFFER
+		#define GL_FRAMEBUFFER GL_FRAMEBUFFER_EXT
+	#endif
+#endif
 
 #endif

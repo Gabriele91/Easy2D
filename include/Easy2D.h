@@ -15,6 +15,7 @@
 #include <ResourcesGroup.h>
 #include <Table.h>
 #include <Texture.h>
+#include <Shader.h>
 #include <Mesh.h>
 #include <Script.h>
 //Application

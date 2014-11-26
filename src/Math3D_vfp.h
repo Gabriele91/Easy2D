@@ -1,5 +1,5 @@
-#ifndef MATH_2D_VFP
-#define MATH_2D_VFP
+#ifndef MATH3D_VFP_H
+#define MATH3D_VFP_H
 
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1)
 // Multiplies two 4x4 matrices.

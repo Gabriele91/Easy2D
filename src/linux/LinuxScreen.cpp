@@ -146,6 +146,9 @@ void LinuxScreen::__deleteGLXContext()
 
     if( !glXMakeCurrent(display, None, NULL))
     {
+        //delete context
+        RenderContext::releaseContext();
+        //delete OpenGL context
         DEBUG_MESSAGE("Could not release drawing context.\n");
     }
     // destroy the context
@@ -158,7 +161,7 @@ void LinuxScreen::__initOpenGL()
     //init openGL2
     initOpenGL2();
     //set default state
-    RenderContext::setDefaultRenderState();
+    RenderContext::initContext();
     //find errors:
     CHECK_GPU_ERRORS();
 

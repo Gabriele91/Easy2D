@@ -190,7 +190,7 @@ void Emitter::update(float dt)
 void  Emitter::build()
 {
     //restart
-    mesh->relase();
+    mesh->restart();
     //texture?
     if(!getTexture()) return;
     //add particles
@@ -260,12 +260,24 @@ void  Emitter::serialize(Table& table)
     //serialize texture
     if(getTexture())
         table.set("texture",getTexture()->getName());
+    //serialize shader
+    if(getShader())
+        table.set("shader",getShader()->getName());
     
 }
 void  Emitter::deserialize(const Table& table)
 {
     //////////////////////////////////////////////////////////
     rsDeserialize(table);
+    //get shader
+    if(table.existsAsType("shader",Table::STRING))
+    {
+        auto rsmanager=table.getResourcesManager();
+        DEBUG_ASSERT(rsmanager);
+        auto rsgroup=rsmanager->getResourcesGroup();
+        DEBUG_ASSERT(rsgroup);
+        setShader(rsgroup->load<Shader>(table.getString("shader")));
+    }
     //get texture
     if(table.existsAsType("texture",Table::STRING))
     {

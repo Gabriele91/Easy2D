@@ -13,6 +13,7 @@
 #include <Font.h>
 #include <Sound.h>
 #include <Script.h>
+#include <Shader.h>
 
 namespace Easy2D
 {
@@ -27,6 +28,7 @@ class ResourcesGroup
     ResourcesManager<Font> fonts;
     ResourcesManager<Sound> sounds;
     ResourcesManager<Script> scripts;
+    ResourcesManager<Shader> shaders;
 
 public:
 
@@ -121,6 +123,7 @@ public:
         fonts.load();
         sounds.load();
         scripts.load();
+        shaders.load();
     }
     /** unload all resources returned  */
     DFORCEINLINE void unload(bool destroy)
@@ -131,7 +134,8 @@ public:
         frameSets.unload(destroy);
         fonts.unload(destroy);
         sounds.unload(destroy);
-        scripts.load();
+        scripts.unload(destroy);
+        shaders.unload(destroy);
     }
     /** directory of resources */
     String getResourcesDirectory()
@@ -187,6 +191,12 @@ template<>
 inline ResourcesManager<Script>& ResourcesGroup::getManager<Script>()
 {
     return scripts;
+}
+
+template<>
+inline ResourcesManager<Shader>& ResourcesGroup::getManager<Shader>()
+{
+    return shaders;
 }
 
 };

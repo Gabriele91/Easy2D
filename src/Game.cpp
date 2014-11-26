@@ -12,15 +12,13 @@ Game::Game(const String& app,
            unsigned int freamPerSecond,
            bool fullscreen,
            int dfAA)
+:Scene(app,
+		width,
+		height,
+		bites,
+		freamPerSecond,
+		fullscreen,
+		dfAA)
 {
-    Application::instance()
-    ->getScreen()
-    ->createWindow(app.c_str(),
-                   width,
-                   height,
-                   bites,
-                   freamPerSecond,
-                   fullscreen,
-                   (Screen::AntiAliasing)dfAA);
 }
 

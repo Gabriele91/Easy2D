@@ -325,6 +325,10 @@ void CocoaScreen::__createContext(int msaa)
 }
 void CocoaScreen::__deleteContext()
 {
+    
+    //release render context
+    RenderContext::releaseContext();
+    //release cocoa contexts
     TOCOCOACONTEXT
     [NSOpenGLContext clearCurrentContext];
     [openGLContext clearDrawable];
@@ -332,8 +336,8 @@ void CocoaScreen::__deleteContext()
 }
 void CocoaScreen::__initOpenGL()
 {
-    //set default state
-    RenderContext::setDefaultRenderState();
+    //init render context
+    RenderContext::initContext();
     //find errors:
     CHECK_GPU_ERRORS();
     

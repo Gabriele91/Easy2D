@@ -213,7 +213,7 @@ String AndroidApp::appWorkingDirectory()
 
 String AndroidApp::appResourcesDirectory()
 {
-    return appWorkingDirectory()+String("/assets");
+    return String(".");//appWorkingDirectory()+String("/assets");
 }
 
 void AndroidApp::exit()

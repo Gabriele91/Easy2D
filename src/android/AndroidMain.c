@@ -122,6 +122,19 @@ extern void onFingerUp(void(*function)(void* data,int i,float x,float y,float p)
 extern void onFingerMove(void(*function)(void* data,int i,float x,float y,float p)){
 	fingerMove=function;
 }
+
+static void (*keyDown)(void* data,int key)=NULL;
+static void (*keyUp)(void* data,int key)=NULL;
+
+extern void onKeyDown(void(*function)(void* data,int key))
+{
+	keyDown=function;
+}
+extern void onKeyUp(void(*function)(void* data,int key))
+{
+	keyUp=function;
+}
+
 //callback
 extern int32_t __android_handle_input(struct android_app* app, AInputEvent* event){
 
@@ -129,13 +142,44 @@ extern int32_t __android_handle_input(struct android_app* app, AInputEvent* even
 		Input source
 		*/
 		int nSourceId = AInputEvent_getSource( event );
-		if (!(nSourceId == AINPUT_SOURCE_TOUCHPAD || nSourceId == AINPUT_SOURCE_TOUCHSCREEN))
-	    	return 0;  // GJT: Volume? Keyboard? Gamepad? Aren't supported!
+		//not supported device?
+		if (!(nSourceId == AINPUT_SOURCE_TOUCHPAD  || 
+			  nSourceId == AINPUT_SOURCE_KEYBOARD || 
+			  nSourceId == AINPUT_SOURCE_TOUCHSCREEN))
+	    	return 0;  
+	    //keyboard
+	    if(nSourceId == AINPUT_SOURCE_KEYBOARD)
+	    {
+		    if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_KEY) 
+		    { //keybord down
+				 //get key code
+				 unsigned int keyAction =  AKeyEvent_getAction(event);
+				 //
+				 if( keyDown && keyAction == AKEY_EVENT_ACTION_DOWN )
+				 {
+				 	keyDown(app->userData,AKeyEvent_getKeyCode(event));
+				 }
+				 else if( keyUp && keyAction == AKEY_EVENT_ACTION_UP )
+				 {
+				 	keyUp(app->userData,AKeyEvent_getKeyCode(event));
+				 }
+				 else 
+				 {
+				 	return 0;
+				 }
+				 return 1;
+			}
+			return 0;
+		}
 	    //action
-		unsigned int action = AMotionEvent_getAction(event) & AMOTION_EVENT_ACTION_MASK; 
-        unsigned int actionPointerIndex = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >> AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+	    unsigned int unmaskAction = AMotionEvent_getAction(event);
+	    //base action
+		unsigned int action = unmaskAction & AMOTION_EVENT_ACTION_MASK; 
+		//pointer action
+        unsigned int actionPointerIndex = (unmaskAction & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK);
+        			 actionPointerIndex >>= AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
         
-		if (action == AMOTION_EVENT_ACTION_DOWN || action == AMOTION_EVENT_ACTION_POINTER_DOWN ) {
+		if (action == AMOTION_EVENT_ACTION_DOWN) { //all down
 			if(fingerDown){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
@@ -147,19 +191,47 @@ extern int32_t __android_handle_input(struct android_app* app, AInputEvent* even
 												 AMotionEvent_getPressure(event, i));
 				}
 			}
-		} else if (action == AMOTION_EVENT_ACTION_UP || action == AMOTION_EVENT_ACTION_POINTER_UP ) { //up			
+		} else if (action == AMOTION_EVENT_ACTION_POINTER_DOWN ) { //one down
+			if(fingerDown){
+				int count = AMotionEvent_getPointerCount(event);
+				int i = 0;
+				for(;i < count ; i++) {
+					unsigned int pointerFingerId = AMotionEvent_getPointerId(event, i);
+					if( pointerFingerId==actionPointerIndex ) {
+						fingerDown(app->userData,pointerFingerId,
+												 AMotionEvent_getX(event, i),
+												 AMotionEvent_getY(event, i),
+												 AMotionEvent_getPressure(event, i));
+					}
+				}
+			}
+		} else if (action == AMOTION_EVENT_ACTION_UP) { //up all			
 			if(fingerUp){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
 				for(;i < count ; i++) {
-						unsigned int pointerFingerId = AMotionEvent_getPointerId(event, i);
+					unsigned int pointerFingerId = AMotionEvent_getPointerId(event, i);
+					fingerUp(app->userData,pointerFingerId,
+									       AMotionEvent_getX(event, i),
+										   AMotionEvent_getY(event, i),
+										   AMotionEvent_getPressure(event, i));
+				}
+			}
+		} else if (action == AMOTION_EVENT_ACTION_POINTER_UP) { //up one			
+			if(fingerUp){
+				int count = AMotionEvent_getPointerCount(event);
+				int i = 0;
+				for(;i < count ; i++) {
+					unsigned int pointerFingerId = AMotionEvent_getPointerId(event, i);
+					if( pointerFingerId==actionPointerIndex ) {
 						fingerUp(app->userData,pointerFingerId,
 										       AMotionEvent_getX(event, i),
 											   AMotionEvent_getY(event, i),
 											   AMotionEvent_getPressure(event, i));
+					}
 				}
 			}
-		} else if (action == AMOTION_EVENT_ACTION_MOVE) {                                           //move
+		} else if (action == AMOTION_EVENT_ACTION_MOVE) { //move
 			if(fingerMove){
 				int count = AMotionEvent_getPointerCount(event);
 				int i = 0;
@@ -175,6 +247,7 @@ extern int32_t __android_handle_input(struct android_app* app, AInputEvent* even
 		} else {
 			return 0;
 		}
+	return 1;
 }
 
 //events cmd

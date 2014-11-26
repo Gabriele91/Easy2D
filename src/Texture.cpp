@@ -188,8 +188,10 @@ bool Texture::load()
         spriteHeight=(uint)texInfo.getFloat("height");
         //operations
         flipVertical(((uint)texInfo.getFloat("flipVertical",(float)flipVertical()))!=0);
-        mipmaps(((uint)texInfo.getFloat("mipmaps",(float)mipmaps()))!=0);
-        bilinear(((uint)texInfo.getFloat("bilinear",(float)bilinear()))!=0);
+#ifndef DISABLE_MIDMAP
+		bMipmaps=(((uint)texInfo.getFloat("mipmaps",(float)mipmaps()))!=0);
+#endif
+        bBilinear=(((uint)texInfo.getFloat("bilinear",(float)bilinear()))!=0);
         //offset
         if(texInfo.existsAsType("uv",Table::VECTOR2D))
         {
@@ -248,14 +250,14 @@ bool Texture::load()
             offsetUV.w=(float)height/realHeight;
         }
     }
-#ifdef OPENGL_ES
-    DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: OpenGL ES not support alpha texture");
+//#ifdef OPENGL_ES AND ENABLE_SHADERS
+    //DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: OpenGL ES not support alpha texture");
     if(image.type==TYPE_ALPHA8)
         image.convertAlphaTo32bit();
     uint type=image.type;
-#else
-    uint type= image.type== GL_ALPHA8 ? GL_ALPHA : image.type;
-#endif
+//#else
+ //   uint type= image.type== GL_ALPHA8 ? GL_ALPHA : image.type;
+//#endif
     //create texture
     loadFromBinaryData(image.bytes,
                        width,height,
@@ -342,7 +344,10 @@ bool Texture::loadFromBinaryData(const uchar* bytes,
     bind();
     CHECK_GPU_ERRORS();
     //add image
-    RenderContext::subTexture(type,width, height, bytes);
+    if(bytes)
+    {
+        RenderContext::subTexture(type,width, height, bytes);
+    }
     CHECK_GPU_ERRORS();
     //is loaded
     loaded=true;
