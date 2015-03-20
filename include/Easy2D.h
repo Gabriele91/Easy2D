@@ -47,6 +47,8 @@
 #include <AnimatedSprite.h>
 #include <ParticleSystem.h>
 #include <Body.h>
+#include <Listener.h>
+#include <Speaker.h>
 #include <State.h>
 #include <Parallax.h>
 #include <ELuaScript.h>

@@ -27,6 +27,7 @@ namespace Gui{
 	public:
 
 
+		Label(Panel* guim);
 		Label(GuiManager* guim);
 
         void setText(const String& name);

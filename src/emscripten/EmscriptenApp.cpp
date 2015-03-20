@@ -6,6 +6,7 @@
 #include <EmscriptenApp.h>
 #include <EmscriptenScreen.h>
 #include <EmscriptenInput.h>
+#include <AudioAL.h>
 #include <Debug.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -20,12 +21,16 @@ EmscriptenApp::EmscriptenApp()
     //init C++ class
     screen=(Screen*)new EmscriptenScreen();
     input=(Input*)new EmscriptenInput();
+    audio=(Audio*)new AudioAL();
     //not exit form loop
     doexit=false;
 }
 
 EmscriptenApp::~EmscriptenApp()
 {
+    //delete audio
+    delete audio;
+    audio=NULL;
     //delete screen
     delete screen;
     screen=NULL;
@@ -88,10 +93,13 @@ void EmscriptenApp::loop()
         EmscriptenApp* _self=(EmscriptenApp*)Application::instance();
         EmscriptenScreen* _self_screen=(EmscriptenScreen*)Application::instance()->getScreen();
         EmscriptenInput* _self_input=(EmscriptenInput*)Application::instance()->getInput();
+        AudioAL* _self_audio=(AudioAL*)Application::instance()->getAudio();
         //save dt
         _self->lastDeltaTime=1.0/(double)_self_screen->getFrameRate();
         //update
         _self->update(_self->lastDeltaTime);
+        //update audio
+        _self_audio->update((float)dt);
         //update opengl
         _self_screen->swap();
         //exit (!doexit)

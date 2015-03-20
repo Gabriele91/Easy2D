@@ -30,7 +30,7 @@ char *realpath(const char *path, char resolved_path[MAX_PATH])
         else
         {
             //Non standard extension that glibc uses
-            return_path =(char*) malloc(MAX_PATH);
+            return_path =(char*) Easy2D::malloc(MAX_PATH);
         }
 
         if (return_path) //Else EINVAL
@@ -45,8 +45,8 @@ char *realpath(const char *path, char resolved_path[MAX_PATH])
                 {
                     size_t new_size;
 
-                    free(return_path);
-                    return_path =(char*) malloc(size);
+					Easy2D::free(return_path);
+					return_path = (char*)Easy2D::malloc(size);
 
                     if (return_path)
                     {
@@ -54,7 +54,7 @@ char *realpath(const char *path, char resolved_path[MAX_PATH])
 
                         if (new_size > size) //If it's still too large, we have a problem, don't try again
                         {
-                            free(return_path);
+							Easy2D::free(return_path);
                             return_path = 0;
                             errno = ENAMETOOLONG;
                         }
@@ -82,7 +82,7 @@ char *realpath(const char *path, char resolved_path[MAX_PATH])
             {
                 if (return_path != resolved_path) //Malloc'd buffer
                 {
-                    free(return_path);
+					Easy2D::free(return_path);
                 }
 
                 return_path = 0;
@@ -119,7 +119,7 @@ char *realpath(const char *path, char resolved_path[MAX_PATH])
                 {
                     if (return_path != resolved_path)
                     {
-                        free(return_path);
+						Easy2D::free(return_path);
                     }
 
                     return_path = 0;
@@ -470,12 +470,16 @@ Path Path::getRelativePathTo(const Path& path) const
     return newPath;
 #elif defined(PLATFORM_WINDOW)
     //calc relative
-    char szOut[MAX_PATH];
+	char szOut[MAX_PATH];
+	String dirFrom = from.getDirectory();
+	String dirTo = to.getPath();
+	dirFrom.replaceAll("/", "\\");
+	dirTo.replaceAll("/", "\\");
     PathRelativePathToA(szOut,
-                       from.getDirectory(),
-                       FILE_ATTRIBUTE_DIRECTORY,
-                       to.getPath(),
-                       FILE_ATTRIBUTE_NORMAL);
+						dirFrom,
+                        FILE_ATTRIBUTE_DIRECTORY,
+                        dirTo,
+                        FILE_ATTRIBUTE_NORMAL);
     //return
     return szOut;
 #endif

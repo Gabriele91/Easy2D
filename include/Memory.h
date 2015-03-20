@@ -11,6 +11,32 @@
 
 #include <Config.h>
 
+namespace Easy2D
+{
+	template <class T>
+	class Pointers //: protected std::enable_shared_from_this< T >
+	{
+	public:
+		//define shared ptr
+		typedef DS_PTR<T> ptr;
+		//define weak ptr
+		typedef DW_PTR<T> wptr;
+		//return shared 
+		//ptr getSharedPtr()
+		//{
+		//	return shared_from_this();
+		//}
+	};
+
+	void* malloc(size_t size);
+	void  free(void*); 
+	#ifdef NEW_DELETE_OVERLOADABLE
+	    void setAllocatorFunctionPtr(void*(*)(size_t));
+	    void setDeallocatorFunctionPtr(void(*)(void*));
+	#endif
+};
+
+
 #if defined(DOVERRIDE_NEW_DEL)
 #define throw_alloc
 #define throw_dealloc throw()

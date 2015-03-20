@@ -81,12 +81,10 @@ void GuiManager::setProjection(const Vec4& argviewport)
 	//set projection matrix
 	RenderContext::setProjection(projection);
 }
-
-void drawItems();
-
 void GuiManager::drawItems()
 {
-    if(isFocused()){
+    if(isFocused())
+	{
         //draw panels
         for(auto obj:panels)
             obj->draw();
@@ -162,7 +160,7 @@ void GuiManager::unlockFocus()
 {
     focusLoked=false;
 }
-        
+//constructors
 GuiManager::GuiManager():type(GUI_MANAGER)
                         ,style(nullptr)
                         ,rsgroup(nullptr)
@@ -177,7 +175,6 @@ GuiManager::~GuiManager()
     //remove event
     Application::instance()->getInput()->removeHandler(this);
 }
-        
 //init
 void GuiManager::init(ResourcesGroup* rsgroup,Table::ptr style)
 {
@@ -187,7 +184,6 @@ void GuiManager::init(ResourcesGroup* rsgroup,Table::ptr style)
     //projection
     updateProjection(Application::instance()->getScreen()->getSize());
 }
-       
 //draw
 void GuiManager::draw()
 {
@@ -196,13 +192,11 @@ void GuiManager::draw()
     //models
     drawItems();
 }
-        
 //info
 bool GuiManager::isFocused()
 {
     return focus;
 }
-
 //projection
 void GuiManager::updateProjection(const Vec2& argViewport)
 {

@@ -255,42 +255,42 @@ public:
     }
     
     //query oid
-    int getCurrentFrame(int anim)
+    int getCurrentFrame(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getCurrentFrame();
     }
-    float getTimePerFrame(int anim)
+	float getTimePerFrame(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getTimePerFrame();
     }
-    float getTotalTime(int anim)
+	float getTotalTime(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getTotalTime();
     }
-    float getTime(int anim)
+	float getTime(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getCurrentTime();
     }
-    bool getLoop(int anim)
+	bool getLoop(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getLoop();
     }
-    bool getPause(int anim)
+	bool getPause(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getPause();
     }
-    bool getStop(int anim)
+	bool getStop(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->isStop();
     }
-    int getAnimationSize(int anim)
+	int getAnimationSize(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
         return animations[anim]->getFrameSet()->size();

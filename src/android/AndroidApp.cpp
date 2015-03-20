@@ -253,7 +253,9 @@ void AndroidApp::loop()
         //save dt
         lastDeltaTime=dt;
         //update
-        update(dt);
+        update((float)dt);
+        //update audio
+        audio->update((float)dt);
         //update opengl
         if(dodraw) screen->swap();
     }

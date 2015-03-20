@@ -86,6 +86,11 @@ Render::Render()
     enableClear=true;
     effects=nullptr;
 }
+//return batching mesh
+BatchingMesh& Render::getBatchingMesh()
+{
+	return *((BatchingMesh*)(&(*batchingMesh)));
+}
 //init render graphics elements
 void Render::init()
 {
@@ -94,7 +99,9 @@ void Render::init()
 	queue = RenderQueue::ptr(new RenderQueue(this));
 	/////////////////////////////////////////////////////////////////////
 	//BATCH BUFFER
-    batchingMesh.createBufferByTriangles(MAX_BUFFER_TRIANGLES);
+	auto mesh=new BatchingMesh();
+	mesh->createBufferByTriangles(MAX_BUFFER_TRIANGLES);
+	batchingMesh = Mesh::ptr((Mesh*)mesh);
 	/////////////////////////////////////////////////////////////////////
 	//POST EFFECT
 	if (!effects)  effects = PostEffects::ptr(new PostEffects);

@@ -11,17 +11,6 @@ namespace Easy2D
 class ResourcesGroup;
 template<class T> class ResourcesManager;
 template <class T> class Resource;
-
-template <class T>
-class Pointers
-{
-public:
-    //define shared ptr
-    typedef DS_PTR<T> ptr;
-    //define weak ptr
-    typedef DW_PTR<T> wptr;
-};
-
 //
 template <class T>
 class Resource : public Pointers<T>

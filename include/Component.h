@@ -48,16 +48,18 @@ namespace Easy2D {
             return object!=nullptr;
         }   
 
-        Object* getObject()
-        {
-            return object;
-        }   
+		Object* getObject();
+		Scene* getScene();
+		const Object* getObject() const;
+		const Scene* getScene() const;
         //event: object
         virtual void onSetObject(Object* obj){}
         virtual void onChangedMatrix(){};
         virtual void onEraseObject(){};
         //event: scene
-        virtual void onSetScene(Scene* scene){}
+		virtual void onSetScene(Scene* scene){}
+		virtual void onScenePause(){}
+		virtual void onSceneResume(){}
         virtual void onEraseScene(){}
         //event: message
         virtual void onMessage(uint message){}
@@ -66,8 +68,8 @@ namespace Easy2D {
         //event: run post logic
         virtual void onFixedRun(float dt){}
         //get name
-        virtual const char* getComponentName() const=0;
-        virtual uint  getComponentFamily() const=0;
+		virtual const char* getComponentName() const{ return  "Component"; };
+		virtual uint  getComponentFamily() const{ return 0; };
         //serialize methos
         virtual void serialize(Table& table){}
         virtual void deserialize(const Table& table){}

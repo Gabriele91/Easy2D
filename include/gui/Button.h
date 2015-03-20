@@ -41,18 +41,19 @@ namespace Gui{
         void onMouseRelease(Vec2 pos,Key::Mouse b);
 
     public:
-        
-        Button(GuiManager* guim);
+
+		Button(Panel* guim);
+		Button(GuiManager* guim);
         virtual ~Button();
-
+		//
         void setText(const String& name);
-
-        void setScale(const Vec2& scale);        
-        
+		//
+        void setScale(const Vec2& scale);
+        //
         void setPosition(const Vec2& pos);
-
+		//
         void onClick(DFUNCTION<void()> event);
-
+		//
         virtual void draw();
 
     };

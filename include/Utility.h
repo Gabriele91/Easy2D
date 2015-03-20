@@ -5,6 +5,7 @@
 #include <Config.h>
 #include <string>
 #include <EString.h>
+#include <Debug.h>
 
 namespace Easy2D
 {
@@ -57,6 +58,168 @@ reverse_wrapper<T> reverse(T& cont)
     return reverse_wrapper<T>(cont);
 }
 /////////////////////////////////////////////
+template <class T>
+class PoolAlloc
+{
+
+protected:
+
+	class Link
+	{
+		size_t count;
+		T *first, *last;
+
+	public:
+
+		Link()
+			:count(0)
+			, first(nullptr)
+			, last(nullptr)
+		{
+		}
+		T* append(T* np)
+		{
+			if (!first && !last)
+			{
+				first = np;
+				last = np;
+				np->prev = nullptr;
+				np->next = nullptr;
+			}
+			else if (first && last)
+			{
+				np->prev = last;
+				np->next = nullptr;
+
+				last->next = np;
+				last = np;
+			}
+			//else{ wrong }
+			++count;
+			//return 
+			return np;
+		}
+		T* erase(T* np)
+		{
+			//if first
+			if (first == np)
+				first = np->next;
+			//if last
+			if (last == np)
+				last = np->prev;
+			//dt node
+			if (np->next)
+				np->next->prev = np->prev;
+			if (np->prev)
+				np->prev->next = np->next;
+			//uncount
+			--count;
+			//unlink
+			np->next = nullptr;
+			np->prev = nullptr;
+
+			return np;
+		}
+		size_t size()
+		{
+			return count;
+		}
+		T* getFirst()
+		{
+			return first;
+		}
+		T* getLast()
+		{
+			return last;
+		}
+		void reset()
+		{
+			first = nullptr;
+			last = nullptr;
+		}
+		T* eraseTop()
+		{
+			return erase(first);
+		}
+	};
+    
+public:
+    
+    class Node
+    {
+        friend class PoolAlloc<T>::Link;
+        T* next{ nullptr };
+        T* prev{ nullptr };
+        
+    public:
+        
+        virtual void init() = 0;
+        virtual void release() = 0;
+        T* getNext()
+        {
+            return next;
+        }
+        T* getPrev()
+        {
+            return prev;
+        }
+        
+    };
+    
+protected:
+    
+	std::vector<T> buffer;
+	Link allocNodes;
+	Link freeNodes;
+
+	void init(uint size, DFUNCTION<void(T& node)> allocInit = nullptr)
+	{
+		DEBUG_ASSERT(size);
+		buffer.resize(0);
+		buffer.resize(size);
+		//unlink
+		allocNodes.reset();
+		freeNodes.reset();
+		//linking
+		for (size_t i = 0; i != size; ++i)
+		{
+			freeNodes.append(&buffer[i]);
+			if (allocInit) allocInit(buffer[i]);
+		}
+	}
+	T* newNode()
+	{
+		if (!freeNodes.size()) return nullptr;
+		//alloc
+		T* newnode=freeNodes.eraseTop();
+		//init
+		newnode->init();
+		//return
+		return allocNodes.append(newnode);
+	}
+	void deleteNode(T* node)
+	{
+		node->release();
+		//erese
+		allocNodes.erase(node);
+		//append
+		freeNodes.append(node);
+	}
+	void foreachAllocNoodes(DFUNCTION<void(T& node)> callback)
+	{
+		for (T* b = allocNodes.getFirst(); b != nullptr; b = b->getNext())
+		{
+			callback(*b);
+		}
+	}	
+	void foreachFreeNodes(DFUNCTION<void(T& node)> callback)
+	{
+		for (T* b = freeNodes.getFirst(); b != nullptr; b = b->getNext())
+		{
+			callback(*b);
+		}
+	}
+};
 
 class Path
 {

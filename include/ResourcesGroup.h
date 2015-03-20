@@ -76,6 +76,13 @@ public:
     * Set the managers resources
     * @param path table resources
      */
+	ResourcesGroup(const String& name,
+                   const String& path,
+                   const String& version = "default")
+                   :ResourcesGroup(name, Utility::Path(path),version)
+	{
+	}
+
     ResourcesGroup(const String& name,
                    const Utility::Path& path,
                    const String& version="default");

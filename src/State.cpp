@@ -26,7 +26,8 @@ void StateManager::onRun(float dt)
         if(states[current].end) 
             states[current].end();
         //next state
-        current=next;
+		last   = current;
+        current= next;
         //start state
         if(states[current].start) 
             states[current].start();        
@@ -57,7 +58,7 @@ void StateManager::eraseState(int name)
 
 void StateManager::setNextState(int stateid)
 {
-    next=stateid;
+	next = stateid;
 }
 void StateManager::setCurrentState(int stateid)
 {
@@ -65,7 +66,8 @@ void StateManager::setCurrentState(int stateid)
     if(current>=0 && states[current].end) 
         states[current].end();
     //set
-    current=stateid;
+	last   = current;
+    current= stateid;
     //call start
     if(current>=0 && states[current].start) 
         states[current].start();
@@ -77,18 +79,24 @@ int StateManager::getCurrentState()
 }
 int StateManager::getNextState()
 {
-    return next;
+	return next;
+}
+int StateManager::getLastState()
+{
+	return last;
 }
 
 
 void StateManager::serialize(Table& table)
 {
-    Table& rstate=table;
-    if(current>=0) rstate.set("current",(float)current);
-    if(next>=0)    rstate.set("next",(float)next);
+	Table& rstate = table;
+	if (last >= 0) rstate.set("last", (float)current);
+	if (current >= 0) rstate.set("current", (float)current);
+    if (next>=0)    rstate.set("next",(float)next);
 }
 void StateManager::deserialize(const Table& table)
 {
-    current=(int)table.getFloat("current",-1);
+	last = (int)table.getFloat("last", -1);
+	current = (int)table.getFloat("current", -1);
     next   =(int)table.getFloat("next",-1);
 }

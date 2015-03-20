@@ -6,6 +6,7 @@
 #include <Audio.h>
 #include <AudioAL.h>
 #include <Shlobj.h>
+#include <Socket.h>
 #include <Debug.h>
 //window
 #include <direct.h>
@@ -38,7 +39,10 @@ WindowsApp::WindowsApp(const String& name)
     DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);
     //DEBUG_ASSERT(error != ERROR_ALREADY_EXISTS);
     //REALTIME APPLICATION
-    SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+	SetPriorityClass(GetCurrentProcess(), REALTIME_PRIORITY_CLASS);
+	/////////////////////////////////////
+	//init sockets
+	Socket::initializeSockets();
     /////////////////////////////////////
     //not exit from loop
     doexit=false;
@@ -54,7 +58,9 @@ WindowsApp::~WindowsApp()
     screen=nullptr;
     //delete input
     delete input;
-    input=nullptr;
+	input = nullptr;
+	//close sockets
+	Socket::shutdownSockets ();
 }
 
 bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len)
@@ -112,8 +118,6 @@ void WindowsApp::loop()
     double sleepTime=0;
     //start timer
     timer.start();
-    //set current context
-    screen->acquireContext();
     //draw loop
     while( !input->getClose() && !doexit )
     {
@@ -134,6 +138,8 @@ void WindowsApp::loop()
         lastDeltaTime=(float)dt;
         //update
         update((float)dt);
+        //update audio
+        audio->update((float)dt);
         //update opengl
         screen->swap();
     }
@@ -141,9 +147,14 @@ void WindowsApp::loop()
 
 void WindowsApp::exec(Game *ptrMainInstance)
 {
-    mainInstance=ptrMainInstance;
+	mainInstance = ptrMainInstance;
+	//set current context
+	screen->acquireContext();
+	//start
     mainInstance->start();
+	//loop
     loop();
+	//end
     mainInstance->end();
 }
 

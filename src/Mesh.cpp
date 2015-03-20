@@ -131,14 +131,24 @@ void GenericMesh::clear()
     //gpu clear
     if (bVertex)
     {
+		if (bVertex == RenderContext::currentVertexBuffer())
+		{
+			RenderContext::unbindVertexBuffer();
+		}
         RenderContext::deleteBuffer(bVertex);
         bVertex = 0;
     }
     if (bIndex)
-    {
+	{
+		if (bIndex == RenderContext::currentIndexBuffer())
+		{
+			RenderContext::unbindIndexBuffer();
+		}
         RenderContext::deleteBuffer(bIndex);
         bIndex = 0;
-    }
+	}
+	//get vao/ibo/vbo errors
+	CHECK_GPU_ERRORS();
 }
 void GenericMesh::cpuClear()
 {
@@ -187,7 +197,9 @@ void GenericMesh::index(uint i)
 //bind
 bool GenericMesh::build(bool force)
 {
-    DEBUG_ASSERT(bVertex==0);
+	DEBUG_ASSERT(bVertex == 0);
+	//no errors
+	CHECK_GPU_ERRORS();
     //sizes
     sBVertex = (uint)sizeVertexs();
     sBIndex = (uint)sizeIndexs();
@@ -323,6 +335,16 @@ void Mesh::setDrawMode(DrawMode dmode)
 {
     dMode=dmode;
 }
+//show build
+bool Mesh::build(bool clearcpu)
+{
+	DEBUG_ASSERT_MSG(!isLoad(),"Mesh olready build");
+	//is loaded
+	loaded = GenericMesh::build(clearcpu);
+	CHECK_GPU_ERRORS();
+	//return status
+	return loaded;
+}
 //resource
 bool Mesh::load()
 {
@@ -398,21 +420,22 @@ bool Mesh::load()
         }
     }
     //build (gpu) mesh
-    build();
-    //is loaded
-    loaded=true;
-    //
-    return true;
+	return build();
 }
 bool Mesh::unload()
 {
     //unload mesh
-    clear();
+	clear();
+	CHECK_GPU_ERRORS();
     //reset box
     box=AABox2();
     //is loaded?
-    loaded=false;
-    //
+	loaded = false;
+	//set draw mode (reset) 
+	setDrawMode(TRIANGLE);
+	//set format (reset)
+	format(POSITION2D | UV);
+    //....
     return true;
 }
 //

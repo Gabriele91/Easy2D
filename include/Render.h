@@ -131,7 +131,8 @@ protected:
     Color clearClr;
     Color ambientClr;
     //Batching
-    BatchingMesh batchingMesh;
+	Mesh::ptr batchingMesh;
+	BatchingMesh& getBatchingMesh();
     //render queue
     RenderQueue::ptr queue;
 	friend class RenderQueue;

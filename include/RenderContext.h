@@ -42,6 +42,13 @@ enum VectorType
     UNSIGNED_SHORT
 };
 
+enum StencilBuffer
+{
+    STENCIL_NONE,
+    STENCIL_REPLACE,
+    STENCIL_KEEP
+};
+
 class RenderContext
 {
     
@@ -63,8 +70,9 @@ class RenderContext
                     idtexture=0;
                     enable=false;
                 }
-            };
-            Texture textures[20];
+			};
+			static const uint maxTextures{ 20 };
+			Texture textures[maxTextures];
             //render target oid
             uint idtarget;
             //shader program
@@ -77,7 +85,6 @@ class RenderContext
                 idtarget=0;
             }
         }binds;
-        
         struct Matrix
         {
             Mat4	 modelView;
@@ -91,7 +98,6 @@ class RenderContext
                 //gProjection=display.mul(projection);
             }
         }matrixs;
-        
     };
     
     
@@ -125,6 +131,8 @@ class RenderContext
     
 	struct RenderState
 	{
+		//stencil
+		StencilBuffer stencil;
 		//state cullface
 		CullFace cullface;
 		//state zbuffer
@@ -250,6 +258,11 @@ class RenderContext
     //ambient color
     static void setAmbientColor(const Color& color);
     static const Color& getAmbientColor();
+
+    //stencil
+	static void stencilClear();
+	static void setStencil(StencilBuffer stencil);
+    static StencilBuffer getStencil();
     
     //client states
     static void setClientState(bool vertex,bool normal,bool texcoord,bool color);
@@ -305,7 +318,17 @@ class RenderContext
     static uint currentIndexBuffer()
     {
         return context.binds.indexBuffer;
-    }
+	}
+	static uint isTextureBind(int idtexture)
+	{
+		for (uint i = 0; i != Context::Bind::maxTextures; ++i)
+		{
+			if (context.binds.textures[i].enable && 
+				context.binds.textures[i].idtexture == idtexture)
+				return i;
+		}
+		return -1;
+	}
     
     //utilities
     static void drawBox(const AABox2& box,const Color& color);
@@ -314,7 +337,6 @@ class RenderContext
     static void drawFillCircle(const Vec2& pos,float r,const Color& color);
     static void drawLine(const Vec2& v1,const Vec2& v2,const Color& color);
 
-    
     //debug
     static void debugCurrentState();
     static void debugNativeState();

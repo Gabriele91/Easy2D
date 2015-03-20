@@ -27,7 +27,7 @@ void LuaState::init()
     //libs
     static const luaL_Reg lualibs[] = {
       {"", luaopen_base},
-      {"package", luaopen_package},
+     // {"package", luaopen_package},
       {LUA_TABLIBNAME, luaopen_table},
       {LUA_STRLIBNAME, luaopen_string},
       {LUA_MATHLIBNAME, luaopen_math},
@@ -49,9 +49,18 @@ void LuaState::init()
     "    end                       \n"
     "}                             \n"
     );
+	//clua
+    compile(
+    "__context__mt={               \n" 
+    "    __index=def (ctx,k){      \n"
+    "      return ctx.__TMP_G[k]   \n"
+    "    }                         \n"
+    "}                             \n"
+    );
      */
     //function index
-    auto __index=(int(*)(lua_State*))(
+	typedef int(*indexFunction)(lua_State*);
+	auto __index = (indexFunction)(
                   [](lua_State* L)->int
                   {
                       bool isvallid=true;
@@ -113,9 +122,16 @@ LuaState::LuaClass::LuaClass(const String& argName,const String& argText)
     //debug name
     String debugName; debugName+="Class "+className;
     //load file
-    DEBUG_ASSERT_MSG(!luaL_loadbuffer(LuaState::luaVM, argText, argText.size(),debugName), 
-        "LuaState compile class \'"<< argName <<"\', error"
-    );
+	int error = luaL_loadbuffer(LuaState::luaVM, argText, argText.size(), debugName);
+	if (error)
+	{
+		DEBUG_ASSERT_MSG(0, 
+			"LuaState compile class \'" << argName << "\n"
+			"error type: " << (error == LUA_ERRSYNTAX ? "syntax error\n" : "memory allocation error\n") << 
+			"error: " << lua_tostring(LuaState::luaVM, -1)
+			);
+	}
+    
     //name
     lua_typename(LuaState::luaVM, -1);//no value
     //save ref function
@@ -146,16 +162,16 @@ LuaState::LuaObject* LuaState::LuaClass::newObject()
     //get env (table/context)
     newobj->objectRef.push(LuaState::luaVM);                //push 2 (-1)
     //set env
-    DEBUG_ASSERT(lua_setfenv(LuaState::luaVM, -2) == 1);
+    DEBUG_ASSERT_REPLACE(lua_setfenv(LuaState::luaVM, -2) == 1);
     /////////////////////////////////////////////////////////////////////
     //INIT OBJECT CONTEXT
     //get class (aka function)
     classScript.push(LuaState::luaVM);                      //push 1 (-1)
-    //call
-    DEBUG_ASSERT_MSG(lua_pcall(LuaState::luaVM, 0, 0, 0)==0, 
-                    "error contructor "<< className 
-                    <<": "
-                    << lua_tostring(LuaState::luaVM, -1));
+    //call	
+	DEBUG_ASSERT_MGS_REPLACE(lua_pcall(LuaState::luaVM, 0, 0, 0) == 0,
+							 "error contructor "<< className 
+							 <<": "
+							 << lua_tostring(LuaState::luaVM, -1));
     //return obj
     return newobj;
 }

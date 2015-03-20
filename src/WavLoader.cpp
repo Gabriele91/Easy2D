@@ -6,14 +6,14 @@ using namespace Easy2D;
 ///////////////////////
 //load wav
 
-ASPACKED(struct WavHeader
+ASPACKED(struct RIFFHeader
 {
     char chunkID[4];
     uint chunkSize;
     char format[4];
 });
 
-ASPACKED(struct WavRIFFHeader
+ASPACKED(struct FMTHeader
 {
     char subchunk1ID[4];
     uint subchunk1Size;
@@ -43,7 +43,7 @@ struct InfoSound
 };
 
 /*
- * N.B. sizeof(WavHeader)+8+wavRIFFHeader.subchunk1Size
+ * N.B. sizeof(RIFFHeader)+8+FMTHeader.subchunk1Size
  *      8 is sizeof(char subchunk1ID[4])+sizeof(uint subchunk1Size);
  */
 #define str4cmp(s1,s2) (strncmp(s1,s2,4)==0)
@@ -51,19 +51,19 @@ struct InfoSound
 WavLoader::InfoSound WavLoader::getInfo(Application::ResouceStream *pResource)
 {
     //header
-    WavHeader wavHeader;
-    WavRIFFHeader wavRIFFHeader;
-    RawHeader rawData;
+	RIFFHeader riffHeader;
+    FMTHeader  fmtHeader;
+    RawHeader  rawData;
     //read info
-    pResource->read(&wavHeader, sizeof(WavHeader), 1);
-    pResource->read(&wavRIFFHeader, sizeof(WavRIFFHeader), 1);
-    pResource->seek(sizeof(WavHeader)+8+wavRIFFHeader.subchunk1Size, Application::Seek::SET);
+	pResource->read(&riffHeader, sizeof(RIFFHeader), 1);
+	pResource->read(&fmtHeader, sizeof(FMTHeader), 1);
+	pResource->seek(sizeof(RIFFHeader) + 8 + fmtHeader.subchunk1Size, Application::Seek::SET);
     pResource->read(&rawData, sizeof(RawHeader), 1);
     //is a wave, riff, fmt ,pcm file.
-    bool isriff=str4cmp(wavHeader.chunkID,"RIFF");
-    bool iswave=str4cmp(wavHeader.format,"WAVE");
-    bool isfmt=str4cmp(wavRIFFHeader.subchunk1ID,"fmt ");
-    bool ispcm=wavRIFFHeader.audioFormat==1;//pcm==1
+	bool isriff = str4cmp(riffHeader.chunkID, "RIFF");
+	bool iswave = str4cmp(riffHeader.format, "WAVE");
+	bool isfmt  = str4cmp(fmtHeader.subchunk1ID, "fmt ");
+	bool ispcm = fmtHeader.audioFormat == 1;//pcm==1
     DEBUG_ASSERT_MSG(isriff,"OpenALReadWav: file must to be riff header");
     DEBUG_ASSERT_MSG(iswave,"OpenALReadWav: file must to be wave format");
     DEBUG_ASSERT_MSG(isfmt,"OpenALReadWav: file must to be ftm sound data's format");
@@ -71,61 +71,64 @@ WavLoader::InfoSound WavLoader::getInfo(Application::ResouceStream *pResource)
     //return
     InfoSound infoSound;
     //get cannels
-    infoSound.cannels= wavRIFFHeader.numChannels == 1 ?
-                       Audio::Channels::MONO : Audio::Channels::STEREO;
+	infoSound.cannels = fmtHeader.numChannels == 1 ?
+                        Audio::Channels::MONO : Audio::Channels::STEREO;
     //get bits per semple
-    infoSound.sempleBit=  wavRIFFHeader.bitsPerSample == 8 ?
-                          Audio::SempleBit::SEMPLE8BIT : Audio::SempleBit::SEMPLE16BIT;
+	infoSound.sempleBit  = fmtHeader.bitsPerSample == 8 ?
+                           Audio::SempleBit::SEMPLE8BIT : Audio::SempleBit::SEMPLE16BIT;
     //get semple rate
-    infoSound.sempleRate=wavRIFFHeader.sampleRate;
+	infoSound.sempleRate = fmtHeader.sampleRate;
     //get size raw data
     infoSound.rawSize=rawData.subchunk2Size;
     //get pos raw data
-    infoSound.rawPos=sizeof(WavHeader)+8+wavRIFFHeader.subchunk1Size+8;//offsetof(RawHeader, data);
+	infoSound.rawPos = sizeof(RIFFHeader) + 8 + fmtHeader.subchunk1Size + 8;//offsetof(RawHeader, data);
     //calc time
-    size_t sizeSemple= infoSound.sempleRate * wavRIFFHeader.numChannels * infoSound.sempleBit;
+	size_t sizeSemple = infoSound.sempleRate * fmtHeader.numChannels * infoSound.sempleBit;
     infoSound.time= (float)infoSound.rawSize/(float)sizeSemple;
 
     return infoSound;
 }
 
-Audio::SoundInterface* WavLoader::load(const Utility::Path& path)
+Audio::SoundBuffer* WavLoader::load(const Utility::Path& path)
 {
     //get raw file
     void *data=NULL;
     size_t len=0;
     Application::instance()->loadData(path,data,len);
     //headers
-    WavHeader *wavHeader;
-    WavRIFFHeader *wavRIFFHeader;
+	RIFFHeader *riffHeader;
+	FMTHeader *fmtHeader;
     RawHeader *rawData;
     //point to file readed:
     char *cData=(char*)data;
-    wavHeader=(WavHeader*)cData;
-    wavRIFFHeader=(WavRIFFHeader*)(cData+sizeof(WavHeader));
-    rawData=(RawHeader*)(cData+sizeof(WavHeader)+8+wavRIFFHeader->subchunk1Size);
+	riffHeader = (RIFFHeader*)cData;
+	fmtHeader = (FMTHeader*)(cData + sizeof(RIFFHeader));
+	rawData = (RawHeader*)(cData + sizeof(RIFFHeader) + 8 + fmtHeader->subchunk1Size);
     //is a wave, riff, fmt ,pcm file.
-    bool isriff=str4cmp(wavHeader->chunkID,"RIFF");
-    bool iswave=str4cmp(wavHeader->format,"WAVE");
-    bool isfmt=str4cmp(wavRIFFHeader->subchunk1ID,"fmt ");
-    bool ispcm=wavRIFFHeader->audioFormat==1;//pcm==1
+	bool isriff = str4cmp(riffHeader->chunkID, "RIFF");
+	bool iswave = str4cmp(riffHeader->format, "WAVE");
+	bool isfmt  = str4cmp(fmtHeader->subchunk1ID, "fmt ");
+	bool ispcm = fmtHeader->audioFormat == 1;//pcm==1
     DEBUG_ASSERT_MSG(isriff,"OpenALReadWav: file must to be riff header");
     DEBUG_ASSERT_MSG(iswave,"OpenALReadWav: file must to be wave format");
     DEBUG_ASSERT_MSG(isfmt,"OpenALReadWav: file must to be ftm sound data's format");
     DEBUG_ASSERT_MSG(ispcm,"OpenALReadWav: file must to be PCM = 1 (i.e. Linear quantization)");
     //get format
-    Audio::Channels cannels= wavRIFFHeader->numChannels == 1 ?
-                             Audio::Channels::MONO : Audio::Channels::STEREO;
+	Audio::Channels cannels = fmtHeader->numChannels == 1 ?
+                              Audio::Channels::MONO : Audio::Channels::STEREO;
 
-    Audio::SempleBit sbits=  wavRIFFHeader->bitsPerSample == 8 ?
+	Audio::SempleBit sbits = fmtHeader->bitsPerSample == 8 ?
                              Audio::SempleBit::SEMPLE8BIT : Audio::SempleBit::SEMPLE16BIT;
     /**
      * return a sound instance
      */
-    return
-        Application::instance()->getAudio()->createSound(rawData->data,
-                rawData->subchunk2Size,
-                wavRIFFHeader->sampleRate,
-                cannels,
-                sbits);
+	auto e2dbuffer = Application::instance()->getAudio()->createBuffer(rawData->data,
+																	   rawData->subchunk2Size,
+																	   fmtHeader->sampleRate,
+																	   cannels,
+																	   sbits);
+	//dealloc
+	free(data); data = nullptr;
+	//return
+	return e2dbuffer;
 }

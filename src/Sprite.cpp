@@ -40,18 +40,26 @@ void Sprite::serialize(Table& table)
 {
     Table& rsprite=table;
     //serialize render state
-    rsSerialize(rsprite);
+	rsSerialize(rsprite);
+	//visible
+	rsprite.set("visible", isVisible() ? "yes" : "no");
     //serialize shader
     if(getShader())
         rsprite.set("shader",getShader()->getName());
     //serialize texture
     if(getTexture())
-        rsprite.set("texture",getTexture()->getName());
+		rsprite.set("texture", getTexture()->getName());
 }
 void Sprite::deserialize(const Table& table)
 {
     //deserialize rander state
-    rsDeserialize(table);
+	rsDeserialize(table);
+	//visible
+	if (table.existsAsType("visible", Table::STRING))
+	{
+		if( table.getString("visible", isVisible() ? "yes" : "no") != "no" ) show();
+		else hide();
+	}
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {

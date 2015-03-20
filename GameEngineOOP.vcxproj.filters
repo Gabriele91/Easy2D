@@ -55,6 +55,12 @@
     <Filter Include="File di origine\angleproject">
       <UniqueIdentifier>{c021c6a6-d40c-4a09-9dad-5b57a3881b92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di origine\socket">
+      <UniqueIdentifier>{350c2a05-3cd0-4e47-8263-0491443a5a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\socket">
+      <UniqueIdentifier>{92236a66-96cf-4481-9340-4d92a9ebe156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -192,15 +198,6 @@
     <ClCompile Include="src\audio\AudioAL.cpp">
       <Filter>File di origine\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio\BaseSoundAL.cpp">
-      <Filter>File di origine\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\audio\StaticSoundAL.cpp">
-      <Filter>File di origine\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\audio\StreamSoundAL.cpp">
-      <Filter>File di origine\audio</Filter>
-    </ClCompile>
     <ClCompile Include="src\audio\StreamThreadAL.cpp">
       <Filter>File di origine\audio</Filter>
     </ClCompile>
@@ -289,6 +286,30 @@
       <Filter>File di origine\angleproject</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderQueue.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\LuaBody.cpp">
+      <Filter>File di origine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\script\LuaRenderable.cpp">
+      <Filter>File di origine\script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\socket\Socket.cpp">
+      <Filter>File di origine\socket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\SoundEmitterAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\StaticBufferAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\audio\StreamBufferAL.cpp">
+      <Filter>File di origine\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Speaker.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AiffLoader.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -453,15 +474,6 @@
     <ClInclude Include="include\audio\AudioAL.h">
       <Filter>File di intestazione\audio</Filter>
     </ClInclude>
-    <ClInclude Include="include\audio\BaseSoundAL.h">
-      <Filter>File di intestazione\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="include\audio\StaticSoundAL.h">
-      <Filter>File di intestazione\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="include\audio\StreamSoundAL.h">
-      <Filter>File di intestazione\audio</Filter>
-    </ClInclude>
     <ClInclude Include="include\audio\StreamThreadAL.h">
       <Filter>File di intestazione\audio</Filter>
     </ClInclude>
@@ -545,6 +557,39 @@
     </ClInclude>
     <ClInclude Include="include\RenderQueue.h">
       <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\socket\Address.h">
+      <Filter>File di intestazione\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="include\socket\Socket.h">
+      <Filter>File di intestazione\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\SoundEmitterAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\StaticBufferAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\StreamBufferAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Speaker.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\audio\SoundListenerAL.h">
+      <Filter>File di intestazione\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Listener.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AiffLoader.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\script\RefCountedPtr.h">
+      <Filter>File di intestazione\script</Filter>
+    </ClInclude>
+    <ClInclude Include="include\script\RefStdCount.h">
+      <Filter>File di intestazione\script</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,7 @@ class Texture : public Resource<Texture>
     uint realWidth,realHeight;
     uint spriteWidth,spriteHeight;
     uint gpuid;
+	uint ntextureBind;
     Vec4 offsetUV;
     //sprite pow of tow
     Mesh::ptr po2Srpite;

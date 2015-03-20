@@ -64,7 +64,7 @@ protected:
     //exit loop?
     bool doexit;
     //
-    EmscriptenApp();
+    EmscriptenApp(const String& name);
     friend class Application;
 
 };

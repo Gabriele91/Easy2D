@@ -9,6 +9,10 @@ void Label::updateBox(){
     box.setRegion(guim->getPickBox());
 }
 
+Label::Label(Panel* panel)
+	  :Label((GuiManager*)panel)
+{
+}
 Label::Label(GuiManager* guim):GuiObject(guim)
 {
     //style

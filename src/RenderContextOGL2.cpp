@@ -12,6 +12,7 @@ std::vector<Shader::ptr> RenderContext::shaders;
 RenderContext::Context RenderContext::context;
 RenderContext::RenderState RenderContext::state=
 {
+    STENCIL_NONE,             //stencil
     BACK,                     //cullface
     false,                    //zbuffer
     Vec4::ZERO,               //viewport
@@ -190,7 +191,6 @@ void RenderContext::setTexture(bool enable)
     //save
     state.texture=enable;
     //set
-
     if(enable)
         glEnable(GL_TEXTURE_2D);
     else
@@ -362,7 +362,28 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
                      newState.clearColor.bNormalize(),
                      newState.clearColor.aNormalize());
         //find errors:
-        CHECK_GPU_ERRORS();
+		CHECK_GPU_ERRORS();
+		//////////////////////////////////////////////////////////////////////
+		//set stencil
+		switch (newState.stencil)
+		{
+		case STENCIL_NONE:
+			glDisable(GL_STENCIL_TEST);
+			break;
+		case STENCIL_REPLACE:
+			glEnable(GL_STENCIL_TEST);
+			glStencilFunc(GL_ALWAYS, 1, 1);
+			glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+			break;
+		case STENCIL_KEEP:
+			glEnable(GL_STENCIL_TEST);
+			glStencilFunc(GL_EQUAL, 1, 1);
+			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+			break;
+		default: break;
+		}
+		//find errors:
+		CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //clients
 		
@@ -391,8 +412,9 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
         setBlendFunction(newState.blendSRC, newState.blendDST);
         setTexture(newState.texture);
         setColor(newState.color);
-        setColorClear(newState.clearColor);
-        setAmbientColor(newState.ambientColor);
+		setColorClear(newState.clearColor);
+		setAmbientColor(newState.ambientColor);
+		setStencil(newState.stencil);
         setClientState(newState.vertexsArray,
                        newState.normalsArray,
                        newState.texcoordsArray,
@@ -406,7 +428,8 @@ const RenderContext::RenderState& RenderContext::getRenderState()
 void RenderContext::setDefaultRenderState()
 {
 	RenderContext::RenderState defaultState=
-    {
+	{
+		STENCIL_NONE,             //stencil
         BACK,                     //cullface
         false,                    //zbuffer
         Vec4::ZERO,               //viewport
@@ -580,6 +603,40 @@ const Color& RenderContext::getAmbientColor()
     return state.ambientColor;
 }
 
+//stencil
+void RenderContext::stencilClear()
+{
+	//value
+	glClearStencil(0);
+	//clear the stencil
+	glClear(GL_STENCIL_BUFFER_BIT);
+}
+void RenderContext::setStencil(StencilBuffer stencil)
+{
+	if (state.stencil == stencil) return;
+	
+	switch (stencil)
+	{
+	case STENCIL_NONE:
+		glDisable(GL_STENCIL_TEST);
+	break;
+	case STENCIL_REPLACE:
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 1);
+		glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+	break;
+	case STENCIL_KEEP:
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_EQUAL, 1, 1);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+	break;
+	default: break;
+	}
+}
+StencilBuffer  RenderContext::getStencil()
+{
+	return state.stencil;
+}
 
 
 
@@ -944,6 +1001,7 @@ void RenderContext::drawLine(const Vec2& v1,const Vec2& v2,const Color& color)
 static void debugARenderState(const RenderContext::RenderState& state)
 {
     Debug::message()<< "Render state:\n";
+	Debug::message()<< " stencil: " << (state.stencil == STENCIL_NONE ? "NONE" : (state.stencil == STENCIL_REPLACE ? "REPLACE" : "KEEP")) << "\n";
     Debug::message()<< " cullface: " << (state.cullface == DISABLE ? "DISABLE" : (state.cullface==BACK ? "BACK" : "FRONT")) << "\n";
     Debug::message()<< " zbuffer: " << (state.zbuffer  ? "TRUE" : "FALSE") << "\n";
     Debug::message()<< " viewport: " << state.viewport.toString() << "\n";
@@ -976,13 +1034,23 @@ void RenderContext::debugNativeState()
         glstate.cullface= cullmode==GL_BACK ? BACK : FRONT;
     }
     else
-        glstate.cullface=DISABLE;
+		glstate.cullface = DISABLE;	
+	//get stencil
+	if (glIsEnabled(GL_STENCIL_TEST))
+	{
+		int func;
+		glGetIntegerv(GL_STENCIL_FUNC, &func);
+		if (func == GL_ALWAYS) glstate.stencil = STENCIL_REPLACE;
+		else                     glstate.stencil = STENCIL_KEEP;
+	}
+	else
+		glstate.stencil = STENCIL_NONE;
     //get zbuffer
         glstate.zbuffer=glIsEnabled(GL_DEPTH_TEST);
     //viewport
 		glGetFloatv(GL_VIEWPORT ,  &glstate.viewport.x);
     //get alpha
-		glstate.alpha=glIsEnabled(GL_ALPHA_TEST);
+		glstate.alpha = glIsEnabled(GL_ALPHA_TEST);
     //get blend
         glstate.blend=glIsEnabled(GL_BLEND);
     //get

@@ -33,7 +33,10 @@ namespace Gui{
         {
         }
         virtual void draw()=0;
-
+		virtual const AABox2& getBox() const
+		{
+			return box;
+		}
     };
 
 };

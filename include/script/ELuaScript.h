@@ -20,20 +20,25 @@ class LuaScript :  public Component
         ON_RUN,
         ON_END
     };
-    State state;
     //script objects
     class ScriptObject : public Pointers<ScriptObject>
     {
-    public:
+	public:
+		State state;
         Script::ptr luaClass;
         LuaState::LuaObject* luaObject;
         
         LuaState::LuaRef luaOnInit;
         LuaState::LuaRef luaOnRun;
         LuaState::LuaRef luaOnEnd;
-        
+
+		void callOnInit(Object*);
+		void callOnRun(Object*,float);
+		void callOnEnd(Object*);
+
         ScriptObject():
-         luaObject(nullptr)
+         state(ON_VOID)
+        ,luaObject(nullptr)
         ,luaOnInit(LuaState::getVM())
         ,luaOnRun(LuaState::getVM())
         ,luaOnEnd(LuaState::getVM())
@@ -51,10 +56,13 @@ class LuaScript :  public Component
     public:
 
     LuaScript():Component()
-               ,state(ON_VOID)
     {
 
-    }
+	}
+	LuaScript(Script::ptr script) :Component()
+	{
+		addScript(script);
+	}
     virtual ~LuaScript()
     {
     }
@@ -75,8 +83,13 @@ class LuaScript :  public Component
     {
         return objects.size();
     }
+	//add lua script
+	int addScript(Script::ptr script);
+	int addScript(Script::ptr script,const Table& table);
     //update
+	virtual void onSetScene(Scene* scene);
     virtual void onRun(float dt);
+	virtual void onEraseScene();
     //component
     ADD_COMPONENT_METHOS(LuaScript)
     //serialize/deserialize

@@ -193,17 +193,60 @@ public:
     }
 };
 
+class LuaSprite : public Sprite
+{
+public:
 
+	static int init(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		Sprite* p = nullptr;
+		if (nargs == 1)
+			p = new Sprite();
+		else if (nargs == 2)
+			p = new Sprite(luabridge::Stack< Texture::ptr >::get(luaVM, 2));
+		else
+		{
+			luaL_argerror(luaVM, nargs, "Sprite() fail");
+			return 0;
+		}
+		//push
+		luabridge::UserdataSharedHelper <RefCountedPtr <Sprite>, false>::push(luaVM, p);
+		//return
+		return 1;
+	}
+
+	int setTexture(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((AnimatedSprite*)(this));//1=self/this
+		//
+		if (lua_isuserdata(luaVM, 2) && nargs == 2)
+		{
+			auto t = luabridge::Stack< Texture::ptr >::get(luaVM, 2);
+			Sprite::setTexture(t); 
+		}
+		else
+		{
+			luaL_argerror(luaVM, nargs, "Sprite:addTexture fail");
+		}
+		return 0;
+	}
+};
 
 void LuaState::addRenderableLib()
 {
+	typedef Object*(Renderable::*getRenderableObject)();
+	typedef Scene*(Renderable::*getRenderableScene)();
     /** Randerable class */
     luabridge::getGlobalNamespace(luaVM)
-    .beginClass <Renderable>("Renderable")
-    .addConstructor <void (*) (void)> ()
+	.deriveClass <Renderable, Component>("Renderable")
+	.addConstructor <void(*) (void), RefCountedPtr <Renderable> >()
     .addFunction("canBatching",&Renderable::canBatching)
-    .addFunction("canTransform",&Renderable::canTransform)
-    .addFunction("getObject",&Renderable::getObject)
+	.addFunction("canTransform", &Renderable::canTransform)
+	.addFunction<getRenderableObject>("getObject", &Renderable::getObject)
+	.addFunction<getRenderableScene>("getObject", &Renderable::getScene)
     .addFunction("show",&Renderable::show)
     .addFunction("hide",&Renderable::hide)
     .addFunction("isVisible",&Renderable::isVisible)
@@ -221,7 +264,7 @@ void LuaState::addRenderableLib()
     /** Emitter class */
     luabridge::getGlobalNamespace(luaVM)
     .deriveClass <Emitter,Renderable> ("Emitter")
-    .addConstructor <void (*) (void)> ()
+	.addConstructor <void(*) (void), RefCountedPtr <Emitter> >()
     
     //set duration
     .addFunction("setDuration",&Emitter::setDuration)
@@ -288,16 +331,20 @@ void LuaState::addRenderableLib()
     /////////////////////////////////////////////////
     
     /** Sprite class */
-    luabridge::getGlobalNamespace(luaVM)
-    .deriveClass <Sprite,Renderable> ("Sprite")
-    .addConstructor <void (*) (void)> ()
-    .addFunction("getPixelScale",&Sprite::getPixelScale);
+	luabridge::getGlobalNamespace(luaVM)
+	.deriveClass <Sprite, Renderable>("Sprite")
+    //.addConstructor <void(*) (void), RefCountedPtr <Sprite> >()
+	  .addStaticCFunction("__call", &LuaSprite::init)
+	  .addFunction("getPixelScale", &Sprite::getPixelScale)
+	  .addCFunction("setTexture",
+	  (int (Sprite::*) (lua_State*))&LuaSprite::setTexture
+	  );
     /////////////////////////////////////////////////
     
     /** AnimatedSprite */
     luabridge::getGlobalNamespace(luaVM)
     .deriveClass <AnimatedSprite,Renderable> ("AnimatedSprite")
-    .addConstructor <void (*) (void)> () //set animation frame
+	.addConstructor <void(*) (void), RefCountedPtr <Emitter> >() //set animation frame
     .addCFunction("setFrame",(int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::setFrame)
     //add an animation
     .addCFunction("addAnimation",(int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::addAnimation)

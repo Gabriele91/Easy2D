@@ -123,7 +123,9 @@ void LinuxApp::loop()
         //save dt
         lastDeltaTime=dt;
         //update
-        update(dt);
+        update((float)dt);
+        //update audio
+        audio->update((float)dt);
         //update opengl
         screen->swap();
     }

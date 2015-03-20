@@ -31,22 +31,29 @@ bool Renderable::canBatching(Renderable *oldstate)
 //serialize/deserialize
 void Renderable::serialize(Table& table)
 {
-    Table& rsprite=table.createTable(getComponentName());
+    Table& rtable=table.createTable(getComponentName());
     //serialize render state
-    rsSerialize(rsprite);
+	rsSerialize(rtable);
     //serialize renderable
     if(getShader())
-        rsprite.set("shader",getShader()->getName());
+		rtable.set("shader", getShader()->getName());
     if(getTexture())
-        rsprite.set("texture",getTexture()->getName());
+		rtable.set("texture", getTexture()->getName());
     if(getMesh())
-        rsprite.set("mesh",getMesh()->getName());
+		rtable.set("mesh", getMesh()->getName());
+	//visible
+	rtable.set("visible", isVisible() ? "yes" : "no");
 }
 void Renderable::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
     //deserialize renderable
+	if (table.existsAsType("visible", Table::STRING))
+	{
+		if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
+		else hide();
+	}
     if(table.existsAsType("shader",Table::STRING))
     {
         auto rsmanager=table.getResourcesManager();

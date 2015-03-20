@@ -37,7 +37,7 @@ public:
     void uv(const Vec2& uv);
     
     //bind
-    bool build(bool deletecpuinfo=true);
+    virtual bool build(bool deletecpuinfo=true);
     
     //like OpenGL 2.X, 3.X, 4.x
     void vbuffer(const byte* b);
@@ -134,10 +134,7 @@ public:
     void addQuadIndexs(ushort v1,ushort v2,ushort v3,ushort v4);
     void setDrawMode(DrawMode dmode);
     //show build
-    void build(float clearcpu=false)
-    {
-        GenericMesh::build(clearcpu);
-    }
+	virtual bool build(bool clearcpu = false);
     //show get draw mode
     virtual DrawMode getDrawMode() const
     {

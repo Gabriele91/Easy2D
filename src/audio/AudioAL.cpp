@@ -1,7 +1,10 @@
 #include <stdafx.h>
 #include <AudioAL.h>
-#include <StaticSoundAL.h>
-#include <StreamSoundAL.h>
+#include <Application.h>
+#include <StaticBufferAL.h>
+#include <StreamBufferAL.h>
+#include <SoundEmitterAL.h>
+#include <SoundListenerAL.h>
 #include <EString.h>
 #include <Debug.h>
 ///////////////////////
@@ -91,7 +94,11 @@ static void ualGetDevices(std::vector<String>& Devices)
 /**
  * init audio engine
  */
-AudioAL::AudioAL():device(NULL),context(NULL),globalVolume(1.0)
+AudioAL::AudioAL()
+	:device(nullptr)
+	,context(nullptr)
+	,globalVolume(1.0)
+	,doUpdate(false)
 {
     //alloc the OpenAL context
     streamThread.start();
@@ -146,15 +153,28 @@ AudioAL::~AudioAL()
                               "OpenAL error close device: " << ualGetALErrorString(alcGetError (device)) );
 #endif
 }
-
+/**
+* create a emitter
+*/
+Audio::SoundListener* AudioAL::createListener()
+{
+	return new SoundListenerAL();
+}
+/**
+* create a emitter
+*/
+Audio::SoundEmitter* AudioAL::createEmitter()
+{
+	return new SoundEmitterAL();
+}
 /**
  * create a sound buffer
  */
-Audio::SoundInterface* AudioAL::createSound(void *raw,
-        size_t size,
-        size_t sempleRate,
-        Channels channels,
-        SempleBit sempleBit)
+Audio::SoundBuffer* AudioAL::createBuffer(void *raw,
+										  size_t size,
+										  size_t sempleRate,
+										  Channels channels,
+										  SempleBit sempleBit)
 {
     //get openAL format
     ALenum format;
@@ -167,25 +187,21 @@ Audio::SoundInterface* AudioAL::createSound(void *raw,
     alGenBuffers(1, &buffer);
     //send file data
     alBufferData(buffer, format, raw, size, sempleRate);
-    //create a source
-    ALuint source = AL_NONE;
-    alGenSources(1, &source);
-    alSourcei (source, AL_BUFFER, buffer);
     //calc semple size (SampleRate * NumChannels * BitsPerSample/8)
     size_t sizeSemple= sempleRate * channels * sempleBit;
     float timeLongSong= (float)size/(float)sizeSemple;
     //return a StaticSoundAL class object
-    return new StaticSoundAL(source,buffer,format,timeLongSong,globalVolume);
+	return new StaticBufferAL(buffer, format, timeLongSong);
 }
 /**
  * create a stream sound buffer
  */
-Audio::SoundInterface* AudioAL::createStreamSound(DFUNCTION<size_t(uchar* buffer,size_t sizeBuffer)> readStream,
-        DFUNCTION<void(void)> restartStream,
-        size_t size,
-        size_t sempleRate,
-        Channels channels,
-        SempleBit sempleBit)
+Audio::SoundBuffer* AudioAL::createStreamBuffer(Application::ResouceStream* resource,
+												size_t offset,
+												size_t size,
+												size_t sempleRate,
+												Channels channels,
+												SempleBit sempleBit)
 {
     //get openAL format
     ALenum format;
@@ -193,23 +209,21 @@ Audio::SoundInterface* AudioAL::createStreamSound(DFUNCTION<size_t(uchar* buffer
         format = sempleBit==SempleBit::SEMPLE8BIT ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
     else
         format = sempleBit==SempleBit::SEMPLE8BIT ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
+	//big ending?
+	bool isBE = sempleBit == SempleBit::SEMPLE16BEBIT;
     //calc semple size (SampleRate * NumChannels * BitsPerSample/8)
     size_t sizeSemple= sempleRate * channels * sempleBit;
     float timeLongSong= (float)size/(float)sizeSemple;
-    //create a source
-    ALuint source = AL_NONE;
-    alGenSources(1, &source);
-    return new StreamSoundAL(&streamThread,         //stream thread
-                             source,                //souce
-                             readStream,            //readStream callback
-                             restartStream,         //restart steam callback
-                             size,                  //global size
-                             sempleRate,            //semple rate
-                             sizeSemple,            //size of a semple
-                             format,                //OpenAL buffer type
-                             timeLongSong,          //len sound
-                             globalVolume           //volume
-                            );
+	//create buffer
+	return new StreamBufferAL(resource,             //resource
+							  offset,               //resource offset
+                              size,                  //global size
+                              sempleRate,            //semple rate
+                              sizeSemple,            //size of a semple
+                              format,                //OpenAL buffer type
+                              isBE,                  //is big ending?
+                              timeLongSong           //len sound
+                              );
 }
 
 /**
@@ -219,4 +233,55 @@ void AudioAL::changeVolume(float volume)
 {
     globalVolume=volume;
     Audio::changeVolume(volume);
+}
+/**
+* subscription of the listener 2d
+*/
+void AudioAL::subscriptionListener2D(SoundListener *listener)
+{
+	listeners[listener] = listener;
+}
+/**
+* unsubscription of the listener 2d
+*/
+void AudioAL::unsubscriptionListener2D(SoundListener *listener)
+{
+	auto it = listeners.find(listener);
+	if (it != listeners.end())
+		listeners.erase(it);
+}
+/**
+* required a update audio resources
+*/
+void AudioAL::requiredUpdate()
+{
+	doUpdate = true;
+}
+/**
+* update audio resources
+*/
+void AudioAL::update(float dt)
+{
+	if (doUpdate)
+	{
+		foreachSounds2D([this](SoundEmitter* _emitter)
+		{
+			SoundEmitterAL* const emitter = (SoundEmitterAL*)_emitter;
+			const Vec2  pos    = emitter->getPosition();
+			const float radius = emitter->getRadius();
+			emitter->__volume2dFromManager(0.0);
+			//calc audio
+			if  (radius>0.0)
+			for (auto it : listeners)
+			{
+				float dist  = it.second->getPosition().distance(pos);
+				float volume = (Math::max(radius - dist,0.0f) / radius) * it.second->getVolume();
+				if (emitter->__getListenerVolume() < volume)
+				{
+					emitter->__volume2dFromManager(volume);
+				}
+			}
+		});
+		doUpdate = false;
+	}
 }

@@ -43,14 +43,12 @@ namespace Gui{
         
     public:
 
+		Panel(Panel* panel);
         Panel(GuiManager* guim);
-        
         virtual void draw();
-        
         void setScale(const Vec2& scale);
         void setPosition(const Vec2& pos);
-        
-        GuiManager* toGuiManager();
+        operator GuiManager*();
     };
     
 };

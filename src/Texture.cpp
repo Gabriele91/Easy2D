@@ -25,6 +25,7 @@ Texture::Texture(ResourcesManager<Texture> *rsmr,
     ,spriteWidth(0)
     ,spriteHeight(0)
     ,gpuid(0)
+	,ntextureBind(0)
     ,offsetUV(0,0,1,1)
     ,po2Srpite(nullptr)
 {
@@ -53,6 +54,8 @@ void Texture::bind(uint ntexture)
     DEBUG_ASSERT(gpuid);
     //
     RenderContext::bindTexture(gpuid,ntexture);
+	//save
+	ntextureBind = ntexture;
     //filters
 #ifndef DISABLE_MIDMAP
     if(chBlr || chMps)
@@ -274,7 +277,13 @@ bool Texture::unload()
 {
     //unload
     DEBUG_ASSERT(gpuid);
-    glDeleteTextures(1, &gpuid );
+	//get status
+	auto textureinfo=RenderContext::currentTexture(ntextureBind);
+	if (textureinfo.enable && textureinfo.idtexture == gpuid)
+	{
+		RenderContext::unbindTexture(ntextureBind);
+	}
+	RenderContext::deleteTexture(gpuid);
     //reset values
     width = height = 0;
     realWidth = realHeight = 0;

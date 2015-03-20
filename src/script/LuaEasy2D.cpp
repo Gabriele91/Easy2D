@@ -5,7 +5,6 @@
 #include <Application.h>
 #include <Color.h>
 #include <Object.h>
-
 //components
 #include <Renderable.h>
 #include <ParticleSystem.h>
@@ -14,8 +13,8 @@
 #include <Parallax.h>
 #include <Body.h>
 #include <State.h>
+#include <ResourcesGroup.h>
 //end component
-
 using namespace Easy2D;
 
 #define GeS(X) X,X
@@ -32,38 +31,37 @@ template<class T> T* getLuaComponent(const Object *costObj)
     return nullptr;
 }
 
-int LuaNewColor(lua_State* lVM)
-{  
-    int const nargs = lua_gettop (lVM);
-    //push a new vec4
-    if(!nargs)
-    {
-        luabridge::Stack <Color>::push(lVM,Color());
-    }
-    else
-    if(lua_isuserdata(lVM,1) && nargs==1)
-    {
-        luabridge::Stack <Color>::push(lVM, 
-            Color(luabridge::Stack <Color>::get(lVM, 1)));
-    }
-    else
-    if(lua_isnumber(lVM,1) && 
-       lua_isnumber(lVM,2) && 
-       lua_isnumber(lVM,3) && 
-       lua_isnumber(lVM,4) && nargs==4)
-    {
-        luabridge::Stack <Color>::push(lVM,
-           Color(luabridge::Stack <uchar>::get(lVM, 1),
-                 luabridge::Stack <uchar>::get(lVM, 2),
-                 luabridge::Stack <uchar>::get(lVM, 3),
-                 luabridge::Stack <uchar>::get(lVM, 4)));
-    }
-    else
-    {
-        luaL_argerror(lVM,nargs,"Color.new fail");
-        return 0;
-    }
-    return 1;
+static int LuaNewColor(lua_State* lVM)
+{
+	int const nargs = lua_gettop(lVM);
+	//memory
+	Color* c = (Color*)luabridge::UserdataValue <Color>::place(lVM);
+	//push a new vec2
+	if (nargs == 1)
+	{
+		new (c)Color();
+	}
+	else
+	if (lua_isuserdata(lVM, 2) && nargs == 2)
+	{
+		new (c) Color(luabridge::Stack <Color>::get(lVM, 2));
+	}
+	else
+	if (lua_isnumber(lVM, 2) &&
+		lua_isnumber(lVM, 3) &&
+		lua_isnumber(lVM, 4) &&
+		lua_isnumber(lVM, 5) && nargs == 5)
+	{
+		new (c)Color(luabridge::Stack <uchar>::get(lVM, 2),
+					 luabridge::Stack <uchar>::get(lVM, 3),
+					 luabridge::Stack <uchar>::get(lVM, 4),
+					 luabridge::Stack <uchar>::get(lVM, 5));
+	}
+	else
+	{
+		luaL_argerror(lVM, nargs, "Color() fail");
+	}
+	return 1;
 }
 
 class LuaColor : public Color
@@ -139,24 +137,41 @@ class LuaE2Object : public Object
             luaL_argerror(luaVM,nargs,"Object:setScale fail");
 
         return 0;
-    }
-    int setRotation (lua_State* luaVM)
-    { 
-        int const nargs = lua_gettop (luaVM);
-        //good cast
-        auto rsthis=((Object*)(this));//1=self/this
-        //set scale
-        if(nargs==2)
-            rsthis->setRotation(luabridge::Stack<float>::get(luaVM,2));
-        else
-        if(nargs==3)
-            rsthis->setRotation(luabridge::Stack<float>::get(luaVM,2),
-                                luabridge::Stack<bool>::get(luaVM,2));
-        else
-            luaL_argerror(luaVM,nargs,"Object:setRotation fail");
+	}
+	int setRotation(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));//1=self/this
+		//set scale
+		if (nargs == 2)
+			rsthis->setRotation(luabridge::Stack<float>::get(luaVM, 2));
+		else
+			if (nargs == 3)
+				rsthis->setRotation(luabridge::Stack<float>::get(luaVM, 2),
+				luabridge::Stack<bool>::get(luaVM, 2));
+			else
+				luaL_argerror(luaVM, nargs, "Object:setRotation fail");
 
-        return 0;
-    }
+		return 0;
+	}
+	int setZ(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));//1=self/this
+		//set scale
+		if (nargs == 2)
+			rsthis->setZ(luabridge::Stack<float>::get(luaVM, 2));
+		else
+			if (nargs == 3)
+				rsthis->setZ(luabridge::Stack<float>::get(luaVM, 2),
+							 luabridge::Stack<bool>::get(luaVM, 2));
+			else
+				luaL_argerror(luaVM, nargs, "Object:setZ fail");
+
+		return 0;
+	}
     /*
     Vec2 getPosition([bool])
     Vec2 getScale([bool])
@@ -202,40 +217,100 @@ class LuaE2Object : public Object
         }
         return 1;
     }
-    int getRotation (lua_State* luaVM)
-    { 
-        int const nargs = lua_gettop (luaVM);
-        //good cast
-        auto rsthis=((Object*)(this));//1=self/this
-        //get scale
-        if(nargs==1)
-            luabridge::Stack<float>::push(luaVM,rsthis->getRotation());
-        else
-        if(nargs==2)
-            luabridge::Stack<float>::push(luaVM,rsthis->getRotation(
-                luabridge::Stack<bool>::get(luaVM,2)
-            ));
-        else
-        {
-            luaL_argerror(luaVM,nargs,"Object:getRotation fail");
-            return 0;
-        }
-        return 1;
-    }
+    int getRotation(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));//1=self/this
+		//get scale
+		if (nargs == 1)
+			luabridge::Stack<float>::push(luaVM, rsthis->getRotation());
+		else
+			if (nargs == 2)
+				luabridge::Stack<float>::push(luaVM, rsthis->getRotation(
+				luabridge::Stack<bool>::get(luaVM, 2)
+				));
+			else
+			{
+				luaL_argerror(luaVM, nargs, "Object:getRotation fail");
+				return 0;
+			}
+		return 1;
+	}    
+    int getZ(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));//1=self/this
+		//get scale
+		if (nargs == 1)
+			luabridge::Stack<float>::push(luaVM, rsthis->getZ());
+		else
+			if (nargs == 2)
+				luabridge::Stack<float>::push(luaVM, rsthis->getZ(
+						luabridge::Stack<bool>::get(luaVM, 2)
+				));
+			else
+			{
+				luaL_argerror(luaVM, nargs, "Object:getZ fail");
+				return 0;
+			}
+		return 1;
+	}
     /*
     Object* getObject(string)
     Object* getChild(string)
     */
-    int getObject (lua_State* luaVM)
+	int addChild(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));
+		//get obj
+		if (nargs == 2)
+		{
+			RefCountedPtr <Object> ref(luabridge::Stack<Object*>::get(luaVM, 2));
+			ref.disable();
+			Object::addChild(ref.get());
+		}
+		else
+		{
+			luaL_argerror(luaVM, nargs, "Object:addChild fail");
+		}
+		return 0;
+    }
+	int eraseChild(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));
+		//get obj
+		if (nargs == 2)
+		{
+			Object* obj = luabridge::Stack<Object*>::get(luaVM, 2);
+			Object::eraseChild(obj);
+			RefCountedPtr <Object> ref(obj); ref.enable();
+			luabridge::Stack< RefCountedPtr <Object> >::push(luaVM, ref);
+			return 1;
+		}
+		else
+		{
+			luaL_argerror(luaVM, nargs, "Object:eraseChild fail");
+			return 0;
+		}
+	}
+	int getObject(lua_State* luaVM)
     { 
         int const nargs = lua_gettop (luaVM);
         //good cast
         auto rsthis=((Object*)(this));//1=self/this
         //get obj
-        if(nargs==2)
-            luabridge::Stack<Object*>::push(luaVM,rsthis->getObject(
-                luabridge::Stack<std::string>::get(luaVM,2)
-            ));
+		if (nargs == 2)
+		{
+			luabridge::Stack<Object*>::push(luaVM, rsthis->getObject(
+				luabridge::Stack<std::string>::get(luaVM, 2)
+				));
+		}
         else
         {
             luaL_argerror(luaVM,nargs,"Object:getObject fail");
@@ -260,6 +335,50 @@ class LuaE2Object : public Object
         }
         return 1;
     }
+	//add component
+	int addComponent(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));//1=self/this       
+		//get obj
+		if (nargs == 2)
+		{
+			RefCountedPtr <Component> ref(luabridge::Stack<Component*>::get(luaVM, 2));
+			ref.disable();
+			Object::addComponent(ref.get());
+		}
+		else
+		{
+			luaL_argerror(luaVM, nargs, "Object:addComponent fail");
+		}
+		return 0;
+	}
+	//add component
+	int removeComponent(lua_State* luaVM)
+	{
+		int const nargs = lua_gettop(luaVM);
+		//good cast
+		auto rsthis = ((Object*)(this));//1=self/this
+		//get obj
+		if (nargs == 2)
+		{
+			String cmpName = luabridge::Stack<String>::get(luaVM, 2);
+			Component* cmp = Object::removeComponent(cmpName);
+			if (cmp)
+			{
+				RefCountedPtr <Component> ref(cmp); ref.enable();
+				luabridge::Stack< RefCountedPtr <Component> >::push(luaVM, ref);
+			}
+			else lua_pushnil(luaVM);
+			return 1;
+		}
+		else
+		{
+			luaL_argerror(luaVM, nargs, "Object:eraseChild fail");
+			return 0;
+		}
+	}
     //get name / set name
     int getName(lua_State* luaVM)
     {
@@ -305,6 +424,27 @@ class LuaE2Object : public Object
         return 1;
     }
 };
+/*
+template <>
+struct luabridge::ContainerConstructionTraits< Texture::ptr >
+{
+	static Texture::ptr constructContainer(Texture *t)
+	{
+		return t->getSharedPtr();
+	}
+};
+*/
+
+class LuaResourcesGroup : public ResourcesGroup
+{
+public:
+/*
+	Texture::ptr  loadTexture(const String& name)
+	{
+		return load < Texture >(name);
+	} 
+*/
+};
 
 #define aFUN(args) (void(*)(args))&[](args)
 
@@ -313,8 +453,8 @@ void LuaState::addEasy2DLib()
     /** Color class */
     luabridge::getGlobalNamespace(luaVM)
         .beginClass<Color>("Color")
-        .addConstructor <void (*) (void)> ()
-        .addStaticCFunction("new",LuaNewColor)
+      //.addConstructor <void (*) (void)> ()
+        .addStaticCFunction("__call",LuaNewColor)
         .addData("r",&Color::r)
         .addData("g",&Color::g)
         .addData("b",&Color::b)
@@ -328,22 +468,141 @@ void LuaState::addEasy2DLib()
         .addFunction("toVec4",&Color::toVec4)
         .addFunction("fromVec4",&Color::fromVec4);
     
-    
-    /** Object */
+	/** Component */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<Component>("Component")
+		.addConstructor <void(*) (void), RefCountedPtr <Component> >()
+		.addFunction<Object* (Component::*)()>("getObject", &Component::getObject)
+		.addFunction<Scene* (Component::*)()>("getScene", &Component::getScene)
+
+		.addFunction<void (Component::*)(Object*)>("onSetObject",     &Component::onSetObject)
+		.addFunction<void (Component::*)(void)   >("onChangedMatrix", &Component::onChangedMatrix)
+		.addFunction<void (Component::*)(void)   >("onEraseObject",   &Component::onEraseObject)
+
+		.addFunction<void (Component::*)(Scene*) >("onSetScene", &Component::onSetScene)
+		.addFunction<void (Component::*)(void)   >("onScenePause", &Component::onScenePause)
+		.addFunction<void (Component::*)(void)   >("onSceneResume", &Component::onSceneResume)
+		.addFunction<void (Component::*)(void)   >("onEraseScene", &Component::onEraseScene)
+
+		.addFunction<void (Component::*)(uint)   >("onMessage", &Component::onMessage)
+		.addFunction<void (Component::*)(float)   >("onRun", &Component::onRun)
+		.addFunction<void (Component::*)(float)   >("onFixedRun", &Component::onFixedRun)
+		.addFunction<const char* (Component::*)(void) const>("getComponentName", &Component::getComponentName)
+		.addFunction<uint(Component::*)(void) const>("getComponentName", &Component::getComponentFamily)
+
+		.addFunction<void(Component::*)(Table&)>("serialize", &Component::serialize)
+		.addFunction<void(Component::*)(const Table&)>("deserialize", &Component::deserialize);
+
+	/** resource texture */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<Texture::ptr>("Texture")
+		.addConstructor < void(*) (void)>()
+		.addFunction("getName", &Texture::getName)
+		.addFunction("size", &Texture::getSize)
+		.addFunction("load", &Texture::load)
+		.addFunction("unload", &Texture::unload);
+	/** resource mesh */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<Mesh::ptr>("Mesh")
+		.addConstructor < void(*) (void)>()
+		.addFunction("getName", &Mesh::getName)
+		.addFunction("addIndex", &Mesh::addIndex)
+		.addFunction("addTriangleIndexs", &Mesh::addTriangleIndexs)
+		.addFunction("addTriangleIndexs", &Mesh::addQuadIndexs)
+		.addFunction<void(Mesh::*)(const Vec4&)>("addVertex", &Mesh::addVertex)
+		//todo...
+		.addFunction("load", &Mesh::load)
+		.addFunction("unload", &Mesh::unload);
+	/** resource frame set */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<FrameSet::ptr>("FrameSet")
+		.addConstructor < void(*) (void)>()
+		.addFunction("getName", &FrameSet::getName)
+		.addFunction("getTexture", &FrameSet::getTexture)
+		.addFunction("getDefaultLoop", &FrameSet::getDefaultLoop)
+		.addFunction("getDefaultTime", &FrameSet::getDefaultTime)
+		.addFunction("getFrame", &FrameSet::getFrame)
+		.addFunction("load", &FrameSet::load)
+		.addFunction("unload", &FrameSet::unload);
+
+	/** resource font */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<Font::ptr>("Font")
+		.addConstructor < void(*) (void)>()
+		.addFunction("getName", &Font::getName)
+		.addFunction("getFontName", &Font::getFontName)
+		.addFunction("text", &Font::text)
+		.addFunction("textSize", &Font::textSize)
+		.addFunction("size", &Font::size)
+		.addFunction("load", &Font::load)
+		.addFunction("unload", &Font::unload);
+
+	/** resource sound */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<Sound::ptr>("Sound")
+		.addConstructor < void(*) (void)>()
+		.addFunction("getName", &Sound::getName)
+		.addFunction("load", &Sound::load)
+		.addFunction("unload", &Sound::unload);
+
+	//typedef LuaShared<Texture>(*sharedLoad)(ResourcesGroup*,const String&);
+	/** resource group */
+	luabridge::getGlobalNamespace(luaVM)
+		.beginClass<ResourcesGroup>("ResourcesGroup")
+		.addConstructor < void(ResourcesGroup::*) (const String&, const String&, const String&) >()
+		.addFunction("loadTexture", &ResourcesGroup::load<Texture>)
+		.addFunction("getTexture",  &ResourcesGroup::get<Texture>)
+		.addFunction("findTexture", &ResourcesGroup::find<Texture>)
+
+		.addFunction("loadMesh", &ResourcesGroup::load<Mesh>)
+		.addFunction("getMesh", &ResourcesGroup::get<Mesh>)
+		.addFunction("findMesh", &ResourcesGroup::find<Mesh>)
+
+		.addFunction("loadFrameSet", &ResourcesGroup::load<FrameSet>)
+		.addFunction("getFrameSet", &ResourcesGroup::get<FrameSet>)
+		.addFunction("findFrameSet", &ResourcesGroup::find<FrameSet>)
+
+		.addFunction("loadFont", &ResourcesGroup::load<Font>)
+		.addFunction("getFont", &ResourcesGroup::get<Font>)
+		.addFunction("findFont", &ResourcesGroup::find<Font>)
+
+		.addFunction("loadSound", &ResourcesGroup::load<Sound>)
+		.addFunction("getSound", &ResourcesGroup::get<Sound>)
+		.addFunction("findSound", &ResourcesGroup::find<Sound>)
+		/*
+		.addFunction<Script::ptr(ResourcesGroup::*)(const String&)>("loadScript", &ResourcesGroup::load<Script>)
+		.addFunction<Script::ptr(ResourcesGroup::*)(const String&)>("getScript", &ResourcesGroup::get<Script>)
+		.addFunction<Script::ptr(ResourcesGroup::*)(const String&)>("findScript", &ResourcesGroup::find<Script>)
+
+
+		.addFunction<Table::ptr(ResourcesGroup::*)(const String&)>("loadTable", &ResourcesGroup::load<Table>)
+		.addFunction<Table::ptr(ResourcesGroup::*)(const String&)>("getTable", &ResourcesGroup::get<Table>)
+		.addFunction<Table::ptr(ResourcesGroup::*)(const String&)>("findTable", &ResourcesGroup::find<Table>)
+		*/
+		.addFunction<void(ResourcesGroup::*)(void)>("load", &ResourcesGroup::load)
+		.addFunction<void(ResourcesGroup::*)(bool)>("unload", &ResourcesGroup::unload)
+		.addFunction<String(ResourcesGroup::*)(void)>("getResourcesDirectory", &ResourcesGroup::getResourcesDirectory);
+
+	/** Object */
     luabridge::getGlobalNamespace(luaVM)
-        .beginClass<Object>("Object")
-        .addConstructor <void (*) (void)> ()
+		.beginClass<Object>("Object")
+		.addConstructor < void(*) (void), RefCountedPtr <Object> >()
+	  //.addConstructor < void(*) (void) >()
         .addCFunction("setPosition",(int (Object::*) (lua_State*))&LuaE2Object::setPosition)
         .addCFunction("setRotation",(int (Object::*) (lua_State*))&LuaE2Object::setRotation)
-        .addCFunction("setScale",   (int (Object::*) (lua_State*))&LuaE2Object::setScale)
-        .addFunction("setTranslation",&Object::setTranslation)
-        .addFunction("setTurn",&Object::setTurn)
+		.addCFunction("setScale", (int (Object::*) (lua_State*))&LuaE2Object::setScale)
+		.addCFunction("setZ", (int (Object::*) (lua_State*))&LuaE2Object::setZ)
+		.addFunction("setTranslation", &Object::setTranslation)
+		.addFunction("setTurn", &Object::setTurn)
         .addFunction("setMove",&Object::setMove)
         .addCFunction("getPosition",(int (Object::*) (lua_State*))&LuaE2Object::getPosition)
-        .addCFunction("getRotation",(int (Object::*) (lua_State*))&LuaE2Object::getRotation)
-        .addCFunction("getScale",   (int (Object::*) (lua_State*))&LuaE2Object::getScale)
-        .addCFunction("getObject",  (int (Object::*) (lua_State*))&LuaE2Object::getObject)
-        .addCFunction("getChild",   (int (Object::*) (lua_State*))&LuaE2Object::getChild)
+		.addCFunction("getRotation", (int (Object::*) (lua_State*))&LuaE2Object::getRotation)
+		.addCFunction("getScale", (int (Object::*) (lua_State*))&LuaE2Object::getScale)
+		.addCFunction("getZ", (int (Object::*) (lua_State*))&LuaE2Object::getZ)
+		.addCFunction("addChild",  (int (Object::*) (lua_State*))&LuaE2Object::addChild)
+		.addCFunction("getObject", (int (Object::*) (lua_State*))&LuaE2Object::getObject)
+		.addCFunction("getChild", (int (Object::*) (lua_State*))&LuaE2Object::getChild)
+		.addCFunction("eraseChild", (int (Object::*) (lua_State*))&LuaE2Object::eraseChild)
         //names
         .addCFunction("getName",(int (Object::*) (lua_State*))&LuaE2Object::getName)
         .addCFunction("setName",(int (Object::*) (lua_State*))&LuaE2Object::setName)
@@ -357,59 +616,78 @@ void LuaState::addEasy2DLib()
         .addProperty<GeS(StateManager*)>("stateManager",getLuaComponent<StateManager>)
         .addProperty<GeS(Body*)>("body",getLuaComponent<Body>)
         ///others (unsafe??)
-        .addFunction<Component* (LuaE2Object::*)(const Easy2D::String&)>("getComponent", &LuaE2Object::getComponent)
+		.addFunction<Component* (LuaE2Object::*)(const Easy2D::String&)>("getComponent", &LuaE2Object::getComponent)
+		.addCFunction("addComponent", (int (Object::*) (lua_State*))&LuaE2Object::addComponent)
+		.addCFunction("removeComponent", (int (Object::*) (lua_State*))&LuaE2Object::removeComponent)
         //show var
         .addCFunction("__towatch",  (int (Object::*) (lua_State*))&LuaE2Object::__towatch);
-    
+
+	typedef  String(*getStr)();
+	typedef  float(*getFloat)();
+	typedef  void(*setFloat)(float);
+	typedef  bool(*getBool)();
+	typedef  void(*setBool)(bool);
+	typedef  uint(*getUInt)();
+	typedef  void(*setUInt)(uint);
+	typedef  Vec2(*getVec2)();
+	typedef  void(*setVec2)(Vec2);
+
+	typedef  Vec2(*getKey2Input)(int);
+	typedef  bool(*getKeyInput) (int);
+	typedef  ResourcesGroup* (*getResourcesGroup) (const char*);
+
     /// Application
     luabridge::getGlobalNamespace(luaVM)
     .beginNamespace("Application")
-        .addFunction("onlyPO2",               (bool(*)())    []()->bool   {  return Application::instance()->onlyPO2(); })
-        .addFunction("getLastDeltaTime",      (float(*)())   []()->float  {  return Application::instance()->getLastDeltaTime(); })
-        .addFunction("appDataDirectory",      (String(*)())  []()->String {  return Application::instance()->appDataDirectory(); })
-        .addFunction("appWorkingDirectory",   (String(*)())  []()->String {  return Application::instance()->appWorkingDirectory(); })
-        .addFunction("appResourcesDirectory", (String(*)())  []()->String {  return Application::instance()->appResourcesDirectory(); })
-        .addFunction("getLastDeltaTime",      (float(*)())   []()->float  {  return Application::instance()->getLastDeltaTime(); });
+        .addFunction("onlyPO2",                (getBool)      ([]()->bool   {  return Application::instance()->onlyPO2(); }))
+		.addFunction("getLastDeltaTime",	   (getFloat)     ([]()->float  {  return Application::instance()->getLastDeltaTime(); }))
+		.addFunction("appDataDirectory",       (getStr)       ([]()->String {  return Application::instance()->appDataDirectory(); }))
+        .addFunction("appWorkingDirectory",    (getStr)       ([]()->String {  return Application::instance()->appWorkingDirectory(); }))
+		.addFunction("appResourcesDirectory",  (getStr)       ([]()->String {  return Application::instance()->appResourcesDirectory(); }))
+		.addFunction("getLastDeltaTime",	   (getFloat)([]()->float  {  return Application::instance()->getLastDeltaTime(); }))
+		.addFunction("getResourcesGroup", 
+					(getResourcesGroup)([](const char* name)->ResourcesGroup*  { 
+								return Application::instance()->getResourcesGroup(name);
+					}));
 
     /// Screen
     luabridge::getGlobalNamespace(luaVM)
     .beginNamespace("Screen")
-        .addFunction("setOrientation",    (void(*)(uint))[](uint e)  {         Application::instance()->getScreen()->setOrientation((Screen::Orientation)e); })
-        .addFunction("getOrientation",    (uint(*)())    []()->uint  {  return (uint)Application::instance()->getScreen()->getOrientation(); })
-        .addFunction("getWidth",          (uint(*)())    []()->uint  {  return Application::instance()->getScreen()->getWidth(); })
-        .addFunction("getHeight",         (uint(*)())    []()->uint  {  return Application::instance()->getScreen()->getHeight(); })
-        .addFunction("getNativeWidth",    (uint(*)())    []()->uint  {  return Application::instance()->getScreen()->getNativeWidth(); })
-        .addFunction("getNativeHeight",   (uint(*)())    []()->uint  {  return Application::instance()->getScreen()->getNativeHeight(); })
-        .addFunction("getSize",           (Vec2(*)())    []()->Vec2  {  return Application::instance()->getScreen()->getSize(); })
-        .addFunction("setCursor",         (void(*)(bool))[](bool e)  {         Application::instance()->getScreen()->setCursor(e); })
-        .addFunction("getCursor",         (bool(*)())    []()->bool  {  return Application::instance()->getScreen()->getCursor(); })
-        .addFunction("setPositionCursor", (void(*)(Vec2))[](Vec2 v)  {         Application::instance()->getScreen()->setPositionCursor(v); })
-        .addFunction("setFullscreen",     (void(*)(bool))[](bool f)  {         Application::instance()->getScreen()->setFullscreen(f); })
-        .addFunction("isFullscreen",      (bool(*)())    []()->bool  {  return Application::instance()->getScreen()->isFullscreen(); });
-    /*
+	    .addFunction("setOrientation",    (setUInt)    [](uint e)  {         Application::instance()->getScreen()->setOrientation((Screen::Orientation)e); })
+		.addFunction("getOrientation",    (getUInt)    []()->uint  {  return (uint)Application::instance()->getScreen()->getOrientation(); })
+		.addFunction("getWidth",          (getUInt)    []()->uint  {  return Application::instance()->getScreen()->getWidth(); })
+		.addFunction("getHeight",		  (getUInt)    []()->uint  {  return Application::instance()->getScreen()->getHeight(); })
+		.addFunction("getNativeWidth",    (getUInt)    []()->uint  {  return Application::instance()->getScreen()->getNativeWidth(); })
+		.addFunction("getNativeHeight",   (getUInt)    []()->uint  {  return Application::instance()->getScreen()->getNativeHeight(); })
+        .addFunction("getSize",           (getVec2)    []()->Vec2  {  return Application::instance()->getScreen()->getSize(); })
+		.addFunction("setCursor",		  (setBool)    [](bool e)  {         Application::instance()->getScreen()->setCursor(e); })
+		.addFunction("getCursor",         (getBool)      []()->bool  {  return Application::instance()->getScreen()->getCursor(); })
+		.addFunction("setPositionCursor", (setVec2)      [](Vec2 v)  {         Application::instance()->getScreen()->setPositionCursor(v); })
+        .addFunction("setFullscreen",     (setBool)      [](bool f)  {         Application::instance()->getScreen()->setFullscreen(f); })
+		.addFunction("isFullscreen",      (getBool)      []()->bool  {  return Application::instance()->getScreen()->isFullscreen(); });
+
     /// Input
     luabridge::getGlobalNamespace(luaVM)
         .beginNamespace("Input")
-        .addFunction("getMouse",         []()->Vec2            {  return Application::instance()->getInput()->getMouse(); })
-        .addFunction("getFinger",        [](int finger)->Vec2  {  return Application::instance()->getInput()->getFinger((Key::Finger)finger); })
-        .addFunction("getKeyDown",       [](int key)->bool     {  return Application::instance()->getInput()->getKeyDown((Key::Keyboard)key); })
-        .addFunction("getKeyUp",         [](int key)->bool     {  return Application::instance()->getInput()->getKeyUp((Key::Keyboard)key); })
-        .addFunction("getKeyHit",        [](int key)->bool     {  return Application::instance()->getInput()->getKeyHit((Key::Keyboard)key); })
-        .addFunction("getMouseDown",     [](int key)->bool     {  return Application::instance()->getInput()->getMouseDown((Key::Mouse)key); })
-        .addFunction("getMouseUp",       [](int key)->bool     {  return Application::instance()->getInput()->getMouseUp((Key::Mouse)key); })
-        .addFunction("getMouseHit",      [](int key)->bool     {  return Application::instance()->getInput()->getMouseHit((Key::Mouse)key); })
-        .addFunction("getFingerDown",    [](int key)->bool     {  return Application::instance()->getInput()->getFingerDown((Key::Finger)key); })
-        .addFunction("getFingerUp",      [](int key)->bool     {  return Application::instance()->getInput()->getFingerUp((Key::Finger)key); })
-        .addFunction("getFingerHit",     [](int key)->bool     {  return Application::instance()->getInput()->getFingerHit((Key::Finger)key); })
-        .addFunction("getFocus",         []()->bool            {  return Application::instance()->getInput()->getFocus(); })
-        .addFunction("getMinimized",     []()->bool            {  return Application::instance()->getInput()->getMinimized(); })
-        .addFunction("getMaximized",     []()->bool            {  return Application::instance()->getInput()->getMaximized(); })
-        .addFunction("getClose",         []()->bool            {  return Application::instance()->getInput()->getClose(); })
-        .addFunction("getResize",        []()->bool            {  return Application::instance()->getInput()->getResize(); })
-        .addFunction("getResizeValues",  []()->Vec2            {  return Application::instance()->getInput()->getResizeValues(); })
+		.addFunction("getMouse",         (getVec2)[]()->Vec2            {  return Application::instance()->getInput()->getMouse(); })
+		.addFunction("getFinger",   (getKey2Input)[](int finger)->Vec2  {  return Application::instance()->getInput()->getFinger((Key::Finger)finger); })
+		.addFunction("getKeyDown",   (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getKeyDown((Key::Keyboard)key); })
+		.addFunction("getKeyUp",     (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getKeyUp((Key::Keyboard)key); })
+		.addFunction("getKeyHit",    (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getKeyHit((Key::Keyboard)key); })
+		.addFunction("getMouseDown", (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getMouseDown((Key::Mouse)key); })
+		.addFunction("getMouseUp",   (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getMouseUp((Key::Mouse)key); })
+		.addFunction("getMouseHit",  (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getMouseHit((Key::Mouse)key); })
+		.addFunction("getFingerDown",(getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getFingerDown((Key::Finger)key); })
+		.addFunction("getFingerUp",  (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getFingerUp((Key::Finger)key); })
+		.addFunction("getFingerHit", (getKeyInput)[](int key)->bool     {  return Application::instance()->getInput()->getFingerHit((Key::Finger)key); })
+		.addFunction("getFocus",        (getBool) []()->bool            {  return Application::instance()->getInput()->getFocus(); })
+		.addFunction("getMinimized",    (getBool) []()->bool            {  return Application::instance()->getInput()->getMinimized(); })
+		.addFunction("getMaximized",    (getBool) []()->bool            {  return Application::instance()->getInput()->getMaximized(); })
+		.addFunction("getClose",        (getBool) []()->bool            {  return Application::instance()->getInput()->getClose(); })
+		.addFunction("getResize",       (getBool) []()->bool            {  return Application::instance()->getInput()->getResize(); })
+		.addFunction("getResizeValues", (getVec2) []()->Vec2            {  return Application::instance()->getInput()->getResizeValues(); })
       //.addFunction("getAccelerometer",[]()->uint            {  return Application::instance()->getScreen()->getAccelerometer(); })
         ;
-    */
 
 }
 void LuaState::addComponentsLib()

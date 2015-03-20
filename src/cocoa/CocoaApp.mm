@@ -245,8 +245,10 @@ void CocoaApp::loop(){
 		timer.reset();
         //save dt
         lastDeltaTime=dt;
-		//update
-		update(dt);
+        //update
+        update((float)dt);
+        //update audio
+        audio->update((float)dt);
 		//update opengl
 		screen->swap();
     }

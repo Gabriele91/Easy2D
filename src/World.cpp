@@ -528,6 +528,10 @@ Vec2 World::getGravity()
 
 void World::setMetersInPixel( float pixel )
 {
+	if (metersInPixel == pixel) return;
+	//get gravity
+	Vec2 gravity=getGravity();
+	//update values
     metersUnit=1.0f/pixel;
     metersInPixel=pixel;
     //update bodies
@@ -535,7 +539,9 @@ void World::setMetersInPixel( float pixel )
     {
         auto e2body=(Body*)body->GetUserData();
         e2body->updatePixelScale(metersUnit,metersInPixel);
-    }
+	}
+	//update gravity
+	setGravity(gravity);
 }
 
 void World::resetWorld()

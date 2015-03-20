@@ -551,7 +551,8 @@ public:
 
 
 template <class T,class R,size_t offset>
-struct ArrayHelper {
+struct ArrayHelper 
+{
     
     template <size_t index>
     static R get (T const* obj)
@@ -571,8 +572,8 @@ struct ArrayHelper {
 #define ArrayValue(Name,Obj,R,Att,i) # Name, \
                                      &ArrayHelper<Obj,R,offsetof(Obj,Att)>::get<i>, \
                                      &ArrayHelper<Obj,R,offsetof(Obj,Att)>::set<i>
-
-#define GET_CONT(C) ((int(*)())([]()->int { return C; }))
+typedef int(*getInt)();
+#define GET_CONT(C) ((getInt)([]()->int { return C; }))
 
 
 void LuaState::addBodyLib()
@@ -625,8 +626,8 @@ void LuaState::addBodyLib()
     
     /** Body */
     luabridge::getGlobalNamespace(luaVM)
-    .beginClass<Body>("Body")
-    .addConstructor <void (*) (void)> ()
+	.deriveClass<Body, Component>("Body")
+	.addConstructor <void(*) (void), RefCountedPtr <Body> >()
     .addCFunction("setType",(int (Body::*) (lua_State*))(&LuaBody::setType))
     .addCFunction("getType",(int (Body::*) (lua_State*))(&LuaBody::getType))
     //callbacks

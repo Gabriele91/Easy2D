@@ -69,7 +69,11 @@ void Button::onMouseRelease(Vec2 pos,Key::Mouse b)
         state=UP;
 }
 
-        
+
+Button::Button(Panel* panel) 
+			  :Button((GuiManager*)panel)
+{
+}
 Button::Button(GuiManager* guim):GuiObject(guim)
                                 ,state(UP)
                                 ,eventClick(nullptr)

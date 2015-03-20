@@ -92,7 +92,7 @@ void RenderQueue::draw(Render* render)
 	if (begin() == end()) return;
 	//////////////////////////////////////////////////////
 	//refs
-	BatchingMesh& batchingMesh = render->batchingMesh;
+	BatchingMesh& batchingMesh = render->getBatchingMesh();
     Camera*       camera = render->getCamera();
     //restart batching
     batchingMesh.restart();

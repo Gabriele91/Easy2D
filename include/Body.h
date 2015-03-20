@@ -40,8 +40,7 @@ class Body : public Component
         Vec2 position;
         float radius;
         uchar flags;
-        Vec2  prev,
-        next;
+        Vec2  prev,next;
         //info other
         std::vector<Vec2> points;
         //build shape
@@ -299,6 +298,7 @@ class Body : public Component
     
     //scale utility
     bool enableScale;
+	bool isAbsoluteScale;
     Vec2 lastScale;
     
     void setScale(const Vec2& scale);
@@ -362,8 +362,9 @@ class Body : public Component
     bool getBullet() const;
     
     //scale
-    void setEnableScale(bool);
-    bool getEnableScale() const;
+	void setEnableScale(bool enable, bool isabsolute = false);
+	bool getEnableScale() const;
+	bool getEnableAbsoluteScale() const;
     //void setMass(float); in fixtures
     float getMass() const;
     //get world
@@ -406,14 +407,7 @@ class Body : public Component
     void applyTorque(float torque, bool wake);
     void applyLinearImpulse(const Vec2& impulse, const Vec2& point, bool wake);
 	void applyAngularImpulse(float impulse, bool wake);
-    /*
-    * Groups
-    */
-    void setCollisionGroupMask( byte16 groupMask );
-    byte16 getCollisionGroupMask() const;
 
-    void setCollisionLayerMask( byte16 layerMask );
-    byte16 getCollisionLayerMask() const;
     /*
     * Shapes
     */
@@ -446,7 +440,17 @@ class Body : public Component
 
     void setShapeIsSensor(Shape index,bool isSensor);
     bool getShapeIsSensor(Shape index) const;
+	/*
+	* Groups
+	*/
+	void setShapeMembershipMask(Shape index, byte2 groupMask);
+	byte2 getShapeMembershipMask(Shape index) const;
 
+	void setShapeToCollideMask(Shape index, byte2 groupMask);
+	byte2 getShapeToCollideMask(Shape index) const;
+
+	void setShapeGroupMask(Shape index, byte2 layerMask);
+	byte2 getShapeGroupMask(Shape index) const;
     /**
     * Shape geometry info
     */

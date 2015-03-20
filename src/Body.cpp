@@ -50,7 +50,8 @@ Body::Body()
     //////////////////
     idShapeGen=0;
     //////////////////
-    enableScale=false;
+    enableScale = false;
+	isAbsoluteScale = false;
     lastScale=Vec2::ONE;
     //////////////////
     defaultFixture.userData    = static_cast<void*>(this);
@@ -139,6 +140,7 @@ void Body::unregisterWorld()
         pFixtureDef.friction     = pFixture.second->GetFriction();
         pFixtureDef.restitution  = pFixture.second->GetRestitution();
         pFixtureDef.isSensor     = pFixture.second->IsSensor();
+		pFixtureDef.filter	     = pFixture.second->GetFilterData();
         // Push fixture definition.
         pushShape( pFixture.first, &pFixtureDef, pFixture.second->GetShape() );
     }
@@ -654,26 +656,72 @@ bool Body::getSleepingAllowed() const
 /*
  * Groups
  */
-void Body::setCollisionGroupMask( byte16 groupMask )
+void Body::setShapeMembershipMask(Shape index, byte2 categoryBits)
 {
-    //todo
+	if (body)
+	{
+		b2Filter filter = fixtures[index]->GetFilterData();
+		filter.categoryBits = categoryBits;
+		fixtures[index]->SetFilterData(filter);
+		return;
+	}
+	shapesDef[index].fixature.filter.categoryBits = categoryBits;
 }
-byte16 Body::getCollisionGroupMask() const
+byte2 Body::getShapeMembershipMask(Shape index) const
 {
-    //todo
-    return 0;
+	if (body)
+	{
+		
+		b2Filter filter = fixtures.find(index)->second->GetFilterData();
+		return filter.categoryBits;
+	}
+	return shapesDef.find(index)->second.fixature.filter.categoryBits;
 }
 
-void Body::setCollisionLayerMask( byte16 layerMask )
+void Body::setShapeToCollideMask(Shape index, byte2 maskBits)
 {
-    //todo
+	if (body)
+	{
+		b2Filter filter = fixtures[index]->GetFilterData();
+		filter.maskBits = maskBits;
+		fixtures[index]->SetFilterData(filter);
+		return;
+	}
+	shapesDef[index].fixature.filter.maskBits = maskBits;
 }
-byte16 Body::getCollisionLayerMask() const
+byte2 Body::getShapeToCollideMask(Shape index) const
 {
-    //todo
-    return 0;
+	if (body)
+	{
+
+		b2Filter filter = fixtures.find(index)->second->GetFilterData();
+		return filter.maskBits;
+	}
+	return shapesDef.find(index)->second.fixature.filter.maskBits;
 }
 
+void Body::setShapeGroupMask(Shape index, byte2 groupIndex)
+{
+
+	if (body)
+	{
+		b2Filter filter = fixtures[index]->GetFilterData();
+		filter.groupIndex = groupIndex;
+		fixtures[index]->SetFilterData(filter);
+		return;
+	}
+	shapesDef[index].fixature.filter.groupIndex = groupIndex;
+}
+byte2 Body::getShapeGroupMask(Shape index) const
+{
+	if (body)
+	{
+
+		b2Filter filter = fixtures.find(index)->second->GetFilterData();
+		return filter.groupIndex;
+	}
+	return shapesDef.find(index)->second.fixature.filter.groupIndex;
+}
 /*
  * Shapes
  */
@@ -1253,6 +1301,7 @@ void Body::setScale(const Vec2& argScale)
     if(lastScale==argScale) return;
     //scale
     Vec2 scale(argScale);
+	if (isAbsoluteScale) scale.abs();
     //safe scale
     SAFE_SCALE(
         if(std::abs((float)scale.x) <=  SCALE_EPSILON)
@@ -1377,17 +1426,22 @@ void Body::addScaleE2DShapes(const Vec2& scale,float radius)
     }
 }
 //scale
-void Body::setEnableScale(bool scale)
+void Body::setEnableScale(bool scale, bool isabsolute)
 {
     if(!enableScale && scale) //disable scale
     {
         setScale(Vec2::ONE);
     }
     enableScale=scale;
+	isAbsoluteScale = isabsolute;
 }
 bool Body::getEnableScale() const
 {
     return enableScale;
+}
+bool Body::getEnableAbsoluteScale() const
+{
+	return isAbsoluteScale;
 }
 
 static inline void shapeSerialize(float metersInPixel,
@@ -1459,6 +1513,38 @@ static inline void shapeSerialize(float metersInPixel,
     default: break; //wrong
     }
 }
+static inline String bytes2Hex(byte2 mask)
+{
+	byte2 hexs[] = 
+	{
+		static_cast<byte2>((mask & 0xF000) >> 12),
+		static_cast<byte2>((mask & 0x0F00) >>  8),
+		static_cast<byte2>((mask & 0x00F0) >>  4),
+		static_cast<byte2>((mask & 0x000F))      
+	};
+	//out string
+	String out;
+	//to chars
+	for (uchar i = 0; i != 4; ++i)
+	{
+		switch (hexs[i])
+		{
+		case 10: out += 'A'; break;
+		case 11: out += 'B'; break;
+		case 12: out += 'C'; break;
+		case 13: out += 'D'; break;
+		case 14: out += 'E'; break;
+		case 15: out += 'F'; break;
+		default: out += String::toString(hexs[i]); break;
+		}
+	}
+	//return
+	return out;
+}
+static inline byte2 hex2Bytes(const String& str)
+{
+	return (byte2)strtol(str.c_str(), NULL, 16);
+}
 static inline Body::Type getBodyType(const String& name)
 {
     if(name=="dynamic") return Body::DINAMIC;
@@ -1489,8 +1575,11 @@ void Body::serialize(Table& table)
     rbody.set("awake",getAwake());
     rbody.set("fixedRotation",getFixedAngle());
     rbody.set("bullet",getBullet());
-    rbody.set("active",getActive());
-    rbody.set("autoScale",getEnableScale());
+	rbody.set("active", getActive());
+	if (getEnableScale() && getEnableAbsoluteScale())
+		rbody.set("autoScale", Vec2::ONE);
+	else
+		rbody.set("autoScale", (float)getEnableScale());
     rbody.set("type",getBodyType(getType()));
     
     if(body)
@@ -1502,7 +1591,10 @@ void Body::serialize(Table& table)
             tshape.set("density",pFixture.second->GetDensity());
             tshape.set("friction",pFixture.second->GetFriction());
             tshape.set("restitution",pFixture.second->GetRestitution());
-            tshape.set("sensor",pFixture.second->IsSensor());
+			tshape.set("sensor", pFixture.second->IsSensor());
+			tshape.set("membershipMask", bytes2Hex(pFixture.second->GetFilterData().categoryBits));
+			tshape.set("toCollideMask", bytes2Hex(pFixture.second->GetFilterData().maskBits));
+			tshape.set("groupMask", bytes2Hex(pFixture.second->GetFilterData().groupIndex));
             //shape      
             shapeSerialize(metersInPixel,
                            tshape,
@@ -1513,7 +1605,7 @@ void Body::serialize(Table& table)
     }
     else
     {
-        //TO DO SAVE SAVE SHAPE DEF
+        //TO DO SAVE SHAPE DEF
         Table& tshapes=rbody.createTable("shapes");
         for( auto pShapeDef : shapesDef )
         {
@@ -1521,7 +1613,10 @@ void Body::serialize(Table& table)
             tshape.set("density",pShapeDef.second.fixature.density);
             tshape.set("friction",pShapeDef.second.fixature.friction);
             tshape.set("restitution",pShapeDef.second.fixature.restitution);
-            tshape.set("sensor",pShapeDef.second.fixature.isSensor);
+			tshape.set("sensor", pShapeDef.second.fixature.isSensor);
+			tshape.set("membershipMask", bytes2Hex(pShapeDef.second.fixature.filter.categoryBits));
+			tshape.set("toCollideMask", bytes2Hex(pShapeDef.second.fixature.filter.maskBits));
+			tshape.set("groupMask", bytes2Hex(pShapeDef.second.fixature.filter.groupIndex));
             //shape  (not work)
             shapeSerialize(metersInPixel,
                            tshape,
@@ -1558,7 +1653,16 @@ void Body::deserialize(const Table& table)
     setFixedAngle( table.getFloat("fixedRotation", (float)getFixedAngle())!=0.0f );
     setBullet( table.getFloat("bullet", (float)getBullet())!=0.0f );
     setActive( table.getFloat("active", (float)getActive())!=0.0f );
-    setEnableScale(  table.getFloat("autoScale", (float)getEnableScale())!=0.0f );
+	if (table.existsAsType("autoScale", Table::VECTOR2D))
+	{
+		Vec2 defaultValues((float)getEnableScale(), (float)getEnableAbsoluteScale());
+		Vec2 values = table.getVector2D("autoScale", defaultValues);
+		setEnableScale(values.x != 0.0f, values.y != 0.0f);
+	}
+	else
+	{
+		setEnableScale(table.getFloat("autoScale", (float)getEnableScale()) != 0.0f);
+	}
     setType( getBodyType(table.getString("type", getBodyType(getType()))) );
 
 
@@ -1642,6 +1746,10 @@ void Body::deserialize(const Table& table)
             setShapeFriction(idshape,shape.getFloat("friction",defaultFixture.friction));
             setShapeRestitution(idshape,shape.getFloat("restitution",defaultFixture.restitution));
             setShapeIsSensor(idshape,shape.getFloat("sensor",(float)defaultFixture.isSensor)!=0.0f);
+
+			setShapeGroupMask(idshape, hex2Bytes(shape.getString("membershipMask", bytes2Hex(defaultFixture.filter.categoryBits))));
+			setShapeGroupMask(idshape, hex2Bytes(shape.getString("toCollideMask", bytes2Hex(defaultFixture.filter.maskBits))));
+			setShapeGroupMask(idshape, hex2Bytes(shape.getString("groupMask", bytes2Hex(defaultFixture.filter.groupIndex))));
         }
     }
 }

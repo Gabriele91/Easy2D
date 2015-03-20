@@ -98,8 +98,11 @@ void Panel::onMouseRelease(Vec2 pos,Key::Mouse b)
         pickpos=Vec2::ZERO;
     }
 }
-
-
+//init
+Panel::Panel(Panel* panel) 
+	  :Panel((GuiManager*)panel)
+{
+}
 Panel::Panel(GuiManager* guim):GuiObject(guim)
                               ,GuiManager()
                               ,state(STAY)
@@ -126,6 +129,7 @@ Panel::Panel(GuiManager* guim):GuiObject(guim)
     setBlend(BLEND::SRC::ALPHA,BLEND::ONE::MINUS::SRC::ALPHA);
     setCull(BACK);
 }
+//draw
 void Panel::draw()
 {
     setProjection(calcViewport());
@@ -139,22 +143,21 @@ void Panel::draw()
     //reset projection
     guim->setProjection();
 };
-
+//info
 void Panel::setScale(const Vec2& scale)
 {
     this->scale=scale;
     updateProjection(Vec4(position,scale));
     updateBox();
 }        
-
 void Panel::setPosition(const Vec2& pos)
 {
     position=pos;
     updateProjection(Vec4(position,scale));
     updateBox();
 }
-
-GuiManager* Panel::toGuiManager()
+//others info
+Panel::operator GuiManager* ()
 {
-    return this;
+	return this;
 }

@@ -220,7 +220,9 @@ void Emitter::setRelative(bool argrelative)
 
 void  Emitter::serialize(Table& table)
 {
-    rsSerialize(table);
+	rsSerialize(table);
+	//visible
+	table.set("visible", isVisible() ? "yes" : "no");
     //////////////////////////////////////////////////////////
     table.set("maxParticles",getMaxParticles());
     table.set("emissionRate",getEmissionRate());
@@ -268,7 +270,13 @@ void  Emitter::serialize(Table& table)
 void  Emitter::deserialize(const Table& table)
 {
     //////////////////////////////////////////////////////////
-    rsDeserialize(table);
+	rsDeserialize(table);
+	//visible
+	if (table.existsAsType("visible", Table::STRING))
+	{
+		if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
+		else hide();
+	}
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {

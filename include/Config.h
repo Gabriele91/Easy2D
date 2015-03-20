@@ -52,6 +52,7 @@ int atexit(void (*function)(void));
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+#define _WINSOCKAPI_
 #include <windows.h>
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -172,6 +173,14 @@ int atexit(void (*function)(void));
 #elif defined(ENABLE_VAOS) &&  defined(DISABLE_VAOS)
 #error "must to be defined only ENABLE_VAOS or only DISABLE_VAOS"
 #endif
+
+#if !defined(ENABLE_SIMD) &&  !defined(DISABLE_SIMD)
+#error "must to be define ENABLE_SIMD or DISABLE_SIMD"
+#elif defined(ENABLE_SIMD) &&  defined(DISABLE_SIMD)
+#error "must to be defined only ENABLE_SIMD or only DISABLE_SIMD"
+#endif
+
+
 
 #if !defined(ENABLE_STREAM_BUFFER) &&  !defined(DISABLE_STREAM_BUFFER)
 #error "must to be define ENABLE_STREAM_BUFFER or DISABLE_VAOS"
@@ -297,8 +306,10 @@ namespace std
 #include <xmmintrin.h>
 #include <mmintrin.h>
 #define DOVERRIDE_NEW_DEL
-#include <Memory.h>
 #endif
+////////////////////////////////////////////////////////
+#include <Memory.h>
+////////////////////////////////////////////////////////
 
 //enable lua jit or lua
 #if !defined(USE_LUA) &&  !defined(USE_LUA_JIT)

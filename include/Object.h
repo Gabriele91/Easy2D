@@ -111,6 +111,25 @@ class Object
     //components list
     const Components& getComponents();
     //get a component
+	void addComponent(Component* component)
+	{
+		if (component != nullptr)
+		{
+			if (!component->isAdded() && components.find(component->getComponentFamily()) == components.end())
+			{
+				components[component->getComponentFamily()] = component;
+				component->setEntity(this);
+			}
+			else
+			{
+				DEBUG_MESSAGE(component->getComponentName() << " component olready edded");
+			}
+		}
+		else
+		{
+			DEBUG_MESSAGE("isn't a component");
+		}
+	}
     Component* getComponent(const String& name)
     {
         auto it=components.find(ComponentMap::getFamily(name));
@@ -225,17 +244,19 @@ class Object
     void sendLocalMessage(uint message);
     
     //object callbacks 
-    virtual void onRun(float dt){ }
+	virtual void onResume(){ }
+	virtual void onRun(float dt){ }
+	virtual void onPause(){ }
     virtual void onAttached(Scene* scene){ }
     virtual void onUnattached(){ }
     
     void  setUserData(void* data)
     {
-        this->data=data;
+		this->userData = data;
     }
-    void* getUserData()
+    void* getUserData() const 
     {
-        return data;
+		return userData;
     }   
     //serialize/deserialize
     virtual void serialize(Table& table);
@@ -254,14 +275,14 @@ class Object
     Input* getInput();
     Game* getGame();
     ResourcesGroup* getResourcesGroup(const String& name);
+	//data
+	mutable void* userData;
 
     private:
     //find child
     Object* getPrivateObject(const std::vector<String>& names,size_t i);
     //name
     String name;
-    //data
-    void*   data;
     //scene
     Scene*  scene;
     //components
@@ -270,7 +291,9 @@ class Object
     void setScene(Scene* argscene);
     void eraseScene();
     //scene run
-    void onSceneRun(float dt);
+	void onScenePause();
+	void onSceneRun(float dt);
+	void onSceneResume();
     //local
     Transform2D transform;
     //global

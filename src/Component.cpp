@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <Component.h>
+#include <Object.h>
 #include <Debug.h>
 
 ///////////////////////
@@ -7,6 +8,27 @@ using namespace Easy2D;
 ///////////////////////
 DUNORDERED_MAP<String,ComponentMap::createComponent>* ComponentMap::cmap=nullptr;
 DUNORDERED_MAP<String,uint>* ComponentMap::fmap=nullptr;
+
+Object* Component::getObject() 
+{
+	return object;
+}
+Scene* Component::getScene()
+{
+	if (object)
+		return object->getScene();
+	return nullptr;
+}
+const Object* Component::getObject() const
+{
+	return object;
+}
+const Scene* Component::getScene() const
+{
+	if (object)
+		return object->getScene();
+	return nullptr;
+}
 
 Component* ComponentMap::create(const String& name)
 {    

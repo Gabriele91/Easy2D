@@ -8,7 +8,7 @@
 using namespace Easy2D;
 //////////////////////
 Object::Object()
-    :data(nullptr)
+	:userData(nullptr)
     ,scene(nullptr)
     ,changeValue(false)
     ,zLocal(0)
@@ -20,7 +20,7 @@ Object::Object()
 {
 }
 Object::Object(const String& argname)
-    :data(nullptr)
+	:userData(nullptr)
     ,scene(nullptr)
     ,changeValue(false)
     ,zLocal(0)
@@ -235,7 +235,10 @@ void Object::change()
     {
         for(auto obj : *this )
         {
-            obj->change();
+			if (obj->getParentMode() != DISABLE_PARENT)
+			{
+				obj->change();
+			}
         }
         changeValue=true;
     }
@@ -258,7 +261,8 @@ void Object::addChild(Object *child,int parentMode,bool ptrdelete)
     child->parentMode=parentMode;
     //push
     this->childs.push_back(child);
-    child->change();
+	if (parentMode != DISABLE_PARENT)
+		child->change();
     //event
     if(getScene())
         child->setScene(getScene());
@@ -617,7 +621,36 @@ void Object::onSceneRun(float dt)
         cmp.second->onFixedRun(dt);
     }
 }
-
+void Object::onScenePause()
+{
+	//update childs
+	for (auto child : childs)
+	{
+		child->onScenePause();
+	}
+	//update 
+	onPause();
+	//update components
+	for (auto cmp : components)
+	{
+		cmp.second->onScenePause();
+	}
+}
+void Object::onSceneResume()
+{
+	//update components
+	for (auto cmp : components)
+	{
+		cmp.second->onSceneResume();
+	}
+	//update 
+	onResume();
+	//update childs
+	for (auto child : childs)
+	{
+		child->onSceneResume();
+	}
+}
 //utility methos
 Screen* Object::getScreen()
 {

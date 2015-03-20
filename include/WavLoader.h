@@ -25,7 +25,7 @@ public:
     };
 
     static InfoSound getInfo(Application::ResouceStream *pResource);
-    static Audio::SoundInterface* load(const Utility::Path& path);
+    static Audio::SoundBuffer* load(const Utility::Path& path);
 
 };
 

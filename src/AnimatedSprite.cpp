@@ -152,7 +152,9 @@ void AnimatedSprite::setAnimationLoop(int i, bool loop)
 void AnimatedSprite::serialize(Table& table)
 {
     //serialize render state
-    rsSerialize(table);
+	rsSerialize(table);
+	//visible
+	table.set("visible", isVisible() ? "yes" : "no");
     //shader
     if(getShader())
         table.set("shader",getShader()->getName());
@@ -182,7 +184,13 @@ void AnimatedSprite::deserialize(const Table& table)
     auto rsgroup=rsmanager->getResourcesGroup();
     DEBUG_ASSERT(rsgroup);
     //deserialize rander state
-    rsDeserialize(table);
+	rsDeserialize(table);
+	//visible
+	if (table.existsAsType("visible", Table::STRING))
+	{
+		if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
+		else hide();
+	}
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {
@@ -194,7 +202,7 @@ void AnimatedSprite::deserialize(const Table& table)
     }
     
     //current animation
-    crtAnimation=table.getFloat("currentAnimation",(float)getCurrentAnimation());
+    crtAnimation=(int)table.getFloat("currentAnimation",(float)getCurrentAnimation());
     //frames table
     auto frames=table.getConstTable("frameSets");
     //all frames
@@ -216,6 +224,6 @@ void AnimatedSprite::deserialize(const Table& table)
     //no animation?
     if(!animations.size()) return;
     //else get current frame
-    setFrame(table.getFloat("currentFrame",(float)getCurrentFrame()));
+    setFrame((int)table.getFloat("currentFrame",(float)getCurrentFrame()));
 
 }

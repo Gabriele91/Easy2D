@@ -51,11 +51,15 @@ public:
         ///rewind from file
         virtual void rewind ()=0;
 
-    };
-    /**
-    * create singleton (if already created raises an exception)
-    */
-    static Application *create(const String& name,Application* implementation=nullptr);
+	};
+	/**
+	* create singleton (if already created raises an exception)
+	*/
+	static Application *create(const String& name, Application* implementation = nullptr);
+	/**
+	* delete singleton (if not already created raises an exception)
+	*/
+	static void release();
     /**
     * return singleton istance
     */

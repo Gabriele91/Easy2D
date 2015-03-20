@@ -16,6 +16,7 @@ class StateManager : public Component
     //friend whit object
     friend class Object;
     //states
+	int last;
     int current;
     int next;
     //a state
@@ -31,8 +32,9 @@ class StateManager : public Component
 
     public:
 
-    StateManager():current(-1)
-                    ,next(-1)
+		StateManager() :last(-1)
+					   ,current(-1)
+					   ,next(-1)
     {
     }
         
@@ -45,8 +47,9 @@ class StateManager : public Component
     void setNextState(int stateid);
     void setCurrentState(int stateid);
 
-    int getCurrentState();
-    int getNextState();
+	int getCurrentState();
+	int getNextState();
+	int getLastState();
     //component
     ADD_COMPONENT_METHOS(StateManager)
     //serialize/deserialize

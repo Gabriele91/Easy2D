@@ -152,7 +152,10 @@ void AppiOS::exec(Game *game)
  */
 void AppiOS::update(float dt)
 {
+    //update
 	mainInstance->run(dt);
+    //update audio
+    audio->update(dt);
 }
 /**
  * return true if device supports only power of two texture

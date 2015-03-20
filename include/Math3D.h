@@ -284,11 +284,19 @@ public:
     DFORCEINLINE Vec2 xy() const
     {
         return Vec2(x,y);
-    }
+	}   
+	DFORCEINLINE Vec2& xy()
+	{
+		return *((Vec2*)&x);
+	}
     DFORCEINLINE Vec2 rg() const
     {
         return Vec2(x,y);
-    }
+	}
+	DFORCEINLINE Vec2& rg()
+	{
+		return *((Vec2*)&x);
+	}
     ///////////////////////////////////////////////////////////////////////////
     template <char A>
     DFORCEINLINE float to() const
@@ -577,20 +585,35 @@ public:
     DFORCEINLINE Vec2 xy() const
     {
         return Vec2(x,y);
-    }
+	}
+	DFORCEINLINE Vec2& xy()
+	{
+		return *((Vec2*)&x);
+	}
     DFORCEINLINE Vec2 rg() const
     {
         return Vec2(x,y);
-    }
+	}
+	DFORCEINLINE Vec2& rg()
+	{
+		return *((Vec2*)&x);
+	}
     DFORCEINLINE Vec3 xyz() const
     {
         return Vec3(x,y,z);
-    }
+	}
+	DFORCEINLINE Vec3& xyz()
+	{
+		return *((Vec3*)&x);
+	}
     DFORCEINLINE Vec3 rgb() const
     {
         return Vec3(r,g,b);
-    }
-
+	}
+	DFORCEINLINE Vec3& rgb()
+	{
+		return *((Vec3*)&x);
+	}
     ///////////////////////////////////////////////////////////////////////////
     template <char A>
     DFORCEINLINE float to() const

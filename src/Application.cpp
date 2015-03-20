@@ -160,17 +160,22 @@ Application *Application::create(const String& name,Application* implementation)
         appSingleton=implementation;
     }
     //registration delete at exit
-    atexit([]()
-    { 
-        //delete app
-        delete Application::instance();
-        //delete vm
-        LuaState::destroy();
-    });
+    atexit(Application::release);
     //
     return appSingleton;
 }
-
+/**
+* delete singleton (if not already created raises an exception)
+*/
+void Application::release()
+{
+	//delete vm
+	LuaState::destroy();
+	//delete app
+	delete Application::instance();
+	//unregistration delete at exit
+	atexit(nullptr);
+}
 Application *Application::instance()
 {
     return appSingleton;

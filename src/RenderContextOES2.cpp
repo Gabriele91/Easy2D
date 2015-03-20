@@ -14,6 +14,7 @@ std::vector<Shader::ptr> RenderContext::shaders;
 RenderContext::Context RenderContext::context;
 RenderContext::RenderState RenderContext::state=
 {
+	STENCIL_NONE,             //stencil
     BACK,                     //cullface
     false,                    //zbuffer
     Vec4::ZERO,               //viewport
@@ -413,7 +414,28 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
                      newState.clearColor.aNormalize());
         //colors :)
         //find errors:
-        CHECK_GPU_ERRORS();
+		CHECK_GPU_ERRORS();
+		//////////////////////////////////////////////////////////////////////
+		//set stencil
+		switch (newState.stencil)
+		{
+		case STENCIL_NONE:
+			glDisable(GL_STENCIL_TEST);
+			break;
+		case STENCIL_REPLACE:
+			glEnable(GL_STENCIL_TEST);
+			glStencilFunc(GL_ALWAYS, 1, 1);
+			glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+			break;
+		case STENCIL_KEEP:
+			glEnable(GL_STENCIL_TEST);
+			glStencilFunc(GL_EQUAL, 1, 1);
+			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+			break;
+		default: break;
+		}
+		//find errors:
+		CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
         //clients select texture?
         //find errors:
@@ -433,7 +455,8 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
         setTexture(newState.texture);
         setColor(newState.color);
         setColorClear(newState.clearColor);
-        setAmbientColor(newState.ambientColor);
+		setAmbientColor(newState.ambientColor);
+		setStencil(newState.stencil);
         setClientState(newState.vertexsArray,
                        newState.normalsArray,
                        newState.texcoordsArray,
@@ -447,7 +470,8 @@ const RenderContext::RenderState& RenderContext::getRenderState()
 void RenderContext::setDefaultRenderState()
 {
 	RenderContext::RenderState defaultState=
-    {
+	{
+		STENCIL_NONE,             //stencil
         BACK,                     //cullface
         false,                    //zbuffer
         Vec4::ZERO,               //viewport
@@ -613,6 +637,41 @@ const Color& RenderContext::getAmbientColor()
 {
     return state.ambientColor;
 }
+//stencil
+void RenderContext::stencilClear()
+{
+	//value
+	glClearStencil(0);
+	//clear the stencil
+	glClear(GL_STENCIL_BUFFER_BIT);
+}
+void RenderContext::setStencil(StencilBuffer stencil)
+{
+	if (state.stencil == stencil) return;
+
+	switch (stencil)
+	{
+	case STENCIL_NONE:
+		glDisable(GL_STENCIL_TEST);
+		break;
+	case STENCIL_REPLACE:
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 1);
+		glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+		break;
+	case STENCIL_KEEP:
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_EQUAL, 1, 1);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		break;
+	default: break;
+	}
+}
+StencilBuffer  RenderContext::getStencil()
+{
+	return state.stencil;
+}
+
 
 //client states
 void RenderContext::setClientState(bool vertex,bool normal,bool texcoord,bool color)
@@ -953,6 +1012,7 @@ void RenderContext::drawLine(const Vec2& v1,const Vec2& v2,const Color& color)
 static void debugARenderState(const RenderContext::RenderState& state)
 {
     Debug::message()<< "Render state:\n";
+	Debug::message()<< " stencil: " << (state.stencil == STENCIL_NONE ? "NONE" : (state.stencil == STENCIL_REPLACE ? "REPLACE" : "KEEP")) << "\n";
     Debug::message()<< " cullface: " << (state.cullface == DISABLE ? "DISABLE" : (state.cullface==BACK ? "BACK" : "FRONT")) << "\n";
     Debug::message()<< " zbuffer: " << (state.zbuffer  ? "TRUE" : "FALSE") << "\n";
     Debug::message()<< " viewport: " << state.viewport.toString() << "\n";
@@ -986,6 +1046,16 @@ void RenderContext::debugNativeState()
     }
     else
         glstate.cullface=DISABLE;
+	//get stencil
+	if (glIsEnabled(GL_STENCIL_TEST))
+	{
+		int func;
+		glGetIntegerv(GL_STENCIL_FUNC, &func);
+		if   (func == GL_ALWAYS) glstate.stencil = STENCIL_REPLACE;
+		else                     glstate.stencil = STENCIL_KEEP;
+	}
+	else 
+		glstate.stencil = STENCIL_NONE;
     //get zbuffer
     	glstate.zbuffer=glIsEnabled(GL_DEPTH_TEST);
     //viewport

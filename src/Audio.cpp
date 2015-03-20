@@ -45,26 +45,52 @@ void Audio::changeVolume(float volume)
 /**
 * subscription of the sound
 */
-void Audio::subscriptionSound(Audio::SoundInterface *sound)
+void Audio::subscriptionSound(Audio::SoundEmitter *sound)
 {
-    soundmap[sound]=sound;
+	soundmap[sound] = sound;
 }
 /**
 * unsubscription of the sound
 */
-void Audio::unsubscriptionSound(Audio::SoundInterface *sound)
+void Audio::unsubscriptionSound(Audio::SoundEmitter *sound)
 {
-    auto it=soundmap.find(sound);
-    if(it!=soundmap.end())
-        soundmap.erase(it);
+	auto it = soundmap.find(sound);
+	if (it != soundmap.end())
+		soundmap.erase(it);
+}
+/**
+* subscription of the sound 2d
+*/
+void Audio::subscriptionSound2D(Audio::SoundEmitter *sound)
+{
+	sound2Dmap[sound] = sound;
+}
+/**
+* unsubscription of the sound 2d
+*/
+void Audio::unsubscriptionSound2D(Audio::SoundEmitter *sound)
+{
+	auto it = sound2Dmap.find(sound);
+	if (it != sound2Dmap.end())
+		sound2Dmap.erase(it);
 }
 /**
 * for each sounds
 */
-void Audio::foreachSounds(DFUNCTION<void(Audio::SoundInterface*)> callback)
+void Audio::foreachSounds(DFUNCTION<void(Audio::SoundEmitter*)> callback)
 {
-    for(auto sound:soundmap)
-    {
-        callback(sound.second);
-    }
+	for (auto sound : soundmap)
+	{
+		callback(sound.second);
+	}
+}
+/**
+* for each sounds 2d
+*/
+void Audio::foreachSounds2D(DFUNCTION<void(Audio::SoundEmitter*)> callback)
+{
+	for (auto sound : sound2Dmap)
+	{
+		callback(sound.second);
+	}
 }

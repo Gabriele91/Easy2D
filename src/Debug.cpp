@@ -38,6 +38,7 @@ void Debug::gpucheckerrors(const char* fileSource,int line)
 
     String err;
     bool glerror=false;
+	size_t count=0;
 
     for (GLint g = glGetError(); g != GL_NONE; g = glGetError())
     {
@@ -66,6 +67,8 @@ void Debug::gpucheckerrors(const char* fileSource,int line)
             break;
         };
         DEBUG_MESSAGE( "OpenGL Error : " << err <<" : "<< line <<" : "<< fileSource  );
+		//safe output
+		if(++count == 100) break;
     }
 
     if(glerror)

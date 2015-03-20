@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugEditorLib|Win32">
+      <Configuration>DebugEditorLib</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="DebugJIT|Win32">
       <Configuration>DebugJIT</Configuration>
       <Platform>Win32</Platform>
@@ -33,6 +37,12 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120_xp</PlatformToolset>
@@ -77,6 +87,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -98,6 +111,12 @@
     <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">
+    <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+    <TargetName>$(ProjectName)_EDITOR_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">
     <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
@@ -127,8 +146,25 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype250_D.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DISABLE_SIMD;NEW_DELETE_OVERLOADABLE;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -144,7 +180,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;ES2_ANGLEPROJECT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -161,7 +197,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -180,7 +216,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -205,7 +241,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -230,7 +266,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -250,8 +286,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AiffLoader.cpp" />
     <ClCompile Include="src\angleproject\AngleApp.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -259,6 +297,7 @@
     </ClCompile>
     <ClCompile Include="src\angleproject\AngleInput.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -266,6 +305,7 @@
     </ClCompile>
     <ClCompile Include="src\angleproject\AngleScreen.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -273,6 +313,7 @@
     </ClCompile>
     <ClCompile Include="src\angleproject\OpenGLAngle.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -282,9 +323,9 @@
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\audio\AudioAL.cpp" />
-    <ClCompile Include="src\audio\BaseSoundAL.cpp" />
-    <ClCompile Include="src\audio\StaticSoundAL.cpp" />
-    <ClCompile Include="src\audio\StreamSoundAL.cpp" />
+    <ClCompile Include="src\audio\SoundEmitterAL.cpp" />
+    <ClCompile Include="src\audio\StaticBufferAL.cpp" />
+    <ClCompile Include="src\audio\StreamBufferAL.cpp" />
     <ClCompile Include="src\audio\StreamThreadAL.cpp" />
     <ClCompile Include="src\BatchingColorMesh.cpp" />
     <ClCompile Include="src\BatchingMesh.cpp" />
@@ -320,6 +361,7 @@
     <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\RenderContextOES2.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -333,12 +375,16 @@
     <ClCompile Include="src\ResourcesManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Script.cpp" />
+    <ClCompile Include="src\script\LuaBody.cpp" />
     <ClCompile Include="src\script\LuaEasy2D.cpp" />
     <ClCompile Include="src\script\LuaMath3D.cpp" />
+    <ClCompile Include="src\script\LuaRenderable.cpp" />
     <ClCompile Include="src\script\LuaScript.cpp" />
     <ClCompile Include="src\script\LuaState.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\socket\Socket.cpp" />
     <ClCompile Include="src\Sound.cpp" />
+    <ClCompile Include="src\Speaker.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\State.cpp" />
     <ClCompile Include="src\thread\MutexWin32.cpp" />
@@ -358,6 +404,7 @@
     </ClCompile>
     <ClCompile Include="src\window\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -379,8 +426,10 @@
     <ClCompile Include="src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AiffLoader.h" />
     <ClInclude Include="include\angleproject\AngleApp.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -388,6 +437,7 @@
     </ClInclude>
     <ClInclude Include="include\angleproject\AngleInput.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -395,6 +445,7 @@
     </ClInclude>
     <ClInclude Include="include\angleproject\AngleScreen.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -402,6 +453,7 @@
     </ClInclude>
     <ClInclude Include="include\angleproject\OpenGLAngle.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
@@ -411,9 +463,10 @@
     <ClInclude Include="include\Application.h" />
     <ClInclude Include="include\Audio.h" />
     <ClInclude Include="include\audio\AudioAL.h" />
-    <ClInclude Include="include\audio\BaseSoundAL.h" />
-    <ClInclude Include="include\audio\StaticSoundAL.h" />
-    <ClInclude Include="include\audio\StreamSoundAL.h" />
+    <ClInclude Include="include\audio\SoundEmitterAL.h" />
+    <ClInclude Include="include\audio\SoundListenerAL.h" />
+    <ClInclude Include="include\audio\StaticBufferAL.h" />
+    <ClInclude Include="include\audio\StreamBufferAL.h" />
     <ClInclude Include="include\audio\StreamThreadAL.h" />
     <ClInclude Include="include\BatchingColorMesh.h" />
     <ClInclude Include="include\BatchingMesh.h" />
@@ -440,6 +493,7 @@
     <ClInclude Include="include\gui\Panel.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\InputList.h" />
+    <ClInclude Include="include\Listener.h" />
     <ClInclude Include="include\Math3D.h" />
     <ClInclude Include="include\Memory.h" />
     <ClInclude Include="include\Mesh.h" />
@@ -456,9 +510,14 @@
     <ClInclude Include="include\Script.h" />
     <ClInclude Include="include\script\ELuaScript.h" />
     <ClInclude Include="include\script\ELuaState.h" />
+    <ClInclude Include="include\script\RefCountedPtr.h" />
+    <ClInclude Include="include\script\RefStdCount.h" />
     <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\socket\Address.h" />
+    <ClInclude Include="include\socket\Socket.h" />
     <ClInclude Include="include\Sortable.h" />
     <ClInclude Include="include\Sound.h" />
+    <ClInclude Include="include\Speaker.h" />
     <ClInclude Include="include\Sprite.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\thread\Mutex.h" />

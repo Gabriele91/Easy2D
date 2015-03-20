@@ -7,159 +7,153 @@ using namespace Easy2D;
 static int LuaNewVec2(lua_State* lVM)
 {  
     int const nargs = lua_gettop (lVM);
+	//memory
+	Vec2* v2 = (Vec2*)luabridge::UserdataValue <Vec2>::place(lVM);
     //push a new vec2
-    if(!nargs)
+	if (nargs == 1)
+	{
+		new (v2) Vec2();
+	}
+    else
+    if(lua_isuserdata(lVM,2) && nargs == 2)
     {
-        luabridge::Stack <Vec2>::push(lVM,Vec2());
+		new (v2) Vec2(luabridge::Stack <Vec2>::get(lVM, 2));
     }
     else
-    if(lua_isuserdata(lVM,1) && nargs==1)
-    {
-        luabridge::Stack <Vec2>::push(lVM, 
-            Vec2(luabridge::Stack <Vec2>::get(lVM, 1)));
-    }
-    else
-    if(lua_isnumber(lVM,1) && lua_isnumber(lVM,2) && nargs==2)
-    {
-        luabridge::Stack <Vec2>::push(lVM,
-            Vec2(luabridge::Stack <float>::get(lVM, 1),
-                 luabridge::Stack <float>::get(lVM, 2)));
+    if(lua_isnumber(lVM,2) && lua_isnumber(lVM,3) && nargs==3)
+	{
+		new (v2) Vec2(luabridge::Stack <float>::get(lVM, 2),
+					  luabridge::Stack <float>::get(lVM, 3));
     }
     else
     {
-        luaL_argerror(lVM,nargs,"Vec2.new fail");
-        return 0;
+        luaL_argerror(lVM,nargs,"Vec2() fail");
     }
     return 1;
 }
 static int LuaNewVec3(lua_State* lVM)
-{  
-    int const nargs = lua_gettop (lVM);
-    //push a new vec3
-    if(!nargs)
-    {
-        luabridge::Stack <Vec3>::push(lVM,Vec3());
-    }
-    else
-    if(lua_isuserdata(lVM,1) && nargs==1)
-    {
-        luabridge::Stack <Vec3>::push(lVM, 
-            Vec3(luabridge::Stack <Vec3>::get(lVM, 1)));
-    }
-    else
-    if(lua_isuserdata(lVM,1) && lua_isnumber(lVM,2) && nargs==2)
-    {
-        luabridge::Stack <Vec3>::push(lVM,
-            Vec3(luabridge::Stack <Vec2>::get(lVM, 1),
-                 luabridge::Stack <float>::get(lVM, 2)));
-    }
-    else
-    if(lua_isnumber(lVM,1) && 
-       lua_isnumber(lVM,2) && 
-       lua_isnumber(lVM,3) && nargs==3)
-    {
-        luabridge::Stack <Vec3>::push(lVM,
-            Vec3(luabridge::Stack <float>::get(lVM, 1),
-                 luabridge::Stack <float>::get(lVM, 2),
-                 luabridge::Stack <float>::get(lVM, 3)));
-    }
-    else
-    {
-        luaL_argerror(lVM,nargs,"Vec3.new fail");
-        return 0;
-    }
-    return 1;
+{
+	int const nargs = lua_gettop (lVM);
+	//memory
+	Vec3* v = (Vec3*)luabridge::UserdataValue <Vec3>::place(lVM);
+	//push a new vec2
+	if (nargs == 1)
+	{
+		new (v) Vec3();
+	}
+	else
+	if(lua_isuserdata(lVM,2) && nargs == 2)
+	{
+		new (v) Vec3(luabridge::Stack <Vec3>::get(lVM, 2));
+	}
+	else
+	if (lua_isuserdata(lVM, 2) && lua_isnumber(lVM, 3) && nargs == 3)
+	{
+		new (v) Vec3(luabridge::Stack <Vec2>::get(lVM, 2),
+					 luabridge::Stack <float>::get(lVM, 3));
+	}
+	else
+	if (lua_isnumber(lVM, 2) && 
+		lua_isnumber(lVM, 3) && 
+		lua_isnumber(lVM, 4) && nargs == 4)
+	{
+		new (v) Vec3(luabridge::Stack <float>::get(lVM, 2),
+					 luabridge::Stack <float>::get(lVM, 3),
+					 luabridge::Stack <float>::get(lVM, 4));
+	}
+	else
+	{
+		luaL_argerror(lVM,nargs,"Vec3() fail");
+	}
+	return 1;
 }
 static int LuaNewVec4(lua_State* lVM)
-{  
-    int const nargs = lua_gettop (lVM);
-    //push a new vec4
-    if(!nargs)
-    {
-        luabridge::Stack <Vec4>::push(lVM,Vec4());
-    }
-    else
-    if(lua_isuserdata(lVM,1) && nargs==1)
-    {
-        luabridge::Stack <Vec4>::push(lVM, 
-            Vec4(luabridge::Stack <Vec4>::get(lVM, 1)));
-    }
-    else
-    if(lua_isuserdata(lVM,1) && lua_isnumber(lVM,2) && nargs==2)
-    {
-        luabridge::Stack <Vec4>::push(lVM,
-            Vec4(luabridge::Stack <Vec3>::get(lVM, 1),
-                 luabridge::Stack <float>::get(lVM, 2)));
-    }
-    else
-    if(lua_isuserdata(lVM,1) && 
-       lua_isnumber(lVM,2) && 
-       lua_isnumber(lVM,3) && nargs==3)
-    {
-        luabridge::Stack <Vec4>::push(lVM,
-            Vec4(luabridge::Stack <Vec2>::get(lVM, 1),
-                 luabridge::Stack <float>::get(lVM, 2),
-                 luabridge::Stack <float>::get(lVM, 3)));
-    }
-    else
-    if(lua_isnumber(lVM,1) && 
-       lua_isnumber(lVM,2) && 
-       lua_isnumber(lVM,3) && 
-       lua_isnumber(lVM,4) && nargs==4)
-    {
-        luabridge::Stack <Vec4>::push(lVM,
-            Vec4(luabridge::Stack <float>::get(lVM, 1),
-                 luabridge::Stack <float>::get(lVM, 2),
-                 luabridge::Stack <float>::get(lVM, 3),
-                 luabridge::Stack <float>::get(lVM, 4)));
-    }
-    else
-    {
-        luaL_argerror(lVM,nargs,"Vec4.new fail");
-        return 0;
-    }
-    return 1;
+{
+	int const nargs = lua_gettop (lVM);
+	//memory
+	Vec4* v = (Vec4*)luabridge::UserdataValue <Vec4>::place(lVM);
+	//push a new vec2
+	if (nargs == 1)
+	{
+		new (v) Vec4();
+	}
+	else
+	if(lua_isuserdata(lVM,2) && nargs == 2)
+	{
+		new (v) Vec4(luabridge::Stack <Vec4>::get(lVM, 2));
+	}
+	else
+	if (lua_isuserdata(lVM, 2) && lua_isnumber(lVM, 3) && nargs == 3)
+	{
+		new (v)Vec4(luabridge::Stack <Vec3>::get(lVM, 2),
+					luabridge::Stack <float>::get(lVM, 3));
+	}
+	else
+	if (lua_isuserdata(lVM, 2) &&
+		lua_isnumber(lVM, 3) &&
+		lua_isnumber(lVM, 4) && nargs == 4)
+	{
+		new (v)Vec4(luabridge::Stack <Vec2>::get(lVM, 2),
+					luabridge::Stack <float>::get(lVM, 3),
+					luabridge::Stack <float>::get(lVM, 4));
+	}
+	else
+	if (lua_isnumber(lVM, 2) &&
+		lua_isnumber(lVM, 3) &&
+		lua_isnumber(lVM, 4) &&
+		lua_isnumber(lVM, 5) && nargs == 5)
+	{
+		new (v)Vec4(luabridge::Stack <float>::get(lVM, 2),
+					luabridge::Stack <float>::get(lVM, 3),
+					luabridge::Stack <float>::get(lVM, 4),
+					luabridge::Stack <float>::get(lVM, 5));
+	}
+	else
+	{
+		luaL_argerror(lVM,nargs,"Vec4() fail");
+	}
+	return 1;
 }
 static int LuaNewMat4(lua_State* lVM)
-{  
-    int const nargs = lua_gettop (lVM);
-    //push a new Mat4
-    if(!nargs)
-    {
-        luabridge::Stack <Mat4>::push(lVM,Mat4());
-    }
-    else
-    if(lua_isuserdata(lVM,1) && nargs==1)
-    {
-        luabridge::Stack <Mat4>::push(lVM, 
-            Mat4(luabridge::Stack <Mat4>::get(lVM, 1)));
-    }
-    else
-    {
-        //is16Bool
-        bool is16Bool=true && nargs==16;
-        //all integer?
-        for(uchar i=0;is16Bool && i!=16;++i) 
-            is16Bool=is16Bool&&lua_isnumber(lVM,i);
-        //put values
-        if(is16Bool)
-        {
-            luabridge::Stack <Mat4>::push(lVM,
-             Mat4(
-             luaL_checknumber(lVM,1) ,luaL_checknumber(lVM,2), luaL_checknumber(lVM,3), luaL_checknumber(lVM,4),
-             luaL_checknumber(lVM,5) ,luaL_checknumber(lVM,6), luaL_checknumber(lVM,7), luaL_checknumber(lVM,8),
-             luaL_checknumber(lVM,9) ,luaL_checknumber(lVM,10),luaL_checknumber(lVM,11),luaL_checknumber(lVM,12),
-             luaL_checknumber(lVM,13),luaL_checknumber(lVM,14),luaL_checknumber(lVM,15),luaL_checknumber(lVM,16)
-             ));
-        }
-        else
-        {
-            luaL_argerror(lVM,nargs,"Mat4.new fail");
-            return 0;
-        }
-    }
-    return 1;
+{
+	int const nargs = lua_gettop (lVM);
+	//memory
+	Mat4* v = (Mat4*)luabridge::UserdataValue <Mat4>::place(lVM);
+	//push a new vec2
+	if (nargs == 1)
+	{
+		new (v) Mat4();
+	}
+	else
+	if(lua_isuserdata(lVM,2) && nargs == 2)
+	{
+		new (v)Mat4(luabridge::Stack <Mat4>::get(lVM, 2));
+	}
+	else
+	{       
+		//is16Bool
+		bool is16Bool = true && nargs == 17;
+		//all integer?
+		for (uchar i = 1; is16Bool && i != 17; ++i)
+			is16Bool = is16Bool&&lua_isnumber(lVM, i+1);
+		//put values
+		if (is16Bool)
+		{
+			new (v) Mat4(
+				luaL_checknumber(lVM, 2), luaL_checknumber(lVM, 3), luaL_checknumber(lVM, 4), luaL_checknumber(lVM, 5),
+				luaL_checknumber(lVM, 6), luaL_checknumber(lVM, 7), luaL_checknumber(lVM, 8), luaL_checknumber(lVM, 9),
+				luaL_checknumber(lVM, 10), luaL_checknumber(lVM, 11), luaL_checknumber(lVM, 12), luaL_checknumber(lVM, 13),
+				luaL_checknumber(lVM, 14), luaL_checknumber(lVM, 15), luaL_checknumber(lVM, 16), luaL_checknumber(lVM, 17)
+				);
+		}
+		else
+		{
+			luaL_argerror(lVM, nargs, "Mat4() fail");
+		}
+	}
+	return 1;
 }
+
 
 class LuaVec2 : public Vec2
 {
@@ -253,8 +247,8 @@ void LuaState::addMath3DLib()
     /** VEC 2 CLASS */
     luabridge::getGlobalNamespace(luaVM)
         .beginClass<Vec2>("Vec2")
-        .addConstructor <void (*) (void)> ()
-        .addStaticCFunction("new",&LuaNewVec2)
+      //.addConstructor <void (*) (void)> ()
+        .addStaticCFunction("__call",&LuaNewVec2)
         .addData ("x",&Vec2::x)
         .addData ("y",&Vec2::y)
         .addFunction("dot",&Vec2::dot)
@@ -277,9 +271,9 @@ void LuaState::addMath3DLib()
         .addCFunction("__towatch", (int (Vec2::*) (lua_State*))&LuaVec2::__towatch);
     /** VEC 3 CLASS */
     luabridge::getGlobalNamespace(luaVM)
-        .beginClass<Vec3>("Vec3")
-        .addConstructor <void (*) (void)> ()
-        .addStaticCFunction("new",&LuaNewVec3)
+		.beginClass<Vec3>("Vec3")
+		//.addConstructor <void (*) (void)> ()
+		.addStaticCFunction("__call", &LuaNewVec3)
         .addData ("x",&Vec3::x)
         .addData ("y",&Vec3::y)
         .addData ("z",&Vec3::z)
@@ -303,8 +297,8 @@ void LuaState::addMath3DLib()
     /** VEC 4 CLASS */
     luabridge::getGlobalNamespace(luaVM)
         .beginClass<Vec4>("Vec4")
-        .addConstructor <void (*) (void)> ()
-        .addStaticCFunction("new",&LuaNewVec4)
+		//.addConstructor <void (*) (void)> ()
+		.addStaticCFunction("__call", &LuaNewVec4)
         .addData ("x",&Vec4::x)
         .addData ("y",&Vec4::y)
         .addData ("z",&Vec4::z)
@@ -332,14 +326,11 @@ void LuaState::addMath3DLib()
         .addFunction("setRegion",&AABox2::setRegion)
         .addFunction("getCenter",&AABox2::getCenter)
         .addFunction("getSize",&AABox2::getSize)
-
         .addFunction("setMax",&AABox2::setMax)
         .addFunction("setMin",&AABox2::setMin)
         //.addFunction("getMax",&AABox2::getMax)
         //.addFunction("getMin",&AABox2::getMin)
-
         .addFunction("addPoint",&AABox2::addPoint)
-
         .addFunction<bool (AABox2::*)(const Vec2&) const>("isIntersection",&AABox2::isIntersection)
         .addFunction<bool (AABox2::*)(const AABox2&) const>("isIntersection",&AABox2::isIntersection)
         .addFunction<AABox2 (AABox2::*)(const Mat4&) const>("applay",&AABox2::applay)
@@ -348,8 +339,8 @@ void LuaState::addMath3DLib()
     /** MAT4 CLASS */
     luabridge::getGlobalNamespace(luaVM)
         .beginClass<Mat4>("Mat4")
-        .addConstructor <void (*) (void)> ()
-        .addStaticCFunction("new",&LuaNewMat4)
+		//.addConstructor <void (*) (void)> ()
+		.addStaticCFunction("__call", &LuaNewMat4)
         /* max 14 params
         .addConstructor <void (*) (float,float,float,float,
                                    float,float,float,float,
