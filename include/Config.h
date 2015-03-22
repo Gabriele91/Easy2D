@@ -86,6 +86,8 @@ int atexit(void (*function)(void));
     //no sse in arm (nano, automatic)
     #ifdef ENABLE_SIMD
         #undef ENABLE_SIMD
+        #define DISABLE_SIMD
+        #define DOVERRIDE_NEW_DEL
     #endif
 
 #elif TARGET_IPHONE_SIMULATOR
@@ -105,7 +107,9 @@ int atexit(void (*function)(void));
 
     //no sse in emulator
     #ifdef ENABLE_SIMD
-        #undef ENABLE_SIMD
+        #undef  ENABLE_SIMD
+        #define DISABLE_SIMD
+        #define DOVERRIDE_NEW_DEL
     #endif
 
 #elif TARGET_OS_MAC

@@ -47,6 +47,9 @@ using namespace Easy2D;
     [glView createFramebuffer];
     //init game
     [glView makeCurrent];
+    //init context
+    RenderContext::initContext();
+    //start
     Application::instance()->getGame()->start();
     //start animation
     [glView startAnimation];

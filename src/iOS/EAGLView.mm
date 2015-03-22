@@ -56,6 +56,9 @@ using namespace Easy2D;
         //init intervall
         animationInterval = 1.0 / 60.0;
         
+        //enable multi touch
+        self.multipleTouchEnabled=YES;
+        
         //init link
         displayLink = nil;
         
@@ -145,8 +148,6 @@ using namespace Easy2D;
         NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         return NO;
     }
-    
-    //INIT RENDER
     //set default state
     RenderContext::setDefaultRenderTarget(
     {
@@ -155,8 +156,6 @@ using namespace Easy2D;
       depthRenderbuffer,
       USE_DEPTH_BUFFER
     });
-    //init context
-    RenderContext::initContext();
     //find errors:
     CHECK_GPU_ERRORS();
     
@@ -168,8 +167,6 @@ using namespace Easy2D;
 {
     //set context
     [EAGLContext setCurrentContext:context];
-    //release context
-    RenderContext::releaseContext();
     //delete frame buffer
     glDeleteFramebuffers(1, &viewFramebuffer);
     viewFramebuffer = 0;
@@ -253,6 +250,8 @@ using namespace Easy2D;
 {
     //stop animation
     [self stopAnimation];
+    //release context
+    RenderContext::releaseContext();
     //disable context
     if ([EAGLContext currentContext] == context)
     {

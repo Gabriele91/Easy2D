@@ -25,8 +25,14 @@ Scene::Scene(const String& app,
 		freamPerSecond,
 		fullscreen,
 		(Screen::AntiAliasing)dfAA);
-	//init render
-	Render::init();
+    
+    //subscription init
+    RenderContext::subscriptionInit(
+    [this]()
+    {
+        //init render
+        this->Render::init();
+    });
 }
 Scene::Scene(bool initRender) :isStarted(false)
 {

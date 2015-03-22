@@ -9,6 +9,7 @@ using namespace Easy2D;
 ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 //globals
+DFUNCTION<void()> RenderContext::renderInit=nullptr;
 RenderContext::StandardShader RenderContext::standardShader=RenderContext::SHADER_VERTEX;
 std::vector<Shader::ptr> RenderContext::shaders;
 RenderContext::Context RenderContext::context;
@@ -1251,9 +1252,11 @@ void RenderContext::initContext()
     }
     //set default program
     disableProgram();
-
-    
-
+    //init
+    if(renderInit)
+    {
+        renderInit();
+    }
 }
 void RenderContext::releaseContext()
 {

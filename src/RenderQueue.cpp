@@ -121,11 +121,10 @@ void RenderQueue::draw(Render* render)
 		//Matrix
 		const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
 		//can add this mesh in the pool?
-		if ( false && render->getBatchingIsEnable() && rCurrent->doBatching() )
+		if ( /* false && */ render->getBatchingIsEnable() && rCurrent->doBatching() )
 		{
 			//batching
-			batchingMesh.addMesh(otrasform,
-				rCurrent->getMesh());
+			batchingMesh.addMesh(otrasform, rCurrent->getMesh());
 			// draw?
 			if (!rNext ||
 				!rNext->doBatching() ||

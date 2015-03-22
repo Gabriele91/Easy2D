@@ -93,11 +93,14 @@ void operator delete [] ( void *p ) throw_dealloc
 #else
 
 #ifdef _MSC_VER
-#include <malloc.h>
+    #include <malloc.h>
 #elif defined(__MACH__)
-//#include <mm_malloc.h>
+    //#include <mm_malloc.h>
+    #include <mm_malloc.h>
+    #include <stdlib.h>
 #else
-#include <mm_malloc.h>
+    #include <mm_malloc.h>
+    #include <stdlib.h>
 #endif
 
 void* Easy2D::malloc(size_t size)

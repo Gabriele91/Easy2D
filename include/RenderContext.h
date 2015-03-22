@@ -352,6 +352,12 @@ class RenderContext
     static void bindStandardShader();
     static void updateStandardUniform();
     static uint getStandardShaderProgram();
+    
+    //init render subscription
+    static void subscriptionInit(DFUNCTION<void()> init)
+    {
+        renderInit=init;
+    }
 
     private:
     /////////////////////////////////////////
@@ -367,8 +373,9 @@ class RenderContext
     static std::vector<Shader::ptr>  shaders;
     /////////////////////////////////////////
 	static Context context;
-	static RenderState state;
+    static RenderState state;
     static RenderTarget buffers;
+    static DFUNCTION<void()> renderInit;
 
 };
 

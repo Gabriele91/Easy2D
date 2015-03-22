@@ -92,19 +92,25 @@
 		E0398A3719FBFBEA00079232 /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD518B35ECA00D048DD /* AudioAL.cpp */; };
 		E0398A3819FBFBF000079232 /* MutexPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */; };
 		E0398A3919FBFBF000079232 /* ThreadPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */; };
-		E0398A3E19FBFC4000079232 /* Math3D_neon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0398A3A19FBFC1800079232 /* Math3D_neon.cpp */; };
 		E0398A3F19FBFCA800079232 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E061350318AE675300BD63EC /* OpenAL.framework */; };
-		E0398A4319FBFCDB00079232 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0398A4219FBFCDB00079232 /* OpenGLES.framework */; };
 		E0398A4419FBFF4700079232 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = E054967417AE6939005DDB72 /* stdafx.h */; };
 		E0398AF919FC005200079232 /* libFreetype2Uni.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0398AF619FC005200079232 /* libFreetype2Uni.a */; };
 		E0398AFA19FC005200079232 /* libLua5.1.5Uni.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0398AF719FC005200079232 /* libLua5.1.5Uni.a */; };
-		E04CC2BF19FC05B9009326D6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04CC2BE19FC05B9009326D6 /* UIKit.framework */; };
 		E04CC2C019FC0660009326D6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196480176B0CF200CF955A /* Cocoa.framework */; };
 		E04CC2C119FC0685009326D6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196483176B0CF200CF955A /* AppKit.framework */; };
 		E04CC2C219FC0690009326D6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196485176B0CF200CF955A /* Foundation.framework */; };
-		E04CC2C419FC06C7009326D6 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04CC2C319FC06C7009326D6 /* CoreFoundation.framework */; };
-		E04CC2C619FC06D2009326D6 /* libxpc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E04CC2C519FC06D2009326D6 /* libxpc.dylib */; };
-		E04CC2C819FC0742009326D6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04CC2C719FC0742009326D6 /* QuartzCore.framework */; };
+		E04F71141ABC38CA0093DF47 /* AiffLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BEA34C1AB9BE6A00824182 /* AiffLoader.cpp */; };
+		E04F71151ABC38CD0093DF47 /* Speaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BEA34D1AB9BE6A00824182 /* Speaker.cpp */; };
+		E04F71161ABC38CF0093DF47 /* RenderQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02B03F61A1CC26C00F6B7D6 /* RenderQueue.cpp */; };
+		E04F71181ABC39000093DF47 /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE581946EE8500D1438A /* Button.cpp */; };
+		E04F71191ABC39030093DF47 /* GuiManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE591946EE8500D1438A /* GuiManager.cpp */; };
+		E04F711A1ABC39050093DF47 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5A1946EE8500D1438A /* Label.cpp */; };
+		E04F711B1ABC39090093DF47 /* Panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5B1946EE8500D1438A /* Panel.cpp */; };
+		E04F711C1ABC39170093DF47 /* StreamBufferAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0121CD71AB9D76B00F044E6 /* StreamBufferAL.cpp */; };
+		E04F711D1ABC39170093DF47 /* SoundEmitterAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0121CD81AB9D76B00F044E6 /* SoundEmitterAL.cpp */; };
+		E04F711E1ABC39170093DF47 /* StaticBufferAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0121CD91AB9D76B00F044E6 /* StaticBufferAL.cpp */; };
+		E04F711F1ABC39330093DF47 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FB17AE6907005DDB72 /* Config.cpp */; };
+		E04F71201ABC39340093DF47 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FB17AE6907005DDB72 /* Config.cpp */; };
 		E04FBB2D194F0EFF00164D77 /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = E04FBB2C194F0EFF00164D77 /* Component.h */; };
 		E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04FBB2E194F0F1B00164D77 /* Component.cpp */; };
 		E05495BD17AE68E8005DDB72 /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958817AE68E8005DDB72 /* AnimatedSprite.h */; };
@@ -231,6 +237,12 @@
 		E0A1AE691946EE9700D1438A /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE641946EE9700D1438A /* Label.h */; };
 		E0A1AE6A1946EE9700D1438A /* Panel.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE651946EE9700D1438A /* Panel.h */; };
 		E0A719C417E1EE6200A0B298 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A7196B17E1EE6200A0B298 /* libfreetype.a */; };
+		E0AB0FB01ABC1A030008EEC8 /* libxpc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FAF1ABC1A030008EEC8 /* libxpc.dylib */; };
+		E0AB0FB21ABC1A3F0008EEC8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB11ABC1A3F0008EEC8 /* OpenGLES.framework */; };
+		E0AB0FB41ABC1A550008EEC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB31ABC1A550008EEC8 /* UIKit.framework */; };
+		E0AB0FB61ABC1A620008EEC8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB51ABC1A620008EEC8 /* QuartzCore.framework */; };
+		E0AB0FB81ABC1A6D0008EEC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB71ABC1A6D0008EEC8 /* CoreFoundation.framework */; };
+		E0AB0FC81ABC1DE90008EEC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */; };
 		E0AE8F2A1AB9D6170030BCB3 /* RefCountedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */; };
 		E0AE8F2B1AB9D6170030BCB3 /* RefStdCount.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */; };
 		E0B5835B19B1B6570001D40A /* Blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B5835A19B1B6570001D40A /* Blend.cpp */; };
@@ -567,7 +579,6 @@
 		E03989DB19FBFAA900079232 /* ScreeniOS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScreeniOS.mm; sourceTree = "<group>"; };
 		E03989E219FBFAF300079232 /* libEasy2D-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libEasy2D-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E03989FB19FBFB5900079232 /* RenderContextOES2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderContextOES2.cpp; sourceTree = "<group>"; };
-		E0398A3A19FBFC1800079232 /* Math3D_neon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Math3D_neon.cpp; sourceTree = "<group>"; };
 		E0398A3C19FBFC3000079232 /* Math3D_neon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math3D_neon.h; sourceTree = "<group>"; };
 		E0398A4219FBFCDB00079232 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		E0398A4819FC005200079232 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -869,6 +880,12 @@
 		E0A1AE641946EE9700D1438A /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
 		E0A1AE651946EE9700D1438A /* Panel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panel.h; sourceTree = "<group>"; };
 		E0A7196B17E1EE6200A0B298 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
+		E0AB0FAF1ABC1A030008EEC8 /* libxpc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxpc.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/usr/lib/system/libxpc.dylib; sourceTree = DEVELOPER_DIR; };
+		E0AB0FB11ABC1A3F0008EEC8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		E0AB0FB31ABC1A550008EEC8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		E0AB0FB51ABC1A620008EEC8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		E0AB0FB71ABC1A6D0008EEC8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefCountedPtr.h; sourceTree = "<group>"; };
 		E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefStdCount.h; sourceTree = "<group>"; };
 		E0B5835A19B1B6570001D40A /* Blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blend.cpp; sourceTree = "<group>"; };
@@ -1164,14 +1181,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E04CC2BF19FC05B9009326D6 /* UIKit.framework in Frameworks */,
-				E04CC2C819FC0742009326D6 /* QuartzCore.framework in Frameworks */,
-				E04CC2C419FC06C7009326D6 /* CoreFoundation.framework in Frameworks */,
+				E0AB0FC81ABC1DE90008EEC8 /* CoreGraphics.framework in Frameworks */,
+				E0AB0FB81ABC1A6D0008EEC8 /* CoreFoundation.framework in Frameworks */,
+				E0AB0FB61ABC1A620008EEC8 /* QuartzCore.framework in Frameworks */,
+				E0AB0FB41ABC1A550008EEC8 /* UIKit.framework in Frameworks */,
+				E0AB0FB21ABC1A3F0008EEC8 /* OpenGLES.framework in Frameworks */,
+				E0AB0FB01ABC1A030008EEC8 /* libxpc.dylib in Frameworks */,
 				E0398A3F19FBFCA800079232 /* OpenAL.framework in Frameworks */,
-				E0398A4319FBFCDB00079232 /* OpenGLES.framework in Frameworks */,
 				E0398AF919FC005200079232 /* libFreetype2Uni.a in Frameworks */,
 				E0398AFA19FC005200079232 /* libLua5.1.5Uni.a in Frameworks */,
-				E04CC2C619FC06D2009326D6 /* libxpc.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1219,6 +1237,12 @@
 		E019647F176B0CF200CF955A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */,
+				E0AB0FB71ABC1A6D0008EEC8 /* CoreFoundation.framework */,
+				E0AB0FB51ABC1A620008EEC8 /* QuartzCore.framework */,
+				E0AB0FB31ABC1A550008EEC8 /* UIKit.framework */,
+				E0AB0FB11ABC1A3F0008EEC8 /* OpenGLES.framework */,
+				E0AB0FAF1ABC1A030008EEC8 /* libxpc.dylib */,
 				E04CC2C719FC0742009326D6 /* QuartzCore.framework */,
 				E04CC2C519FC06D2009326D6 /* libxpc.dylib */,
 				E04CC2C319FC06C7009326D6 /* CoreFoundation.framework */,
@@ -1706,7 +1730,6 @@
 				E055ABA919FFF4A700163AC4 /* Math3D_vfp.cpp */,
 				E055ABAA19FFF4A700163AC4 /* Math3D_vfp.h */,
 				E0398A3C19FBFC3000079232 /* Math3D_neon.h */,
-				E0398A3A19FBFC1800079232 /* Math3D_neon.cpp */,
 				E03989FB19FBFB5900079232 /* RenderContextOES2.cpp */,
 				E03989D919FBFAA900079232 /* iOS */,
 				E064C21519BDE3FE00880CAF /* RenderContextOGL2.cpp */,
@@ -2701,16 +2724,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E04F711B1ABC39090093DF47 /* Panel.cpp in Sources */,
 				E0398A2E19FBFBD900079232 /* State.cpp in Sources */,
 				E0398A0219FBFBAA00079232 /* LuaState.cpp in Sources */,
-				E0398A3E19FBFC4000079232 /* Math3D_neon.cpp in Sources */,
 				E0E51F3C1A1F87F2009D70F9 /* LuaBody.cpp in Sources */,
 				E0398A2919FBFBD900079232 /* Sprite.cpp in Sources */,
 				E0398A1019FBFBD900079232 /* Scene.cpp in Sources */,
 				E0398A1E19FBFBD900079232 /* Input.cpp in Sources */,
 				E0398A0419FBFBD900079232 /* FluidGrid.cpp in Sources */,
+				E04F71141ABC38CA0093DF47 /* AiffLoader.cpp in Sources */,
 				E0398A2619FBFBD900079232 /* ResourcesGroup.cpp in Sources */,
 				E0398A2219FBFBD900079232 /* Render.cpp in Sources */,
+				E04F71181ABC39000093DF47 /* Button.cpp in Sources */,
+				E04F711C1ABC39170093DF47 /* StreamBufferAL.cpp in Sources */,
 				E0398A2D19FBFBD900079232 /* Utility.cpp in Sources */,
 				E055ABAB19FFF4A700163AC4 /* Math3D_vfp.cpp in Sources */,
 				E0398A3719FBFBEA00079232 /* AudioAL.cpp in Sources */,
@@ -2724,6 +2750,7 @@
 				E0398A2B19FBFBD900079232 /* Texture.cpp in Sources */,
 				E0398A0B19FBFBD900079232 /* WavLoader.cpp in Sources */,
 				E0398A3819FBFBF000079232 /* MutexPOSIX.cpp in Sources */,
+				E04F71201ABC39340093DF47 /* Config.cpp in Sources */,
 				E0398A0519FBFBD900079232 /* Parallax.cpp in Sources */,
 				E03989FE19FBFB6E00079232 /* BatchingColorMesh.cpp in Sources */,
 				E0398A2319FBFBD900079232 /* Renderable.cpp in Sources */,
@@ -2734,10 +2761,12 @@
 				E0DE20E419FF91F000B17A40 /* EAGLViewController.mm in Sources */,
 				E0398A1319FBFBD900079232 /* BMFontLoader.cpp in Sources */,
 				E0398A2F19FBFBD900079232 /* Blend.cpp in Sources */,
+				E04F711E1ABC39170093DF47 /* StaticBufferAL.cpp in Sources */,
 				E03989FD19FBFB5C00079232 /* RenderContextOES2.cpp in Sources */,
 				E0398A3019FBFBD900079232 /* Shader.cpp in Sources */,
 				E0D6186519FD07E700695A70 /* EAGLView.mm in Sources */,
 				E0398A2119FBFBD900079232 /* Object.cpp in Sources */,
+				E04F71191ABC39030093DF47 /* GuiManager.cpp in Sources */,
 				E0398A1919FBFBD900079232 /* ETime.cpp in Sources */,
 				E03989FA19FBFB1B00079232 /* ScreeniOS.mm in Sources */,
 				E0398A0319FBFBD900079232 /* BatchingMesh.cpp in Sources */,
@@ -2747,18 +2776,22 @@
 				E03989FF19FBFBAA00079232 /* LuaEasy2D.cpp in Sources */,
 				E08AF5411A02E8BB0059C72B /* InputiOS.mm in Sources */,
 				E0398A3919FBFBF000079232 /* ThreadPOSIX.cpp in Sources */,
+				E04F711D1ABC39170093DF47 /* SoundEmitterAL.cpp in Sources */,
 				E0398A0E19FBFBD900079232 /* Audio.cpp in Sources */,
 				E0398A1219FBFBD900079232 /* Application.cpp in Sources */,
 				E0398A0119FBFBAA00079232 /* LuaScript.cpp in Sources */,
 				E0398A2719FBFBD900079232 /* ResourcesManager.cpp in Sources */,
 				E0398A1819FBFBD900079232 /* EString.cpp in Sources */,
+				E04F71151ABC38CD0093DF47 /* Speaker.cpp in Sources */,
 				E03989F919FBFB1700079232 /* AppiOS.mm in Sources */,
 				E0398A1D19FBFBD900079232 /* Game.cpp in Sources */,
 				E0398A3619FBFBEA00079232 /* StreamThreadAL.cpp in Sources */,
 				E0398A2019FBFBD900079232 /* Mesh.cpp in Sources */,
 				E0398A1519FBFBD900079232 /* Color.cpp in Sources */,
 				E0398A0019FBFBAA00079232 /* LuaMath3D.cpp in Sources */,
+				E04F71161ABC38CF0093DF47 /* RenderQueue.cpp in Sources */,
 				E0398A3219FBFBE100079232 /* lodepng.cpp in Sources */,
+				E04F711A1ABC39050093DF47 /* Label.cpp in Sources */,
 				E0398A1419FBFBD900079232 /* Camera.cpp in Sources */,
 				E0398A0A19FBFBD900079232 /* Body.cpp in Sources */,
 				E0D6185A19FD074300695A70 /* AppDelegate.mm in Sources */,
@@ -2834,6 +2867,7 @@
 				E054966417AE6907005DDB72 /* Sprite.cpp in Sources */,
 				E0121CDA1AB9D76B00F044E6 /* StreamBufferAL.cpp in Sources */,
 				E054966517AE6907005DDB72 /* Table.cpp in Sources */,
+				E04F711F1ABC39330093DF47 /* Config.cpp in Sources */,
 				E003064819B39C5B006911FD /* Shader.cpp in Sources */,
 				E0A1AE5C1946EE8500D1438A /* Button.cpp in Sources */,
 				E06FB1D0197CEA1B00239DA6 /* Parallax.cpp in Sources */,
@@ -2880,6 +2914,7 @@
 					"-DUSE_LUA",
 				);
 				SDKROOT = macosx10.9;
+				SYMROOT = "$(PROJECT_DIR)/build";
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -2908,6 +2943,7 @@
 					"-DUSE_LUA",
 				);
 				SDKROOT = macosx10.9;
+				SYMROOT = "$(PROJECT_DIR)/build";
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -2952,6 +2988,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
+				SYMROOT = "$(PROJECT_DIR)/build";
 				VALID_ARCHS = "i386 armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -2995,6 +3032,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
+				SYMROOT = "$(PROJECT_DIR)/build";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "i386 armv7 armv7s arm64";
 			};
@@ -3013,13 +3051,18 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"dependencies-osx64/lib",
 					"$(PROJECT_DIR)/dependencies-osx64/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"-DORDERED_TABLE",
+					"-DENABLE_SIMD",
+					"-DUSE_LUA",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYMROOT = build;
+				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Debug;
 		};
@@ -3034,12 +3077,17 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"dependencies-osx64/lib",
 					"$(PROJECT_DIR)/dependencies-osx64/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"-DORDERED_TABLE",
+					"-DENABLE_SIMD",
+					"-DUSE_LUA",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYMROOT = build;
+				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Release;
 		};
