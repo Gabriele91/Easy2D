@@ -15,6 +15,13 @@ Scene::Scene(const String& app,
 			 int dfAA) 
 			 :isStarted(false) 
 {
+	//subscription init
+	RenderContext::subscriptionInit(
+	[this]()
+	{
+		//init render
+		this->Render::init();
+	});
 	//init context
 	Application::instance()
 		->getScreen()
@@ -26,13 +33,6 @@ Scene::Scene(const String& app,
 		fullscreen,
 		(Screen::AntiAliasing)dfAA);
     
-    //subscription init
-    RenderContext::subscriptionInit(
-    [this]()
-    {
-        //init render
-        this->Render::init();
-    });
 }
 Scene::Scene(bool initRender) :isStarted(false)
 {
