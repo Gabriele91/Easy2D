@@ -111,13 +111,13 @@ void Object::setRotation(float alpha,bool global)
 }
 void Object::setMove(const Vector2D &velocity)
 {
-    //
-    float lcosf=std::cos(Math::torad(transform.alpha));
-    float lsinf=std::sin(Math::torad(transform.alpha));
-    //like OpenGL
-    transform.position.x+= velocity.x*lcosf+velocity.y*lsinf;
-    transform.position.y+=-velocity.x*lsinf+velocity.y*lcosf;
-    //
+    //var dec
+    Mat4 mrot;
+    //set rot
+    mrot.setRotZ(Math::torad(transform.alpha));
+    //calc dir
+    transform.position+=mrot.mul2D(velocity);
+    //send info
     change();
 }
 void Object::setTranslation(const Vector2D &translation)
