@@ -123,7 +123,7 @@ Application::Application()
 }
 Application::~Application()
 {
-    appSingleton=NULL;
+    appSingleton=nullptr;
 }
 
 Application *Application::create(const String& name,Application* implementation)
@@ -169,12 +169,15 @@ Application *Application::create(const String& name,Application* implementation)
 */
 void Application::release()
 {
-	//delete vm
-	LuaState::destroy();
-	//delete app
-	delete Application::instance();
-	//unregistration delete at exit
-	atexit(nullptr);
+    if(appSingleton)
+    {
+        //delete vm
+        LuaState::destroy();
+        //delete app
+        delete Application::instance();
+        //safe delete
+        appSingleton=nullptr;
+    }
 }
 Application *Application::instance()
 {

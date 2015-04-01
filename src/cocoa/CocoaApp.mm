@@ -43,7 +43,6 @@ using namespace Easy2D;
     [self finishLaunching];
     //loop
     Application::instance()->loop();
-	
 }
 
 - (void)terminate:(id)sender
@@ -76,6 +75,9 @@ using namespace Easy2D;
  }
 @end
 ////////////////////////////////////////
+//look there:
+//http://www.smipple.net/snippet/moriyoshi/Building%20a%20GUI%20without%20InterfaceBuilder%20in%20Objective-C
+////////////////////////////////////////
 
 /**
  * cocoa app costructor
@@ -86,7 +88,8 @@ CocoaApp::CocoaApp(const String& name){
     
     //set Current Process
     ProcessSerialNumber psn;    
-	if (!GetCurrentProcess(&psn)) {
+	if (!GetCurrentProcess(&psn))
+    {
 		TransformProcessType(&psn, kProcessTransformToForegroundApplication);
 		SetFrontProcess(&psn);
 	}
@@ -257,6 +260,11 @@ void CocoaApp::loop(){
  * execute a instance application
  */
 void CocoaApp::exec(Game *game){
+    
+    ////////////////////////////////////////////////////////////
+    //init pool
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    ////////////////////////////////////////////////////////////
 	mainInstance=game;
     
 	mainInstance->start();
@@ -272,6 +280,9 @@ void CocoaApp::exec(Game *game){
     
     
 	mainInstance->end();
+    ///////////////
+    [pool release];
+    ///////////////
 }
 /**
  * application update
