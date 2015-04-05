@@ -1208,20 +1208,20 @@ void Body::deleteShape(Shape index)
 }
 
 ////////////////////HIDE METHODS
-void Body::setAngle(float angle)
+void Body::setAngle(Angle angle)
 {
     if(body)
     {
-        body->SetTransform(body->GetPosition(), Math::torad(angle));
+        body->SetTransform(body->GetPosition(), angle.valueRadians());
         return;
     }
-    bodyDefinition.angle=Math::torad(angle);
+    bodyDefinition.angle= angle.valueRadians();
 }
-float Body::getAngle() const
+Angle Body::getAngle() const
 {
     if(body)
-        return Math::todeg(body->GetAngle());
-    return Math::todeg(bodyDefinition.angle);
+        return Angle( Radian(body->GetAngle()) );
+    return Angle( Radian(bodyDefinition.angle) );;
 }
 
 void Body::setPosition(const Vec2& pos)

@@ -169,22 +169,26 @@ bool FrameSet::load()
         else
         {
             DEBUG_ASSERT_MSG(0,"frameset error:"
-                             "frameSplit invalid parameters"
-                             "(parameters: subtexture, frame, subframe, first, count)");
+                               "frameSplit invalid parameters"
+                               "(parameters: subtexture, frame, subframe, first, count)");
         }
     }
     else
     {
         DEBUG_ASSERT_MSG(0,"frameset error:"
-                         "must to be setted a frames/frameSplit table"
-                         "(parameter:frames/frameSplit)");
+                           "must to be setted a frames/frameSplit table"
+                           "(parameter:frames/frameSplit)");
         return false;
     }
 
     //set time
     defaultTime=tbFrameSet.getFloat("time",defaultTime);
     defaultLoop=((int)tbFrameSet.getFloat("loop",(float)defaultLoop))!=0;
-
+    //revers frames
+    if(((int)tbFrameSet.getFloat("reverse",(float)defaultLoop))!=0)
+    {
+        std::reverse(frames.begin(),frames.end());
+    }
     //is loaded
     loaded=true;
     return true;

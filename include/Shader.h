@@ -22,6 +22,8 @@ class Shader : public Resource<Shader>
     
     int uProjection;
     int uModelView;
+    int uView;
+    int uModel;
     int uAmbientColor;
     int uColor;
     int uViewport;

@@ -6,6 +6,43 @@
 
 /* Easy2D */
 using namespace Easy2D;
+/* RADIAN */
+Radian::Radian ( const Degree& d )
+: rad(d.valueRadians())
+{
+}
+Radian& Radian::operator = ( const Degree& d )
+{
+    rad = d.valueRadians();
+    return *this;
+}
+Radian Radian::operator + ( const Degree& d ) const
+{
+    return Radian ( rad + d.valueRadians() );
+}
+Radian& Radian::operator += ( const Degree& d )
+{
+    rad += d.valueRadians();
+    return *this;
+}
+inline Radian Radian::operator - ( const Degree& d ) const
+{
+    return Radian ( rad - d.valueRadians() );
+}
+Radian& Radian::operator -= ( const Degree& d )
+{
+    rad -= d.valueRadians();
+    return *this;
+}
+float Radian::valueDegrees() const
+{
+    return Math::todeg( rad );
+}
+/* DEGREE */
+float Degree::valueRadians() const
+{
+    return Math::torad( deg );
+}
 /* VECTOR2D */
 Vector2D Vector2D::ZERO;
 Vector2D Vector2D::ONE(1,1);
@@ -22,9 +59,9 @@ float Vector2D::length() const
 {
     return sqrt(x*x+y*y);
 }
-float Vector2D::direction() const
+Radian Vector2D::direction() const
 {
-    return atan2f(y,x);//atan(y/x)
+    return Radian(std::atan2f(y,x));
 }
 float Vector2D::cross(const Vector2D& vec) const
 {
@@ -863,38 +900,38 @@ void Matrix4x4::addEulerRotation(const Vec3& euler)
     entries[8]=m02;
 }
 
-void Matrix4x4::setRotY(float angle)
+void Matrix4x4::setRotY(Angle angle)
 {
     identity();
 
-    entries[0]=(float)std::cos(angle);
-    entries[2]=-(float)std::sin(angle);
+    entries[0]= Math::cos(angle);
+    entries[2]=-Math::sin(angle);
 
     entries[8]=-entries[2];
     entries[10]=entries[0];
 }
-void Matrix4x4::setRotX(float angle)
+void Matrix4x4::setRotX(Angle angle)
 {
     identity();
 
-    entries[5]=(float)std::cos(angle);
-    entries[6]=(float)std::sin(angle);
+    entries[5]=Math::cos(angle);
+    entries[6]=Math::sin(angle);
 
-    entries[9]=-entries[6];
-    entries[10]=entries[5];
+    entries[9] =-entries[6];
+    entries[10]= entries[5];
 }
-void Matrix4x4::setRotZ(float angle)
+void Matrix4x4::setRotZ(Angle angle)
 {
     identity();
 
-    entries[0]=(float)std::cos(angle);
-    entries[1]=(float)std::sin(angle);
+    entries[0]=Math::cos(angle);
+    entries[1]=Math::sin(angle);
 
     entries[4]=-entries[1];
-    entries[5]=entries[0];
+    entries[5]= entries[0];
 }
 
-float Matrix4x4::getRotY() const
+Angle Matrix4x4::getRotY() const
 {
     //****
     //****
@@ -904,9 +941,9 @@ float Matrix4x4::getRotY() const
     float b=entries[10];
     //if(a<=0.0001 && a>=-0.0001) a=0;
     //if(b<=0.0001 && b>=-0.0001) b=0;
-    return atan2(a,b);
+    return Radian(std::atan2(a,b));
 }
-float Matrix4x4::getRotX() const
+Angle Matrix4x4::getRotX() const
 {
 
     //****
@@ -917,10 +954,10 @@ float Matrix4x4::getRotX() const
 
     //if(ang<=0.0001 && ang>=-0.0001) ang=0;
 
-    return ang;
+    return Radian(ang);
 
 }
-float Matrix4x4::getRotZ() const
+Angle Matrix4x4::getRotZ() const
 {
     //@@**
     //****
@@ -930,22 +967,22 @@ float Matrix4x4::getRotZ() const
     float b=entries[1];
     //if(a<=0.00001 && a>=-0.00001) a=0.0;
     //if(b<=0.00001 && b>=-0.00001) b=0.0;
-    return atan2(b,a);
+    return Radian(std::atan2(b,a));
 }
 Vec3  Matrix4x4::getRotation() const
 {
     Vec3 r;
-    r.x = asin(m12);
+    r.x = std::asin(m12);
     
     if(cos(r.x) != 0.f)
     {
-        r.y = atan2(-m02, m22);
-        r.z = atan2(-m10, m11);
+        r.y = std::atan2(-m02, m22);
+        r.z = std::atan2(-m10, m11);
     }
     else
     {
         r.y = 0.f;
-        r.z = atan2(m01, m00);
+        r.z = std::atan2(m01, m00);
     }
     
     return r;
@@ -959,10 +996,10 @@ void Matrix4x4::setTransform2D(const Transform2D& t2d)
     entries[12]=t2d.position.x;
     entries[13]=t2d.position.y;
     //RotZ
-    entries[0]=(float)std::cos(Math::torad(t2d.alpha));
-    entries[1]=(float)std::sin(Math::torad(t2d.alpha));
+    entries[0]= Math::cos(t2d.alpha);
+    entries[1]= Math::sin(t2d.alpha);
     entries[4]=-entries[1];
-    entries[5]=entries[0];
+    entries[5]= entries[0];
 
     //mT x mRZ x scale
     // scale.x  // row0 * x

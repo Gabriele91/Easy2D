@@ -53,7 +53,8 @@ void PostEffects::draw(const RenderContext::RenderTarget& target)
     RenderContext::setColor(Color::WHITE);
     //identity
     RenderContext::setProjection(Mat4::IDENTITY);
-    RenderContext::setModelView(Mat4::IDENTITY);
+    RenderContext::setView(Mat4::IDENTITY);
+    RenderContext::setModel(Mat4::IDENTITY);
     //get screen size
     Vec2 screenSize=Application::instance()->getScreen()->getSize();
     RenderContext::setViewport(Vec4(0,0,screenSize.x,screenSize.y));
@@ -190,7 +191,8 @@ void Render::aabox2Draw()
     //set view port
     RenderContext::setViewport(Vec4(0,0,camera->getViewport().x,camera->getViewport().y));
     //set model view matrix
-    RenderContext::setModelView(camera->getGlobalMatrix());
+    RenderContext::setView(camera->getGlobalMatrix());
+    RenderContext::setModel(Mat4::IDENTITY);
     //////////////////////////////////////////////////////////////////
     RenderContext::setCullFace(DISABLE);
     RenderContext::setBlend(true);

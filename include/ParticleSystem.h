@@ -22,10 +22,10 @@ class Emitter : public Renderable
         }
         relative;
 
-        Vec2 pos,dir;
-        Vec2 scale,deltaScale;
-        Vec4 color,deltaColor;
-        float spin,deltaSpin;
+        Vec2  pos,dir;
+        Vec2  scale,deltaScale;
+        Vec4  color,deltaColor;
+        Angle spin,deltaSpin;
         float time;
         Particle *prev,*next;
 
@@ -34,8 +34,8 @@ class Emitter : public Renderable
         {
             relative.c=0.0f;
             relative.s=0.0f;
-            spin=0.0;
-            deltaSpin=0.0;
+            spin     =Angle(Radian(0.0));
+            deltaSpin=Angle(Radian(0.0));
             time=0.0;
             prev=nullptr;
             next=nullptr;
@@ -48,21 +48,17 @@ class Emitter : public Renderable
     //info particle
     struct ParticleInfo
     {
-        Vec2 position,dir;
-        Vec2 startScale,endScale;
-        Vec4 startColor,endColor; 
-        float startSpin,endSpin;
+        Vec2  position,dir;
+        Vec2  startScale,endScale;
+        Vec4  startColor,endColor;
+        Angle startSpin,endSpin;
         float life;
 
         ParticleInfo()
-            :startSpin(0)
-            ,endSpin(0)
-            ,life(0)
         {
-            startSpin=0.0f;
-            endSpin=0.0f;
             life=0.0f;
         }
+        
     };
     ParticleInfo center;
     ParticleInfo var;
@@ -424,35 +420,35 @@ class Emitter : public Renderable
         return out.fromNormalize(var.endColor);
     }
     //spin
-    void setStartSpin(float s)
+    void setStartSpin(Angle s)
     {
         center.startSpin=s;
     }
-    void setStartSpinVar(float s)
+    void setStartSpinVar(Angle s)
     {
         var.startSpin=s;
     }
-    float getStartSpin() const
+    Angle getStartSpin() const
     {
         return center.startSpin;
     }
-    float getStartSpinVar() const
+    Angle getStartSpinVar() const
     {
         return var.startSpin;
     }
-    void setEndSpin(float s)
+    void setEndSpin(Angle s)
     {
         center.endSpin=s;
     }
-    void setEndSpinVar(float s)
+    void setEndSpinVar(Angle s)
     {
         var.endSpin=s;
     }
-    float getEndSpin() const
+    Angle getEndSpin() const
     {
         return center.endSpin;
     }
-    float getEndSpinVar() const
+    Angle getEndSpinVar() const
     {
         return var.endSpin;
     }

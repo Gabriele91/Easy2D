@@ -4,6 +4,50 @@
 
 using namespace Easy2D;
 
+static int LuaNewAngleDeg(lua_State* lVM)
+{
+    int const nargs = lua_gettop (lVM);
+    //memory
+    Angle* v2 = (Angle*)luabridge::UserdataValue <Angle>::place(lVM);
+    //push a new vec2
+    if (nargs == 1)
+    {
+        new (v2) Angle();
+    }
+    else
+    if(lua_isuserdata(lVM,2) && nargs == 2)
+    {
+        (*v2)= Angle::degree(luabridge::Stack <float>::get(lVM, 2));
+    }
+    else
+    {
+        luaL_argerror(lVM,nargs,"Angle::degree() fail");
+    }
+    return 1;
+}
+
+static int LuaNewAngleRad(lua_State* lVM)
+{
+    int const nargs = lua_gettop (lVM);
+    //memory
+    Angle* v2 = (Angle*)luabridge::UserdataValue <Angle>::place(lVM);
+    //push a new vec2
+    if (nargs == 1)
+    {
+        new (v2) Angle();
+    }
+    else
+    if(lua_isuserdata(lVM,2) && nargs == 2)
+    {
+        (*v2)= Angle::radian(luabridge::Stack <float>::get(lVM, 2));
+    }
+    else
+    {
+        luaL_argerror(lVM,nargs,"Angle::radian() fail");
+    }
+    return 1;
+}
+
 static int LuaNewVec2(lua_State* lVM)
 {  
     int const nargs = lua_gettop (lVM);
@@ -154,7 +198,22 @@ static int LuaNewMat4(lua_State* lVM)
 	return 1;
 }
 
-
+class LuaAngle : public Angle
+{
+public:
+    int __towatch (lua_State* luaVM)
+    {
+        //good cast
+        auto rsthis=(Angle*)(this);//1=self/this
+        //call
+        luabridge::LuaRef t = luabridge::newTable (luaVM);
+        t["Radians"]=rsthis->valueRadians();
+        t["Degrees"]=rsthis->valueDegrees();
+        t.push(luaVM);
+        //
+        return 1;
+    }
+};
 class LuaVec2 : public Vec2
 {
     public:
@@ -244,6 +303,20 @@ class LuaMat4 : public Mat4
 
 void LuaState::addMath3DLib()
 {
+    /** ANGLE LASS */
+    luabridge::getGlobalNamespace(luaVM)
+        .beginClass<Angle>("Angle")
+        //.addConstructor <void (*) (void)> ()
+        .addStaticCFunction("degree",&LuaNewAngleDeg)
+        .addStaticCFunction("radian",&LuaNewAngleRad)
+        .addFunction("valueDegrees",&Angle::valueDegrees)
+        .addFunction("valueRadians",&Angle::valueRadians)
+        .addFunction<Angle(Angle::*)(const Angle&) const>("__add",&Angle::operator+)
+        .addFunction<Angle(Angle::*)(const Angle&) const>("__sub",&Angle::operator-)
+        .addFunction<Angle(Angle::*)(void) const >("__unm",&Angle::operator-)
+        .addFunction<Angle(Angle::*)(const Angle&) const>("__mul",&Angle::operator*)
+        .addFunction<Angle(Angle::*)(float) const>       ("__div",&Angle::operator/)
+        .addCFunction("__towatch", (int (Angle::*) (lua_State*))&LuaAngle::__towatch);
     /** VEC 2 CLASS */
     luabridge::getGlobalNamespace(luaVM)
         .beginClass<Vec2>("Vec2")

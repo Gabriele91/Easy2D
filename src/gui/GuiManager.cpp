@@ -46,7 +46,8 @@ void GuiManager::setMat4(const Vec2& position,const Vec2& scale)
     Mat4 mat4;
     mat4.setTranslation(getFlipY(position,scale));
     mat4.addScale(scale);
-	RenderContext::setModelView(mat4);
+    RenderContext::setView(Mat4::IDENTITY);
+    RenderContext::setModel(mat4);
 }
 Vec2 GuiManager::getOrigin()
 {

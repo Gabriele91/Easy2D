@@ -42,10 +42,9 @@ void Emitter::Particle::doRelative(Object* obj)
     //start pos
     pos+=relative.pos;
     //dir
-    float grot=obj->getRotation(true);
-    float rrot=Math::torad(grot);
-    float c= cosf(rrot);
-    float s= sinf(rrot);
+    Angle rrot=obj->getRotation(true);
+    float c= Math::cos(rrot);
+    float s= Math::sin(rrot);
     float x= c*dir.x-s*dir.y;
     float y= s*dir.x+c*dir.y;
     dir.x=x;
@@ -97,7 +96,7 @@ Emitter::Particle* Emitter::emitParticle()
         setColorRange(p->color,b,startColor)
         setColorRange(p->color,a,startColor)
         //set spin
-        p->spin=center.startSpin+var.startSpin*Math::randomRange(1,-1);
+        p->spin = center.startSpin+(var.startSpin * Math::randomRange(1,-1));
         //set life time
         p->time=center.life+var.life*Math::randomRange(1,-1);
             
@@ -115,7 +114,7 @@ Emitter::Particle* Emitter::emitParticle()
         setColorRange(endColor,a,endColor)
         p->deltaColor=(endColor-p->color)*(1.0f/p->time);
         //spin
-        float endSpin=center.endSpin+var.endSpin*Math::randomRange(1,-1);
+        Angle endSpin=center.endSpin + (var.endSpin * Math::randomRange(1,-1));
         p->deltaSpin=(endSpin-p->spin)/p->time;
 
         //if is relative
@@ -197,7 +196,7 @@ void  Emitter::build()
     for(Particle* p=active.getLast();p;p=p->prev)
     {
         Mat4 model;
-        model.setRotZ(Math::torad(p->spin));
+        model.setRotZ(p->spin);
         model[12]=p->pos.x;
         model[13]=p->pos.y;
         model.addScale(p->scale);
@@ -237,8 +236,8 @@ void  Emitter::serialize(Table& table)
     table.set("startScale",getStartScale());
     table.set("endScale",getEndScale());
 
-    table.set("startSpin",getStartSpin());
-    table.set("endSpin",getEndSpin());
+    table.set("startSpin",getStartSpin().valueDegrees());
+    table.set("endSpin",  getEndSpin().valueDegrees());
     
     table.set("startColor",getStartColor().toVec4());
     table.set("endColor",getEndColor().toVec4());
@@ -251,8 +250,8 @@ void  Emitter::serialize(Table& table)
     table.set("startScaleVar",getStartScaleVar());
     table.set("endScaleVar",getEndScaleVar());
 
-    table.set("startSpinVar",getStartSpinVar());
-    table.set("endSpinVar",getEndSpinVar());
+    table.set("startSpinVar",getStartSpinVar().valueDegrees());
+    table.set("endSpinVar"  ,getEndSpinVar().valueDegrees());
 
     table.set("startColorVar",getStartColorVar().toVec4());
     table.set("endColorVar",getEndColorVar().toVec4());
@@ -311,9 +310,9 @@ void  Emitter::deserialize(const Table& table)
     center.startScale=table.getVector2D("startScale",getStartScale());
     center.endScale=table.getVector2D("endScale",getEndScale());
     
-    center.startSpin=table.getFloat("startSpin",getStartSpin());
-    center.endSpin=table.getFloat("endSpin",getEndSpin());
-
+    center.startSpin=Angle( Degree( table.getFloat("startSpin",getStartSpin().valueDegrees()) ) );
+    center.endSpin  =Angle( Degree( table.getFloat("endSpin"  ,getEndSpin().valueDegrees()  ) ) );
+    
     center.startColor=(table.getVector4D("startColor",getStartColor().toVec4()))/255.0f;
     center.endColor=(table.getVector4D("endColor",getEndColor().toVec4()))/255.0f;
 
@@ -325,8 +324,9 @@ void  Emitter::deserialize(const Table& table)
     var.startScale=table.getVector2D("startScaleVar",getStartScaleVar());
     var.endScale=table.getVector2D("endScaleVar",getEndScaleVar());
     
-    var.startSpin=table.getFloat("startSpinVar",getStartSpinVar());
-    var.endSpin=table.getFloat("endSpinVar",getEndSpinVar());
+    
+    var.startSpin=Angle( Degree( table.getFloat("startSpinVar",getStartSpinVar().valueDegrees()) ) );
+    var.endSpin  =Angle( Degree( table.getFloat("endSpinVar",getEndSpinVar().valueDegrees()) ) ); 
 
     var.startColor=(table.getVector4D("startColorVar",getStartColorVar().toVec4()))/255.0f;
     var.endColor=(table.getVector4D("endColorVar",getEndColorVar().toVec4()))/255.0f;

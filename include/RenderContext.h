@@ -87,6 +87,8 @@ class RenderContext
         }binds;
         struct Matrix
         {
+            Mat4	 model;
+            Mat4	 view;
             Mat4	 modelView;
             Mat4     projection;
             Mat4     display;
@@ -294,7 +296,10 @@ class RenderContext
                              const void *pointer);
     
     //matrix
-    static void setModelView(const Mat4& mv);
+    static void setModel(const Mat4& m);
+    static const Mat4& getModel();
+    static void setView(const Mat4& v);
+    static const Mat4& getView();
     static const Mat4& getModelView();
     static void setProjection(const Mat4& pj);
     static const Mat4& getProjection();

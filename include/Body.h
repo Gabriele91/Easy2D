@@ -288,9 +288,9 @@ class Body : public Component
     }
     
     //change b2Body angle
-    void setAngle(float);
+    void setAngle(Angle);
     //get b2Body angle
-    float getAngle() const;
+    Angle getAngle() const;
     //set b2Body posizion
     void setPosition(const Vec2& pos);
     //get b2Body posizion

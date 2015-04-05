@@ -256,14 +256,14 @@ Vec2 FluidGrid::toVec2(const Vec3& v)
 void FluidGrid::pushLine(const Vec2& start,const Vec2& end,float size)
 {
     //vars
-    Vec2 psize=getTexture()->getSpriteSize();//*getObject()->getScale();
-    Vec2 center=(start+end)*0.5f;
-    Vec2 delta=(end-start);
-    float angle=(delta.direction());
+    Vec2  psize=getTexture()->getSpriteSize();//*getObject()->getScale();
+    Vec2  center=(start+end)*0.5f;
+    Vec2  delta=(end-start);
+    Angle angle=(delta.direction());
     //model
     Mat4 model;
     Transform2D local;
-    local.alpha=Math::todeg(angle);
+    local.alpha   =angle;
     local.position=center;
     //scale
     /*

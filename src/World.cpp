@@ -624,10 +624,8 @@ void World::physicsDraw(Camera* camera)
     Mat4 scale;
     scale.setScale(Vec2(metersInPixel,metersInPixel));
     //camera pos
-    if(camera)
-        RenderContext::setModelView(camera->getGlobalMatrix().mul2D(scale));
-    else
-        RenderContext::setModelView(scale);
+    if(camera) RenderContext::setView(camera->getGlobalMatrix());
+    RenderContext::setModel(scale);
     //no texture
     world->DrawDebugData();
     //////////////////////////////////////////////////////////////////

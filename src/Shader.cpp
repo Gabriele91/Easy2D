@@ -20,6 +20,8 @@ static const char standardUniform[]=
 "#define Texture sampler2D                 \n"
 "#define e2dProjection gl_ProjectionMatrix \n"
 "#define e2dModelView  gl_ModelViewMatrix  \n"
+"uniform mat4 e2dView;            \n"
+"uniform mat4 e2dModel;           \n"
 "uniform vec4 e2dAmbientColor;    \n"
 "uniform vec4 e2dColor;           \n"
 "uniform vec4 e2dViewport;        \n"
@@ -54,6 +56,8 @@ static const char standardUniform[]=
 "#define Texture sampler2D        \n"
 "uniform mat4 e2dProjection;      \n"
 "uniform mat4 e2dModelView;       \n"
+"uniform mat4 e2dView;            \n"
+"uniform mat4 e2dModel;           \n"
 "uniform vec4 e2dAmbientColor;    \n"
 "uniform vec4 e2dColor;           \n"
 "uniform vec4 e2dViewport;        \n"
@@ -625,10 +629,12 @@ void Shader::getDefaultUniform()
         uProjection =  uniformID("e2dProjection");
         uModelView  =  uniformID("e2dModelView");
 #endif
-        uAmbientColor = uniformID("e2dAmbientColor");
-        uColor        = uniformID("e2dColor") ;
-        uViewport     = uniformID("e2dViewport") ;
-        uTex0         = uniformID("e2dTexture0") ;
+        uView         =  uniformID("e2dView");
+        uModel        =  uniformID("e2dModel");
+        uAmbientColor =  uniformID("e2dAmbientColor");
+        uColor        =  uniformID("e2dColor") ;
+        uViewport     =  uniformID("e2dViewport") ;
+        uTex0         =  uniformID("e2dTexture0") ;
         //flag
         unSaveUniform=false;
     }
@@ -661,6 +667,10 @@ void Shader::updateStandardUniform()
     if(uModelView>=0)
         uniform(uModelView,RenderContext::getModelView());
 #endif
+    if(uView>=0)
+        uniform(uView, RenderContext::getView());
+    if(uModel>=0)
+        uniform(uModel,RenderContext::getModel());
     if(uAmbientColor>=0)
         uniform(uAmbientColor,RenderContext::getAmbientColor().toNormalize());
     if(uColor>=0)

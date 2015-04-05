@@ -138,8 +138,10 @@ void Font::text(const Vec2& _pos,
     if(textDraw.size()==0) return;
     Vec2 pos(_pos.x,-_pos.y+Application::instance()->getScreen()->getHeight());
     //matrixs
-    Matrix4x4 oldProjection=RenderContext::getProjection(),
-              oldModelview=RenderContext::getModelView();
+    Matrix4x4
+    oldProjection=RenderContext::getProjection(),
+    oldView      =RenderContext::getView(),
+    oldModel     =RenderContext::getModel();
     //state
     auto state=RenderContext::getRenderState();
     //////////////////////////////////////////////////////////////////
@@ -159,7 +161,8 @@ void Font::text(const Vec2& _pos,
     RenderContext::setViewport(Vec4( 0, 0, viewport.x, viewport.y ));
     RenderContext::setProjection(projection);
     //reset model matrix
-    RenderContext::setModelView(Mat4::IDENTITY);
+    RenderContext::setView(Mat4::IDENTITY);
+    RenderContext::setModel(Mat4::IDENTITY);
     //color
     RenderContext::setColor(color);
     //////////////////////////////////////////////////////////////////
@@ -256,7 +259,8 @@ void Font::text(const Vec2& _pos,
     //////////////////////////////////////////////////////////////////
     RenderContext::setRenderState(state);
     RenderContext::setProjection(oldProjection);
-    RenderContext::setModelView(oldModelview);
+    RenderContext::setView(oldView);
+    RenderContext::setModel(oldModel);
     //////////////////////////////////////////////////////////////////
     
 }

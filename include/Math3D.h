@@ -6,7 +6,10 @@
 
 namespace Easy2D
 {
-
+    
+class Angle;
+class Radian;
+class Degree;
 class Vector2D;
 class Vector3D;
 class Vector4D;
@@ -17,7 +20,187 @@ typedef Vector2D Vec2;
 typedef Vector3D Vec3;
 typedef Vector4D Vec4;
 typedef Matrix4x4 Mat4;
+    
+class Radian
+{
+    
+    float rad;
+    
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    explicit Radian ( float r=0 ) : rad(r) {}
+    Radian ( const Degree& d );
+    ///////////////////////////////////////////////////////////////////////////
+    Radian& operator = ( const float& f ) { rad = f; return *this; }
+    Radian& operator = ( const Radian& r ) { rad = r.rad; return *this; }
+    Radian& operator = ( const Degree& d );
+    ///////////////////////////////////////////////////////////////////////////
+    float valueDegrees() const;
+    float valueRadians() const { return rad; }
+    ///////////////////////////////////////////////////////////////////////////
+    const Radian& operator + () const { return *this; }
+    Radian operator + ( const Radian& r ) const { return Radian ( rad + r.rad ); }
+    Radian operator + ( const Degree& d ) const;
+    Radian& operator += ( const Radian& r ) { rad += r.rad; return *this; }
+    Radian& operator += ( const Degree& d );
+    Radian operator - () const { return Radian(-rad); }
+    Radian operator - ( const Radian& r ) const { return Radian ( rad - r.rad ); }
+    Radian operator - ( const Degree& d ) const;
+    Radian& operator -= ( const Radian& r ) { rad -= r.rad; return *this; }
+    Radian& operator -= ( const Degree& d );
+    Radian operator * ( float f ) const { return Radian ( rad * f ); }
+    Radian operator * ( const Radian& f ) const { return Radian ( rad * f.rad ); }
+    Radian& operator *= ( float f ) { rad *= f; return *this; }
+    Radian operator / ( float f ) const { return Radian ( rad / f ); }
+    Radian& operator /= ( float f ) { rad /= f; return *this; }
 
+    bool operator <  ( const Radian& r ) const { return rad <  r.rad; }
+    bool operator <= ( const Radian& r ) const { return rad <= r.rad; }
+    bool operator == ( const Radian& r ) const { return rad == r.rad; }
+    bool operator != ( const Radian& r ) const { return rad != r.rad; }
+    bool operator >= ( const Radian& r ) const { return rad >= r.rad; }
+    bool operator >  ( const Radian& r ) const { return rad >  r.rad; }
+    ///////////////////////////////////////////////////////////////////////////
+    String toString(const String& start="Radian(", const String& end=")\n") const
+    {
+        return start+rad+end;
+    }
+};
+
+class Degree
+{
+    float deg;
+    
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    explicit Degree ( float d=0 ) : deg(d) {}
+    Degree ( const Radian& r ) : deg(r.valueDegrees()) {}
+    ///////////////////////////////////////////////////////////////////////////
+    Degree& operator = ( const float& f ) { deg = f; return *this; }
+    Degree& operator = ( const Degree& d ) { deg = d.deg; return *this; }
+    Degree& operator = ( const Radian& r ) { deg = r.valueDegrees(); return *this; }
+    ///////////////////////////////////////////////////////////////////////////
+    float valueDegrees() const { return deg; }
+    float valueRadians() const;
+    ///////////////////////////////////////////////////////////////////////////
+    const Degree& operator + () const { return *this; }
+    Degree operator + ( const Degree& d ) const { return Degree ( deg + d.deg ); }
+    Degree operator + ( const Radian& r ) const { return Degree ( deg + r.valueDegrees() ); }
+    Degree& operator += ( const Degree& d ) { deg += d.deg; return *this; }
+    Degree& operator += ( const Radian& r ) { deg += r.valueDegrees(); return *this; }
+    Degree operator - () const { return Degree(-deg); }
+    Degree operator - ( const Degree& d ) const { return Degree ( deg - d.deg ); }
+    Degree operator - ( const Radian& r ) const { return Degree ( deg - r.valueDegrees() ); }
+    Degree& operator -= ( const Degree& d ) { deg -= d.deg; return *this; }
+    Degree& operator -= ( const Radian& r ) { deg -= r.valueDegrees(); return *this; }
+    Degree operator * ( float f ) const { return Degree ( deg * f ); }
+    Degree operator * ( const Degree& f ) const { return Degree ( deg * f.deg ); }
+    Degree& operator *= ( float f ) { deg *= f; return *this; }
+    Degree operator / ( float f ) const { return Degree ( deg / f ); }
+    Degree& operator /= ( float f ) { deg /= f; return *this; }
+    
+    bool operator <  ( const Degree& d ) const { return deg <  d.deg; }
+    bool operator <= ( const Degree& d ) const { return deg <= d.deg; }
+    bool operator == ( const Degree& d ) const { return deg == d.deg; }
+    bool operator != ( const Degree& d ) const { return deg != d.deg; }
+    bool operator >= ( const Degree& d ) const { return deg >= d.deg; }
+    bool operator >  ( const Degree& d ) const { return deg >  d.deg; }
+    ///////////////////////////////////////////////////////////////////////////
+    String toString(const String& start="Degree(", const String& end=")\n") const
+    {
+        return start+deg+end;
+    }
+};
+    
+class Angle
+{
+    Radian angle;
+    
+public:
+    
+    Angle (){}
+    Angle ( const Angle&  a ) : angle(a.angle) {}
+    Angle ( const Radian& r ) : angle(r) {}
+    Angle ( const Degree& r ) : angle(r.valueRadians()) {}
+    ///////////////////////////////////////////////////////////////////////////
+    static Angle radian(float r)
+    {
+        return Angle( Radian(r) );
+    }
+    static Angle degree(float d)
+    {
+        return Angle( Degree(d) );
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    operator Radian() const
+    {
+        return angle;
+    }
+    operator Degree() const
+    {
+        return Degree(angle);
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    float valueDegrees() const
+    {
+        return angle.valueDegrees();
+    }
+    float valueRadians() const
+    {
+        return angle.valueRadians();
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    const Angle& operator + () const { return *this; }
+    Angle operator   +  ( const Angle& r ) const { return Angle ( angle + r.angle ); }
+    Angle& operator +=  ( const Angle& r ) { angle += r.angle; return *this; }
+    Angle operator   -  () const { return Angle(-angle); }
+    Angle operator   -  ( const Angle& r ) const { return Angle ( angle - r.angle ); }
+    Angle& operator -=  ( const Angle& r ) { angle -= r.angle; return *this; }
+    Angle operator   *  ( float f ) const { return Angle ( angle * f ); }
+    Angle operator   *  ( const Angle& f ) const { return Angle ( Radian( angle * f.angle ) ); }
+    Angle& operator *=  ( float f ) { angle *= f; return *this; }
+    Angle operator   /  ( float f ) const { return Angle ( Radian( angle / f ) ); }
+    Angle& operator  /= ( float f ) { angle /= f; return *this; }
+    
+    bool operator <  ( const Angle& r ) const { return angle <  r.angle; }
+    bool operator <= ( const Angle& r ) const { return angle <= r.angle; }
+    bool operator == ( const Angle& r ) const { return angle == r.angle; }
+    bool operator != ( const Angle& r ) const { return angle != r.angle; }
+    bool operator >= ( const Angle& r ) const { return angle >= r.angle; }
+    bool operator >  ( const Angle& r ) const { return angle >  r.angle; }
+    ///////////////////////////////////////////////////////////////////////////
+};
+    
+///////////////////////////////////////////////////////////////////////////
+inline Angle operator * ( float a, const Angle& b )
+{
+    return Angle ( Radian( a * b.valueRadians() ) );
+}
+inline Angle operator / ( float a, const Angle& b )
+{
+    return Angle ( Radian( a / b.valueRadians() ) );
+}
+    
+inline Radian operator * ( float a, const Radian& b )
+{
+    return Radian ( a * b.valueRadians() );
+}
+inline Radian operator / ( float a, const Radian& b )
+{
+    return Radian ( a / b.valueRadians() );
+}
+    
+inline Degree operator * ( float a, const Degree& b )
+{
+    return Degree ( a * b.valueDegrees() );
+}
+inline Radian operator / ( float a, const Degree& b )
+{
+    return Degree ( a / b.valueDegrees() );
+}
+///////////////////////////////////////////////////////////////////////////
+
+    
 class Vector2D
 {
 
@@ -82,12 +265,12 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     void normalize();
     ///////////////////////////////////////////////////////////////////////////
-    float length() const;
-    float direction() const;
-    float cross(const Vector2D& vec) const;
-    float dot(const Vector2D& vec) const;
-    float distance(const Vector2D& vec) const;
-    float distancePow2(const Vector2D& vec) const;
+    float  length() const;
+    Radian direction() const;
+    float  cross(const Vector2D& vec) const;
+    float  dot(const Vector2D& vec) const;
+    float  distance(const Vector2D& vec) const;
+    float  distancePow2(const Vector2D& vec) const;
     Vector2D axis(const Vector2D& vec) const;
     Vector2D getNormalize() const;
     Vector2D projected(const Vector2D& axis) const;
@@ -901,16 +1084,24 @@ public:
 struct Transform2D
 {
     //
-    Transform2D():alpha(0),scale(1.0f,1.0f) {}
+    Transform2D()
+    :alpha(Radian(0))
+    ,scale(1.0f,1.0f)
+    {
+    }
+    
     Transform2D(const Vector2D& position,
-                float alpha,
+                Angle alpha,
                 const Vector2D& scale)
                 :position(position),
                  alpha(alpha),
-                 scale(scale) {}
+                 scale(scale)
+    {
+    }
+    
     //values
     Vector2D position;
-    float alpha;
+    Angle    alpha;
     Vector2D scale;
     //operator
     bool operator==(const Transform2D& t2d) const
@@ -1052,17 +1243,17 @@ public:
     ///add a euler rotarion
     void addEulerRotation(const Vec3& euler);
     ///set pitch
-    void setRotX(float x);
+    void setRotX(Angle x);
     ///set yaw
-    void setRotY(float y);
+    void setRotY(Angle y);
     ///set roll
-    void setRotZ(float z);
+    void setRotZ(Angle z);
     ///return pitch
-    float getRotX() const;
+    Angle getRotX() const;
     ///return yaw
-    float getRotY() const;
+    Angle getRotY() const;
     ///return roll
-    float getRotZ() const;
+    Angle getRotZ() const;
     ///rotation
     Vec3  getRotation() const;
     ///add a tranform
@@ -1131,11 +1322,40 @@ public:
     {
         return rad*G180OVERPI;
     }
-    static DFORCEINLINE float normaliseOrientation(float rot)
+    //angles
+    static DFORCEINLINE Angle normaliseOrientation(Angle angle)
     {
-        rot=std::fmod(rot,(float)Math::PI2);
-        return rot<0 ? rot+=Math::PI2 : rot;
+        float  rotation = std::fmod(angle.valueRadians(),(float)Math::PI2);
+        return Angle(Radian(rotation < 0 ? rotation+=Math::PI2 : rotation));
     }
+    
+    static DFORCEINLINE float sin(Angle angle)
+    {
+        return std::sin(angle.valueRadians());
+    }
+    static DFORCEINLINE float cos(Angle angle)
+    {
+        return std::cos(angle.valueRadians());
+    }
+    
+    static DFORCEINLINE float sin(Radian angle)
+    {
+        return std::sin(angle.valueRadians());
+    }
+    static DFORCEINLINE float cos(Radian angle)
+    {
+        return std::cos(angle.valueRadians());
+    }
+    
+    static DFORCEINLINE float sin(Degree angle)
+    {
+        return std::sin(angle.valueRadians());
+    }
+    static DFORCEINLINE float cos(Degree angle)
+    {
+        return std::cos(angle.valueRadians());
+    }
+    
     //vector swap
     static DFORCEINLINE void memswap( byte *a, byte *b, size_t sizeBytes ){
         size_t sizeTrunc = sizeBytes & ~(sizeof(size_t) - 1);

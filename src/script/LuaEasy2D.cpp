@@ -145,10 +145,10 @@ class LuaE2Object : public Object
 		auto rsthis = ((Object*)(this));//1=self/this
 		//set scale
 		if (nargs == 2)
-			rsthis->setRotation(luabridge::Stack<float>::get(luaVM, 2));
+			rsthis->setRotation(luabridge::Stack<Angle>::get(luaVM, 2));
 		else
 			if (nargs == 3)
-				rsthis->setRotation(luabridge::Stack<float>::get(luaVM, 2),
+				rsthis->setRotation(luabridge::Stack<Angle>::get(luaVM, 2),
 				luabridge::Stack<bool>::get(luaVM, 2));
 			else
 				luaL_argerror(luaVM, nargs, "Object:setRotation fail");
@@ -224,10 +224,10 @@ class LuaE2Object : public Object
 		auto rsthis = ((Object*)(this));//1=self/this
 		//get scale
 		if (nargs == 1)
-			luabridge::Stack<float>::push(luaVM, rsthis->getRotation());
+			luabridge::Stack<Angle>::push(luaVM, rsthis->getRotation());
 		else
 			if (nargs == 2)
-				luabridge::Stack<float>::push(luaVM, rsthis->getRotation(
+				luabridge::Stack<Angle>::push(luaVM, rsthis->getRotation(
 				luabridge::Stack<bool>::get(luaVM, 2)
 				));
 			else

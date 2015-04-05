@@ -86,29 +86,29 @@ public:
         //good cast
         auto rsthis=((AnimatedSprite*)(this));//1=self/this
         //unsupported
-        luaL_argerror(luaVM,nargs,"AnimatedSprite:addAnimation not support");
+        //luaL_argerror(luaVM,nargs,"AnimatedSprite:addAnimation not support");
         //
         if(lua_isuserdata(luaVM,2) && nargs==2)
         {
-            // rsthis->addAnimation(luabridge::Stack <FrameSet>::get(luaVM,2));
+             rsthis->addAnimation(luabridge::Stack <FrameSet::ptr>::get(luaVM,2));
         }
         else
-            if(lua_isuserdata(luaVM,2) && lua_isnumber(luaVM,3) && nargs==3)
-            {
-                // rsthis->setAnimation(luabridge::Stack <FrameSet>::get(luaVM,2),
-                //                      luabridge::Stack <float>::get(luaVM,3));
-            }
-            else
-                if(lua_isuserdata(luaVM,2) && lua_isnumber(luaVM,3) && lua_isboolean(luaVM,4) && nargs==4)
-                {
-                    // rsthis->setAnimation(luabridge::Stack <FrameSet>::get(luaVM,2),
-                    //                      luabridge::Stack <float>::get(luaVM,3),
-                    //                      luabridge::Stack <bool>::get(luaVM,4));
-                }
-                else
-                {
-                    luaL_argerror(luaVM,nargs,"AnimatedSprite:addAnimation fail");
-                }
+        if(lua_isuserdata(luaVM,2) && lua_isnumber(luaVM,3) && nargs==3)
+        {
+             rsthis->addAnimation(luabridge::Stack <FrameSet::ptr>::get(luaVM,2),
+                                  luabridge::Stack <float>::get(luaVM,3));
+        }
+        else
+        if(lua_isuserdata(luaVM,2) && lua_isnumber(luaVM,3) && lua_isboolean(luaVM,4) && nargs==4)
+        {
+             rsthis->addAnimation(luabridge::Stack <FrameSet::ptr>::get(luaVM,2),
+                                  luabridge::Stack <float>::get(luaVM,3),
+                                  luabridge::Stack <bool>::get(luaVM,4));
+        }
+        else
+        {
+            luaL_argerror(luaVM,nargs,"AnimatedSprite:addAnimation fail");
+        }
         return 0;
     }
     /*
@@ -333,7 +333,7 @@ void LuaState::addRenderableLib()
     /** Sprite class */
 	luabridge::getGlobalNamespace(luaVM)
 	.deriveClass <Sprite, Renderable>("Sprite")
-    //.addConstructor <void(*) (void), RefCountedPtr <Sprite> >()
+      .addConstructor <void(*) (void), RefCountedPtr <Sprite> >()
 	  .addStaticCFunction("__call", &LuaSprite::init)
 	  .addFunction("getPixelScale", &Sprite::getPixelScale)
 	  .addCFunction("setTexture",
@@ -344,7 +344,7 @@ void LuaState::addRenderableLib()
     /** AnimatedSprite */
     luabridge::getGlobalNamespace(luaVM)
     .deriveClass <AnimatedSprite,Renderable> ("AnimatedSprite")
-	.addConstructor <void(*) (void), RefCountedPtr <Emitter> >() //set animation frame
+	.addConstructor <void(*) (void), RefCountedPtr <AnimatedSprite> >() //set animation frame
     .addCFunction("setFrame",(int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::setFrame)
     //add an animation
     .addCFunction("addAnimation",(int (AnimatedSprite::*) (lua_State*))&LuaAnimatedSprite::addAnimation)

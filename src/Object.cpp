@@ -90,7 +90,7 @@ void Object::setPosition(const Vector2D &position,bool global)
             case ENABLE_POSITION|ENABLE_SCALE:
             {
                 Mat4 pRotation;
-                pRotation.setRotZ(Math::PI2-parent->getGlobalMatrix().getRotZ());
+                pRotation.setRotZ(Angle(Radian(Math::PI2))- parent->getGlobalMatrix().getRotZ());
                 newposition  = pRotation.mul2D( position  - parent->getPosition(true))  / getGlobalParentScale();
             }
             break;
@@ -101,7 +101,7 @@ void Object::setPosition(const Vector2D &position,bool global)
     }
     change();
 }
-void Object::setRotation(float alpha,bool global)
+void Object::setRotation(Angle alpha,bool global)
 {
     if(!global||!parent || !(parentMode & ENABLE_ROTATION))
         transform.alpha=alpha;
@@ -114,7 +114,7 @@ void Object::setMove(const Vector2D &velocity)
     //var dec
     Mat4 mrot;
     //set rot
-    mrot.setRotZ(Math::torad(transform.alpha));
+    mrot.setRotZ(transform.alpha);
     //calc dir
     transform.position+=mrot.mul2D(velocity);
     //send info
@@ -125,7 +125,7 @@ void Object::setTranslation(const Vector2D &translation)
     transform.position+=translation;
     change();
 }
-void Object::setTurn(float alpha)
+void Object::setTurn(Angle alpha)
 {
     transform.alpha+=alpha;
     change();
@@ -153,17 +153,23 @@ Vector2D Object::getPosition(bool global)
     else
         return getGlobalMatrix().getTranslation2D();
 }
-inline float rotation2D(const Mat4& m4,const Vec2& scale)
+inline Angle rotation2D(const Mat4& m4,const Vec2& scale)
 {
     float a=m4.m00;
     float b=m4.m01;
     if(a<=0.00001 && a>=-0.00001) a=0.0;
     if(b<=0.00001 && b>=-0.00001) b=0.0;
-    float angle=atan2(b,a);
-    if(scale.x<0.0) angle+=Math::PI;
-    return Math::todeg(angle);
+    //get angle
+    float angle=std::atan2(b,a);
+
+    if(scale.x<0.0)
+    {
+        angle+=Math::PI;
+    }
+    
+    return Angle(Radian(angle));
 }
-float Object::getRotation(bool global)
+Angle Object::getRotation(bool global)
 {
     if(!global||!parent || !(parentMode & ENABLE_ROTATION))
         return transform.alpha;
@@ -243,17 +249,17 @@ void Object::change()
         changeValue=true;
     }
 }
-void Object::addChild(Object *child,bool ptrdelete)
+Object* Object::addChild(Object *child,bool ptrdelete)
 {
     int mode=ParentMode::ENABLE_ALL;
     if(child->parent) mode=child->getParentMode();
-    addChild(child,mode,ptrdelete);
+    return addChild(child,mode,ptrdelete);
 }
-void Object::addChild(Object *child,int parentMode,bool ptrdelete)
+Object* Object::addChild(Object *child,int parentMode,bool ptrdelete)
 {
-
-    if(child->parent==this) return;
-    if(child==this) return;
+    
+    if(child==this) return nullptr;
+    if(child->parent==this) return child;
     if(child->parent) child->parent->eraseChild(child);
 
     child->del=ptrdelete;
@@ -266,8 +272,8 @@ void Object::addChild(Object *child,int parentMode,bool ptrdelete)
     //event
     if(getScene())
         child->setScene(getScene());
-
-
+    
+    return child;
 }
 void Object::eraseChild(Object *child)
 {
@@ -482,8 +488,8 @@ void Object::computeMatrix(const Transform2D& transform,Matrix4x4& globalMat) co
                 Vec2 pivot = pmodel.mul2D(transform.position);
                 //set tranform
                 Transform2D local=transform;
-                local.position=pivot;
-                local.alpha+=Math::todeg(pmodel.getRotZ());
+                local.position= pivot;
+                local.alpha  += pmodel.getRotZ();
                 globalMat.setTransform2D(local);
 
             }
@@ -509,7 +515,7 @@ void Object::computeMatrix(const Transform2D& transform,Matrix4x4& globalMat) co
             {
                 Mat4 pmodel=parent->getGlobalMatrix();
                 Transform2D local=transform;
-                local.alpha+=Math::todeg(pmodel.getRotZ());
+                local.alpha     +=pmodel.getRotZ();
                 
                 if(parentMode&ENABLE_SCALE)
                 {
@@ -719,7 +725,7 @@ void Object::serialize(Table& table)
 {
     Table& robj=table.createTable(getName());
     robj.set("position",getPosition());
-    robj.set("rotation",getRotation());
+    robj.set("rotation",getRotation().valueDegrees());
     robj.set("scale",getScale());
     robj.set("z",getZ());
     
@@ -746,8 +752,8 @@ void Object::deserialize(const Table& table)
     const auto name=table.getName();
     setName(name==""?getName():name);
     setPosition(table.getVector2D("position",getPosition()));
-    setRotation(table.getFloat("rotation",getRotation()));
-    setScale(table.getVector2D("scale",getScale()));
+    setRotation(Angle( Degree( table.getFloat("rotation",   getRotation().valueDegrees() ) ) ) );
+    setScale(table.getVector2D("scale",      getScale()));
     setZ(table.getFloat("z",getZ()));
 
     if(table.existsAsType("parentMode",Table::STRING))

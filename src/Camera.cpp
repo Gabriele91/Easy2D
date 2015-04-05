@@ -74,12 +74,12 @@ void Camera::updateProjection(const Vec2& argViewport)
                         -viewport.y*0.5f*zoom,viewport.y*0.5f*zoom, 
                          1.0f,
                         -1.0f);
-    //update box
-    vpBox.setMax(Vec2(viewport.x* 0.5f,viewport.y* 0.5f)*zoom);
-    vpBox.setMin(Vec2(viewport.x*-0.5f,viewport.y*-0.5f)*zoom);
 }
 void Camera::updateViewport(const Vec2& argViewport)
 {
     //set viewport
     viewport=argViewport;
+    //update box
+    vpBox.setMax(Vec2(viewport.x* 0.5f,viewport.y* 0.5f)*zoom);
+    vpBox.setMin(Vec2(viewport.x*-0.5f,viewport.y*-0.5f)*zoom);
 }

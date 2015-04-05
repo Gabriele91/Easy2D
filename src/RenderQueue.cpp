@@ -40,8 +40,9 @@ void RenderQueue::append(Object* obj)
         //get box
         const AABox2& box=rable->getMesh()->getAABox();
         const AABox2& mbox=rable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
-        //applay camera matrix to obj box
-        const AABox2& wbox=mbox.applay(render->getCamera()->getGlobalMatrix());
+        //applay camera/display matrix to obj box
+        const Mat4    vdm4=RenderContext::getDisplay().mul(render->getCamera()->getGlobalMatrix());
+        const AABox2& wbox=mbox.applay(vdm4);
         ////////////////////////////////////////////////////////////////////////
         //culling
 		if (render->getCamera()->getBoxViewport().isIntersection(wbox))
@@ -103,7 +104,7 @@ void RenderQueue::draw(Render* render)
 	RenderContext::setProjection(camera->getProjection());
 	//////////////////////////////////////////////////////
 	//matrix camera
-	RenderContext::setModelView(camera->getGlobalMatrix());
+	RenderContext::setView(camera->getGlobalMatrix());
 	//////////////////////////////////////////////////////
 	//info data
 	auto drawIt = begin();
@@ -130,7 +131,9 @@ void RenderQueue::draw(Render* render)
 				!rNext->doBatching() ||
 				!rCurrent->canBatching(rNext) ||
 				!batchingMesh.canAdd(rNext->getMesh()))
-			{
+            {
+                //set model
+                RenderContext::setModel(Mat4::IDENTITY);
 				//enable info draw
 				rCurrent->enableStates();
 				//draw
@@ -145,13 +148,11 @@ void RenderQueue::draw(Render* render)
 		else
 		{
 			//model view matrix
-			RenderContext::setModelView(camera->getGlobalMatrix().mul2D(otrasform));
+			RenderContext::setModel(otrasform);
 			//enable info draw
 			rCurrent->draw();
 			//draw errors
 			CHECK_GPU_ERRORS();
-			//matrix camera
-			RenderContext::setModelView(camera->getGlobalMatrix());
 		}
 		//next
 		drawIt = drawNext;

@@ -44,11 +44,11 @@ class Object
     //methods
     void setScale(const Vector2D &scale,bool global=false);
     void setPosition(const Vector2D &position,bool global=false);
-    void setRotation(float alpha,bool global=false);
+    void setRotation(Angle alpha,bool global=false);
     //
     void setMove(const Vector2D &velocity);
     void setTranslation(const Vector2D &translation);
-    void setTurn(float alpha);
+    void setTurn(Angle alpha);
     //setTransform
     void setTransform(const Transform2D& tr2d)
     {
@@ -62,8 +62,8 @@ class Object
     //childs
     bool hasChild(Object *child);
     bool hasChild(const String& name);
-    void addChild(Object *child,bool ptrdelete=true);
-    void addChild(Object *child,int parentMode,bool ptrdelete=true);
+    Object* addChild(Object *child,bool ptrdelete=true);
+    Object* addChild(Object *child,int parentMode,bool ptrdelete=true);
     void eraseChild(Object *child);
     void setParentMode(int type);
     size_t countChilds();
@@ -71,14 +71,14 @@ class Object
     //
     Vector2D getScale(bool global=false);
     Vector2D getPosition(bool global=false);
-    float getRotation(bool global=false);
+    Angle    getRotation(bool global=false);
     int getParentMode() const;
     Object* getParent();
     const Object* getParent() const;
 
     //set/get z
     void setZ(int z,bool global=false);
-    int getZ(bool global=false);
+    int  getZ(bool global=false);
     void changeZ();
 
     //math

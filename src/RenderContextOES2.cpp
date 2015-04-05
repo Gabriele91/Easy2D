@@ -782,9 +782,24 @@ void RenderContext::colorPointer(uint  	size,
 }
 
 //matrix
-void RenderContext::setModelView(const Mat4& mv)
+void RenderContext::setModel(const Mat4& m)
 {
-    context.matrixs.modelView=mv;
+    context.matrixs.model    =m;
+    context.matrixs.modelView=context.matrixs.view.mul2D(m);
+}
+const Mat4& RenderContext::getModel()
+{
+    return context.matrixs.model;
+}
+void RenderContext::setView(const Mat4& v)
+{
+    context.matrixs.view     =v;
+    context.matrixs.modelView=v.mul2D(context.matrixs.model);
+    
+}
+const Mat4& RenderContext::getView()
+{
+    return context.matrixs.view;
 }
 const Mat4& RenderContext::getModelView()
 {
