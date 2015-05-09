@@ -200,10 +200,18 @@ void LuaScript::deserialize(const Table& table)
 								(*obj->luaObject)[param.first.string()] = param.second->get<Vec3>();
                                 break;
                             case Table::VECTOR4D:
-								(*obj->luaObject)[param.first.string()] = param.second->get<Vec4>();
+                                #if defined( _MSC_VER )
+								    (*obj->luaObject)[param.first.string()] = &param.second->get<Vec4>();
+                                #else
+                                    (*obj->luaObject)[param.first.string()] = param.second->get<Vec4>();
+                                #endif 
                                 break;
                             case Table::MATRIX4X4:
-								(*obj->luaObject)[param.first.string()] = param.second->get<Mat4>();
+                                #if defined( _MSC_VER )
+                                    (*obj->luaObject)[param.first.string()] = &param.second->get<Mat4>();
+                                #else
+                                    (*obj->luaObject)[param.first.string()] = param.second->get<Vec4>();
+                                #endif 
                                 break;
                             default: /* wrong */ break;
                         }

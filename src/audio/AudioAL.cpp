@@ -139,6 +139,9 @@ AudioAL::AudioAL()
  */
 AudioAL::~AudioAL()
 {
+    //break loop
+    streamThread.breakLoop();
+    streamThread.join();
     //delete
     alcMakeContextCurrent(NULL);
     alcDestroyContext (context);

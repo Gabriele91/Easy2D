@@ -30,13 +30,15 @@ class StreamThreadAL : public Thread
 
 public:
     //init thread
-    StreamThreadAL():Thread(Thread::TERMINATE_JOIN),isrunning(true) {}
+    StreamThreadAL():Thread(Thread::TERMINATE_NONE),isrunning(true) {}
     //add a sound task
     void push(StreamTask *ssound);
     //delete a sound task
     void erase(StreamTask *ssound);
     //thread main
     virtual int run();
+    //break loop
+    void breakLoop(){ isrunning=false; }
     //at close
     virtual ~StreamThreadAL();
 
