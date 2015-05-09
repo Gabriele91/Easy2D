@@ -56,6 +56,9 @@ void Debug::gpucheckerrors(const char* fileSource,int line)
         case GL_INVALID_OPERATION:
             err = "GL_INVALID_OPERATION";
             break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            err = "GL_INVALID_FRAMEBUFFER_OPERATION";
+            break;
         case GL_STACK_OVERFLOW:
             err = "GL_STACK_OVERFLOW";
             break;
@@ -67,8 +70,14 @@ void Debug::gpucheckerrors(const char* fileSource,int line)
             break;
         };
         DEBUG_MESSAGE( "OpenGL Error : " << err <<" : "<< line <<" : "<< fileSource  );
-		//safe output
-		if(++count == 100) break;
+		
+        //safe output
+		if(++count == 100)
+        {
+            DEBUG_MESSAGE("OpenGL Driver: broken loop of output  errors");
+            //exit from loop
+            g = GL_NONE; break;
+        }
     }
 
     if(glerror)
@@ -77,6 +86,6 @@ void Debug::gpucheckerrors(const char* fileSource,int line)
         DEBUG_CODE(RenderContext::debugCurrentState());
         DEBUG_MESSAGE( "OpenGL Native state" );
         DEBUG_CODE(RenderContext::debugNativeState());
-        DEBUG_ASSERT_MSG(0,"OpenGL encountered");
+        DEBUG_ASSERT_MSG(0,"OpenGL Driver encountered an unrecoverable error");
     }
 }

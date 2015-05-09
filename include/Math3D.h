@@ -118,7 +118,22 @@ class Angle
     
 public:
     
+    enum InitType
+    {
+        RADIAN,
+        DEGREE
+    };
+    
     Angle (){}
+    Angle ( float value,InitType type)
+    {
+        switch (type)
+        {
+            case RADIAN: angle=Radian(value); break;
+            case DEGREE: angle=Degree(value); break;
+          //default: DEBUG_ASSERT_MSG(0,"Type of angle not valid"); break;
+        }
+    }
     Angle ( const Angle&  a ) : angle(a.angle) {}
     Angle ( const Radian& r ) : angle(r) {}
     Angle ( const Degree& r ) : angle(r.valueRadians()) {}
