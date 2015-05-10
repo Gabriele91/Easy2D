@@ -204,7 +204,8 @@ using namespace Easy2D;
 @end
     
 //Key::KEYBOARDMAX
-Key::Keyboard KeyMapCocoa[]={
+Key::Keyboard KeyMapCocoa[]=
+{
     /*   0 */   Key::A,
     /*   1 */   Key::S,
     /*   2 */   Key::D,
@@ -343,7 +344,8 @@ Key::Keyboard KeyMapCocoa[]={
 };
 
     
-CocoaInput::CocoaInput(){
+CocoaInput::CocoaInput()
+{
 	//make listener
     listener=[[CocoaWindowListener alloc] init];
 	//input window
@@ -355,13 +357,15 @@ CocoaInput::CocoaInput(){
     
 }
 
-CocoaInput::~CocoaInput(){
+CocoaInput::~CocoaInput()
+{
     CocoaWindowListener* listener=(CocoaWindowListener*)this->listener;
     [listener close];
     [listener release];    
 }
     
-void CocoaInput::__updateCocoaEvent(){
+void CocoaInput::__updateCocoaEvent()
+{
     
 #define keyDownEvent(key) \
 { \
@@ -381,12 +385,18 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
     //flag key status
     static unsigned int oldFlags = 0;
     
-	for ( ; ; ) {
+	for ( ; ; )
+    {
 		NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES ];
-		if ( event == nil ) {
+		if ( event == nil )
+        {
 			break;
-		}
-		switch ([event type]) {
+        }
+        //flags
+        unsigned int flags = (unsigned int)[event modifierFlags];
+        //events
+		switch ([event type])
+        {
 			case NSKeyDown:
                 ekeyboard.inputString = [[event charactersIgnoringModifiers] UTF8String];
                 __callOnTextInput(ekeyboard.inputString);
@@ -402,38 +412,54 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
                 //reset
                 ekeyboard.inputString="";
                 //special chars
-                if ((flags & NSControlKeyMask) != (oldFlags & NSControlKeyMask)){
-                    if(flags & NSControlKeyMask){
+                if ((flags & NSControlKeyMask) != (oldFlags & NSControlKeyMask))
+                {
+                    if(flags & NSControlKeyMask)
+                    {
                         ekeyboard.__keyboardDown(Key::RCTRL);
                         __callOnKeyPress(Key::RCTRL);
-                    }else{
+                    }
+                    else
+                    {
                         ekeyboard.__keyboardUp(Key::RCTRL);
                         __callOnKeyRelease(Key::RCTRL);
                     }
                 }
-                if ((flags & NSCommandKeyMask) != (oldFlags & NSCommandKeyMask)){
-                    if(flags & NSCommandKeyMask){
+                if ((flags & NSCommandKeyMask) != (oldFlags & NSCommandKeyMask))
+                {
+                    if(flags & NSCommandKeyMask)
+                    {
                         ekeyboard.__keyboardDown(Key::RCTRL);
                         __callOnKeyPress(Key::RCTRL);
-                    }else{
+                    }
+                    else
+                    {
                         ekeyboard.__keyboardUp(Key::RCTRL);
                         __callOnKeyRelease(Key::RCTRL);
                     }
                 }
-                if ((flags & NSAlternateKeyMask) != (oldFlags & NSAlternateKeyMask)){
-                    if(flags & NSAlternateKeyMask){
+                if ((flags & NSAlternateKeyMask) != (oldFlags & NSAlternateKeyMask))
+                {
+                    if(flags & NSAlternateKeyMask)
+                    {
                         ekeyboard.__keyboardDown(Key::RALT);
                         __callOnKeyPress(Key::RALT);
-                    }else{
+                    }
+                    else
+                    {
                         ekeyboard.__keyboardUp(Key::RALT);
                         __callOnKeyRelease(Key::RALT);
                     }
                 }
-                if ((flags & NSShiftKeyMask) != (oldFlags & NSShiftKeyMask)){
-                    if(flags & NSShiftKeyMask){
+                if ((flags & NSShiftKeyMask) != (oldFlags & NSShiftKeyMask))
+                {
+                    if(flags & NSShiftKeyMask)
+                    {
                         ekeyboard.__keyboardDown(Key::RSHIFT);
                         __callOnKeyPress(Key::RSHIFT);
-                    }else{
+                    }
+                    else
+                    {
                         ekeyboard.__keyboardUp(Key::RSHIFT);
                         __callOnKeyRelease(Key::RSHIFT);
                     }
@@ -452,7 +478,8 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
 #undef keyReleaseEvent
 }
 
-void CocoaInput::update(){
+void CocoaInput::update()
+{
 	//update input
 	//reset input window
 	ewindow.resize=false;
@@ -468,46 +495,55 @@ void CocoaInput::update(){
     
 }
 //cocoa listener
-void CocoaInput::__addCocoaListener(void *nswindow){
+void CocoaInput::__addCocoaListener(void *nswindow)
+{
     CocoaWindowListener* listener=(CocoaWindowListener*)this->listener;
     [listener listen:(Easy2D::CocoaInput *)this :(NSWindow *)((NSWindow *)nswindow)];
 }
-void CocoaInput::__closeCocoaListener(){
+void CocoaInput::__closeCocoaListener()
+{
     CocoaWindowListener* listener=(CocoaWindowListener*)this->listener;
     [listener close];
 }
 //calls
-void CocoaInput::__callOnKeyPress(Key::Keyboard key) {
+void CocoaInput::__callOnKeyPress(Key::Keyboard key)
+{
     for(size_t i=0;i!=vkeyboardh.size();++i)
         vkeyboardh[i]->onKeyPress(key);
 }
-void CocoaInput::__callOnKeyRelease(Key::Keyboard key) {
+void CocoaInput::__callOnKeyRelease(Key::Keyboard key)
+{
     for(size_t i=0;i!=vkeyboardh.size();++i)
         vkeyboardh[i]->onKeyRelease(key);
 }
-void CocoaInput::__callOnKeyDown(Key::Keyboard key) {
+void CocoaInput::__callOnKeyDown(Key::Keyboard key)
+{
     for(size_t i=0;i!=vkeyboardh.size();++i)
         vkeyboardh[i]->onKeyDown(key);
 }
-void WindowsInput::__callOnTextInput(const String& inputText)
+void CocoaInput::__callOnTextInput(const String& inputText)
 {
     for (size_t i = 0; i != vkeyboardh.size(); ++i)
         vkeyboardh[i]->onTextInput(inputText);
 }
 //mouse
-void CocoaInput::__callOnMouseMove(Vec2 mousePosition) {
+void CocoaInput::__callOnMouseMove(Vec2 mousePosition)
+{
     for(size_t i=0;i!=vmouseh.size();++i)
         vmouseh[i]->onMouseMove(mousePosition);
 }
-void CocoaInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button) {
+void CocoaInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button)
+{
     for(size_t i=0;i!=vmouseh.size();++i)
         vmouseh[i]->onMousePress(mousePosition,button);
 }
-void CocoaInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button) {
+void CocoaInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button)
+{
     for(size_t i=0;i!=vmouseh.size();++i)
         vmouseh[i]->onMouseDown(mousePosition,button);
 }
-void CocoaInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button) {
+void CocoaInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button)
+{
     for(size_t i=0;i!=vmouseh.size();++i)
         vmouseh[i]->onMouseRelease(mousePosition,button);
 }
@@ -516,19 +552,23 @@ void CocoaInput::__callOnMouseScroll(short scrollDelta) {
         vmouseh[i]->onMouseScroll(scrollDelta);
 }
 //window
-void CocoaInput::__callOnFocus(bool focus) {
+void CocoaInput::__callOnFocus(bool focus)
+{
 	for(size_t i=0;i!=vwindowh.size();++i)
 		vwindowh[i]->onFocus(focus);
 }
-void CocoaInput::__callOnChangeState(Window::State windowState) {
+void CocoaInput::__callOnChangeState(Window::State windowState)
+{
 	for(size_t i=0;i!=vwindowh.size();++i)
 		vwindowh[i]->onChangeState(windowState);
 }
-void CocoaInput::__callOnClose() {
+void CocoaInput::__callOnClose()
+{
 	for(size_t i=0;i!=vwindowh.size();++i)
 		vwindowh[i]->onClose();
 }
-void CocoaInput::__callOnResize(Vec2 size){
+void CocoaInput::__callOnResize(Vec2 size)
+{
 	for(size_t i=0;i!=vwindowh.size();++i)
 		vwindowh[i]->onResize(size);
 }
