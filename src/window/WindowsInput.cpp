@@ -268,6 +268,11 @@ void WindowsInput::__callOnKeyDown(Key::Keyboard key)
     for(size_t i=0; i!=vkeyboardh.size(); ++i)
         vkeyboardh[i]->onKeyDown(key);
 }
+void WindowsInput::__callOnTextInput(const String& inputText)
+{
+    for (size_t i = 0; i != vkeyboardh.size(); ++i)
+        vkeyboardh[i]->onTextInput(inputText);
+}
 //mouse
 void WindowsInput::__callOnMouseMove(Vec2 mousePosition)
 {
@@ -350,7 +355,27 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
             }
 
             break;
-
+        case WM_CHAR:
+            switch (wparam)
+            {
+                // First, handle non-displayable characters by beeping.
+            case 0x08:  // backspace.
+            case 0x09:  // tab.
+            case 0x0A:  // linefeed.
+            case 0x0D:  // carriage return.
+            case 0x1B:  // escape.
+            case 0x20:  // space.
+                winput->ekeyboard.inputString = "";
+                //MessageBeep((UINT) -1); 
+                break;
+                // Next, handle displayable characters by appending them to our string.
+            default:
+                winput->ekeyboard.inputString = "";
+                winput->ekeyboard.inputString += (wchar_t)wparam;
+                winput->__callOnTextInput(winput->ekeyboard.inputString);
+                break;
+            }
+            break;
         // WINDOWS EVENT //
         //FOCUS
         case WM_ACTIVATE:

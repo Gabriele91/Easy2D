@@ -378,6 +378,8 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
 }
     //get events
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    //flag key status
+    static unsigned int oldFlags = 0;
     
 	for ( ; ; ) {
 		NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES ];
@@ -386,6 +388,8 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
 		}
 		switch ([event type]) {
 			case NSKeyDown:
+                ekeyboard.inputString = [[event charactersIgnoringModifiers] UTF8String];
+                __callOnTextInput(ekeyboard.inputString);
                 keyDownEvent(event.keyCode);
             break;
 			case NSKeyUp:
@@ -393,6 +397,48 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
                 /* Add to support system-wide keyboard shortcuts like CMD+Space */
 				if (([event modifierFlags] & NSCommandKeyMask) || [event type] == NSFlagsChanged)
 					[NSApp sendEvent: event];
+            break;
+            case NSFlagsChanged:
+                //reset
+                ekeyboard.inputString="";
+                //special chars
+                if ((flags & NSControlKeyMask) != (oldFlags & NSControlKeyMask)){
+                    if(flags & NSControlKeyMask){
+                        ekeyboard.__keyboardDown(Key::RCTRL);
+                        __callOnKeyPress(Key::RCTRL);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RCTRL);
+                        __callOnKeyRelease(Key::RCTRL);
+                    }
+                }
+                if ((flags & NSCommandKeyMask) != (oldFlags & NSCommandKeyMask)){
+                    if(flags & NSCommandKeyMask){
+                        ekeyboard.__keyboardDown(Key::RCTRL);
+                        __callOnKeyPress(Key::RCTRL);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RCTRL);
+                        __callOnKeyRelease(Key::RCTRL);
+                    }
+                }
+                if ((flags & NSAlternateKeyMask) != (oldFlags & NSAlternateKeyMask)){
+                    if(flags & NSAlternateKeyMask){
+                        ekeyboard.__keyboardDown(Key::RALT);
+                        __callOnKeyPress(Key::RALT);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RALT);
+                        __callOnKeyRelease(Key::RALT);
+                    }
+                }
+                if ((flags & NSShiftKeyMask) != (oldFlags & NSShiftKeyMask)){
+                    if(flags & NSShiftKeyMask){
+                        ekeyboard.__keyboardDown(Key::RSHIFT);
+                        __callOnKeyPress(Key::RSHIFT);
+                    }else{
+                        ekeyboard.__keyboardUp(Key::RSHIFT);
+                        __callOnKeyRelease(Key::RSHIFT);
+                    }
+                }
+                oldFlags = flags;
             break;
 			default:
 				[NSApp sendEvent:event];
@@ -442,6 +488,11 @@ void CocoaInput::__callOnKeyRelease(Key::Keyboard key) {
 void CocoaInput::__callOnKeyDown(Key::Keyboard key) {
     for(size_t i=0;i!=vkeyboardh.size();++i)
         vkeyboardh[i]->onKeyDown(key);
+}
+void WindowsInput::__callOnTextInput(const String& inputText)
+{
+    for (size_t i = 0; i != vkeyboardh.size(); ++i)
+        vkeyboardh[i]->onTextInput(inputText);
 }
 //mouse
 void CocoaInput::__callOnMouseMove(Vec2 mousePosition) {

@@ -55,6 +55,14 @@ public:
      */
     virtual void update();
     /**
+    * Return the last input string got from keyboard
+    * @return input string
+    */
+    virtual const String& getInputString()
+    {
+        return ekeyboard.inputString;
+    }
+    /**
      * Return true if window has focus
      * @return focus status
      */
@@ -265,6 +273,8 @@ protected:
     //keyboard
     struct EventKeyboard
     {
+        String inputString;
+        
         int nPress,nDown;
         Key::Keyboard hit[10];
         Key::Keyboard down[10];
@@ -306,6 +316,7 @@ protected:
     void __callOnKeyPress(Key::Keyboard key);
     void __callOnKeyRelease(Key::Keyboard key);
     void __callOnKeyDown(Key::Keyboard key);
+    void __callOnTextInput(const String& inputText);
     void __callOnMouseMove(Vec2 mousePosition);
     void __callOnMousePress(Vec2 mousePosition, Key::Mouse button);
     void __callOnMouseDown(Vec2 mousePosition, Key::Mouse button);

@@ -202,6 +202,7 @@ public:
         virtual void onKeyPress(Key::Keyboard key) {}
         virtual void onKeyRelease(Key::Keyboard key) {}
         virtual void onKeyDown(Key::Keyboard key) {}
+        virtual void onTextInput(const String& text) {}
     };
     class FingersHandler
     {
@@ -275,7 +276,15 @@ public:
     * update window event,
     * call this method in a loop
     */
-    virtual void update()=0;
+    virtual void update() = 0;
+    /**
+    * Return the last input string got from keyboard
+    * @return input string
+    */
+    virtual const String& getInputString()
+    {
+        return String::NONE;
+    }
     /**
     * Return true if keyboard button is down
     * @param key's id
