@@ -227,6 +227,443 @@
 		E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634718AFB0D200A26E40 /* Sound.cpp */; };
 		E08C634B18AFB0E000A26E40 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = E08C634A18AFB0E000A26E40 /* Sound.h */; };
 		E0937D1D17B5483300DEFFCD /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0937D1B17B5483300DEFFCD /* State.cpp */; };
+		E0980DE11B04DE0F002C693D /* AnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495F217AE6907005DDB72 /* AnimatedSprite.cpp */; };
+		E0980DE21B04DE0F002C693D /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5A1946EE8500D1438A /* Label.cpp */; };
+		E0980DE31B04DE0F002C693D /* StaticBufferAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0121CD91AB9D76B00F044E6 /* StaticBufferAL.cpp */; };
+		E0980DE41B04DE0F002C693D /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495F317AE6907005DDB72 /* Application.cpp */; };
+		E0980DE51B04DE0F002C693D /* BMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495F417AE6907005DDB72 /* BMFontLoader.cpp */; };
+		E0980DE61B04DE0F002C693D /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495F517AE6907005DDB72 /* Camera.cpp */; };
+		E0980DE71B04DE0F002C693D /* CocoaApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = E05495F717AE6907005DDB72 /* CocoaApp.mm */; };
+		E0980DE81B04DE0F002C693D /* CocoaInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = E05495F817AE6907005DDB72 /* CocoaInput.mm */; };
+		E0980DE91B04DE0F002C693D /* BatchingMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C8197CEA1B00239DA6 /* BatchingMesh.cpp */; };
+		E0980DEA1B04DE0F002C693D /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E51F391A1F87F2009D70F9 /* LuaBody.cpp */; };
+		E0980DEB1B04DE0F002C693D /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* Memory.cpp */; };
+		E0980DEC1B04DE0F002C693D /* CocoaScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = E05495F917AE6907005DDB72 /* CocoaScreen.mm */; };
+		E0980DED1B04DE0F002C693D /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FA17AE6907005DDB72 /* Color.cpp */; };
+		E0980DEE1B04DE0F002C693D /* Panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5B1946EE8500D1438A /* Panel.cpp */; };
+		E0980DEF1B04DE0F002C693D /* LuaState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D7197CEA3B00239DA6 /* LuaState.cpp */; };
+		E0980DF01B04DE0F002C693D /* Debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FC17AE6907005DDB72 /* Debug.cpp */; };
+		E0980DF11B04DE0F002C693D /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634718AFB0D200A26E40 /* Sound.cpp */; };
+		E0980DF21B04DE0F002C693D /* FluidGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C9197CEA1B00239DA6 /* FluidGrid.cpp */; };
+		E0980DF31B04DE0F002C693D /* EString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FD17AE6907005DDB72 /* EString.cpp */; };
+		E0980DF41B04DE0F002C693D /* ETime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FE17AE6907005DDB72 /* ETime.cpp */; };
+		E0980DF51B04DE0F002C693D /* Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684EFE1939D29D00653833 /* Body.cpp */; };
+		E0980DF61B04DE0F002C693D /* StreamThreadAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD718B3615B00D048DD /* StreamThreadAL.cpp */; };
+		E0980DF71B04DE0F002C693D /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FF17AE6907005DDB72 /* Font.cpp */; };
+		E0980DF81B04DE0F002C693D /* FrameSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960017AE6907005DDB72 /* FrameSet.cpp */; };
+		E0980DF91B04DE0F002C693D /* FreeTypeFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960117AE6907005DDB72 /* FreeTypeFontLoader.cpp */; };
+		E0980DFA1B04DE0F002C693D /* MutexPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963D18B1447300B1A4FE /* MutexPOSIX.cpp */; };
+		E0980DFB1B04DE0F002C693D /* RenderQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E02B03F61A1CC26C00F6B7D6 /* RenderQueue.cpp */; };
+		E0980DFC1B04DE0F002C693D /* Script.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1CC197CEA1B00239DA6 /* Script.cpp */; };
+		E0980DFD1B04DE0F002C693D /* GuiManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE591946EE8500D1438A /* GuiManager.cpp */; };
+		E0980DFE1B04DE0F002C693D /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960217AE6907005DDB72 /* Game.cpp */; };
+		E0980DFF1B04DE0F002C693D /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960617AE6907005DDB72 /* lodepng.cpp */; };
+		E0980E001B04DE0F002C693D /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960817AE6907005DDB72 /* Input.cpp */; };
+		E0980E011B04DE0F002C693D /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E04FBB2E194F0F1B00164D77 /* Component.cpp */; };
+		E0980E021B04DE0F002C693D /* Math3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960F17AE6907005DDB72 /* Math3D.cpp */; };
+		E0980E031B04DE0F002C693D /* ParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1CB197CEA1B00239DA6 /* ParticleSystem.cpp */; };
+		E0980E041B04DE0F002C693D /* Blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B5835A19B1B6570001D40A /* Blend.cpp */; };
+		E0980E051B04DE0F002C693D /* LuaMath3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D5197CEA3B00239DA6 /* LuaMath3D.cpp */; };
+		E0980E061B04DE0F002C693D /* Math3D_SSE2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961217AE6907005DDB72 /* Math3D_SSE2.cpp */; };
+		E0980E071B04DE0F002C693D /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961617AE6907005DDB72 /* Mesh.cpp */; };
+		E0980E081B04DE0F002C693D /* Object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961717AE6907005DDB72 /* Object.cpp */; };
+		E0980E091B04DE0F002C693D /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961817AE6907005DDB72 /* Render.cpp */; };
+		E0980E0A1B04DE0F002C693D /* LuaEasy2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D4197CEA3B00239DA6 /* LuaEasy2D.cpp */; };
+		E0980E0B1B04DE0F002C693D /* BatchingColorMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C7197CEA1B00239DA6 /* BatchingColorMesh.cpp */; };
+		E0980E0C1B04DE0F002C693D /* ThreadPOSIX.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E027963E18B1447300B1A4FE /* ThreadPOSIX.cpp */; };
+		E0980E0D1B04DE0F002C693D /* SoundEmitterAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0121CD81AB9D76B00F044E6 /* SoundEmitterAL.cpp */; };
+		E0980E0E1B04DE0F002C693D /* AiffLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BEA34C1AB9BE6A00824182 /* AiffLoader.cpp */; };
+		E0980E0F1B04DE0F002C693D /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134F918AE670000BD63EC /* Audio.cpp */; };
+		E0980E101B04DE0F002C693D /* Renderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961917AE6907005DDB72 /* Renderable.cpp */; };
+		E0980E111B04DE0F002C693D /* RenderState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961A17AE6907005DDB72 /* RenderState.cpp */; };
+		E0980E121B04DE0F002C693D /* Resource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961B17AE6907005DDB72 /* Resource.cpp */; };
+		E0980E131B04DE0F002C693D /* EStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634618AFB0D200A26E40 /* EStack.cpp */; };
+		E0980E141B04DE0F002C693D /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FD18AE670B00BD63EC /* Image.cpp */; };
+		E0980E151B04DE0F002C693D /* ResourcesGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961C17AE6907005DDB72 /* ResourcesGroup.cpp */; };
+		E0980E161B04DE0F002C693D /* ResourcesManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961D17AE6907005DDB72 /* ResourcesManager.cpp */; };
+		E0980E171B04DE0F002C693D /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961E17AE6907005DDB72 /* Screen.cpp */; };
+		E0980E181B04DE0F002C693D /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684F061939D34A00653833 /* World.cpp */; };
+		E0980E191B04DE0F002C693D /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961F17AE6907005DDB72 /* Sprite.cpp */; };
+		E0980E1A1B04DE0F002C693D /* StreamBufferAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0121CD71AB9D76B00F044E6 /* StreamBufferAL.cpp */; };
+		E0980E1B1B04DE0F002C693D /* Table.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962017AE6907005DDB72 /* Table.cpp */; };
+		E0980E1C1B04DE0F002C693D /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FB17AE6907005DDB72 /* Config.cpp */; };
+		E0980E1D1B04DE0F002C693D /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E003064719B39C5B006911FD /* Shader.cpp */; };
+		E0980E1E1B04DE0F002C693D /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE581946EE8500D1438A /* Button.cpp */; };
+		E0980E1F1B04DE0F002C693D /* Parallax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1CA197CEA1B00239DA6 /* Parallax.cpp */; };
+		E0980E201B04DE0F002C693D /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962117AE6907005DDB72 /* Texture.cpp */; };
+		E0980E211B04DE0F002C693D /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962B17AE6907005DDB72 /* Timer.cpp */; };
+		E0980E221B04DE0F002C693D /* WavLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CE918B37BBF00D048DD /* WavLoader.cpp */; };
+		E0980E231B04DE0F002C693D /* LuaScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D6197CEA3B00239DA6 /* LuaScript.cpp */; };
+		E0980E241B04DE0F002C693D /* LuaRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E51F3E1A1F894D009D70F9 /* LuaRenderable.cpp */; };
+		E0980E251B04DE0F002C693D /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962C17AE6907005DDB72 /* Utility.cpp */; };
+		E0980E261B04DE0F002C693D /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD518B35ECA00D048DD /* AudioAL.cpp */; };
+		E0980E271B04DE0F002C693D /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
+		E0980E281B04DE0F002C693D /* Speaker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BEA34D1AB9BE6A00824182 /* Speaker.cpp */; };
+		E0980E291B04DE0F002C693D /* RenderContextOGL2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E064C21519BDE3FE00880CAF /* RenderContextOGL2.cpp */; };
+		E0980E2A1B04DE0F002C693D /* State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0937D1B17B5483300DEFFCD /* State.cpp */; };
+		E0980E2C1B04DE0F002C693D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196483176B0CF200CF955A /* AppKit.framework */; };
+		E0980E2D1B04DE0F002C693D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196480176B0CF200CF955A /* Cocoa.framework */; };
+		E0980E2E1B04DE0F002C693D /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E061350318AE675300BD63EC /* OpenAL.framework */; };
+		E0980E2F1B04DE0F002C693D /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A7196B17E1EE6200A0B298 /* libfreetype.a */; };
+		E0980E301B04DE0F002C693D /* libclua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0BE9FD51AB9BD6400824182 /* libclua.a */; };
+		E0980E311B04DE0F002C693D /* libRakNetLibStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0BE9FD41AB9BD6400824182 /* libRakNetLibStatic.a */; };
+		E0980E321B04DE0F002C693D /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E061356B18AE697A00BD63EC /* libBox2D.a */; };
+		E0980E331B04DE0F002C693D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196485176B0CF200CF955A /* Foundation.framework */; };
+		E0980E351B04DE0F002C693D /* sfnt.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA19E1AB9BDE300824182 /* sfnt.h */; };
+		E0980E361B04DE0F002C693D /* RakNetVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2351AB9BDE300824182 /* RakNetVersion.h */; };
+		E0980E371B04DE0F002C693D /* RandSync.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA23D1AB9BDE400824182 /* RandSync.h */; };
+		E0980E381B04DE0F002C693D /* ftbdf.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA15E1AB9BDE300824182 /* ftbdf.h */; };
+		E0980E391B04DE0F002C693D /* ftstroke.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA17A1AB9BDE300824182 /* ftstroke.h */; };
+		E0980E3A1B04DE0F002C693D /* ftsnames.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1791AB9BDE300824182 /* ftsnames.h */; };
+		E0980E3B1B04DE0F002C693D /* AnimatedSprite.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958817AE68E8005DDB72 /* AnimatedSprite.h */; };
+		E0980E3C1B04DE0F002C693D /* ftpfr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1761AB9BDE300824182 /* ftpfr.h */; };
+		E0980E3D1B04DE0F002C693D /* ftsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA17C1AB9BDE300824182 /* ftsystem.h */; };
+		E0980E3E1B04DE0F002C693D /* ftgloadr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1921AB9BDE300824182 /* ftgloadr.h */; };
+		E0980E3F1B04DE0F002C693D /* b2ContactManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13A1AB9BDE300824182 /* b2ContactManager.h */; };
+		E0980E401B04DE0F002C693D /* CloudServer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D81AB9BDE300824182 /* CloudServer.h */; };
+		E0980E411B04DE0F002C693D /* RakNetCommandParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA22B1AB9BDE300824182 /* RakNetCommandParser.h */; };
+		E0980E421B04DE0F002C693D /* ftheader.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1891AB9BDE300824182 /* ftheader.h */; };
+		E0980E431B04DE0F002C693D /* svttcmap.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AF1AB9BDE300824182 /* svttcmap.h */; };
+		E0980E441B04DE0F002C693D /* FileList.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1FB1AB9BDE300824182 /* FileList.h */; };
+		E0980E451B04DE0F002C693D /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958917AE68E8005DDB72 /* Application.h */; };
+		E0980E461B04DE0F002C693D /* EpochTimeToString.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F91AB9BDE300824182 /* EpochTimeToString.h */; };
+		E0980E471B04DE0F002C693D /* ttnameid.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1831AB9BDE300824182 /* ttnameid.h */; };
+		E0980E481B04DE0F002C693D /* RakMemoryOverride.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA22A1AB9BDE300824182 /* RakMemoryOverride.h */; };
+		E0980E491B04DE0F002C693D /* FileOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1FF1AB9BDE300824182 /* FileOperations.h */; };
+		E0980E4A1B04DE0F002C693D /* DS_BytePool.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E11AB9BDE300824182 /* DS_BytePool.h */; };
+		E0980E4B1B04DE0F002C693D /* ftbbox.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA15D1AB9BDE300824182 /* ftbbox.h */; };
+		E0980E4C1B04DE0F002C693D /* Blend.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958A17AE68E8005DDB72 /* Blend.h */; };
+		E0980E4D1B04DE0F002C693D /* DS_BPlusTree.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E01AB9BDE300824182 /* DS_BPlusTree.h */; };
+		E0980E4E1B04DE0F002C693D /* ClassInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C01AB9BDE300824182 /* ClassInfo.h */; };
+		E0980E4F1B04DE0F002C693D /* b2MouseJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1501AB9BDE300824182 /* b2MouseJoint.h */; };
+		E0980E501B04DE0F002C693D /* b2EdgeShape.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA12D1AB9BDE300824182 /* b2EdgeShape.h */; };
+		E0980E511B04DE0F002C693D /* PS3Includes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2251AB9BDE300824182 /* PS3Includes.h */; };
+		E0980E521B04DE0F002C693D /* CheckSum.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D51AB9BDE300824182 /* CheckSum.h */; };
+		E0980E531B04DE0F002C693D /* svgldict.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A41AB9BDE300824182 /* svgldict.h */; };
+		E0980E541B04DE0F002C693D /* b2BlockAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1311AB9BDE300824182 /* b2BlockAllocator.h */; };
+		E0980E551B04DE0F002C693D /* DS_QueueLinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F01AB9BDE300824182 /* DS_QueueLinkedList.h */; };
+		E0980E561B04DE0F002C693D /* svsfnt.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AE1AB9BDE300824182 /* svsfnt.h */; };
+		E0980E571B04DE0F002C693D /* psaux.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA19C1AB9BDE300824182 /* psaux.h */; };
+		E0980E581B04DE0F002C693D /* b2ContactSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1451AB9BDE300824182 /* b2ContactSolver.h */; };
+		E0980E591B04DE0F002C693D /* BMFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958B17AE68E8005DDB72 /* BMFontLoader.h */; };
+		E0980E5A1B04DE0F002C693D /* ftconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1881AB9BDE300824182 /* ftconfig.h */; };
+		E0980E5B1B04DE0F002C693D /* NatTypeDetectionClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2181AB9BDE300824182 /* NatTypeDetectionClient.h */; };
+		E0980E5C1B04DE0F002C693D /* tttypes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A01AB9BDE300824182 /* tttypes.h */; };
+		E0980E5D1B04DE0F002C693D /* CloudClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D61AB9BDE300824182 /* CloudClient.h */; };
+		E0980E5E1B04DE0F002C693D /* b2EdgeAndCircleContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1461AB9BDE300824182 /* b2EdgeAndCircleContact.h */; };
+		E0980E5F1B04DE0F002C693D /* dump.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C21AB9BDE300824182 /* dump.h */; };
+		E0980E601B04DE0F002C693D /* Sortable.h in Headers */ = {isa = PBXBuildFile; fileRef = E06ADCA318BA0F0500A33558 /* Sortable.h */; };
+		E0980E611B04DE0F002C693D /* RakNetSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA22F1AB9BDE300824182 /* RakNetSocket.h */; };
+		E0980E621B04DE0F002C693D /* ftmodapi.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1721AB9BDE300824182 /* ftmodapi.h */; };
+		E0980E631B04DE0F002C693D /* tttables.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1841AB9BDE300824182 /* tttables.h */; };
+		E0980E641B04DE0F002C693D /* LuaException.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C51AB9BDE300824182 /* LuaException.h */; };
+		E0980E651B04DE0F002C693D /* HTTPConnection2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2081AB9BDE300824182 /* HTTPConnection2.h */; };
+		E0980E661B04DE0F002C693D /* gettimeofday.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2051AB9BDE300824182 /* gettimeofday.h */; };
+		E0980E671B04DE0F002C693D /* svwinfnt.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B21AB9BDE300824182 /* svwinfnt.h */; };
+		E0980E681B04DE0F002C693D /* b2WheelJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1561AB9BDE300824182 /* b2WheelJoint.h */; };
+		E0980E691B04DE0F002C693D /* Component.h in Headers */ = {isa = PBXBuildFile; fileRef = E04FBB2C194F0EFF00164D77 /* Component.h */; };
+		E0980E6A1B04DE0F002C693D /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958C17AE68E8005DDB72 /* Camera.h */; };
+		E0980E6B1B04DE0F002C693D /* RakPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2361AB9BDE300824182 /* RakPeer.h */; };
+		E0980E6C1B04DE0F002C693D /* b2Shape.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA12F1AB9BDE300824182 /* b2Shape.h */; };
+		E0980E6D1B04DE0F002C693D /* CocoaApp.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958E17AE68E8005DDB72 /* CocoaApp.h */; };
+		E0980E6E1B04DE0F002C693D /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = E003064519B38E76006911FD /* Shader.h */; };
+		E0980E6F1B04DE0F002C693D /* DS_Queue.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1EF1AB9BDE300824182 /* DS_Queue.h */; };
+		E0980E701B04DE0F002C693D /* ftsynth.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA17B1AB9BDE300824182 /* ftsynth.h */; };
+		E0980E711B04DE0F002C693D /* World.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F011939D2AC00653833 /* World.h */; };
+		E0980E721B04DE0F002C693D /* PluginInterface2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2241AB9BDE300824182 /* PluginInterface2.h */; };
+		E0980E731B04DE0F002C693D /* Speaker.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA3511AB9C41600824182 /* Speaker.h */; };
+		E0980E741B04DE0F002C693D /* CocoaInput.h in Headers */ = {isa = PBXBuildFile; fileRef = E054958F17AE68E8005DDB72 /* CocoaInput.h */; };
+		E0980E751B04DE0F002C693D /* ftserv.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1971AB9BDE300824182 /* ftserv.h */; };
+		E0980E761B04DE0F002C693D /* ftcffdrv.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1621AB9BDE300824182 /* ftcffdrv.h */; };
+		E0980E771B04DE0F002C693D /* EmptyHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F81AB9BDE300824182 /* EmptyHeader.h */; };
+		E0980E781B04DE0F002C693D /* FileListNodeContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1FC1AB9BDE300824182 /* FileListNodeContext.h */; };
+		E0980E791B04DE0F002C693D /* NativeFeatureIncludesOverrides.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2141AB9BDE300824182 /* NativeFeatureIncludesOverrides.h */; };
+		E0980E7A1B04DE0F002C693D /* fterrdef.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1651AB9BDE300824182 /* fterrdef.h */; };
+		E0980E7B1B04DE0F002C693D /* svpfr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A91AB9BDE300824182 /* svpfr.h */; };
+		E0980E7C1B04DE0F002C693D /* luaconf.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B81AB9BDE300824182 /* luaconf.h */; };
+		E0980E7D1B04DE0F002C693D /* CloudCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D71AB9BDE300824182 /* CloudCommon.h */; };
+		E0980E7E1B04DE0F002C693D /* LinuxStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA20D1AB9BDE300824182 /* LinuxStrings.h */; };
+		E0980E7F1B04DE0F002C693D /* CocoaScreen.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959017AE68E8005DDB72 /* CocoaScreen.h */; };
+		E0980E801B04DE0F002C693D /* RakThread.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA23A1AB9BDE300824182 /* RakThread.h */; };
+		E0980E811B04DE0F002C693D /* Namespace.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C81AB9BDE300824182 /* Namespace.h */; };
+		E0980E821B04DE0F002C693D /* b2PolygonAndCircleContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1481AB9BDE300824182 /* b2PolygonAndCircleContact.h */; };
+		E0980E831B04DE0F002C693D /* Userdata.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1CC1AB9BDE300824182 /* Userdata.h */; };
+		E0980E841B04DE0F002C693D /* ftbitmap.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA15F1AB9BDE300824182 /* ftbitmap.h */; };
+		E0980E851B04DE0F002C693D /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959117AE68E8005DDB72 /* Color.h */; };
+		E0980E861B04DE0F002C693D /* Config.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959217AE68E8005DDB72 /* Config.h */; };
+		E0980E871B04DE0F002C693D /* MessageIdentifiers.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2111AB9BDE300824182 /* MessageIdentifiers.h */; };
+		E0980E881B04DE0F002C693D /* InternalPacket.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA20A1AB9BDE300824182 /* InternalPacket.h */; };
+		E0980E891B04DE0F002C693D /* svcid.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A31AB9BDE300824182 /* svcid.h */; };
+		E0980E8A1B04DE0F002C693D /* SoundListenerAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CDE1AB9D79200F044E6 /* SoundListenerAL.h */; };
+		E0980E8B1B04DE0F002C693D /* FormatString.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2001AB9BDE300824182 /* FormatString.h */; };
+		E0980E8C1B04DE0F002C693D /* Debug.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959317AE68E8005DDB72 /* Debug.h */; };
+		E0980E8D1B04DE0F002C693D /* AutopatcherPatchContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1CF1AB9BDE300824182 /* AutopatcherPatchContext.h */; };
+		E0980E8E1B04DE0F002C693D /* RakNetDefinesOverrides.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA22D1AB9BDE300824182 /* RakNetDefinesOverrides.h */; };
+		E0980E8F1B04DE0F002C693D /* GridSectorizer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2061AB9BDE300824182 /* GridSectorizer.h */; };
+		E0980E901B04DE0F002C693D /* FuncTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C31AB9BDE300824182 /* FuncTraits.h */; };
+		E0980E911B04DE0F002C693D /* ft2build.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1211AB9BDE300824182 /* ft2build.h */; };
+		E0980E921B04DE0F002C693D /* svpsinfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AD1AB9BDE300824182 /* svpsinfo.h */; };
+		E0980E931B04DE0F002C693D /* FullyConnectedMesh2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2011AB9BDE300824182 /* FullyConnectedMesh2.h */; };
+		E0980E941B04DE0F002C693D /* Easy2D.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959417AE68E8005DDB72 /* Easy2D.h */; };
+		E0980E951B04DE0F002C693D /* PacketPool.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2221AB9BDE300824182 /* PacketPool.h */; };
+		E0980E961B04DE0F002C693D /* ftautoh.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA15C1AB9BDE300824182 /* ftautoh.h */; };
+		E0980E971B04DE0F002C693D /* ftstdlib.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA18C1AB9BDE300824182 /* ftstdlib.h */; };
+		E0980E981B04DE0F002C693D /* LuaHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C61AB9BDE300824182 /* LuaHelpers.h */; };
+		E0980E991B04DE0F002C693D /* ftttdrv.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA17E1AB9BDE300824182 /* ftttdrv.h */; };
+		E0980E9A1B04DE0F002C693D /* EString.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959517AE68E8005DDB72 /* EString.h */; };
+		E0980E9B1B04DE0F002C693D /* ETime.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959617AE68E8005DDB72 /* ETime.h */; };
+		E0980E9C1B04DE0F002C693D /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE611946EE9700D1438A /* Button.h */; };
+		E0980E9D1B04DE0F002C693D /* Font.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959717AE68E8005DDB72 /* Font.h */; };
+		E0980E9E1B04DE0F002C693D /* b2World.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13E1AB9BDE300824182 /* b2World.h */; };
+		E0980E9F1B04DE0F002C693D /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = E054967417AE6939005DDB72 /* stdafx.h */; };
+		E0980EA01B04DE0F002C693D /* FrameSet.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959817AE68E8005DDB72 /* FrameSet.h */; };
+		E0980EA11B04DE0F002C693D /* FreeTypeFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959917AE68E8005DDB72 /* FreeTypeFontLoader.h */; };
+		E0980EA21B04DE0F002C693D /* Game.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959A17AE68E8005DDB72 /* Game.h */; };
+		E0980EA31B04DE0F002C693D /* PacketConsoleLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA21D1AB9BDE300824182 /* PacketConsoleLogger.h */; };
+		E0980EA41B04DE0F002C693D /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = E054959B17AE68E8005DDB72 /* Input.h */; };
+		E0980EA51B04DE0F002C693D /* ftdriver.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1911AB9BDE300824182 /* ftdriver.h */; };
+		E0980EA61B04DE0F002C693D /* ttunpat.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1861AB9BDE300824182 /* ttunpat.h */; };
+		E0980EA71B04DE0F002C693D /* b2Joint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA14E1AB9BDE300824182 /* b2Joint.h */; };
+		E0980EA81B04DE0F002C693D /* Math3D.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A217AE68E8005DDB72 /* Math3D.h */; };
+		E0980EA91B04DE0F002C693D /* RakString.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2391AB9BDE300824182 /* RakString.h */; };
+		E0980EAA1B04DE0F002C693D /* fttrace.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1991AB9BDE300824182 /* fttrace.h */; };
+		E0980EAB1B04DE0F002C693D /* RefCountedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1BC1AB9BDE300824182 /* RefCountedObject.h */; };
+		E0980EAC1B04DE0F002C693D /* Mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A317AE68E8005DDB72 /* Mesh.h */; };
+		E0980EAD1B04DE0F002C693D /* DS_List.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E91AB9BDE300824182 /* DS_List.h */; };
+		E0980EAE1B04DE0F002C693D /* RakNetDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA22C1AB9BDE300824182 /* RakNetDefines.h */; };
+		E0980EAF1B04DE0F002C693D /* svkern.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A61AB9BDE300824182 /* svkern.h */; };
+		E0980EB01B04DE0F002C693D /* DS_Table.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F21AB9BDE300824182 /* DS_Table.h */; };
+		E0980EB11B04DE0F002C693D /* MTUSize.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2121AB9BDE300824182 /* MTUSize.h */; };
+		E0980EB21B04DE0F002C693D /* b2EdgeAndPolygonContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1471AB9BDE300824182 /* b2EdgeAndPolygonContact.h */; };
+		E0980EB31B04DE0F002C693D /* b2RopeJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1541AB9BDE300824182 /* b2RopeJoint.h */; };
+		E0980EB41B04DE0F002C693D /* DS_BinarySearchTree.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DF1AB9BDE300824182 /* DS_BinarySearchTree.h */; };
+		E0980EB51B04DE0F002C693D /* RakAssert.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2291AB9BDE300824182 /* RakAssert.h */; };
+		E0980EB61B04DE0F002C693D /* Export.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1FA1AB9BDE300824182 /* Export.h */; };
+		E0980EB71B04DE0F002C693D /* RenderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E0709D7319967FE40079E7E1 /* RenderContext.h */; };
+		E0980EB81B04DE0F002C693D /* b2BroadPhase.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1251AB9BDE300824182 /* b2BroadPhase.h */; };
+		E0980EB91B04DE0F002C693D /* PacketFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA21E1AB9BDE300824182 /* PacketFileLogger.h */; };
+		E0980EBA1B04DE0F002C693D /* Object.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A417AE68E8005DDB72 /* Object.h */; };
+		E0980EBB1B04DE0F002C693D /* Render.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A517AE68E8005DDB72 /* Render.h */; };
+		E0980EBC1B04DE0F002C693D /* Renderable.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A617AE68E8005DDB72 /* Renderable.h */; };
+		E0980EBD1B04DE0F002C693D /* b2PrismaticJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1511AB9BDE300824182 /* b2PrismaticJoint.h */; };
+		E0980EBE1B04DE0F002C693D /* b2GearJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA14D1AB9BDE300824182 /* b2GearJoint.h */; };
+		E0980EBF1B04DE0F002C693D /* ftoption.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA18B1AB9BDE300824182 /* ftoption.h */; };
+		E0980EC01B04DE0F002C693D /* ftlzw.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA16F1AB9BDE300824182 /* ftlzw.h */; };
+		E0980EC11B04DE0F002C693D /* RakNetTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2341AB9BDE300824182 /* RakNetTypes.h */; };
+		E0980EC21B04DE0F002C693D /* b2ChainAndPolygonContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1421AB9BDE300824182 /* b2ChainAndPolygonContact.h */; };
+		E0980EC31B04DE0F002C693D /* PacketOutputWindowLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2211AB9BDE300824182 /* PacketOutputWindowLogger.h */; };
+		E0980EC41B04DE0F002C693D /* b2WorldCallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13F1AB9BDE300824182 /* b2WorldCallbacks.h */; };
+		E0980EC51B04DE0F002C693D /* ftsizes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1781AB9BDE300824182 /* ftsizes.h */; };
+		E0980EC61B04DE0F002C693D /* RenderState.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A717AE68E8005DDB72 /* RenderState.h */; };
+		E0980EC71B04DE0F002C693D /* ftoutln.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1751AB9BDE300824182 /* ftoutln.h */; };
+		E0980EC81B04DE0F002C693D /* AiffLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA3501AB9C41600824182 /* AiffLoader.h */; };
+		E0980EC91B04DE0F002C693D /* Resource.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A817AE68E8005DDB72 /* Resource.h */; };
+		E0980ECA1B04DE0F002C693D /* ConnectionGraph2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DA1AB9BDE300824182 /* ConnectionGraph2.h */; };
+		E0980ECB1B04DE0F002C693D /* svmm.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A71AB9BDE300824182 /* svmm.h */; };
+		E0980ECC1B04DE0F002C693D /* Gui.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE621946EE9700D1438A /* Gui.h */; };
+		E0980ECD1B04DE0F002C693D /* PS4Includes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2261AB9BDE300824182 /* PS4Includes.h */; };
+		E0980ECE1B04DE0F002C693D /* CCRakNetSlidingWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D31AB9BDE300824182 /* CCRakNetSlidingWindow.h */; };
+		E0980ECF1B04DE0F002C693D /* CFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1BF1AB9BDE300824182 /* CFunctions.h */; };
+		E0980ED01B04DE0F002C693D /* ftgxval.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1691AB9BDE300824182 /* ftgxval.h */; };
+		E0980ED11B04DE0F002C693D /* DS_HuffmanEncodingTreeFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E61AB9BDE300824182 /* DS_HuffmanEncodingTreeFactory.h */; };
+		E0980ED21B04DE0F002C693D /* DS_RangeList.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F11AB9BDE300824182 /* DS_RangeList.h */; };
+		E0980ED31B04DE0F002C693D /* b2ChainShape.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA12B1AB9BDE300824182 /* b2ChainShape.h */; };
+		E0980ED41B04DE0F002C693D /* Getche.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2021AB9BDE300824182 /* Getche.h */; };
+		E0980ED51B04DE0F002C693D /* ftstream.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1981AB9BDE300824182 /* ftstream.h */; };
+		E0980ED61B04DE0F002C693D /* Rackspace.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2271AB9BDE300824182 /* Rackspace.h */; };
+		E0980ED71B04DE0F002C693D /* DS_Multilist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1EC1AB9BDE300824182 /* DS_Multilist.h */; };
+		E0980ED81B04DE0F002C693D /* t1tables.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1821AB9BDE300824182 /* t1tables.h */; };
+		E0980ED91B04DE0F002C693D /* ftmac.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1701AB9BDE300824182 /* ftmac.h */; };
+		E0980EDA1B04DE0F002C693D /* LuaBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1BB1AB9BDE300824182 /* LuaBridge.h */; };
+		E0980EDB1B04DE0F002C693D /* DS_Map.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1EA1AB9BDE300824182 /* DS_Map.h */; };
+		E0980EDC1B04DE0F002C693D /* b2CircleContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1431AB9BDE300824182 /* b2CircleContact.h */; };
+		E0980EDD1B04DE0F002C693D /* lualib.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B91AB9BDE300824182 /* lualib.h */; };
+		E0980EDE1B04DE0F002C693D /* RakNetStatistics.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2311AB9BDE300824182 /* RakNetStatistics.h */; };
+		E0980EDF1B04DE0F002C693D /* HTTPConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2071AB9BDE300824182 /* HTTPConnection.h */; };
+		E0980EE01B04DE0F002C693D /* svgxval.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A51AB9BDE300824182 /* svgxval.h */; };
+		E0980EE11B04DE0F002C693D /* LocklessTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA20E1AB9BDE300824182 /* LocklessTypes.h */; };
+		E0980EE21B04DE0F002C693D /* ResourcesGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495A917AE68E8005DDB72 /* ResourcesGroup.h */; };
+		E0980EE31B04DE0F002C693D /* RakWString.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA23B1AB9BDE300824182 /* RakWString.h */; };
+		E0980EE41B04DE0F002C693D /* b2Fixture.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13B1AB9BDE300824182 /* b2Fixture.h */; };
+		E0980EE51B04DE0F002C693D /* ConsoleServer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DB1AB9BDE300824182 /* ConsoleServer.h */; };
+		E0980EE61B04DE0F002C693D /* RakNetTransport2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2331AB9BDE300824182 /* RakNetTransport2.h */; };
+		E0980EE71B04DE0F002C693D /* DS_HuffmanEncodingTreeNode.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E71AB9BDE300824182 /* DS_HuffmanEncodingTreeNode.h */; };
+		E0980EE81B04DE0F002C693D /* DS_LinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E81AB9BDE300824182 /* DS_LinkedList.h */; };
+		E0980EE91B04DE0F002C693D /* LogCommandParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA20F1AB9BDE300824182 /* LogCommandParser.h */; };
+		E0980EEA1B04DE0F002C693D /* ftcache.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1611AB9BDE300824182 /* ftcache.h */; };
+		E0980EEB1B04DE0F002C693D /* b2MotorJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA14F1AB9BDE300824182 /* b2MotorJoint.h */; };
+		E0980EEC1B04DE0F002C693D /* ResourcesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495AA17AE68E8005DDB72 /* ResourcesManager.h */; };
+		E0980EED1B04DE0F002C693D /* Screen.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495AB17AE68E8005DDB72 /* Screen.h */; };
+		E0980EEE1B04DE0F002C693D /* ftmoderr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1731AB9BDE300824182 /* ftmoderr.h */; };
+		E0980EEF1B04DE0F002C693D /* Iterator.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C41AB9BDE300824182 /* Iterator.h */; };
+		E0980EF01B04DE0F002C693D /* ELuaState.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1C4197CE9E200239DA6 /* ELuaState.h */; };
+		E0980EF11B04DE0F002C693D /* WavLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CE718B37B3C00D048DD /* WavLoader.h */; };
+		E0980EF21B04DE0F002C693D /* tttags.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1851AB9BDE300824182 /* tttags.h */; };
+		E0980EF31B04DE0F002C693D /* ftglyph.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1681AB9BDE300824182 /* ftglyph.h */; };
+		E0980EF41B04DE0F002C693D /* ELuaScript.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1C3197CE9E200239DA6 /* ELuaScript.h */; };
+		E0980EF51B04DE0F002C693D /* b2RevoluteJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1531AB9BDE300824182 /* b2RevoluteJoint.h */; };
+		E0980EF61B04DE0F002C693D /* RakNetSocket2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2301AB9BDE300824182 /* RakNetSocket2.h */; };
+		E0980EF71B04DE0F002C693D /* BatchingMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B7197CE71500239DA6 /* BatchingMesh.h */; };
+		E0980EF81B04DE0F002C693D /* svpscmap.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AC1AB9BDE300824182 /* svpscmap.h */; };
+		E0980EF91B04DE0F002C693D /* b2ChainAndCircleContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1411AB9BDE300824182 /* b2ChainAndCircleContact.h */; };
+		E0980EFA1B04DE0F002C693D /* Sprite.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495AC17AE68E8005DDB72 /* Sprite.h */; };
+		E0980EFB1B04DE0F002C693D /* NetworkIDManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA21B1AB9BDE300824182 /* NetworkIDManager.h */; };
+		E0980EFC1B04DE0F002C693D /* b2Body.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1391AB9BDE300824182 /* b2Body.h */; };
+		E0980EFD1B04DE0F002C693D /* NativeTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2151AB9BDE300824182 /* NativeTypes.h */; };
+		E0980EFE1B04DE0F002C693D /* Table.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495AD17AE68E8005DDB72 /* Table.h */; };
+		E0980EFF1B04DE0F002C693D /* Easy2DLua.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1201AB9BDE300824182 /* Easy2DLua.h */; };
+		E0980F001B04DE0F002C693D /* svtteng.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B01AB9BDE300824182 /* svtteng.h */; };
+		E0980F011B04DE0F002C693D /* DS_HuffmanEncodingTree.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E51AB9BDE300824182 /* DS_HuffmanEncodingTree.h */; };
+		E0980F021B04DE0F002C693D /* DataCompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DC1AB9BDE300824182 /* DataCompressor.h */; };
+		E0980F031B04DE0F002C693D /* Texture.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495AE17AE68E8005DDB72 /* Texture.h */; };
+		E0980F041B04DE0F002C693D /* GetTime.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2041AB9BDE300824182 /* GetTime.h */; };
+		E0980F051B04DE0F002C693D /* ftxf86.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1811AB9BDE300824182 /* ftxf86.h */; };
+		E0980F061B04DE0F002C693D /* ftrfork.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1961AB9BDE300824182 /* ftrfork.h */; };
+		E0980F071B04DE0F002C693D /* ftrender.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1771AB9BDE300824182 /* ftrender.h */; };
+		E0980F081B04DE0F002C693D /* CCRakNetUDT.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D41AB9BDE300824182 /* CCRakNetUDT.h */; };
+		E0980F091B04DE0F002C693D /* PacketPriority.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2231AB9BDE300824182 /* PacketPriority.h */; };
+		E0980F0A1B04DE0F002C693D /* NetworkIDObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA21C1AB9BDE300824182 /* NetworkIDObject.h */; };
+		E0980F0B1B04DE0F002C693D /* Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495AF17AE68E8005DDB72 /* Timer.h */; };
+		E0980F0C1B04DE0F002C693D /* Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2031AB9BDE300824182 /* Gets.h */; };
+		E0980F0D1B04DE0F002C693D /* fttrigon.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA17D1AB9BDE300824182 /* fttrigon.h */; };
+		E0980F0E1B04DE0F002C693D /* DS_MemoryPool.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1EB1AB9BDE300824182 /* DS_MemoryPool.h */; };
+		E0980F0F1B04DE0F002C693D /* ftgzip.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA16A1AB9BDE300824182 /* ftgzip.h */; };
+		E0980F101B04DE0F002C693D /* ftgasp.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1671AB9BDE300824182 /* ftgasp.h */; };
+		E0980F111B04DE0F002C693D /* Itoa.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA20B1AB9BDE300824182 /* Itoa.h */; };
+		E0980F121B04DE0F002C693D /* NativeFeatureIncludes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2131AB9BDE300824182 /* NativeFeatureIncludes.h */; };
+		E0980F131B04DE0F002C693D /* b2Rope.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1581AB9BDE300824182 /* b2Rope.h */; };
+		E0980F141B04DE0F002C693D /* fttypes.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA17F1AB9BDE300824182 /* fttypes.h */; };
+		E0980F151B04DE0F002C693D /* ftpic.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1951AB9BDE300824182 /* ftpic.h */; };
+		E0980F161B04DE0F002C693D /* Types.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495B017AE68E8005DDB72 /* Types.h */; };
+		E0980F171B04DE0F002C693D /* Parallax.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B9197CE71500239DA6 /* Parallax.h */; };
+		E0980F181B04DE0F002C693D /* ftimage.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA16B1AB9BDE300824182 /* ftimage.h */; };
+		E0980F191B04DE0F002C693D /* DynDNS.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F61AB9BDE300824182 /* DynDNS.h */; };
+		E0980F1A1B04DE0F002C693D /* Rand.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA23C1AB9BDE300824182 /* Rand.h */; };
+		E0980F1B1B04DE0F002C693D /* b2TimeStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13D1AB9BDE300824182 /* b2TimeStep.h */; };
+		E0980F1C1B04DE0F002C693D /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495B117AE68E8005DDB72 /* Utility.h */; };
+		E0980F1D1B04DE0F002C693D /* DirectoryDeltaTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DD1AB9BDE300824182 /* DirectoryDeltaTransfer.h */; };
+		E0980F1E1B04DE0F002C693D /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E054960417AE6907005DDB72 /* Image.h */; };
+		E0980F1F1B04DE0F002C693D /* svotval.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A81AB9BDE300824182 /* svotval.h */; };
+		E0980F201B04DE0F002C693D /* svpostnm.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AA1AB9BDE300824182 /* svpostnm.h */; };
+		E0980F211B04DE0F002C693D /* ftotval.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1741AB9BDE300824182 /* ftotval.h */; };
+		E0980F221B04DE0F002C693D /* ftdebug.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1901AB9BDE300824182 /* ftdebug.h */; };
+		E0980F231B04DE0F002C693D /* SoundEmitterAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CDF1AB9D79200F044E6 /* SoundEmitterAL.h */; };
+		E0980F241B04DE0F002C693D /* ftlist.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA16E1AB9BDE300824182 /* ftlist.h */; };
+		E0980F251B04DE0F002C693D /* StaticBufferAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CE01AB9D79200F044E6 /* StaticBufferAL.h */; };
+		E0980F261B04DE0F002C693D /* lodepng.h in Headers */ = {isa = PBXBuildFile; fileRef = E054960717AE6907005DDB72 /* lodepng.h */; };
+		E0980F271B04DE0F002C693D /* FileListTransferCBInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1FE1AB9BDE300824182 /* FileListTransferCBInterface.h */; };
+		E0980F281B04DE0F002C693D /* Math3D_SSE2.h in Headers */ = {isa = PBXBuildFile; fileRef = E054961317AE6907005DDB72 /* Math3D_SSE2.h */; };
+		E0980F291B04DE0F002C693D /* pshints.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA19D1AB9BDE300824182 /* pshints.h */; };
+		E0980F2A1B04DE0F002C693D /* RefCountedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1BD1AB9BDE300824182 /* RefCountedPtr.h */; };
+		E0980F2B1B04DE0F002C693D /* FileListTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1FD1AB9BDE300824182 /* FileListTransfer.h */; };
+		E0980F2C1B04DE0F002C693D /* RakNetSmartPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA22E1AB9BDE300824182 /* RakNetSmartPtr.h */; };
+		E0980F2D1B04DE0F002C693D /* DS_ByteQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E21AB9BDE300824182 /* DS_ByteQueue.h */; };
+		E0980F2E1B04DE0F002C693D /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = E06134FF18AE671C00BD63EC /* Audio.h */; };
+		E0980F2F1B04DE0F002C693D /* PacketLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2201AB9BDE300824182 /* PacketLogger.h */; };
+		E0980F301B04DE0F002C693D /* b2PulleyJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1521AB9BDE300824182 /* b2PulleyJoint.h */; };
+		E0980F311B04DE0F002C693D /* b2TimeOfImpact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1291AB9BDE300824182 /* b2TimeOfImpact.h */; };
+		E0980F321B04DE0F002C693D /* DS_Tree.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F41AB9BDE300824182 /* DS_Tree.h */; };
+		E0980F331B04DE0F002C693D /* _FindFirst.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1CE1AB9BDE300824182 /* _FindFirst.h */; };
+		E0980F341B04DE0F002C693D /* b2Math.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1341AB9BDE300824182 /* b2Math.h */; };
+		E0980F351B04DE0F002C693D /* ftlcdfil.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA16D1AB9BDE300824182 /* ftlcdfil.h */; };
+		E0980F361B04DE0F002C693D /* Constructor.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C11AB9BDE300824182 /* Constructor.h */; };
+		E0980F371B04DE0F002C693D /* b2Island.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13C1AB9BDE300824182 /* b2Island.h */; };
+		E0980F381B04DE0F002C693D /* RakPeerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2371AB9BDE300824182 /* RakPeerInterface.h */; };
+		E0980F391B04DE0F002C693D /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEA17B2751B0055B59A /* Scene.h */; };
+		E0980F3A1B04DE0F002C693D /* lua.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B61AB9BDE300824182 /* lua.h */; };
+		E0980F3B1B04DE0F002C693D /* t1types.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA19F1AB9BDE300824182 /* t1types.h */; };
+		E0980F3C1B04DE0F002C693D /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEB17B2751B0055B59A /* State.h */; };
+		E0980F3D1B04DE0F002C693D /* OpenGLiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E03989D419FBFA9900079232 /* OpenGLiOS.h */; };
+		E0980F3E1B04DE0F002C693D /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
+		E0980F3F1B04DE0F002C693D /* b2Collision.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1261AB9BDE300824182 /* b2Collision.h */; };
+		E0980F401B04DE0F002C693D /* AppiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E03989D319FBFA9900079232 /* AppiOS.h */; };
+		E0980F411B04DE0F002C693D /* svprop.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AB1AB9BDE300824182 /* svprop.h */; };
+		E0980F421B04DE0F002C693D /* StreamThreadAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD918B3617200D048DD /* StreamThreadAL.h */; };
+		E0980F431B04DE0F002C693D /* Body.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F001939D2AC00653833 /* Body.h */; };
+		E0980F441B04DE0F002C693D /* GuiManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE631946EE9700D1438A /* GuiManager.h */; };
+		E0980F451B04DE0F002C693D /* ftchapters.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1631AB9BDE300824182 /* ftchapters.h */; };
+		E0980F461B04DE0F002C693D /* NatPunchthroughServer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2171AB9BDE300824182 /* NatPunchthroughServer.h */; };
+		E0980F471B04DE0F002C693D /* ftcalc.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA18F1AB9BDE300824182 /* ftcalc.h */; };
+		E0980F481B04DE0F002C693D /* RakNetTime.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2321AB9BDE300824182 /* RakNetTime.h */; };
+		E0980F491B04DE0F002C693D /* Script.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1BB197CE71500239DA6 /* Script.h */; };
+		E0980F4A1B04DE0F002C693D /* MutexConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964318B1449A00B1A4FE /* MutexConf.h */; };
+		E0980F4B1B04DE0F002C693D /* DR_SHA1.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DE1AB9BDE300824182 /* DR_SHA1.h */; };
+		E0980F4C1B04DE0F002C693D /* LuaRef.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C71AB9BDE300824182 /* LuaRef.h */; };
+		E0980F4D1B04DE0F002C693D /* FluidGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B8197CE71500239DA6 /* FluidGrid.h */; };
+		E0980F4E1B04DE0F002C693D /* b2GrowableStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1331AB9BDE300824182 /* b2GrowableStack.h */; };
+		E0980F4F1B04DE0F002C693D /* ftcid.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1641AB9BDE300824182 /* ftcid.h */; };
+		E0980F501B04DE0F002C693D /* MessageFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2101AB9BDE300824182 /* MessageFilter.h */; };
+		E0980F511B04DE0F002C693D /* StreamBufferAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CDD1AB9D79200F044E6 /* StreamBufferAL.h */; };
+		E0980F521B04DE0F002C693D /* b2StackAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1361AB9BDE300824182 /* b2StackAllocator.h */; };
+		E0980F531B04DE0F002C693D /* ftbzip2.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1601AB9BDE300824182 /* ftbzip2.h */; };
+		E0980F541B04DE0F002C693D /* BatchingColorMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B6197CE71500239DA6 /* BatchingColorMesh.h */; };
+		E0980F551B04DE0F002C693D /* b2Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1351AB9BDE300824182 /* b2Settings.h */; };
+		E0980F561B04DE0F002C693D /* RefStdCount.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */; };
+		E0980F571B04DE0F002C693D /* svttglyf.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B11AB9BDE300824182 /* svttglyf.h */; };
+		E0980F581B04DE0F002C693D /* TypeTraits.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1CB1AB9BDE300824182 /* TypeTraits.h */; };
+		E0980F591B04DE0F002C693D /* DS_ThreadsafeAllocatingQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F31AB9BDE300824182 /* DS_ThreadsafeAllocatingQueue.h */; };
+		E0980F5A1B04DE0F002C693D /* freetype.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA15A1AB9BDE300824182 /* freetype.h */; };
+		E0980F5B1B04DE0F002C693D /* b2PolygonShape.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA12E1AB9BDE300824182 /* b2PolygonShape.h */; };
+		E0980F5C1B04DE0F002C693D /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = E08C634A18AFB0E000A26E40 /* Sound.h */; };
+		E0980F5D1B04DE0F002C693D /* ThreadConf.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964518B1449A00B1A4FE /* ThreadConf.h */; };
+		E0980F5E1B04DE0F002C693D /* Panel.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE651946EE9700D1438A /* Panel.h */; };
+		E0980F5F1B04DE0F002C693D /* RakSleep.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2381AB9BDE300824182 /* RakSleep.h */; };
+		E0980F601B04DE0F002C693D /* b2DynamicTree.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1281AB9BDE300824182 /* b2DynamicTree.h */; };
+		E0980F611B04DE0F002C693D /* ftmemory.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1931AB9BDE300824182 /* ftmemory.h */; };
+		E0980F621B04DE0F002C693D /* ftobjs.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1941AB9BDE300824182 /* ftobjs.h */; };
+		E0980F631B04DE0F002C693D /* b2CircleShape.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA12C1AB9BDE300824182 /* b2CircleShape.h */; };
+		E0980F641B04DE0F002C693D /* TypeList.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1CA1AB9BDE300824182 /* TypeList.h */; };
+		E0980F651B04DE0F002C693D /* svbdf.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A21AB9BDE300824182 /* svbdf.h */; };
+		E0980F661B04DE0F002C693D /* NatPunchthroughClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2161AB9BDE300824182 /* NatPunchthroughClient.h */; };
+		E0980F671B04DE0F002C693D /* Kbhit.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA20C1AB9BDE300824182 /* Kbhit.h */; };
+		E0980F681B04DE0F002C693D /* Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1C91AB9BDE300824182 /* Stack.h */; };
+		E0980F691B04DE0F002C693D /* fterrors.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1661AB9BDE300824182 /* fterrors.h */; };
+		E0980F6A1B04DE0F002C693D /* RakAlloca.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2281AB9BDE300824182 /* RakAlloca.h */; };
+		E0980F6B1B04DE0F002C693D /* b2Distance.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1271AB9BDE300824182 /* b2Distance.h */; };
+		E0980F6C1B04DE0F002C693D /* autohint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA18E1AB9BDE300824182 /* autohint.h */; };
+		E0980F6D1B04DE0F002C693D /* lua.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B71AB9BDE300824182 /* lua.hpp */; };
+		E0980F6E1B04DE0F002C693D /* b2WeldJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1551AB9BDE300824182 /* b2WeldJoint.h */; };
+		E0980F6F1B04DE0F002C693D /* ftadvanc.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA15B1AB9BDE300824182 /* ftadvanc.h */; };
+		E0980F701B04DE0F002C693D /* Mutex.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964218B1449A00B1A4FE /* Mutex.h */; };
+		E0980F711B04DE0F002C693D /* DS_Heap.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E41AB9BDE300824182 /* DS_Heap.h */; };
+		E0980F721B04DE0F002C693D /* NatTypeDetectionServer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA21A1AB9BDE300824182 /* NatTypeDetectionServer.h */; };
+		E0980F731B04DE0F002C693D /* IncrementalReadInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2091AB9BDE300824182 /* IncrementalReadInterface.h */; };
+		E0980F741B04DE0F002C693D /* BitStream.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D21AB9BDE300824182 /* BitStream.h */; };
+		E0980F751B04DE0F002C693D /* Thread.h in Headers */ = {isa = PBXBuildFile; fileRef = E027964418B1449A00B1A4FE /* Thread.h */; };
+		E0980F761B04DE0F002C693D /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1231AB9BDE300824182 /* Box2D.h */; };
+		E0980F771B04DE0F002C693D /* ftincrem.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA16C1AB9BDE300824182 /* ftincrem.h */; };
+		E0980F781B04DE0F002C693D /* ftmodule.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA18A1AB9BDE300824182 /* ftmodule.h */; };
+		E0980F791B04DE0F002C693D /* Box2D.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E0684F041939D32D00653833 /* Box2D.hpp */; };
+		E0980F7A1B04DE0F002C693D /* RenderQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E02B03F81A1CC29100F6B7D6 /* RenderQueue.h */; };
+		E0980F7B1B04DE0F002C693D /* b2DistanceJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA14B1AB9BDE300824182 /* b2DistanceJoint.h */; };
+		E0980F7C1B04DE0F002C693D /* lauxlib.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B51AB9BDE300824182 /* lauxlib.h */; };
+		E0980F7D1B04DE0F002C693D /* Listener.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA3521AB9C41600824182 /* Listener.h */; };
+		E0980F7E1B04DE0F002C693D /* ParticleSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1BA197CE71500239DA6 /* ParticleSystem.h */; };
+		E0980F7F1B04DE0F002C693D /* ftvalid.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA19A1AB9BDE300824182 /* ftvalid.h */; };
+		E0980F801B04DE0F002C693D /* b2Contact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1441AB9BDE300824182 /* b2Contact.h */; };
+		E0980F811B04DE0F002C693D /* EmailSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F71AB9BDE300824182 /* EmailSender.h */; };
+		E0980F821B04DE0F002C693D /* b2FrictionJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA14C1AB9BDE300824182 /* b2FrictionJoint.h */; };
+		E0980F831B04DE0F002C693D /* ftmm.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1711AB9BDE300824182 /* ftmm.h */; };
+		E0980F841B04DE0F002C693D /* svxf86nm.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1B31AB9BDE300824182 /* svxf86nm.h */; };
+		E0980F851B04DE0F002C693D /* Memory.h in Headers */ = {isa = PBXBuildFile; fileRef = E061350018AE671C00BD63EC /* Memory.h */; };
+		E0980F861B04DE0F002C693D /* RefCountedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */; };
+		E0980F871B04DE0F002C693D /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD218B35EBD00D048DD /* AudioAL.h */; };
+		E0980F881B04DE0F002C693D /* DS_OrderedList.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1EE1AB9BDE300824182 /* DS_OrderedList.h */; };
+		E0980F891B04DE0F002C693D /* CommandParserInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D91AB9BDE300824182 /* CommandParserInterface.h */; };
+		E0980F8A1B04DE0F002C693D /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE641946EE9700D1438A /* Label.h */; };
+		E0980F8B1B04DE0F002C693D /* DS_Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1E31AB9BDE300824182 /* DS_Hash.h */; };
+		E0980F8C1B04DE0F002C693D /* NatTypeDetectionCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA2191AB9BDE300824182 /* NatTypeDetectionCommon.h */; };
+		E0980F8D1B04DE0F002C693D /* PacketizedTCP.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA21F1AB9BDE300824182 /* PacketizedTCP.h */; };
+		E0980F8E1B04DE0F002C693D /* Base64Encoder.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D11AB9BDE300824182 /* Base64Encoder.h */; };
+		E0980F8F1B04DE0F002C693D /* DS_OrderedChannelHeap.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1ED1AB9BDE300824182 /* DS_OrderedChannelHeap.h */; };
+		E0980F901B04DE0F002C693D /* b2Draw.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1321AB9BDE300824182 /* b2Draw.h */; };
+		E0980F911B04DE0F002C693D /* b2Timer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1371AB9BDE300824182 /* b2Timer.h */; };
+		E0980F921B04DE0F002C693D /* ScreeniOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E03989D519FBFA9900079232 /* ScreeniOS.h */; };
+		E0980F931B04DE0F002C693D /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA19B1AB9BDE300824182 /* internal.h */; };
+		E0980F941B04DE0F002C693D /* ftwinfnt.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1801AB9BDE300824182 /* ftwinfnt.h */; };
+		E0980F951B04DE0F002C693D /* AutopatcherRepositoryInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1D01AB9BDE300824182 /* AutopatcherRepositoryInterface.h */; };
+		E0980F961B04DE0F002C693D /* b2PolygonContact.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1491AB9BDE300824182 /* b2PolygonContact.h */; };
+		E0980F971B04DE0F002C693D /* DS_WeightedGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1F51AB9BDE300824182 /* DS_WeightedGraph.h */; };
 		E0A1AE5C1946EE8500D1438A /* Button.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE581946EE8500D1438A /* Button.cpp */; };
 		E0A1AE5D1946EE8500D1438A /* GuiManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE591946EE8500D1438A /* GuiManager.cpp */; };
 		E0A1AE5E1946EE8500D1438A /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5A1946EE8500D1438A /* Label.cpp */; };
@@ -870,6 +1307,7 @@
 		E08C634718AFB0D200A26E40 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		E08C634A18AFB0E000A26E40 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		E0937D1B17B5483300DEFFCD /* State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = State.cpp; sourceTree = "<group>"; };
+		E0980F9B1B04DE0F002C693D /* libEasy2DEditor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2DEditor.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0A1AE581946EE8500D1438A /* Button.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Button.cpp; sourceTree = "<group>"; };
 		E0A1AE591946EE8500D1438A /* GuiManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GuiManager.cpp; sourceTree = "<group>"; };
 		E0A1AE5A1946EE8500D1438A /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Label.cpp; sourceTree = "<group>"; };
@@ -1208,6 +1646,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0980E2B1B04DE0F002C693D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0980E2C1B04DE0F002C693D /* AppKit.framework in Frameworks */,
+				E0980E2D1B04DE0F002C693D /* Cocoa.framework in Frameworks */,
+				E0980E2E1B04DE0F002C693D /* OpenAL.framework in Frameworks */,
+				E0980E2F1B04DE0F002C693D /* libfreetype.a in Frameworks */,
+				E0980E301B04DE0F002C693D /* libclua.a in Frameworks */,
+				E0980E311B04DE0F002C693D /* libRakNetLibStatic.a in Frameworks */,
+				E0980E321B04DE0F002C693D /* libBox2D.a in Frameworks */,
+				E0980E331B04DE0F002C693D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1230,6 +1683,7 @@
 			children = (
 				E089991217AE56BE0063EAAC /* libEasy2D.a */,
 				E03989E219FBFAF300079232 /* libEasy2D-iOS.a */,
+				E0980F9B1B04DE0F002C693D /* libEasy2DEditor.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2651,6 +3105,368 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E0980E341B04DE0F002C693D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0980E351B04DE0F002C693D /* sfnt.h in Headers */,
+				E0980E361B04DE0F002C693D /* RakNetVersion.h in Headers */,
+				E0980E371B04DE0F002C693D /* RandSync.h in Headers */,
+				E0980E381B04DE0F002C693D /* ftbdf.h in Headers */,
+				E0980E391B04DE0F002C693D /* ftstroke.h in Headers */,
+				E0980E3A1B04DE0F002C693D /* ftsnames.h in Headers */,
+				E0980E3B1B04DE0F002C693D /* AnimatedSprite.h in Headers */,
+				E0980E3C1B04DE0F002C693D /* ftpfr.h in Headers */,
+				E0980E3D1B04DE0F002C693D /* ftsystem.h in Headers */,
+				E0980E3E1B04DE0F002C693D /* ftgloadr.h in Headers */,
+				E0980E3F1B04DE0F002C693D /* b2ContactManager.h in Headers */,
+				E0980E401B04DE0F002C693D /* CloudServer.h in Headers */,
+				E0980E411B04DE0F002C693D /* RakNetCommandParser.h in Headers */,
+				E0980E421B04DE0F002C693D /* ftheader.h in Headers */,
+				E0980E431B04DE0F002C693D /* svttcmap.h in Headers */,
+				E0980E441B04DE0F002C693D /* FileList.h in Headers */,
+				E0980E451B04DE0F002C693D /* Application.h in Headers */,
+				E0980E461B04DE0F002C693D /* EpochTimeToString.h in Headers */,
+				E0980E471B04DE0F002C693D /* ttnameid.h in Headers */,
+				E0980E481B04DE0F002C693D /* RakMemoryOverride.h in Headers */,
+				E0980E491B04DE0F002C693D /* FileOperations.h in Headers */,
+				E0980E4A1B04DE0F002C693D /* DS_BytePool.h in Headers */,
+				E0980E4B1B04DE0F002C693D /* ftbbox.h in Headers */,
+				E0980E4C1B04DE0F002C693D /* Blend.h in Headers */,
+				E0980E4D1B04DE0F002C693D /* DS_BPlusTree.h in Headers */,
+				E0980E4E1B04DE0F002C693D /* ClassInfo.h in Headers */,
+				E0980E4F1B04DE0F002C693D /* b2MouseJoint.h in Headers */,
+				E0980E501B04DE0F002C693D /* b2EdgeShape.h in Headers */,
+				E0980E511B04DE0F002C693D /* PS3Includes.h in Headers */,
+				E0980E521B04DE0F002C693D /* CheckSum.h in Headers */,
+				E0980E531B04DE0F002C693D /* svgldict.h in Headers */,
+				E0980E541B04DE0F002C693D /* b2BlockAllocator.h in Headers */,
+				E0980E551B04DE0F002C693D /* DS_QueueLinkedList.h in Headers */,
+				E0980E561B04DE0F002C693D /* svsfnt.h in Headers */,
+				E0980E571B04DE0F002C693D /* psaux.h in Headers */,
+				E0980E581B04DE0F002C693D /* b2ContactSolver.h in Headers */,
+				E0980E591B04DE0F002C693D /* BMFontLoader.h in Headers */,
+				E0980E5A1B04DE0F002C693D /* ftconfig.h in Headers */,
+				E0980E5B1B04DE0F002C693D /* NatTypeDetectionClient.h in Headers */,
+				E0980E5C1B04DE0F002C693D /* tttypes.h in Headers */,
+				E0980E5D1B04DE0F002C693D /* CloudClient.h in Headers */,
+				E0980E5E1B04DE0F002C693D /* b2EdgeAndCircleContact.h in Headers */,
+				E0980E5F1B04DE0F002C693D /* dump.h in Headers */,
+				E0980E601B04DE0F002C693D /* Sortable.h in Headers */,
+				E0980E611B04DE0F002C693D /* RakNetSocket.h in Headers */,
+				E0980E621B04DE0F002C693D /* ftmodapi.h in Headers */,
+				E0980E631B04DE0F002C693D /* tttables.h in Headers */,
+				E0980E641B04DE0F002C693D /* LuaException.h in Headers */,
+				E0980E651B04DE0F002C693D /* HTTPConnection2.h in Headers */,
+				E0980E661B04DE0F002C693D /* gettimeofday.h in Headers */,
+				E0980E671B04DE0F002C693D /* svwinfnt.h in Headers */,
+				E0980E681B04DE0F002C693D /* b2WheelJoint.h in Headers */,
+				E0980E691B04DE0F002C693D /* Component.h in Headers */,
+				E0980E6A1B04DE0F002C693D /* Camera.h in Headers */,
+				E0980E6B1B04DE0F002C693D /* RakPeer.h in Headers */,
+				E0980E6C1B04DE0F002C693D /* b2Shape.h in Headers */,
+				E0980E6D1B04DE0F002C693D /* CocoaApp.h in Headers */,
+				E0980E6E1B04DE0F002C693D /* Shader.h in Headers */,
+				E0980E6F1B04DE0F002C693D /* DS_Queue.h in Headers */,
+				E0980E701B04DE0F002C693D /* ftsynth.h in Headers */,
+				E0980E711B04DE0F002C693D /* World.h in Headers */,
+				E0980E721B04DE0F002C693D /* PluginInterface2.h in Headers */,
+				E0980E731B04DE0F002C693D /* Speaker.h in Headers */,
+				E0980E741B04DE0F002C693D /* CocoaInput.h in Headers */,
+				E0980E751B04DE0F002C693D /* ftserv.h in Headers */,
+				E0980E761B04DE0F002C693D /* ftcffdrv.h in Headers */,
+				E0980E771B04DE0F002C693D /* EmptyHeader.h in Headers */,
+				E0980E781B04DE0F002C693D /* FileListNodeContext.h in Headers */,
+				E0980E791B04DE0F002C693D /* NativeFeatureIncludesOverrides.h in Headers */,
+				E0980E7A1B04DE0F002C693D /* fterrdef.h in Headers */,
+				E0980E7B1B04DE0F002C693D /* svpfr.h in Headers */,
+				E0980E7C1B04DE0F002C693D /* luaconf.h in Headers */,
+				E0980E7D1B04DE0F002C693D /* CloudCommon.h in Headers */,
+				E0980E7E1B04DE0F002C693D /* LinuxStrings.h in Headers */,
+				E0980E7F1B04DE0F002C693D /* CocoaScreen.h in Headers */,
+				E0980E801B04DE0F002C693D /* RakThread.h in Headers */,
+				E0980E811B04DE0F002C693D /* Namespace.h in Headers */,
+				E0980E821B04DE0F002C693D /* b2PolygonAndCircleContact.h in Headers */,
+				E0980E831B04DE0F002C693D /* Userdata.h in Headers */,
+				E0980E841B04DE0F002C693D /* ftbitmap.h in Headers */,
+				E0980E851B04DE0F002C693D /* Color.h in Headers */,
+				E0980E861B04DE0F002C693D /* Config.h in Headers */,
+				E0980E871B04DE0F002C693D /* MessageIdentifiers.h in Headers */,
+				E0980E881B04DE0F002C693D /* InternalPacket.h in Headers */,
+				E0980E891B04DE0F002C693D /* svcid.h in Headers */,
+				E0980E8A1B04DE0F002C693D /* SoundListenerAL.h in Headers */,
+				E0980E8B1B04DE0F002C693D /* FormatString.h in Headers */,
+				E0980E8C1B04DE0F002C693D /* Debug.h in Headers */,
+				E0980E8D1B04DE0F002C693D /* AutopatcherPatchContext.h in Headers */,
+				E0980E8E1B04DE0F002C693D /* RakNetDefinesOverrides.h in Headers */,
+				E0980E8F1B04DE0F002C693D /* GridSectorizer.h in Headers */,
+				E0980E901B04DE0F002C693D /* FuncTraits.h in Headers */,
+				E0980E911B04DE0F002C693D /* ft2build.h in Headers */,
+				E0980E921B04DE0F002C693D /* svpsinfo.h in Headers */,
+				E0980E931B04DE0F002C693D /* FullyConnectedMesh2.h in Headers */,
+				E0980E941B04DE0F002C693D /* Easy2D.h in Headers */,
+				E0980E951B04DE0F002C693D /* PacketPool.h in Headers */,
+				E0980E961B04DE0F002C693D /* ftautoh.h in Headers */,
+				E0980E971B04DE0F002C693D /* ftstdlib.h in Headers */,
+				E0980E981B04DE0F002C693D /* LuaHelpers.h in Headers */,
+				E0980E991B04DE0F002C693D /* ftttdrv.h in Headers */,
+				E0980E9A1B04DE0F002C693D /* EString.h in Headers */,
+				E0980E9B1B04DE0F002C693D /* ETime.h in Headers */,
+				E0980E9C1B04DE0F002C693D /* Button.h in Headers */,
+				E0980E9D1B04DE0F002C693D /* Font.h in Headers */,
+				E0980E9E1B04DE0F002C693D /* b2World.h in Headers */,
+				E0980E9F1B04DE0F002C693D /* stdafx.h in Headers */,
+				E0980EA01B04DE0F002C693D /* FrameSet.h in Headers */,
+				E0980EA11B04DE0F002C693D /* FreeTypeFontLoader.h in Headers */,
+				E0980EA21B04DE0F002C693D /* Game.h in Headers */,
+				E0980EA31B04DE0F002C693D /* PacketConsoleLogger.h in Headers */,
+				E0980EA41B04DE0F002C693D /* Input.h in Headers */,
+				E0980EA51B04DE0F002C693D /* ftdriver.h in Headers */,
+				E0980EA61B04DE0F002C693D /* ttunpat.h in Headers */,
+				E0980EA71B04DE0F002C693D /* b2Joint.h in Headers */,
+				E0980EA81B04DE0F002C693D /* Math3D.h in Headers */,
+				E0980EA91B04DE0F002C693D /* RakString.h in Headers */,
+				E0980EAA1B04DE0F002C693D /* fttrace.h in Headers */,
+				E0980EAB1B04DE0F002C693D /* RefCountedObject.h in Headers */,
+				E0980EAC1B04DE0F002C693D /* Mesh.h in Headers */,
+				E0980EAD1B04DE0F002C693D /* DS_List.h in Headers */,
+				E0980EAE1B04DE0F002C693D /* RakNetDefines.h in Headers */,
+				E0980EAF1B04DE0F002C693D /* svkern.h in Headers */,
+				E0980EB01B04DE0F002C693D /* DS_Table.h in Headers */,
+				E0980EB11B04DE0F002C693D /* MTUSize.h in Headers */,
+				E0980EB21B04DE0F002C693D /* b2EdgeAndPolygonContact.h in Headers */,
+				E0980EB31B04DE0F002C693D /* b2RopeJoint.h in Headers */,
+				E0980EB41B04DE0F002C693D /* DS_BinarySearchTree.h in Headers */,
+				E0980EB51B04DE0F002C693D /* RakAssert.h in Headers */,
+				E0980EB61B04DE0F002C693D /* Export.h in Headers */,
+				E0980EB71B04DE0F002C693D /* RenderContext.h in Headers */,
+				E0980EB81B04DE0F002C693D /* b2BroadPhase.h in Headers */,
+				E0980EB91B04DE0F002C693D /* PacketFileLogger.h in Headers */,
+				E0980EBA1B04DE0F002C693D /* Object.h in Headers */,
+				E0980EBB1B04DE0F002C693D /* Render.h in Headers */,
+				E0980EBC1B04DE0F002C693D /* Renderable.h in Headers */,
+				E0980EBD1B04DE0F002C693D /* b2PrismaticJoint.h in Headers */,
+				E0980EBE1B04DE0F002C693D /* b2GearJoint.h in Headers */,
+				E0980EBF1B04DE0F002C693D /* ftoption.h in Headers */,
+				E0980EC01B04DE0F002C693D /* ftlzw.h in Headers */,
+				E0980EC11B04DE0F002C693D /* RakNetTypes.h in Headers */,
+				E0980EC21B04DE0F002C693D /* b2ChainAndPolygonContact.h in Headers */,
+				E0980EC31B04DE0F002C693D /* PacketOutputWindowLogger.h in Headers */,
+				E0980EC41B04DE0F002C693D /* b2WorldCallbacks.h in Headers */,
+				E0980EC51B04DE0F002C693D /* ftsizes.h in Headers */,
+				E0980EC61B04DE0F002C693D /* RenderState.h in Headers */,
+				E0980EC71B04DE0F002C693D /* ftoutln.h in Headers */,
+				E0980EC81B04DE0F002C693D /* AiffLoader.h in Headers */,
+				E0980EC91B04DE0F002C693D /* Resource.h in Headers */,
+				E0980ECA1B04DE0F002C693D /* ConnectionGraph2.h in Headers */,
+				E0980ECB1B04DE0F002C693D /* svmm.h in Headers */,
+				E0980ECC1B04DE0F002C693D /* Gui.h in Headers */,
+				E0980ECD1B04DE0F002C693D /* PS4Includes.h in Headers */,
+				E0980ECE1B04DE0F002C693D /* CCRakNetSlidingWindow.h in Headers */,
+				E0980ECF1B04DE0F002C693D /* CFunctions.h in Headers */,
+				E0980ED01B04DE0F002C693D /* ftgxval.h in Headers */,
+				E0980ED11B04DE0F002C693D /* DS_HuffmanEncodingTreeFactory.h in Headers */,
+				E0980ED21B04DE0F002C693D /* DS_RangeList.h in Headers */,
+				E0980ED31B04DE0F002C693D /* b2ChainShape.h in Headers */,
+				E0980ED41B04DE0F002C693D /* Getche.h in Headers */,
+				E0980ED51B04DE0F002C693D /* ftstream.h in Headers */,
+				E0980ED61B04DE0F002C693D /* Rackspace.h in Headers */,
+				E0980ED71B04DE0F002C693D /* DS_Multilist.h in Headers */,
+				E0980ED81B04DE0F002C693D /* t1tables.h in Headers */,
+				E0980ED91B04DE0F002C693D /* ftmac.h in Headers */,
+				E0980EDA1B04DE0F002C693D /* LuaBridge.h in Headers */,
+				E0980EDB1B04DE0F002C693D /* DS_Map.h in Headers */,
+				E0980EDC1B04DE0F002C693D /* b2CircleContact.h in Headers */,
+				E0980EDD1B04DE0F002C693D /* lualib.h in Headers */,
+				E0980EDE1B04DE0F002C693D /* RakNetStatistics.h in Headers */,
+				E0980EDF1B04DE0F002C693D /* HTTPConnection.h in Headers */,
+				E0980EE01B04DE0F002C693D /* svgxval.h in Headers */,
+				E0980EE11B04DE0F002C693D /* LocklessTypes.h in Headers */,
+				E0980EE21B04DE0F002C693D /* ResourcesGroup.h in Headers */,
+				E0980EE31B04DE0F002C693D /* RakWString.h in Headers */,
+				E0980EE41B04DE0F002C693D /* b2Fixture.h in Headers */,
+				E0980EE51B04DE0F002C693D /* ConsoleServer.h in Headers */,
+				E0980EE61B04DE0F002C693D /* RakNetTransport2.h in Headers */,
+				E0980EE71B04DE0F002C693D /* DS_HuffmanEncodingTreeNode.h in Headers */,
+				E0980EE81B04DE0F002C693D /* DS_LinkedList.h in Headers */,
+				E0980EE91B04DE0F002C693D /* LogCommandParser.h in Headers */,
+				E0980EEA1B04DE0F002C693D /* ftcache.h in Headers */,
+				E0980EEB1B04DE0F002C693D /* b2MotorJoint.h in Headers */,
+				E0980EEC1B04DE0F002C693D /* ResourcesManager.h in Headers */,
+				E0980EED1B04DE0F002C693D /* Screen.h in Headers */,
+				E0980EEE1B04DE0F002C693D /* ftmoderr.h in Headers */,
+				E0980EEF1B04DE0F002C693D /* Iterator.h in Headers */,
+				E0980EF01B04DE0F002C693D /* ELuaState.h in Headers */,
+				E0980EF11B04DE0F002C693D /* WavLoader.h in Headers */,
+				E0980EF21B04DE0F002C693D /* tttags.h in Headers */,
+				E0980EF31B04DE0F002C693D /* ftglyph.h in Headers */,
+				E0980EF41B04DE0F002C693D /* ELuaScript.h in Headers */,
+				E0980EF51B04DE0F002C693D /* b2RevoluteJoint.h in Headers */,
+				E0980EF61B04DE0F002C693D /* RakNetSocket2.h in Headers */,
+				E0980EF71B04DE0F002C693D /* BatchingMesh.h in Headers */,
+				E0980EF81B04DE0F002C693D /* svpscmap.h in Headers */,
+				E0980EF91B04DE0F002C693D /* b2ChainAndCircleContact.h in Headers */,
+				E0980EFA1B04DE0F002C693D /* Sprite.h in Headers */,
+				E0980EFB1B04DE0F002C693D /* NetworkIDManager.h in Headers */,
+				E0980EFC1B04DE0F002C693D /* b2Body.h in Headers */,
+				E0980EFD1B04DE0F002C693D /* NativeTypes.h in Headers */,
+				E0980EFE1B04DE0F002C693D /* Table.h in Headers */,
+				E0980EFF1B04DE0F002C693D /* Easy2DLua.h in Headers */,
+				E0980F001B04DE0F002C693D /* svtteng.h in Headers */,
+				E0980F011B04DE0F002C693D /* DS_HuffmanEncodingTree.h in Headers */,
+				E0980F021B04DE0F002C693D /* DataCompressor.h in Headers */,
+				E0980F031B04DE0F002C693D /* Texture.h in Headers */,
+				E0980F041B04DE0F002C693D /* GetTime.h in Headers */,
+				E0980F051B04DE0F002C693D /* ftxf86.h in Headers */,
+				E0980F061B04DE0F002C693D /* ftrfork.h in Headers */,
+				E0980F071B04DE0F002C693D /* ftrender.h in Headers */,
+				E0980F081B04DE0F002C693D /* CCRakNetUDT.h in Headers */,
+				E0980F091B04DE0F002C693D /* PacketPriority.h in Headers */,
+				E0980F0A1B04DE0F002C693D /* NetworkIDObject.h in Headers */,
+				E0980F0B1B04DE0F002C693D /* Timer.h in Headers */,
+				E0980F0C1B04DE0F002C693D /* Gets.h in Headers */,
+				E0980F0D1B04DE0F002C693D /* fttrigon.h in Headers */,
+				E0980F0E1B04DE0F002C693D /* DS_MemoryPool.h in Headers */,
+				E0980F0F1B04DE0F002C693D /* ftgzip.h in Headers */,
+				E0980F101B04DE0F002C693D /* ftgasp.h in Headers */,
+				E0980F111B04DE0F002C693D /* Itoa.h in Headers */,
+				E0980F121B04DE0F002C693D /* NativeFeatureIncludes.h in Headers */,
+				E0980F131B04DE0F002C693D /* b2Rope.h in Headers */,
+				E0980F141B04DE0F002C693D /* fttypes.h in Headers */,
+				E0980F151B04DE0F002C693D /* ftpic.h in Headers */,
+				E0980F161B04DE0F002C693D /* Types.h in Headers */,
+				E0980F171B04DE0F002C693D /* Parallax.h in Headers */,
+				E0980F181B04DE0F002C693D /* ftimage.h in Headers */,
+				E0980F191B04DE0F002C693D /* DynDNS.h in Headers */,
+				E0980F1A1B04DE0F002C693D /* Rand.h in Headers */,
+				E0980F1B1B04DE0F002C693D /* b2TimeStep.h in Headers */,
+				E0980F1C1B04DE0F002C693D /* Utility.h in Headers */,
+				E0980F1D1B04DE0F002C693D /* DirectoryDeltaTransfer.h in Headers */,
+				E0980F1E1B04DE0F002C693D /* Image.h in Headers */,
+				E0980F1F1B04DE0F002C693D /* svotval.h in Headers */,
+				E0980F201B04DE0F002C693D /* svpostnm.h in Headers */,
+				E0980F211B04DE0F002C693D /* ftotval.h in Headers */,
+				E0980F221B04DE0F002C693D /* ftdebug.h in Headers */,
+				E0980F231B04DE0F002C693D /* SoundEmitterAL.h in Headers */,
+				E0980F241B04DE0F002C693D /* ftlist.h in Headers */,
+				E0980F251B04DE0F002C693D /* StaticBufferAL.h in Headers */,
+				E0980F261B04DE0F002C693D /* lodepng.h in Headers */,
+				E0980F271B04DE0F002C693D /* FileListTransferCBInterface.h in Headers */,
+				E0980F281B04DE0F002C693D /* Math3D_SSE2.h in Headers */,
+				E0980F291B04DE0F002C693D /* pshints.h in Headers */,
+				E0980F2A1B04DE0F002C693D /* RefCountedPtr.h in Headers */,
+				E0980F2B1B04DE0F002C693D /* FileListTransfer.h in Headers */,
+				E0980F2C1B04DE0F002C693D /* RakNetSmartPtr.h in Headers */,
+				E0980F2D1B04DE0F002C693D /* DS_ByteQueue.h in Headers */,
+				E0980F2E1B04DE0F002C693D /* Audio.h in Headers */,
+				E0980F2F1B04DE0F002C693D /* PacketLogger.h in Headers */,
+				E0980F301B04DE0F002C693D /* b2PulleyJoint.h in Headers */,
+				E0980F311B04DE0F002C693D /* b2TimeOfImpact.h in Headers */,
+				E0980F321B04DE0F002C693D /* DS_Tree.h in Headers */,
+				E0980F331B04DE0F002C693D /* _FindFirst.h in Headers */,
+				E0980F341B04DE0F002C693D /* b2Math.h in Headers */,
+				E0980F351B04DE0F002C693D /* ftlcdfil.h in Headers */,
+				E0980F361B04DE0F002C693D /* Constructor.h in Headers */,
+				E0980F371B04DE0F002C693D /* b2Island.h in Headers */,
+				E0980F381B04DE0F002C693D /* RakPeerInterface.h in Headers */,
+				E0980F391B04DE0F002C693D /* Scene.h in Headers */,
+				E0980F3A1B04DE0F002C693D /* lua.h in Headers */,
+				E0980F3B1B04DE0F002C693D /* t1types.h in Headers */,
+				E0980F3C1B04DE0F002C693D /* State.h in Headers */,
+				E0980F3D1B04DE0F002C693D /* OpenGLiOS.h in Headers */,
+				E0980F3E1B04DE0F002C693D /* EStack.h in Headers */,
+				E0980F3F1B04DE0F002C693D /* b2Collision.h in Headers */,
+				E0980F401B04DE0F002C693D /* AppiOS.h in Headers */,
+				E0980F411B04DE0F002C693D /* svprop.h in Headers */,
+				E0980F421B04DE0F002C693D /* StreamThreadAL.h in Headers */,
+				E0980F431B04DE0F002C693D /* Body.h in Headers */,
+				E0980F441B04DE0F002C693D /* GuiManager.h in Headers */,
+				E0980F451B04DE0F002C693D /* ftchapters.h in Headers */,
+				E0980F461B04DE0F002C693D /* NatPunchthroughServer.h in Headers */,
+				E0980F471B04DE0F002C693D /* ftcalc.h in Headers */,
+				E0980F481B04DE0F002C693D /* RakNetTime.h in Headers */,
+				E0980F491B04DE0F002C693D /* Script.h in Headers */,
+				E0980F4A1B04DE0F002C693D /* MutexConf.h in Headers */,
+				E0980F4B1B04DE0F002C693D /* DR_SHA1.h in Headers */,
+				E0980F4C1B04DE0F002C693D /* LuaRef.h in Headers */,
+				E0980F4D1B04DE0F002C693D /* FluidGrid.h in Headers */,
+				E0980F4E1B04DE0F002C693D /* b2GrowableStack.h in Headers */,
+				E0980F4F1B04DE0F002C693D /* ftcid.h in Headers */,
+				E0980F501B04DE0F002C693D /* MessageFilter.h in Headers */,
+				E0980F511B04DE0F002C693D /* StreamBufferAL.h in Headers */,
+				E0980F521B04DE0F002C693D /* b2StackAllocator.h in Headers */,
+				E0980F531B04DE0F002C693D /* ftbzip2.h in Headers */,
+				E0980F541B04DE0F002C693D /* BatchingColorMesh.h in Headers */,
+				E0980F551B04DE0F002C693D /* b2Settings.h in Headers */,
+				E0980F561B04DE0F002C693D /* RefStdCount.h in Headers */,
+				E0980F571B04DE0F002C693D /* svttglyf.h in Headers */,
+				E0980F581B04DE0F002C693D /* TypeTraits.h in Headers */,
+				E0980F591B04DE0F002C693D /* DS_ThreadsafeAllocatingQueue.h in Headers */,
+				E0980F5A1B04DE0F002C693D /* freetype.h in Headers */,
+				E0980F5B1B04DE0F002C693D /* b2PolygonShape.h in Headers */,
+				E0980F5C1B04DE0F002C693D /* Sound.h in Headers */,
+				E0980F5D1B04DE0F002C693D /* ThreadConf.h in Headers */,
+				E0980F5E1B04DE0F002C693D /* Panel.h in Headers */,
+				E0980F5F1B04DE0F002C693D /* RakSleep.h in Headers */,
+				E0980F601B04DE0F002C693D /* b2DynamicTree.h in Headers */,
+				E0980F611B04DE0F002C693D /* ftmemory.h in Headers */,
+				E0980F621B04DE0F002C693D /* ftobjs.h in Headers */,
+				E0980F631B04DE0F002C693D /* b2CircleShape.h in Headers */,
+				E0980F641B04DE0F002C693D /* TypeList.h in Headers */,
+				E0980F651B04DE0F002C693D /* svbdf.h in Headers */,
+				E0980F661B04DE0F002C693D /* NatPunchthroughClient.h in Headers */,
+				E0980F671B04DE0F002C693D /* Kbhit.h in Headers */,
+				E0980F681B04DE0F002C693D /* Stack.h in Headers */,
+				E0980F691B04DE0F002C693D /* fterrors.h in Headers */,
+				E0980F6A1B04DE0F002C693D /* RakAlloca.h in Headers */,
+				E0980F6B1B04DE0F002C693D /* b2Distance.h in Headers */,
+				E0980F6C1B04DE0F002C693D /* autohint.h in Headers */,
+				E0980F6D1B04DE0F002C693D /* lua.hpp in Headers */,
+				E0980F6E1B04DE0F002C693D /* b2WeldJoint.h in Headers */,
+				E0980F6F1B04DE0F002C693D /* ftadvanc.h in Headers */,
+				E0980F701B04DE0F002C693D /* Mutex.h in Headers */,
+				E0980F711B04DE0F002C693D /* DS_Heap.h in Headers */,
+				E0980F721B04DE0F002C693D /* NatTypeDetectionServer.h in Headers */,
+				E0980F731B04DE0F002C693D /* IncrementalReadInterface.h in Headers */,
+				E0980F741B04DE0F002C693D /* BitStream.h in Headers */,
+				E0980F751B04DE0F002C693D /* Thread.h in Headers */,
+				E0980F761B04DE0F002C693D /* Box2D.h in Headers */,
+				E0980F771B04DE0F002C693D /* ftincrem.h in Headers */,
+				E0980F781B04DE0F002C693D /* ftmodule.h in Headers */,
+				E0980F791B04DE0F002C693D /* Box2D.hpp in Headers */,
+				E0980F7A1B04DE0F002C693D /* RenderQueue.h in Headers */,
+				E0980F7B1B04DE0F002C693D /* b2DistanceJoint.h in Headers */,
+				E0980F7C1B04DE0F002C693D /* lauxlib.h in Headers */,
+				E0980F7D1B04DE0F002C693D /* Listener.h in Headers */,
+				E0980F7E1B04DE0F002C693D /* ParticleSystem.h in Headers */,
+				E0980F7F1B04DE0F002C693D /* ftvalid.h in Headers */,
+				E0980F801B04DE0F002C693D /* b2Contact.h in Headers */,
+				E0980F811B04DE0F002C693D /* EmailSender.h in Headers */,
+				E0980F821B04DE0F002C693D /* b2FrictionJoint.h in Headers */,
+				E0980F831B04DE0F002C693D /* ftmm.h in Headers */,
+				E0980F841B04DE0F002C693D /* svxf86nm.h in Headers */,
+				E0980F851B04DE0F002C693D /* Memory.h in Headers */,
+				E0980F861B04DE0F002C693D /* RefCountedPtr.h in Headers */,
+				E0980F871B04DE0F002C693D /* AudioAL.h in Headers */,
+				E0980F881B04DE0F002C693D /* DS_OrderedList.h in Headers */,
+				E0980F891B04DE0F002C693D /* CommandParserInterface.h in Headers */,
+				E0980F8A1B04DE0F002C693D /* Label.h in Headers */,
+				E0980F8B1B04DE0F002C693D /* DS_Hash.h in Headers */,
+				E0980F8C1B04DE0F002C693D /* NatTypeDetectionCommon.h in Headers */,
+				E0980F8D1B04DE0F002C693D /* PacketizedTCP.h in Headers */,
+				E0980F8E1B04DE0F002C693D /* Base64Encoder.h in Headers */,
+				E0980F8F1B04DE0F002C693D /* DS_OrderedChannelHeap.h in Headers */,
+				E0980F901B04DE0F002C693D /* b2Draw.h in Headers */,
+				E0980F911B04DE0F002C693D /* b2Timer.h in Headers */,
+				E0980F921B04DE0F002C693D /* ScreeniOS.h in Headers */,
+				E0980F931B04DE0F002C693D /* internal.h in Headers */,
+				E0980F941B04DE0F002C693D /* ftwinfnt.h in Headers */,
+				E0980F951B04DE0F002C693D /* AutopatcherRepositoryInterface.h in Headers */,
+				E0980F961B04DE0F002C693D /* b2PolygonContact.h in Headers */,
+				E0980F971B04DE0F002C693D /* DS_WeightedGraph.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -2688,6 +3504,23 @@
 			productReference = E089991217AE56BE0063EAAC /* libEasy2D.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		E0980DDF1B04DE0F002C693D /* Easy2DEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E0980F981B04DE0F002C693D /* Build configuration list for PBXNativeTarget "Easy2DEditor" */;
+			buildPhases = (
+				E0980DE01B04DE0F002C693D /* Sources */,
+				E0980E2B1B04DE0F002C693D /* Frameworks */,
+				E0980E341B04DE0F002C693D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Easy2DEditor;
+			productName = Easy2D;
+			productReference = E0980F9B1B04DE0F002C693D /* libEasy2DEditor.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2715,6 +3548,7 @@
 			targets = (
 				E089991117AE56BE0063EAAC /* Easy2D */,
 				E03989E119FBFAF300079232 /* Easy2D-iOS */,
+				E0980DDF1B04DE0F002C693D /* Easy2DEditor */,
 			);
 		};
 /* End PBXProject section */
@@ -2882,6 +3716,87 @@
 				E0BEA34F1AB9BE6A00824182 /* Speaker.cpp in Sources */,
 				E064C21619BDE3FE00880CAF /* RenderContextOGL2.cpp in Sources */,
 				E0937D1D17B5483300DEFFCD /* State.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0980DE01B04DE0F002C693D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0980DE11B04DE0F002C693D /* AnimatedSprite.cpp in Sources */,
+				E0980DE21B04DE0F002C693D /* Label.cpp in Sources */,
+				E0980DE31B04DE0F002C693D /* StaticBufferAL.cpp in Sources */,
+				E0980DE41B04DE0F002C693D /* Application.cpp in Sources */,
+				E0980DE51B04DE0F002C693D /* BMFontLoader.cpp in Sources */,
+				E0980DE61B04DE0F002C693D /* Camera.cpp in Sources */,
+				E0980DE71B04DE0F002C693D /* CocoaApp.mm in Sources */,
+				E0980DE81B04DE0F002C693D /* CocoaInput.mm in Sources */,
+				E0980DE91B04DE0F002C693D /* BatchingMesh.cpp in Sources */,
+				E0980DEA1B04DE0F002C693D /* LuaBody.cpp in Sources */,
+				E0980DEB1B04DE0F002C693D /* Memory.cpp in Sources */,
+				E0980DEC1B04DE0F002C693D /* CocoaScreen.mm in Sources */,
+				E0980DED1B04DE0F002C693D /* Color.cpp in Sources */,
+				E0980DEE1B04DE0F002C693D /* Panel.cpp in Sources */,
+				E0980DEF1B04DE0F002C693D /* LuaState.cpp in Sources */,
+				E0980DF01B04DE0F002C693D /* Debug.cpp in Sources */,
+				E0980DF11B04DE0F002C693D /* Sound.cpp in Sources */,
+				E0980DF21B04DE0F002C693D /* FluidGrid.cpp in Sources */,
+				E0980DF31B04DE0F002C693D /* EString.cpp in Sources */,
+				E0980DF41B04DE0F002C693D /* ETime.cpp in Sources */,
+				E0980DF51B04DE0F002C693D /* Body.cpp in Sources */,
+				E0980DF61B04DE0F002C693D /* StreamThreadAL.cpp in Sources */,
+				E0980DF71B04DE0F002C693D /* Font.cpp in Sources */,
+				E0980DF81B04DE0F002C693D /* FrameSet.cpp in Sources */,
+				E0980DF91B04DE0F002C693D /* FreeTypeFontLoader.cpp in Sources */,
+				E0980DFA1B04DE0F002C693D /* MutexPOSIX.cpp in Sources */,
+				E0980DFB1B04DE0F002C693D /* RenderQueue.cpp in Sources */,
+				E0980DFC1B04DE0F002C693D /* Script.cpp in Sources */,
+				E0980DFD1B04DE0F002C693D /* GuiManager.cpp in Sources */,
+				E0980DFE1B04DE0F002C693D /* Game.cpp in Sources */,
+				E0980DFF1B04DE0F002C693D /* lodepng.cpp in Sources */,
+				E0980E001B04DE0F002C693D /* Input.cpp in Sources */,
+				E0980E011B04DE0F002C693D /* Component.cpp in Sources */,
+				E0980E021B04DE0F002C693D /* Math3D.cpp in Sources */,
+				E0980E031B04DE0F002C693D /* ParticleSystem.cpp in Sources */,
+				E0980E041B04DE0F002C693D /* Blend.cpp in Sources */,
+				E0980E051B04DE0F002C693D /* LuaMath3D.cpp in Sources */,
+				E0980E061B04DE0F002C693D /* Math3D_SSE2.cpp in Sources */,
+				E0980E071B04DE0F002C693D /* Mesh.cpp in Sources */,
+				E0980E081B04DE0F002C693D /* Object.cpp in Sources */,
+				E0980E091B04DE0F002C693D /* Render.cpp in Sources */,
+				E0980E0A1B04DE0F002C693D /* LuaEasy2D.cpp in Sources */,
+				E0980E0B1B04DE0F002C693D /* BatchingColorMesh.cpp in Sources */,
+				E0980E0C1B04DE0F002C693D /* ThreadPOSIX.cpp in Sources */,
+				E0980E0D1B04DE0F002C693D /* SoundEmitterAL.cpp in Sources */,
+				E0980E0E1B04DE0F002C693D /* AiffLoader.cpp in Sources */,
+				E0980E0F1B04DE0F002C693D /* Audio.cpp in Sources */,
+				E0980E101B04DE0F002C693D /* Renderable.cpp in Sources */,
+				E0980E111B04DE0F002C693D /* RenderState.cpp in Sources */,
+				E0980E121B04DE0F002C693D /* Resource.cpp in Sources */,
+				E0980E131B04DE0F002C693D /* EStack.cpp in Sources */,
+				E0980E141B04DE0F002C693D /* Image.cpp in Sources */,
+				E0980E151B04DE0F002C693D /* ResourcesGroup.cpp in Sources */,
+				E0980E161B04DE0F002C693D /* ResourcesManager.cpp in Sources */,
+				E0980E171B04DE0F002C693D /* Screen.cpp in Sources */,
+				E0980E181B04DE0F002C693D /* World.cpp in Sources */,
+				E0980E191B04DE0F002C693D /* Sprite.cpp in Sources */,
+				E0980E1A1B04DE0F002C693D /* StreamBufferAL.cpp in Sources */,
+				E0980E1B1B04DE0F002C693D /* Table.cpp in Sources */,
+				E0980E1C1B04DE0F002C693D /* Config.cpp in Sources */,
+				E0980E1D1B04DE0F002C693D /* Shader.cpp in Sources */,
+				E0980E1E1B04DE0F002C693D /* Button.cpp in Sources */,
+				E0980E1F1B04DE0F002C693D /* Parallax.cpp in Sources */,
+				E0980E201B04DE0F002C693D /* Texture.cpp in Sources */,
+				E0980E211B04DE0F002C693D /* Timer.cpp in Sources */,
+				E0980E221B04DE0F002C693D /* WavLoader.cpp in Sources */,
+				E0980E231B04DE0F002C693D /* LuaScript.cpp in Sources */,
+				E0980E241B04DE0F002C693D /* LuaRenderable.cpp in Sources */,
+				E0980E251B04DE0F002C693D /* Utility.cpp in Sources */,
+				E0980E261B04DE0F002C693D /* AudioAL.cpp in Sources */,
+				E0980E271B04DE0F002C693D /* Scene.cpp in Sources */,
+				E0980E281B04DE0F002C693D /* Speaker.cpp in Sources */,
+				E0980E291B04DE0F002C693D /* RenderContextOGL2.cpp in Sources */,
+				E0980E2A1B04DE0F002C693D /* State.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3091,6 +4006,59 @@
 			};
 			name = Release;
 		};
+		E0980F991B04DE0F002C693D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/dependencies-osx64/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"-DORDERED_TABLE",
+					"-DDISABLE_SIMD",
+					"-DUSE_LUA",
+				);
+				PRODUCT_NAME = Easy2DEditor;
+				SYMROOT = "$(PROJECT_DIR)/build";
+			};
+			name = Debug;
+		};
+		E0980F9A1B04DE0F002C693D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/dependencies-osx64/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = (
+					"-D_DEBUG",
+					"-DORDERED_TABLE",
+					"-DDISABLE_SIMD",
+					"-DUSE_LUA",
+				);
+				PRODUCT_NAME = Easy2DEditor;
+				SYMROOT = "$(PROJECT_DIR)/build";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3117,6 +4085,15 @@
 			buildConfigurations = (
 				E089991417AE56BE0063EAAC /* Debug */,
 				E089991517AE56BE0063EAAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0980F981B04DE0F002C693D /* Build configuration list for PBXNativeTarget "Easy2DEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0980F991B04DE0F002C693D /* Debug */,
+				E0980F9A1B04DE0F002C693D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

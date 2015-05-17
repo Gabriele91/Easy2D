@@ -111,7 +111,7 @@ public:
 
     unsigned long width;            ///< image width in pixels
     unsigned long height;           ///< image height in pixels
-    unsigned int type;				///< openGL image type...
+    unsigned int type;				///< OpenGL image type...
     unsigned int channels;			///< count bytes per pixel
     BYTE *bytes;					///< image data
     std::string name;               ///< image name
@@ -165,6 +165,8 @@ public:
     void decoderRLE(bool freebuffer=true);
     void convert32to24bit(bool freebuffer=true);
     void convertAlphaTo32bit(bool freebuffer=true);
+    void gammaCorrection();
+    void fastGammaCorrection();
     //scale image:
     void scale(unsigned int width,unsigned int height);
     static void scaleLine(BYTE *source,

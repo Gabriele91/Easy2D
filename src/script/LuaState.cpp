@@ -112,6 +112,7 @@ void LuaState::destroy()
 }
 
 
+/* LuaClass Class */
 LuaState::LuaClass::LuaClass(const String& argName,const String& argText)
     :classScript(LuaState::luaVM)
 {               
@@ -139,8 +140,6 @@ LuaState::LuaClass::LuaClass(const String& argName,const String& argText)
     //pop function
     lua_pop(LuaState::luaVM,1);
 }
-
-
 LuaState::LuaObject* LuaState::LuaClass::newObject()
 {
     auto newobj=new LuaState::LuaObject(LuaState::luaVM);
@@ -176,6 +175,7 @@ LuaState::LuaObject* LuaState::LuaClass::newObject()
     return newobj;
 }
 
+/* LuaObject Class */
 void LuaState::LuaObject::field(const String& var,LuaState::LuaRef& ref)
 {
     //get object
@@ -188,6 +188,46 @@ void LuaState::LuaObject::field(const String& var,LuaState::LuaRef& ref)
     lua_pop(LuaState::luaVM,2);
     
 }
+void LuaState::LuaObject::forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+                                                       const LuaState::LuaRef& key,
+                                                       const LuaState::LuaRef& value)> callback)
+{
+    //it
+    auto objIt= luabridge::Iterator(objectRef);
+    //for all
+    while(!objIt.isNil())  callback(objectRef,objIt.key(),objIt.value());
+}
+void LuaState::LuaObject::forAllValuesForAlltables(DFUNCTION<void (      LuaState::LuaRef& table,
+                                                                   const LuaState::LuaRef& key,
+                                                                   const LuaState::LuaRef& value)> callback)
+{
+    //for all
+    forAllValuesForAlltables_aux(objectRef,callback);
+}
+//get all values of all tables
+void LuaState::LuaObject::forAllValuesForAlltables_aux(LuaState::LuaRef& table,DFUNCTION<void (      LuaState::LuaRef& table,
+                                                                                               const LuaState::LuaRef& key,
+                                                                                               const LuaState::LuaRef& value)> callback)
+{
+    //it
+    auto objIt= luabridge::Iterator(table);
+    //for all
+    while(!objIt.isNil())
+    {
+        auto value=objIt.value();
+        //is a table?
+        if(objIt.value().isTable())
+        {
+            forAllValuesForAlltables_aux(value,callback);
+        }
+        //is a value
+        else
+        {
+            callback(table,objIt.key(),value);
+        }
+    }
+}
+
 //lua stack dump
 void LuaState::stackDump()
 {

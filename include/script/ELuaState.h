@@ -70,6 +70,7 @@ class LuaState
     static size_t classCount;
     //save a vm
     static lua_State* luaVM;
+    
 
     public:
     //
@@ -108,6 +109,20 @@ class LuaState
 		{
 			return objectRef[key];
 		}
+        //get all values
+        void forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+                                          const LuaState::LuaRef& key,
+                                          const LuaState::LuaRef& value)> callback);
+        //get all values of all tables
+        void forAllValuesForAlltables(DFUNCTION<void (      LuaState::LuaRef& table,
+                                                      const LuaState::LuaRef& key,
+                                                      const LuaState::LuaRef& value)> callback);
+    
+    private:
+        //get all values of all tables
+        static void forAllValuesForAlltables_aux(LuaState::LuaRef& table,DFUNCTION<void (        LuaState::LuaRef& table,
+                                                                                           const LuaState::LuaRef& key,
+                                                                                           const LuaState::LuaRef& value)> callback);
     };
     //script class
     class LuaClass

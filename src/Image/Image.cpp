@@ -649,6 +649,34 @@ void Image::convertAlphaTo32bit(bool freebuffer)
     //free alloc
     if(freebuffer) free(bytes8);
 }
+void Image::gammaCorrection()
+{
+    rgba  pixel;
+    
+    for (size_t x=0; x!= width ; ++x)
+        for (size_t y=0; y!= height ; ++y)
+        {
+            pixel=getPixel(x, y);
+            pixel.r = std::pow((float)pixel.r / 255.0f, 1.0f / 2.2f)*255.0f;
+            pixel.g = std::pow((float)pixel.g / 255.0f, 1.0f / 2.2f)*255.0f;
+            pixel.b = std::pow((float)pixel.b / 255.0f, 1.0f / 2.2f)*255.0f;
+            setPixel(x, y, pixel);
+        };
+}
+void Image::fastGammaCorrection()
+{
+    rgba  pixel;
+    
+    for (size_t x=0; x!= width ; ++x)
+        for (size_t y=0; y!= height ; ++y)
+        {
+            pixel=getPixel(x, y);
+            pixel.r = std::sqrt((float)pixel.r / 255.0f)*255.0f;
+            pixel.g = std::sqrt((float)pixel.g / 255.0f)*255.0f;
+            pixel.b = std::sqrt((float)pixel.b / 255.0f)*255.0f;
+            setPixel(x, y, pixel);
+        };
+}
 //
 void Image::scaleLine(BYTE *source,
                       int srcWidth,

@@ -49,10 +49,25 @@ class LuaScript :  public Component
             if(luaObject)
                 delete luaObject;
         }
+        
+        void forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+                                          const LuaState::LuaRef& key,
+                                          const LuaState::LuaRef& value)> callback)
+        {
+            luaObject->forAllValues(callback);
+        }
+        void forAllValuesForAlltables(DFUNCTION<void (      LuaState::LuaRef& table,
+                                                      const LuaState::LuaRef& key,
+                                                      const LuaState::LuaRef& value)> callback)
+        {
+            luaObject->forAllValuesForAlltables(callback);
+        }
     };
+    
     //list of objects
-    std::vector<ScriptObject::ptr> objects;
-
+    typedef std::vector<ScriptObject::ptr> VObjs;
+    VObjs objects;
+    
     public:
 
     LuaScript():Component()
@@ -86,6 +101,37 @@ class LuaScript :  public Component
 	//add lua script
 	int addScript(Script::ptr script);
 	int addScript(Script::ptr script,const Table& table);
+    //iterators
+    VObjs::iterator bigin()
+    {
+        return objects.begin();
+    }
+    VObjs::iterator end()
+    {
+        return objects.end();
+    }
+    VObjs::const_iterator bigin() const
+    {
+        return objects.begin();
+    }
+    VObjs::const_iterator end() const
+    {
+        return objects.end();
+    }
+    //for all values
+    void forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+                                      const LuaState::LuaRef& key,
+                                      const LuaState::LuaRef& value)> callback)
+    {
+        for(auto& obj:objects) obj->forAllValues(callback);
+    }
+    //for all values and sub tables
+    void forAllValuesForAllTables(DFUNCTION<void (      LuaState::LuaRef& table,
+                                                  const LuaState::LuaRef& key,
+                                                  const LuaState::LuaRef& value)> callback)
+    {
+        for(auto& obj:objects) obj->forAllValuesForAlltables(callback);
+    }
     //update
 	virtual void onSetScene(Scene* scene);
     virtual void onRun(float dt);
@@ -95,6 +141,7 @@ class LuaScript :  public Component
     //serialize/deserialize
     virtual void serialize(Table& table);
     virtual void deserialize(const Table& table);
+    
 
 };
 REGISTERED_COMPONENT(LuaScript,"LuaScript")
