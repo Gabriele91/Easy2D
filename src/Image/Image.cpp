@@ -568,44 +568,66 @@ void Image::swapRandBbits()
         bytes[i * channels + 2] = tmp;
     }
 }
+
 void Image::decoderRLE(bool freebuffer)
 {
     //bytes
-    BYTE *oldBuffer=(BYTE*)bytes;
-    BYTE *pCur=(BYTE*)bytes;
+    BYTE* old_buffer=(BYTE*)bytes;
+    BYTE* c_ptr=(BYTE*)bytes;
+    //new alloc
     bytes=(BYTE*)malloc(width * height * channels * sizeof(BYTE));
-    //loop data
-    unsigned long Index=0;
-    unsigned char bLength=0,bLoop=0;
-    size_t imgSize=(this->width*this->height*this->channels);
+    size_t img_size=(width*height*channels);
+    //utility
+    size_t i=0;
+    unsigned char len=0;
     // Decode
-    while(Index<imgSize)
+    while(i < img_size)
     {
-        if(*pCur & 0x80)
+        // 1XXX XXXX RLE chunk
+        if(*c_ptr & 0x80)
         {
-            // Run length chunk (High bit = 1)
-            bLength=*pCur-127; // Get run length
-            pCur++;            // Move to pixel data
-            // Repeat the next pixel bLength times
-            for(bLoop=0; bLoop!=bLength; ++bLoop,Index+=channels)
-                memcpy(&bytes[Index],pCur,channels);
-
-            pCur+=channels; // Move to the next descriptor chunk
+            //chunk [ LEN | PIXEL ]
+            
+            //length
+            len=*c_ptr - 127;
+            
+            //pixel
+            ++c_ptr;
+            
+            //copy
+            while (len)
+            {
+                memcpy(&bytes[i],c_ptr,channels);
+                --len;
+                i+=channels;
+            }
+            
+            //next chunk
+            c_ptr+=channels;
         }
+        // RAW chunk
         else
         {
-            // Raw chunk
-            bLength=*pCur+1; // Get run length
-            pCur++;          // Move to pixel data
-            // Write the next bLength pixels directly
-            for(bLoop=0; bLoop!=bLength; ++bLoop,Index+=channels,pCur+=channels)
-                memcpy(&bytes[Index],pCur,channels);
+            //chunk [ LEN | PIXEL | PIXEL |... ]
+            //length
+            len=*c_ptr + 1;
+            //pixel
+            ++c_ptr;
+            //copy
+            while (len)
+            {
+                memcpy(&bytes[i],c_ptr,channels);
+                --len;
+                i    +=channels;
+                c_ptr+=channels;
+            }
         }
     }
     //
-    if(freebuffer) free(oldBuffer);
+    if(freebuffer) free(old_buffer);
     //
 }
+
 void Image::convert32to24bit(bool freebuffer)
 {
     //if 32 bit?
@@ -760,12 +782,12 @@ void Image::scale(unsigned int newWidth,unsigned int newHeight)
     }
 }
 
-// openGL bite format
+// OpenGL bite format
 Image::BYTE& Image::pixel(Image::BYTE* bytes,int width,int x,int y,int c)
 {
     return bytes[(y*width+x)*3+c];
 }
-// openGL screen save
+// OpenGL screen save
 Image* Image::getImageFromScreen(int width,int height)
 {
     Image *out_img=new Image();
@@ -799,16 +821,19 @@ void Image::loadBuffer_TGA(Image* img,BYTE *buffer,size_t bfsize)
 
         img->bytes=(BYTE*)malloc(sizeImage);
         memcpy(img->bytes,dataImage,sizeImage);
-        if( tgaHeader->descriptor & 0x20 )//(vh flip bits) // 00vhaaaa
-            img->flipY();//v vertical flip
-        if( tgaHeader->descriptor & 0x10 )//(vh flip bits) // 00vhaaaa
-            img->flipX();//h flip
     }
     else  //RLE LOOK LIKE N[RGB] N-> numbers repeat value rgb
     {
         img->bytes=dataImage;
         img->decoderRLE(false);
     }
+    //defult TGA olready flipped (Y origin is inverse compared to OpenGL)
+    if( !(tgaHeader->descriptor & 0x20) )//(vh flip bits) // 00vhaaaa
+        img->flipY();//v flip
+    //
+    if( tgaHeader->descriptor & 0x10 )   //(vh flip bits) // 00vhaaaa
+        img->flipX();//h flip
+    
     if(tgaHeader->bits==16)
     {
         img->channels=3;

@@ -175,6 +175,8 @@ bool Texture::load()
     spriteHeight=0;
     //offset?
     bool textureUVOffset=false;
+    //enable gamma correction?
+    float gammaCorrection=false;
     //type of image
     if(rpath.getExtension()=="e2d")
     {
@@ -207,6 +209,9 @@ bool Texture::load()
             textureUVOffset=true;
             offsetUV=texInfo.getVector4D("uv",Vec4::ONE);
         }
+        //gamma correction
+        gammaCorrection=(((uint)texInfo.getFloat("gammaCorrection",(float)gammaCorrection))!=0);;
+
     }
     //load image
     {
@@ -219,6 +224,8 @@ bool Texture::load()
                            Image::getTypeFromExtetion(imagePath.getExtension()));
         if(bFlipVertical)
             image.flipY();
+        if(gammaCorrection)
+            image.gammaCorrection();
         //save width end height
         width=realWidth=image.width;
         height=realHeight=image.height;
@@ -253,14 +260,9 @@ bool Texture::load()
             offsetUV.w=(float)height/realHeight;
         }
     }
-//#ifdef OPENGL_ES AND ENABLE_SHADERS
-    //DEBUG_MESSAGE_IF(image.type==TYPE_ALPHA8,"WARRNING Texture: OpenGL ES not support alpha texture");
     if(image.type==TYPE_ALPHA8)
         image.convertAlphaTo32bit();
     uint type=image.type;
-//#else
- //   uint type= image.type== GL_ALPHA8 ? GL_ALPHA : image.type;
-//#endif
     //create texture
     loadFromBinaryData(image.bytes,
                        width,height,
