@@ -27,7 +27,7 @@ void RenderState::enableStates()
     else RenderContext::disableProgram();
     ///////////////////////////////////
     //set texture
-    rtexture->bind();
+    if(rtexture) rtexture->bind();
 }
 
 void RenderState::draw()
@@ -37,7 +37,7 @@ void RenderState::draw()
     enableStates();
     ///////////////////////////////////
     //draw mesh
-    rmesh->draw();
+    if(rmesh) rmesh->draw();
 }
 inline String cullToString(int cull)
 {

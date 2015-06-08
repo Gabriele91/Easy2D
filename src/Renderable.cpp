@@ -3,6 +3,7 @@
 #include <Resource.h>
 #include <ResourcesManager.h>
 #include <ResourcesGroup.h>
+#include <Object.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -13,6 +14,7 @@ Renderable::Renderable(Mesh::ptr rmesh,
                        bool visible)
     :RenderState()
     ,visible(visible)
+    ,canBatch(true)
 {
     setTexture(rtex);
     setMesh(rmesh);
@@ -27,7 +29,21 @@ bool Renderable::canBatching(Renderable *oldstate)
             cullmode==oldstate->cullmode&&
             color==oldstate->color;
 }
-
+//get box
+AABox2 Renderable::getBox()
+{
+    AABox2  box=getBaseBox();
+    Object* obj=getObject();
+    return canTransform() && obj ?
+           box.applay(obj->getGlobalMatrix()) :
+           box;
+}
+//get box
+AABox2 Renderable::getBaseBox()
+{
+    if(getMesh()) return getMesh()->getAABox();
+    return AABox2();
+}
 //serialize/deserialize
 void Renderable::serialize(Table& table)
 {
@@ -40,20 +56,28 @@ void Renderable::serialize(Table& table)
     if(getTexture())
 		rtable.set("texture", getTexture()->getName());
     if(getMesh())
-		rtable.set("mesh", getMesh()->getName());
-	//visible
-	rtable.set("visible", isVisible() ? "yes" : "no");
+        rtable.set("mesh", getMesh()->getName());
+    //visible
+    rtable.set("visible", isVisible() ? "yes" : "no");
+    //batch
+    rtable.set("canBatch", getCanBatch() ? "yes" : "no");
 }
 void Renderable::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
     //deserialize renderable
-	if (table.existsAsType("visible", Table::STRING))
-	{
-		if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
-		else hide();
-	}
+    if (table.existsAsType("visible", Table::STRING))
+    {
+        if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
+        else hide();
+    }
+    //batch
+    if (table.existsAsType("canBatch", Table::STRING))
+    {
+        setCanBatch(table.getString("canBatch", getCanBatch() ? "yes" : "no") != "no");
+    }
+    //material
     if(table.existsAsType("shader",Table::STRING))
     {
         auto rsmanager=table.getResourcesManager();

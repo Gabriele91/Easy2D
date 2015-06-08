@@ -35,15 +35,7 @@ Object::Object(const String& argname)
 Object::~Object()
 {
     //destory childs
-    for(auto obj : *this)
-    {
-        obj->parent=NULL;
-        if(obj->del)
-            delete obj;
-        else
-            obj->change();
-    }
-    childs.clear();
+    freeChilds();
     //destroy components
     for(auto cmp:components)
         delete cmp.second;
@@ -224,11 +216,11 @@ void Object::changeZ()
     }
 }
 //CHILDS
-bool Object::hasChild(Object *child)
+bool Object::hasChild(Object *child) const
 {
     return std::find(begin(),end(),child)!=end();
 }
-bool Object::hasChild(const String& name)
+bool Object::hasChild(const String& name) const
 {
     for(auto child:*this) 
         if(child->name==name) 
@@ -288,11 +280,24 @@ void Object::eraseChild(Object *child)
         child->change();
     }
 }
-size_t Object::countChilds()
+void Object::freeChilds()
+{
+    //destory childs
+    for(auto obj : *this)
+    {
+        obj->parent=NULL;
+        if(obj->del)
+            delete obj;
+        else
+            obj->change();
+    }
+    childs.clear();
+}
+size_t Object::countChilds() const
 {
     return childs.size();
 }
-size_t Object::depthChilds()
+size_t Object::depthChilds() const
 {
     size_t depth=0;
     for(auto achild:childs)

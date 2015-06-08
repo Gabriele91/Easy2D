@@ -957,6 +957,42 @@ void RenderContext::drawFillBox(const AABox2& aabox2,const Color& color)
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
     RenderContext::drawPrimitive(TRIANGLE_STRIP, 0, 4);
 }
+void RenderContext::drawBox(const OBBox2& box,const Color& color)
+{
+    //disable ibo/vbo
+    setClientState(true, false, false, false);
+    unbindIndexBuffer();
+    unbindVertexBuffer();
+    //draw
+    setColor(color);
+    const float vertices[]=
+    {
+        box.getCorner(3).x,box.getCorner(3).y,
+        box.getCorner(0).x,box.getCorner(0).y,
+        box.getCorner(2).x,box.getCorner(2).y,
+        box.getCorner(1).x,box.getCorner(1).y,
+    };
+    vertexPointer(2, GL_FLOAT, 0, vertices);
+    drawPrimitive(LINE_LOOP, 0, 4);
+}
+void RenderContext::drawFillBox(const OBBox2& box,const Color& color)
+{
+    //disable ibo/vbo
+    setClientState(true, false, false, false);
+    unbindIndexBuffer();
+    unbindVertexBuffer();
+    //draw
+    setColor(color);
+    const float vertices[]=
+    {
+        box.getCorner(3).x,box.getCorner(3).y,
+        box.getCorner(0).x,box.getCorner(0).y,
+        box.getCorner(2).x,box.getCorner(2).y,
+        box.getCorner(1).x,box.getCorner(1).y,
+    };
+    RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
+    RenderContext::drawPrimitive(TRIANGLE_STRIP, 0, 4);
+}
 void RenderContext::drawCircle(const Vec2& center,float radius,const Color& e2color)
 {
     const float segments = 32.0f;

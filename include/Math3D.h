@@ -156,6 +156,9 @@ public:
         return Degree(angle);
     }
     ///////////////////////////////////////////////////////////////////////////
+    float cos() const;
+    float sin() const;
+    ///////////////////////////////////////////////////////////////////////////
     float valueDegrees() const
     {
         return angle.valueDegrees();
@@ -1092,8 +1095,75 @@ public:
     }
     bool  isIntersection(const Vec2& point) const;
     bool  isIntersection(const AABox2& aabb2) const;
+    bool  isInside(const AABox2& point) const;
+    bool  isInside(const Vec2& point) const;
     AABox2 applay(const Matrix4x4& m4) const;
-
+};
+    
+class OBBox2
+{
+public:
+    //box
+    OBBox2()
+    {
+    }
+    //init box from aabb
+    OBBox2(const AABox2& aab)
+    {
+        set(aab);
+    }
+    //box init from vertex
+    OBBox2(const std::vector<Vec2>& points)
+    {
+        set(points);
+    }
+    //box init from aabb + angle
+    OBBox2(const Vec2& center,
+           const Vec2& size,
+           Angle angle)
+    {
+        set(center,size,angle);
+    }
+    //init obb
+    void set(const Vec2& center,
+             const Vec2& size,
+             Angle angle);
+    //from aabb
+    void set(const AABox2& aabox);
+    //from points
+    void set(const std::vector<Vec2>& points);
+    //applay transform
+    OBBox2 applay(const Matrix4x4& m4) const;
+    //Intersection
+    bool  isIntersection(const Vec2& point) const;
+    bool  isIntersection(const OBBox2& obb) const;
+    bool  isIntersection(const AABox2& aab) const;
+    //corner
+    Vec2 getCorner(uchar i) const
+    {
+        return corner[i];
+    }
+    
+private:
+    
+    
+    // Corners of the box, where 0 is the lower left
+    Vec2         corner[4];
+    // Two edges of the box extended away from corner[0]
+    Vec2         axis[2];
+    /// origin[a] = corner[0].dot(axis[a]);
+    float       origin[2];
+    //compute axes
+    void computeAxes();
+    //compute intersecation
+    bool intersection1Way(const OBBox2& other) const;
+    //aux for minimize problem
+    static void calc2DCov(const std::vector<Vec2>& points,
+                          Vec2& centroid,
+                          Mat4& cov2);
+    static void calcEigenVectors2D(const Mat4& cov2,
+                                   Vec2& v1,
+                                   Vec2& v2);
 };
 ///////////////////////////////////////////////////////////////////////////
 struct Transform2D

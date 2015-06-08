@@ -60,14 +60,15 @@ class Object
     }
     void forceTransform(const Transform2D& tr2d,bool global=false);
     //childs
-    bool hasChild(Object *child);
-    bool hasChild(const String& name);
+    bool hasChild(Object *child) const;
+    bool hasChild(const String& name) const;
     Object* addChild(Object *child,bool ptrdelete=true);
     Object* addChild(Object *child,int parentMode,bool ptrdelete=true);
     void eraseChild(Object *child);
     void setParentMode(int type);
-    size_t countChilds();
-    size_t depthChilds();
+    void freeChilds();
+    size_t countChilds() const;
+    size_t depthChilds() const;
     //
     Vector2D getScale(bool global=false);
     Vector2D getPosition(bool global=false);

@@ -154,7 +154,9 @@ void AnimatedSprite::serialize(Table& table)
     //serialize render state
 	rsSerialize(table);
 	//visible
-	table.set("visible", isVisible() ? "yes" : "no");
+    table.set("visible", isVisible() ? "yes" : "no");
+    //batch
+    table.set("canBatch", getCanBatch() ? "yes" : "no");
     //shader
     if(getShader())
         table.set("shader",getShader()->getName());
@@ -190,7 +192,12 @@ void AnimatedSprite::deserialize(const Table& table)
 	{
 		if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
 		else hide();
-	}
+    }
+    //batch
+    if (table.existsAsType("canBatch", Table::STRING))
+    {
+        setCanBatch(table.getString("canBatch", getCanBatch() ? "yes" : "no") != "no");
+    }
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {

@@ -6,7 +6,7 @@
 #include <Resource.h>
 #include <Texture.h>
 #include <Color.h>
-
+#include <vector>
 namespace Easy2D
 {
 
@@ -91,7 +91,7 @@ private:
     {
         kerningPairs[AssociativeChars(k1,k2)]=amount;
     }
-    int getKerningPairs(uint k1,uint k2)
+    int getKerningPairs(uint k1,uint k2) const
     {
         AssociativeChars pairs(k1,k2);
         MAPKerningPairs::const_iterator it=kerningPairs.find(pairs);
@@ -115,14 +115,14 @@ private:
     {
         characters[charName]=character;
     }
-    Character* getCharacter(int c)
+    Character* getCharacter(int c) const
     {
         auto it=characters.find(c);
         if(it!=characters.end())
             return it->second;
         return NULL;
     }
-    void drawListCharArray(int page,float *xyUV0,float *xyUV2,int size);
+    void drawListCharArray(int page,float *xyUV0,float *xyUV2,int size) const;
     //friend class
     friend class FreeTypeFontLoader;
     friend class BMFontLoader;
@@ -141,10 +141,27 @@ public:
     void text(const Vec2& pos,
               const String& textDraw,
               const Color& color=Color(255,255,255,255),
-              bool kerning=true);
+              bool kerning=true) const;
+    //create mesh
+    void mesh( const String& textDraw, bool kerning=true) const;
+    //gen mesh
+    struct NodeText
+    {
+        Mesh::ptr mesh;
+        Texture::ptr texture;
+    };
+    std::vector< NodeText > genStaticText(const String& textDraw,bool kerning=true) const;
     //text size
-    Vec2 textSize( const String& textDraw,bool kerning=true);
-
+    Vec2 textSize( const String& textDraw,bool kerning=true ) const;
+    //select a char
+    struct InfoSelection
+    {
+        long   index;
+        AABox2 box;
+    };
+    InfoSelection select( const Vec2& point, const Vec2& pos, const String& textDraw, bool kerning=true ) const;
+    //get char pos
+    AABox2 getCharPosition2D(int index,  const String& textDraw, bool kerning=true ) const;
 };
 
 };

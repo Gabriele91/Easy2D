@@ -3,6 +3,7 @@
 
 #include <Config.h>
 #include <Mesh.h>
+#include <Math3D.h>
 #include <Component.h>
 #include <RenderState.h>
 #include <Blend.h>
@@ -15,7 +16,8 @@ class Renderable : public Component,
 {
     
     bool visible;
-
+    bool canBatch;
+    
 public:
 
     Renderable(Mesh::ptr rmesh=nullptr,
@@ -25,12 +27,16 @@ public:
     virtual bool canBatching(Renderable *oldstate);
     virtual bool doBatching()
     {
-        return true && (!getMesh() || getMesh()->supportBatching());
+        return canBatch && (!getMesh() || getMesh()->supportBatching());
     }
     virtual bool canTransform()
     {
         return true;
     }
+    //get box
+    virtual AABox2 getBox();
+    //get base box
+    virtual AABox2 getBaseBox();
     //other...
     DFORCEINLINE bool isVisible() const
     {
@@ -43,6 +49,14 @@ public:
     DFORCEINLINE void hide()
     {
         visible=false;
+    }
+    DFORCEINLINE bool getCanBatch()
+    {
+        return canBatch;
+    }
+    DFORCEINLINE void setCanBatch(bool batch)
+    {
+        canBatch=batch;
     }
     //component
     ADD_COMPONENT_METHOS(Renderable)

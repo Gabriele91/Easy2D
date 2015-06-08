@@ -31,22 +31,25 @@ void RenderQueue::append(Object* obj)
     //is randerable
     auto rable=obj->getComponent<Renderable>();
     if(rable && !rable->isVisible()) return;
-    
     //draw randerable
-    if(rable && rable->getMesh())
+    if(rable) // && rable->getMesh()
     {
-        ////////////////////////////////////////////////////////////////////////
-        //CULLING (SLOW)
         //get box
-        const AABox2& box=rable->getMesh()->getAABox();
-        const AABox2& mbox=rable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
-        //applay camera/display matrix to obj box
-        const Mat4    vdm4=RenderContext::getDisplay().mul(render->getCamera()->getGlobalMatrix());
-        const AABox2& wbox=mbox.applay(vdm4);
-        ////////////////////////////////////////////////////////////////////////
-        //culling
-		if (render->getCamera()->getBoxViewport().isIntersection(wbox))
-			push(obj);
+        const AABox2& mbox =rable->getBox();
+        const Vec2&   msize=mbox.getSize();
+        //
+        if( msize.x > 0.0f && msize.y >0.0f )
+        {
+            ////////////////////////////////////////////////////////////////////////
+            //CULLING (SLOW)
+            //applay camera/display matrix to obj box
+            const Mat4    vdm4=RenderContext::getDisplay().mul(render->getCamera()->getGlobalMatrix());
+            const AABox2& wbox=mbox.applay(vdm4);
+            ////////////////////////////////////////////////////////////////////////
+            //culling
+            if (render->getCamera()->getBoxViewport().isIntersection(wbox))
+                push(obj);
+        }
     }
     //childs
     for(auto child:*obj) append(child);

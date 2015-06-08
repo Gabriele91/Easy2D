@@ -370,6 +370,8 @@ void FluidGrid::serialize(Table& table)
     Table& rfgrid=table;
     //serialize render state
     rsSerialize(rfgrid);
+    //visible
+    rfgrid.set("visible", isVisible() ? "yes" : "no");
     //serialize shader
     if(getShader())
         table.set("shader",getShader()->getName());
@@ -385,6 +387,12 @@ void FluidGrid::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
+    //visible
+    if (table.existsAsType("visible", Table::STRING))
+    {
+        if( table.getString("visible", isVisible() ? "yes" : "no") != "no" ) show();
+        else hide();
+    }
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {
@@ -571,6 +579,8 @@ void FluidMesh::serialize(Table& table)
     Table& rfgrid=table;
     //serialize render state
     rsSerialize(rfgrid);
+    //visible
+    rfgrid.set("visible", isVisible() ? "yes" : "no");
     //serialize shader
     if(getShader())
         table.set("shader",getShader()->getName());
@@ -586,6 +596,12 @@ void FluidMesh::deserialize(const Table& table)
 {
     //deserialize rander state
     rsDeserialize(table);
+    //visible
+    if (table.existsAsType("visible", Table::STRING))
+    {
+        if( table.getString("visible", isVisible() ? "yes" : "no") != "no" ) show();
+        else hide();
+    }
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {

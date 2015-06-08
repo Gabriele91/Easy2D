@@ -41,7 +41,7 @@ public:
         ,cullmode(BACK)
     {}
     //draw
-    void draw();
+    virtual void draw();
     //enable setting (no draw)
     void enableStates();
     //

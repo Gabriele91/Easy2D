@@ -338,6 +338,8 @@ class RenderContext
     //utilities
     static void drawBox(const AABox2& box,const Color& color);
     static void drawFillBox(const AABox2& box,const Color& color);
+    static void drawBox(const OBBox2& box,const Color& color);
+    static void drawFillBox(const OBBox2& box,const Color& color);
     static void drawCircle(const Vec2& pos,float r,const Color& color);
     static void drawFillCircle(const Vec2& pos,float r,const Color& color);
     static void drawLine(const Vec2& v1,const Vec2& v2,const Color& color);
