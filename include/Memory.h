@@ -21,11 +21,20 @@ namespace Easy2D
 		typedef DS_PTR<T> ptr;
 		//define weak ptr
 		typedef DW_PTR<T> wptr;
+		//define unique ptr
+		typedef DU_PTR<T> uptr;
 		//return shared 
-		//ptr getSharedPtr()
-		//{
-		//	return shared_from_this();
-		//}
+		template< class... Args >
+		static inline ptr snew(Args ...args)
+		{
+			return std::make_shared<T>(args...);
+		}
+		//return unique 
+		template< class... Args >
+		static inline uptr unew(Args ...args)
+		{
+			return std::make_unique<T>(args...);
+		}
 	};
 
 	void* malloc(size_t size);

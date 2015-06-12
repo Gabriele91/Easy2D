@@ -131,12 +131,13 @@ public:
 
     //costructor
     Font(ResourcesManager<Font> *rsmr,const String& path);
+	virtual ~Font();
     //load methods
     virtual bool load();
     virtual bool unload();
     //getters
-    int size();
-    const String& getFontName();
+	int size() const;
+    const String& getFontName() const;
     //other methods
     void text(const Vec2& pos,
               const String& textDraw,

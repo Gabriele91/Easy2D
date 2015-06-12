@@ -58,6 +58,8 @@
 #include <Render.h>
 #include <Scene.h>
 //gui
+#ifndef DISABLE_E2D_UI
 #include <Gui.h>
+#endif
 
 #endif

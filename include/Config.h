@@ -292,6 +292,7 @@ namespace std
 #define DNOSTDHASH hash
 #define DS_PTR std::shared_ptr
 #define DW_PTR std::weak_ptr
+#define DU_PTR std::unique_ptr
 #elif defined(DCPP_X0)
 #include <tr1/unordered_map>
 #include <tr1/functional>
@@ -303,6 +304,7 @@ namespace std
 #define DNOSTDHASH tr1::hash
 #define DS_PTR std::tr1::shared_ptr
 #define DW_PTR std::tr1::weak_ptr
+#define DU_PTR std::tr1::unique_ptr
 #endif
 
 #if defined( SIMD_SSE2 ) || defined( SIMD_SSE )

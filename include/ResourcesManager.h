@@ -65,7 +65,7 @@ public:
         if(it!=rsMap.end())
             return it->second.lock();
 
-        return NULL;
+        return nullptr;
     }
     DS_PTR<T> get(const String &objectname)
     {
@@ -78,7 +78,7 @@ public:
         if(path!=String::NONE /* void string */)
         {
             //
-            DS_PTR<T> resource(new T(this,mapResources->getPath().getDirectory()+"/"+path));
+            DS_PTR<T> resource=T::snew(this,mapResources->getPath().getDirectory()+"/"+path);
             //set into map
             rsMap[objectname]=resource;
             resource->Resource<T>::setName(objectname);

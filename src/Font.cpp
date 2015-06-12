@@ -21,6 +21,11 @@ Font::Font(ResourcesManager<Font> *rsmr,const String& path)
     ,fontSize(0)
     ,isBMFont(false)
 {}
+Font::~Font()
+{
+	//release resource
+	release();
+}
 //load methods
 bool Font::load()
 {
@@ -66,11 +71,11 @@ bool Font::unload()
     return true;
 }
 //getters
-int Font::size()
+int Font::size() const
 {
     return fontSize;
 }
-const String& Font::getFontName()
+const String& Font::getFontName() const
 {
     return fontName;
 }

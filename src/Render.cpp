@@ -97,7 +97,7 @@ void Render::init()
 {
 	/////////////////////////////////////////////////////////////////////
 	//QUEUE 
-	queue = RenderQueue::ptr(new RenderQueue(this));
+	queue = RenderQueue::snew(this);
 	/////////////////////////////////////////////////////////////////////
 	//BATCH BUFFER
 	auto mesh=new BatchingMesh();
@@ -105,7 +105,7 @@ void Render::init()
 	batchingMesh = Mesh::ptr((Mesh*)mesh);
 	/////////////////////////////////////////////////////////////////////
 	//POST EFFECT
-	if (!effects)  effects = PostEffects::ptr(new PostEffects);
+	if (!effects)  effects = PostEffects::snew();
 
 }
 //called from scene

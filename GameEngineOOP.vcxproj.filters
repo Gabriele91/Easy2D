@@ -314,9 +314,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Config.h">
-      <Filter>File di intestazione</Filter>
-    </ClInclude>
     <ClInclude Include="include\Object.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
@@ -590,6 +587,9 @@
     </ClInclude>
     <ClInclude Include="include\script\RefStdCount.h">
       <Filter>File di intestazione\script</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Config.h">
+      <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
