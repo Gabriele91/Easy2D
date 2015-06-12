@@ -71,7 +71,7 @@ float Vector2D::length() const
 }
 Radian Vector2D::direction() const
 {
-    return Radian(std::atan2f(y,x));
+    return Radian(std::atan2(y,x));
 }
 float Vector2D::cross(const Vector2D& vec) const
 {
@@ -287,7 +287,7 @@ AABox2 AABox2::applay(const Matrix4x4& m4) const
     newbox.addPoint(left_up);
     newbox.addPoint(left_down);
     newbox.addPoint(right_up);
-    newbox.addPoint(right_down);  
+    newbox.addPoint(right_down);
 #else
     //size
     Vec2 hsize=(max-min)*.5;
@@ -316,15 +316,15 @@ void OBBox2::set(const Vec2& center, const Vec2& size, Angle angle)
     angle+=Angle::degree(90);
     Vec2 on_x( angle.cos(), angle.sin());
     Vec2 on_y(-on_x.y,      on_x.x);
-    
+
     on_x *= size.x * 0.5f;
     on_y *= size.y * 0.5f;
-    
+
     corner[0] = center - on_x - on_y;
     corner[1] = center + on_x - on_y;
     corner[2] = center + on_x + on_y;
     corner[3] = center - on_x + on_y;
- 
+
     computeAxes();
 }
 //from aabb
@@ -335,12 +335,12 @@ void OBBox2::set(const AABox2& aabox)
 #else
     const Vec2& size=aabox.getSize();
     const Vec2& center=aabox.getCenter();
-    
+
     corner[0] = center - size.x - size.y;
     corner[1] = center + size.x - size.y;
     corner[2] = center + size.x + size.y;
     corner[3] = center - size.x + size.y;
-    
+
     computeAxes();
 #endif
 }
@@ -375,7 +375,7 @@ void OBBox2::set(const std::vector<Vec2>& points)
                 min[i] = length;
         }
     }
-    
+
     // compute center, extents
     Vec2 center = centroid;
     Vec2 extents;
@@ -386,20 +386,20 @@ void OBBox2::set(const std::vector<Vec2>& points)
     }
     //set OBB
     set(center,extents,rotation);
-    
+
 }
 //applay transform
 OBBox2 OBBox2::applay(const Matrix4x4& m4) const
 {
     OBBox2 newbox(*this);
-    
+
     newbox.corner[0]=m4.mul2D(newbox.corner[0]);
     newbox.corner[1]=m4.mul2D(newbox.corner[1]);
     newbox.corner[2]=m4.mul2D(newbox.corner[2]);
     newbox.corner[3]=m4.mul2D(newbox.corner[3]);
-    
+
     newbox.computeAxes();
-    
+
     return newbox;
 }
 //intersection
@@ -416,7 +416,7 @@ bool  OBBox2::isIntersection(const Vec2& point) const
         for (uint c = 1; c != 4; ++c)
         {
             t = corner[c].dot(axis[a]);
-            
+
             if (t < tMin)
             {
                 tMin = t;
@@ -445,10 +445,10 @@ void OBBox2::computeAxes()
 {
     axis[0] = corner[1] - corner[0];
     axis[1] = corner[3] - corner[0];
-    
+
     // Make the length of each axis 1/edge length so we know any
     // dot product must be less than 1 to fall within the edge.
-    
+
     for (int a = 0; a < 2; ++a)
     {
         axis[a] /= axis[a].squaredLength();
@@ -460,17 +460,17 @@ bool OBBox2::intersection1Way(const OBBox2& other) const
 {
     for (uint a = 0; a != 2; ++a)
     {
-        
+
         float t = other.corner[0].dot(axis[a]);
-        
+
         // Find the extent of box 2 on axis a
         float tMin = t;
         float tMax = t;
-        
+
         for (uint c = 1; c != 4; ++c)
         {
             t = other.corner[c].dot(axis[a]);
-            
+
             if (t < tMin)
             {
                 tMin = t;
@@ -480,7 +480,7 @@ bool OBBox2::intersection1Way(const OBBox2& other) const
                 tMax = t;
             }
         }
-        
+
         // We have to subtract off the origin
         // See if [tMin, tMax] intersects [0, 1]
         if ((tMin > 1 + origin[a]) || (tMax < origin[a]))
@@ -488,7 +488,7 @@ bool OBBox2::intersection1Way(const OBBox2& other) const
             // the boxes cannot possibly overlap.
             return false;
     }
-    
+
     // There was no dimension along which there is no intersection.
     // Therefore the boxes overlap.
     return true;
@@ -498,7 +498,7 @@ void OBBox2::calc2DCov(const std::vector<Vec2>& points,  Vec2& centroid, Mat4& c
 {
     for(const Vec2& p:points) centroid+=p;
     if(points.size()>1) centroid/=points.size();
-    
+
     // compute the (co)variances
     Vec2 var;
     float covXY=0;
@@ -678,7 +678,7 @@ void Matrix4x4::zero()
 }
 float Matrix4x4::getDeterminant() const
 {
-    
+
     float a0 = entries[0] * entries[5] - entries[1] * entries[4];
     float a1 = entries[0] * entries[6] - entries[2] * entries[4];
     float a2 = entries[0] * entries[7] - entries[3] * entries[4];
@@ -691,7 +691,7 @@ float Matrix4x4::getDeterminant() const
     float b3 = entries[9] * entries[14] - entries[10] * entries[13];
     float b4 = entries[9] * entries[15] - entries[11] * entries[13];
     float b5 = entries[10] * entries[15] - entries[11] * entries[14];
-    
+
     // Calculate the determinant.
     return (a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0);
 }
@@ -700,13 +700,13 @@ Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const
 
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
     Matrix4x4 out_m4x4;
-    
+
     #ifdef _ARM_ARCH_7
         NEON_Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
     #else
         Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
     #endif
-    
+
     return out_m4x4;
 #elif defined( SIMD_SSE2 )
     Matrix4x4 out_m4x4;
@@ -739,13 +739,13 @@ Matrix4x4 Matrix4x4::mul2D(const Matrix4x4 &m4x4) const
 
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
     Matrix4x4 out_m4x4;
-    
+
     #ifdef _ARM_ARCH_7
         NEON_Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
     #else
         Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
     #endif
-    
+
     return out_m4x4;
 #elif defined( SIMD_SSE2 )
     Matrix4x4 out_m4x4;
@@ -797,17 +797,17 @@ Vector4D Matrix4x4::mul(const Vector4D &v4) const
 {
 #if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
     Vector4D out;
-    
+
     #ifdef _ARM_ARCH_7
         NEON_Matrix4Vector4Mul( this->entries, &v4.x, &out.x );
     #else
         Matrix4Vector4Mul(this->entries,&v4.x,&out.x);
     #endif
-    
+
 #elif defined( SIMD_SSE2 )
     Vector4D out;
     out.row=SSE2_lincomb(v4.row,*this);
-    
+
 #else
     Vector4D out;
 
@@ -816,7 +816,7 @@ Vector4D Matrix4x4::mul(const Vector4D &v4) const
     out.z=entries[2] * v4.x + entries[6] * v4.y + entries[10] * v4.z + entries[14] * v4.w;
     out.w=entries[3] * v4.x + entries[7] * v4.y + entries[11] * v4.z + entries[15] * v4.w;
 #endif
-    
+
     return out;
 }
 Vector2D Matrix4x4::mul2D(const Vector2D &v2) const
@@ -831,20 +831,20 @@ void Matrix4x4::inverse()
 {
 #if 0 //(TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
     Matrix4Invert(&(this->entries[0]),&(this->entries[0]));
-    
+
 #elif defined( SIMD_SSE2 )
     SSE2_Matrix4Inv(*this);
-    
+
 #else
     gluInvertMatrix(&(this->entries[0]),&(this->entries[0]));
-    
+
 #endif
 }
 void Matrix4x4::inverse2D()
 {
 #if 0 //(TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
     Matrix4Invert(&(this->entries[0]),&(this->entries[0]));
-    
+
 #else
     float det=entries[0]*entries[5]-entries[1]*entries[4];
     float tmp_entries_0=entries[0];
@@ -856,7 +856,7 @@ void Matrix4x4::inverse2D()
 
     entries[12]= (-(entries[0]*entries[12]))-entries[4]*entries[13];
     entries[13]= (-(entries[1]*entries[12]))-entries[5]*entries[13];
-    
+
 #endif
 }
 Matrix4x4 Matrix4x4::getInverse() const
@@ -864,15 +864,15 @@ Matrix4x4 Matrix4x4::getInverse() const
 #if 0 //(TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
     Matrix4x4 out;
     Matrix4Invert(&(entries[0]),&(out.entries[0]));
-    
+
 #elif defined( SIMD_SSE2 )
     Matrix4x4 out(*this);
     SSE2_Matrix4Inv(out);
-    
+
 #else
     Matrix4x4 out;
     gluInvertMatrix(&(entries[0]),&(out.entries[0]));
-    
+
 #endif
     return out;
 }
@@ -1248,7 +1248,7 @@ Vec3  Matrix4x4::getRotation() const
 {
     Vec3 r;
     r.x = std::asin(m12);
-    
+
     if(cos(r.x) != 0.f)
     {
         r.y = std::atan2(-m02, m22);
@@ -1259,7 +1259,7 @@ Vec3  Matrix4x4::getRotation() const
         r.y = 0.f;
         r.z = std::atan2(m01, m00);
     }
-    
+
     return r;
 }
 // x,y | alpha | sx,sy

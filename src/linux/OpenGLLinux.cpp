@@ -38,6 +38,8 @@ PFNGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT=NULL;
 PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT=NULL;
 PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT=NULL;
 PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT=NULL;
+//Blend
+PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate =NULL;
 //shader
 PFNGLENABLEVERTEXATTRIBARRAYPROC    glEnableVertexAttribArray=NULL;
 PFNGLVERTEXATTRIBPOINTERPROC       glVertexAttribPointer=NULL;
@@ -141,6 +143,9 @@ void Easy2D::initOpenGL2()
     DEBUG_ASSERT(glRenderbufferStorageEXT);
     glFramebufferRenderbufferEXT= (PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC)glXGetProcAddress((unsigned char *)"glFramebufferRenderbufferEXT");
     DEBUG_ASSERT(glFramebufferRenderbufferEXT);
+    //Blend
+	glBlendFuncSeparate=(PFNGLBLENDFUNCSEPARATEPROC) glXGetProcAddress((unsigned char *)"glBlendFuncSeparate");
+	DEBUG_ASSERT(glBlendFuncSeparate);
     //shader
     glCreateShader=(PFNGLCREATESHADERPROC)glXGetProcAddress((unsigned char *)"glCreateShader");
     DEBUG_ASSERT(glCreateShader);

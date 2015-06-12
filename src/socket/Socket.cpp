@@ -8,7 +8,7 @@
 	#include <winsock2.h>
 	#pragma comment( lib, "wsock32.lib" )
 	typedef int socklen_t;
-	#define PRINT_SOCKET_ERROR DEBUG_MESSAGE("Socket error: " << WSAGetLastError()); 
+	#define PRINT_SOCKET_ERROR DEBUG_MESSAGE("Socket error: " << WSAGetLastError());
 	#define NOBLOCK_PRINT_SOCKET_ERROR                           \
 	{                                                            \
 		int err = WSAGetLastError();                             \
@@ -17,15 +17,19 @@
 			DEBUG_MESSAGE("Socket error: " << WSAGetLastError());\
 		}                                                        \
 	}
-	
+
 #elif defined( PLATFORM_UNIX )
 
 	#include <sys/socket.h>
 	#include <netinet/in.h>
 	#include <fcntl.h>
+	#include <unistd.h>
 	#define PRINT_SOCKET_ERROR DEBUG_MESSAGE("Socket error: ..")
 	#define NOBLOCK_PRINT_SOCKET_ERROR  DEBUG_MESSAGE("Socket error: ..")
 	#define INVALID_SOCKET (-1)
+	#ifndef SOCKET_ERROR
+        #define SOCKET_ERROR -1
+	#endif
 
 #else
 
@@ -64,7 +68,7 @@ bool Socket::open(Type typeSocket)
 
 	if (socket <= 0)
 	{
-		DEBUG_MESSAGE("failed to create socket");	
+		DEBUG_MESSAGE("failed to create socket");
 		PRINT_SOCKET_ERROR;
 		socket = 0;
 		type = NONE;
@@ -100,7 +104,7 @@ bool Socket::enableBlocking()
 		return false;
 	}
 #endif
-	blockingMode = true; 
+	blockingMode = true;
 	return true;
 }
 
@@ -126,7 +130,7 @@ bool Socket::disableBlocking()
 		return false;
 	}
 #endif
-	blockingMode = false; 
+	blockingMode = false;
 	return true;
 }
 
@@ -178,7 +182,7 @@ Socket* Socket::accept(Address& client)
 
 	sockaddr_in from;
 	socklen_t fromLength = sizeof(from);
-	int csocket = ::accept(this->socket, 
+	int csocket = ::accept(this->socket,
 						  (struct sockaddr*)&from,
 						  &fromLength);
 	if (csocket != INVALID_SOCKET)
@@ -211,7 +215,7 @@ void Socket::close()
 	if (socket != 0)
 	{
 		#ifdef PLATFORM_UNIX
-				close(socket);
+        ::close(socket);
 		#elif defined( PLATFORM_WINDOW )
 		if (closesocket(socket) == SOCKET_ERROR)
 		{
@@ -251,10 +255,10 @@ bool Socket::sendTo(const Address & destination, const void * data, int size)
 	address.sin_addr.s_addr = htonl(destination.getAddress());
 	address.sin_port = htons((unsigned short)destination.getPort());
 
-	int sent_bytes = ::sendto(socket, (const char*)data, 
-									  size, 
-									  0, 
-									  (sockaddr*)&address, 
+	int sent_bytes = ::sendto(socket, (const char*)data,
+									  size,
+									  0,
+									  (sockaddr*)&address,
 									  sizeof(sockaddr_in));
 
 	return sent_bytes == size;
@@ -309,7 +313,7 @@ int Socket::receive(void * data, int size)
 
 	if (socket == 0)
 		return false;
-		
+
 	int received_bytes = recv(socket,(char*)data, size, 0);
 
 	if (received_bytes <= 0)

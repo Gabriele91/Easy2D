@@ -4,6 +4,12 @@
 #include <X11/Xatom.h>
 #include <X11/keysym.h>
 #include <X11/extensions/xf86vmode.h>
+#ifdef None
+    #define X11None 0L
+    #undef None
+    #else
+    #define X11None 0L
+#endif
 #include <GL/glx.h>
 #include <Config.h>
 #include <LinuxApp.h>

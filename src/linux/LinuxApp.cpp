@@ -4,6 +4,7 @@
 #include <LinuxApp.h>
 #include <LinuxScreen.h>
 #include <LinuxInput.h>
+#include <Game.h>
 #include <Audio.h>
 #include <AudioAL.h>
 #include <Debug.h>

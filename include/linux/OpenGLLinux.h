@@ -41,6 +41,8 @@ extern PFNGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT;
 extern PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT;
 extern PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
 extern PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT;
+//Blend
+extern PFNGLBLENDFUNCSEPARATEPROC glBlendFuncSeparate;
 //shader
 extern PFNGLENABLEVERTEXATTRIBARRAYPROC	    glEnableVertexAttribArray;
 extern PFNGLVERTEXATTRIBPOINTERPROC	        glVertexAttribPointer;
@@ -85,7 +87,7 @@ extern void initOpenGL2();
 	//VSYNC
 	#define wglSwapInterval wglSwapIntervalEXT
 	//FBO
-	#define glGenFramebuffers glGenFramebuffersEXT  
+	#define glGenFramebuffers glGenFramebuffersEXT
 	#define glDeleteFramebuffers glDeleteFramebuffersEXT
 	#define glBindFramebuffer glBindFramebufferEXT
 	#define glFramebufferTexture2D glFramebufferTexture2DEXT

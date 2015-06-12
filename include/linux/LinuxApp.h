@@ -3,7 +3,6 @@
 
 #include <Config.h>
 #include <Application.h>
-#include <Game.h>
 
 namespace Easy2D
 {

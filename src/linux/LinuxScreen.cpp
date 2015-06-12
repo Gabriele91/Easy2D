@@ -67,16 +67,16 @@ void LinuxScreen::__createGLXContext(uint bites,AntiAliasing dfAA)
                            GLX_DOUBLEBUFFER,                  //[3]
                            GLX_SAMPLE_BUFFERS  , 1,           //[4] [5] // <-- MSAA
                            GLX_SAMPLES         , dfAA,        //[6] [7] // <-- MSAA
-                           None
+                           X11None
                         };
     //no msaa
     if(dfAA<MSAAx2||dfAA>MSAAx64)
-        bufferOpenGL[4]=None;
+        bufferOpenGL[4]=X11None;
     //setup color map
     visual  = glXChooseVisual(display, screen,  bufferOpenGL );
     if (visual  == NULL)
     {
-        bufferOpenGL[3]=None;//diable GLX_DOUBLEBUFFER
+        bufferOpenGL[3]=X11None;//diable GLX_DOUBLEBUFFER
         visual  = glXChooseVisual(display, screen,  bufferOpenGL );
         doubleBuffered = false;
         DEBUG_MESSAGE("singlebuffered rendering will be used, no doublebuffering available");
@@ -115,7 +115,7 @@ void LinuxScreen::__createGLXContext(uint bites,AntiAliasing dfAA)
         {
             GLX_CONTEXT_MAJOR_VERSION_ARB, 1,  //[0] [1]
             GLX_CONTEXT_MINOR_VERSION_ARB, 4,  //[2] [3]
-            None
+            X11None
         };
         //create context
         context = glXCreateContextAttribsARB( display,
@@ -144,7 +144,7 @@ void LinuxScreen::__deleteGLXContext()
 
     DEBUG_ASSERT(context);
 
-    if( !glXMakeCurrent(display, None, NULL))
+    if( !glXMakeCurrent(display, X11None, NULL))
     {
         //delete context
         RenderContext::releaseContext();
@@ -212,10 +212,10 @@ void LinuxScreen::__createFullScreenWindow()
                            visual->visual,
                            CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect | CWOverrideRedirect,
                            &(winAttr));
-    XWarpPointer(display, None, window, 0, 0, 0, 0, 0, 0);
+    XWarpPointer(display, X11None, window, 0, 0, 0, 0, 0, 0);
     XMapRaised(display, window);
     XGrabKeyboard(display, window, 1, GrabModeAsync,GrabModeAsync, CurrentTime);
-    XGrabPointer(display, window, 1, ButtonPressMask,GrabModeAsync, GrabModeAsync, window, None, CurrentTime);
+    XGrabPointer(display, window, 1, ButtonPressMask,GrabModeAsync, GrabModeAsync, window, X11None, CurrentTime);
 }
 void LinuxScreen::__createWindow()
 {
@@ -250,7 +250,7 @@ void LinuxScreen::__createWindow()
                            window,
                            appname,
                            appname,
-                           None,
+                           X11None,
                            NULL,
                            0,
                            NULL);
@@ -408,7 +408,7 @@ void LinuxScreen::setCursor(bool show)
 */
 void LinuxScreen::setPositionCursor(const Vec2& pos)
 {
-    XWarpPointer(display, None, window, 0, 0, 0, 0, pos.x, pos.y);
+    XWarpPointer(display, X11None, window, 0, 0, 0, 0, pos.x, pos.y);
     XSync(display, False);
     XFlush(display);
 }

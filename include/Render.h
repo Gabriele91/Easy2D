@@ -22,7 +22,7 @@ class PostEffects;
 //effects
 class PostEffects : public Pointers<PostEffects>
 {
-    
+
     //friend class
     friend class Render;
     //model
@@ -31,11 +31,11 @@ class PostEffects : public Pointers<PostEffects>
     class Effect
     {
     public:
-    
+
         bool blend;
         uint bsrc,bdst;
         Shader::ptr shader;
-        
+
         //init effect
         Effect(Shader::ptr shader=nullptr)
         :blend(true)
@@ -65,15 +65,16 @@ class PostEffects : public Pointers<PostEffects>
         {
             return this->shader==shader;
         }
-    
+
     };
     //list of effects
     std::vector<Effect>   effects;
+
+
+public:
+
     //post effect costructor
     PostEffects();
-    
-public:
-    
     //post effect destructor
     ~PostEffects();
     //add shaders effect
@@ -114,7 +115,7 @@ public:
     {
         return effects.size()!=0;
     }
-    
+
 };
 
 //Render
@@ -141,7 +142,7 @@ protected:
     //draw
     void draw();
 	//init render
-	virtual void init(); 
+	virtual void init();
 
 public:
     //

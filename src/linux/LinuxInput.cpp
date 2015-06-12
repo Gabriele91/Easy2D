@@ -1,8 +1,7 @@
-#include <LinuxInput.h>
-#include <Input.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/keysymdef.h>
+#include <LinuxInput.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////

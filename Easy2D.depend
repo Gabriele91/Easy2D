@@ -3,6 +3,8 @@
 	<stdafx.h>
 	<Easy2D.h>
 
+1403765760 
+
 1368315118 /home/gabriele/github/Easy2D//stdafx.h
 	<Config.h>
 
@@ -47,10 +49,14 @@
 	<tr1/functional>
 	<tr1/memory>
 
+1375106792 y>
+
 1368315118 /home/gabriele/github/Easy2D/include/Types.h
 
 1368315118 /home/gabriele/github/Easy2D/include/window/OpenGLWindow.h
 	<gletx_header.h>
+
+1402937887 der.h>
 
 1370113448 /home/gabriele/github/Easy2D/include/Easy2D.h
 	<Config.h>
@@ -104,6 +110,8 @@
 	<EString.h>
 	<Utility.h>
 
+1402937887 >
+
 1368315118 /home/gabriele/github/Easy2D/include/Utility.h
 	<Config.h>
 	<EString.h>
@@ -114,6 +122,8 @@
 	<EString.h>
 	<Table.h>
 	<Resource.h>
+
+1402937887 h>
 
 1370113448 /home/gabriele/github/Easy2D/include/Table.h
 	<Config.h>
@@ -168,6 +178,8 @@
 	<Config.h>
 	<Application.h>
 
+1402937887 on.h>
+
 1368315118 /home/gabriele/github/Easy2D/include/Input.h
 	<Config.h>
 	<Debug.h>
@@ -186,6 +198,8 @@
 	<Renderable.h>
 	<RenderState.h>
 
+1403733967 te.h>
+
 1368315118 /home/gabriele/github/Easy2D/include/Camera.h
 	<Config.h>
 	<Object.h>
@@ -194,6 +208,8 @@
 	<Config.h>
 	<Camera.h>
 	<Renderable.h>
+
+1402937887 e.h>
 
 1370113448 /home/gabriele/github/Easy2D/include/Renderable.h
 	<Config.h>
@@ -312,9 +328,13 @@
 	<stdafx.h>
 	<ResourcesGroup.h>
 
+1403733967 Group.h>
+
 1368315118 source:/home/gabriele/github/Easy2D/src/ResourcesManager.cpp
 	<stdafx.h>
 	<ResourcesManager.h>
+
+1403278096 Manager.h>
 
 1368315118 source:/home/gabriele/github/Easy2D/src/Screen.cpp
 	<stdafx.h>
@@ -343,11 +363,15 @@
 	<iostream>
 	"lodepng.h"
 
+1402937887 "
+
 1370113449 source:/home/gabriele/github/Easy2D/src/Texture.cpp
 	<stdafx.h>
 	<Texture.h>
 	<Application.h>
 	"Image/Image.h"
+
+1402937887 ge.h"
 
 1368315118 /home/gabriele/github/Easy2D/src/Image/Image.h
 	<string>
@@ -412,8 +436,12 @@
 	<X11/keysym.h>
 	<X11/keysymdef.h>
 
+1402937887 mdef.h>
+
 1370113449 source:/home/gabriele/github/Easy2D/src/linux/LinuxScreen.cpp
 	<LinuxScreen.h>
+
+1402937887 en.h>
 
 1368315118 /home/gabriele/github/Easy2D/include/linux/OpenGLLinux.h
 	<GL/glx.h>
@@ -433,6 +461,8 @@
 1370113449 source:/home/gabriele/github/Easy2D/src/AnimatedSprite.cpp
 	<stdafx.h>
 	<AnimatedSprite.h>
+
+1402937887 prite.h>
 
 1370395174 source:c:\users\gabriele\documents\github\easy2d\main.cpp
 	<stdafx.h>
@@ -501,6 +531,8 @@
 	<EGL/egl.h>
 	<GLES/gl.h>
 	<GLES/glext.h>
+
+1402937887 t.h>
 
 1370107703 c:\users\gabriele\documents\github\easy2d\include\window\openglwindow.h
 	<gletx_header.h>
@@ -650,6 +682,8 @@
 	<Types.h>
 	"InputList.h"
 
+1402937887 .h"
+
 1378663686 c:\users\gabriele\documents\github\easy2d\include\object.h
 	<Config.h>
 	<Math3D.h>
@@ -711,6 +745,8 @@
 	<LinuxApp.h>
 	<AndroidApp.h>
 	<EmscriptenApp.h>
+
+1402937887 nApp.h>
 
 1388238051 c:\users\gabriele\documents\github\easy2d\include\window\windowsapp.h
 	<Config.h>
@@ -790,6 +826,8 @@
 	"Math2D_SSE2.h"
 	"Math2D_neon.h"
 	"Math2D_vfp.h"
+
+1402937887 p.h"
 
 1389171994 source:c:\users\gabriele\documents\github\easy2d\src\mesh.cpp
 	<stdafx.h>
@@ -893,6 +931,8 @@
 	<cstring>
 	"WGL_ARB_multisample.h"
 
+1378664172 ultisample.h"
+
 1369051820 c:\users\gabriele\documents\github\easy2d\src\window\wgl_arb_multisample.h
 	<windows.h>
 	<GL/gl.h>
@@ -914,11 +954,15 @@
 	<WindowsApp.h>
 	<WindowsInput.h>
 
+1370687737 put.h>
+
 1391439251 c:\users\gabriele\documents\github\easy2d\include\window\windowsinput.h
 	<Config.h>
 	<Math3D.h>
 	<Input.h>
 	<WindowsApp.h>
+
+1375038320 p.h>
 
 1391439200 source:c:\users\gabriele\documents\github\easy2d\src\window\windowsinput.cpp
 	"stdafx.h"
@@ -1313,6 +1357,8 @@
 	<stdafx.h>
 	"Math2D_SSE2.h"
 
+1402937887 E2.h"
+
 1375038320 source:/home/Gabriele/GitHub/Easy2D/src/ResourcesGroup.cpp
 	<stdafx.h>
 	<ResourcesGroup.h>
@@ -1463,6 +1509,8 @@
 	<BMFontLoader.h>
 	<FreeTypeFontLoader.h>
 
+1402937887 ontLoader.h>
+
 1374831876 c:\users\gabriele\documents\github\easy2d\include\freetypefontloader.h
 	<Config.h>
 	<Table.h>
@@ -1479,6 +1527,8 @@
 
 1374953832 c:\users\gabriele\documents\github\easy2d\dependences-win32\include\ft2build.h
 	<freetype/config/ftheader.h>
+
+1378982728 config/ftheader.h>
 
 1374953834 c:\users\gabriele\documents\github\easy2d\dependences-win32\include\freetype\config\ftheader.h
 
@@ -1502,6 +1552,8 @@
 1378880400 c:\users\gabriele\documents\github\easy2d\include\emscripten\openglemscripten.h
 	<SDL/SDL_opengl.h>
 
+1402937887 pengl.h>
+
 1378663686 c:\users\gabriele\documents\github\easy2d\include\memory.h
 	<Config.h>
 
@@ -1509,6 +1561,8 @@
 	<Config.h>
 	<EString.h>
 	"MinMaxList.h"
+
+1402937887 t.h"
 
 1378664064 c:\users\gabriele\documents\github\easy2d\include\minmaxlist.h
 
@@ -1565,6 +1619,8 @@
 	<Debug.h>
 	<malloc.h>
 	<mm_malloc.h>
+
+1402950191 .h>
 
 1388414439 source:c:\users\gabriele\documents\github\easy2d\src\scene.cpp
 	<stdafx.h>
@@ -1717,6 +1773,8 @@
 	<Math3D.h>
 	<Box2D/Box2D.h>
 
+1402937887 2D.h>
+
 1332136811 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Box2D.h
 	<Box2D/Common/b2Settings.h>
 	<Box2D/Common/b2Draw.h>
@@ -1747,6 +1805,8 @@
 	<Box2D/Dynamics/Joints/b2WeldJoint.h>
 	<Box2D/Dynamics/Joints/b2WheelJoint.h>
 
+1332136811 amics/Joints/b2WheelJoint.h>
+
 1382856099 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2Settings.h
 	<stddef.h>
 	<assert.h>
@@ -1755,6 +1815,8 @@
 1322352523 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2Draw.h
 	<Box2D/Common/b2Math.h>
 
+1332136763 mon/b2Math.h>
+
 1382856060 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2Math.h
 	<Box2D/Common/b2Settings.h>
 	<math.h>
@@ -1762,13 +1824,19 @@
 1375425743 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2Timer.h
 	<Box2D/Common/b2Settings.h>
 
+1300987018 mon/b2Settings.h>
+
 1300987018 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2CircleShape.h
 	<Box2D/Collision/Shapes/b2Shape.h>
+
+1315072341 lision/Shapes/b2Shape.h>
 
 1313981392 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2Shape.h
 	<Box2D/Common/b2BlockAllocator.h>
 	<Box2D/Common/b2Math.h>
 	<Box2D/Collision/b2Collision.h>
+
+1313981392 lision/b2Collision.h>
 
 1300987018 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2BlockAllocator.h
 	<Box2D/Common/b2Settings.h>
@@ -1796,6 +1864,8 @@
 	<Box2D/Collision/b2Collision.h>
 	<Box2D/Common/b2GrowableStack.h>
 
+1332054496 mon/b2GrowableStack.h>
+
 1383025930 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2GrowableStack.h
 	<Box2D/Common/b2Settings.h>
 	<memory.h>
@@ -1806,6 +1876,8 @@
 1375425734 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Collision/b2TimeOfImpact.h
 	<Box2D/Common/b2Math.h>
 	<Box2D/Collision/b2Distance.h>
+
+1375425734 lision/b2Distance.h>
 
 1382854090 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2Body.h
 	<Box2D/Common/b2Math.h>
@@ -1831,11 +1903,15 @@
 	<Box2D/Dynamics/b2WorldCallbacks.h>
 	<Box2D/Dynamics/b2TimeStep.h>
 
+1383020095 amics/b2TimeStep.h>
+
 1300987018 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Common/b2StackAllocator.h
 	<Box2D/Common/b2Settings.h>
 
 1300987018 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2ContactManager.h
 	<Box2D/Collision/b2BroadPhase.h>
+
+1300987018 lision/b2BroadPhase.h>
 
 1383025930 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Contacts/b2Contact.h
 	<Box2D/Common/b2Math.h>
@@ -1843,8 +1919,12 @@
 	<Box2D/Collision/Shapes/b2Shape.h>
 	<Box2D/Dynamics/b2Fixture.h>
 
+1383025930 amics/b2Fixture.h>
+
 1315162982 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2DistanceJoint.h
 	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1382546500 amics/Joints/b2Joint.h>
 
 1332136763 /home/Gabriele/Git/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2Joint.h
 	<Box2D/Common/b2Math.h>
@@ -2082,6 +2162,8 @@
 	<Config.h>
 	<ThreadConf.h>
 
+1402937887 f.h>
+
 1402937887 /home/Gabriele/Git/Easy2D/include/thread/ThreadConf.h
 	<windows.h>
 	<process.h>
@@ -2293,6 +2375,8 @@
 	<Config.h>
 	<Audio.h>
 	<StreamThreadAL.h>
+
+1402937887 eadAL.h>
 
 1402937887 /home/Gabriele/Git/Easy2D/include/audio/StreamThreadAL.h
 	<Thread.h>
@@ -2542,6 +2626,8 @@
 	<Panel.h>
 	<GuiManager.h>
 
+1402937887 r.h>
+
 1402937887 source:/home/Gabriele/Git/Easy2D/src/gui/Label.cpp
 	<stdafx.h>
 	<Label.h>
@@ -2562,6 +2648,8 @@
 	<Config.h>
 	<BaseSoundAL.h>
 
+1402937887 AL.h>
+
 1402937887 /home/Gabriele/Git/Easy2D/include/audio/BaseSoundAL.h
 	<Config.h>
 	<Audio.h>
@@ -2580,6 +2668,8 @@
 	<stdafx.h>
 	<StaticSoundAL.h>
 
+1402937887 ndAL.h>
+
 1402937887 source:/home/Gabriele/Git/Easy2D/src/audio/StreamSoundAL.cpp
 	<stdafx.h>
 	<Math3D.h>
@@ -2595,4 +2685,1335 @@
 	<Component.h>
 	<Camera.h>
 	<Scene.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/AiffLoader.cpp
+	<stdafx.h>
+	<AiffLoader.h>
+	<Debug.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D//stdafx.h
+	<Config.h>
+
+1434103882 /home/Gabriele/Documenti/GitHub/Easy2D/include/Config.h
+	<cmath>
+	<cassert>
+	<cstdlib>
+	<ctime>
+	<cstring>
+	<cfloat>
+	<climits>
+	<cstdlib>
+	<list>
+	<vector>
+	<string>
+	<algorithm>
+	<sstream>
+	<sys/types.h>
+	<sys/stat.h>
+	<Types.h>
+	<map>
+	<stdint.h>
+	<android/log.h>
+	<android/native_activity.h>
+	<android_native_app_glue.h>
+	<android/OpenGLAndroid.h>
+	<AL/al.h>
+	<AL/alc.h>
+	<windows.h>
+	<AL/al.h>
+	<AL/alc.h>
+	<angleproject/OpenGLAngle.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<window/OpenGLWindow.h>
+	<TargetConditionals.h>
+	<OpenAL/al.h>
+	<OpenAL/alc.h>
+	<OpenGLiOS.h>
+	<OpenAL/al.h>
+	<OpenAL/alc.h>
+	<OpenGLiOS.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<OpenGL/glext.h>
+	<OpenAL/al.h>
+	<OpenAL/alc.h>
+	<signal.h>
+	<stdint.h>
+	<GL/gl.h>
+	<linux/OpenGLLinux.h>
+	<AL/al.h>
+	<AL/alc.h>
+	<signal.h>
+	<emscripten/OpenGLEmscripten.h>
+	<stdint.h>
+	<AL/al.h>
+	<AL/alc.h>
+	<utility>
+	<unordered_map>
+	<functional>
+	<memory>
+	<tr1/unordered_map>
+	<tr1/functional>
+	<tr1/memory>
+	<emmintrin.h>
+	<xmmintrin.h>
+	<mmintrin.h>
+	<Memory.h>
+	<Easy2DLua.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Types.h
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/android/OpenGLAndroid.h
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/angleproject/OpenGLAngle.h
+	<EGL/egl.h>
+	<EGL/eglext.h>
+	<GLES2/gl2platform.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/window/OpenGLWindow.h
+	<gletx_header.h>
+
+1434107689 /home/Gabriele/Documenti/GitHub/Easy2D/include/linux/OpenGLLinux.h
+	<GL/gl.h>
+	<GL/glext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/emscripten/OpenGLEmscripten.h
+	<SDL/SDL_opengl.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Memory.h
+	<Config.h>
+
+1434103680 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Easy2DLua.h
+	<lua/lua.hpp>
+	<lua/lua.hpp>
+	<LuaBridge/LuaBridge.h>
+	<LuaBridge/RefCountedObject.h>
+	<LuaBridge/RefCountedPtr.h>
+
+1103766784 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/lua/lua.hpp
+	"lua.h"
+	"lualib.h"
+	"lauxlib.h"
+
+1326490580 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/lua/lua.h
+	<stdarg.h>
+	<stddef.h>
+	"luaconf.h"
+
+1202750708 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/lua/luaconf.h
+	<limits.h>
+	<stddef.h>
+	<unistd.h>
+	<io.h>
+	<stdio.h>
+	<stdio.h>
+	<readline/readline.h>
+	<readline/history.h>
+	<assert.h>
+	<math.h>
+	<unistd.h>
+
+1198764146 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/lua/lualib.h
+	"lua.h"
+
+1198764146 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/lua/lauxlib.h
+	<stddef.h>
+	<stdio.h>
+	"lua.h"
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/LuaBridge.h
+	<cassert>
+	<sstream>
+	<stdexcept>
+	<string>
+	<typeinfo>
+	"detail/LuaHelpers.h"
+	"detail/TypeTraits.h"
+	"detail/TypeList.h"
+	"detail/FuncTraits.h"
+	"detail/Constructor.h"
+	"detail/Stack.h"
+	"detail/ClassInfo.h"
+	"detail/LuaException.h"
+	"detail/LuaRef.h"
+	"detail/Iterator.h"
+	"detail/Userdata.h"
+	"detail/CFunctions.h"
+	"detail/Namespace.h"
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/LuaHelpers.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/TypeTraits.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/TypeList.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/FuncTraits.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/Constructor.h
+
+1405924772 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/Stack.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/ClassInfo.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/LuaException.h
+
+1431196690 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/LuaRef.h
+
+1405924874 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/Iterator.h
+
+1420298008 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/Userdata.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/CFunctions.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/detail/Namespace.h
+
+1382165858 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/LuaBridge/RefCountedObject.h
+	<cassert>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/AiffLoader.h
+	<Config.h>
+	<Audio.h>
+	<Utility.h>
+	<Application.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Audio.h
+	<Config.h>
+	<Math3D.h>
+	<Application.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Math3D.h
+	<Config.h>
+	<EString.h>
+	"MinMaxList.h"
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/EString.h
+	<Config.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/MinMaxList.h
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Application.h
+	<Config.h>
+	<EString.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Utility.h
+	<Config.h>
+	<string>
+	<EString.h>
+	<Debug.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Debug.h
+	<Config.h>
+	<EString.h>
+	<ostream>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/AnimatedSprite.cpp
+	<stdafx.h>
+	<AnimatedSprite.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/AnimatedSprite.h
+	<Config.h>
+	<Math3D.h>
+	<Object.h>
+	<Renderable.h>
+	<FrameSet.h>
+	<Debug.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Object.h
+	<Config.h>
+	<Math3D.h>
+	<Body.h>
+	<Table.h>
+	<Component.h>
+	<Debug.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Body.h
+	<Config.h>
+	<Math3D.h>
+	<Component.h>
+	<Box2D.hpp>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Component.h
+	<Config.h>
+	<EString.h>
+	<Table.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Table.h
+	<Config.h>
+	<Math3D.h>
+	<EString.h>
+	<iostream>
+	<Resource.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Resource.h
+	<Config.h>
+	<EString.h>
+	<Utility.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Box2D.hpp
+	<Config.h>
+	<Math3D.h>
+	<Box2D/Box2D.h>
+
+1332136812 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Box2D.h
+	<Box2D/Common/b2Settings.h>
+	<Box2D/Common/b2Draw.h>
+	<Box2D/Common/b2Timer.h>
+	<Box2D/Collision/Shapes/b2CircleShape.h>
+	<Box2D/Collision/Shapes/b2EdgeShape.h>
+	<Box2D/Collision/Shapes/b2ChainShape.h>
+	<Box2D/Collision/Shapes/b2PolygonShape.h>
+	<Box2D/Collision/b2BroadPhase.h>
+	<Box2D/Collision/b2Distance.h>
+	<Box2D/Collision/b2DynamicTree.h>
+	<Box2D/Collision/b2TimeOfImpact.h>
+	<Box2D/Dynamics/b2Body.h>
+	<Box2D/Dynamics/b2Fixture.h>
+	<Box2D/Dynamics/b2WorldCallbacks.h>
+	<Box2D/Dynamics/b2TimeStep.h>
+	<Box2D/Dynamics/b2World.h>
+	<Box2D/Dynamics/Contacts/b2Contact.h>
+	<Box2D/Dynamics/Joints/b2DistanceJoint.h>
+	<Box2D/Dynamics/Joints/b2FrictionJoint.h>
+	<Box2D/Dynamics/Joints/b2GearJoint.h>
+	<Box2D/Dynamics/Joints/b2MotorJoint.h>
+	<Box2D/Dynamics/Joints/b2MouseJoint.h>
+	<Box2D/Dynamics/Joints/b2PrismaticJoint.h>
+	<Box2D/Dynamics/Joints/b2PulleyJoint.h>
+	<Box2D/Dynamics/Joints/b2RevoluteJoint.h>
+	<Box2D/Dynamics/Joints/b2RopeJoint.h>
+	<Box2D/Dynamics/Joints/b2WeldJoint.h>
+	<Box2D/Dynamics/Joints/b2WheelJoint.h>
+
+1382856100 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2Settings.h
+	<stddef.h>
+	<assert.h>
+	<float.h>
+
+1322352524 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2Draw.h
+	<Box2D/Common/b2Math.h>
+
+1382856062 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2Math.h
+	<Box2D/Common/b2Settings.h>
+	<math.h>
+
+1375422144 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2Timer.h
+	<Box2D/Common/b2Settings.h>
+
+1300987020 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2CircleShape.h
+	<Box2D/Collision/Shapes/b2Shape.h>
+
+1313977794 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2Shape.h
+	<Box2D/Common/b2BlockAllocator.h>
+	<Box2D/Common/b2Math.h>
+	<Box2D/Collision/b2Collision.h>
+
+1300987020 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2BlockAllocator.h
+	<Box2D/Common/b2Settings.h>
+
+1382854528 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/b2Collision.h
+	<Box2D/Common/b2Math.h>
+	<limits.h>
+
+1314856388 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2EdgeShape.h
+	<Box2D/Collision/Shapes/b2Shape.h>
+
+1382857620 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2ChainShape.h
+	<Box2D/Collision/Shapes/b2Shape.h>
+
+1324249492 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/Shapes/b2PolygonShape.h
+	<Box2D/Collision/Shapes/b2Shape.h>
+
+1332054492 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/b2BroadPhase.h
+	<Box2D/Common/b2Settings.h>
+	<Box2D/Collision/b2Collision.h>
+	<Box2D/Collision/b2DynamicTree.h>
+	<algorithm>
+
+1332054498 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/b2DynamicTree.h
+	<Box2D/Collision/b2Collision.h>
+	<Box2D/Common/b2GrowableStack.h>
+
+1383025932 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2GrowableStack.h
+	<Box2D/Common/b2Settings.h>
+	<memory.h>
+
+1300987020 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/b2Distance.h
+	<Box2D/Common/b2Math.h>
+
+1375422136 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Collision/b2TimeOfImpact.h
+	<Box2D/Common/b2Math.h>
+	<Box2D/Collision/b2Distance.h>
+
+1382854092 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2Body.h
+	<Box2D/Common/b2Math.h>
+	<Box2D/Collision/Shapes/b2Shape.h>
+	<memory>
+
+1315068742 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2Fixture.h
+	<Box2D/Dynamics/b2Body.h>
+	<Box2D/Collision/b2Collision.h>
+	<Box2D/Collision/Shapes/b2Shape.h>
+
+1314070002 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2WorldCallbacks.h
+	<Box2D/Common/b2Settings.h>
+
+1315805532 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2TimeStep.h
+	<Box2D/Common/b2Math.h>
+
+1383020096 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2World.h
+	<Box2D/Common/b2Math.h>
+	<Box2D/Common/b2BlockAllocator.h>
+	<Box2D/Common/b2StackAllocator.h>
+	<Box2D/Dynamics/b2ContactManager.h>
+	<Box2D/Dynamics/b2WorldCallbacks.h>
+	<Box2D/Dynamics/b2TimeStep.h>
+
+1300987020 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Common/b2StackAllocator.h
+	<Box2D/Common/b2Settings.h>
+
+1300987020 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/b2ContactManager.h
+	<Box2D/Collision/b2BroadPhase.h>
+
+1383025932 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Contacts/b2Contact.h
+	<Box2D/Common/b2Math.h>
+	<Box2D/Collision/b2Collision.h>
+	<Box2D/Collision/Shapes/b2Shape.h>
+	<Box2D/Dynamics/b2Fixture.h>
+
+1315159384 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2DistanceJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1332136764 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2Joint.h
+	<Box2D/Common/b2Math.h>
+
+1315170678 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2FrictionJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1315170934 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2GearJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1382483584 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2MotorJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1332051884 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2MouseJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1315362328 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2PrismaticJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1382542846 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2PulleyJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1315168774 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2RevoluteJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1315190614 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2RopeJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1315167064 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2WeldJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1382542902 /home/Gabriele/Documenti/GitHub/Easy2D/dependencies-linux64/include/Box2D/Dynamics/Joints/b2WheelJoint.h
+	<Box2D/Dynamics/Joints/b2Joint.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Renderable.h
+	<Config.h>
+	<Mesh.h>
+	<Math3D.h>
+	<Component.h>
+	<RenderState.h>
+	<Blend.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Mesh.h
+	<Config.h>
+	<Math3D.h>
+	<Color.h>
+	<EString.h>
+	<Resource.h>
+	<RenderContext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Color.h
+	<Config.h>
+	<Math3D.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/RenderContext.h
+	<Config.h>
+	<Color.h>
+	<Math3D.h>
+	<Blend.h>
+	<Shader.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Blend.h
+	<Config.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Shader.h
+	<Config.h>
+	<Math3D.h>
+	<EString.h>
+	<Resource.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/RenderState.h
+	<Config.h>
+	<Mesh.h>
+	<Texture.h>
+	<Shader.h>
+	<Blend.h>
+	<Color.h>
+	<Table.h>
+	<RenderContext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Texture.h
+	<Config.h>
+	<Math3D.h>
+	<EString.h>
+	<Mesh.h>
+	<iostream>
+	<Types.h>
+	<Resource.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/FrameSet.h
+	<Config.h>
+	<Math3D.h>
+	<EString.h>
+	<Resource.h>
+	<Texture.h>
+	<Mesh.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/ResourcesManager.h
+	<Config.h>
+	<Debug.h>
+	<EString.h>
+	<Resource.h>
+	<Table.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/ResourcesGroup.h
+	<Config.h>
+	<Utility.h>
+	<EString.h>
+	<ResourcesManager.h>
+	<Table.h>
+	<Texture.h>
+	<Mesh.h>
+	<FrameSet.h>
+	<Font.h>
+	<Sound.h>
+	<Script.h>
+	<Shader.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Font.h
+	<Config.h>
+	<Utility.h>
+	<Resource.h>
+	<Texture.h>
+	<Color.h>
+	<vector>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Sound.h
+	<Config.h>
+	<Audio.h>
+	<Resource.h>
+	<Application.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Script.h
+	<Config.h>
+	<Resource.h>
+	<ELuaState.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/script/ELuaState.h
+	<Config.h>
+	<EString.h>
+	<RefCountedPtr.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/script/RefCountedPtr.h
+	<hash_map>
+	<stdint.h>
+	<ext/hash_map>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Application.cpp
+	<stdafx.h>
+	<Debug.h>
+	<Math3D.h>
+	<Application.h>
+	<ETime.h>
+	<Script.h>
+	<AppiOS.h>
+	<CocoaApp.h>
+	<WindowsApp.h>
+	<AngleApp.h>
+	<LinuxApp.h>
+	<AndroidApp.h>
+	<EmscriptenApp.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/ETime.h
+	<Config.h>
+	<Types.h>
+
+1434106585 /home/Gabriele/Documenti/GitHub/Easy2D/include/linux/LinuxApp.h
+	<Config.h>
+	<Application.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Game.h
+	<Config.h>
+	<Types.h>
+	<EString.h>
+	<Scene.h>
+	<ResourcesGroup.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Scene.h
+	<Config.h>
+	<State.h>
+	<EStack.h>
+	<Debug.h>
+	<Render.h>
+	<World.h>
+	<Object.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/State.h
+	<Config.h>
+	<Application.h>
+	<Debug.h>
+	<Component.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/EStack.h
+	<Config.h>
+	<list>
+	<algorithm>
+
+1434107565 /home/Gabriele/Documenti/GitHub/Easy2D/include/Render.h
+	<queue>
+	<Config.h>
+	<Screen.h>
+	<Camera.h>
+	<Color.h>
+	<Sortable.h>
+	<Renderable.h>
+	<RenderState.h>
+	<RenderQueue.h>
+	<BatchingMesh.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Screen.h
+	<Config.h>
+	<Math3D.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Camera.h
+	<Config.h>
+	<Object.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Sortable.h
+	<Config.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/RenderQueue.h
+	<Config.h>
+	<queue>
+	<Object.h>
+	<RenderContext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/BatchingMesh.h
+	<Config.h>
+	<Mesh.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/World.h
+	<Config.h>
+	<Math3D.h>
+	<Box2D.hpp>
+	<Object.h>
+	<Camera.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Audio.cpp
+	<stdafx.h>
+	<Audio.h>
+	<EString.h>
+	<Debug.h>
+	<Application.h>
+	<Thread.h>
+	<Mutex.h>
+	<Math3D.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/thread/Thread.h
+	<Config.h>
+	<ThreadConf.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/thread/ThreadConf.h
+	<windows.h>
+	<process.h>
+	<pthread.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/thread/Mutex.h
+	<Config.h>
+	<MutexConf.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/thread/MutexConf.h
+	<windows.h>
+	<pthread.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/audio/AudioAL.cpp
+	<stdafx.h>
+	<AudioAL.h>
+	<Application.h>
+	<StaticBufferAL.h>
+	<StreamBufferAL.h>
+	<SoundEmitterAL.h>
+	<SoundListenerAL.h>
+	<EString.h>
+	<Debug.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/audio/AudioAL.h
+	<Config.h>
+	<Audio.h>
+	<StreamThreadAL.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/audio/StreamThreadAL.h
+	<Thread.h>
+	<Mutex.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/audio/StaticBufferAL.h
+	<Config.h>
+	<AudioAL.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/audio/StreamBufferAL.h
+	<Config.h>
+	<Application.h>
+	<AudioAL.h>
+	<StreamThreadAL.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/audio/SoundEmitterAL.h
+	<Config.h>
+	<Audio.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/audio/SoundListenerAL.h
+	<Config.h>
+	<AudioAL.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/audio/SoundEmitterAL.cpp
+	<stdafx.h>
+	<Application.h>
+	<SoundEmitterAL.h>
+	<StreamBufferAL.h>
+	<StaticBufferAL.h>
+	<Debug.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/audio/StaticBufferAL.cpp
+	<stdafx.h>
+	<StaticBufferAL.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/audio/StreamBufferAL.cpp
+	<stdafx.h>
+	<Math3D.h>
+	<Debug.h>
+	<SoundEmitterAL.h>
+	<StreamBufferAL.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/audio/StreamThreadAL.cpp
+	<stdafx.h>
+	<StreamThreadAL.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/BatchingColorMesh.cpp
+	<stdafx.h>
+	<BatchingColorMesh.h>
+	<Debug.h>
+	<RenderContext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/BatchingColorMesh.h
+	<Config.h>
+	<Mesh.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/BatchingMesh.cpp
+	<stdafx.h>
+	<BatchingMesh.h>
+	<Debug.h>
+	<RenderContext.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Blend.cpp
+	<stdafx.h>
+	<EString.h>
+	<Blend.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/BMFontLoader.cpp
+	<stdafx.h>
+	<BMFontLoader.h>
+	<Application.h>
+	<Debug.h>
+	<Texture.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/BMFontLoader.h
+	<Config.h>
+	<Font.h>
+	<Texture.h>
+	<Utility.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Body.cpp
+	<stdafx.h>
+	<Body.h>
+	<Scene.h>
+	<Debug.h>
+	<Box2D.hpp>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Camera.cpp
+	<stdafx.h>
+	<Camera.h>
+	<Input.h>
+	<Screen.h>
+	<Application.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Input.h
+	<Config.h>
+	<Debug.h>
+	<Math3D.h>
+	<Types.h>
+	"InputList.h"
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/InputList.h
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Color.cpp
+	<stdafx.h>
+	<Color.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Component.cpp
+	<stdafx.h>
+	<Component.h>
+	<Object.h>
+	<Debug.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Config.cpp
+	<stdafx.h>
+	<Config.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Debug.cpp
+	<stdafx.h>
+	<Debug.h>
+	<EString.h>
+	<iostream>
+	<RenderContext.h>
+	<signal.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/EStack.cpp
+	<stdafx.h>
+	<EStack.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/EString.cpp
+	<stdafx.h>
+	<stdafx.h>
+	<EString.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/ETime.cpp
+	<stdafx.h>
+	<ETime.h>
+	<sys/time.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/FluidGrid.cpp
+	<stdafx.h>
+	<FluidGrid.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/FluidGrid.h
+	<Config.h>
+	<Math3D.h>
+	<Renderable.h>
+	<BatchingMesh.h>
+	<Object.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Font.cpp
+	<stdafx.h>
+	<Config.h>
+	<Debug.h>
+	<Color.h>
+	<Font.h>
+	<Types.h>
+	<Screen.h>
+	<Application.h>
+	<BMFontLoader.h>
+	<FreeTypeFontLoader.h>
+	<RenderContext.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/FreeTypeFontLoader.h
+	<Config.h>
+	<Table.h>
+	<Font.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/FrameSet.cpp
+	<stdafx.h>
+	<FrameSet.h>
+	<Application.h>
+	<ResourcesGroup.h>
+	<Table.h>
+	<Debug.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/FreeTypeFontLoader.cpp
+	<stdafx.h>
+	<ft2build.h>
+	<FreeTypeFontLoader.h>
+	<Debug.h>
+	<Application.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+
+1420555791 /usr/include/freetype2//ft2build.h
+	<config/ftheader.h>
+
+1420555791 /usr/include/freetype2//config/ftheader.h
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Game.cpp
+	<stdafx.h>
+	<Screen.h>
+	<Game.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/gui/Button.cpp
+	<stdafx.h>
+	<Button.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/gui/Button.h
+	<Gui.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/gui/Gui.h
+	<Easy2D.h>
+	<GuiManager.h>
+	<Panel.h>
+	<Button.h>
+	<Label.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Easy2D.h
+	<Config.h>
+	<Debug.h>
+	<Types.h>
+	<EString.h>
+	<ETime.h>
+	<Timer.h>
+	<Color.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+	<Table.h>
+	<Texture.h>
+	<Shader.h>
+	<Mesh.h>
+	<Script.h>
+	<Application.h>
+	<Screen.h>
+	<Input.h>
+	<Audio.h>
+	<Game.h>
+	<Math3D.h>
+	<World.h>
+	<Sound.h>
+	<Object.h>
+	<Camera.h>
+	<RenderState.h>
+	<Texture.h>
+	<Mesh.h>
+	<BatchingMesh.h>
+	<BatchingColorMesh.h>
+	<Font.h>
+	<FrameSet.h>
+	<Renderable.h>
+	<Sprite.h>
+	<AnimatedSprite.h>
+	<ParticleSystem.h>
+	<Body.h>
+	<Listener.h>
+	<Speaker.h>
+	<State.h>
+	<Parallax.h>
+	<ELuaScript.h>
+	<FluidGrid.h>
+	<RenderContext.h>
+	<Render.h>
+	<Scene.h>
+	<Gui.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Timer.h
+	<Config.h>
+	<Types.h>
+	<ETime.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Sprite.h
+	<Config.h>
+	<Renderable.h>
+	<Object.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/ParticleSystem.h
+	<Config.h>
+	<Color.h>
+	<Math3D.h>
+	<Renderable.h>
+	<BatchingColorMesh.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Listener.h
+	<Config.h>
+	<Audio.h>
+	<Component.h>
+	<Audio.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Speaker.h
+	<Config.h>
+	<Audio.h>
+	<Component.h>
+	<Sound.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/Parallax.h
+	<Config.h>
+	<Component.h>
+	<Camera.h>
+	<Scene.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/script/ELuaScript.h
+	<Config.h>
+	<Component.h>
+	<ELuaState.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/gui/GuiManager.h
+	<Gui.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/gui/Panel.h
+	<Gui.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/gui/Label.h
+	<Gui.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/gui/GuiManager.cpp
+	<stdafx.h>
+	<Panel.h>
+	<GuiManager.h>
+	<RenderContext.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/gui/Label.cpp
+	<stdafx.h>
+	<Label.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/gui/Panel.cpp
+	<stdafx.h>
+	<Panel.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Image/Image.cpp
+	<stdafx.h>
+	<stdio.h>
+	<string.h>
+	<memory.h>
+	"Image.h"
+	"lodepng.h"
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/src/Image/Image.h
+	<string>
+	<Config.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/src/Image/lodepng.h
+	<string.h>
+	<vector>
+	<string>
+	"lodepng.h"
+	<iostream>
+	"lodepng.h"
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Image/lodepng.cpp
+	<stdafx.h>
+	"lodepng.h"
+	<stdio.h>
+	<stdlib.h>
+	<fstream>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Input.cpp
+	<stdafx.h>
+	<Input.h>
+
+1434106585 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/linux/LinuxApp.cpp
+	"stdafx.h"
+	<Timer.h>
+	<LinuxApp.h>
+	<LinuxScreen.h>
+	<LinuxInput.h>
+	<Game.h>
+	<Audio.h>
+	<AudioAL.h>
+	<Debug.h>
+	<sys/time.h>
+	<unistd.h>
+	<sys/types.h>
+	<pwd.h>
+
+1434107036 /home/Gabriele/Documenti/GitHub/Easy2D/include/linux/LinuxScreen.h
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/xf86vmode.h>
+	<GL/glx.h>
+	<Config.h>
+	<LinuxApp.h>
+	<EString.h>
+	<Screen.h>
+
+1434107119 /home/Gabriele/Documenti/GitHub/Easy2D/include/linux/LinuxInput.h
+	<X11/Xlib.h>
+	<X11/Xatom.h>
+	<X11/keysym.h>
+	<X11/extensions/xf86vmode.h>
+	<GL/glx.h>
+	<Config.h>
+	<Math3D.h>
+	<Input.h>
+	<LinuxApp.h>
+
+1434107166 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/linux/LinuxInput.cpp
+	<X11/Xlib.h>
+	<X11/keysym.h>
+	<X11/keysymdef.h>
+	<LinuxInput.h>
+
+1434107201 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/linux/LinuxScreen.cpp
+	<LinuxScreen.h>
+	<RenderContext.h>
+
+1434108104 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/linux/OpenGLLinux.cpp
+	<stdafx.h>
+	<OpenGLLinux.h>
+	<GL/glx.h>
+	<Debug.h>
+
+1434107378 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Math3D.cpp
+	<stdafx.h>
+	<Math3D.h>
+	<cmath>
+	"Math3D_SSE2.h"
+	"Math3D_neon.h"
+	"Math3D_vfp.h"
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/src/Math3D_SSE2.h
+	<Config.h>
+	<Math3D.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/src/Math3D_neon.h
+	<arm/arch.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/src/Math3D_vfp.h
+	<arm/arch.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Math3D_SSE2.cpp
+	<stdafx.h>
+	"Math3D_SSE2.h"
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Memory.cpp
+	<stdafx.h>
+	<Memory.h>
+	<Debug.h>
+	<malloc.h>
+	<mm_malloc.h>
+	<stdlib.h>
+	<mm_malloc.h>
+	<stdlib.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Mesh.cpp
+	<stdafx.h>
+	<Mesh.h>
+	<Table.h>
+	<Debug.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Object.cpp
+	<stdafx.h>
+	<Object.h>
+	<Body.h>
+	<Scene.h>
+	<Debug.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Parallax.cpp
+	<stdafx.h>
+	<Parallax.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/ParticleSystem.cpp
+	<stdafx.h>
+	<Object.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+	<Renderable.h>
+	<ParticleSystem.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Render.cpp
+	<Debug.h>
+	<Screen.h>
+	<Application.h>
+	<Render.h>
+	<Object.h>
+	<RenderContext.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Renderable.cpp
+	<stdafx.h>
+	<Renderable.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+	<Object.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/RenderContextOGL2.cpp
+	<stdafx.h>
+	<RenderContext.h>
+	<Debug.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/RenderQueue.cpp
+	<stdafx.h>
+	<RenderQueue.h>
+	<Render.h>
+	<Application.h>
+	<Screen.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/RenderState.cpp
+	<stdafx.h>
+	<RenderState.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Resource.cpp
+	<stdafx.h>
+	<Resource.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/ResourcesGroup.cpp
+	<stdafx.h>
+	<ResourcesGroup.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/ResourcesManager.cpp
+	<stdafx.h>
+	<ResourcesManager.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Scene.cpp
+	<stdafx.h>
+	<Scene.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Screen.cpp
+	<stdafx.h>
+	<Screen.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Script.cpp
+	<stdafx.h>
+	<Script.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Shader.cpp
+	<stdafx.h>
+	<RenderContext.h>
+	<Shader.h>
+	<Debug.h>
+	<Table.h>
+	<Config.h>
+	<Application.h>
+
+1434108625 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/socket/Socket.cpp
+	<stdafx.h>
+	<Socket.h>
+	<Address.h>
+	<Debug.h>
+	<winsock2.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+	<unistd.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/socket/Socket.h
+	<Config.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/socket/Address.h
+	<Config.h>
+	<Types.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Sound.cpp
+	<stdafx.h>
+	<Sound.h>
+	<Application.h>
+	<WavLoader.h>
+	<AiffLoader.h>
+	<Debug.h>
+	<Table.h>
+
+1434100206 /home/Gabriele/Documenti/GitHub/Easy2D/include/WavLoader.h
+	<Config.h>
+	<Audio.h>
+	<Utility.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Speaker.cpp
+	<stdafx.h>
+	<Speaker.h>
+	<Object.h>
+	<ResourcesGroup.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Sprite.cpp
+	<stdafx.h>
+	<Sprite.h>
+	<Resource.h>
+	<ResourcesManager.h>
+	<ResourcesGroup.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/State.cpp
+	<stdafx.h>
+	<State.h>
+	<Application.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Table.cpp
+	<Table.h>
+	<Debug.h>
+	<Application.h>
+	<ResourcesManager.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Texture.cpp
+	<stdafx.h>
+	<Texture.h>
+	<Debug.h>
+	<Table.h>
+	<Application.h>
+	<RenderContext.h>
+	"Image/Image.h"
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/thread/MutexPOSIX.cpp
+	<stdafx.h>
+	"Mutex.h"
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/thread/ThreadPOSIX.cpp
+	<stdafx.h>
+	<Config.h>
+	<Thread.h>
+	<unistd.h>
+	<signal.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Timer.cpp
+	<stdafx.h>
+	<Timer.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/Utility.cpp
+	<stdafx.h>
+	<Utility.h>
+	<Application.h>
+	<Math3D.h>
+	<sys/stat.h>
+	<unistd.h>
+	<dirent.h>
+	<limits.h>
+	<errno.h>
+	<sys/stat.h>
+	<Shlwapi.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/WavLoader.cpp
+	<stdafx.h>
+	<WavLoader.h>
+	<Debug.h>
+
+1434100206 source:/home/Gabriele/Documenti/GitHub/Easy2D/src/World.cpp
+	<stdafx.h>
+	<World.h>
+	<Body.h>
+	<Scene.h>
+	<Debug.h>
+	<RenderContext.h>
 

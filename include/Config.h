@@ -198,7 +198,7 @@ int atexit(void (*function)(void));
 #error "must to be defined only ENABLE_CPU_BATCHING_MESH or only DISABLE_CPU_BATCHING_MESH"
 #endif
 
-#if ( (__GNUC__>=4) && (__GNUC_MINOR__ >=6) || defined(__ANDROID__) ) || defined(__llvm__)
+#if ( (__GNUC__==4) && (__GNUC_MINOR__ >=8) || (__GNUC__>=5)  || defined(__ANDROID__) ) || defined(__llvm__)
 //types
 #define cppTypeInfo std::type_info
 
@@ -326,6 +326,6 @@ namespace std
 
 #if !defined(USE_LUA) || !defined(USE_LUA_JIT)
     #include <Easy2DLua.h>
-#endif 
+#endif
 
 #endif
