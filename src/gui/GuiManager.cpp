@@ -169,12 +169,12 @@ GuiManager::GuiManager():type(GUI_MANAGER)
                         ,focusLoked(false)
 {
     //event
-    Application::instance()->get_input()->addHandler(this);
+    Application::instance()->get_input()->add_handler(this);
 }
 GuiManager::~GuiManager()
 {            
     //remove event
-    Application::instance()->get_input()->removeHandler(this);
+    Application::instance()->get_input()->remove_handler(this);
 }
 //init
 void GuiManager::init(ResourcesGroup* rsgroup,Table::ptr style)

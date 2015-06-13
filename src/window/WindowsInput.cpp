@@ -255,70 +255,70 @@ void WindowsInput::update()
 //calls
 void WindowsInput::__callOnKeyPress(Key::Keyboard key)
 {
-    for(size_t i=0; i!=vkeyboardh.size(); ++i)
-        vkeyboardh[i]->onKeyPress(key);
+    for(size_t i=0; i!=m_vkeyboardh.size(); ++i)
+        m_vkeyboardh[i]->on_key_press(key);
 }
 void WindowsInput::__callOnKeyRelease(Key::Keyboard key)
 {
-    for(size_t i=0; i!=vkeyboardh.size(); ++i)
-        vkeyboardh[i]->onKeyRelease(key);
+    for(size_t i=0; i!=m_vkeyboardh.size(); ++i)
+        m_vkeyboardh[i]->on_key_release(key);
 }
 void WindowsInput::__callOnKeyDown(Key::Keyboard key)
 {
-    for(size_t i=0; i!=vkeyboardh.size(); ++i)
-        vkeyboardh[i]->onKeyDown(key);
+    for(size_t i=0; i!=m_vkeyboardh.size(); ++i)
+        m_vkeyboardh[i]->on_key_down(key);
 }
 void WindowsInput::__callOnTextInput(const String& inputText)
 {
-    for (size_t i = 0; i != vkeyboardh.size(); ++i)
-        vkeyboardh[i]->onTextInput(inputText);
+    for (size_t i = 0; i != m_vkeyboardh.size(); ++i)
+        m_vkeyboardh[i]->on_text_input(inputText);
 }
 //mouse
 void WindowsInput::__callOnMouseMove(Vec2 mousePosition)
 {
-    for(size_t i=0; i!=vmouseh.size(); ++i)
-        vmouseh[i]->onMouseMove(mousePosition);
+    for(size_t i=0; i!=m_vmouseh.size(); ++i)
+        m_vmouseh[i]->on_mouse_move(mousePosition);
 }
 void WindowsInput::__callOnMousePress(Vec2 mousePosition, Key::Mouse button)
 {
-    for(size_t i=0; i!=vmouseh.size(); ++i)
-        vmouseh[i]->onMousePress(mousePosition,button);
+    for(size_t i=0; i!=m_vmouseh.size(); ++i)
+        m_vmouseh[i]->on_mouse_press(mousePosition,button);
 }
 void WindowsInput::__callOnMouseDown(Vec2 mousePosition, Key::Mouse button)
 {
-    for(size_t i=0; i!=vmouseh.size(); ++i)
-        vmouseh[i]->onMouseDown(mousePosition,button);
+    for(size_t i=0; i!=m_vmouseh.size(); ++i)
+        m_vmouseh[i]->on_mouse_down(mousePosition,button);
 }
 void WindowsInput::__callOnMouseRelease(Vec2 mousePosition, Key::Mouse button)
 {
-    for(size_t i=0; i!=vmouseh.size(); ++i)
-        vmouseh[i]->onMouseRelease(mousePosition,button);
+    for(size_t i=0; i!=m_vmouseh.size(); ++i)
+        m_vmouseh[i]->on_mouse_release(mousePosition,button);
 }
 void WindowsInput::__callOnMouseScroll(short scrollDelta)
 {
-    for(size_t i=0; i!=vmouseh.size(); ++i)
-        vmouseh[i]->onMouseScroll(scrollDelta);
+    for(size_t i=0; i!=m_vmouseh.size(); ++i)
+        m_vmouseh[i]->on_mouse_scroll(scrollDelta);
 }
 //window
 void WindowsInput::__callOnFocus(bool focus)
 {
-    for(size_t i=0; i!=vwindowh.size(); ++i)
-        vwindowh[i]->onFocus(focus);
+    for(size_t i=0; i!=m_vwindowh.size(); ++i)
+        m_vwindowh[i]->on_focus(focus);
 }
 void WindowsInput::__callOnChangeState(Window::State windowState)
 {
-    for(size_t i=0; i!=vwindowh.size(); ++i)
-        vwindowh[i]->onChangeState(windowState);
+    for(size_t i=0; i!=m_vwindowh.size(); ++i)
+        m_vwindowh[i]->on_change_state(windowState);
 }
 void WindowsInput::__callOnClose()
 {
-    for(size_t i=0; i!=vwindowh.size(); ++i)
-        vwindowh[i]->onClose();
+    for(size_t i=0; i!=m_vwindowh.size(); ++i)
+        m_vwindowh[i]->on_close();
 }
 void WindowsInput::__callOnResize(Vec2 size)
 {
-    for(size_t i=0; i!=vwindowh.size(); ++i)
-        vwindowh[i]->onResize(size);
+    for(size_t i=0; i!=m_vwindowh.size(); ++i)
+        m_vwindowh[i]->on_resize(size);
 }
 //window events:
 LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )

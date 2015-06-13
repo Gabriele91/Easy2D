@@ -32,7 +32,7 @@ Vec2 Camera::getSMouse()
     //get input
     Input& input=*Application::instance()->get_input();
     //return value
-    return getSMouse(input.getMouse());
+    return getSMouse(input.get_mouse());
 }
 Vec2 Camera::getWMouse()
 {

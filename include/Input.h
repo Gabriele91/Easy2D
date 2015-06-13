@@ -11,175 +11,175 @@ namespace Easy2D
 
 namespace Key
 {
-extern const char *stringKeyboard[];
-extern const char *stringMouse[];
-extern const char *stringFinger[];
-enum Keyboard
-{
-    KEY_NULL=0,
-    BACKSPACE=1,
-    TAB,
-    CLEAR,
-    RETURN,
-    PAUSE,
-    ESCAPE,
-    SPACE,
-    QUOTE,
-    APOSTROPHE,
-    COMMA,
-    MINUS,
-    PERIOD,
-    SLASH,
-    N0,
-    N1,
-    N2,
-    N3,
-    N4,
-    N5,
-    N6,
-    N7,
-    N8,
-    N9,
-    SEMICOLON,
-    EQUALS,
-    LEFTBRACKET,
-    BACKSLASH,
-    LESS,
-    RIGHTBRACKET,
-    BACKQUOTE,
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-    M,
-    N,
-    O,
-    P,
-    Q,
-    R,
-    S,
-    T,
-    U,
-    V,
-    W,
-    X,
-    Y,
-    Z,
-    KDELETE,
-    KP0,
-    KP1,
-    KP2,
-    KP3,
-    KP4,
-    KP5,
-    KP6,
-    KP7,
-    KP8,
-    KP9,
-    KP_PERIOD,
-    KP_DIVIDE,
-    KP_MULTIPLY,
-    KP_MINUS,
-    KP_PLUS,
-    UP,
-    DOWN,
-    RIGHT,
-    LEFT,
-    INSERT,
-    HOME,
-    END,
-    PAGEUP,
-    PAGEDOWN,
-    F1,
-    F2,
-    F3,
-    F4,
-    F5,
-    F6,
-    F7,
-    F8,
-    F9,
-    F10,
-    F11,
-    F12,
-    F13,
-    F14,
-    F15,
-    NUMLOCK,
-    CAPSLOCK,
-    SCROLLOCK,
-    RSHIFT,
-    LSHIFT,
-    RCTRL,
-    LCTRL,
-    RALT,
-    LALT,
-    RMETA,
-    LMETA,
-    HELP,
-    PRINT,
-    BREAK,
-    MENU,
-    POWER,
-    KEYBOARDMAX = 323
-};
-enum Mouse
-{
-    MOUSE_NULL=0,
-    BUTTON_LEFT=1,
-    BUTTON_MIDDLE,
-    BUTTON_RIGHT,
-    BUTTON4,
-    BUTTON5,
-    BUTTON6,
-    MOUSEMAX
-};
-enum Finger
-{
-    FINGER_NULL=0,
-    FINGER1=1,
-    FINGER2,
-    FINGER3,
-    FINGER4,
-    FINGER5,
-    FINGER6,
-    FINGER7,
-    FINGER8,
-    FINGER9,
-    FINGER10,
-    FINGERMAX
-};
+    extern E2D_DLL const char *stringKeyboard[];
+    extern E2D_DLL const char *stringMouse[];
+    extern E2D_DLL const char *stringFinger[];
+    enum Keyboard
+    {
+        KEY_NULL=0,
+        BACKSPACE=1,
+        TAB,
+        CLEAR,
+        RETURN,
+        PAUSE,
+        ESCAPE,
+        SPACE,
+        QUOTE,
+        APOSTROPHE,
+        COMMA,
+        MINUS,
+        PERIOD,
+        SLASH,
+        N0,
+        N1,
+        N2,
+        N3,
+        N4,
+        N5,
+        N6,
+        N7,
+        N8,
+        N9,
+        SEMICOLON,
+        EQUALS,
+        LEFTBRACKET,
+        BACKSLASH,
+        LESS,
+        RIGHTBRACKET,
+        BACKQUOTE,
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H,
+        I,
+        J,
+        K,
+        L,
+        M,
+        N,
+        O,
+        P,
+        Q,
+        R,
+        S,
+        T,
+        U,
+        V,
+        W,
+        X,
+        Y,
+        Z,
+        KDELETE,
+        KP0,
+        KP1,
+        KP2,
+        KP3,
+        KP4,
+        KP5,
+        KP6,
+        KP7,
+        KP8,
+        KP9,
+        KP_PERIOD,
+        KP_DIVIDE,
+        KP_MULTIPLY,
+        KP_MINUS,
+        KP_PLUS,
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT,
+        INSERT,
+        HOME,
+        END,
+        PAGEUP,
+        PAGEDOWN,
+        F1,
+        F2,
+        F3,
+        F4,
+        F5,
+        F6,
+        F7,
+        F8,
+        F9,
+        F10,
+        F11,
+        F12,
+        F13,
+        F14,
+        F15,
+        NUMLOCK,
+        CAPSLOCK,
+        SCROLLOCK,
+        RSHIFT,
+        LSHIFT,
+        RCTRL,
+        LCTRL,
+        RALT,
+        LALT,
+        RMETA,
+        LMETA,
+        HELP,
+        PRINT,
+        BREAK,
+        MENU,
+        POWER,
+        KEYBOARDMAX = 323
+    };
+    enum Mouse
+    {
+        MOUSE_NULL=0,
+        BUTTON_LEFT=1,
+        BUTTON_MIDDLE,
+        BUTTON_RIGHT,
+        BUTTON4,
+        BUTTON5,
+        BUTTON6,
+        MOUSEMAX
+    };
+    enum Finger
+    {
+        FINGER_NULL=0,
+        FINGER1=1,
+        FINGER2,
+        FINGER3,
+        FINGER4,
+        FINGER5,
+        FINGER6,
+        FINGER7,
+        FINGER8,
+        FINGER9,
+        FINGER10,
+        FINGERMAX
+    };
 #ifdef COMPILER_VISUAL_STUDIO
-#include "InputList.h"
+    #include "InputList.h"
 #else
-template< typename T,typename ...A >
-bool list(T input,T key,A ... a)
-{
-    return input==key || list(input,a...);
-}
-template<typename T>
-bool list(T input,T key)
-{
-    return input==key;
-}
+    template< typename T,typename ...A >
+    bool list(T input,T key,A ... a)
+    {
+        return input==key || list(input,a...);
+    }
+    template<typename T>
+    bool list(T input,T key)
+    {
+        return input==key;
+    }
 #endif
 
 };
 namespace Window
 {
-enum State
-{
-    MINIMIZED,
-    MAXIMIZED
-};
+    enum State
+    {
+        MINIMIZED,
+        MAXIMIZED
+    };
 };
 
 /**
@@ -190,65 +190,65 @@ enum State
 * @author Gabriele Di Bari
 *
 */
-class Input
+class E2D_DLL Input
 {
 
 public:
 
-    class KeyboardHandler
+    class E2D_DLL KeyboardHandler
     {
     public:
         //keyboard
-        virtual void onKeyPress(Key::Keyboard key) {}
-        virtual void onKeyRelease(Key::Keyboard key) {}
-        virtual void onKeyDown(Key::Keyboard key) {}
-        virtual void onTextInput(const String& text) {}
+        virtual void on_key_press(Key::Keyboard key) {}
+        virtual void on_key_release(Key::Keyboard key) {}
+        virtual void on_key_down(Key::Keyboard key) {}
+        virtual void on_text_input(const String& text) {}
     };
-    class FingersHandler
+    class E2D_DLL FingersHandler
     {
     public:
         //finger touch
-        virtual void onFingerMove(Vec3 touchPosition,Key::Finger FingerID )  {}
-        virtual void onFingerDown(Vec3 touchPosition,Key::Finger FingerID ) {}
-        virtual void onFingerPress(Vec3 touchPosition,Key::Finger FingerID ) {}
-        virtual void onFingerRelease(Vec3 touchPosition,Key::Finger FingerID )   {}
+        virtual void on_finger_move(Vec3 touchPosition,Key::Finger FingerID )  {}
+        virtual void on_finger_down(Vec3 touchPosition,Key::Finger FingerID ) {}
+        virtual void on_finger_press(Vec3 touchPosition,Key::Finger FingerID ) {}
+        virtual void on_finger_release(Vec3 touchPosition,Key::Finger FingerID )   {}
     };
 
-    struct AccelerometerValues
+    struct E2D_DLL AccelerometerValues
     {
-        Vec3 accel;
-        float azimuth,pitch,roll;
-        AccelerometerValues():azimuth(0),pitch(0),roll(0) {}
+        Vec3 m_accel;
+        float m_azimuth,m_pitch,m_roll;
+        AccelerometerValues():m_azimuth(0),m_pitch(0),m_roll(0) {}
         AccelerometerValues(const Vec3& accel,float azimuth,float pitch,float roll)
-            :accel(accel),azimuth(azimuth),pitch(pitch),roll(roll) {}
+            :m_accel(accel),m_azimuth(azimuth),m_pitch(pitch),m_roll(roll) {}
         AccelerometerValues(float x,float y, float z,float azimuth,float pitch,float roll)
-            :accel(x,y,z),azimuth(azimuth),pitch(pitch),roll(roll) {}
+            :m_accel(x,y,z),m_azimuth(azimuth),m_pitch(pitch),m_roll(roll) {}
     };
 
-    class AccelerometerHandler
+    class E2D_DLL AccelerometerHandler
     {
     public:
         //accelerometer
-        virtual void onAcceleration(const AccelerometerValues& values)	{}
+        virtual void on_acceleration(const AccelerometerValues& values)	{}
     };
-    class MouseHandler
+    class E2D_DLL MouseHandler
     {
     public:
         //mouse
-        virtual void onMouseMove(Vec2 mousePosition) {}
-        virtual void onMousePress(Vec2 mousePosition, Key::Mouse button) {}
-        virtual void onMouseDown(Vec2 mousePosition, Key::Mouse button) {}
-        virtual void onMouseRelease(Vec2 mousePosition, Key::Mouse button) {}
-        virtual void onMouseScroll(short scrollDelta) {}
+        virtual void on_mouse_move(Vec2 mousePosition) {}
+        virtual void on_mouse_press(Vec2 mousePosition, Key::Mouse button) {}
+        virtual void on_mouse_down(Vec2 mousePosition, Key::Mouse button) {}
+        virtual void on_mouse_release(Vec2 mousePosition, Key::Mouse button) {}
+        virtual void on_mouse_scroll(short scrollDelta) {}
     };
-    class WindowHandler
+    class E2D_DLL WindowHandler
     {
     public:
         //window
-        virtual void onFocus(bool focus) {}
-        virtual void onChangeState(Window::State windowState) {}
-        virtual void onClose() {}
-        virtual void onResize(Vec2 size) {}
+        virtual void on_focus(bool focus) {}
+        virtual void on_change_state(Window::State windowState) {}
+        virtual void on_close() {}
+        virtual void on_resize(Vec2 size) {}
 
     };
 
@@ -260,18 +260,18 @@ public:
     * get mouse position
     * @return mouse position
     */
-    virtual Vec2 getMouse() const=0;
+    virtual Vec2 get_mouse() const=0;
     /**
     * get finger position
     * @param finger number
     * @return finger position
     */
-    virtual Vec2 getFinger(Key::Finger id) const=0;
+    virtual Vec2 get_finger(Key::Finger id) const=0;
     /**
     * get accelerometer values
     * @return (x,y,z, azimuth, pitch, roll) accelerometer values
     */
-    virtual const AccelerometerValues& getAccelerometer() const=0;
+    virtual const AccelerometerValues& get_accelerometer() const=0;
     /**
     * update window event,
     * call this method in a loop
@@ -281,7 +281,7 @@ public:
     * Return the last input string got from keyboard
     * @return input string
     */
-    virtual const String& getInputString()
+    virtual const String& get_input_string()
     {
         return String::NONE;
     }
@@ -290,141 +290,141 @@ public:
     * @param key's id
     * @return status
     */
-    virtual bool getKeyDown(Key::Keyboard id) const=0;
+    virtual bool get_key_down(Key::Keyboard id) const=0;
     /**
     *  Return true if go up keyboard button
     * @param key's id
     * @return status
     */
-    virtual bool getKeyUp(Key::Keyboard id) const=0;
+    virtual bool get_key_up(Key::Keyboard id) const=0;
     /**
     *  Return true if hit keyboard button
     * @param key's id
     * @return status
     */
-    virtual bool getKeyHit(Key::Keyboard id) const=0;
+    virtual bool get_key_hit(Key::Keyboard id) const=0;
     /**
     * Return true if mouse button is down
     * @param mouse button
     * @return status
     */
-    virtual bool getMouseDown(Key::Mouse id) const=0;
+    virtual bool get_mouse_down(Key::Mouse id) const=0;
     /**
     * Return true if mouse button is up
     * @param mouse button
     * @return status
     */
-    virtual bool getMouseUp(Key::Mouse id) const=0;
+    virtual bool get_mouse_up(Key::Mouse id) const=0;
     /**
     * Return true if mouse button is hit
     * @param mouse button
     * @return status
     */
-    virtual bool getMouseHit(Key::Mouse id) const=0;
+    virtual bool get_mouse_hit(Key::Mouse id) const=0;
     /**
     * Return scroll wheel delta
     * @return scroll delta
     */
-    virtual float getScroll() const=0;
+    virtual float get_scroll() const=0;
     /**
     * Return true if finger is down
     * @param finger number
     * @return status
     */
-    virtual bool getFingerDown(Key::Finger id) const=0;
+    virtual bool get_finger_down(Key::Finger id) const=0;
     /**
     * Return true if finger is up
     * @param finger number
     * @return status
     */
-    virtual bool getFingerUp(Key::Finger id) const=0;
+    virtual bool get_finger_up(Key::Finger id) const=0;
     /**
     * Return true if finger hit the screen
     * @param  finger number
     * @return status
     */
-    virtual bool getFingerHit(Key::Finger id) const=0;
+    virtual bool get_finger_hit(Key::Finger id) const=0;
     /**
     * Return true if window has focus
     * @return focus status
     */
-    virtual bool getFocus() const=0;
+    virtual bool get_focus() const=0;
     /**
     * Return true if window minimized
     * @return window status
     */
-    virtual bool getMinimized() const=0;
+    virtual bool get_minimized() const=0;
     /**
     * Return true if window maximized
     * @return window status
     */
-    virtual bool getMaximized() const=0;
+    virtual bool get_maximized() const=0;
     /**
     * Return true if window is closed
     * @return window status
     */
-    virtual bool getClose() const=0;
+    virtual bool get_close() const=0;
     /**
     * Return true if window is resized
     * @return window status
     */
-    virtual bool getResize() const=0;
+    virtual bool get_resize() const=0;
     /**
     * window size (when it is resized)
     * @return window size
     */
-    virtual Vec2 getResizeValues() const=0;
+    virtual Vec2 get_resize_values() const=0;
     /**
     * Adds an input window handler to the callback list
     */
-    virtual void addHandler(WindowHandler *handler)
+    virtual void add_handler(WindowHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        vwindowh.push_back(handler);
+        m_vwindowh.push_back(handler);
     }
     /**
     * Adds an input keyboard handler to the callback list
     */
-    virtual void addHandler(KeyboardHandler *handler)
+    virtual void add_handler(KeyboardHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        vkeyboardh.push_back(handler);
+        m_vkeyboardh.push_back(handler);
     }
     /**
     * Adds an input fingers handler to the callback list
     */
-    virtual void addHandler(FingersHandler *handler)
+    virtual void add_handler(FingersHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        vfingersh.push_back(handler);
+        m_vfingersh.push_back(handler);
     }
     /**
     * Adds an input accelerometer handler to the callback list
     */
-    virtual void addHandler(AccelerometerHandler *handler)
+    virtual void add_handler(AccelerometerHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        vaccelerometerh.push_back(handler);
+        m_vaccelerometerh.push_back(handler);
     }
     /**
     * Adds an input mouse handler to the callback list
     */
-    virtual void addHandler(MouseHandler *handler)
+    virtual void add_handler(MouseHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        vmouseh.push_back(handler);
+        m_vmouseh.push_back(handler);
     }
     /**
     * Removes an input window handler from the callback list
     */
-    virtual void removeHandler(WindowHandler *handler)
+    virtual void remove_handler(WindowHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        for(auto it=vwindowh.begin(); it!=vwindowh.end(); ++it)
+        for(auto it=m_vwindowh.begin(); it!=m_vwindowh.end(); ++it)
         {
             if(*it==handler)
             {
-                vwindowh.erase(it);
+                m_vwindowh.erase(it);
                 break;
             }
         }
@@ -432,14 +432,14 @@ public:
     /**
     * Removes an input keyboard handler from the callback list
     */
-    virtual void removeHandler(KeyboardHandler *handler)
+    virtual void remove_handler(KeyboardHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        for(auto it=vkeyboardh.begin(); it!=vkeyboardh.end(); ++it)
+        for(auto it=m_vkeyboardh.begin(); it!=m_vkeyboardh.end(); ++it)
         {
             if(*it==handler)
             {
-                vkeyboardh.erase(it);
+                m_vkeyboardh.erase(it);
                 break;
             }
         }
@@ -447,14 +447,14 @@ public:
     /**
     * Removes an input fingers handler from the callback list
     */
-    virtual void removeHandler(FingersHandler *handler)
+    virtual void remove_handler(FingersHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        for(auto it=vfingersh.begin(); it!=vfingersh.end(); ++it)
+        for(auto it=m_vfingersh.begin(); it!=m_vfingersh.end(); ++it)
         {
             if(*it==handler)
             {
-                vfingersh.erase(it);
+                m_vfingersh.erase(it);
                 break;
             }
         }
@@ -462,14 +462,14 @@ public:
     /**
     * Removes an input accelerometer handler from the callback list
     */
-    virtual void removeHandler(AccelerometerHandler *handler)
+    virtual void remove_handler(AccelerometerHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        for(auto it=vaccelerometerh.begin(); it!=vaccelerometerh.end(); ++it)
+        for(auto it=m_vaccelerometerh.begin(); it!=m_vaccelerometerh.end(); ++it)
         {
             if(*it==handler)
             {
-                vaccelerometerh.erase(it);
+                m_vaccelerometerh.erase(it);
                 break;
             }
         }
@@ -477,14 +477,14 @@ public:
     /**
     * Removes an input mouse handler from the callback list
     */
-    virtual void removeHandler(MouseHandler *handler)
+    virtual void remove_handler(MouseHandler *handler)
     {
         DEBUG_ASSERT(handler);
-        for(auto it=vmouseh.begin(); it!=vmouseh.end(); ++it)
+        for(auto it=m_vmouseh.begin(); it!=m_vmouseh.end(); ++it)
         {
             if(*it==handler)
             {
-                vmouseh.erase(it);
+                m_vmouseh.erase(it);
                 break;
             }
         }
@@ -492,44 +492,11 @@ public:
 
 protected:
 
-    std::vector<KeyboardHandler*> vkeyboardh;
-    std::vector<FingersHandler*> vfingersh;
-    std::vector<AccelerometerHandler*> vaccelerometerh;
-    std::vector<MouseHandler*> vmouseh;
-    std::vector<WindowHandler*> vwindowh;
-
-    /*
-    //window
-    struct EventWindow{
-    	bool focus,
-    		 minimized,
-    		 maximized,
-    		 resize,
-    		 close;
-    	Vec2 windowResize;
-    }ewindow;
-    //mouse
-    struct EventMouse{
-    	int nPress;
-    	short scroll;
-    	Vec2 pos;
-    	bool status[Key::KEYBOARDMAX];
-    	Key::Keyboard hit[10];
-    }emouse;
-    //fingers
-    struct EventFinges{
-    	int nPress;
-    	Vec2 pos[Key::FINGERMAX];
-    	bool status[Key::FINGERMAX];//[2];
-    	Key::Finger hit[Key::FINGERMAX];
-    }efingers;
-    //keyboard
-    struct EventKeyboard{
-    	int nPress;
-    	Key::Keyboard hit[10];
-    	bool status[Key::KEYBOARDMAX];//[2];
-    }ekeyboard;
-    */
+    std::vector<KeyboardHandler*> m_vkeyboardh;
+    std::vector<FingersHandler*> m_vfingersh;
+    std::vector<AccelerometerHandler*> m_vaccelerometerh;
+    std::vector<MouseHandler*> m_vmouseh;
+    std::vector<WindowHandler*> m_vwindowh;
 
 };
 

@@ -119,7 +119,7 @@ void WindowsApp::loop()
     //start timer
     timer.start();
     //draw loop
-    while( !m_input->getClose() && !doexit )
+    while( !m_input->get_close() && !doexit )
     {
         //get timer values
         millipass=timer.getGetCounter();

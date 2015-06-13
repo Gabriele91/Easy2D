@@ -18,7 +18,7 @@ public:
     * get mouse position
     * @return mouse position
     */
-    virtual Vec2 getMouse() const
+    virtual Vec2 get_mouse() const
     {
         return emouse.pos;
     }
@@ -27,7 +27,7 @@ public:
     * @param finger number
     * @return finger position
     */
-    virtual Vec2 getFinger(Key::Finger id) const
+    virtual Vec2 get_finger(Key::Finger id) const
     {
         return Vec2::ZERO;
     }
@@ -35,7 +35,7 @@ public:
     * get accelerometer values
     * @return (x,y,z, azimuth, pitch, roll) accelerometer values
     */
-    virtual const AccelerometerValues& getAccelerometer() const
+    virtual const AccelerometerValues& get_accelerometer() const
     {
         return AccelerometerValues();
     }
@@ -48,7 +48,7 @@ public:
     * Return true if window has focus
     * @return focus status
     */
-    virtual bool getFocus() const
+    virtual bool get_focus() const
     {
         return ewindow.focus;
     }
@@ -57,7 +57,7 @@ public:
     * @param key's id
     * @return status
     */
-    virtual bool getKeyDown(Key::Keyboard id) const
+    virtual bool get_key_down(Key::Keyboard id) const
     {
         return ekeyboard.status[id] ? true : false;
     }
@@ -66,7 +66,7 @@ public:
     * @param key's id
     * @return status
     */
-    virtual bool getKeyUp(Key::Keyboard id) const
+    virtual bool get_key_up(Key::Keyboard id) const
     {
         return !ekeyboard.status[id];
     }
@@ -75,7 +75,7 @@ public:
     * @param key's id
     * @return status
     */
-    virtual bool getKeyHit(Key::Keyboard id) const
+    virtual bool get_key_hit(Key::Keyboard id) const
     {
         for(int i=0; i<10&&i<ekeyboard.nPress; ++i)
         {
@@ -88,7 +88,7 @@ public:
     * @param mouse button
     * @return status
     */
-    virtual bool getMouseDown(Key::Mouse id) const
+    virtual bool get_mouse_down(Key::Mouse id) const
     {
         return emouse.status[id] ? true : false;
     }
@@ -97,7 +97,7 @@ public:
     * @param mouse button
     * @return status
     */
-    virtual bool getMouseUp(Key::Mouse id) const
+    virtual bool get_mouse_up(Key::Mouse id) const
     {
         return !emouse.status[id];
     }
@@ -106,7 +106,7 @@ public:
     * @param mouse button
     * @return status
     */
-    virtual bool getMouseHit(Key::Mouse id) const
+    virtual bool get_mouse_hit(Key::Mouse id) const
     {
         for(int i=0; i<10&&i<emouse.nPress; ++i)
         {
@@ -118,7 +118,7 @@ public:
     * Return scroll wheel delta
     * @return scroll delta
     */
-    virtual float getScroll() const
+    virtual float get_scroll() const
     {
         return emouse.scroll;
     }
@@ -127,7 +127,7 @@ public:
     * @param finger number
     * @return status
     */
-    virtual bool getFingerDown(Key::Finger id) const
+    virtual bool get_finger_down(Key::Finger id) const
     {
         return false;
     }
@@ -136,7 +136,7 @@ public:
     * @param finger number
     * @return status
     */
-    virtual bool getFingerUp(Key::Finger id) const
+    virtual bool get_finger_up(Key::Finger id) const
     {
         return false;
     }
@@ -145,7 +145,7 @@ public:
     * @param  finger number
     * @return status
     */
-    virtual bool getFingerHit(Key::Finger id) const
+    virtual bool get_finger_hit(Key::Finger id) const
     {
         return false;
     }
@@ -153,7 +153,7 @@ public:
     * Return true if window minimized
     * @return window status
     */
-    virtual bool getMinimized() const
+    virtual bool get_minimized() const
     {
         return ewindow.minimized;
     }
@@ -161,7 +161,7 @@ public:
     * Return true if window maximized
     * @return window status
     */
-    virtual bool getMaximized() const
+    virtual bool get_maximized() const
     {
         return ewindow.maximized;
     }
@@ -169,7 +169,7 @@ public:
     * Return true if window is closed
     * @return window status
     */
-    virtual bool getClose() const
+    virtual bool get_close() const
     {
         return ewindow.close;
     }
@@ -177,7 +177,7 @@ public:
     * Return true if window is resized
     * @return window status
     */
-    virtual bool getResize() const
+    virtual bool get_resize() const
     {
         return ewindow.resize;
     }
@@ -185,7 +185,7 @@ public:
     * window size (when it is resized)
     * @return window size
     */
-    virtual Vec2 getResizeValues() const
+    virtual Vec2 get_resize_values() const
     {
         return ewindow.windowResize;
     }

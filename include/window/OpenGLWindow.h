@@ -78,7 +78,7 @@ extern PFNGLGETPROGRAMINFOLOGPROC	 glGetProgramInfoLog;
 namespace Easy2D
 {
 //init openGL2
-extern void initOpenGL2();
+extern void init_open_gl_2();
 };
 
 

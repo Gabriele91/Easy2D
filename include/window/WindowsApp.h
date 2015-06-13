@@ -12,7 +12,7 @@ namespace Easy2D
 * Abstract class, represent the application instance
 * @class Application <Application.h>
 */
-class WindowsApp : Application
+class E2D_DLL WindowsApp : Application
 {
 public:
     /**

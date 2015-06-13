@@ -10,7 +10,7 @@
 namespace Easy2D
 {
 
-class WindowsScreen : Screen
+class E2D_DLL WindowsScreen : Screen
 {
 
 public:

@@ -115,7 +115,7 @@ void AngleApp::loop()
     //set current context
     m_screen->acquire_context();
     //draw loop
-    while( !m_input->getClose() && !doexit )
+    while( !m_input->get_close() && !doexit )
     {
         //get timer values
         millipass=timer.getGetCounter();

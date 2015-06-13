@@ -125,7 +125,7 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
 void WindowsScreen::__initOpenGL()
 {
     //init openGL2
-    initOpenGL2();
+    init_open_gl_2();
     //set default state
 	RenderContext::initContext();
     //find errors:

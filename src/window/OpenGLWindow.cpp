@@ -72,7 +72,7 @@ PFNGLGETSHADERIVPROC	glGetShaderiv=NULL;
 PFNGLGETPROGRAMIVPROC	glGetProgramiv=NULL;
 PFNGLGETPROGRAMINFOLOGPROC	glGetProgramInfoLog=NULL;
 
-void Easy2D::initOpenGL2()
+void Easy2D::init_open_gl_2()
 {
     //out debug
     DEBUG_MESSAGE("Setup OpenGL2");
