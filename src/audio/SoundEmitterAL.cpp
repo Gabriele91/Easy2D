@@ -186,7 +186,7 @@ void SoundEmitterAL::set2D(bool enable)
 		getAudio()->subscriptionSound2D(this);
 		getAudio()->requiredUpdate();
 		//force update
-		getAudio()->update(Application::instance()->getLastDeltaTime()); 
+		getAudio()->update(Application::instance()->get_last_delta_time()); 
 	}
 	else if (is2D() && !enable)
 	{

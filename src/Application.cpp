@@ -113,11 +113,11 @@ public:
 Application *Application::appSingleton=NULL;
 ///////////////////////
 Application::Application()
-    :lastDeltaTime(0.0f)
-    ,mainInstance(NULL)
-    ,screen(NULL)
-    ,input(NULL)
-    ,audio(NULL)
+    :m_last_delta_time(0.0f)
+    ,m_main_instance(NULL)
+    ,m_screen(NULL)
+    ,m_input(NULL)
+    ,m_audio(NULL)
 {
 
 }
@@ -187,33 +187,33 @@ Application *Application::instance()
  * stream resource
  * @return ResouceStream object
  */
-Application::ResouceStream* Application::getResouceStream(const String& path)
+Application::ResouceStream* Application::get_resouce_stream(const String& path)
 {
     return new CResouceStream(/* appResourcesDirectory()+'/'+ */ path);
 }
 /**
 * save a resourcesGroup
 */
-void Application::subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr)
+void Application::subscription_resources_group(const String& name,ResourcesGroup *rsGr)
 {
     DEBUG_ASSERT(rsGr);
-    DEBUG_ASSERT(groups.find(name)==groups.end());
-    groups[name]=rsGr;
+    DEBUG_ASSERT(m_groups.find(name)==m_groups.end());
+    m_groups[name]=rsGr;
 }
 /**
 * get a resourcesGroup
 */
-ResourcesGroup* Application::getResourcesGroup(const String& name)
+ResourcesGroup* Application::get_resources_group(const String& name)
 {
-    auto it=groups.find(name);
-    if(it!=groups.end()) return it->second;
+    auto it=m_groups.find(name);
+    if(it!=m_groups.end()) return it->second;
     return NULL;
 }
 /**
 * erase a resourcesGroup
 */
-void Application::unsubscriptionResourcesGroup(const String& name)
+void Application::unsubscription_resources_group(const String& name)
 {
-    auto it=groups.find(name);
-    if(it!=groups.end()) groups.erase(it);
+    auto it=m_groups.find(name);
+    if(it!=m_groups.end()) m_groups.erase(it);
 }

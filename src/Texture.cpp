@@ -218,7 +218,7 @@ bool Texture::load()
         //get raw file
         void *data=NULL;
         size_t len=0;
-        Application::instance()->loadData(imagePath,data,len);
+        Application::instance()->load_data(imagePath,data,len);
         image.loadFromData(data,
                            len,
                            Image::getTypeFromExtetion(imagePath.getExtension()));

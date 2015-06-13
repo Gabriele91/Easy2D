@@ -209,7 +209,7 @@ void WindowsInput::update()
     }
     ///////////////////////////LOOP EVENT
     //get hendler windows
-    HWND hWind=((WindowsScreen*)Application::instance()->getScreen())->hWind;
+    HWND hWind=((WindowsScreen*)Application::instance()->get_screen())->hWind;
     //update maximize
     //get info
     bool maximized=IsZoomed(hWind)!=FALSE;
@@ -327,7 +327,7 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
     if(Application::instance()!=NULL)
     {
 
-        WindowsInput *winput=(WindowsInput*)Application::instance()->getInput();
+        WindowsInput *winput=(WindowsInput*)Application::instance()->get_input();
         DEBUG_ASSERT(winput);
 
         switch (message)

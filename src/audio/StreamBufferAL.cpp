@@ -75,7 +75,7 @@ StreamContextAL::StreamContextAL(SoundEmitterAL* source,
 	//create buffers
 	alGenBuffers(AL_STREAM_N_BUFFERS, buffers);
 	//schedule update
-	((AudioAL*)(Application::instance()->getAudio()))->getStreamThreadAL().push(this); 
+	((AudioAL*)(Application::instance()->get_audio()))->getStreamThreadAL().push(this); 
 	//init
 	leftRead = 0;
 	lastRead = 0;
@@ -85,7 +85,7 @@ StreamContextAL::~StreamContextAL()
 {
 	if (source->isPlay()) source->stop();
 	//unschedule
-	((AudioAL*)(Application::instance()->getAudio()))->getStreamThreadAL().erase(this);
+	((AudioAL*)(Application::instance()->get_audio()))->getStreamThreadAL().erase(this);
 	//delete buffers
 	alDeleteBuffers(AL_STREAM_N_BUFFERS, buffers);
 }

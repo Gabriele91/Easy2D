@@ -79,7 +79,7 @@ Button::Button(GuiManager* guim):GuiObject(guim)
                                 ,eventClick(nullptr)
 {
     //event
-    Application::instance()->getInput()->addHandler(this);
+    Application::instance()->get_input()->addHandler(this);
     //style
     const Table& style=guim->style->getConstTable("buttom");
     //style
@@ -108,7 +108,7 @@ Button::Button(GuiManager* guim):GuiObject(guim)
 }
 Button::~Button()
 {
-    Application::instance()->getInput()->removeHandler(this);
+    Application::instance()->get_input()->removeHandler(this);
 }
 
 void Button::setText(const String& name)

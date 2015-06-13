@@ -8,7 +8,7 @@ using namespace Easy2D;
 
 Speaker::Speaker(Sound::ptr soundResource, bool is2d)
 		:emitter(Application::instance()
-				 ->getAudio()
+				 ->get_audio()
 				 ->createEmitter())
 {
 	setSound(soundResource);

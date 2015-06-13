@@ -489,7 +489,7 @@ Path Path::getRelativePathTo(const Path& path) const
 Path Path::getRelativePath() const
 {
     //get working directory
-    Path workingDir(Application::instance()->appWorkingDirectory());
+    Path workingDir(Application::instance()->app_working_directory());
     //return
     return getRelativePathTo(workingDir);
 }

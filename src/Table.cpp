@@ -59,7 +59,7 @@ bool Table::load()
         //get raw file
         void *data=NULL;
         size_t len=0;
-        Application::instance()->loadData(rpath,data,len);
+        Application::instance()->load_data(rpath,data,len);
         //deserialize
         deserialize(String((const char*)data));
         //get errors

@@ -36,7 +36,7 @@ bool Sound::load()
         //load file
         void *data=NULL;
         size_t len=0;
-        Application::instance()->loadData(rpath,data,len);
+        Application::instance()->load_data(rpath,data,len);
         String filestring((char*)data);
         free(data);
         //deserialize
@@ -68,27 +68,27 @@ bool Sound::load()
     {
         //stream
         //open stream
-		auto pResource = Application::instance()->getResouceStream(path);
+		auto pResource = Application::instance()->get_resouce_stream(path);
 		//stream
 		//load sound
 		if (path.getExtension() == "aiff")
 		{
 			//get info
-			AiffLoader::InfoSound infoSound = AiffLoader::getInfo(pResource);
+			AiffLoader::InfoSound infoSound = AiffLoader::get_info(pResource);
 			//crate a stream sound
-			sbuffer = Application::instance()->getAudio()->createStreamBuffer(pResource,
-																			  infoSound.rawPos,
-																			  infoSound.rawSize,
-																			  infoSound.sempleRate,
-																			  infoSound.cannels,
-																			  infoSound.sempleBit);
+			sbuffer = Application::instance()->get_audio()->createStreamBuffer(pResource,
+																			  infoSound.m_raw_pos,
+																			  infoSound.m_raw_size,
+																			  infoSound.m_semple_rate,
+																			  infoSound.m_cannels,
+																			  infoSound.m_semple_bit);
 		}
 		else if (path.getExtension() == "wav")
 		{
 			//get info
 			WavLoader::InfoSound infoSound = WavLoader::getInfo(pResource);
 			//crate a stream sound
-			sbuffer = Application::instance()->getAudio()->createStreamBuffer(pResource,
+			sbuffer = Application::instance()->get_audio()->createStreamBuffer(pResource,
 																			  infoSound.rawPos,
 																			  infoSound.rawSize,
 																			  infoSound.sempleRate,

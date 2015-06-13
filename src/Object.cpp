@@ -665,23 +665,23 @@ void Object::onSceneResume()
 //utility methos
 Screen* Object::getScreen()
 {
-    return Application::instance()->getScreen();
+    return Application::instance()->get_screen();
 }
 Audio* Object::getAudio()
 {
-    return Application::instance()->getAudio();
+    return Application::instance()->get_audio();
 }
 Input* Object::getInput()
 {
-    return Application::instance()->getInput();
+    return Application::instance()->get_input();
 }
 Game* Object::getGame()
 {
-    return Application::instance()->getGame();
+    return Application::instance()->get_game();
 }
 ResourcesGroup* Object::getResourcesGroup(const String& name)
 {
-    return Application::instance()->getResourcesGroup(name);
+    return Application::instance()->get_resources_group(name);
 }
 
 static String parentToString(int mode)

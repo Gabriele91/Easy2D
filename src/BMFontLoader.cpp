@@ -14,7 +14,7 @@ bool BMFontLoader::load(Font& font,const Utility::Path& fontPath)
     //load font
     void *voidFntBuffer=NULL;
     size_t fntLen=0;
-    Application::instance()->loadData(fontPath,voidFntBuffer,fntLen);
+    Application::instance()->load_data(fontPath,voidFntBuffer,fntLen);
     //save info ptr
     char *startFntBuffer,*fntBuffer;
     startFntBuffer=fntBuffer=(char*)voidFntBuffer;

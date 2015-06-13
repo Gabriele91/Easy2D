@@ -37,7 +37,7 @@ protected:
 	}
 	AudioAL* getAudio()
 	{
-		return ((AudioAL*)Application::instance()->getAudio());
+		return ((AudioAL*)Application::instance()->get_audio());
 	}
 
 public:

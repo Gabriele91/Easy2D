@@ -94,7 +94,7 @@ Audio::SoundBuffer* WavLoader::load(const Utility::Path& path)
     //get raw file
     void *data=NULL;
     size_t len=0;
-    Application::instance()->loadData(path,data,len);
+    Application::instance()->load_data(path,data,len);
     //headers
 	RIFFHeader *riffHeader;
 	FMTHeader *fmtHeader;
@@ -122,7 +122,7 @@ Audio::SoundBuffer* WavLoader::load(const Utility::Path& path)
     /**
      * return a sound instance
      */
-	auto e2dbuffer = Application::instance()->getAudio()->createBuffer(rawData->data,
+	auto e2dbuffer = Application::instance()->get_audio()->createBuffer(rawData->data,
 																	   rawData->subchunk2Size,
 																	   fmtHeader->sampleRate,
 																	   cannels,

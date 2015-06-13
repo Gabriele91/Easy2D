@@ -16,15 +16,15 @@ namespace Easy2D
 
 		struct InfoSound
 		{
-			Audio::SempleBit sempleBit;
-			Audio::Channels cannels;
-			size_t sempleRate;
-			size_t rawSize;
-			size_t rawPos;
-			float time;
+			Audio::SempleBit m_semple_bit;
+			Audio::Channels m_cannels;
+			size_t m_semple_rate;
+			size_t m_raw_size;
+			size_t m_raw_pos;
+			float m_time;
 		};
 
-		static InfoSound getInfo(Application::ResouceStream *pResource);
+		static InfoSound get_info(Application::ResouceStream *pResource);
 		static Audio::SoundBuffer* load(const Utility::Path& path);
 
 	};

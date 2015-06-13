@@ -72,27 +72,27 @@ public:
     * load a binary file
     * @return succes
     */
-    virtual bool loadData(const String& path,void*& ptr,size_t &len)=0;
+    virtual bool load_data(const String& path,void*& ptr,size_t &len)=0;
     /**
      * stream resource
      * @return ResouceStream object
      */
-    virtual ResouceStream* getResouceStream(const String& path);
+    virtual ResouceStream* get_resouce_stream(const String& path);
     /**
     * where you can seve files data
     * @return path
     */
-    virtual String appDataDirectory()=0;
+    virtual String app_data_directory()=0;
     /**
     * application root (read only)
     * @return path
     */
-    virtual String appWorkingDirectory()=0;
+    virtual String app_working_directory()=0;
     /**
     * resources directory (read only)
     * @return path
     */
-    virtual String appResourcesDirectory()=0;
+    virtual String app_resources_directory()=0;
     /**
     * application exit method
     */
@@ -116,62 +116,62 @@ public:
     /**
     * return last delta time
     */
-    virtual float getLastDeltaTime()
+    virtual float get_last_delta_time()
     {
-        return lastDeltaTime;
+        return m_last_delta_time;
     }
     /**
     * return main instance
     */
-    Game* getGame()
+    Game* get_game()
     {
-        return mainInstance;
+        return m_main_instance;
     }
     /**
     * return screen device
     */
-    Screen* getScreen()
+    Screen* get_screen()
     {
-        return screen;
+        return m_screen;
     }
     /**
     * return audio device
     */
-    Audio* getAudio()
+    Audio* get_audio()
     {
-        return audio;
+        return m_audio;
     }
     /**
     * return input device
     */
-    Input* getInput()
+    Input* get_input()
     {
-        return input;
+        return m_input;
     }
     /**
     * save a resourcesGroup
     */
-    virtual void subscriptionResourcesGroup(const String& name,ResourcesGroup *rsGr);
+    virtual void subscription_resources_group(const String& name,ResourcesGroup *rsGr);
     /**
     * get a resourcesGroup
     */
-    virtual ResourcesGroup* getResourcesGroup(const String& name);
+    virtual ResourcesGroup* get_resources_group(const String& name);
     /**
     * erase a resourcesGroup
     */
-    virtual void unsubscriptionResourcesGroup(const String& name);
+    virtual void unsubscription_resources_group(const String& name);
 
 protected:
 
     //resources group map
-    DUNORDERED_MAP< String, ResourcesGroup* > groups;
+    DUNORDERED_MAP< String, ResourcesGroup* > m_groups;
     //
-    String appname;
-    float lastDeltaTime;
-    Game *mainInstance;
-    Screen *screen;
-    Input *input;
-    Audio *audio;
+    String m_appname;
+    float m_last_delta_time;
+    Game *m_main_instance;
+    Screen *m_screen;
+    Input *m_input;
+    Audio *m_audio;
     //
     Application();
     static Application* appSingleton;

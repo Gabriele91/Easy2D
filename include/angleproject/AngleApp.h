@@ -23,22 +23,22 @@ public:
     * load a binary file
     * @return succes
     */
-    virtual bool loadData(const String& path,void*& ptr,size_t &len);
+    virtual bool load_data(const String& path,void*& ptr,size_t &len);
     /**
     * where you can save files data
     * @return path
     */
-    virtual String appDataDirectory();
+    virtual String app_data_directory();
     /**
     * application root (read only)
     * @return path
     */
-    virtual String appWorkingDirectory();
+    virtual String app_working_directory();
     /**
     * resources directory (read only)
     * @return path
     */
-    virtual String appResourcesDirectory();
+    virtual String app_resources_directory();
     /**
     * application exit method
     */

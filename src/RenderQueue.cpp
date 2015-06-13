@@ -12,7 +12,7 @@ RenderQueue::RenderQueue(Render* render)
 {
 	DEBUG_ASSERT(render);
 	//get screen size
-	Vec2 screenSize = Application::instance()->getScreen()->getSize();
+	Vec2 screenSize = Application::instance()->get_screen()->getSize();
 	//create render target buffer
 	target.color = RenderContext::createTexture(GL_RGBA, GL_RGBA, screenSize.x, screenSize.y, 0, false);
 	RenderContext::filterTexture(GL_LINEAR, GL_LINEAR);

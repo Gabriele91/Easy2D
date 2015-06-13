@@ -231,7 +231,7 @@ bool FreeTypeFontLoader::load(Font& font,Table& fontInfo,const Utility::Path& fo
     FT_Face face;
     void *facebuffer=NULL;
     size_t facelen=0;
-    Application::instance()->loadData(fontPath,facebuffer,facelen);
+    Application::instance()->load_data(fontPath,facebuffer,facelen);
     DEBUG_ASSERT_MGS_REPLACE( FT_New_Memory_Face( freeType,
                               (FT_Byte*)facebuffer,
                               facelen,

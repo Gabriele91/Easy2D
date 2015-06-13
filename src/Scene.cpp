@@ -24,7 +24,7 @@ Scene::Scene(const String& app,
                                     });
 	//init context
 	Application::instance()
-		->getScreen()
+		->get_screen()
 		->createWindow(app.c_str(),
 		width,
 		height,
@@ -311,21 +311,21 @@ void Scene::serialize(Table& table)
 //utility methos
 Easy2D::Screen* Scene::getScreen()
 {
-    return Application::instance()->getScreen();
+    return Application::instance()->get_screen();
 }
 Easy2D::Audio* Scene::getAudio()
 {
-    return Application::instance()->getAudio();
+    return Application::instance()->get_audio();
 }
 Easy2D::Input* Scene::getInput()
 {
-    return Application::instance()->getInput();
+    return Application::instance()->get_input();
 }
 Easy2D::Game* Scene::getGame()
 {
-    return Application::instance()->getGame();
+    return Application::instance()->get_game();
 }
 Easy2D::ResourcesGroup* Scene::getResourcesGroup(const String& name)
 {
-    return Application::instance()->getResourcesGroup(name);
+    return Application::instance()->get_resources_group(name);
 }

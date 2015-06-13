@@ -76,7 +76,7 @@ bool FrameSet::load()
     //load file
     void *data=NULL;
     size_t len=0;
-    Application::instance()->loadData(rpath,data,len);
+    Application::instance()->load_data(rpath,data,len);
     String filestring((char*)data);
     free(data);
     //deserialize frameset

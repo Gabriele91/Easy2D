@@ -17,21 +17,21 @@ using namespace Easy2D;
 WindowsApp::WindowsApp(const String& name)
     :Application()
 {
-    screen=(Screen*)new WindowsScreen();
-    input=(Input*)new WindowsInput();
-    audio=(Audio*)new AudioAL();//OpenAL
+    m_screen=(Screen*)new WindowsScreen();
+    m_input=(Input*)new WindowsInput();
+    m_audio=(Audio*)new AudioAL();//OpenAL
     //savename
-    appname=name;
+    m_appname=name;
     /////////////////////////////////////
     //create appdirectory
     //init appdata folder
     TCHAR szPath[MAX_PATH];
-    SHGetFolderPathA(((WindowsScreen*)getScreen())->hWind,
+    SHGetFolderPathA(((WindowsScreen*)get_screen())->hWind,
                      CSIDL_APPDATA|CSIDL_FLAG_CREATE,
                      NULL,
                      0,
                      szPath);
-    dataPath = String(szPath) + '/' + appname;
+    dataPath = String(szPath) + '/' + m_appname;
     //create directory
     CreateDirectory(dataPath.c_str(),0);
     //get errors
@@ -51,19 +51,19 @@ WindowsApp::WindowsApp(const String& name)
 WindowsApp::~WindowsApp()
 {
     //delete audio
-    delete audio;
-    audio=nullptr;
+    delete m_audio;
+    m_audio=nullptr;
     //delete screen
-    delete screen;
-    screen=nullptr;
+    delete m_screen;
+    m_screen=nullptr;
     //delete input
-    delete input;
-	input = nullptr;
+    delete m_input;
+	m_input = nullptr;
 	//close sockets
 	Socket::shutdownSockets ();
 }
 
-bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len)
+bool WindowsApp::load_data(const String& path,void*& ptr,size_t &len)
 {
     //open
     FILE *pfile=fopen(path,"rb");
@@ -82,12 +82,12 @@ bool WindowsApp::loadData(const String& path,void*& ptr,size_t &len)
     return pfile!=NULL;
 }
 
-String WindowsApp::appDataDirectory()
+String WindowsApp::app_data_directory()
 {
     return dataPath;
 }
 
-String WindowsApp::appWorkingDirectory()
+String WindowsApp::app_working_directory()
 {
     char cCurrentPath[MAX_PATH];
     if(!_getcwd(cCurrentPath, sizeof(cCurrentPath)))
@@ -97,9 +97,9 @@ String WindowsApp::appWorkingDirectory()
     return cCurrentPath;
 }
 
-String WindowsApp::appResourcesDirectory()
+String WindowsApp::app_resources_directory()
 {
-    return appWorkingDirectory();
+    return app_working_directory();
 }
 
 void WindowsApp::exit()
@@ -112,14 +112,14 @@ void WindowsApp::loop()
 {
     //
     Timer timer;
-    double msToSleep=1000.0/(static_cast<double>(screen->getFrameRate()));
+    double msToSleep=1000.0/(static_cast<double>(m_screen->getFrameRate()));
     double millipass=0;
     double dt=0;
     double sleepTime=0;
     //start timer
     timer.start();
     //draw loop
-    while( !input->getClose() && !doexit )
+    while( !m_input->getClose() && !doexit )
     {
         //get timer values
         millipass=timer.getGetCounter();
@@ -135,33 +135,33 @@ void WindowsApp::loop()
         dt=millipass/1000.0;
         timer.reset();
         //save dt
-        lastDeltaTime=(float)dt;
+        m_last_delta_time=(float)dt;
         //update
         update((float)dt);
         //update audio
-        audio->update((float)dt);
+        m_audio->update((float)dt);
         //update opengl
-        screen->swap();
+        m_screen->swap();
     }
 }
 
 void WindowsApp::exec(Game *ptrMainInstance)
 {
-	mainInstance = ptrMainInstance;
+	m_main_instance = ptrMainInstance;
 	//set current context
-	screen->acquireContext();
+	m_screen->acquireContext();
 	//start
-    mainInstance->start();
+    m_main_instance->start();
 	//loop
     loop();
 	//end
-    mainInstance->end();
+    m_main_instance->end();
 }
 
 void WindowsApp::update(float dt)
 {
-    input->update();
-    mainInstance->run(dt);
+    m_input->update();
+    m_main_instance->run(dt);
 }
 
 bool WindowsApp::onlyPO2()

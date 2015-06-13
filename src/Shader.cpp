@@ -580,7 +580,7 @@ bool Shader::load()
         //load data
         size_t len=0;
         void*  ptr=nullptr;
-        Application::instance()->loadData(rpath, ptr, len);
+        Application::instance()->load_data(rpath, ptr, len);
         //parsing
         String errors,vertex,fragment;
         //parsing

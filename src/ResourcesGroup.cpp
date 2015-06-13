@@ -29,7 +29,7 @@ void ResourcesGroup::subscription(const String& rgname)
     //save name
     name=rgname;
     //regist this resource group
-    Application::instance()->subscriptionResourcesGroup (name,this);
+    Application::instance()->subscription_resources_group (name,this);
     //is subscribed
     isSubscribed=true;
 }
@@ -38,7 +38,7 @@ void ResourcesGroup::unsubscription()
     //debug
     DEBUG_ASSERT(name.size());
     //unregist this resource group
-    Application::instance()->unsubscriptionResourcesGroup(name);
+    Application::instance()->unsubscription_resources_group(name);
 }
 void ResourcesGroup::loadResourceFile()
 {

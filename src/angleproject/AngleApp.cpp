@@ -16,11 +16,11 @@ using namespace Easy2D;
 AngleApp::AngleApp(const String& name)
     :Application()
 {
-    screen=(Screen*)new AngleScreen();
-    input=(Input*)new AngleInput();
-    audio=(Audio*)new AudioAL();//OpenAL
+    m_screen=(Screen*)new AngleScreen();
+    m_input=(Input*)new AngleInput();
+    m_audio=(Audio*)new AudioAL();//OpenAL
     //savename
-    appname=name;
+    m_appname=name;
     /////////////////////////////////////
     //create appdirectory
     //init appdata folder
@@ -30,7 +30,7 @@ AngleApp::AngleApp(const String& name)
                      NULL,
                      0,
                      szPath);
-    dataPath = String(szPath) + '/' + appname;
+    dataPath = String(szPath) + '/' + m_appname;
     //create directory
     CreateDirectory(dataPath.c_str(),0);
     //get errors
@@ -47,17 +47,17 @@ AngleApp::AngleApp(const String& name)
 AngleApp::~AngleApp()
 {
     //delete audio
-    delete audio;
-    audio=nullptr;
+    delete m_audio;
+    m_audio=nullptr;
     //delete screen
-    delete screen;
-    screen=nullptr;
+    delete m_screen;
+    m_screen=nullptr;
     //delete input
-    delete input;
-    input=nullptr;
+    delete m_input;
+    m_input=nullptr;
 }
 
-bool AngleApp::loadData(const String& path,void*& ptr,size_t &len)
+bool AngleApp::load_data(const String& path,void*& ptr,size_t &len)
 {
     //open
     FILE *pfile=fopen(path,"rb");
@@ -76,12 +76,12 @@ bool AngleApp::loadData(const String& path,void*& ptr,size_t &len)
     return pfile!=NULL;
 }
 
-String AngleApp::appDataDirectory()
+String AngleApp::app_data_directory()
 {
     return dataPath;
 }
 
-String AngleApp::appWorkingDirectory()
+String AngleApp::app_working_directory()
 {
     char cCurrentPath[MAX_PATH];
     if(!_getcwd(cCurrentPath, sizeof(cCurrentPath)))
@@ -91,9 +91,9 @@ String AngleApp::appWorkingDirectory()
     return cCurrentPath;
 }
 
-String AngleApp::appResourcesDirectory()
+String AngleApp::app_resources_directory()
 {
-    return appWorkingDirectory();
+    return app_working_directory();
 }
 
 void AngleApp::exit()
@@ -106,16 +106,16 @@ void AngleApp::loop()
 {
     //
     Timer timer;
-    double msToSleep=1000.0/(static_cast<double>(screen->getFrameRate()));
+    double msToSleep=1000.0/(static_cast<double>(m_screen->getFrameRate()));
     double millipass=0;
     double dt=0;
     double sleepTime=0;
     //start timer
     timer.start();
     //set current context
-    screen->acquireContext();
+    m_screen->acquireContext();
     //draw loop
-    while( !input->getClose() && !doexit )
+    while( !m_input->getClose() && !doexit )
     {
         //get timer values
         millipass=timer.getGetCounter();
@@ -131,26 +131,26 @@ void AngleApp::loop()
         dt=millipass/1000.0;
         timer.reset();
         //save dt
-        lastDeltaTime=(float)dt;
+        m_last_delta_time=(float)dt;
         //update
         update((float)dt);
         //update opengl
-        screen->swap();
+        m_screen->swap();
     }
 }
 
 void AngleApp::exec(Game *ptrMainInstance)
 {
-    mainInstance=ptrMainInstance;
-    mainInstance->start();
+    m_main_instance=ptrMainInstance;
+    m_main_instance->start();
     loop();
-    mainInstance->end();
+    m_main_instance->end();
 }
 
 void AngleApp::update(float dt)
 {
-    input->update();
-    mainInstance->run(dt);
+    m_input->update();
+    m_main_instance->run(dt);
 }
 
 bool AngleApp::onlyPO2()

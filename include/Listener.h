@@ -16,7 +16,7 @@ class Listener : public Component
 
 public:
 
-	Listener() :listener(Application::instance()->getAudio()->createListener())
+	Listener() :listener(Application::instance()->get_audio()->createListener())
 	{
 	}
 	virtual ~Listener()

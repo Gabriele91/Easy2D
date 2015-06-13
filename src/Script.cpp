@@ -24,7 +24,7 @@ bool Script::load()
     //load
     void* buffer;
     size_t len;
-    Application::instance()->loadData(getPath(),buffer,len);
+    Application::instance()->load_data(getPath(),buffer,len);
     //set text
     String text=(char*)buffer;
     //free

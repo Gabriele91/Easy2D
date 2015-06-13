@@ -86,7 +86,7 @@ static void endingConvSoundBuff16(uchar* buff,size_t size)
 	}
 }
 
-AiffLoader::InfoSound AiffLoader::getInfo(Application::ResouceStream *pResource)
+AiffLoader::InfoSound AiffLoader::get_info(Application::ResouceStream *pResource)
 {
 	/* none */
 	InfoSound infoSound;
@@ -148,14 +148,14 @@ AiffLoader::InfoSound AiffLoader::getInfo(Application::ResouceStream *pResource)
 	size_t audioLen = comm.numChannels * comm.numSampleFrames * (comm.sampleSize / 8);
 	uint frequency  = saneToInt32(comm.sanebuf);
 	//set info
-	infoSound.cannels    = channels;
-	infoSound.rawPos     = start;
-	infoSound.rawSize    = audioLen;
-	infoSound.sempleBit  = sempleBit;
-	infoSound.sempleRate = frequency;
+	infoSound.m_cannels    = channels;
+	infoSound.m_raw_pos     = start;
+	infoSound.m_raw_size    = audioLen;
+	infoSound.m_semple_bit  = sempleBit;
+	infoSound.m_semple_rate = frequency;
 	//calc time
 	size_t sempleSize = frequency * comm.numChannels * (comm.sampleSize / 8);
-	infoSound.time    = (float)audioLen / (float)sempleSize;
+	infoSound.m_time    = (float)audioLen / (float)sempleSize;
 	//return
 	return infoSound;
 }
@@ -164,7 +164,7 @@ Audio::SoundBuffer* AiffLoader::load(const Utility::Path& path)
 	//get raw file
 	void *data = NULL;
 	size_t len = 0;
-	Application::instance()->loadData(path, data, len);
+	Application::instance()->load_data(path, data, len);
 	//headers
 	AiffChunkFORM*   form;
 	AiffChunkSSND*   ssnd;
@@ -227,7 +227,7 @@ Audio::SoundBuffer* AiffLoader::load(const Utility::Path& path)
 	/**
 	* return a sound instance
 	*/
-	auto e2dbuffer = Application::instance()->getAudio()->createBuffer(start,
+	auto e2dbuffer = Application::instance()->get_audio()->createBuffer(start,
 																	   audioLen,
 																	   frequency,
 																	   channels,

@@ -56,7 +56,7 @@ void PostEffects::draw(const RenderContext::RenderTarget& target)
     RenderContext::setView(Mat4::IDENTITY);
     RenderContext::setModel(Mat4::IDENTITY);
     //get screen size
-    Vec2 screenSize=Application::instance()->getScreen()->getSize();
+    Vec2 screenSize=Application::instance()->get_screen()->getSize();
     RenderContext::setViewport(Vec4(0,0,screenSize.x,screenSize.y));
     //enable texture
     RenderContext::setTexture(true);
