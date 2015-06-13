@@ -318,4 +318,12 @@ namespace std
     #include <Easy2DLua.h>
 #endif
 
+#if defined(EXPORT_DLL)
+    #define E2D_DLL __declspec(dllexport)
+#elif defined(IMPORT_DLL)
+    #define E2D_DLL __declspec(dllimport)
+#else
+    #define E2D_DLL
+#endif
+
 #endif

@@ -10,7 +10,7 @@ namespace Easy2D
 class Scene;
 class Application;
 ////////////////////
-class Screen
+class E2D_DLL Screen
 {
 
 public:

@@ -18,7 +18,7 @@ class ResourcesGroup;
 * Abstract class, represent the application instance
 * @class Application <Application.h>
 */
-class Application
+class E2D_DLL Application
 {
 
 public:
@@ -30,7 +30,7 @@ public:
         END=2
     };
 
-    class ResouceStream
+    class E2D_DLL ResouceStream
     {
 
     public:
