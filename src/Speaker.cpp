@@ -25,9 +25,9 @@ void Speaker::setSound(Sound::ptr sound)
 	if (resource)
 	{
 		if (!resource->isLoad()) resource->load();
-		emitter->setBuffer(resource->getBuffer());
+		emitter->set_buffer(resource->getBuffer());
 	}
-	else emitter->setBuffer(nullptr);
+	else emitter->set_buffer(nullptr);
 }
 Sound::ptr Speaker::getSound()
 {
@@ -35,14 +35,14 @@ Sound::ptr Speaker::getSound()
 }
 /////////////////////////////////////
 ///enable loop
-void Speaker::enableLoop()
+void Speaker::enable_loop()
 {
-	emitter->enableLoop();
+	emitter->enable_loop();
 }
 ///disable loop
-void Speaker::disableLoop()
+void Speaker::disable_loop()
 {
-	emitter->disableLoop();
+	emitter->disable_loop();
 }
 ///play sound
 void Speaker::play()
@@ -92,19 +92,19 @@ float Speaker::volume()
 {
 	return emitter->volume();
 }
-float Speaker::realVolume()
+float Speaker::real_volume()
 {
-	return emitter->realVolume();
+	return emitter->real_volume();
 }
 //remaining time
-float Speaker::remainingTime()
+float Speaker::remaining_time()
 {
-	return emitter->remainingTime();
+	return emitter->remaining_time();
 }
 //playback time
-float Speaker::playbackTime()
+float Speaker::playback_time()
 {
-	return emitter->playbackTime();
+	return emitter->playback_time();
 }
 //global time duration
 float Speaker::duration()
@@ -112,35 +112,35 @@ float Speaker::duration()
 	return emitter->duration();
 }
 //get sound states
-bool Speaker::isPause()
+bool Speaker::is_pause()
 {
 	if (!getScene() && state != SPK_NONE)
 	{ 
 		return false;
 	}
 
-	return emitter->isPause();
+	return emitter->is_pause();
 }
-bool Speaker::isPlay()
+bool Speaker::is_play()
 {
 	if (!getScene() && state != SPK_NONE)
 	{
 		return true;
 	}
 
-	return emitter->isPlay();
+	return emitter->is_play();
 }
-bool Speaker::isStop()
+bool Speaker::is_stop()
 {
-	return emitter->isStop();
+	return emitter->is_stop();
 }
-bool Speaker::isLoop()
+bool Speaker::is_loop()
 {
 	if (!getScene() && state == SPK_LOOP)
 	{
 		return true;
 	}
-	return emitter->isLoop();
+	return emitter->is_loop();
 }
 /////////////////////////////////////
 void Speaker::set2D(bool enable)
@@ -180,9 +180,9 @@ void Speaker::onSetScene(Scene* scene)
 {
 	onSceneResume(); 
 	//play on attach
-	if (playOnAttach && !isPlay())
+	if (playOnAttach && !is_play())
 	{
-		if (isLoop())
+		if (is_loop())
 			loop();
 		else
 			play();
@@ -191,8 +191,8 @@ void Speaker::onSetScene(Scene* scene)
 void Speaker::onScenePause()
 {
 	//////////////////////////////////////////////
-	if (isLoop()) state = Speaker::SPK_LOOP;
-	else if (isPlay()) state = Speaker::SPK_PLAY;
+	if (is_loop()) state = Speaker::SPK_LOOP;
+	else if (is_play()) state = Speaker::SPK_PLAY;
 	//////////////////////////////////////////////
 	if (state != Speaker::SPK_NONE) emitter->pause();
 }
@@ -202,8 +202,8 @@ void Speaker::onSceneResume()
 	{
 	default: break;
 	case Speaker::SPK_NONE:	break;
-	case Speaker::SPK_PLAY: if (isPause())    play(); break;
-	case Speaker::SPK_LOOP: if (isPause())    loop(); break;
+	case Speaker::SPK_PLAY: if (is_pause())    play(); break;
+	case Speaker::SPK_LOOP: if (is_pause())    loop(); break;
 	}
 }
 /////////////////////////////////////
@@ -213,8 +213,8 @@ void Speaker::serialize(Table& table)
 {
 	//info sound
 	table.set("sound", resource->getName());
-	if (isLoop() || state == Speaker::SPK_LOOP) table.set("loop", 1.0);
-	else if (isPlay() || state == Speaker::SPK_PLAY) table.set("play", 1.0);
+	if (is_loop() || state == Speaker::SPK_LOOP) table.set("loop", 1.0);
+	else if (is_play() || state == Speaker::SPK_PLAY) table.set("play", 1.0);
 	table.set("volume", volume());
 	//set play on attach
 	table.set("playOnAttach", (float)playOnAttach);
@@ -241,14 +241,14 @@ void Speaker::deserialize(const Table& table)
 	//set play on attach
 	setPlayOnAttach(table.getFloat("playOnAttach", (float)playOnAttach) != 0.0f);
 	//get sound info
-	if (table.getFloat("loop", (float)isLoop()) != 0.0f)
+	if (table.getFloat("loop", (float)is_loop()) != 0.0f)
 		loop();
-	else if (table.getFloat("play", (float)isPlay()) != 0.0f)
+	else if (table.getFloat("play", (float)is_play()) != 0.0f)
 		play();
 	//play on attach
-	if (playOnAttach && getScene() && !isPlay())
+	if (playOnAttach && getScene() && !is_play())
 	{
-		if (isLoop())
+		if (is_loop())
 			loop();
 		else
 			play();

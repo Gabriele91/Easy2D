@@ -83,7 +83,7 @@ StreamContextAL::StreamContextAL(SoundEmitterAL* source,
 }
 StreamContextAL::~StreamContextAL()
 {
-	if (source->isPlay()) source->stop();
+	if (source->is_play()) source->stop();
 	//unschedule
 	((AudioAL*)(Application::instance()->get_audio()))->getStreamThreadAL().erase(this);
 	//delete buffers
@@ -102,17 +102,17 @@ void StreamContextAL::play()
 	alSourceQueueBuffers(source->getSource(), AL_STREAM_N_BUFFERS, buffers);
 }
 ///enable loop
-void StreamContextAL::enableLoop()
+void StreamContextAL::enable_loop()
 {
     looping=true;
 }
 ///disable loop
-void StreamContextAL::disableLoop()
+void StreamContextAL::disable_loop()
 {
     looping=false;
 }
 ///playback Time
-float StreamContextAL::playbackTime()
+float StreamContextAL::playback_time()
 {
     int bytesBufferRead;
     alGetSourcei(source->getSource(), AL_BYTE_OFFSET , &bytesBufferRead);
@@ -120,7 +120,7 @@ float StreamContextAL::playbackTime()
     return result;
 }
 ///is in looping mode!?
-bool StreamContextAL::isLoop()
+bool StreamContextAL::is_loop()
 {
 	return looping;
 }
@@ -152,9 +152,9 @@ size_t StreamContextAL::read(ALuint alBuffer)
 void StreamContextAL::update()
 {
     //
-	if ( source->isPause()) return;
-	if (!source->isPlay() && !isLoop()) return;
-	if (!source->isPlay() && isLoop())/* wrong */
+	if ( source->is_pause()) return;
+	if (!source->is_play() && !is_loop()) return;
+	if (!source->is_play() && is_loop())/* wrong */
     {
 		source->play();
     }
@@ -175,7 +175,7 @@ void StreamContextAL::update()
         //stream file/data
         read(alBuffer);
         //in loop mode restart stream buffer
-        if(sbuffer->sizeData<=leftRead && isLoop()) restart();
+        if(sbuffer->sizeData<=leftRead && is_loop()) restart();
         //change buffer
 		alSourceQueueBuffers(source->getSource(), 1, &alBuffer);
     }

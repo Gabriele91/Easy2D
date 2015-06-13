@@ -39,7 +39,7 @@ void Audio::changeVolume(float volume)
 {
     for(auto sound:soundmap)
     {
-        sound.second->__volumeFromManager(volume);
+        sound.second->volume_from_manager(volume);
     }
 }
 /**

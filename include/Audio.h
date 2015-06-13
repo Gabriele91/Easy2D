@@ -8,7 +8,7 @@
 namespace Easy2D
 {
 
-class Audio
+class E2D_DLL Audio
 {
 
 
@@ -31,34 +31,34 @@ public:
 		SEMPLE16BEBIT = 3
     };
 
-	class SoundBuffer
+    class E2D_DLL SoundBuffer
 	{
 		public:
 		virtual ~SoundBuffer(){};
 		///return type of buffer
-		virtual BufferType getType() = 0;
+		virtual BufferType get_type() = 0;
 		///get format buffer
-		virtual int getFormat() = 0;
+		virtual int get_format() = 0;
 		///get sound length
-		virtual float getLength() = 0;
+		virtual float get_length() = 0;
 	};
-    class SoundEmitter
+    class E2D_DLL SoundEmitter
     {
     protected:
 
 		friend class Audio;
-		virtual void __volumeFromManager(float volume) = 0;
-		virtual void __volume2dFromManager(float volume) = 0;
+		virtual void volume_from_manager(float volume) = 0;
+		virtual void volume_2D_from_manager(float volume) = 0;
 
 	public:
         ///destroy sound rerouce
 		virtual ~SoundEmitter() {};
 		///set buffer
-		virtual void setBuffer(SoundBuffer* buffer) = 0;
+		virtual void set_buffer(SoundBuffer* buffer) = 0;
         ///enable loop
-        virtual void enableLoop()=0;
+        virtual void enable_loop()=0;
         ///disable loop
-        virtual void disableLoop()=0;
+        virtual void disable_loop()=0;
         ///play sound
         virtual void play()=0;
         ///play sound in loop mode
@@ -71,18 +71,18 @@ public:
         virtual void volume(float volume)=0;
         //get volume
         virtual float volume()=0;
-        virtual float realVolume()=0;
+        virtual float real_volume()=0;
         //remaining time
-        virtual float remainingTime()=0;
+        virtual float remaining_time()=0;
         //playback time
-        virtual float playbackTime()=0;
+        virtual float playback_time()=0;
         //global time duration
         virtual float duration()=0;
         //get sound states
-        virtual bool isPause()=0;
-        virtual bool isPlay()=0;
-        virtual bool isStop()=0;
-        virtual bool isLoop()=0;
+        virtual bool is_pause()=0;
+        virtual bool is_play()=0;
+        virtual bool is_stop()=0;
+        virtual bool is_loop()=0;
 		//2d sound settings
 		virtual bool is2D() = 0;
 		virtual void set2D(bool enable) = 0;
@@ -92,7 +92,7 @@ public:
 		virtual float getRadius() = 0;
 
     };
-	class SoundListener
+    class E2D_DLL SoundListener
 	{
 	protected:
 

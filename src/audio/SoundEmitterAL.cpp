@@ -9,15 +9,15 @@ using namespace Easy2D;
 ///////////////////////
 
 ///global volume
-void SoundEmitterAL::__volumeFromManager(float volume)
+void SoundEmitterAL::volume_from_manager(float volume)
 {
 	audioVolume = volume;
-	alSourcef(source, AL_GAIN, realVolume());
+	alSourcef(source, AL_GAIN, real_volume());
 }
-void SoundEmitterAL::__volume2dFromManager(float volume)
+void SoundEmitterAL::volume_2D_from_manager(float volume)
 {
 	listenerVolume = volume;
-	alSourcef(source, AL_GAIN, realVolume());
+	alSourcef(source, AL_GAIN, real_volume());
 }
 
 ///constructor
@@ -39,17 +39,17 @@ SoundEmitterAL::~SoundEmitterAL()
 {
 	getAudio()->unsubscriptionSound(this);
 	if (is2D()) set2D(false);
-	if (isPlay()) stop();
+	if (is_play()) stop();
 	if (context) delete context;
 	if (buffer) alSourcei(source, AL_BUFFER, 0);
 	alDeleteSources(1, &source);
 };
 ///set buffer
-void SoundEmitterAL::setBuffer(Audio::SoundBuffer* inbuffer)
+void SoundEmitterAL::set_buffer(Audio::SoundBuffer* inbuffer)
 {
 	//DEBUG_ASSERT(inbuffer);
 	//delete last context
-	if(isPlay()) stop();
+	if(is_play()) stop();
 	//dt buffer
 	alSourcei(source, AL_BUFFER, 0);
 	//delete context
@@ -58,7 +58,7 @@ void SoundEmitterAL::setBuffer(Audio::SoundBuffer* inbuffer)
 	//is not null?
 	if (!buffer) return;
 	//create a context
-	if (buffer->getType() == Audio::STREAM)
+	if (buffer->get_type() == Audio::STREAM)
 	{
 		context=((StreamBufferAL*)buffer)->newContext(this);
 	}
@@ -68,15 +68,15 @@ void SoundEmitterAL::setBuffer(Audio::SoundBuffer* inbuffer)
 	}
 }
 ///enable loop
-void SoundEmitterAL::enableLoop()
+void SoundEmitterAL::enable_loop()
 {
-	if (context) context->enableLoop();
+	if (context) context->enable_loop();
 	else alSourcei(source, AL_LOOPING, AL_TRUE);
 }
 ///disable loop
-void SoundEmitterAL::disableLoop()
+void SoundEmitterAL::disable_loop()
 {
-	if (context) context->disableLoop();
+	if (context) context->disable_loop();
 	else alSourcei(source, AL_LOOPING, AL_FALSE);
 }
 ///play sound
@@ -91,13 +91,13 @@ void SoundEmitterAL::play()
 ///play sound in loop mode
 void SoundEmitterAL::loop()
 {
-    if(!isPlay()) play();
-	if(!isLoop()) enableLoop();
+    if(!is_play()) play();
+	if(!is_loopp()) enable_loop();
 }
 ///stop sound
 void SoundEmitterAL::stop()
 {
-    if(isPlay())
+    if(is_play())
     {
         alSourcei(source, AL_LOOPING,  AL_FALSE );
         alSourceStop(source);
@@ -106,34 +106,34 @@ void SoundEmitterAL::stop()
 //set dound in pause
 void SoundEmitterAL::pause()
 {
-    if(isPlay()) 
+    if(is_play()) 
 		alSourcePause(source);
 }
 //set volume (0...1)
 void SoundEmitterAL::volume(float volume)
 {
     soundVolume=volume;
-	alSourcef(source, AL_GAIN, realVolume());
+	alSourcef(source, AL_GAIN, real_volume());
 }
 //get volume
 float SoundEmitterAL::volume()
 {
     return soundVolume;
 }
-float SoundEmitterAL::realVolume()
+float SoundEmitterAL::real_volume()
 {
 	return soundVolume*audioVolume*( is2D() ? listenerVolume : 1.0f );
 }
 //remaining time
-float SoundEmitterAL::remainingTime()
+float SoundEmitterAL::remaining_time()
 {
-    return duration()-playbackTime();
+    return duration()-playback_time();
 }
 //playback Time
-float SoundEmitterAL::playbackTime()
+float SoundEmitterAL::playback_time()
 {
 	//get from context
-	if (context) return context->playbackTime();
+	if (context) return context->playback_time();
 	//else
     float result = 0.0;
     alGetSourcef(source, AL_SEC_OFFSET , &result);
@@ -142,31 +142,31 @@ float SoundEmitterAL::playbackTime()
 //global time duration
 float SoundEmitterAL::duration()
 {
-	return buffer->getLength();
+	return buffer->get_length();
 }
 //get sound states
-bool SoundEmitterAL::isPause()
+bool SoundEmitterAL::is_pause()
 {
     ALint status;
     alGetSourcei (source, AL_SOURCE_STATE, &status);
     return status == AL_PAUSED;
 }
-bool SoundEmitterAL::isPlay()
+bool SoundEmitterAL::is_play()
 {
     ALint status;
     alGetSourcei (source, AL_SOURCE_STATE, &status);
     return status == AL_PLAYING;
 }
-bool SoundEmitterAL::isStop()
+bool SoundEmitterAL::is_stop()
 {
     ALint status;
     alGetSourcei (source, AL_SOURCE_STATE, &status);
     return ( status != AL_PLAYING && status != AL_PAUSED );
 }
-bool SoundEmitterAL::isLoop()
+bool SoundEmitterAL::is_loopp()
 {
 	//get from context
-	if (context) return context->isLoop();
+	if (context) return context->is_loopp();
 	//else
     ALint looping;
     alGetSourcei (source, AL_LOOPING, &looping);

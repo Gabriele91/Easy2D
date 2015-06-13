@@ -29,8 +29,8 @@ protected:
     //setted from audio class
 	friend class Audio;
 	friend class AudioAL;
-	virtual void  __volumeFromManager(float volume);
-	virtual void  __volume2dFromManager(float volume);
+	virtual void  volume_from_manager(float volume);
+	virtual void  volume_2D_from_manager(float volume);
 	virtual float __getListenerVolume()
 	{
 		return listenerVolume;
@@ -46,11 +46,11 @@ public:
     ///destroy sound rerouce
 	virtual ~SoundEmitterAL();
 	///set buffer
-	virtual void setBuffer(Audio::SoundBuffer* buffer);
+	virtual void set_buffer(Audio::SoundBuffer* buffer);
     ///enable loop
-    virtual void enableLoop();
+    virtual void enable_loop();
     ///disable loop
-    virtual void disableLoop();
+    virtual void disable_loop();
     ///play sound
     virtual void play();
     ///play sound in loop mode
@@ -63,18 +63,18 @@ public:
     virtual void volume(float volume);
     //get volume
     virtual float volume();
-    virtual float realVolume();
+    virtual float real_volume();
     //remaining time
-    virtual float remainingTime();
+    virtual float remaining_time();
     //playback Time
-    virtual float playbackTime();
+    virtual float playback_time();
     //global time duration
     virtual float duration();
     //get sound states
-    virtual bool isPause();
-    virtual bool isPlay();
-    virtual bool isStop();
-    virtual bool isLoop();
+    virtual bool is_pause();
+    virtual bool is_play();
+    virtual bool is_stop();
+    virtual bool is_loop();
 	//todo
 	virtual bool is2D();
 	virtual void set2D(bool enable);

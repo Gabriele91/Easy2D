@@ -37,7 +37,7 @@ public:
         DEBUG_ASSERT( frames!=NULL );
         if( timePerFrame == 0 )return;
         if( frames->size() <= 1 ) return;
-        if( isStop() ) return;
+        if( is_stop() ) return;
         //new time
         animationTime = dt;
         //update
@@ -101,7 +101,7 @@ public:
         pause=dopause;
     }
     //if is stopped
-    bool isStop()
+    bool is_stop()
     {
         return !loop && currentFrame==lastFrame();
     }
@@ -246,7 +246,7 @@ public:
     bool getCurrentStop()
     {
         DEBUG_ASSERT(animations.size());
-        return animations[crtAnimation]->isStop();
+        return animations[crtAnimation]->is_stop();
     }
     int getCurrentAnimationSize()
     {
@@ -288,7 +288,7 @@ public:
 	bool getStop(size_t anim)
     {
         DEBUG_ASSERT(anim<animations.size());
-        return animations[anim]->isStop();
+        return animations[anim]->is_stop();
     }
 	int getAnimationSize(size_t anim)
     {

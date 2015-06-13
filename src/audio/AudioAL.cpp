@@ -272,7 +272,7 @@ void AudioAL::update(float dt)
 			SoundEmitterAL* const emitter = (SoundEmitterAL*)_emitter;
 			const Vec2  pos    = emitter->getPosition();
 			const float radius = emitter->getRadius();
-			emitter->__volume2dFromManager(0.0);
+			emitter->volume_2D_from_manager(0.0);
 			//calc audio
 			if  (radius>0.0)
 			for (auto it : listeners)
@@ -281,7 +281,7 @@ void AudioAL::update(float dt)
 				float volume = (Math::max(radius - dist,0.0f) / radius) * it.second->getVolume();
 				if (emitter->__getListenerVolume() < volume)
 				{
-					emitter->__volume2dFromManager(volume);
+					emitter->volume_2D_from_manager(volume);
 				}
 			}
 		});

@@ -33,9 +33,9 @@ public:
 	Sound::ptr getSound();
 	/////////////////////////////////////
 	///enable loop
-	void enableLoop();
+	void enable_loop();
 	///disable loop
-	void disableLoop();
+	void disable_loop();
 	///play sound
 	void play();
 	///play sound in loop mode
@@ -48,18 +48,18 @@ public:
 	void volume(float volume);
 	//get volume
 	float volume();
-	float realVolume();
+	float real_volume();
 	//remaining time
-	float remainingTime();
+	float remaining_time();
 	//playback time
-	float playbackTime();
+	float playback_time();
 	//global time duration
 	float duration();
 	//get sound states
-	bool isPause();
-	bool isPlay();
-	bool isStop();
-	bool isLoop();
+	bool is_pause();
+	bool is_play();
+	bool is_stop();
+	bool is_loop();
 	/////////////////////////////////////
 	void set2D(bool enable);
 	bool is2D();

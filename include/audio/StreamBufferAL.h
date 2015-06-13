@@ -47,17 +47,17 @@ public:
 	///destroy sound rerouce
 	virtual~StreamBufferAL();
 	///return type of buffer
-	virtual Audio::BufferType getType()
+	virtual Audio::BufferType get_type()
 	{
 		return Audio::STREAM;
 	};
 	///get format buffer
-	virtual int getFormat()
+	virtual int get_format()
 	{
 		return format;
 	}
 	///get sound length
-	virtual float getLength()
+	virtual float get_length()
 	{
 		return lenSound;
 	}
@@ -93,15 +93,15 @@ public:
 	///play
     void play();
     ///enable loop
-    void enableLoop();
+    void enable_loop();
     ///disable loop
-    void disableLoop();
+    void disable_loop();
     ///playback Time
-    float playbackTime();
+    float playback_time();
     ///global time duration
     float duration();
     ///is in looping mode!?
-    bool isLoop();
+    bool is_loop();
 	//restat steam
     void restart();
     //stream buffer

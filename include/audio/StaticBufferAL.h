@@ -28,17 +28,17 @@ public:
     ///destroy sound rerouce
 	virtual ~StaticBufferAL();
 	///return type of buffer
-	virtual Audio::BufferType getType()
+	virtual Audio::BufferType get_type()
 	{
 		return Audio::STATIC;
 	};
 	///get format buffer
-	virtual int getFormat()
+	virtual int get_format()
 	{
 		return format;
 	}
 	///get sound length
-	virtual float getLength()
+	virtual float get_length()
 	{
 		return lenSound;
 	}
