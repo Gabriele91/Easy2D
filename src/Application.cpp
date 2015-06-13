@@ -110,26 +110,26 @@ public:
 
 };
 ///////////////////////
-Application *Application::appSingleton=NULL;
+Application *Application::app_singleton=nullptr;
 ///////////////////////
 Application::Application()
-    :m_last_delta_time(0.0f)
-    ,m_main_instance(NULL)
-    ,m_screen(NULL)
-    ,m_input(NULL)
-    ,m_audio(NULL)
+    : m_last_delta_time(0.0f)
+    , m_main_instance(nullptr)
+    , m_screen(nullptr)
+    , m_input(nullptr)
+    , m_audio(nullptr)
 {
 
 }
 Application::~Application()
 {
-    appSingleton=nullptr;
+    app_singleton=nullptr;
 }
 
 Application *Application::create(const String& name,Application* implementation)
 {
 
-    DEBUG_ASSERT(!appSingleton);
+    DEBUG_ASSERT(!app_singleton);
     //init random value
     Math::seedRandom((uint)GetTime());
     //init vm
@@ -138,50 +138,50 @@ Application *Application::create(const String& name,Application* implementation)
     if(!implementation)
     {
     #if defined( PLATFORM_IOS )
-        appSingleton=new AppiOS(name);
+        app_singleton=new AppiOS(name);
     #elif defined( PLATFORM_OSX )
-        appSingleton=new CocoaApp(name);
+        app_singleton=new CocoaApp(name);
     #elif defined( PLATFORM_WINDOW )
 		#ifndef ES2_ANGLEPROJECT
-			appSingleton=new WindowsApp(name);
+			app_singleton=new WindowsApp(name);
 		#else
-			appSingleton=new AngleApp(name);
+			app_singleton=new AngleApp(name);
 		#endif
     #elif defined( PLATFORM_LINUX )
-        appSingleton=new LinuxApp(name);
+        app_singleton=new LinuxApp(name);
     #elif defined( PLATFORM_ANDROID )
-        appSingleton=new AndroidApp(name);
+        app_singleton=new AndroidApp(name);
     #elif defined( PLATFORM_EMSCRIPTEN )
-        appSingleton=new EmscriptenApp(name);
+        app_singleton=new EmscriptenApp(name);
     #endif
     }
     else
     {
-        appSingleton=implementation;
+        app_singleton=implementation;
     }
     //registration delete at exit
     atexit(Application::release);
     //
-    return appSingleton;
+    return app_singleton;
 }
 /**
 * delete singleton (if not already created raises an exception)
 */
 void Application::release()
 {
-    if(appSingleton)
+    if(app_singleton)
     {
         //delete vm
         LuaState::destroy();
         //delete app
         delete Application::instance();
         //safe delete
-        appSingleton=nullptr;
+        app_singleton=nullptr;
     }
 }
 Application *Application::instance()
 {
-    return appSingleton;
+    return app_singleton;
 }
 /**
  * stream resource

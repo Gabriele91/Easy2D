@@ -174,7 +174,7 @@ protected:
     Audio *m_audio;
     //
     Application();
-    static Application* appSingleton;
+    static Application* app_singleton;
 };
 
 };

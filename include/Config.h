@@ -293,18 +293,8 @@ namespace std
 #define DS_PTR std::shared_ptr
 #define DW_PTR std::weak_ptr
 #define DU_PTR std::unique_ptr
-#elif defined(DCPP_X0)
-#include <tr1/unordered_map>
-#include <tr1/functional>
-#include <tr1/memory>
-#define DFUNCTION	std::tr1::function
-#define DUNORDERED_MAP    std::tr1::unordered_map
-#define DUNORDERED_MULTIMAP    std::tr1::unordered_multimap
-#define DHASH std::tr1::hash
-#define DNOSTDHASH tr1::hash
-#define DS_PTR std::tr1::shared_ptr
-#define DW_PTR std::tr1::weak_ptr
-#define DU_PTR std::tr1::unique_ptr
+#else
+#error "required C++11"
 #endif
 
 #if defined( SIMD_SSE2 ) || defined( SIMD_SSE )
