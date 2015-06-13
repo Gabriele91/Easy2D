@@ -182,14 +182,14 @@ WindowsScreen::WindowsScreen()
     ,showmouse(true)
 {
 
-    setCursor(showmouse);
+    set_cursor(showmouse);
     nativeWidth = GetSystemMetrics( SM_CXSCREEN );
     nativeHeight = GetSystemMetrics( SM_CYSCREEN );
 
 }
 WindowsScreen::~WindowsScreen()
 {
-    closeWindow();
+    close_window();
 }
 
 //calc size window
@@ -214,7 +214,7 @@ void setClientSize(HWND window, int width, int height)
 /**
 * enable or disable full screen
 */
-void WindowsScreen::setFullscreen(bool prfullscreen)
+void WindowsScreen::set_fullscreen(bool prfullscreen)
 {
     //set
     bool change=fullscreen!=prfullscreen;
@@ -236,8 +236,8 @@ void WindowsScreen::setFullscreen(bool prfullscreen)
         DEVMODE dm;
         memset(&dm, 0, sizeof(dm));
         dm.dmSize = sizeof(dm);
-        dm.dmPelsWidth = getWidth();
-        dm.dmPelsHeight	= getHeight();
+        dm.dmPelsWidth = get_width();
+        dm.dmPelsHeight	= get_height();
         dm.dmBitsPerPel	= 32;
         dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
@@ -256,21 +256,21 @@ void WindowsScreen::setFullscreen(bool prfullscreen)
 /**
 * return if fullscreen is enable return true
 */
-bool WindowsScreen::isFullscreen()
+bool WindowsScreen::is_fullscreen()
 {
     return fullscreen;
 }
 /**
 * return frame rate
 */
-uint WindowsScreen::getFrameRate()
+uint WindowsScreen::get_frame_rate()
 {
     return freamPerSecond;
 }
 /**
 * set the specified thread's current rendering context
 */
-void WindowsScreen::acquireContext()
+void WindowsScreen::acquire_context()
 {
     wglMakeCurrent(hDevCxt,hGLCxt);
 }
@@ -284,7 +284,7 @@ void WindowsScreen::swap()
 /**
 * create window
 */
-void WindowsScreen::createWindow(const char* appname,
+void WindowsScreen::create_window(const char* appname,
                                  uint width,
                                  uint height,
                                  uint bites,
@@ -294,7 +294,7 @@ void WindowsScreen::createWindow(const char* appname,
 {
     DEBUG_ASSERT(appname);
     DEBUG_ASSERT(bites);
-    DEBUG_MESSAGE( "createWindow Easy2D Win32" );
+    DEBUG_MESSAGE( "create_window Easy2D Win32" );
 
     //set values
     screenWidth=Math::min(nativeWidth,width);
@@ -302,48 +302,48 @@ void WindowsScreen::createWindow(const char* appname,
     freamPerSecond=setFreamPerSecond;
     //create window
     __initWindow(appname,bites,dfAA);
-    setFullscreen(prfullscreen);
+    set_fullscreen(prfullscreen);
     //
 }
 /**
 * close window
 */
-void WindowsScreen::closeWindow()
+void WindowsScreen::close_window()
 {
     __destroyWindow();
 }
 /**
 * return screen width
 */
-uint WindowsScreen::getWidth()
+uint WindowsScreen::get_width()
 {
     return screenWidth;
 }
 /**
 * return screen height
 */
-uint WindowsScreen::getHeight()
+uint WindowsScreen::get_height()
 {
     return screenHeight;
 }
 /**
 * return screen native width
 */
-uint WindowsScreen::getNativeWidth()
+uint WindowsScreen::get_native_width()
 {
     return nativeWidth;
 }
 /**
 * return screen  native height
 */
-uint WindowsScreen::getNativeHeight()
+uint WindowsScreen::get_native_height()
 {
     return nativeHeight;
 }
 /**
 * return screen orientation
 */
-WindowsScreen::Orientation WindowsScreen::getOrientation()
+WindowsScreen::Orientation WindowsScreen::get_orientation()
 {
     return Screen::LANDSCAPE;
 }
@@ -351,7 +351,7 @@ WindowsScreen::Orientation WindowsScreen::getOrientation()
 * show or hide mouse cursor
 * @param show, set true if you want show cursor otherwise false
 */
-void WindowsScreen::setCursor(bool show)
+void WindowsScreen::set_cursor(bool show)
 {
     showmouse=show;
     ShowCursor(showmouse);
@@ -359,7 +359,7 @@ void WindowsScreen::setCursor(bool show)
 /**
 * set position cursor
 */
-void WindowsScreen::setPositionCursor(const Vec2& pos)
+void WindowsScreen::set_position_cursor(const Vec2& pos)
 {
     POINT mouse;
     mouse.x=(LONG)pos.x;
@@ -370,7 +370,7 @@ void WindowsScreen::setPositionCursor(const Vec2& pos)
 /**
 * return if cursor is shown or hidden
 */
-bool WindowsScreen::getCursor()
+bool WindowsScreen::get_cursor()
 {
     return showmouse;
 }

@@ -141,7 +141,7 @@ void Font::text(const Vec2& _pos,
 {
 
     if(textDraw.size()==0) return;
-    Vec2 pos(_pos.x,-_pos.y+Application::instance()->get_screen()->getHeight());
+    Vec2 pos(_pos.x,-_pos.y+Application::instance()->get_screen()->get_height());
     //matrixs
     Matrix4x4
     oldProjection=RenderContext::getProjection(),
@@ -159,8 +159,8 @@ void Font::text(const Vec2& _pos,
     //reset projection matrix
     Matrix4x4 projection;
     //set viewport
-    Vec2 viewport(Application::instance()->get_screen()->getWidth(),
-                  Application::instance()->get_screen()->getHeight());
+    Vec2 viewport(Application::instance()->get_screen()->get_width(),
+                  Application::instance()->get_screen()->get_height());
     //update projection is always the same
     projection.setOrtho(0,viewport.x, 0,viewport.y, 0,1);
     RenderContext::setViewport(Vec4( 0, 0, viewport.x, viewport.y ));
@@ -619,8 +619,8 @@ void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
 	//reset projection matrix
 	Matrix4x4 projection;
 	//set viewport
-	Vec2 viewport(Application::instance()->getScreen()->getWidth(),
-				  Application::instance()->getScreen()->getHeight());
+	Vec2 viewport(Application::instance()->getScreen()->get_width(),
+				  Application::instance()->getScreen()->get_height());
 	//update projection is always the same
 	projection.setOrtho(0,viewport.x, 0,viewport.y, 0,1);
 	glViewport( 0, 0, viewport.x, viewport.y );

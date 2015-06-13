@@ -200,14 +200,14 @@ AngleScreen::AngleScreen()
     ,showmouse(true)
 {
 
-    setCursor(showmouse);
+    set_cursor(showmouse);
     nativeWidth = GetSystemMetrics( SM_CXSCREEN );
     nativeHeight = GetSystemMetrics( SM_CYSCREEN );
 
 }
 AngleScreen::~AngleScreen()
 {
-    closeWindow();
+    close_window();
 }
 
 //calc size window
@@ -232,7 +232,7 @@ void setClientSize(HWND window, int width, int height)
 /**
 * enable or disable full screen
 */
-void AngleScreen::setFullscreen(bool prfullscreen)
+void AngleScreen::set_fullscreen(bool prfullscreen)
 {
     //set
     bool change=fullscreen!=prfullscreen;
@@ -254,8 +254,8 @@ void AngleScreen::setFullscreen(bool prfullscreen)
         DEVMODE dm;
         memset(&dm, 0, sizeof(dm));
         dm.dmSize = sizeof(dm);
-        dm.dmPelsWidth = getWidth();
-        dm.dmPelsHeight	= getHeight();
+        dm.dmPelsWidth = get_width();
+        dm.dmPelsHeight	= get_height();
         dm.dmBitsPerPel	= 32;
         dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
@@ -274,21 +274,21 @@ void AngleScreen::setFullscreen(bool prfullscreen)
 /**
 * return if fullscreen is enable return true
 */
-bool AngleScreen::isFullscreen()
+bool AngleScreen::is_fullscreen()
 {
     return fullscreen;
 }
 /**
 * return frame rate
 */
-uint AngleScreen::getFrameRate()
+uint AngleScreen::get_frame_rate()
 {
     return freamPerSecond;
 }
 /**
 * set the specified thread's current rendering context
 */
-void AngleScreen::acquireContext()
+void AngleScreen::acquire_context()
 {
     // Make the context current
     DEBUG_ASSERT_REPLACE( eglMakeCurrent(display, surface, surface, context));
@@ -303,7 +303,7 @@ void AngleScreen::swap()
 /**
 * create window
 */
-void AngleScreen::createWindow(const char* appname,
+void AngleScreen::create_window(const char* appname,
                                  uint width,
                                  uint height,
                                  uint bites,
@@ -313,7 +313,7 @@ void AngleScreen::createWindow(const char* appname,
 {
     DEBUG_ASSERT(appname);
     DEBUG_ASSERT(bites);
-    DEBUG_MESSAGE( "createWindow Easy2D Win32" );
+    DEBUG_MESSAGE( "create_window Easy2D Win32" );
 
     //set values
     screenWidth=Math::min(nativeWidth,width);
@@ -321,48 +321,48 @@ void AngleScreen::createWindow(const char* appname,
     freamPerSecond=setFreamPerSecond;
     //create window
     __initWindow(appname,bites,dfAA);
-    setFullscreen(prfullscreen);
+    set_fullscreen(prfullscreen);
     //
 }
 /**
 * close window
 */
-void AngleScreen::closeWindow()
+void AngleScreen::close_window()
 {
     __destroyWindow();
 }
 /**
 * return screen width
 */
-uint AngleScreen::getWidth()
+uint AngleScreen::get_width()
 {
     return screenWidth;
 }
 /**
 * return screen height
 */
-uint AngleScreen::getHeight()
+uint AngleScreen::get_height()
 {
     return screenHeight;
 }
 /**
 * return screen native width
 */
-uint AngleScreen::getNativeWidth()
+uint AngleScreen::get_native_width()
 {
     return nativeWidth;
 }
 /**
 * return screen  native height
 */
-uint AngleScreen::getNativeHeight()
+uint AngleScreen::get_native_height()
 {
     return nativeHeight;
 }
 /**
 * return screen orientation
 */
-AngleScreen::Orientation AngleScreen::getOrientation()
+AngleScreen::Orientation AngleScreen::get_orientation()
 {
     return Screen::LANDSCAPE;
 }
@@ -370,7 +370,7 @@ AngleScreen::Orientation AngleScreen::getOrientation()
 * show or hide mouse cursor
 * @param show, set true if you want show cursor otherwise false
 */
-void AngleScreen::setCursor(bool show)
+void AngleScreen::set_cursor(bool show)
 {
     showmouse=show;
     ShowCursor(showmouse);
@@ -378,7 +378,7 @@ void AngleScreen::setCursor(bool show)
 /**
 * set position cursor
 */
-void AngleScreen::setPositionCursor(const Vec2& pos)
+void AngleScreen::set_position_cursor(const Vec2& pos)
 {
     POINT mouse;
     mouse.x=(LONG)pos.x;
@@ -389,7 +389,7 @@ void AngleScreen::setPositionCursor(const Vec2& pos)
 /**
 * return if cursor is shown or hidden
 */
-bool AngleScreen::getCursor()
+bool AngleScreen::get_cursor()
 {
     return showmouse;
 }

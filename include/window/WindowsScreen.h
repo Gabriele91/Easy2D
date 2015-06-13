@@ -21,38 +21,38 @@ public:
     /**
     * return screen width
     */
-    virtual uint getWidth();
+    virtual uint get_width();
     /**
     * return screen height
     */
-    virtual uint getHeight();
+    virtual uint get_height();
     /**
     * return screen native width
     */
-    virtual uint getNativeWidth();
+    virtual uint get_native_width();
     /**
     * return screen  native height
     */
-    virtual uint getNativeHeight();
+    virtual uint get_native_height();
     /**
     * return screen orientation
     */
-    virtual Orientation getOrientation();
+    virtual Orientation get_orientation();
     /**
     * set screen orientation
     */
-    virtual void setOrientation(Orientation orientation)
+    virtual void set_orientation(Orientation orientation)
     {
         //void
     }
     /**
     * return frame rate
     */
-    virtual uint getFrameRate();
+    virtual uint get_frame_rate();
     /**
     * set the specified thread's current rendering context
     */
-    virtual void acquireContext();
+    virtual void acquire_context();
     /**
     * swap the buffers
     */
@@ -61,30 +61,30 @@ public:
     * show or hide mouse cursor
     * @param show, set true if you want show cursor otherwise false
     */
-    virtual void setCursor(bool show=true);
+    virtual void set_cursor(bool show=true);
     /**
     * set position cursor
     */
-    virtual void setPositionCursor(const Vec2& pos);
+    virtual void set_position_cursor(const Vec2& pos);
     /**
     * return if cursor is shown or hidden
     */
-    virtual bool getCursor();
+    virtual bool get_cursor();
     /**
     * enable or disable full screen
     */
-    virtual void setFullscreen(bool fullscreen=true);
+    virtual void set_fullscreen(bool fullscreen=true);
     /**
     * return if fullscreen is enable return true
     */
-    virtual bool isFullscreen();
+    virtual bool is_fullscreen();
 
 protected:
 
     /**
     * create window
     */
-    virtual void createWindow(const char* appname,
+    virtual void create_window(const char* appname,
                               uint width,
                               uint height,
                               uint bites,
@@ -94,7 +94,7 @@ protected:
     /**
     * close window
     */
-    virtual void closeWindow();
+    virtual void close_window();
 
 private:
     //window methods

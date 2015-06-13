@@ -33,7 +33,7 @@ Font::ptr GuiManager::loadFont(const String& name)
 //utility widgets
 Vec4 GuiManager::getFlipViewport(const Vec4& xyzw)
 {
-    Vec2 size=Application::instance()->get_screen()->getSize();
+    Vec2 size=Application::instance()->get_screen()->get_size();
     return Vec4(xyzw.x,size.y-(xyzw.y+xyzw.w),xyzw.z,xyzw.w);
 }
 Vec2 GuiManager::getFlipY(const Vec2& xy,const Vec2& scale)
@@ -183,7 +183,7 @@ void GuiManager::init(ResourcesGroup* rsgroup,Table::ptr style)
     this->rsgroup=rsgroup;
     this->style=style;
     //projection
-    updateProjection(Application::instance()->get_screen()->getSize());
+    updateProjection(Application::instance()->get_screen()->get_size());
 }
 //draw
 void GuiManager::draw()

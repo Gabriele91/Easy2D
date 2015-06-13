@@ -17,8 +17,8 @@ Vec2 Camera::getSMouse(const Vec2& mouse)
     //get values
     Screen& screen=*Application::instance()->get_screen();
     //get mouse pos
-    Vec2 relative(mouse.x-screen.getSize().x*0.5f,
-                  screen.getSize().y*0.5f-mouse.y);
+    Vec2 relative(mouse.x-screen.get_size().x*0.5f,
+                  screen.get_size().y*0.5f-mouse.y);
 
     return relative*zoom;
 }
@@ -63,7 +63,7 @@ float Camera::getZoom()
 }
 void Camera::updateProjection()
 {
-    updateProjection(Application::instance()->get_screen()->getSize());
+    updateProjection(Application::instance()->get_screen()->get_size());
 }
 void Camera::updateProjection(const Vec2& argViewport)
 {

@@ -98,49 +98,49 @@ public:
     /**
     * return screen width
     */
-    virtual unsigned int getWidth()=0;
+    virtual unsigned int get_width()=0;
     /**
     * return screen height
     */
-    virtual unsigned int getHeight()=0;
+    virtual unsigned int get_height()=0;
     /**
     * return screen native width
     */
-    virtual unsigned int getNativeWidth()=0;
+    virtual unsigned int get_native_width()=0;
     /**
     * return screen  native height
     */
-    virtual unsigned int getNativeHeight()=0;
+    virtual unsigned int get_native_height()=0;
     /**
     * return size of screen
     */
-    virtual Vec2 getSize()
+    virtual Vec2 get_size()
     {
-        return Vec2((float)getWidth(),(float)getHeight());
+        return Vec2((float)get_width(),(float)get_height());
     }
     /**
     * return native size of screen
     */
-    virtual Vec2 getNativeSize()
+    virtual Vec2 get_native_size()
     {
-        return Vec2((float)getNativeWidth(),(float)getNativeHeight());
+        return Vec2((float)get_native_width(),(float)get_native_height());
     }
     /**
     * return screen orientation
     */
-    virtual Orientation getOrientation()=0;
+    virtual Orientation get_orientation()=0;
     /**
     * set screen orientation
     */
-    virtual void setOrientation(Orientation orientation)=0;
+    virtual void set_orientation(Orientation orientation)=0;
     /**
     * return frame rate
     */
-    virtual uint getFrameRate()=0;
+    virtual uint get_frame_rate()=0;
     /**
     * set the specified thread's current rendering context
     */
-    virtual void acquireContext()=0;
+    virtual void acquire_context()=0;
     /**
     * swap the buffers
     */
@@ -149,23 +149,23 @@ public:
     * show or hide mouse cursor
     * @param show, set true if you want show cursor otherwise false
     */
-    virtual void setCursor(bool show=true)=0;
+    virtual void set_cursor(bool show=true)=0;
     /**
      * set position cursor
      */
-    virtual void setPositionCursor(const Vec2& pos)=0;
+    virtual void set_position_cursor(const Vec2& pos)=0;
     /**
     * return if cursor is shown or hidden
     */
-    virtual bool getCursor()=0;
+    virtual bool get_cursor()=0;
     /**
     * enable or disable full screen
     */
-    virtual void setFullscreen(bool fullscreen=true)=0;
+    virtual void set_fullscreen(bool fullscreen=true)=0;
     /**
     * return if fullscreen is enable return true
     */
-    virtual bool isFullscreen()=0;
+    virtual bool is_fullscreen()=0;
     /**
     * virtual destructor
     */
@@ -175,7 +175,7 @@ protected:
     /**
     * create window
     */
-    virtual void createWindow(const char* appname,
+    virtual void create_window(const char* appname,
                               uint width,
                               uint height,
                               uint bites,
@@ -185,7 +185,7 @@ protected:
     /**
     * close window
     */
-    virtual void closeWindow()=0;
+    virtual void close_window()=0;
 
     /**
     * Application is a friend class

@@ -112,7 +112,7 @@ void WindowsApp::loop()
 {
     //
     Timer timer;
-    double msToSleep=1000.0/(static_cast<double>(m_screen->getFrameRate()));
+    double msToSleep=1000.0/(static_cast<double>(m_screen->get_frame_rate()));
     double millipass=0;
     double dt=0;
     double sleepTime=0;
@@ -149,7 +149,7 @@ void WindowsApp::exec(Game *ptrMainInstance)
 {
 	m_main_instance = ptrMainInstance;
 	//set current context
-	m_screen->acquireContext();
+	m_screen->acquire_context();
 	//start
     m_main_instance->start();
 	//loop
