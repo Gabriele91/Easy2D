@@ -79,13 +79,13 @@ protected:
     /**
     * create window
     */
-    virtual void createWindow(const char* appname,
-                              uint width,
-                              uint height,
-                              uint bites,
-                              uint freamPerSecond,
-                              bool fullscreen,
-                              AntiAliasing dfAA=NOAA);
+    virtual void createWindow(  const char* appname,
+                                uint width,
+                                uint height,
+                                uint freamPerSecond,
+                                bool fullscreen,
+                                Screen::TypeBuffers type = COLOR32DEPTH24STENCIL8,
+                                Screen::AntiAliasing dfAA = NOAA);
     /*
     * close window
     */
@@ -101,7 +101,7 @@ private:
     EGLConfig config;
     ///////////////////////////////////
     //function
-    void __setupScreen();
+    void __setupScreen(Screen::TypeBuffers type,Screen::AntiAliasing dfAA);
     void __createSurface();
     void __createContext();
     void __isResized();

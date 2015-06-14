@@ -42,13 +42,13 @@ class Scene : public Render, //Graphics
 
 	//friend class
 	friend class Game;
-	Scene(const String& name,
-		  uint width,
-		  uint height,
-		  uint bites = 32,
-		  uint FreamPerSecond = 60,
-		  bool fullscreen = false,
-		  int defaultNoAA = 0);
+    Scene(const String& name,
+          uint width,
+          uint height,
+          uint freamPerSecond = 60,
+          bool fullscreen = false,
+          int  typeBuffers = 8 /* COLOR32DEPTH24STENCIL8 */,
+          int  defaultNoAA = 0 /* NOAA */);
 
 public:
 

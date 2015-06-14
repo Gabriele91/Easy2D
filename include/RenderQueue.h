@@ -3,6 +3,7 @@
 
 #include <Config.h>
 #include <queue>
+#include <Mesh.h>
 #include <Object.h>
 #include <RenderContext.h>
 
@@ -16,9 +17,11 @@ class PostEffects;
 //render queue
 class RenderQueue : public Pointers < RenderQueue >
 {
-	std::list<Object*> objs;
-	typedef std::list<Object*>::iterator ItObjs;
-	typedef std::list<Object*>::reverse_iterator revItObjs;
+    std::list<Object*> objs;
+    typedef std::list<Object*>::iterator ItObjs;
+    typedef std::list<Object*>::reverse_iterator RevItObjs;
+    typedef std::list<Object*>::const_iterator CItObjs;
+    typedef std::list<Object*>::const_reverse_iterator CRevItObjs;
 	RenderContext::RenderTarget target;
 	Render* render;
 	
@@ -31,36 +34,58 @@ public:
 	const RenderContext::RenderTarget& getTarget() const
 	{
 		return target;
-	}
+    }
+    //draw
+    void draw() const;
+    //draw
+    void draw(Mesh::ptr batchingMesh) const;
     //append objects to queue
-    void append(Object* obj);
-	//add elements
-	void push(Object* obj);
-	void draw(Render* render);
+    void append(DFUNCTION<bool(const AABox2&)> filter, Object* obj);
+    //add elements
+    void push(Object* obj);
+    //
+    size_t size() const
+    {
+        return objs.size();
+    }
+    //
 	void clear()
 	{
 		objs.clear();
 	}
-	size_t size()
-	{
-		return objs.size();
-	}
-	ItObjs begin()
-	{
-		return objs.begin();
-	}
-	ItObjs end()
-	{
-		return objs.end();
-	}
-	revItObjs rbegin()
-	{
-		return objs.rbegin();
-	}
-	revItObjs rend()
-	{
-		return objs.rend();
-	}
+    //
+    ItObjs begin()
+    {
+        return objs.begin();
+    }
+    ItObjs end()
+    {
+        return objs.end();
+    }
+    RevItObjs rbegin()
+    {
+        return objs.rbegin();
+    }
+    RevItObjs rend()
+    {
+        return objs.rend();
+    }
+    CItObjs begin() const
+    {
+        return objs.begin();
+    }
+    CItObjs end() const
+    {
+        return objs.end();
+    }
+    CRevItObjs rbegin() const
+    {
+        return objs.rbegin();
+    }
+    CRevItObjs rend() const
+    {
+        return objs.rend();
+    }
 
 };
 

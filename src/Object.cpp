@@ -10,6 +10,7 @@ using namespace Easy2D;
 Object::Object()
 	:userData(nullptr)
     ,scene(nullptr)
+    ,drawChilds(true)
     ,changeValue(false)
     ,zLocal(0)
     ,zGlobal(0)
@@ -22,6 +23,7 @@ Object::Object()
 Object::Object(const String& argname)
 	:userData(nullptr)
     ,scene(nullptr)
+    ,drawChilds(true)
     ,changeValue(false)
     ,zLocal(0)
     ,zGlobal(0)
@@ -732,7 +734,8 @@ void Object::serialize(Table& table)
     robj.set("position",getPosition());
     robj.set("rotation",getRotation().valueDegrees());
     robj.set("scale",getScale());
-    robj.set("z",getZ());
+    robj.set("z", getZ());
+    robj.set("canDrawChilds", (float)getCanDrawChilds());
     
     if(parent)
         robj.set("parentMode",parentToString(parentMode));
@@ -754,12 +757,13 @@ void Object::serialize(Table& table)
 void Object::deserialize(const Table& table)
 {
     //////////////////////////////////////////////////
-    const auto name=table.getName();
-    setName(name==""?getName():name);
+    const auto name = table.getName();
+    setName(name == "" ? getName() : name);
     setPosition(table.getVector2D("position",getPosition()));
     setRotation(Angle( Degree( table.getFloat("rotation",   getRotation().valueDegrees() ) ) ) );
     setScale(table.getVector2D("scale",      getScale()));
-    setZ(table.getFloat("z",getZ()));
+    setZ(table.getFloat("z", getZ()));
+    setCanDrawChilds(table.getFloat("canDrawChilds", getCanDrawChilds()) != 0.0f);
 
     if(table.existsAsType("parentMode",Table::STRING))
     {

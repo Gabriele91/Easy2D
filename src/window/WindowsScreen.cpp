@@ -12,7 +12,7 @@ using namespace Easy2D;
 #endif
 #define E2D_WINDOW_STYLE  (WS_BORDER | WS_SYSMENU | WS_THICKFRAME | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS)
 //window methods
-void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA)
+void WindowsScreen::__initWindow(const char* appname, TypeBuffers type, AntiAliasing dfAA)
 {
 
     DEBUG_MESSAGE( "Open window:" << screenWidth << "x" << screenHeight );
@@ -73,14 +73,14 @@ void WindowsScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfA
         PFD_DOUBLEBUFFER |							// Must Support Double Buffering
         PFD_SWAP_EXCHANGE,
         PFD_TYPE_RGBA,								// Request An RGBA Format
-        bites, 										// Select Our Color Depth
+        Screen::getColorBits(type), 				// Select Our Color Depth
         0, 0, 0, 0, 0, 0,							// Color Bits Ignored
         0,											// No Alpha Resource
         0,											// Shift Bit Ignored
         0,											// No Accumulation Resource
         0, 0, 0, 0,									// Accumulation Bits Ignored
-        32,											// 32Bit Z-Resource (Depth Resource)
-        0,											// No Stencil Resource
+        Screen::getDepthBits(type),					// Z-Resource (Depth Resource)
+        Screen::getStencilBits(type),				// Stencil Resource
         0,											// No Auxiliary Resource
         PFD_MAIN_PLANE,								// Main Drawing Layer
         0,											// Reserved
@@ -287,13 +287,12 @@ void WindowsScreen::swap()
 void WindowsScreen::createWindow(const char* appname,
                                  uint width,
                                  uint height,
-                                 uint bites,
                                  uint setFreamPerSecond,
-                                 bool prfullscreen,
+                                 bool prfullscreen, 
+                                 TypeBuffers type,
                                  AntiAliasing dfAA)
 {
     DEBUG_ASSERT(appname);
-    DEBUG_ASSERT(bites);
     DEBUG_MESSAGE( "createWindow Easy2D Win32" );
 
     //set values
@@ -301,7 +300,7 @@ void WindowsScreen::createWindow(const char* appname,
     screenHeight=Math::min(nativeHeight,height);
     freamPerSecond=setFreamPerSecond;
     //create window
-    __initWindow(appname,bites,dfAA);
+    __initWindow(appname, type, dfAA);
     setFullscreen(prfullscreen);
     //
 }

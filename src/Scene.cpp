@@ -6,13 +6,13 @@
 using namespace Easy2D;
 ///////////////////////
 
-Scene::Scene(const String& app,
-			 unsigned int width,
-			 unsigned int height,
-		 	 unsigned int bites,
-			 unsigned int freamPerSecond,
-			 bool fullscreen,
-			 int dfAA) 
+Scene::Scene(const String& name,
+             uint width,
+             uint height,
+             uint freamPerSecond /*= 60 */,
+             bool fullscreen     /*= false */,
+             int  typeBuffers    /*= 8  COLOR32DEPTH24STENCIL8 */,
+             int  typeAA         /*= 0 NOAA */)
 			 :isStarted(false) 
 {
     
@@ -25,13 +25,13 @@ Scene::Scene(const String& app,
 	//init context
 	Application::instance()
 		->getScreen()
-		->createWindow(app.c_str(),
-		width,
-		height,
-		bites,
-		freamPerSecond,
-		fullscreen,
-		(Screen::AntiAliasing)dfAA);
+        ->createWindow( name.c_str(),
+                        width,
+                        height,
+                        freamPerSecond,
+                        fullscreen,
+                        (Screen::TypeBuffers)typeBuffers,
+                        (Screen::AntiAliasing)typeAA);
     
 }
 Scene::Scene(bool initRender) :isStarted(false)

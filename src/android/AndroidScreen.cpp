@@ -194,7 +194,7 @@ static bool defaultEGLChooser(EGLDisplay disp, EGLConfig& bestConfig)
     return true; 
 }
 
-void AndroidScreen::__setupScreen()
+void AndroidScreen::__setupScreen(Screen::TypeBuffers typeBufferOpenGL,Screen::AntiAliasing dfAA)
 {
     //SET ANDROID WINDOW
     EGLint _w, _h, dummy, format;
@@ -203,9 +203,77 @@ void AndroidScreen::__setupScreen()
     DEBUG_ASSERT( display );
     eglInitialize(display, 0, 0);
     //set OpenGL ES2 configuration
-#if 0
-    //eglChooseConfig(display, attribsEGL, &config, 1, &numConfigs);
-    //eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+#if 1    
+    int colorBits   = (int)Screen::getColorBits(typeBufferOpenGL);
+    int redBits     = 0;
+    int greenBits   = 0;
+    int blueBits    = 0;
+    int alphaBits   = 0;
+    int depthBits   = (int)Screen::getDepthBits(typeBufferOpenGL);
+    int stencilBits = (int)Screen::getStencilBits(typeBufferOpenGL);
+    switch(colorBits)
+    {
+        case 16:
+        redBits     = 4;
+        greenBits   = 4;
+        blueBits    = 4;
+        alphaBits   = 4;
+        case 24:
+        redBits     = 8;
+        greenBits   = 8;
+        blueBits    = 8;
+        alphaBits   = 0;
+        case 32:
+        default:
+        redBits     = 8;
+        greenBits   = 8;
+        blueBits    = 8;
+        alphaBits   = 8;
+        break;
+    };    //type context
+    EGLint attributes[32];    
+    int i=0;
+    //set type of surfece
+    attributes[i++]   = EGL_SURFACE_TYPE;
+    attributes[i++]   = EGL_WINDOW_BIT;
+    //colors
+    attributes[i++]   = EGL_RED_SIZE;
+    attributes[i++]   = redBits;
+    attributes[i++]   = EGL_GREEN_SIZE;
+    attributes[i++]   = greenBits;
+    attributes[i++]   = EGL_BLUE_SIZE;
+    attributes[i++]   = blueBits;
+    attributes[i++]   = EGL_ALPHA_SIZE;
+    attributes[i++]   = alphaBits;
+    //depth
+    if(depthBits)
+    {
+        attributes[i++]   = EGL_DEPTH_SIZE;
+        attributes[i++]   = depthBits;
+    }
+    //stencil
+    if(stencilBits)
+    {
+        attributes[i++]   = EGL_STENCIL_SIZE;
+        attributes[i++]   = stencilBits;
+    }
+    //msaa
+    if(dfAA!=NOAA)
+    {
+        attributes[i++]=EGL_SAMPLE_BUFFERS;
+        attributes[i++]=1;
+        attributes[i++]=EGL_SAMPLES;
+        attributes[i++]=static_cast<int>(dfAA);
+    }
+    //type
+    attributes[i++] = EGL_RENDERABLE_TYPE;
+    attributes[i++] = EGL_OPENGL_ES2_BIT;
+    //
+    attributes[i]=EGL_NONE;  
+    
+    eglChooseConfig(display, attributes, &config, 1, &numConfigs);
+    eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
+    
 #else
     //select default
     DEBUG_ASSERT(defaultEGLChooser(display,config));
@@ -329,9 +397,9 @@ void AndroidScreen::__initStateOpenGLES()
 void AndroidScreen::createWindow(const char* argappname,
                                  uint width,
                                  uint height,
-                                 uint bites,
                                  uint freamPerSecond,
                                  bool fullscreen,
+                                 TypeBuffers type,
                                  AntiAliasing dfAA)
 {
 
@@ -342,7 +410,7 @@ void AndroidScreen::createWindow(const char* argappname,
     //get window,
     //create surface
     //create opengl es context
-    __setupScreen();
+    __setupScreen(type,dfAA);
     __createSurface();
     __createContext();
     //init opengl

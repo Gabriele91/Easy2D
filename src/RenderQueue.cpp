@@ -26,7 +26,7 @@ RenderQueue::~RenderQueue()
 	RenderContext::deleteTexture(target.color);
 }
 //append objects to queue
-void RenderQueue::append(Object* obj)
+void RenderQueue::append(DFUNCTION<bool(const AABox2&)> filter, Object* obj)
 {
     //is randerable
     auto rable=obj->getComponent<Renderable>();
@@ -40,19 +40,14 @@ void RenderQueue::append(Object* obj)
         //
         if( msize.x > 0.0f && msize.y >0.0f )
         {
-            ////////////////////////////////////////////////////////////////////////
-            //CULLING (SLOW)
-            //applay camera/display matrix to obj box
-            const Mat4    vdm4=RenderContext::getDisplay().mul(render->getCamera()->getGlobalMatrix());
-            const AABox2& wbox=mbox.applay(vdm4);
-            ////////////////////////////////////////////////////////////////////////
-            //culling
-            if (render->getCamera()->getBoxViewport().isIntersection(wbox))
-                push(obj);
+            if (filter(mbox)) push(obj);
         }
     }
     //childs
-    for(auto child:*obj) append(child);
+    if (obj->getCanDrawChilds())
+    {
+        for (auto child : *obj) append(filter, child);
+    }
 }
 //add a element in queue
 void RenderQueue::push(Object* obj)
@@ -90,76 +85,85 @@ void RenderQueue::push(Object* obj)
 	objs.push_back(obj);
 }
 //draw queue
-void RenderQueue::draw(Render* render)
+void RenderQueue::draw() const
 {
-	//return if queue is empty
-	if (begin() == end()) return;
-	//////////////////////////////////////////////////////
-	//refs
-	BatchingMesh& batchingMesh = render->getBatchingMesh();
-    Camera*       camera = render->getCamera();
+    //return if queue is empty
+    if (begin() == end()) return;
+    //draw queue
+    for (auto oCurrent : *this)
+    {
+        Renderable* rCurrent = oCurrent->getComponent<Renderable>();
+        //Matrix
+        const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
+        //model view matrix
+        RenderContext::setModel(otrasform);
+        //enable info draw
+        rCurrent->draw();
+        //draw errors
+        CHECK_GPU_ERRORS();
+    }
+}
+void RenderQueue::draw(Mesh::ptr mesh) const
+{
+    //return if queue is empty
+    if (begin() == end()) return;
+    //////////////////////////////////////////////////////////////////
+    //is a batchingMesh
+    BatchingMesh& batchingMesh = *((BatchingMesh*)mesh.get());
     //restart batching
     batchingMesh.restart();
-	//////////////////////////////////////////////////////
-	//init matrix
-	//////////////////////////////////////////////////////
-	//set projection matrix
-	RenderContext::setProjection(camera->getProjection());
-	//////////////////////////////////////////////////////
-	//matrix camera
-	RenderContext::setView(camera->getGlobalMatrix());
-	//////////////////////////////////////////////////////
-	//info data
-	auto drawIt = begin();
-	auto drawNext = drawIt;
-	++drawNext;
-	//draw queue
-	while (drawIt != end())
-	{
-		//info temp
-		Object*     oCurrent = *drawIt;
-		Renderable* rCurrent = oCurrent->getComponent<Renderable>();
+    //////////////////////////////////////////////////////////////////
+    //info data
+    auto drawIt = begin();
+    auto drawNext = drawIt;
+    ++drawNext;
+    //draw queue
+    while (drawIt != end())
+    {
+        //info temp
+        Object*     oCurrent = *drawIt;
+        Renderable* rCurrent = oCurrent->getComponent<Renderable>();
 
-		Object*     oNext = drawNext != end() ? *drawNext : nullptr;
-		Renderable* rNext = oNext ? oNext->getComponent<Renderable>() : nullptr;
-		//Matrix
-		const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
-		//can add this mesh in the pool?
-		if ( /* false && */ render->getBatchingIsEnable() && rCurrent->doBatching() )
-		{
-			//batching
-			batchingMesh.addMesh(otrasform, rCurrent->getMesh());
-			// draw?
-			if (!rNext ||
-				!rNext->doBatching() ||
-				!rCurrent->canBatching(rNext) ||
-				!batchingMesh.canAdd(rNext->getMesh()))
+        Object*     oNext = drawNext != end() ? *drawNext : nullptr;
+        Renderable* rNext = oNext ? oNext->getComponent<Renderable>() : nullptr;
+        //Matrix
+        const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
+        //can add this mesh in the pool?
+        if ( /* false && */ render->getBatchingIsEnable() && rCurrent->doBatching())
+        {
+            //batching
+            batchingMesh.addMesh(otrasform, rCurrent->getMesh());
+            // draw?
+            if (!rNext ||
+                !rNext->doBatching() ||
+                !rCurrent->canBatching(rNext) ||
+                !batchingMesh.canAdd(rNext->getMesh()))
             {
                 //set model
                 RenderContext::setModel(Mat4::IDENTITY);
-				//enable info draw
-				rCurrent->enableStates();
-				//draw
-				batchingMesh.draw();
-				//draw errors
-				CHECK_GPU_ERRORS();
-				//restart batching
-				batchingMesh.restart();
-			}
-		}
-		//direct draw
-		else
-		{
-			//model view matrix
-			RenderContext::setModel(otrasform);
-			//enable info draw
-			rCurrent->draw();
-			//draw errors
-			CHECK_GPU_ERRORS();
-		}
-		//next
-		drawIt = drawNext;
-		if (drawNext != end())
-			++drawNext;
-	}
+                //enable info draw
+                rCurrent->enableStates();
+                //draw
+                batchingMesh.draw();
+                //draw errors
+                CHECK_GPU_ERRORS();
+                //restart batching
+                batchingMesh.restart();
+            }
+        }
+        //direct draw
+        else
+        {
+            //model view matrix
+            RenderContext::setModel(otrasform);
+            //enable info draw
+            rCurrent->draw();
+            //draw errors
+            CHECK_GPU_ERRORS();
+        }
+        //next
+        drawIt = drawNext;
+        if (drawNext != end())
+            ++drawNext;
+    }
 }

@@ -110,24 +110,44 @@ class RenderContext
         uint target;
         uint color;
         uint depth;
+        uint stencil;
         bool hasDepth;
+        bool hasStencil;
         
         RenderTarget()
         {
-            target   = 0;
-            color    = 0;
-            depth    = 0;
-            hasDepth = false;
+            target     = 0;
+            color      = 0;
+            depth      = 0;
+            stencil    = 0;
+            hasDepth   = false;
+            hasStencil = false;
         }
         RenderTarget(uint _target,
                      uint _color,
                      uint _depth,
                      bool _hasDepth)
         {
-            target   = _target;
-            color    = _color;
-            depth    = _depth;
-            hasDepth = _hasDepth;
+            target     = _target;
+            color      = _color;
+            depth      = _depth;
+            stencil    = 0;
+            hasDepth   = _hasDepth;
+            hasStencil = false;
+        }
+        RenderTarget(uint _target,
+                     uint _color,
+                     uint _depth,
+                     uint _stencil,
+                     bool _hasDepth,
+                     bool _hasStencil)
+        {
+            target     = _target;
+            color      = _color;
+            depth      = _depth;
+            stencil    = _stencil;
+            hasDepth   = _hasDepth;
+            hasStencil = _hasStencil;
         }
     };
     
@@ -204,8 +224,10 @@ class RenderContext
     {
         buffers=target;
     }
-    static RenderTarget createRenderTarget(uint colorbuffer);
-    static RenderTarget createRenderDepthTarget(uint colorbuffer,size_t width,size_t height);
+    static RenderTarget createRenderTarget(uint colorbuffer); 
+    static RenderTarget createRenderDepthTarget(uint colorbuffer, size_t width, size_t height);
+    static RenderTarget createRenderStencilTarget(uint colorbuffer, size_t width, size_t height);
+    static RenderTarget createRenderDepthStencilTarget(uint colorbuffer, size_t width, size_t height);
     static void enableRenderTarget(const RenderTarget& target);
     static void disableRenderTarget();
     static void deleteRenderTarget(const RenderTarget& target);

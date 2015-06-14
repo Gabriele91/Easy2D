@@ -243,7 +243,17 @@ class Object
     //send a message
     void sendMessage(uint message);
     void sendLocalMessage(uint message);
-    
+
+    //draw childs (render queue)
+    void setCanDrawChilds(bool val)
+    {
+        drawChilds = val;
+    }
+    bool getCanDrawChilds() const
+    {
+        return drawChilds;
+    }
+
     //object callbacks 
 	virtual void onResume(){ }
 	virtual void onRun(float dt){ }
@@ -284,6 +294,8 @@ class Object
     Object* getPrivateObject(const std::vector<String>& names,size_t i);
     //name
     String name;
+    //can draw childs
+    bool drawChilds;
     //scene
     Scene*  scene;
     //components

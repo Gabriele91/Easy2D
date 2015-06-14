@@ -114,7 +114,7 @@ struct ScreenMode
 {
     size_t width;
     size_t height;
-    size_t bitsPerPixel;
+    size_t depth;
 };
 
 size_t displayBitsPerPixelForMode(CGDisplayModeRef mode)
@@ -150,7 +150,7 @@ CGDisplayModeRef bestMatchForMode( ScreenMode screenMode )
     {
 		CGDisplayModeRef mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, i);
         
-		if(displayBitsPerPixelForMode( mode ) != screenMode.bitsPerPixel)
+		if(displayBitsPerPixelForMode( mode ) != screenMode.depth)
 			continue;
 		
 		if((CGDisplayModeGetWidth(mode) >= screenMode.width) &&
@@ -281,28 +281,43 @@ void CocoaScreen::__closeWindow()
     
 
 }
-void CocoaScreen::__createContext(int msaa)
+void CocoaScreen::__createContext(Screen::TypeBuffers typeBufferOpenGL,int msaa)
 {
     //COCOA OPENGL CONTEXT
     NSOpenGLContext *openGLContext=NULL;
-    
+    //bits
+    int colorBits   = (int)Screen::getColorBits(typeBufferOpenGL);
+    int depthBits   = (int)Screen::getDepthBits(typeBufferOpenGL);
+    int stencilBits = (int)Screen::getStencilBits(typeBufferOpenGL);
+    //type context
     NSOpenGLPixelFormatAttribute attributes[32];    
     int i=0;
-    attributes[i++] = NSOpenGLPFANoRecovery;
-    //attributes[i++] = NSOpenGLPFAAccelerated;
-    attributes[i++] = NSOpenGLPFADoubleBuffer;
-    attributes[i++] = NSOpenGLPFAColorSize;
-    attributes[i++] = 32.0;
-    attributes[i++] = NSOpenGLPFADepthSize;
-    attributes[i++] = 32.0;
+    attributes[i++]   = NSOpenGLPFANoRecovery;
+  //attributes[i++]   = NSOpenGLPFAAccelerated;
+    attributes[i++]   = NSOpenGLPFADoubleBuffer;
+    attributes[i++]   = NSOpenGLPFAColorSize;
+    attributes[i++]   = colorBits;
+    //depth
+    if(depthBits)
+    {
+        attributes[i++]   = NSOpenGLPFADepthSize;
+        attributes[i++]   = depthBits;
+    }
+    //stencil
+    if(stencilBits)
+    {
+        attributes[i++]   = NSOpenGLPFAStencilSize;
+        attributes[i++]   = stencilBits;
+    }
     //msaa
-    if(msaa!=NOAA){
+    if(msaa!=NOAA)
+    {
         attributes[i++]=NSOpenGLPFASampleBuffers;
         attributes[i++]=1;
         attributes[i++]=NSOpenGLPFASamples;
         attributes[i++]=static_cast<NSOpenGLPixelFormatAttribute>(msaa);
     }
-    
+    //
     attributes[i] = 0;
     
     NSOpenGLPixelFormat *pixelFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
@@ -541,12 +556,12 @@ bool CocoaScreen::isFullscreen()
  * create window
  */
 void CocoaScreen::createWindow(const char* appname,
-                          uint width,
-                          uint height,
-                          uint bites,
-                          uint freamPerSecond,
-                          bool fullscreen,
-                          AntiAliasing dfAA)
+                               uint width,
+                               uint height,
+                               uint freamPerSecond,
+                               bool fullscreen,
+                               TypeBuffers type,
+                               AntiAliasing dfAA)
 {
     this->fullscreen=fullscreen;
     this->cocoaGLContext=NULL;
@@ -562,7 +577,7 @@ void CocoaScreen::createWindow(const char* appname,
     if(fullscreen)
     {
         //search new mode
-        cocoaInfo->fullscreenMode=bestMatchForMode({wantWidth,wantHeight,bites});
+        cocoaInfo->fullscreenMode=bestMatchForMode({wantWidth,wantHeight,(size_t)Screen::getDepthBits(type)});
         //set new mode
         DEBUG_ASSERT_MGS_REPLACE(
         CGDisplaySetDisplayMode(kCGDirectMainDisplay, cocoaInfo->fullscreenMode,NULL)==kCGErrorSuccess,

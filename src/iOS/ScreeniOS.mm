@@ -29,9 +29,9 @@ void ScreeniOS::setEAGLViewController(void *eaglViewController)
 void ScreeniOS::createWindow(const char* argappname,
                               uint width,
                               uint height,
-                              uint bites,
                               uint freamPerSecond,
                               bool fullscreen,
+                              TypeBuffers type,
                               AntiAliasing dfAA)
 {
     //set time intervall

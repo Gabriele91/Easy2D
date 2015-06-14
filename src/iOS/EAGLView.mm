@@ -8,6 +8,7 @@
 using namespace Easy2D;
 ///////////////////////////
 #define USE_DEPTH_BUFFER 1
+#define USE_STENCIL_BUFFER 1
 // A class extension to declare private methods
 @interface EAGLView ()
 //private context
@@ -143,18 +144,33 @@ using namespace Easy2D;
         CHECK_GPU_ERRORS();
     }
     
+    if (USE_STENCIL_BUFFER)
+    {
+        //create stencil
+        glGenRenderbuffers(1, &stencilRenderbuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, stencilRenderbuffer);
+        //create the storage for the buffer, optimized for stencil values, same size as the colorRenderbuffer
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, backingWidth, backingHeight);
+        //attach the stencil buffer to our framebuffer
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, stencilRenderbuffer);
+        
+        CHECK_GPU_ERRORS();
+    }
+    
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
         NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
         return NO;
     }
-    //set default state
+    //set default state 
     RenderContext::setDefaultRenderTarget(
     {
       viewFramebuffer,
       viewRenderbuffer,
       depthRenderbuffer,
-      USE_DEPTH_BUFFER
+      stencilRenderbuffer,
+      USE_DEPTH_BUFFER,
+      USE_STENCIL_BUFFER
     });
     //find errors:
     CHECK_GPU_ERRORS();
@@ -178,6 +194,12 @@ using namespace Easy2D;
     {
         glDeleteRenderbuffers(1, &depthRenderbuffer);
         depthRenderbuffer = 0;
+    }
+    //delete stencil buffer
+    if(stencilRenderbuffer)
+    {
+        glDeleteRenderbuffers(1, &stencilRenderbuffer);
+        stencilRenderbuffer = 0;
     }
 }
 

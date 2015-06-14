@@ -92,13 +92,13 @@ protected:
     /**
      * create window
      */
-    virtual void createWindow(const char* appname,
-                              uint width,
-                              uint height,
-                              uint bites,
-                              uint freamPerSecond,
-                              bool fullscreen,
-                              AntiAliasing dfAA=NOAA);
+    virtual void createWindow(  const char* appname,
+                                uint width,
+                                uint height,
+                                uint freamPerSecond,
+                                bool fullscreen,
+                                Screen::TypeBuffers type = COLOR32DEPTH24STENCIL8,
+                                Screen::AntiAliasing dfAA = NOAA);
     /*
      * close window
      */
@@ -114,7 +114,7 @@ private:
     void (*onCocoaWindowClose)(void*);
     void __openWindow(int w,int h,const char *title,bool fullscreen);
     void __closeWindow();
-    void __createContext(int msaa);
+    void __createContext(Screen::TypeBuffers type,int msaa);
     void __deleteContext();
     void __initOpenGL();
     ///////////////////////////////////

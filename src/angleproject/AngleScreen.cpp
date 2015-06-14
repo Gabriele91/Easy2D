@@ -43,7 +43,7 @@ static bool checkEGLError()
 #endif
 
 //window methods
-void AngleScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA)
+void AngleScreen::__initWindow(const char* appname,TypeBuffers typeBufferOpenGL,AntiAliasing dfAA)
 {
 
     DEBUG_MESSAGE( "Open window:" << screenWidth << "x" << screenHeight );
@@ -103,17 +103,73 @@ void AngleScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA)
 	// Get configs
 	EGL_DEBUG_ASSERT_REPLACE(eglGetConfigs(display, NULL, 0, &numConfigs));
 	//set attributes
-	EGLint configAttribList[] =
+    int colorBits   = (int)Screen::getColorBits(typeBufferOpenGL);
+    int redBits     = 0;
+    int greenBits   = 0;
+    int blueBits    = 0;
+    int alphaBits   = 0;
+    int depthBits   = (int)Screen::getDepthBits(typeBufferOpenGL);
+    int stencilBits = (int)Screen::getStencilBits(typeBufferOpenGL);
+    switch(colorBits)
     {
-       EGL_RED_SIZE,       8,
-       EGL_GREEN_SIZE,     8,
-       EGL_BLUE_SIZE,      8,
-     //EGL_ALPHA_SIZE,     8,
-       EGL_DEPTH_SIZE,     16,
-     //EGL_STENCIL_SIZE,   0,
-     //EGL_SAMPLE_BUFFERS, 1,
-       EGL_NONE
-    };
+        case 16:
+        redBits     = 4;
+        greenBits   = 4;
+        blueBits    = 4;
+        alphaBits   = 4;
+        case 24:
+        redBits     = 8;
+        greenBits   = 8;
+        blueBits    = 8;
+        alphaBits   = 0;
+        case 32:
+        default:
+        redBits     = 8;
+        greenBits   = 8;
+        blueBits    = 8;
+        alphaBits   = 8;
+        break;
+    };    //type context
+    EGLint attributes[32];    
+    int i=0;
+    //set type of surfece
+    attributes[i++]   = EGL_SURFACE_TYPE;
+    attributes[i++]   = EGL_WINDOW_BIT;
+    //colors
+    attributes[i++]   = EGL_RED_SIZE;
+    attributes[i++]   = redBits;
+    attributes[i++]   = EGL_GREEN_SIZE;
+    attributes[i++]   = greenBits;
+    attributes[i++]   = EGL_BLUE_SIZE;
+    attributes[i++]   = blueBits;
+    attributes[i++]   = EGL_ALPHA_SIZE;
+    attributes[i++]   = alphaBits;
+    //depth
+    if(depthBits)
+    {
+        attributes[i++]   = EGL_DEPTH_SIZE;
+        attributes[i++]   = depthBits;
+    }
+    //stencil
+    if(stencilBits)
+    {
+        attributes[i++]   = EGL_STENCIL_SIZE;
+        attributes[i++]   = stencilBits;
+    }
+    //msaa
+    if(dfAA!=NOAA)
+    {
+        attributes[i++]=EGL_SAMPLE_BUFFERS;
+        attributes[i++]=1;
+        attributes[i++]=EGL_SAMPLES;
+        attributes[i++]=static_cast<int>(dfAA);
+    }
+    //type
+    attributes[i++] = EGL_RENDERABLE_TYPE;
+    attributes[i++] = EGL_OPENGL_ES2_BIT;
+    //
+    attributes[i]=EGL_NONE; 
+    ///////////////////////////////
     EGLint surfaceAttribList[] =
     {
        //EGL_POST_SUB_BUFFER_SUPPORTED_NV, EGL_TRUE,
@@ -125,7 +181,7 @@ void AngleScreen::__initWindow(const char* appname,uint bites,AntiAliasing dfAA)
 		EGL_NONE, EGL_NONE 
 	};
 	// Choose config
-	EGL_DEBUG_ASSERT_REPLACE(eglChooseConfig(display, configAttribList, &config, 1, &numConfigs));
+	EGL_DEBUG_ASSERT_REPLACE(eglChooseConfig(display, attributes, &config, 1, &numConfigs));
 	// Create a surface
 	surface = eglCreateWindowSurface(display, config, (EGLNativeWindowType)hWind, surfaceAttribList);
 	EGL_DEBUG_ASSERT_REPLACE(surface != EGL_NO_SURFACE);
@@ -306,13 +362,12 @@ void AngleScreen::swap()
 void AngleScreen::createWindow(const char* appname,
                                  uint width,
                                  uint height,
-                                 uint bites,
                                  uint setFreamPerSecond,
                                  bool prfullscreen,
+                                 TypeBuffers type,
                                  AntiAliasing dfAA)
 {
     DEBUG_ASSERT(appname);
-    DEBUG_ASSERT(bites);
     DEBUG_MESSAGE( "createWindow Easy2D Win32" );
 
     //set values
@@ -320,7 +375,7 @@ void AngleScreen::createWindow(const char* appname,
     screenHeight=Math::min(nativeHeight,height);
     freamPerSecond=setFreamPerSecond;
     //create window
-    __initWindow(appname,bites,dfAA);
+    __initWindow(appname,type,dfAA);
     setFullscreen(prfullscreen);
     //
 }

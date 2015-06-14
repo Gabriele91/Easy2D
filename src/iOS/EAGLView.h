@@ -26,8 +26,9 @@
     GLuint viewRenderbuffer;
     GLuint viewFramebuffer;
     
-    /* OpenGL name for the depth buffer that is attached to viewFramebuffer, if it exists (0 if it does not exist) */
+    /* OpenGL name for the depth/stencil buffer that is attached to viewFramebuffer, if it exists (0 if it does not exist) */
     GLuint depthRenderbuffer;
+    GLuint stencilRenderbuffer;
     
     /* loop update */
     CADisplayLink *displayLink;

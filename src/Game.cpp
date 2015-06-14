@@ -5,20 +5,20 @@
 ///////////////////////
 using namespace Easy2D;
 
-Game::Game(const String& app,
-           unsigned int width,
-           unsigned int height,
-           unsigned int bites,
-           unsigned int freamPerSecond,
+Game::Game(const String& name,
+           uint width,
+           uint height,
+           uint freamPerSecond,
            bool fullscreen,
-           int dfAA)
-:Scene(app,
-		width,
-		height,
-		bites,
-		freamPerSecond,
-		fullscreen,
-		dfAA)
+           int  typeBuffers,
+           int  typeAA)
+:Scene( name,
+        width,
+        height,
+        freamPerSecond,
+        fullscreen,
+        typeBuffers,
+        typeAA)
 {
 }
 

@@ -111,11 +111,18 @@ void Render::init()
 //called from scene
 void Render::buildQueue(const std::list<Object*>& objs)
 {
+    //display/view camera
+    const Mat4& disViewM4 = RenderContext::getDisplay().mul(camera->getGlobalMatrix());
+    const AABox2& viewBox = camera->getBoxViewport();
     //clear queue
 	queue->clear();
     //add objcts
     for(auto obj:objs)
-        queue->append(obj);
+        queue->append([&](const AABox2& mbox) -> bool
+        {
+            const AABox2& wbox = mbox.applay(disViewM4);
+            return viewBox.isIntersection(wbox);
+        }, obj);
 }
 //draw scene
 void Render::draw()
@@ -125,12 +132,16 @@ void Render::draw()
     CHECK_GPU_ERRORS();
 	/////////////////////////////////////////////////////////////////////
     //set view port
-    RenderContext::setViewport(Vec4(0,0,camera->getViewport()));
+    RenderContext::setViewport(Vec4(0, 0, camera->getViewport()));
+    //set projection matrix
+    RenderContext::setProjection(camera->getProjection());
+    //matrix camera
+    RenderContext::setView(camera->getGlobalMatrix());
     //safe state
     RenderContext::unbindVertexBuffer();
     RenderContext::unbindIndexBuffer();
     //ambient
-    RenderContext::setAmbientColor(ambientClr);
+    RenderContext::setAmbientColor(ambientClr);    
     /////////////////////////////////////////////////////////////////////
     //has some shaders?
 	if (effects->hasPostEffects())
@@ -140,7 +151,7 @@ void Render::draw()
 		RenderContext::setColorClear(clearClr);
 		if (enableClear) RenderContext::doClear();
 		//draw queue
-		queue->draw(this);
+        queue->draw(batchingMesh);
 		//end draw
 		RenderContext::disableRenderTarget();
 		//draw effects
@@ -152,7 +163,7 @@ void Render::draw()
 		RenderContext::setColorClear(clearClr);
 		if (enableClear) RenderContext::doClear();
 		//draw queue
-		queue->draw(this);
+        queue->draw(batchingMesh);
 	}
     //////////////////////////////////////////////////////
 }
@@ -179,7 +190,7 @@ Object* Render::picking(const Vec2& point)
     return nullptr;
 }
 
-
+//debug draw
 void Render::aabox2Draw()
 {   
     //return if queue is empty

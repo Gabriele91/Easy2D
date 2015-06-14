@@ -55,23 +55,56 @@ static bool isExtensionSupported(const char *extList, const char *extension)
 
     return false;
 }
-void LinuxScreen::__createGLXContext(uint bites,AntiAliasing dfAA)
+void LinuxScreen::__createGLXContext(TypeBuffers type,AntiAliasing dfAA)
 {
     ///////////////////////////////////////////////////////////
     //SETUP openGL
-    bitesOpenGL=bites<24?bites:24;
+    typeBufferOpenGL=type;
+    
+    int colorBits   = (int)Screen::getColorBits(typeBufferOpenGL);
+    int redBits     = 0;
+    int greenBits   = 0;
+    int blueBits    = 0;
+    int alphaBits   = 0;
+    int depthBits   = (int)Screen::getDepthBits(typeBufferOpenGL);
+    int stencilBits = (int)Screen::getStencilBits(typeBufferOpenGL);
+    switch(colorBits)
+    {
+        case 16:
+        redBits     = 4;
+        greenBits   = 4;
+        blueBits    = 4;
+        alphaBits   = 4;
+        case 24:
+        redBits     = 8;
+        greenBits   = 8;
+        blueBits    = 8;
+        alphaBits   = 0;
+        case 32:
+        default:
+        redBits     = 8;
+        greenBits   = 8;
+        blueBits    = 8;
+        alphaBits   = 8;
+        break;
+    };
+    
     ///////////////////////////////////////////////////////////
     //SET BUFFERS
-    int bufferOpenGL[]= {  GLX_RGBA,                         //[0]
-                           GLX_DEPTH_SIZE, bitesOpenGL,       //[1] [2]
-                           GLX_DOUBLEBUFFER,                  //[3]
-                           GLX_SAMPLE_BUFFERS  , 1,           //[4] [5] // <-- MSAA
-                           GLX_SAMPLES         , dfAA,        //[6] [7] // <-- MSAA
+    int bufferOpenGL[]= {  GLX_RGBA,                          //[0]
+                           GLX_RED_SIZE,        redBits,      //[1]  [2]
+                           GLX_GREEN_SIZE,      greenBits,    //[3]  [4]
+                           GLX_BLUE_SIZE,       blueBits,     //[5]  [6]
+                           GLX_ALPHA_SIZE,      alphaBits,    //[7]  [8]
+                           GLX_DEPTH_SIZE,      depthBits,    //[9]  [10]
+                           GLX_STENCIL_SIZE,    stencilBits,  //[11] [12]
+                           GLX_DOUBLEBUFFER,                  //[13]
+                           GLX_SAMPLE_BUFFERS,  1,            //[14] [15] // <-- MSAA
+                           GLX_SAMPLES,         dfAA,         //[16] [17] // <-- MSAA
                            X11None
                         };
     //no msaa
-    if(dfAA<MSAAx2||dfAA>MSAAx64)
-        bufferOpenGL[4]=X11None;
+    if(dfAA<MSAAx2||dfAA>MSAAx64) bufferOpenGL[14]=X11None;
     //setup color map
     visual  = glXChooseVisual(display, screen,  bufferOpenGL );
     if (visual  == NULL)
@@ -207,7 +240,7 @@ void LinuxScreen::__createFullScreenWindow()
                            0, 0,
                            nativeWidth,
                            nativeHeight, 0,
-                           bitesOpenGL,
+                           Screen::getDepthBits(typeBufferOpenGL),
                            InputOutput,
                            visual->visual,
                            CWBorderPixel | CWColormap | CWEventMask | CWOverrideRedirect | CWOverrideRedirect,
@@ -279,9 +312,9 @@ void LinuxScreen::__deleteWindow()
 void LinuxScreen::createWindow(const char* argappname,
                                uint width,
                                uint height,
-                               uint bites,
                                uint freamPerSecond,
                                bool fullscreen,
+                               TypeBuffers type,
                                AntiAliasing dfAA)
 {
 
@@ -293,7 +326,7 @@ void LinuxScreen::createWindow(const char* argappname,
     //get screen
     screen = DefaultScreen(display);
     //create openGL context
-    __createGLXContext(bites,dfAA);
+    __createGLXContext(type,dfAA);
     //set fullscreen
     if(fullscreen)
         __createFullScreenWindow();

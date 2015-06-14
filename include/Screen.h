@@ -32,6 +32,87 @@ public:
         BESTAA=512
     };
     /**
+    * Type of default buffers
+    * @enum TypeBuffers
+    */
+    enum TypeBuffers
+    {
+
+        COLOR32DEPTH32STENCIL32,
+        COLOR32DEPTH32STENCIL24,
+        COLOR32DEPTH32STENCIL16,
+        COLOR32DEPTH32STENCIL8,
+        COLOR32DEPTH32,
+        ///////////////////////
+        COLOR32DEPTH24STENCIL32,
+        COLOR32DEPTH24STENCIL24,
+        COLOR32DEPTH24STENCIL16,
+        COLOR32DEPTH24STENCIL8,
+        COLOR32DEPTH24,
+        ///////////////////////
+        COLOR32DEPTH16STENCIL32,
+        COLOR32DEPTH16STENCIL24,
+        COLOR32DEPTH16STENCIL16,
+        COLOR32DEPTH16STENCIL8,
+        COLOR32DEPTH16,
+        ///////////////////////
+        COLOR32DEPTH8STENCIL32,
+        COLOR32DEPTH8STENCIL24,
+        COLOR32DEPTH8STENCIL16,
+        COLOR32DEPTH8STENCIL8,
+        COLOR32DEPTH8,
+        ///////////////////////
+        COLOR32STENCIL32,
+        COLOR32STENCIL24,
+        COLOR32STENCIL16,
+        COLOR32STENCIL8,
+        COLOR32,
+
+        //////////////////////////////////////////////
+
+        COLOR16DEPTH32STENCIL32,
+        COLOR16DEPTH32STENCIL24,
+        COLOR16DEPTH32STENCIL16,
+        COLOR16DEPTH32STENCIL8,
+        COLOR16DEPTH32,
+        ///////////////////////
+        COLOR16DEPTH24STENCIL32,
+        COLOR16DEPTH24STENCIL24,
+        COLOR16DEPTH24STENCIL16,
+        COLOR16DEPTH24STENCIL8,
+        COLOR16DEPTH24,
+        ///////////////////////
+        COLOR16DEPTH16STENCIL32,
+        COLOR16DEPTH16STENCIL24,
+        COLOR16DEPTH16STENCIL16,
+        COLOR16DEPTH16STENCIL8,
+        COLOR16DEPTH16,
+        ///////////////////////
+        COLOR16DEPTH8STENCIL32,
+        COLOR16DEPTH8STENCIL24,
+        COLOR16DEPTH8STENCIL16,
+        COLOR16DEPTH8STENCIL8,
+        COLOR16DEPTH8,
+        ///////////////////////
+        COLOR16STENCIL32,
+        COLOR16STENCIL24,
+        COLOR16STENCIL16,
+        COLOR16STENCIL8,
+        COLOR16,
+    };
+    inline static uchar getColorBits(TypeBuffers type)
+    {
+        return (2-(type / COLOR16DEPTH32STENCIL32)) * 16;
+    }
+    inline static uchar getDepthBits(TypeBuffers type)
+    {
+        return (4-(type / 5)%5)*8;
+    }
+    inline static uchar getStencilBits(TypeBuffers type)
+    {
+        return (4 - (type % 5)) * 8;
+    }
+    /**
     * Screen orientation enum
     * @enum SceenOrientation
     */
@@ -178,10 +259,10 @@ protected:
     virtual void createWindow(const char* appname,
                               uint width,
                               uint height,
-                              uint bites,
                               uint freamPerSecond,
                               bool fullscreen,
-                              Screen::AntiAliasing dfAA)=0;
+                              TypeBuffers type=COLOR32DEPTH24STENCIL8,
+                              Screen::AntiAliasing dfAA=NOAA)=0;
     /**
     * close window
     */

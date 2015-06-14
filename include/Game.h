@@ -22,10 +22,10 @@ public:
     Game(const String& name,
          uint width,
          uint height,
-         uint bites=32,
-         uint FreamPerSecond=60,
-         bool fullscreen=false,
-         int defaultNoAA=0);
+         uint freamPerSecond= 60,
+         bool fullscreen    = false,
+         int  typeBuffers   = 8 /* COLOR32DEPTH24STENCIL8 */,
+         int  defaultNoAA   = 0 /* NOAA */);
 
     virtual ~Game() {};
 

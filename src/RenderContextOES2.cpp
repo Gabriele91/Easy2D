@@ -883,7 +883,77 @@ RenderContext::RenderTarget  RenderContext::createRenderDepthTarget(uint colorbu
     //return runder buffer
     return render;
 }
+RenderContext::RenderTarget  RenderContext::createRenderStencilTarget(uint colorbuffer, size_t width, size_t height)
+{
+    //save last target
+    auto lastTarget = context.binds.idtarget;
+    //----------------------------------------------------------------------------------------------
+    //new render target
+    RenderTarget render;
+    //Create FBO
+    glGenFramebuffers(1, &render.target);
+    glBindFramebuffer(GL_FRAMEBUFFER, render.target);
+    //----------------------------------------------------------------------------------------------
+    //save color buffer
+    render.color = colorbuffer;
+    //Attach color buffer to FBO
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorbuffer, 0);
+    //---------------------------------------------------------------------------------------------
+    render.hasStencil = true;
+    //df buffer
+    glGenRenderbuffers(1, &render.stencil);
+    glBindRenderbuffer(GL_RENDERBUFFER, render.stencil);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    //Attach depth buffer to FBO
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render.stencil);
+    //---------------------------------------------------------------------------------------------
+    //renable last target
+    glBindFramebuffer(GL_FRAMEBUFFER, lastTarget);
 
+    //return runder buffer
+    return render;
+}
+RenderContext::RenderTarget  RenderContext::createRenderDepthStencilTarget(uint colorbuffer, size_t width, size_t height)
+{
+    //save last target
+    auto lastTarget = context.binds.idtarget;
+    //----------------------------------------------------------------------------------------------
+    //new render target
+    RenderTarget render;
+    //Create FBO
+    glGenFramebuffers(1, &render.target);
+    glBindFramebuffer(GL_FRAMEBUFFER, render.target);
+    //----------------------------------------------------------------------------------------------
+    //save color buffer
+    render.color = colorbuffer;
+    //Attach color buffer to FBO
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorbuffer, 0);
+    //---------------------------------------------------------------------------------------------
+    render.hasDepth = true;
+    //df buffer
+    glGenRenderbuffers(1, &render.depth);
+    glBindRenderbuffer(GL_RENDERBUFFER, render.depth);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    //Attach depth buffer to FBO
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, render.depth);
+    //---------------------------------------------------------------------------------------------
+    render.hasStencil = true;
+    //df buffer
+    glGenRenderbuffers(1, &render.stencil);
+    glBindRenderbuffer(GL_RENDERBUFFER, render.stencil);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    //Attach depth buffer to FBO
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, render.stencil);
+    //---------------------------------------------------------------------------------------------
+    //renable last target
+    glBindFramebuffer(GL_FRAMEBUFFER, lastTarget);
+
+    //return runder buffer
+    return render;
+}
 void RenderContext::enableRenderTarget(const RenderContext::RenderTarget& target)
 {
     if(context.binds.idtarget==target.target) return;
@@ -908,6 +978,11 @@ void RenderContext::deleteRenderTarget(const RenderTarget& target)
     if(target.hasDepth)
     {
         glDeleteRenderbuffers(1,&target.depth);
+    }
+    //delete stencil buffer
+    if (target.hasStencil)
+    {
+        glDeleteRenderbuffers(1, &target.stencil);
     }
 }
 

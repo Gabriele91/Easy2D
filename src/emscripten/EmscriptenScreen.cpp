@@ -37,9 +37,9 @@ void EmscriptenScreen::__initOpenGL()
 void EmscriptenScreen::createWindow(const char* argappname,
                                     uint width,
                                     uint height,
-                                    uint bites,
                                     uint freamPerSecond,
                                     bool fullscreen,
+                                    TypeBuffers type,
                                     AntiAliasing dfAA)
 {
 
@@ -52,7 +52,7 @@ void EmscriptenScreen::createWindow(const char* argappname,
     this->freamPerSecond=freamPerSecond;
     //SDL values
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-    screen = SDL_SetVideoMode( width, height, bites, SDL_OPENGL | SDL_HWSURFACE );
+    screen = SDL_SetVideoMode( width, height, (int)Screen::getDepthBits(type), SDL_OPENGL | SDL_HWSURFACE );
     // connect the gl-context to the window
     acquireContext();
     //init openGL2
