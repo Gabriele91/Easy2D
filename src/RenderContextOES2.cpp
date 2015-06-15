@@ -30,7 +30,12 @@ RenderContext::RenderState RenderContext::state=
     true,                     //vertexs client state
     false,                    //normals client state
     true,                     //texture coords client state
-    false                     //colors client statst
+    false,                    //colors client state
+    true,                     //red mask
+    true,                     //green mask
+    true,                     //blue mask
+    true,                     //alpha mask
+    true                      //depth mask
 };
 RenderContext::RenderTarget RenderContext::buffers=
 {
@@ -442,6 +447,13 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
         //find errors:
         CHECK_GPU_ERRORS();
         //////////////////////////////////////////////////////////////////////
+        //mask
+        glColorMask(newState.readWritable,
+            newState.greenWritable,
+            newState.blueWritable,
+            newState.alphaWritable);
+        glDepthMask(newState.zbufferWritable);
+        //////////////////////////////////////////////////////////////////////
         //overwrite context state
         state=newState;
     }
@@ -462,6 +474,11 @@ void RenderContext::setRenderState(const RenderState& newState, bool force)
                        newState.normalsArray,
                        newState.texcoordsArray,
                        newState.colorsArray);
+        setColorWritable(newState.readWritable,
+                         newState.greenWritable,
+                         newState.blueWritable,
+                         newState.alphaWritable);
+        setZBufferWritable(newState.zbufferWritable);
     }
 }
 const RenderContext::RenderState& RenderContext::getRenderState()
@@ -470,9 +487,9 @@ const RenderContext::RenderState& RenderContext::getRenderState()
 }
 void RenderContext::setDefaultRenderState()
 {
-	RenderContext::RenderState defaultState=
+	static RenderContext::RenderState defaultState=
 	{
-		STENCIL_NONE,             //stencil
+        STENCIL_NONE,             //stencil
         BACK,                     //cullface
         false,                    //zbuffer
         Vec4::ZERO,               //viewport
@@ -483,11 +500,16 @@ void RenderContext::setDefaultRenderState()
         true,                     //texture
         Color::WHITE,             //color
         Color::BLUE,              //clear color
-        Color(128,128,128,255),   //ambient light
+        Color(128, 128, 128, 128),//ambient light
         true,                     //vertexs client state
         false,                    //normals client state
         true,                     //texture coords client state
-        false                     //colors client statst
+        false,                    //colors client state
+        true,                     //red mask
+        true,                     //green mask
+        true,                     //blue mask
+        true,                     //alpha mask
+        true                      //depth mask
     };
     setRenderState(defaultState, true);
 }
@@ -649,6 +671,7 @@ void RenderContext::stencilClear()
 void RenderContext::setStencil(StencilBuffer stencil)
 {
 	if (state.stencil == stencil) return;
+    state.stencil = stencil;
 
 	switch (stencil)
 	{
@@ -734,8 +757,48 @@ bool RenderContext::getColorClientState()
     return state.colorsArray;
 }
 
-//pointer
+//buffers writable
+void RenderContext::setColorWritable(bool red, bool green, bool blue, bool alpha)
+{
+    if (state.readWritable == red &&
+        state.greenWritable == green &&
+        state.blueWritable == blue &&
+        state.alphaWritable == alpha) return;
 
+    state.readWritable = red;
+    state.greenWritable = green;
+    state.blueWritable = blue;
+    state.alphaWritable = alpha;
+    glColorMask(red, green, blue, alpha);
+}
+void RenderContext::setZBufferWritable(bool depth)
+{
+    if (state.zbufferWritable == depth) return;
+    state.zbufferWritable = depth;
+    glDepthMask(depth);
+}
+bool RenderContext::getRedWritable()
+{
+    return state.readWritable;
+}
+bool RenderContext::getGreenWritable()
+{
+    return state.greenWritable;
+}
+bool RenderContext::getBlueWritable()
+{
+    return state.blueWritable;
+}
+bool RenderContext::getAlphaWritable()
+{
+    return state.alphaWritable;
+}
+bool RenderContext::getZBufferWritable()
+{
+    return state.zbufferWritable;
+}
+
+//pointer
 void RenderContext::vertexPointer(uint  	size,
                                   uint  	type,
                                   size_t  	stride,
@@ -1155,6 +1218,12 @@ static void debugARenderState(const RenderContext::RenderState& state)
     Debug::message()<< " \t normalsArray: " << (state.normalsArray ? "TRUE" : "FALSE") << "\n";
     Debug::message()<< " \t texcoordsArray: " << (state.texcoordsArray ? "TRUE" : "FALSE") << "\n";
     Debug::message()<< " \t colorsArray: " << (state.colorsArray ? "TRUE" : "FALSE") << "\n";
+    Debug::message()<< " Masks:\n";
+    Debug::message()<< " \t red: " << (state.readWritable ? "TRUE" : "FALSE") << "\n";
+    Debug::message()<< " \t green: " << (state.greenWritable ? "TRUE" : "FALSE") << "\n";
+    Debug::message()<< " \t blue: " << (state.blueWritable ? "TRUE" : "FALSE") << "\n";
+    Debug::message()<< " \t alpha: " << (state.alphaWritable ? "TRUE" : "FALSE") << "\n";
+    Debug::message()<< " \t zbuffer: " << (state.readWritable ? "TRUE" : "FALSE") << "\n";
 }
 void RenderContext::debugCurrentState()
 {
@@ -1204,7 +1273,15 @@ void RenderContext::debugNativeState()
 		glstate.vertexsArray=state.vertexsArray;
 		glstate.normalsArray=state.normalsArray;
 		glstate.texcoordsArray=state.texcoordsArray;
-		glstate.colorsArray=state.colorsArray;
+        glstate.colorsArray = state.colorsArray;
+     //mask
+        GLboolean colorMask[4];
+        glGetBooleanv(GL_COLOR_WRITEMASK, colorMask);
+        glstate.readWritable = colorMask[0];
+        glstate.greenWritable = colorMask[1];
+        glstate.blueWritable = colorMask[2];
+        glstate.alphaWritable = colorMask[3];
+        glGetBooleanv(GL_DEPTH_WRITEMASK, (GLboolean*)&(glstate.zbufferWritable));
     //print...
     debugARenderState(glstate);
     

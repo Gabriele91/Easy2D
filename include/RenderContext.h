@@ -174,10 +174,16 @@ class RenderContext
                  clearColor,
                  ambientColor;
 		//client states
-		bool vertexsArray,
-			 normalsArray,
-			 texcoordsArray,
-			 colorsArray;
+        bool vertexsArray,
+             normalsArray,
+             texcoordsArray,
+             colorsArray;
+        //buffers Writable...
+        bool readWritable,
+             greenWritable,
+             blueWritable,
+             alphaWritable,
+             zbufferWritable;
 	};
     //buffers
     static uint createBuffer();
@@ -298,7 +304,15 @@ class RenderContext
     static bool getNormalClientState();
     static bool getTexCoordClientState();
     static bool getColorClientState();
-    
+
+    //buffers writable
+    static void setColorWritable(bool red, bool green, bool blue, bool alpha);
+    static void setZBufferWritable(bool depth);
+    static bool getRedWritable();
+    static bool getGreenWritable();
+    static bool getBlueWritable();
+    static bool getAlphaWritable();
+    static bool getZBufferWritable();
     //pointer
     static void vertexPointer(uint  	size,
                               uint  	type,
