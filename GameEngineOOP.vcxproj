@@ -217,7 +217,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -350,6 +350,7 @@
     <ClCompile Include="src\Image\Image.cpp" />
     <ClCompile Include="src\Image\lodepng.cpp" />
     <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\Mask.cpp" />
     <ClCompile Include="src\Math3D.cpp" />
     <ClCompile Include="src\Math3D_SSE2.cpp" />
     <ClCompile Include="src\Memory.cpp" />
@@ -494,6 +495,7 @@
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\InputList.h" />
     <ClInclude Include="include\Listener.h" />
+    <ClInclude Include="include\Mask.h" />
     <ClInclude Include="include\Math3D.h" />
     <ClInclude Include="include\Memory.h" />
     <ClInclude Include="include\Mesh.h" />

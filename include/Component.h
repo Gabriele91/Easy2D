@@ -54,8 +54,8 @@ namespace Easy2D {
 		const Scene* getScene() const;
         //event: object
         virtual void onSetObject(Object* obj){}
-        virtual void onChangedMatrix(){};
-        virtual void onEraseObject(){};
+        virtual void onChangedMatrix(){}
+        virtual void onEraseObject(){}
         //event: scene
 		virtual void onSetScene(Scene* scene){}
 		virtual void onScenePause(){}

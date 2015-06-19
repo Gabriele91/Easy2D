@@ -1143,7 +1143,33 @@ public:
     {
         return corner[i];
     }
-    
+    //get size
+    Vec2 getSize() const
+    {
+        return Vec2((corner[0] - corner[1]).length(),
+                    (corner[1] - corner[2]).length());
+    }
+    //get center
+    Vec2 getCenter() const
+    {
+        return (corner[0] +
+                corner[1] + 
+                corner[2] + 
+                corner[3]) / 4.0f;
+    }
+    //get direction
+    Vec2 getDir() const
+    {
+        return (corner[1] - corner[2]).getNormalize();
+    }
+    //get angle
+    Angle getAngle() const
+    {
+        return getDir().direction();
+    }
+    //cast
+    AABox2 toAABox2() const;
+
 private:
     
     
@@ -1567,31 +1593,31 @@ public:
     }
 #endif
     //lerp==linear
-    template <class T>
-    static DFORCEINLINE T lerp( const T& left, const T& right, float t )
+    template <class T, class T2>
+    static DFORCEINLINE T lerp( const T& left, const T2& right, float t )
     {
         return (T)(left + ( right - left ) * t);
     }
-    template <class T>
-    static DFORCEINLINE T linear( const T& left, const T& right, float t )
+    template <class T, class T2>
+    static DFORCEINLINE T linear( const T& left, const T2& right, float t )
     {
         return (T)(left + ( right - left ) * t);
     }
-    template <class T>
-    static DFORCEINLINE T quadratic( const T& left, const T& right, float t )
+    template <class T, class T2>
+    static DFORCEINLINE T quadratic( const T& left, const T2& right, float t )
     {
         return (T)( linear( linear(left,right,t), linear(left,right,t), t) );
     }
-    template <class T>
-    static DFORCEINLINE T cubic( const T& left, const T& right, float t )
+    template <class T, class T2>
+    static DFORCEINLINE T cubic( const T& left, const T2& right, float t )
     {
         return (T)( linear( quadratic(left,right,t), quadratic(left,right,t), t) );
     }
     //clamp
-    template <class T>
-    static DFORCEINLINE T clamp( const T& n, const T& max, const T& min )
+    template <class T, class T2, class T3>
+    static DFORCEINLINE T clamp(const T& const n, const T2& const max_val, const T3& const min_val)
     {
-        return n>max ? max : ( n<min ? min : n );
+        return (n > max_val ? max_val : (n< min_val ? min_val : n));
     }
     //saturate
     template <class T>

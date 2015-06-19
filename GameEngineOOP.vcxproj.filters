@@ -312,6 +312,9 @@
     <ClCompile Include="src\AiffLoader.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mask.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Object.h">
@@ -589,6 +592,9 @@
       <Filter>File di intestazione\script</Filter>
     </ClInclude>
     <ClInclude Include="include\Config.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Mask.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

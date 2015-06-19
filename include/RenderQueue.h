@@ -23,11 +23,10 @@ class RenderQueue : public Pointers < RenderQueue >
     typedef std::list<Object*>::const_iterator CItObjs;
     typedef std::list<Object*>::const_reverse_iterator CRevItObjs;
 	RenderContext::RenderTarget target;
-	Render* render;
 	
 public:
 	//init
-	RenderQueue(Render* render); 
+	RenderQueue(); 
 	//delete
 	virtual ~RenderQueue();
 	//target

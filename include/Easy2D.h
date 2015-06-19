@@ -53,6 +53,7 @@
 #include <Parallax.h>
 #include <ELuaScript.h>
 #include <FluidGrid.h>
+#include <Mask.h>
 //Rander manager
 #include <RenderContext.h>
 #include <Render.h>

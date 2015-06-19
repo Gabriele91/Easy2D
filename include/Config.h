@@ -49,8 +49,8 @@ int atexit(void (*function)(void));
 #elif defined(_WIN32)
 #define PLATFORM_WINDOW
 #define DCPP_11
-#ifndef NOMINMAX
-#define NOMINMAX
+#ifndef NOMINMAX 
+    #define NOMINMAX 
 #endif
 #define _WINSOCKAPI_
 #include <windows.h>

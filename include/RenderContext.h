@@ -402,6 +402,29 @@ class RenderContext
         renderInit=init;
     }
 
+    static void subscriptionShader(const String& name, Shader::ptr shader)
+    {
+        libShaders[name] = shader;
+    }
+    static void unsubscriptionShader(const String& name)
+    {
+        libShaders.erase(name);
+    }
+    static Shader::ptr getShader(const String& name)
+    {
+        auto it=libShaders.find(name);
+        if (it!=libShaders.end()) return it->second;
+        return nullptr;
+    }
+    static void enableShader(const String& name)
+    {
+        auto it = libShaders.find(name);
+        if (it != libShaders.end())
+        {
+            return it->second->bind();
+        }
+    }
+
     private:
     /////////////////////////////////////////
     //shaders
@@ -414,6 +437,8 @@ class RenderContext
     };
     static StandardShader standardShader;
     static std::vector<Shader::ptr>  shaders;
+    /////////////////////////////////////////
+    static DUNORDERED_MAP<String, Shader::ptr> libShaders;
     /////////////////////////////////////////
 	static Context context;
     static RenderState state;

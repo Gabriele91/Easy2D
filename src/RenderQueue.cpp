@@ -7,10 +7,8 @@
 using namespace Easy2D;
 /////////////////////////
 
-RenderQueue::RenderQueue(Render* render)
-:render(render)
+RenderQueue::RenderQueue()
 {
-	DEBUG_ASSERT(render);
 	//get screen size
 	Vec2 screenSize = Application::instance()->getScreen()->getSize();
 	//create render target buffer
@@ -129,7 +127,7 @@ void RenderQueue::draw(Mesh::ptr mesh) const
         //Matrix
         const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
         //can add this mesh in the pool?
-        if ( /* false && */ render->getBatchingIsEnable() && rCurrent->doBatching())
+        if (rCurrent->doBatching())
         {
             //batching
             batchingMesh.addMesh(otrasform, rCurrent->getMesh());

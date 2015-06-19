@@ -133,7 +133,6 @@ protected:
     Color ambientClr;
     //Batching
 	Mesh::ptr batchingMesh;
-	BatchingMesh& getBatchingMesh();
     //render queue
     RenderQueue::ptr queue;
 	friend class RenderQueue;
@@ -157,6 +156,8 @@ public:
     {
         return camera;
     }
+    //help to components
+    Mesh::ptr getBatchingMesh();
     //
     DFORCEINLINE void setClear(const Color& color,bool enable=true)
     {
@@ -205,8 +206,8 @@ public:
     }
     ///////////////////////////////////////////////////
     //utility
-    Object* picking(const Vec2& point);
-    void aabox2Draw();
+    Object* queuePicking(const Vec2& point) const;
+    void aabox2Draw() const;
     ///////////////////////////////////////////////////
     size_t queueSize()
     {

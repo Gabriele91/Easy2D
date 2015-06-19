@@ -88,16 +88,16 @@ Render::Render()
     effects=nullptr;
 }
 //return batching mesh
-BatchingMesh& Render::getBatchingMesh()
+Mesh::ptr Render::getBatchingMesh()
 {
-	return *((BatchingMesh*)(&(*batchingMesh)));
+	return batchingMesh;
 }
 //init render graphics elements
 void Render::init()
 {
 	/////////////////////////////////////////////////////////////////////
 	//QUEUE 
-	queue = RenderQueue::snew(this);
+	queue = RenderQueue::snew();
 	/////////////////////////////////////////////////////////////////////
 	//BATCH BUFFER
 	auto mesh=new BatchingMesh();
@@ -111,6 +111,7 @@ void Render::init()
 //called from scene
 void Render::buildQueue(const std::list<Object*>& objs)
 {
+    if(!camera) return;
     //display/view camera
     const Mat4& disViewM4 = RenderContext::getDisplay().mul(camera->getGlobalMatrix());
     const AABox2& viewBox = camera->getBoxViewport();
@@ -151,7 +152,10 @@ void Render::draw()
 		RenderContext::setColorClear(clearClr);
 		if (enableClear) RenderContext::doClear();
 		//draw queue
-        queue->draw(batchingMesh);
+        if(getBatchingIsEnable())
+            queue->draw(batchingMesh);
+        else
+            queue->draw();
 		//end draw
 		RenderContext::disableRenderTarget();
 		//draw effects
@@ -163,13 +167,16 @@ void Render::draw()
 		RenderContext::setColorClear(clearClr);
 		if (enableClear) RenderContext::doClear();
 		//draw queue
-        queue->draw(batchingMesh);
+        if (getBatchingIsEnable())
+            queue->draw(batchingMesh);
+        else
+            queue->draw();
 	}
     //////////////////////////////////////////////////////
 }
 
 //pikking
-Object* Render::picking(const Vec2& point)
+Object* Render::queuePicking(const Vec2& point) const
 {
     //return if queue is empty
 	if (!queue->size()) return nullptr;
@@ -179,7 +186,7 @@ Object* Render::picking(const Vec2& point)
         Renderable* renderable=nullptr;
         if((renderable=obj->getComponent<Renderable>()))
         {
-            const AABox2& box=renderable->getMesh()->getAABox();
+            const AABox2& box = renderable->getBaseBox();
             const AABox2& wbox= renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
             if(wbox.isIntersection(point))
             {
@@ -189,9 +196,8 @@ Object* Render::picking(const Vec2& point)
     }
     return nullptr;
 }
-
 //debug draw
-void Render::aabox2Draw()
+void Render::aabox2Draw() const
 {   
     //return if queue is empty
 	if (!queue->size())  return;

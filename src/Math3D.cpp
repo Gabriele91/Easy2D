@@ -440,6 +440,16 @@ bool  OBBox2::isIntersection(const AABox2& aab) const
 {
     return OBBox2(aab).isIntersection(*this);
 }
+//cast
+AABox2 OBBox2::toAABox2() const
+{
+    AABox2 box;
+    box.addPoint(corner[0]);
+    box.addPoint(corner[1]);
+    box.addPoint(corner[2]);
+    box.addPoint(corner[3]);
+    return box;
+}
 //compute axes
 void OBBox2::computeAxes()
 {

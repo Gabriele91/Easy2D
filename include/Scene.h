@@ -70,6 +70,7 @@ public:
 	Object* getObject(const String& argname) const;
 	void clearObjects(bool hardDelete = true);
 	const std::list<Object*>& getObjects() const;
+    std::vector<Object*> picking(const Vec2& point) const;
     //add sub scene
 	void addScene(int uid, Scene* scene, bool destructible = true);
 	void addSceneAndActive(int uid, Scene* scene, bool destructible = true);

@@ -203,6 +203,37 @@ const std::list<Object*>& Scene::getObjects() const
 {
 	return objects;
 }
+std::vector<Object*> Scene::picking(const Vec2& point) const
+{
+    //var dec
+    std::vector<Object*> pickedList;
+    std::function<void(Object* obj)> auxPicking = nullptr;
+    //aux fun
+    auxPicking=[&](Object* obj)
+    {
+        //pick
+        Renderable* renderable = nullptr;
+        if ((renderable = obj->getComponent<Renderable>()))
+        {
+            if (renderable->isVisible())
+            {
+                const AABox2& box = renderable->getBaseBox();
+                const AABox2& wbox = renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
+                if (wbox.isIntersection(point)) pickedList.push_back(obj);
+            }
+        }
+        //rec
+        if (!renderable || renderable->isVisible()) 
+        for (Object* childs : *obj)
+        {
+            auxPicking(childs);
+        };
+    };
+    //call aux
+    for (Object* obj : objects) auxPicking(obj);
+    //return
+    return pickedList;
+}
 //add sub scene
 void Scene::addScene(int uid, Scene* scene, bool destructible)
 {
