@@ -37,6 +37,8 @@ public:
     virtual AABox2 getBox();
     //get base box
     virtual AABox2 getBaseBox();
+    //get model matrix
+    virtual Mat4 getModel();
     //other...
     DFORCEINLINE bool isVisible() const
     {

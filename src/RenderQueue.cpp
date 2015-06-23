@@ -91,10 +91,8 @@ void RenderQueue::draw() const
     for (auto oCurrent : *this)
     {
         Renderable* rCurrent = oCurrent->getComponent<Renderable>();
-        //Matrix
-        const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
         //model view matrix
-        RenderContext::setModel(otrasform);
+        RenderContext::setModel(rCurrent->getModel());
         //enable info draw
         rCurrent->draw();
         //draw errors
@@ -125,7 +123,7 @@ void RenderQueue::draw(Mesh::ptr mesh) const
         Object*     oNext = drawNext != end() ? *drawNext : nullptr;
         Renderable* rNext = oNext ? oNext->getComponent<Renderable>() : nullptr;
         //Matrix
-        const Mat4& otrasform = (rCurrent->canTransform() ? oCurrent->getGlobalMatrix() : Mat4::IDENTITY);
+        const Mat4& otrasform = rCurrent->getModel();
         //can add this mesh in the pool?
         if (rCurrent->doBatching())
         {

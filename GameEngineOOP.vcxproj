@@ -516,6 +516,7 @@
     <ClInclude Include="include\script\RefStdCount.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\socket\Address.h" />
+    <ClInclude Include="include\socket\Post.h" />
     <ClInclude Include="include\socket\Socket.h" />
     <ClInclude Include="include\Sortable.h" />
     <ClInclude Include="include\Sound.h" />

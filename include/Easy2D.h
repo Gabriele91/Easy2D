@@ -58,6 +58,10 @@
 #include <RenderContext.h>
 #include <Render.h>
 #include <Scene.h>
+//network
+#include <Address.h>
+#include <Socket.h>
+#include <Post.h>
 //gui
 #ifndef DISABLE_E2D_UI
 #include <Gui.h>

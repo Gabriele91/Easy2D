@@ -153,16 +153,19 @@ public:
     };
     std::vector< NodeText > genStaticText(const String& textDraw,bool kerning=true) const;
     //text size
-    Vec2 textSize( const String& textDraw,bool kerning=true ) const;
+    Vec2 textSize(const String& textDraw, bool kerning = true) const;
+    Vec2 textSpaceSize(const String& textDraw, bool kerning = true) const;
     //select a char
     struct InfoSelection
     {
         long   index;
         AABox2 box;
     };
-    InfoSelection select( const Vec2& point, const Vec2& pos, const String& textDraw, bool kerning=true ) const;
+    InfoSelection select(const Vec2& point, const Vec2& pos, const String& textDraw, bool kerning = true) const;
+    InfoSelection selectSpace(const Vec2& point, const Vec2& pos, const String& textDraw, bool kerning = true) const;
     //get char pos
-    AABox2 getCharPosition2D(int index,  const String& textDraw, bool kerning=true ) const;
+    AABox2 getCharPosition2D(int index, const String& textDraw, bool kerning = true) const;
+    AABox2 getSpaceCharPosition2D(int index, const String& textDraw, bool kerning = true) const;
 };
 
 };

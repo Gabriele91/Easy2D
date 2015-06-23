@@ -118,7 +118,7 @@ lambdaChar isASpecialChar(int c)
     for(auto& sc:specialChars)
         if(sc.c==c)
             return sc.lambda;
-    return NULL;
+    return nullptr;
 }
 
 
@@ -363,7 +363,6 @@ void Font::mesh( const String& textDraw, bool kerning) const
         
     }
 }
-
 std::vector< Font::NodeText > Font::genStaticText(const String& textDraw,bool kerning) const
 {
     Vec2 pos;
@@ -484,11 +483,6 @@ Vec2 Font::textSize( const String& textDraw,bool kerning) const
             charFunction(fontSize,Vec2::ZERO,cursor);
         else if(chr)
         {
-            //page
-            //pageLast=chr->page;
-            //
-            Vec2 sizePage(pages[chr->page]->getRealWidth(),
-                          pages[chr->page]->getRealHeight());
             //opengl uv flipped error on y axis
             float yoffset=isBMFont ?  chr->srcH+chr->yOff : -fontSize-chr->srcH+chr->yOff;
             float xoffset=chr->xOff - (kerning? getKerningPairs(c,nextC) : 0);
@@ -504,6 +498,51 @@ Vec2 Font::textSize( const String& textDraw,bool kerning) const
     }
 
     return (max-min);
+}
+Vec2 Font::textSpaceSize(const String& textDraw, bool kerning) const
+{
+    //////////////////////////////////////////////////////////////////
+    Vec2 cursor;
+    //temp vars
+    Character* chr = NULL;
+    Character* nextChr = getCharacter(textDraw[0]);
+    //int pageLast=0;
+    //min max
+    Vec2 min =  Vec2::MAX;
+    Vec2 max = -Vec2::MAX;
+    min.x = Math::min(min.x, cursor.x);
+    min.y = Math::min(min.y, cursor.y);
+    max.x = Math::max(max.x, cursor.x);
+    max.y = Math::max(max.y, cursor.y);
+    //
+    for (int i = 0; i<textDraw.length(); ++i)
+    {
+        //string's char
+        char c = textDraw[i];
+        char nextC = textDraw[i + 1];
+        //image's char
+        chr = nextChr;
+        //next char
+        nextChr = getCharacter(nextC);
+        //is special?
+        lambdaChar charFunction = isASpecialChar(c);
+        if (charFunction)
+        {
+            //next pos
+            charFunction(fontSize, Vec2::ZERO, cursor);
+        }
+        else if (chr)
+        {
+            //next pos
+            cursor.x += chr->xAdv;
+        }
+        min.x = Math::min(min.x, cursor.x);
+        min.y = Math::min(min.y, cursor.y);
+        max.x = Math::max(max.x, cursor.x);
+        max.y = Math::max(max.y, cursor.y);
+    }
+
+    return (max - min) + Vec2(0,fontSize);
 }
 Font::InfoSelection Font::select( const Vec2& point , const Vec2& pos, const String& textDraw, bool kerning ) const
 {
@@ -528,9 +567,6 @@ Font::InfoSelection Font::select( const Vec2& point , const Vec2& pos, const Str
             charFunction(fontSize,Vec2::ZERO,cursor);
         else if(chr)
         {
-            //
-            Vec2 sizePage(pages[chr->page]->getRealWidth(),
-                          pages[chr->page]->getRealHeight());
             //opengl uv flipped error on y axis
             float yoffset=isBMFont ?  chr->srcH+chr->yOff : -fontSize-chr->srcH+chr->yOff;
             float xoffset=chr->xOff - (kerning? getKerningPairs(c,nextC) : 0);
@@ -547,13 +583,51 @@ Font::InfoSelection Font::select( const Vec2& point , const Vec2& pos, const Str
     
     return { -1, AABox2() };
 }
+Font::InfoSelection Font::selectSpace(const Vec2& point, const Vec2& pos, const String& textDraw, bool kerning) const
+{
+    //////////////////////////////////////////////////////////////////
+    Vec2 cursor(pos);
+    //temp vars
+    Character* chr = NULL;
+    Character* nextChr = getCharacter(textDraw[0]);
+    //
+    for (int i = 0; i<textDraw.length(); ++i)
+    {
+        Vec2 sCursor(cursor);
+        //string's char
+        char c = textDraw[i];
+        char nextC = textDraw[i + 1];
+        //image's char
+        chr = nextChr;
+        //next char
+        nextChr = getCharacter(nextC);
+        //is special?
+        lambdaChar charFunction = isASpecialChar(c);
+        if (charFunction)
+        {
+            charFunction(fontSize, Vec2::ZERO, cursor);
+        }
+        else if (chr)
+        {
+            //next pos
+            cursor.x += chr->xAdv;
+        }
+        //get box
+        AABox2 box;
+        box.setMin(Vec2(sCursor.x, -sCursor.y));
+        box.setMax(Vec2(cursor.x,  -cursor.y + fontSize));
+        if (box.isInside(point)) return{ i, box };
+    }
+
+    return{ -1, AABox2() };
+}
 
 AABox2 Font::getCharPosition2D(int index,  const String& textDraw, bool kerning ) const
 {
     //////////////////////////////////////////////////////////////////
     Vec2 pos,cursor;
     //temp vars
-    Character* chr=NULL;
+    Character* chr = nullptr;
     Character* nextChr=getCharacter(textDraw[0]);
     //
     for(int i=0; i<textDraw.length(); ++i)
@@ -573,8 +647,6 @@ AABox2 Font::getCharPosition2D(int index,  const String& textDraw, bool kerning 
         {
             if(i==index)
             {
-                Vec2 sizePage(pages[chr->page]->getRealWidth(),
-                              pages[chr->page]->getRealHeight());
                 //opengl uv flipped error on y axis
                 float yoffset=isBMFont ?  chr->srcH+chr->yOff : -fontSize-chr->srcH+chr->yOff;
                 float xoffset=chr->xOff - (kerning? getKerningPairs(c,nextC) : 0);
@@ -592,106 +664,44 @@ AABox2 Font::getCharPosition2D(int index,  const String& textDraw, bool kerning 
     
     return AABox2();
 }
+AABox2 Font::getSpaceCharPosition2D(int index, const String& textDraw, bool kerning) const
+{
+    //////////////////////////////////////////////////////////////////
+    Vec2 pos, cursor;
+    //temp vars
+    Character* chr = nullptr;
+    Character* nextChr = getCharacter(textDraw[0]);
+    //
+    for (int i = 0; i<textDraw.length(); ++i)
+    {
+        Vec2 sCursor(cursor);
+        //string's char
+        char c = textDraw[i];
+        char nextC = textDraw[i + 1];
+        //image's char
+        chr = nextChr;
+        //next char
+        nextChr = getCharacter(nextC);
+        //is special?
+        lambdaChar charFunction = isASpecialChar(c);
+        if (charFunction)
+        {
+            charFunction(fontSize, Vec2::ZERO, cursor);
+        }
+        else if (chr)
+        {
+            cursor.x += chr->xAdv;
+        }
+        //id char
+        if (i == index)
+        {
+            //get box
+            AABox2 box;
+            box.setMin(Vec2(sCursor.x, -sCursor.y));
+            box.setMax(Vec2(cursor.x,  -cursor.y + fontSize));
+            return box;
+        }
+    }
 
-/*
-OLD METHOD
-
-void Font::text(const Vec2& pos,const String& textDraw,const Color& color){
-
-	GLboolean cull,blend;
-	GLint bs_src, bs_dst;
-	Matrix4x4 old_projection,old_modelview;
-	GLfloat old_color[4];
-	glGetBooleanv(GL_CULL_FACE,&cull);
-	glGetBooleanv(GL_BLEND , &blend);
-	glGetIntegerv(GL_BLEND_SRC_RGB , &bs_src);
-	glGetIntegerv(GL_BLEND_DST_RGB , &bs_dst);
-	glGetFloatv(GL_PROJECTION_MATRIX ,  old_projection );
-	glGetFloatv(GL_MODELVIEW_MATRIX , old_modelview );
-    glGetFloatv(GL_CURRENT_COLOR, old_color);
-	//////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////
-	//change param
-	glDisable(GL_CULL_FACE);
-	//blend
-	if(!blend) glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//reset projection matrix
-	Matrix4x4 projection;
-	//set viewport
-	Vec2 viewport(Application::instance()->getScreen()->getWidth(),
-				  Application::instance()->getScreen()->getHeight());
-	//update projection is always the same
-	projection.setOrtho(0,viewport.x, 0,viewport.y, 0,1);
-	glViewport( 0, 0, viewport.x, viewport.y );
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(projection);
-	//reset model matrix
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	//color
-	glColor4ub(color.r,color.g,color.b,color.a);
-	//////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////
-
-	Vec2 cursor(pos);
-	for(auto c:textDraw){
-
-		if(c=='\n'){ cursor.y-=fontSize; cursor.x=pos.x; continue; } //next line
-		if(c==' '){ cursor.x+=fontSize*0.5; continue; } //next char
-
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-		Character* chr=getCharacter(c);
-
-		if(chr){
-			//
-			Vec2 sizePage(pages[chr->page]->getRealWidth(),
-						  pages[chr->page]->getRealHeight());
-			//uv
-			Vec2 nSXY(chr->srcX,chr->srcY); nSXY/=sizePage;
-			Vec2 nEXY(chr->srcX+chr->srcW,chr->srcY+chr->srcH); nEXY/=sizePage;
-			Math::swap(nSXY.v,nEXY.v);
-
-			//opengl uv flipped error on y axis
-			float yerror=isBMFont ? fontSize-chr->srcH : 0;
-
-			Vec2 posChr(cursor+Vec2(chr->xOff,-chr->yOff));
-			float xyUV[]={
-				 posChr.x,             posChr.y+yerror,          nSXY.u,nSXY.v,
-				 posChr.x,             posChr.y+chr->srcH+yerror,nSXY.u,nEXY.v,
-				 posChr.x+chr->srcW,   posChr.y+yerror,          nEXY.u,nSXY.v,
-				 posChr.x+chr->srcW,   posChr.y+chr->srcH+yerror,nEXY.u,nEXY.v
-	        };
-
-			//bind texture
-			pages[chr->page]->bind();
-			//set vertex
-			glVertexPointer(  2, GL_FLOAT, sizeof(float)*4,  &xyUV[0]);
-			glTexCoordPointer(2, GL_FLOAT, sizeof(float)*4,  &xyUV[2]);
-			//draw array
-			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-			//next pos
-			cursor.x+=chr->xAdv;
-
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////
-	if(cull)
-		glEnable( GL_CULL_FACE );
-	//blend
-	if(!blend)
-		glDisable( GL_BLEND );
-	else
-		glBlendFunc(bs_src,bs_dst);
-	//matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(old_projection);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(old_modelview);
-	//color
-	glColor4fv(old_color);
-}*/
+    return AABox2();
+}

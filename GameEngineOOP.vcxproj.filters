@@ -597,6 +597,9 @@
     <ClInclude Include="include\Mask.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="include\socket\Post.h">
+      <Filter>File di intestazione\socket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="made_class.py">

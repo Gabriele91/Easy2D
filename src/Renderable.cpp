@@ -33,16 +33,20 @@ bool Renderable::canBatching(Renderable *oldstate)
 AABox2 Renderable::getBox()
 {
     AABox2  box=getBaseBox();
-    Object* obj=getObject();
-    return canTransform() && obj ?
-           box.applay(obj->getGlobalMatrix()) :
-           box;
+    return canTransform() ? box.applay(getModel()) : box;
 }
 //get box
 AABox2 Renderable::getBaseBox()
 {
     if(getMesh()) return getMesh()->getAABox();
     return AABox2();
+}
+//get model matrix
+Mat4 Renderable::getModel()
+{
+    Object* obj = getObject();
+    if (obj) return obj->getGlobalMatrix();
+    else     return Mat4::IDENTITY;
 }
 //serialize/deserialize
 void Renderable::serialize(Table& table)
