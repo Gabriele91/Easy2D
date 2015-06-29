@@ -64,6 +64,8 @@
 #include <Post.h>
 //gui
 #ifndef DISABLE_E2D_UI
+#include <UIManager.h>
+#include <UIComponents.h>
 #include <Gui.h>
 #endif
 

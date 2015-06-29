@@ -61,6 +61,12 @@
     <Filter Include="File di intestazione\socket">
       <UniqueIdentifier>{92236a66-96cf-4481-9340-4d92a9ebe156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File di origine\ui">
+      <UniqueIdentifier>{36f90ed9-9b9a-4c58-a01e-e2ea58702c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File di intestazione\ui">
+      <UniqueIdentifier>{c6c1a249-b1de-4138-a74a-82072ba1af3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -314,6 +320,12 @@
     </ClCompile>
     <ClCompile Include="src\Mask.cpp">
       <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\UIComponents.cpp">
+      <Filter>File di origine\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\UIManager.cpp">
+      <Filter>File di origine\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -599,6 +611,12 @@
     </ClInclude>
     <ClInclude Include="include\socket\Post.h">
       <Filter>File di intestazione\socket</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\UIComponents.h">
+      <Filter>File di intestazione\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ui\UIManager.h">
+      <Filter>File di intestazione\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

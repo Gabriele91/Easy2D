@@ -146,7 +146,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -163,7 +163,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DISABLE_SIMD;NEW_DELETE_OVERLOADABLE;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -180,7 +180,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;ES2_ANGLEPROJECT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -197,7 +197,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -216,7 +216,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -241,7 +241,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -266,7 +266,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -392,6 +392,8 @@
     <ClCompile Include="src\thread\ThreadWin32.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\ETime.cpp" />
+    <ClCompile Include="src\ui\UIComponents.cpp" />
+    <ClCompile Include="src\ui\UIManager.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Renderable.cpp" />
     <ClCompile Include="src\RenderState.cpp" />
@@ -530,6 +532,8 @@
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\ETime.h" />
     <ClInclude Include="include\Types.h" />
+    <ClInclude Include="include\ui\UIComponents.h" />
+    <ClInclude Include="include\ui\UIManager.h" />
     <ClInclude Include="include\Utility.h" />
     <ClInclude Include="include\Renderable.h" />
     <ClInclude Include="include\RenderState.h" />

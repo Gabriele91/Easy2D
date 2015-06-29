@@ -121,12 +121,12 @@ MaskSprite::MaskSprite(Texture::ptr texture, float alpha)
         shader=Shader::snew();
         shader->load("vec4 vertex(){ return ftransform(); }",
                      "uniform float e2dAlphaMask;                          \n"
-                     "vec4 fragment(Texture tex,vec4 coord)               \n"
-                     "{                                                   \n"
-                     "   if (texture2D(tex, coord.xy).w <= e2dAlphaMask)  \n"
-                     "   { discard; }                                     \n"
-                     "   return vec4(1.0);                                \n"
-                     "}                                                   \n" );
+                     "vec4 fragment(Texture tex,vec4 coord)                \n"
+                     "{                                                    \n"
+                     "   if (texture2D(tex, coord.xy).w <= e2dAlphaMask)   \n"
+                     "   { discard; }                                      \n"
+                     "   return vec4(1.0);                                 \n"
+                     "}                                                    \n" );
         RenderContext::subscriptionShader("MaskShader", shader);
     }
     setShader(shader);
