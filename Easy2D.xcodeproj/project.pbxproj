@@ -218,6 +218,27 @@
 		E06FB1DA197CEA3B00239DA6 /* LuaScript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D6197CEA3B00239DA6 /* LuaScript.cpp */; };
 		E06FB1DB197CEA3B00239DA6 /* LuaState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1D7197CEA3B00239DA6 /* LuaState.cpp */; };
 		E0709D7419967FE40079E7E1 /* RenderContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E0709D7319967FE40079E7E1 /* RenderContext.h */; };
+		E08546561B46D124008195A3 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = E08546531B46D124008195A3 /* Address.h */; };
+		E08546571B46D124008195A3 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = E08546531B46D124008195A3 /* Address.h */; };
+		E08546581B46D124008195A3 /* Post.h in Headers */ = {isa = PBXBuildFile; fileRef = E08546541B46D124008195A3 /* Post.h */; };
+		E08546591B46D124008195A3 /* Post.h in Headers */ = {isa = PBXBuildFile; fileRef = E08546541B46D124008195A3 /* Post.h */; };
+		E085465A1B46D124008195A3 /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = E08546551B46D124008195A3 /* Socket.h */; };
+		E085465B1B46D124008195A3 /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = E08546551B46D124008195A3 /* Socket.h */; };
+		E085465F1B46D1F3008195A3 /* UIComponents.h in Headers */ = {isa = PBXBuildFile; fileRef = E085465D1B46D1F3008195A3 /* UIComponents.h */; };
+		E08546601B46D1F3008195A3 /* UIComponents.h in Headers */ = {isa = PBXBuildFile; fileRef = E085465D1B46D1F3008195A3 /* UIComponents.h */; };
+		E08546611B46D1F3008195A3 /* UIManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E085465E1B46D1F3008195A3 /* UIManager.h */; };
+		E08546621B46D1F3008195A3 /* UIManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E085465E1B46D1F3008195A3 /* UIManager.h */; };
+		E08546661B46D44F008195A3 /* UIComponents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08546641B46D44F008195A3 /* UIComponents.cpp */; };
+		E08546671B46D44F008195A3 /* UIComponents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08546641B46D44F008195A3 /* UIComponents.cpp */; };
+		E08546681B46D44F008195A3 /* UIComponents.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08546641B46D44F008195A3 /* UIComponents.cpp */; };
+		E08546691B46D44F008195A3 /* UIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08546651B46D44F008195A3 /* UIManager.cpp */; };
+		E085466A1B46D44F008195A3 /* UIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08546651B46D44F008195A3 /* UIManager.cpp */; };
+		E085466B1B46D44F008195A3 /* UIManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08546651B46D44F008195A3 /* UIManager.cpp */; };
+		E085466D1B46D490008195A3 /* Mask.h in Headers */ = {isa = PBXBuildFile; fileRef = E085466C1B46D490008195A3 /* Mask.h */; };
+		E085466E1B46D490008195A3 /* Mask.h in Headers */ = {isa = PBXBuildFile; fileRef = E085466C1B46D490008195A3 /* Mask.h */; };
+		E08546701B46D4A5008195A3 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E085466F1B46D4A5008195A3 /* Mask.cpp */; };
+		E08546711B46D4A5008195A3 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E085466F1B46D4A5008195A3 /* Mask.cpp */; };
+		E08546721B46D4A5008195A3 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E085466F1B46D4A5008195A3 /* Mask.cpp */; };
 		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
 		E089EAE817B2750E0055B59A /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
 		E089EAEC17B2751B0055B59A /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEA17B2751B0055B59A /* Scene.h */; };
@@ -1298,6 +1319,15 @@
 		E06FB1D7197CEA3B00239DA6 /* LuaState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaState.cpp; sourceTree = "<group>"; };
 		E0709D7319967FE40079E7E1 /* RenderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderContext.h; sourceTree = "<group>"; };
 		E0709D751997AB300079E7E1 /* RenderContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderContext.h; sourceTree = "<group>"; };
+		E08546531B46D124008195A3 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		E08546541B46D124008195A3 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		E08546551B46D124008195A3 /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
+		E085465D1B46D1F3008195A3 /* UIComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIComponents.h; sourceTree = "<group>"; };
+		E085465E1B46D1F3008195A3 /* UIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIManager.h; sourceTree = "<group>"; };
+		E08546641B46D44F008195A3 /* UIComponents.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIComponents.cpp; sourceTree = "<group>"; };
+		E08546651B46D44F008195A3 /* UIManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UIManager.cpp; sourceTree = "<group>"; };
+		E085466C1B46D490008195A3 /* Mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mask.h; sourceTree = "<group>"; };
+		E085466F1B46D4A5008195A3 /* Mask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mask.cpp; sourceTree = "<group>"; };
 		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E089EAE617B2750E0055B59A /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -2098,6 +2128,9 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E085466C1B46D490008195A3 /* Mask.h */,
+				E085465C1B46D1F3008195A3 /* ui */,
+				E08546521B46D124008195A3 /* socket */,
 				E0BEA3501AB9C41600824182 /* AiffLoader.h */,
 				E0BEA3511AB9C41600824182 /* Speaker.h */,
 				E0BEA3521AB9C41600824182 /* Listener.h */,
@@ -2178,6 +2211,8 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E085466F1B46D4A5008195A3 /* Mask.cpp */,
+				E08546631B46D44F008195A3 /* ui */,
 				E0BEA34C1AB9BE6A00824182 /* AiffLoader.cpp */,
 				E0BEA34D1AB9BE6A00824182 /* Speaker.cpp */,
 				E02B03F61A1CC26C00F6B7D6 /* RenderQueue.cpp */,
@@ -2290,6 +2325,34 @@
 				E0E51F3E1A1F894D009D70F9 /* LuaRenderable.cpp */,
 			);
 			path = script;
+			sourceTree = "<group>";
+		};
+		E08546521B46D124008195A3 /* socket */ = {
+			isa = PBXGroup;
+			children = (
+				E08546531B46D124008195A3 /* Address.h */,
+				E08546541B46D124008195A3 /* Post.h */,
+				E08546551B46D124008195A3 /* Socket.h */,
+			);
+			path = socket;
+			sourceTree = "<group>";
+		};
+		E085465C1B46D1F3008195A3 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				E085465D1B46D1F3008195A3 /* UIComponents.h */,
+				E085465E1B46D1F3008195A3 /* UIManager.h */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		E08546631B46D44F008195A3 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				E08546641B46D44F008195A3 /* UIComponents.cpp */,
+				E08546651B46D44F008195A3 /* UIManager.cpp */,
+			);
+			path = ui;
 			sourceTree = "<group>";
 		};
 		E0A1AE571946EE8500D1438A /* gui */ = {
@@ -2872,6 +2935,7 @@
 				E0BEA2B81AB9BDE400824182 /* svkern.h in Headers */,
 				E0BEA3001AB9BDE400824182 /* DS_Table.h in Headers */,
 				E0BEA3201AB9BDE400824182 /* MTUSize.h in Headers */,
+				E085465A1B46D124008195A3 /* Socket.h in Headers */,
 				E0BEA25F1AB9BDE400824182 /* b2EdgeAndPolygonContact.h in Headers */,
 				E0BEA26B1AB9BDE400824182 /* b2RopeJoint.h in Headers */,
 				E0BEA2ED1AB9BDE400824182 /* DS_BinarySearchTree.h in Headers */,
@@ -2892,6 +2956,7 @@
 				E0BEA32F1AB9BDE400824182 /* PacketOutputWindowLogger.h in Headers */,
 				E0BEA2581AB9BDE400824182 /* b2WorldCallbacks.h in Headers */,
 				E0BEA28D1AB9BDE400824182 /* ftsizes.h in Headers */,
+				E08546611B46D1F3008195A3 /* UIManager.h in Headers */,
 				E05495DA17AE68E8005DDB72 /* RenderState.h in Headers */,
 				E0BEA28A1AB9BDE400824182 /* ftoutln.h in Headers */,
 				E0BEA3531AB9C41600824182 /* AiffLoader.h in Headers */,
@@ -2975,6 +3040,7 @@
 				E05495E317AE68E8005DDB72 /* Types.h in Headers */,
 				E06FB1BF197CE71500239DA6 /* Parallax.h in Headers */,
 				E0BEA2801AB9BDE400824182 /* ftimage.h in Headers */,
+				E085466D1B46D490008195A3 /* Mask.h in Headers */,
 				E0BEA3041AB9BDE400824182 /* DynDNS.h in Headers */,
 				E0BEA34A1AB9BDE400824182 /* Rand.h in Headers */,
 				E0BEA2561AB9BDE400824182 /* b2TimeStep.h in Headers */,
@@ -3036,6 +3102,7 @@
 				E0BEA2751AB9BDE400824182 /* ftbzip2.h in Headers */,
 				E06FB1BC197CE71500239DA6 /* BatchingColorMesh.h in Headers */,
 				E0BEA24F1AB9BDE400824182 /* b2Settings.h in Headers */,
+				E08546561B46D124008195A3 /* Address.h in Headers */,
 				E0AE8F2B1AB9D6170030BCB3 /* RefStdCount.h in Headers */,
 				E0BEA2C31AB9BDE400824182 /* svttglyf.h in Headers */,
 				E0BEA2DA1AB9BDE400824182 /* TypeTraits.h in Headers */,
@@ -3043,6 +3110,7 @@
 				E0BEA26F1AB9BDE400824182 /* freetype.h in Headers */,
 				E0BEA2491AB9BDE400824182 /* b2PolygonShape.h in Headers */,
 				E08C634B18AFB0E000A26E40 /* Sound.h in Headers */,
+				E08546581B46D124008195A3 /* Post.h in Headers */,
 				E027964918B1449A00B1A4FE /* ThreadConf.h in Headers */,
 				E0A1AE6A1946EE9700D1438A /* Panel.h in Headers */,
 				E0BEA3461AB9BDE400824182 /* RakSleep.h in Headers */,
@@ -3097,6 +3165,7 @@
 				E0BEA24C1AB9BDE400824182 /* b2Draw.h in Headers */,
 				E0BEA2511AB9BDE400824182 /* b2Timer.h in Headers */,
 				E03989D819FBFA9900079232 /* ScreeniOS.h in Headers */,
+				E085465F1B46D1F3008195A3 /* UIComponents.h in Headers */,
 				E0BEA2AE1AB9BDE400824182 /* internal.h in Headers */,
 				E0BEA2951AB9BDE400824182 /* ftwinfnt.h in Headers */,
 				E0BEA2DE1AB9BDE400824182 /* AutopatcherRepositoryInterface.h in Headers */,
@@ -3234,6 +3303,7 @@
 				E0980EAF1B04DE0F002C693D /* svkern.h in Headers */,
 				E0980EB01B04DE0F002C693D /* DS_Table.h in Headers */,
 				E0980EB11B04DE0F002C693D /* MTUSize.h in Headers */,
+				E085465B1B46D124008195A3 /* Socket.h in Headers */,
 				E0980EB21B04DE0F002C693D /* b2EdgeAndPolygonContact.h in Headers */,
 				E0980EB31B04DE0F002C693D /* b2RopeJoint.h in Headers */,
 				E0980EB41B04DE0F002C693D /* DS_BinarySearchTree.h in Headers */,
@@ -3254,6 +3324,7 @@
 				E0980EC31B04DE0F002C693D /* PacketOutputWindowLogger.h in Headers */,
 				E0980EC41B04DE0F002C693D /* b2WorldCallbacks.h in Headers */,
 				E0980EC51B04DE0F002C693D /* ftsizes.h in Headers */,
+				E08546621B46D1F3008195A3 /* UIManager.h in Headers */,
 				E0980EC61B04DE0F002C693D /* RenderState.h in Headers */,
 				E0980EC71B04DE0F002C693D /* ftoutln.h in Headers */,
 				E0980EC81B04DE0F002C693D /* AiffLoader.h in Headers */,
@@ -3337,6 +3408,7 @@
 				E0980F161B04DE0F002C693D /* Types.h in Headers */,
 				E0980F171B04DE0F002C693D /* Parallax.h in Headers */,
 				E0980F181B04DE0F002C693D /* ftimage.h in Headers */,
+				E085466E1B46D490008195A3 /* Mask.h in Headers */,
 				E0980F191B04DE0F002C693D /* DynDNS.h in Headers */,
 				E0980F1A1B04DE0F002C693D /* Rand.h in Headers */,
 				E0980F1B1B04DE0F002C693D /* b2TimeStep.h in Headers */,
@@ -3398,6 +3470,7 @@
 				E0980F531B04DE0F002C693D /* ftbzip2.h in Headers */,
 				E0980F541B04DE0F002C693D /* BatchingColorMesh.h in Headers */,
 				E0980F551B04DE0F002C693D /* b2Settings.h in Headers */,
+				E08546571B46D124008195A3 /* Address.h in Headers */,
 				E0980F561B04DE0F002C693D /* RefStdCount.h in Headers */,
 				E0980F571B04DE0F002C693D /* svttglyf.h in Headers */,
 				E0980F581B04DE0F002C693D /* TypeTraits.h in Headers */,
@@ -3405,6 +3478,7 @@
 				E0980F5A1B04DE0F002C693D /* freetype.h in Headers */,
 				E0980F5B1B04DE0F002C693D /* b2PolygonShape.h in Headers */,
 				E0980F5C1B04DE0F002C693D /* Sound.h in Headers */,
+				E08546591B46D124008195A3 /* Post.h in Headers */,
 				E0980F5D1B04DE0F002C693D /* ThreadConf.h in Headers */,
 				E0980F5E1B04DE0F002C693D /* Panel.h in Headers */,
 				E0980F5F1B04DE0F002C693D /* RakSleep.h in Headers */,
@@ -3459,6 +3533,7 @@
 				E0980F901B04DE0F002C693D /* b2Draw.h in Headers */,
 				E0980F911B04DE0F002C693D /* b2Timer.h in Headers */,
 				E0980F921B04DE0F002C693D /* ScreeniOS.h in Headers */,
+				E08546601B46D1F3008195A3 /* UIComponents.h in Headers */,
 				E0980F931B04DE0F002C693D /* internal.h in Headers */,
 				E0980F941B04DE0F002C693D /* ftwinfnt.h in Headers */,
 				E0980F951B04DE0F002C693D /* AutopatcherRepositoryInterface.h in Headers */,
@@ -3593,6 +3668,7 @@
 				E0398A1C19FBFBD900079232 /* FreeTypeFontLoader.cpp in Sources */,
 				E0398A1719FBFBD900079232 /* Debug.cpp in Sources */,
 				E0DE20E419FF91F000B17A40 /* EAGLViewController.mm in Sources */,
+				E08546671B46D44F008195A3 /* UIComponents.cpp in Sources */,
 				E0398A1319FBFBD900079232 /* BMFontLoader.cpp in Sources */,
 				E0398A2F19FBFBD900079232 /* Blend.cpp in Sources */,
 				E04F711E1ABC39170093DF47 /* StaticBufferAL.cpp in Sources */,
@@ -3626,8 +3702,10 @@
 				E04F71161ABC38CF0093DF47 /* RenderQueue.cpp in Sources */,
 				E0398A3219FBFBE100079232 /* lodepng.cpp in Sources */,
 				E04F711A1ABC39050093DF47 /* Label.cpp in Sources */,
+				E08546711B46D4A5008195A3 /* Mask.cpp in Sources */,
 				E0398A1419FBFBD900079232 /* Camera.cpp in Sources */,
 				E0398A0A19FBFBD900079232 /* Body.cpp in Sources */,
+				E085466A1B46D44F008195A3 /* UIManager.cpp in Sources */,
 				E0D6185A19FD074300695A70 /* AppDelegate.mm in Sources */,
 				E0398A0619FBFBD900079232 /* ParticleSystem.cpp in Sources */,
 				E0398A0F19FBFBD900079232 /* Memory.cpp in Sources */,
@@ -3645,6 +3723,7 @@
 				E054963B17AE6907005DDB72 /* AnimatedSprite.cpp in Sources */,
 				E0A1AE5E1946EE8500D1438A /* Label.cpp in Sources */,
 				E0121CDC1AB9D76B00F044E6 /* StaticBufferAL.cpp in Sources */,
+				E08546691B46D44F008195A3 /* UIManager.cpp in Sources */,
 				E054963C17AE6907005DDB72 /* Application.cpp in Sources */,
 				E054963D17AE6907005DDB72 /* BMFontLoader.cpp in Sources */,
 				E054963E17AE6907005DDB72 /* Camera.cpp in Sources */,
@@ -3671,6 +3750,7 @@
 				E02B03F71A1CC26C00F6B7D6 /* RenderQueue.cpp in Sources */,
 				E06FB1D2197CEA1B00239DA6 /* Script.cpp in Sources */,
 				E0A1AE5D1946EE8500D1438A /* GuiManager.cpp in Sources */,
+				E08546661B46D44F008195A3 /* UIComponents.cpp in Sources */,
 				E054964A17AE6907005DDB72 /* Game.cpp in Sources */,
 				E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */,
 				E054964E17AE6907005DDB72 /* Input.cpp in Sources */,
@@ -3696,6 +3776,7 @@
 				E06134FE18AE670B00BD63EC /* Image.cpp in Sources */,
 				E054966117AE6907005DDB72 /* ResourcesGroup.cpp in Sources */,
 				E054966217AE6907005DDB72 /* ResourcesManager.cpp in Sources */,
+				E08546701B46D4A5008195A3 /* Mask.cpp in Sources */,
 				E054966317AE6907005DDB72 /* Screen.cpp in Sources */,
 				E0684F071939D34A00653833 /* World.cpp in Sources */,
 				E054966417AE6907005DDB72 /* Sprite.cpp in Sources */,
@@ -3726,6 +3807,7 @@
 				E0980DE11B04DE0F002C693D /* AnimatedSprite.cpp in Sources */,
 				E0980DE21B04DE0F002C693D /* Label.cpp in Sources */,
 				E0980DE31B04DE0F002C693D /* StaticBufferAL.cpp in Sources */,
+				E085466B1B46D44F008195A3 /* UIManager.cpp in Sources */,
 				E0980DE41B04DE0F002C693D /* Application.cpp in Sources */,
 				E0980DE51B04DE0F002C693D /* BMFontLoader.cpp in Sources */,
 				E0980DE61B04DE0F002C693D /* Camera.cpp in Sources */,
@@ -3752,6 +3834,7 @@
 				E0980DFB1B04DE0F002C693D /* RenderQueue.cpp in Sources */,
 				E0980DFC1B04DE0F002C693D /* Script.cpp in Sources */,
 				E0980DFD1B04DE0F002C693D /* GuiManager.cpp in Sources */,
+				E08546681B46D44F008195A3 /* UIComponents.cpp in Sources */,
 				E0980DFE1B04DE0F002C693D /* Game.cpp in Sources */,
 				E0980DFF1B04DE0F002C693D /* lodepng.cpp in Sources */,
 				E0980E001B04DE0F002C693D /* Input.cpp in Sources */,
@@ -3777,6 +3860,7 @@
 				E0980E141B04DE0F002C693D /* Image.cpp in Sources */,
 				E0980E151B04DE0F002C693D /* ResourcesGroup.cpp in Sources */,
 				E0980E161B04DE0F002C693D /* ResourcesManager.cpp in Sources */,
+				E08546721B46D4A5008195A3 /* Mask.cpp in Sources */,
 				E0980E171B04DE0F002C693D /* Screen.cpp in Sources */,
 				E0980E181B04DE0F002C693D /* World.cpp in Sources */,
 				E0980E191B04DE0F002C693D /* Sprite.cpp in Sources */,
@@ -3806,7 +3890,7 @@
 		E01963F8176AE89300CF955A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
@@ -3818,6 +3902,7 @@
 					include/cocoa/,
 					include/script/,
 					include/audio/,
+					include/socket/,
 					include/,
 					./,
 				);
@@ -3837,7 +3922,7 @@
 		E01963F9176AE89300CF955A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -3848,6 +3933,7 @@
 					include/cocoa/,
 					include/script/,
 					include/audio/,
+					include/socket/,
 					include/,
 					./,
 				);
@@ -3967,6 +4053,21 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/dependencies-osx64/lib",
+					"$(BUILT_PRODUCTS_DIR)",
+					"$(BUILT_PRODUCTS_DIR)-iphoneos",
+					"$(BUILT_PRODUCTS_DIR)-iphonesimulator",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphoneos/Easy2D-iOS.build/Objects-normal/arm64",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphoneos/Easy2D-iOS.build/Objects-normal/armv7",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphonesimulator/Easy2D-iOS.build/Objects-normal/i386",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphonesimulator/Easy2D-iOS.build/Objects-normal/x86_64",
+					"$(PROJECT_DIR)/build/ios",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
+					"$(PROJECT_DIR)/build/Release-iphonesimulator",
+					"$(PROJECT_DIR)/dependencies-android/lib/armeabi-v7a",
+					"$(PROJECT_DIR)/dependencies-android/lib",
+					"$(PROJECT_DIR)/dependencies-android/lib/x86",
+					"$(PROJECT_DIR)/dependencies-iOS/lib",
+					"$(PROJECT_DIR)/dependencies-win32/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3993,6 +4094,21 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/dependencies-osx64/lib",
+					"$(PROJECT_DIR)/build/Debug",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/build/Debug-iphonesimulator",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphoneos/Easy2D-iOS.build/Objects-normal/arm64",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphoneos/Easy2D-iOS.build/Objects-normal/armv7",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphonesimulator/Easy2D-iOS.build/Objects-normal/i386",
+					"$(PROJECT_DIR)/build/Easy2D.build/Release-iphonesimulator/Easy2D-iOS.build/Objects-normal/x86_64",
+					"$(PROJECT_DIR)/build/ios",
+					"$(BUILT_PRODUCTS_DIR)-iphoneos",
+					"$(BUILT_PRODUCTS_DIR)-iphonesimulator",
+					"$(PROJECT_DIR)/dependencies-android/lib/armeabi-v7a",
+					"$(PROJECT_DIR)/dependencies-android/lib",
+					"$(PROJECT_DIR)/dependencies-android/lib/x86",
+					"$(PROJECT_DIR)/dependencies-iOS/lib",
+					"$(PROJECT_DIR)/dependencies-win32/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (

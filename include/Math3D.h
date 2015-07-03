@@ -1615,7 +1615,7 @@ public:
     }
     //clamp
     template <class T, class T2, class T3>
-    static DFORCEINLINE T clamp(const T& const n, const T2& const max_val, const T3& const min_val)
+    static DFORCEINLINE T clamp(const T& n, const T2& max_val, const T3& min_val)
     {
         return (n > max_val ? max_val : (n< min_val ? min_val : n));
     }

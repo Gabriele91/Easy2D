@@ -169,7 +169,7 @@ CGDisplayModeRef bestMatchForMode( ScreenMode screenMode )
 		for(int i = 0; i < CFArrayGetCount(allModes); i++)
 		{
 			CGDisplayModeRef mode = (CGDisplayModeRef)CFArrayGetValueAtIndex(allModes, i);
-			if(displayBitsPerPixelForMode( mode )  >= screenMode.bitsPerPixel)
+			if(displayBitsPerPixelForMode( mode )  >= screenMode.depth)
 				continue;
 			
             
@@ -590,7 +590,7 @@ void CocoaScreen::createWindow(const char* appname,
     //open window
     __openWindow(width,height,appname,fullscreen);
     //create context
-    __createContext(dfAA);
+    __createContext(type,dfAA);
     //set context to window   
     TOCOCOAWINDOW
     TOCOCOACONTEXT
