@@ -281,15 +281,19 @@ void Label::draw()
     //draw backgound
     Renderable::draw();
     //disable shader
-    RenderContext::disableProgram();
-    //if scale indipedent
-    AABox2 box = getBaseBox();
-    //set text model
-    RenderContext::setModel(RenderContext::getModel().mul(model));
-    //text color
-    RenderContext::setColor(textColor);
-    //draw text
-    textDrawClip(model, box);
+    RenderContext::disableProgram();    
+    //if text exist
+    if(text.length())
+    {
+        //if scale indipedent
+        AABox2 box = getBaseBox();
+        //set text model
+        RenderContext::setModel(RenderContext::getModel().mul(model));
+        //text color
+        RenderContext::setColor(textColor);
+        //draw text
+        textDrawClip(model, box);
+    }
 }
 void Label::setBoxScale9(const Vec4& box)
 {
@@ -1072,53 +1076,57 @@ void TextField::draw()
     Renderable::draw();
     //disable shader
     RenderContext::disableProgram();
-    //ENABLE STENCIL
-    RenderContext::setStencil(STENCIL_REPLACE);
-    RenderContext::stencilClear();
-    RenderContext::setColorWritable(false, false, false, false);
-    RenderContext::setZBufferWritable(false);
-    RenderContext::drawFillBox(getBaseBox(), Color::BLACK);
-    RenderContext::setStencil(STENCIL_KEEP);
-    RenderContext::setColorWritable(true, true, true, true);
-    RenderContext::setZBufferWritable(true);
-    //offset
-    Mat4 textModel;
-    textModel.setTranslation(Vec2(-offset,0));
-    textModel = model.mul2D(textModel);
-    //set text model
-    RenderContext::setModel(RenderContext::getModel().mul(textModel));
-    //text color
-    RenderContext::setColor(textColor);
-    //draw text
-    font->mesh(text);
-	//select
-	switch (state)
-	{
-		case Easy2D::Ui::TextField::TF_NORMAL:
-		break;
-		case Easy2D::Ui::TextField::TF_SELECT_CHAR:
-		{
-			AABox2 cpos = charAt(cursor);
-			//get position
-            RenderContext::drawBox(cpos, pointerColor);
-		}
-		break;
-		case Easy2D::Ui::TextField::TF_SELECT_AREA:
-		{
-			//get position
-			AABox2 cpos = charAt(cursor);
-			AABox2 cpos2 = charAt(cursorSelect);
-			Vec2 n_min = Vec2(cpos.getMin().x,   cpos.getMax().y);
-			Vec2 n_max = Vec2(cpos2.getMax().x,  cpos.getMin().y);
-			cpos.setMin(n_min);
-			cpos.setMax(n_max);
-			RenderContext::drawFillBox(cpos, selectorColor);
-		}
-		break;
-		default: break;
-	}
-    //DISABLE STENCIL
-    RenderContext::setStencil(STENCIL_NONE);
+    //if text exist
+    if(text.length())
+    {
+        //ENABLE STENCIL
+        RenderContext::setStencil(STENCIL_REPLACE);
+        RenderContext::stencilClear();
+        RenderContext::setColorWritable(false, false, false, false);
+        RenderContext::setZBufferWritable(false);
+        RenderContext::drawFillBox(getBaseBox(), Color::BLACK);
+        RenderContext::setStencil(STENCIL_KEEP);
+        RenderContext::setColorWritable(true, true, true, true);
+        RenderContext::setZBufferWritable(true);
+        //offset
+        Mat4 textModel;
+        textModel.setTranslation(Vec2(-offset,0));
+        textModel = model.mul2D(textModel);
+        //set text model
+        RenderContext::setModel(RenderContext::getModel().mul(textModel));
+        //text color
+        RenderContext::setColor(textColor);
+        //draw text
+        font->mesh(text);
+        //select
+        switch (state)
+        {
+            case Easy2D::Ui::TextField::TF_NORMAL:
+            break;
+            case Easy2D::Ui::TextField::TF_SELECT_CHAR:
+            {
+                AABox2 cpos = charAt(cursor);
+                //get position
+                RenderContext::drawBox(cpos, pointerColor);
+            }
+            break;
+            case Easy2D::Ui::TextField::TF_SELECT_AREA:
+            {
+                //get position
+                AABox2 cpos = charAt(cursor);
+                AABox2 cpos2 = charAt(cursorSelect);
+                Vec2 n_min = Vec2(cpos.getMin().x,   cpos.getMax().y);
+                Vec2 n_max = Vec2(cpos2.getMax().x,  cpos.getMin().y);
+                cpos.setMin(n_min);
+                cpos.setMax(n_max);
+                RenderContext::drawFillBox(cpos, selectorColor);
+            }
+            break;
+            default: break;
+        }
+        //DISABLE STENCIL
+        RenderContext::setStencil(STENCIL_NONE);
+    }
 }
 //box of texture
 AABox2 TextField::getBaseBox()
