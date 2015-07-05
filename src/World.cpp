@@ -255,10 +255,12 @@ uint World::createDistanceJoint(const Object* objectA,
     jointDef.collideConnected = collideConnected;
     jointDef.bodyA = bodyA->body;
     jointDef.bodyB = bodyB->body;
-    jointDef.localAnchorA = cast(localAnchorA);
-    jointDef.localAnchorB = cast(localAnchorB);
-    jointDef.length       = length < 0.0f ? (jointDef.bodyA ->GetWorldPoint( jointDef.localAnchorB ) - 
-                                             jointDef.bodyA ->GetWorldPoint( jointDef.localAnchorA )).Length() : length;
+    jointDef.localAnchorA = cast(localAnchorA PTM_RATIO );
+    jointDef.localAnchorB = cast(localAnchorB PTM_RATIO );
+    jointDef.length       =(    length < 0.0f 
+                              ? (bodyB->getPosition() - bodyA->getPosition()).length()
+                              : length
+                           ) PTM_RATIO;
     jointDef.frequencyHz  = frequency;
     jointDef.dampingRatio = dampingRatio;
 
@@ -278,7 +280,7 @@ void World::setDistanceJointLength(uint jointId,float length)
     }
     // set distance
     b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
-    realJoint->SetLength( length );
+    realJoint->SetLength(length  PTM_RATIO);
 }
 float World::getDistanceJointLength(uint jointId)
 {
@@ -293,7 +295,7 @@ float World::getDistanceJointLength(uint jointId)
     }
     // get distance
     b2DistanceJoint* realJoint = static_cast<b2DistanceJoint*>( joint );
-    return realJoint->GetLength();
+    return realJoint->GetLength() PIXEL_RATIO;
 }
 
 void World::setDistanceJointFrequency(uint jointId,float frequency)

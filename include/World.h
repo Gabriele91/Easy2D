@@ -122,10 +122,12 @@ class World : public b2DestructionListener
     { 
         return velocityIterations;
     }
-    void setPositionIterations( uint iterations ) { 
+    void setPositionIterations( uint iterations ) 
+    { 
         positionIterations = iterations; 
     }
-    uint getPositionIterations() const { 
+    uint getPositionIterations() const 
+    { 
         return positionIterations; 
     }
 
