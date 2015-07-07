@@ -122,8 +122,6 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
     //ibo
     const size_t nI=mesh->sizeIndexs();
     const size_t nV=mesh->sizeVertexs();
-    //index ref
-    const auto& refIBO=indexs;
     //invalid mesh
     if(!canAdd(mesh)) return false;
     //add mesh
@@ -131,9 +129,9 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
     {
         case DrawMode::TRIANGLE:
             if(nI) //ibo?
-                for(auto i:refIBO)
+                for (size_t i=0; i != nI; ++i)
                 {
-                    AddVertexML(i)
+                    AddVertexML(mesh->getIndex(i))
                 }
             else
                 for(size_t i=0;i!=nV;++i)
@@ -145,9 +143,9 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
             if(nI)  //ibo?
             {
                 //first vetexts
-                AddVertexML(refIBO[0])
-                AddVertexML(refIBO[1])
-                AddVertexML(refIBO[2])
+                AddVertexML(mesh->getIndex(0))
+                AddVertexML(mesh->getIndex(1))
+                AddVertexML(mesh->getIndex(2))
                 //
                 for (size_t i=1; i != nI-2; ++i)
                 {
@@ -156,13 +154,13 @@ bool BatchingColorMesh::addMesh(const Mat4& modelView,Mesh::ptr mesh,const Vec4&
                     {
                         AddLastVertexML3(-1)
                         AddLastVertexML3(-3)
-                        AddVertexML(refIBO[i+2])
+                        AddVertexML(mesh->getIndex(i+2))
                     }
                     else
                     {
                         AddLastVertexML3(-2)
                         AddLastVertexML3(-2)
-                        AddVertexML(refIBO[i+2])
+                        AddVertexML(mesh->getIndex(i+2))
                     }
                 }
             }

@@ -579,16 +579,17 @@ Vector2D  Object::getGlobalParentScale() const
 //append a scene
 void Object::setScene(Scene* argscene)
 {
+    //change
     if(scene!=argscene) eraseScene();
-    //DEBUG_ASSERT(!scene);
+    //save scene
     scene=argscene;
-    //call back
-    onAttached(scene);
     //message to components
     for(auto cmp:components)
     {
         cmp.second->onSetScene(scene);
     }
+    //call back
+    onAttached(scene);
     //message to childs
     for(auto child:childs)
     {
@@ -597,12 +598,6 @@ void Object::setScene(Scene* argscene)
 }
 void Object::eraseScene()
 {
-    //DEBUG_ASSERT(scene);
-    //message to components
-    for(auto cmp:components)
-    {
-        cmp.second->onEraseScene();
-    }
     //message to childs
     for(auto child:childs)
     {
@@ -610,6 +605,11 @@ void Object::eraseScene()
     }
     //call back
     onUnattached();
+    //message to components
+    for(auto cmp:components)
+    {
+        cmp.second->onEraseScene();
+    }
     //dt
     scene=nullptr;
 }

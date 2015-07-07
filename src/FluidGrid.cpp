@@ -281,6 +281,19 @@ void FluidGrid::pushLine(const Vec2& start,const Vec2& end,float size)
     //push
     bcmesh->addMesh(model,getTexture()->getPO2Sprite());
 }
+//build values
+void FluidGrid::createGrid(const Vec2& size,const Vec2& spacing)
+{
+    grid.createGrid(size,spacing);
+    //buffer by triangles
+    int width = grid.getCols();
+    int height = grid.getRows();
+    bcmesh->createBufferByTriangles(width*height*6);
+}
+void FluidGrid::setSizeLine(float size)
+{
+    lsize=size;
+}
 //component
 void FluidGrid::onRun(float dt)
 {
@@ -521,6 +534,20 @@ void FluidMesh::pushLine(const Vec2& cr1,
     //push
     bcmesh->addMesh(Mat4::IDENTITY,mesh);
     */
+}
+
+//build values
+void FluidMesh::createGrid(const Vec2& size,const Vec2& spacing)
+{
+    grid.createGrid(size,spacing);
+    //buffer by triangles
+    //int width = grid.getCols();
+    //int height = grid.getRows();
+    //bcmesh->createBufferByTriangles(width*height*6);
+}
+void FluidMesh::setSizeLine(float size)
+{
+    lsize=size;
 }
 //component
 void FluidMesh::onRun(float dt)

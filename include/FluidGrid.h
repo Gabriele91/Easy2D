@@ -139,6 +139,9 @@ public:
     {
         return false;
     }
+    //set info
+    void createGrid(const Vec2& size,const Vec2& spacing);
+    void setSizeLine(float size);
     //ops
     void applyDirectedForce(const Vec3& force, const Vec3& position, float radius);
     void applyImplosiveForce(float force, const Vec3& position, float radius);
@@ -192,6 +195,9 @@ class FluidMesh : public Renderable
     {
         return false;
     }
+    //build values
+    void createGrid(const Vec2& size,const Vec2& spacing);
+    void setSizeLine(float size);
     //ops
     void applyDirectedForce(const Vec3& force, const Vec3& position, float radius);
     void applyImplosiveForce(float force, const Vec3& position, float radius);
