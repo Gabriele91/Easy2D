@@ -501,6 +501,295 @@ float World::getRevoluteJointSpeed(uint jointId)
     return realJoint->GetJointSpeed();
 }
 ////////////////////////////////////////
+///WELD
+uint World::createWeldJoint( const Object* objectA,
+                             const Object* objectB,
+                             const Vec2& localAnchorA,
+                             const Vec2& localAnchorB,
+                             Angle referenceAngle,
+                             float frequency,
+                             float dampingRatio,
+                             bool collideConnected)
+{
+    DEBUG_ASSERT(objectA);
+    DEBUG_ASSERT(static_cast<const World*>(objectA->getScene())==this);
+    DEBUG_ASSERT(objectB);
+    DEBUG_ASSERT(static_cast<const World*>(objectB->getScene())==this);
+    
+    const Body* bodyA=objectA->getComponent<Body>();
+    const Body* bodyB=objectB->getComponent<Body>();
+    
+    b2WeldJointDef jointDef;
+    jointDef.userData = this;
+    jointDef.collideConnected = collideConnected;
+    jointDef.bodyA = bodyA->body;
+    jointDef.bodyB = bodyB->body;
+    jointDef.localAnchorA   = cast(localAnchorA PTM_RATIO );
+    jointDef.localAnchorB   = cast(localAnchorB PTM_RATIO );
+    jointDef.referenceAngle = referenceAngle.valueRadians();
+    jointDef.frequencyHz  = frequency;
+    jointDef.dampingRatio = dampingRatio;
+    
+    return createJoint(jointDef);
+}
+
+/* TRICK */
+class b2WeldJointTrick : public b2WeldJoint
+{
+public:
+    void SetReferenceAngle(float32 rAngle) { m_referenceAngle = rAngle; }
+};
+
+void World::setWeldJointAngle(uint jointId,Angle angle)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_weldJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setWeldJointAngle, invalid joint type ");
+        return Angle::radian(0.0f);
+    }
+    // get distance
+    b2WeldJointTrick* realJoint = static_cast<b2WeldJointTrick*>( joint );
+    realJoint->SetReferenceAngle(angle.valueRadians());
+}
+
+Angle World::getWeldJointAngle(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_weldJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getWeldJointAngle, invalid joint type ");
+        return Angle::radian(0.0f);
+    }
+    // get distance
+    b2WeldJoint* realJoint = static_cast<b2WeldJoint*>( joint );
+    return Angle::radian(realJoint->GetReferenceAngle());
+}
+
+void World::setWeldJointFrequency(uint jointId,float frequency)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_weldJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setWeldJointFrequency, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2WeldJoint* realJoint = static_cast<b2WeldJoint*>( joint );
+    realJoint->SetFrequency(frequency);
+}
+
+float World::getWeldJointFrequency(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_weldJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getWeldJointFrequency, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2WeldJoint* realJoint = static_cast<b2WeldJoint*>( joint );
+    return realJoint->GetFrequency();
+}
+
+void World::setWeldJointDampingRatio(uint jointId,float dampingRatio)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_weldJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setWeldJointDampingRatio, invalid joint type ");
+        return;
+    }
+    // get distance
+    b2WeldJoint* realJoint = static_cast<b2WeldJoint*>( joint );
+    realJoint->SetDampingRatio(dampingRatio);
+}
+
+float World::getWeldJointDampingRatio(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_weldJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getWeldJointDampingRatio, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2WeldJoint* realJoint = static_cast<b2WeldJoint*>( joint );
+    return realJoint->GetDampingRatio();
+}
+////////////////////////////////////////
+uint World::createMouseJoint( const Object* object,
+                              const Vec2& target,
+                              float force,
+                              float frequency,
+                              float dampingRatio,
+                              bool collideConnected )
+{
+    DEBUG_ASSERT(object);
+    DEBUG_ASSERT(static_cast<const World*>(object->getScene())==this);
+    
+    const Body* body=object->getComponent<Body>();
+    
+    b2MouseJointDef jointDef;
+    jointDef.userData = this;
+    jointDef.collideConnected = collideConnected;
+    jointDef.bodyA    = ground;
+    jointDef.bodyB    = body->body;
+    jointDef.target   = cast(target PTM_RATIO);
+    jointDef.maxForce = force;
+    jointDef.frequencyHz  = frequency;
+    jointDef.dampingRatio = dampingRatio;
+    
+    return createJoint(jointDef);
+}
+
+void World::setMouseJointTarget(uint jointId,const Vec2& value)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setMouseJointTarget, invalid joint type ");
+        return;
+    }
+    // get distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    realJoint->SetTarget(cast(value PTM_RATIO));
+}
+
+Vec2 World::getMouseJointTarget(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getMouseJointTarget, invalid joint type ");
+        return Vec2::ZERO;
+    }
+    // get distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    return cast(realJoint->GetTarget()) FORCE_PIXEL_RATIO;
+}
+
+void World::setMouseJointForce(uint jointId,float force)
+{
+    
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setMouseJointForce, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    realJoint->SetMaxForce(force);
+}
+
+float World::getMouseJointForce(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getMouseJointForce, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    return realJoint->GetMaxForce();
+}
+
+void World::setMouseJointFrequency(uint jointId,float frequency)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setMouseJointFrequency, invalid joint type ");
+        return;
+    }
+    // set distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    realJoint->SetFrequency(frequency);
+}
+
+float World::getMouseJointFrequency(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getMouseJointFrequency, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    return realJoint->GetFrequency();
+}
+
+void World::setMouseJointDampingRatio(uint jointId,float dampingRatio)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: setMouseJointDampingRatio, invalid joint type ");
+        return;
+    }
+    // get distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    realJoint->SetDampingRatio(dampingRatio);
+}
+
+float World::getMouseJointDampingRatio(uint jointId)
+{
+    //get join
+    b2Joint* joint=findB2Joint(jointId);
+    // Fetch joint type.
+    const b2JointType jointType = joint->GetType();
+    if ( jointType != e_mouseJoint )
+    {
+        DEBUG_MESSAGE_IF(1,"Warning: getMouseJointDampingRatio, invalid joint type ");
+        return 0.0f;
+    }
+    // get distance
+    b2MouseJoint* realJoint = static_cast<b2MouseJoint*>( joint );
+    return realJoint->GetDampingRatio();
+}
+////////////////////////////////////////
 World::World(const Vec2& gravity):glDebugDraw(this)
                                  ,cListener(this)
                                  ,autoIdJoin(1)
@@ -510,14 +799,18 @@ World::World(const Vec2& gravity):glDebugDraw(this)
                                  ,metersInPixel(1.0)
                                  ,debugFlag(false)
 {
+    //create world
     world = new b2World(cast(gravity FORCE_PTM_RATIO));
     world->SetContactListener(&cListener);
     world->SetDestructionListener(this);
+    //create ground body
+    b2BodyDef groundDef;
+    ground = world->CreateBody(&groundDef);
 }
 World::~World()
 {
-    if(world)
-        delete world;
+    world->DestroyBody(ground);
+    delete world;
 }
 void World::setGravity(const Vec2& gravity)
 {
@@ -539,8 +832,11 @@ void World::setMetersInPixel( float pixel )
     //update bodies
     for(auto body = world->GetBodyList(); body; body = body->GetNext())
     {
-        auto e2body=(Body*)body->GetUserData();
-        e2body->updatePixelScale(metersUnit,metersInPixel);
+        if(body!=ground)
+        {
+            auto e2body=(Body*)body->GetUserData();
+            e2body->updatePixelScale(metersUnit,metersInPixel);
+        }
 	}
 	//update gravity
 	setGravity(gravity);
@@ -552,7 +848,11 @@ void World::resetWorld()
     std::vector<Body*> listBody;
     for(auto body = world->GetBodyList(); body; body = body->GetNext())
     {
-        listBody.push_back((Body*)body->GetUserData());
+        if(body!=ground)
+        {
+            auto e2body=(Body*)body->GetUserData();
+            listBody.push_back(e2body);
+        }
     }
     
     //unregister all objects
@@ -564,9 +864,13 @@ void World::resetWorld()
     //delete world
     delete world;
     auto gravity=getGravity();
+    //create world
     world = new b2World(cast(gravity FORCE_PTM_RATIO));
     world->SetContactListener(&cListener);
     world->SetDestructionListener(this);
+    //create ground body
+    b2BodyDef groundDef;
+    ground = world->CreateBody(&groundDef);
     
     //ri-reg all objects
     for(auto bodies:listBody)
@@ -653,9 +957,7 @@ void World::deserialize(const Table& table)
 
 void GLDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) 
 {
-    Color e2color;
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1.0));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,1.0)));
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
     RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
 }
@@ -665,12 +967,10 @@ void GLDebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, co
     
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
 
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,.5));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,0.5)));
     RenderContext::drawPrimitive(TRIANGLE_FAN, 0, vertexCount);
 
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,1.0)));
     RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
     
 }
@@ -689,9 +989,7 @@ void GLDebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color
         theta += k_increment;
     }
     
-    Color e2color;
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,1.0)));
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
     RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
 
@@ -715,12 +1013,10 @@ void GLDebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2
     
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
 
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,.5));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,0.5)));
     RenderContext::drawPrimitive(TRIANGLE_FAN, 0, vertexCount);
     
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,1.0)));
     RenderContext::drawPrimitive(LINE_LOOP, 0, vertexCount);
     
 }
@@ -731,9 +1027,7 @@ void GLDebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color&
     {
         p1.x,p1.y,p2.x,p2.y
     };
-    Color e2color;
-    e2color.fromNormalize(Vec4(color.r, color.g, color.b,1));
-    RenderContext::setColor(e2color);
+    RenderContext::setColor(Color::normalized(Vec4(color.r, color.g, color.b,1.0)));
     RenderContext::vertexPointer(2, GL_FLOAT, 0, vertices);
     RenderContext::drawPrimitive(LINES, 0, 2);
 

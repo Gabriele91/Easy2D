@@ -58,7 +58,13 @@ struct CompWidgetHandler
     bool operator() (const WidgetHandler* left,
                      const WidgetHandler* right) const
     {
-        return ((WidgetHandler*)left)->getZ() > ((WidgetHandler*)right)->getZ();
+        auto vleft=((WidgetHandler*)left)->getZ();
+        auto vright=((WidgetHandler*)right)->getZ();
+        if(vleft==vright)
+        {
+            return left > right;
+        }
+        return vleft > vright ;
     }
 };
     
@@ -168,6 +174,11 @@ public:
     void release()
     {
         inputManager.release();
+    }
+    
+    WidgetHandler* getObjectFocused() const
+    {
+        return focusObj;
     }
     
     void drawDebugWidgets() const;

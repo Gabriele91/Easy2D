@@ -143,7 +143,8 @@ protected:
 
      void serializeFields(Table& table) const;
      void deserializeFields(const Table& table);
-
+     Color getDisplayedTextColor() const;
+    
 public:
     
 
@@ -183,8 +184,9 @@ public:
 REGISTERED_COMPONENT(Label, "Label")
 
 
-class Button : public Label,
-               public WidgetHandler
+class Button : public WidgetHandler,
+               public Label
+    
 {
 protected:
 
@@ -203,9 +205,9 @@ protected:
     void setTexture(Texture::ptr ptr=nullptr)
     {
         if(!textures[state])
-            Renderable::setTexture(textures[BT_NORMAL]);
+            Label::setTexture(textures[BT_NORMAL]);
         else
-            Renderable::setTexture(textures[state]);
+            Label::setTexture(textures[state]);
     }
     //events
     void onLostFocus();
@@ -240,7 +242,11 @@ public:
     {
         setTextures(normal,over,press);
     }
-    
+    //set callback
+    void onClick(DFUNCTION<void(void)> value)
+    {
+        callback = value;
+    }
     //set textures
     virtual void setTextures(Texture::ptr  normal=nullptr,
                              Texture::ptr  over=nullptr,
@@ -262,8 +268,8 @@ public:
 REGISTERED_COMPONENT(Button, "Button")
 
 
-class TextField : public Label,
-                  public WidgetHandler
+class TextField : public WidgetHandler,
+                  public Label
 {
 protected:
     //colors

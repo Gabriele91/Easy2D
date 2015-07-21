@@ -49,6 +49,12 @@ class Scene : public Render, //Graphics
           bool fullscreen = false,
           int  typeBuffers = 8 /* COLOR32DEPTH24STENCIL8 */,
           int  defaultNoAA = 0 /* NOAA */);
+    
+protected:
+    
+    void onRunAllLogic(float dt);
+    void onRunAllDraw();
+    void onPostAllDraw(float dt);
 
 public:
 

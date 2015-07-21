@@ -17,6 +17,14 @@ class Renderable : public Component,
     
     bool visible;
     bool canBatch;
+    bool  colorCascade;
+    Color getParentColor() const;
+    
+protected:
+    
+    //overload
+    virtual void rsSerialize(Table& table);
+    virtual void rsDeserialize(const Table& table);
     
 public:
 
@@ -32,6 +40,19 @@ public:
     virtual bool canTransform()
     {
         return true;
+    }
+    //color
+    void setEnableParentColor(bool value)
+    {
+        colorCascade = value;
+    }
+    bool isEnableParentColor()
+    {
+        return colorCascade;
+    }
+    virtual Color getColor() const
+    {
+        return color * getParentColor();
     }
     //get box
     virtual AABox2 getBox();

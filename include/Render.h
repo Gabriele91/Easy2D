@@ -223,16 +223,13 @@ public:
     //deserrialize
     void deserialize(const Table& table)
     {
-        Color clear,ambient;
         //set clear color
-        clear.fromVec4(table.getVector4D("clearColor",Vec4(255,255,255,255)));
-        setClear(clear);
+        setClear(Color::from(table.getVector4D("clearColor",Vec4(255,255,255,255))),enableClear);
         //if enable?
         setEnableClear(table.getFloat("enableClear",(float)enableClear)!=0.0);
         setEnableBatching(table.getFloat("enableBatching",(float)enableBatching)!=0.0);
         //get ambient color
-        ambient.fromVec4(table.getVector4D("ambientLight",Vec4(255,255,255,255)));
-        setAmbientLight(ambient);
+        setAmbientLight(Color::from(table.getVector4D("ambientLight",Vec4(255,255,255,255))));
     }
 
 };

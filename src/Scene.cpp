@@ -58,27 +58,49 @@ void Scene::start()
 {
 	onStartResume();
 }
+//run all logic
+void Scene::onRunAllLogic(float dt)
+{
+    ///////////////////////////////////////////////
+    //update logic child
+    if (actives.size())
+        scenes[actives.top()].child->onRunAllLogic(dt);
+    //update logic
+    onRunLogic(dt);
+    ///////////////////////////////////////////////
+}
+//run all draw
+void Scene::onRunAllDraw()
+{
+    ///////////////////////////////////////////////
+    //draw child
+    if (actives.size())
+        scenes[actives.top()].child->onRunAllDraw();
+    //draw all
+    onRunDraw();
+    ///////////////////////////////////////////////
+    
+}
+//run all post draw
+void Scene::onPostAllDraw(float dt)
+{
+    ///////////////////////////////////////////////
+    //post draw all
+    if (actives.size())
+        scenes[actives.top()].child->onPostAllDraw(dt);
+    //post draw all
+    onPostDraw(dt);
+    ///////////////////////////////////////////////
+}
+//run all
 void Scene::run(float dt)
 {
-	///////////////////////////////////////////////
-	//update logic
-	onRunLogic(dt);
-	//update logic child
-	if (actives.size())
-		scenes[actives.top()].child->onRunLogic(dt);
-	///////////////////////////////////////////////
-	//draw all
-	onRunDraw();
-	//draw child
-	if (actives.size())
-		scenes[actives.top()].child->onRunDraw();
-	///////////////////////////////////////////////
-	//post draw all
-	onPostDraw(dt);
-	//post draw all
-	if (actives.size())
-		scenes[actives.top()].child->onPostDraw(dt);
-	///////////////////////////////////////////////
+    //run logic
+    onRunAllLogic(dt);
+    //run draw
+    onRunAllDraw();
+    //run post draw
+    onPostAllDraw(dt);
 }
 void Scene::end()
 {
@@ -335,8 +357,7 @@ void Scene::serialize(Table& table)
 	for (auto it : objects)
 	{
 		DEBUG_ASSERT(it->getName() != ""); 
-		Table& objTable = tableObjects.createTable("Objects");
-		it->serialize(objTable);
+		it->serialize(tableObjects);
 	}
 }
 //utility methos

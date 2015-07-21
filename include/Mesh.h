@@ -134,7 +134,9 @@ public:
     void addQuadIndexs(ushort v1,ushort v2,ushort v3,ushort v4);
     void setDrawMode(DrawMode dmode);
     //show build
-	virtual bool build(bool clearcpu = false);
+    virtual bool build(bool clearcpu = false);
+    //recompute the AABBox of the mesh
+    void recomputeAABox();
     //show get draw mode
     virtual DrawMode getDrawMode() const
     {
@@ -152,6 +154,10 @@ public:
     const AABox2& getAABox() const
     {
         return box;
+    }
+    void setAABox(const AABox2& value)
+    {
+        box = value;
     }
     size_t svertex() const
     {

@@ -34,13 +34,16 @@ struct Color
            RED,
            WHITE,
            YELLOW;
-    //
+    //attributes
     uchar r,g,b,a;
+    //methos
     Color()
     {
         r=g=b=a=255;
     }
+
     Color(uchar r, uchar g, uchar b, uchar a):r(r),g(g),b(b),a(a) {}
+
     void setColor(uchar r, uchar g, uchar b, uchar a)
     {
         this->r=r;
@@ -58,6 +61,7 @@ struct Color
         out.a=(uchar)Math::clamp(a+v.a,255,0);
         return out;
     }
+    
     Color operator - (const Color& v) const
     {
         Color out;
@@ -67,6 +71,7 @@ struct Color
         out.a=(uchar)Math::clamp(a-v.a,255,0);
         return out;
     }
+    
     Color operator * (const Color& v) const
     {
         Color out;
@@ -76,14 +81,17 @@ struct Color
         out.a=(uchar)Math::clamp((a*v.a)/255,255,0);
         return out;
     }
+    
     bool operator == (const Color& v) const
     {
         return r==v.r && g==v.g && b==v.b && a==v.a;
     }
+    
     bool operator != (const Color& v) const
     {
         return r!=v.r || g!=v.g || b!=v.b || a!=v.a;
     }
+    
     Color operator * (const float factor) const
     {
         Color out;
@@ -98,6 +106,7 @@ struct Color
     {
         return (const uchar*) this;
     }
+    
     operator uchar* () const
     {
         return (uchar*) this;
@@ -107,23 +116,27 @@ struct Color
     {
         return (float)r/255;
     }
+    
     float gNormalize() const
     {
         return (float)g/255;
     }
+    
     float bNormalize() const
     {
         return (float)b/255;
-    };
+    }
+    
     float aNormalize() const
     {
         return (float)a/255;
     }
+    
     Vec4 toNormalize() const
     {
         return Vec4(r,g,b,a)/255.0;
     }
-    const Color& fromNormalize(const Vec4& v)
+    const Color& setFromNormalized(const Vec4& v)
     {
         r=uchar(v.r*255.0f);
         g=uchar(v.g*255.0f);
@@ -131,17 +144,29 @@ struct Color
         a=uchar(v.a*255.0f);
         return *this;
     }
+    
     Vec4 toVec4() const
     {
         return Vec4(r,g,b,a);
     }
-    const Color& fromVec4(const Vec4& v)
+    
+    const Color& setFromVec4(const Vec4& v)
     {
         r=uchar(v.r);
         g=uchar(v.g);
         b=uchar(v.b);
         a=uchar(v.a);
         return *this;
+    }
+    
+    static Color from(const Vec4& v)
+    {
+        return Color(uchar(v.r),uchar(v.g),uchar(v.b),uchar(v.a));
+    }
+    
+    static Color normalized(const Vec4& v)
+    {
+        return Color(uchar(v.r*255.0f),uchar(v.g*255.0f),uchar(v.b*255.0f),uchar(v.a*255.0f));
     }
 };
 };

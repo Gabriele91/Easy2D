@@ -9,6 +9,9 @@
 #include <ETime.h>
 #include <Timer.h>
 #include <Color.h>
+#include <Image.h>
+//Math
+#include <Math3D.h>
 //Resources
 #include <Resource.h>
 #include <ResourcesManager.h>
@@ -24,8 +27,6 @@
 #include <Input.h>
 #include <Audio.h>
 #include <Game.h>
-//Math
-#include <Math3D.h>
 //Physics
 #include <World.h>
 //Audio
@@ -58,6 +59,9 @@
 #include <RenderContext.h>
 #include <Render.h>
 #include <Scene.h>
+//Tweens
+#include <TweenManager.h>
+#include <Tweens.h>
 //network
 #include <Address.h>
 #include <Socket.h>

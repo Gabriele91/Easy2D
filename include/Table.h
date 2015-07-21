@@ -3,6 +3,7 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <Color.h>
 #include <EString.h>
 #include <iostream>
 #include <Resource.h>
@@ -22,6 +23,7 @@ public:
 
     enum TypeDate
     {
+        TDNONE = -1,
         FLOAT,
         VECTOR2D,
         VECTOR3D,
@@ -184,6 +186,8 @@ public:
     Table(ResourcesManager<Table> *rsmr,
           const String& pathfile="");
     Table(const Table& cptable);
+    Table(const String& source);
+    Table(const String& source,ResourcesGroup* gorup);
     Table();
     /* destructor */
     virtual ~Table();
@@ -288,11 +292,16 @@ public:
         //return
         return ptr->get<Table>();
     }
-
+    
     /** set a floating in an associative table */
     DFORCEINLINE void set(const String& key, float value)
     {
         set(key,FLOAT,value);
+    }
+    /** set a angle in an associative table */
+    DFORCEINLINE void set(const String& key, Angle value)
+    {
+        set(key,FLOAT,value.valueDegrees());
     }
     /** set a vector2D in an associative table */
     DFORCEINLINE void set(const String& key, const Vec2& value)
@@ -307,6 +316,12 @@ public:
     /** set a vector4D in an associative table */
     DFORCEINLINE void set(const String& key, const Vec4& value)
     {
+        set(key,VECTOR4D,value);
+    }
+    /** set a color in an associative table */
+    DFORCEINLINE void set(const String& key, const Color& color)
+    {
+        Vec4 value = color.toVec4();
         set(key,VECTOR4D,value);
     }
     /** set a Matrix4x4 in an associative table */
@@ -331,11 +346,17 @@ public:
         table[key]=ptr;
     }
 
-
+    
     /** set a floating in an array */
     DFORCEINLINE void set(float value)
     {
         set(index,FLOAT,value);
+        ++index;
+    }
+    /** set a angle in an array */
+    DFORCEINLINE void set(Angle value)
+    {
+        set(index,FLOAT,value.valueDegrees());
         ++index;
     }
     /** set a vector2D in an array */
@@ -353,6 +374,13 @@ public:
     /** set a vector4D in an array */
     DFORCEINLINE void set(const Vec4& value)
     {
+        set(index,VECTOR4D,value);
+        ++index;
+    }
+    /** set a color in an array */
+    DFORCEINLINE void set(const Color& color)
+    {
+        Vec4 value = color.toVec4() ;
         set(index,VECTOR4D,value);
         ++index;
     }
@@ -378,7 +406,15 @@ public:
         table[index]=ptr;
         ++index;
     }
-
+    /** return enume type */
+    template < typename T > TypeDate idType() const
+    {
+        return TDNONE;
+    }
+    template < typename T > TypeDate idType(const T& value) const
+    {
+        return idType< T >();
+    }
     /** return a floating point associate a table/array key */
     DFORCEINLINE float getFloat(const KeyTable& key,float vdefault=0) const
     {
@@ -401,6 +437,16 @@ public:
     DFORCEINLINE const Vec4& getVector4D(const KeyTable& key,const Vec4& vdefault=Vec4::ZERO) const
     {
         if(existsAsType(key,VECTOR4D)) return *((Vec4*)(table.find(key)->second->getValue()));
+        return vdefault;
+    }
+    /** return a color associate a table/array key */
+    DFORCEINLINE Color getColor(const KeyTable& key,const Color& vdefault=Color::WHITE) const
+    {
+        if(existsAsType(key,VECTOR4D))
+        {
+            //return
+            return Color::from(*((Vec4*)(table.find(key)->second->getValue())));
+        }
         return vdefault;
     }
     /** return a Matrix4x4 associate a table/array key */
@@ -434,9 +480,16 @@ public:
         return vdefault;
     }
     /** return a generic value associate a table/array key */
-    template<typename T> T& get(const KeyTable& key)
+    template<typename T> const T& get(const KeyTable& key) const
     {
         return *((T*)(table.find(key)->second->getValue()));
+    }
+    /** return a generic value associate a table/array key */
+    template<typename T> const T& get(const KeyTable& key, const T& vdefault) const
+    {
+        if( existsAsType(key, idType(vdefault)) )
+            return get< T >(key);
+        return vdefault;
     }
     /** return true if exist a value associated with key */
     DFORCEINLINE bool exists( const KeyTable& key ) const
@@ -733,6 +786,88 @@ private:
 
 };
 
+//SPEC TEMPLATE
+template < >
+inline Table::TypeDate Table::idType<Angle>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<Degree>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<Radian>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<bool>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<short>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<ushort>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<int>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<uint>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<float>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType<double>() const
+{
+    return FLOAT;
+}
+template < >
+inline Table::TypeDate Table::idType< Vector2D >() const
+{
+    return VECTOR2D;
+}
+template < >
+inline Table::TypeDate Table::idType< Vector3D >() const
+{
+    return VECTOR3D;
+}
+template < >
+inline Table::TypeDate Table::idType< Vector4D >() const
+{
+    return VECTOR4D;
+}
+template < >
+inline Table::TypeDate Table::idType< Matrix4x4 >() const
+{
+    return MATRIX4X4;
+}
+template < >
+inline Table::TypeDate Table::idType< String >() const
+{
+    return STRING;
+}
+template < >
+inline Table::TypeDate Table::idType< const char* >() const
+{
+    return STRING;
+}
+    
 };
 
 

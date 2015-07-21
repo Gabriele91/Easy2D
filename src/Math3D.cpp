@@ -1101,13 +1101,13 @@ Vector2D Matrix4x4::getTranslation2D() const
 void Matrix4x4::addTranslation( const Vector3D &v3 )
 {
     addTranslationOnX(v3.x);
-    addTranslationOnX(v3.y);
-    addTranslationOnX(v3.z);
+    addTranslationOnY(v3.y);
+    addTranslationOnZ(v3.z);
 }
 void Matrix4x4::addTranslation( const Vector2D &v2 )
 {
     addTranslationOnX(v2.x);
-    addTranslationOnX(v2.y);
+    addTranslationOnY(v2.y);
 }
 void Matrix4x4::addTranslationOnX( float distance )
 {

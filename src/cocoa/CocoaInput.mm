@@ -364,6 +364,26 @@ CocoaInput::~CocoaInput()
     [listener release];    
 }
     
+static String textFromCocoaEvent(NSEvent* event)
+{
+    if ([event type] == NSFlagsChanged)
+        return "";
+    //return [[event characters] UTF8String];
+    const char* c_str=
+    [[event characters] cStringUsingEncoding:NSISOLatin1StringEncoding];
+    return c_str ? c_str : "";
+}
+
+static String unmodifiedTextFromCocoaEvent(NSEvent* event)
+{
+    if ([event type] == NSFlagsChanged)
+        return "";
+    //return [[event charactersIgnoringModifiers] UTF8String];
+    const char* c_str=
+    [[event charactersIgnoringModifiers] cStringUsingEncoding:NSISOLatin1StringEncoding];
+    return c_str ? c_str : "";
+}
+    
 void CocoaInput::__updateCocoaEvent()
 {
     
@@ -398,9 +418,15 @@ __callOnKeyRelease(KeyMapCocoa[(key)]);\
 		switch ([event type])
         {
 			case NSKeyDown:
-                ekeyboard.inputString = [[event charactersIgnoringModifiers] UTF8String];
-                __callOnTextInput(ekeyboard.inputString);
+            {
+                String text(std::move(unmodifiedTextFromCocoaEvent(event)));
+                if(text.size() && text[0] != 0x7f && text[0]>=32)
+                {
+                    ekeyboard.inputString = text;
+                    __callOnTextInput(text);
+                }
                 keyDownEvent(event.keyCode);
+            }
             break;
 			case NSKeyUp:
                 keyReleaseEvent(event.keyCode);                

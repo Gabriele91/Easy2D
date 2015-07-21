@@ -6,20 +6,20 @@ void RenderState::enableStates()
 {
     ///////////////////////////////////
     //enable blend
-    if(blending)
+    if(isEnableBlend())
     {
         RenderContext::setBlend(true);
-        RenderContext::setBlendFunction(blendSrc,blendDst);
+        RenderContext::setBlendFunction(getBlendSrc(),getBlendDst());
     }
     //disable blend
     else
         RenderContext::setBlend(false);
     ///////////////////////////////////
     //cull mode
-    RenderContext::setCullFace(cullmode);
+    RenderContext::setCullFace(getCullFace());
     ///////////////////////////////////
     //color mode
-    RenderContext::setColor(color);
+    RenderContext::setColor(getColor());
     ///////////////////////////////////
     //set shader
     if(getShader()) getShader()->bind();
@@ -57,7 +57,7 @@ inline CullFace stringToCall(const String& cull)
 
 void RenderState::rsSerialize(Table& table)
 {
-    table.set("color",color.toVec4());
+    table.set("color",color);
     table.set("culling",cullToString(cullmode));
     if(blending)
     {
@@ -68,7 +68,7 @@ void RenderState::rsSerialize(Table& table)
 }
 void RenderState::rsDeserialize(const Table& table)
 {
-    color.fromVec4(table.getVector4D("color",Color().toVec4()));
+    color = table.getColor("color",Color::WHITE);
     cullmode=stringToCall(table.getString("culling","BACK"));
     if(table.existsAsType("blend",Table::TABLE))
     {

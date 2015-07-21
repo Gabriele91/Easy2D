@@ -115,7 +115,7 @@ void WidgetManager::updateFocus(WidgetHandler* widget)
 }
 void WidgetManager::addComponent(WidgetHandler* input)
 {
-    widgetMap[input]=input;
+    widgetMap.insert({input,input});
 }
 void WidgetManager::removeComponent(WidgetHandler* input)
 {

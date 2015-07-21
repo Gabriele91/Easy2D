@@ -53,6 +53,7 @@ class World : public b2DestructionListener
     friend class GLDebugDraw;
     friend class ContactListener;  
     //world
+    b2Body  *ground;
     b2World *world;
     b2BlockAllocator blockAllocator;
     GLDebugDraw      glDebugDraw;
@@ -68,8 +69,6 @@ class World : public b2DestructionListener
     uint autoIdJoin;
     DUNORDERED_MAP<uint, b2Joint*> jointHash;
     DUNORDERED_MAP<b2Joint*, uint> reverseJointHash;
-    uint createJoint( const b2JointDef& def );
-    void deleteJoint(uint id);
     //join utility
     b2Joint* findB2Joint(uint id);
     uint findJoint(b2Joint* join);
@@ -184,6 +183,57 @@ class World : public b2DestructionListener
 
     float getRevoluteJointAngle(uint jointId);
     float getRevoluteJointSpeed(uint jointId);
+    
+    /// Weld joint
+    uint createWeldJoint(const Object* objectA,
+                         const Object* objectB,
+                         const Vec2& localAnchorA = Vec2::ZERO,
+                         const Vec2& localAnchorB = Vec2::ZERO,
+                         Angle referenceAngle = Angle::radian(0.0f),
+                         float frequency = 0.0f,
+                         float dampingRatio = 0.0f,
+                         bool collideConnected = false );
+    
+    void setWeldJointAngle(uint jointId,Angle angle);
+    
+    Angle getWeldJointAngle(uint jointId);
+    
+    void setWeldJointFrequency(uint jointId,float frequency);
+    
+    float getWeldJointFrequency(uint jointId);
+    
+    void setWeldJointDampingRatio(uint jointId,float dampingRatio);
+    
+    float getWeldJointDampingRatio(uint jointId);
+    
+    /// Mouse joint
+    uint createMouseJoint(const Object* object,
+                          const Vec2& target=Vec2::ZERO,
+                          float force = 0.0f,
+                          float frequency = 0.0f,
+                          float dampingRatio = 0.0f,
+                          bool collideConnected = false );
+    
+    void setMouseJointTarget(uint jointId,const Vec2& value);
+    
+    Vec2 getMouseJointTarget(uint jointId);
+    
+    void setMouseJointForce(uint jointId,float force);
+    
+    float getMouseJointForce(uint jointId);
+    
+    void setMouseJointFrequency(uint jointId,float frequency);
+    
+    float getMouseJointFrequency(uint jointId);
+    
+    void setMouseJointDampingRatio(uint jointId,float dampingRatio);
+    
+    float getMouseJointDampingRatio(uint jointId);
+    
+    //raw joints
+    uint createJoint( const b2JointDef& def );
+    void deleteJoint( uint id );
+    
 };
 
 

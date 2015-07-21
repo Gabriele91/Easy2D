@@ -21,15 +21,14 @@ using namespace Easy2D::Ui;
 */
 Mat4 Anchor::calcAnchorGMatrix(Object* obj)
 {
-    if (obj &&
-        anchor &&
-        obj->getParent() &&
+    if (obj && anchor && obj->getParent() &&
+        //parent renderable
         obj->getParent()->getComponent<Renderable>())
     {
         Object*     parent = obj->getParent();
         Renderable* renderable = parent->getComponent<Renderable>();
         //obb parent
-        Mat4   pmat  = parent->getGlobalMatrix();
+        Mat4   pmat  = renderable->getModel();
         OBBox2 pbox  = renderable->getBaseBox();
         Vec2   psize = pbox.getSize();
         //anchor pos
@@ -43,6 +42,28 @@ Mat4 Anchor::calcAnchorGMatrix(Object* obj)
         omat.setTransform2D({
             pivot + pos, 
             obj->getRotation() + pmodel.getRotZ(),
+            obj->getScale()
+        });
+        return omat;
+    }
+    else if (obj && anchor && !obj->getParent() &&
+             //scene camera
+             obj->getScene()  && obj->getScene()->getCamera())
+    {
+        //camera
+        Camera* camera=obj->getScene()->getCamera();
+        //obb parent
+        OBBox2 pbox  = camera->getBoxViewport();
+        Vec2   psize = pbox.getSize();
+        //anchor pos
+        Vec2   pos = psize*anchorPoint;
+        //pivot
+        Vec2 pivot = obj->getPosition();
+        //set tranform
+        Mat4 omat;
+        omat.setTransform2D({
+            pivot + pos,
+            obj->getRotation(),
             obj->getScale()
         });
         return omat;
@@ -201,10 +222,6 @@ void Text::serialize(Table& table)
     rsSerialize(table);
     //serialize anchor
     Anchor::serialize(table);
-    //visible
-    table.set("visible", isVisible() ? "yes" : "no");
-    //batch
-    table.set("canBatch", getCanBatch() ? "yes" : "no");
     //font
     if (font)
     {
@@ -218,17 +235,6 @@ void Text::deserialize(const Table& table)
     rsDeserialize(table);
     //deserialize anchor
     Anchor::deserialize(table);
-    //visible
-    if (table.existsAsType("visible", Table::STRING))
-    {
-        if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
-        else hide();
-    }
-    //batch
-    if (table.existsAsType("canBatch", Table::STRING))
-    {
-        setCanBatch(table.getString("canBatch", getCanBatch() ? "yes" : "no") != "no");
-    }
     //get font
     if (table.existsAsType("font", Table::STRING))
     {
@@ -265,6 +271,14 @@ Label::Label(Texture::ptr  texture,
         {
             setText(text);
         }
+//text color to draw
+Color Label::getDisplayedTextColor() const
+{
+    //compute color
+    Color endColor(textColor);
+    endColor.a = (uchar)(textColor.aNormalize() * getColor().aNormalize() * 255.0f);
+    return endColor;
+}
 //draw
 void Label::draw()
 {
@@ -290,7 +304,7 @@ void Label::draw()
         //set text model
         RenderContext::setModel(RenderContext::getModel().mul(model));
         //text color
-        RenderContext::setColor(textColor);
+        RenderContext::setColor(getDisplayedTextColor());
         //draw text
         textDrawClip(model, box);
     }
@@ -370,7 +384,7 @@ void Label::enableScale9()
                 vec2 pixel       = coord.xy * sizeSprite;
                 vec2 uv = vec2(xScale9(pixel.x, sizeSprite.x), 
                                yScale9(pixel.y, sizeSprite.y));
-                return texture2D(tex, uv) ;
+                return texture2D(tex, uv) * e2dColor ;
             }
         ));
 #undef TOSTRING
@@ -534,7 +548,13 @@ AABox2  Label::getBaseBox()
 void Label::setTexture(Texture::ptr tex)
 {
     Renderable::setTexture(tex);
-    Renderable::setMesh(tex->getPO2Sprite());
+    if(tex)
+    {
+        Renderable::setMesh(tex->getPO2Sprite());
+        calcMat4Text();
+    }
+    else
+        Renderable::setMesh(nullptr);
 }
 //serialize / deserialize
 static const char * const STRHLayout[] =
@@ -543,11 +563,23 @@ static const char * const STRHLayout[] =
     "HL_CENTER",
     "HL_BOTTOM"
 };
+static const char * const STRHLayoutSugar[] =
+{
+    "TOP",
+    "CENTER",
+    "BOTTOM"
+};
 static const char * const STRVLayout[] =
 {
     "VL_LEFT",
     "VL_CENTER",
     "VL_RIGHT"
+};
+static const char * const STRVLayoutSugar[] =
+{
+    "LEFT",
+    "CENTER",
+    "RIGHT"
 };
 void Label::serializeFields(Table& table) const
 {
@@ -578,7 +610,7 @@ void Label::deserializeFields(const Table& table)
     //horizontal layout 
     String horizontal = table.getString("horizontal", STRHLayout[hlayout]);
     for (int i = 0; i != 3; ++i)
-        if (horizontal == STRHLayout[i])
+        if (horizontal == STRHLayout[i] || horizontal == STRHLayoutSugar[i] )
         {
             hlayout = (HLayout)(i);
             break;
@@ -586,7 +618,7 @@ void Label::deserializeFields(const Table& table)
     //vertical layout 
     String vertical = table.getString("vertical", STRVLayout[vlayout]);
     for (int i = 0; i != 3; ++i)
-        if (vertical == STRVLayout[i])
+        if (vertical == STRVLayout[i] || vertical == STRVLayoutSugar[i] )
         {
             vlayout = (VLayout)(i);
             break;
@@ -594,7 +626,7 @@ void Label::deserializeFields(const Table& table)
     //scale text
     setTextScale(table.getVector2D("textScale", scale));
     //text color
-    textColor.fromVec4(table.getVector4D("textColor", textColor.toVec4()));
+    textColor = table.getColor("textColor", textColor);
 }
 void Label::serialize(Table& table)
 {
@@ -665,9 +697,7 @@ void Button::onRelease(const Vec2& over)
 OBBox2 Button::getEventBox()
 {
     OBBox2  box=getBaseBox();
-    Object* obj=getObject();
-    return canTransform() && obj ?
-    box.applay(obj->getGlobalMatrix()) : box;
+    return  box.applay(getModel());
 }
 uint Button::getZ()
 {
@@ -728,8 +758,8 @@ TextField::TextField(Texture::ptr texture,
     textColor     = Color::WHITE;
     pointerColor  = Color::BLACK;
     selectorColor = Color(128, 128, 255, 128);
-    setTexture(texture);
-    setFont(font);
+    if(texture) setTexture(texture);
+    if(font)    setFont(font);
     Renderable::setCull(DISABLE);
 }
 TextField::TextField(Texture::ptr  texture,
@@ -780,7 +810,7 @@ void TextField::onKeyPress(Key::Keyboard key)
 }
 void TextField::onClick(const Vec2& press)
 {
-	Mat4 matrix = getObject()->getGlobalMatrix().mul2D(model);
+	Mat4 matrix = getModel().mul2D(model);
 	Vec2 pModel = matrix.getInverse().mul2D(press);
 	//is a text field
 	pModel.y = font->size() *  0.5;
@@ -800,7 +830,7 @@ void TextField::onDoubleClick(const Vec2& press)
 {
     if (!text.length()) return;
 
-    Mat4 matrix = getObject()->getGlobalMatrix().mul2D(model);
+    Mat4 matrix = getModel().mul2D(model);
     Vec2 pModel = matrix.getInverse().mul2D(press);
     //is a text field
     pModel.y = font->size() *  0.5;
@@ -818,7 +848,7 @@ void TextField::onDoubleClick(const Vec2& press)
 }
 void TextField::onDown(const Vec2& press)
 {
-    Mat4 matrix = getObject()->getGlobalMatrix().mul2D(model);
+    Mat4 matrix = getModel().mul2D(model);
     Vec2 pModel = matrix.getInverse().mul2D(press);
 	//is a text field
     pModel.y  = font->size() *  0.5;
@@ -887,9 +917,7 @@ void TextField::onTextInput(const String& input)
 OBBox2 TextField::getEventBox()
 {
     OBBox2  box=getBaseBox();
-    Object* obj=getObject();
-    return canTransform() && obj ?
-    box.applay(obj->getGlobalMatrix()) : box;
+    return  box.applay(getModel());
 }
 uint TextField::getZ()
 {
@@ -902,12 +930,13 @@ void TextField::computeOffset(int index)
     AABox2 cbox;
     AABox2 bbox = getBaseBox();
     Vec2   size = bbox.getSize() * 2.0 * getObject()->getScale(true);
-    Vec2   size_text = font->textSpaceSize(text);
+    Vec2   sizeText = font->textSpaceSize(text);
     ////////////////////////////////////////////////
-    if (size_text.x <= size.x)
+    if (sizeText.x <= size.x)
     {
-         calcVTranslationText();
-         return;
+        offset = 0;
+        calcVTranslationText();
+        return;
     }
     else
     {
@@ -931,9 +960,9 @@ void TextField::computeOffset(int index)
         offset = cbox.getMin().x;
 
     //limits
-    const float max_val = Math::max(size_text.x - size.x, 0.0f);
-    const float min_val = 0.0f;
-    offset = Math::min(Math::max(offset, 0.0f), max_val);
+    const float maxVal = Math::max(sizeText.x - size.x, 0.0f);
+    const float minVal = 0.0f;
+    offset = Math::min(Math::max(offset, minVal), maxVal);
 
 }
 void TextField::deleteSelectChars(bool left)
@@ -1050,7 +1079,7 @@ AABox2 TextField::charAt(int charID)
 		cpos.setMin(n_min);
 		cpos.setMax(n_max);
 	}
-	else
+	else if(text.length())
 	{
         cpos = font->getSpaceCharPosition2D(charID - 1, text);
 		Vec2 n_min = Vec2(cpos.getMax().x, -cpos.getMax().y);
@@ -1058,6 +1087,11 @@ AABox2 TextField::charAt(int charID)
 		cpos.setMin(n_min);
 		cpos.setMax(n_max);
 	}
+    else
+    {
+        cpos.setMin(Vec2( 0, -font->size() ));
+        cpos.setMax(Vec2::ZERO);
+    }
 	return cpos;
 }
 void TextField::draw()
@@ -1095,35 +1129,62 @@ void TextField::draw()
         //set text model
         RenderContext::setModel(RenderContext::getModel().mul(textModel));
         //text color
-        RenderContext::setColor(textColor);
+        RenderContext::setColor(getDisplayedTextColor());
         //draw text
+        auto cullmode=RenderContext::getRenderState().cullface;
+        RenderContext::setCullFace(DISABLE);
         font->mesh(text);
+        RenderContext::setCullFace(cullmode);
         //select
         switch (state)
         {
-            case Easy2D::Ui::TextField::TF_NORMAL:
+            case TF_NORMAL:
             break;
-            case Easy2D::Ui::TextField::TF_SELECT_CHAR:
+            case TF_SELECT_CHAR:
             {
                 AABox2 cpos = charAt(cursor);
                 //get position
                 RenderContext::drawBox(cpos, pointerColor);
             }
             break;
-            case Easy2D::Ui::TextField::TF_SELECT_AREA:
+            case TF_SELECT_AREA:
             {
                 //get position
                 AABox2 cpos = charAt(cursor);
                 AABox2 cpos2 = charAt(cursorSelect);
                 Vec2 n_min = Vec2(cpos.getMin().x,   cpos.getMax().y);
                 Vec2 n_max = Vec2(cpos2.getMax().x,  cpos.getMin().y);
-                cpos.setMin(n_min);
-                cpos.setMax(n_max);
+                cpos.setMin({Math::min(n_min.x,n_max.x), Math::min(n_min.y,n_max.y)});
+                cpos.setMax({Math::max(n_min.x,n_max.x), Math::max(n_min.y,n_max.y)});
                 RenderContext::drawFillBox(cpos, selectorColor);
             }
             break;
             default: break;
         }
+        //DISABLE STENCIL
+        RenderContext::setStencil(STENCIL_NONE);
+    }
+    else if(state != TF_NORMAL)
+    {
+        //ENABLE STENCIL
+        RenderContext::setStencil(STENCIL_REPLACE);
+        RenderContext::stencilClear();
+        RenderContext::setColorWritable(false, false, false, false);
+        RenderContext::setZBufferWritable(false);
+        RenderContext::drawFillBox(getBaseBox(), Color::BLACK);
+        RenderContext::setStencil(STENCIL_KEEP);
+        RenderContext::setColorWritable(true, true, true, true);
+        RenderContext::setZBufferWritable(true);
+        //offset
+        Mat4 textModel;
+        textModel.setTranslation(Vec2(-offset,0));
+        textModel = model.mul2D(textModel);
+        //set text model
+        RenderContext::setModel(RenderContext::getModel().mul(textModel));
+        //draw pointer
+        AABox2 cpos = charAt(cursor);
+        //get position
+        RenderContext::drawBox(cpos, pointerColor);
         //DISABLE STENCIL
         RenderContext::setStencil(STENCIL_NONE);
     }
@@ -1147,7 +1208,7 @@ void TextField::deserialize(const Table& table)
     Text::deserialize(table);
     Label::deserialize(table);
     //deserialize color
-    pointerColor.fromVec4(table.getVector4D("textPointerColor", pointerColor.toVec4()));
-    selectorColor.fromVec4(table.getVector4D("textSelectorColor", selectorColor.toVec4()));
+    pointerColor = table.getColor("textPointerColor", pointerColor);
+    selectorColor = table.getColor("textSelectorColor", selectorColor);
 }
 

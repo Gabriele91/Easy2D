@@ -41,10 +41,6 @@ void Sprite::serialize(Table& table)
     Table& rsprite=table;
     //serialize render state
 	rsSerialize(rsprite);
-	//visible
-    rsprite.set("visible", isVisible() ? "yes" : "no");
-    //batch
-    rsprite.set("canBatch", getCanBatch() ? "yes" : "no");
     //serialize shader
     if(getShader())
         rsprite.set("shader",getShader()->getName());
@@ -56,17 +52,6 @@ void Sprite::deserialize(const Table& table)
 {
     //deserialize rander state
 	rsDeserialize(table);
-	//visible
-	if (table.existsAsType("visible", Table::STRING))
-	{
-		if( table.getString("visible", isVisible() ? "yes" : "no") != "no" ) show();
-		else hide();
-    }
-    //batch
-    if (table.existsAsType("canBatch", Table::STRING))
-    {
-        setCanBatch(table.getString("canBatch", getCanBatch() ? "yes" : "no") != "no");
-    }
     //get shader
     if(table.existsAsType("shader",Table::STRING))
     {

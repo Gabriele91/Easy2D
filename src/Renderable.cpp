@@ -15,6 +15,7 @@ Renderable::Renderable(Mesh::ptr rmesh,
     :RenderState()
     ,visible(visible)
     ,canBatch(true)
+    ,colorCascade(false)
 {
     setTexture(rtex);
     setMesh(rmesh);
@@ -27,7 +28,25 @@ bool Renderable::canBatching(Renderable *oldstate)
             blendSrc==oldstate->blendSrc&&
             blendDst==oldstate->blendDst&&
             cullmode==oldstate->cullmode&&
-            color==oldstate->color;
+            getColor()==oldstate->getColor();
+}
+//get color
+Color Renderable::getParentColor() const
+{
+    //enable?
+    if(!colorCascade) return Color::WHITE;
+    //get object
+    if(!getObject()) return Color::WHITE;
+    //ptr to parent
+    const Object* parent = getObject()->getParent();
+    //exist parent?
+    if(!parent) return Color::WHITE;
+    //get component
+    const Renderable* rparent= parent->getComponent<Renderable>();
+    //exist component?
+    if(!rparent) return Color::WHITE;
+    //get parent
+    return rparent->getColor();
 }
 //get box
 AABox2 Renderable::getBox()
@@ -48,28 +67,21 @@ Mat4 Renderable::getModel()
     if (obj) return obj->getGlobalMatrix();
     else     return Mat4::IDENTITY;
 }
-//serialize/deserialize
-void Renderable::serialize(Table& table)
+
+//overload
+void Renderable::rsSerialize(Table& table)
 {
-    Table& rtable=table.createTable(getComponentName());
-    //serialize render state
-	rsSerialize(rtable);
-    //serialize renderable
-    if(getShader())
-		rtable.set("shader", getShader()->getName());
-    if(getTexture())
-		rtable.set("texture", getTexture()->getName());
-    if(getMesh())
-        rtable.set("mesh", getMesh()->getName());
+    RenderState::rsSerialize(table);
     //visible
-    rtable.set("visible", isVisible() ? "yes" : "no");
+    table.set("visible", isVisible() ? "yes" : "no");
     //batch
-    rtable.set("canBatch", getCanBatch() ? "yes" : "no");
+    table.set("canBatch", getCanBatch() ? "yes" : "no");
+    //color cascate
+    table.set("colorCascade", isEnableParentColor() ? "yes" : "no");
 }
-void Renderable::deserialize(const Table& table)
+void Renderable::rsDeserialize(const Table& table)
 {
-    //deserialize rander state
-    rsDeserialize(table);
+    RenderState::rsDeserialize(table);
     //deserialize renderable
     if (table.existsAsType("visible", Table::STRING))
     {
@@ -81,6 +93,29 @@ void Renderable::deserialize(const Table& table)
     {
         setCanBatch(table.getString("canBatch", getCanBatch() ? "yes" : "no") != "no");
     }
+    //color cascate
+    if (table.existsAsType("colorCascade", Table::STRING))
+    {
+        setEnableParentColor(table.getString("colorCascade", getCanBatch() ? "yes" : "no") != "no");
+    }
+}
+//serialize/deserialize
+void Renderable::serialize(Table& table)
+{
+    //serialize render state
+	rsSerialize(table);
+    //serialize renderable
+    if(getShader())
+		table.set("shader", getShader()->getName());
+    if(getTexture())
+		table.set("texture", getTexture()->getName());
+    if(getMesh())
+        table.set("mesh", getMesh()->getName());
+}
+void Renderable::deserialize(const Table& table)
+{
+    //deserialize rander state
+    rsDeserialize(table);
     //material
     if(table.existsAsType("shader",Table::STRING))
     {

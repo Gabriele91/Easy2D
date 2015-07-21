@@ -163,7 +163,6 @@
 		E054964817AE6907005DDB72 /* FrameSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960017AE6907005DDB72 /* FrameSet.cpp */; };
 		E054964917AE6907005DDB72 /* FreeTypeFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960117AE6907005DDB72 /* FreeTypeFontLoader.cpp */; };
 		E054964A17AE6907005DDB72 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960217AE6907005DDB72 /* Game.cpp */; };
-		E054964B17AE6907005DDB72 /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E054960417AE6907005DDB72 /* Image.h */; };
 		E054964C17AE6907005DDB72 /* lodepng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960617AE6907005DDB72 /* lodepng.cpp */; };
 		E054964D17AE6907005DDB72 /* lodepng.h in Headers */ = {isa = PBXBuildFile; fileRef = E054960717AE6907005DDB72 /* lodepng.h */; };
 		E054964E17AE6907005DDB72 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054960817AE6907005DDB72 /* Input.cpp */; };
@@ -563,7 +562,6 @@
 		E0980F1B1B04DE0F002C693D /* b2TimeStep.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA13D1AB9BDE300824182 /* b2TimeStep.h */; };
 		E0980F1C1B04DE0F002C693D /* Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = E05495B117AE68E8005DDB72 /* Utility.h */; };
 		E0980F1D1B04DE0F002C693D /* DirectoryDeltaTransfer.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1DD1AB9BDE300824182 /* DirectoryDeltaTransfer.h */; };
-		E0980F1E1B04DE0F002C693D /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E054960417AE6907005DDB72 /* Image.h */; };
 		E0980F1F1B04DE0F002C693D /* svotval.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1A81AB9BDE300824182 /* svotval.h */; };
 		E0980F201B04DE0F002C693D /* svpostnm.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1AA1AB9BDE300824182 /* svpostnm.h */; };
 		E0980F211B04DE0F002C693D /* ftotval.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1741AB9BDE300824182 /* ftotval.h */; };
@@ -703,7 +701,9 @@
 		E0AB0FC81ABC1DE90008EEC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */; };
 		E0AE8F2A1AB9D6170030BCB3 /* RefCountedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */; };
 		E0AE8F2B1AB9D6170030BCB3 /* RefStdCount.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */; };
+		E0B1BE241B58EA0E004F5EBD /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B1BE231B58EA0E004F5EBD /* Image.h */; };
 		E0B5835B19B1B6570001D40A /* Blend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0B5835A19B1B6570001D40A /* Blend.cpp */; };
+		E0BA0C471B54F12F00100F09 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
 		E0BE9FD61AB9BD6400824182 /* libRakNetLibStatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0BE9FD41AB9BD6400824182 /* libRakNetLibStatic.a */; };
 		E0BE9FD71AB9BD6400824182 /* libclua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0BE9FD51AB9BD6400824182 /* libclua.a */; };
 		E0BEA23E1AB9BDE400824182 /* Easy2DLua.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA1201AB9BDE300824182 /* Easy2DLua.h */; };
@@ -988,6 +988,8 @@
 		E0E51F3C1A1F87F2009D70F9 /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E51F391A1F87F2009D70F9 /* LuaBody.cpp */; };
 		E0E51F3F1A1F894D009D70F9 /* LuaRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E51F3E1A1F894D009D70F9 /* LuaRenderable.cpp */; };
 		E0E51F401A1F894D009D70F9 /* LuaRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E51F3E1A1F894D009D70F9 /* LuaRenderable.cpp */; };
+		E0F553FE1B52E3AD00362E52 /* TweenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E0F553FD1B52E3AD00362E52 /* TweenManager.h */; };
+		E0F553FF1B52E3AD00362E52 /* TweenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E0F553FD1B52E3AD00362E52 /* TweenManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1260,7 +1262,6 @@
 		E054960017AE6907005DDB72 /* FrameSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameSet.cpp; sourceTree = "<group>"; };
 		E054960117AE6907005DDB72 /* FreeTypeFontLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FreeTypeFontLoader.cpp; sourceTree = "<group>"; };
 		E054960217AE6907005DDB72 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
-		E054960417AE6907005DDB72 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		E054960617AE6907005DDB72 /* lodepng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
 		E054960717AE6907005DDB72 /* lodepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
 		E054960817AE6907005DDB72 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
@@ -1356,7 +1357,10 @@
 		E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefCountedPtr.h; sourceTree = "<group>"; };
 		E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefStdCount.h; sourceTree = "<group>"; };
+		E0B1BE231B58EA0E004F5EBD /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		E0B5835A19B1B6570001D40A /* Blend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blend.cpp; sourceTree = "<group>"; };
+		E0BA0C451B54F12F00100F09 /* TweenManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TweenManager.cpp; sourceTree = "<group>"; };
+		E0BA0C491B54F47E00100F09 /* Tweens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tweens.h; sourceTree = "<group>"; };
 		E0BE9FD41AB9BD6400824182 /* libRakNetLibStatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRakNetLibStatic.a; sourceTree = "<group>"; };
 		E0BE9FD51AB9BD6400824182 /* libclua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libclua.a; sourceTree = "<group>"; };
 		E0BEA1201AB9BDE300824182 /* Easy2DLua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Easy2DLua.h; sourceTree = "<group>"; };
@@ -1642,6 +1646,7 @@
 		E0DE20E319FF91F000B17A40 /* EAGLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EAGLViewController.mm; sourceTree = "<group>"; };
 		E0E51F391A1F87F2009D70F9 /* LuaBody.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaBody.cpp; sourceTree = "<group>"; };
 		E0E51F3E1A1F894D009D70F9 /* LuaRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaRenderable.cpp; sourceTree = "<group>"; };
+		E0F553FD1B52E3AD00362E52 /* TweenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweenManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2128,6 +2133,7 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E0B1BE221B58EA0E004F5EBD /* image */,
 				E085466C1B46D490008195A3 /* Mask.h */,
 				E085465C1B46D1F3008195A3 /* ui */,
 				E08546521B46D124008195A3 /* socket */,
@@ -2194,6 +2200,8 @@
 				E05495B017AE68E8005DDB72 /* Types.h */,
 				E05495B117AE68E8005DDB72 /* Utility.h */,
 				E003064519B38E76006911FD /* Shader.h */,
+				E0F553FD1B52E3AD00362E52 /* TweenManager.h */,
+				E0BA0C491B54F47E00100F09 /* Tweens.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -2278,6 +2286,7 @@
 				E0B5835A19B1B6570001D40A /* Blend.cpp */,
 				E003064719B39C5B006911FD /* Shader.cpp */,
 				E055ABAC19FFF56C00163AC4 /* Math3D_vfp_macro.h */,
+				E0BA0C451B54F12F00100F09 /* TweenManager.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -2296,7 +2305,6 @@
 			isa = PBXGroup;
 			children = (
 				E06134FD18AE670B00BD63EC /* Image.cpp */,
-				E054960417AE6907005DDB72 /* Image.h */,
 				E054960617AE6907005DDB72 /* lodepng.cpp */,
 				E054960717AE6907005DDB72 /* lodepng.h */,
 			);
@@ -2396,6 +2404,14 @@
 				E0A7196B17E1EE6200A0B298 /* libfreetype.a */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		E0B1BE221B58EA0E004F5EBD /* image */ = {
+			isa = PBXGroup;
+			children = (
+				E0B1BE231B58EA0E004F5EBD /* Image.h */,
+			);
+			path = image;
 			sourceTree = "<group>";
 		};
 		E0BEA11F1AB9BDE300824182 /* include */ = {
@@ -2958,6 +2974,7 @@
 				E0BEA28D1AB9BDE400824182 /* ftsizes.h in Headers */,
 				E08546611B46D1F3008195A3 /* UIManager.h in Headers */,
 				E05495DA17AE68E8005DDB72 /* RenderState.h in Headers */,
+				E0B1BE241B58EA0E004F5EBD /* Image.h in Headers */,
 				E0BEA28A1AB9BDE400824182 /* ftoutln.h in Headers */,
 				E0BEA3531AB9C41600824182 /* AiffLoader.h in Headers */,
 				E05495DB17AE68E8005DDB72 /* Resource.h in Headers */,
@@ -3046,7 +3063,6 @@
 				E0BEA2561AB9BDE400824182 /* b2TimeStep.h in Headers */,
 				E05495E417AE68E8005DDB72 /* Utility.h in Headers */,
 				E0BEA2EB1AB9BDE400824182 /* DirectoryDeltaTransfer.h in Headers */,
-				E054964B17AE6907005DDB72 /* Image.h in Headers */,
 				E0BEA2BA1AB9BDE400824182 /* svotval.h in Headers */,
 				E0BEA2BC1AB9BDE400824182 /* svpostnm.h in Headers */,
 				E0BEA2891AB9BDE400824182 /* ftotval.h in Headers */,
@@ -3150,6 +3166,7 @@
 				E0BEA3051AB9BDE400824182 /* EmailSender.h in Headers */,
 				E0BEA2631AB9BDE400824182 /* b2FrictionJoint.h in Headers */,
 				E0BEA2861AB9BDE400824182 /* ftmm.h in Headers */,
+				E0F553FE1B52E3AD00362E52 /* TweenManager.h in Headers */,
 				E0BEA2C51AB9BDE400824182 /* svxf86nm.h in Headers */,
 				E061350218AE671C00BD63EC /* Memory.h in Headers */,
 				E0AE8F2A1AB9D6170030BCB3 /* RefCountedPtr.h in Headers */,
@@ -3414,7 +3431,6 @@
 				E0980F1B1B04DE0F002C693D /* b2TimeStep.h in Headers */,
 				E0980F1C1B04DE0F002C693D /* Utility.h in Headers */,
 				E0980F1D1B04DE0F002C693D /* DirectoryDeltaTransfer.h in Headers */,
-				E0980F1E1B04DE0F002C693D /* Image.h in Headers */,
 				E0980F1F1B04DE0F002C693D /* svotval.h in Headers */,
 				E0980F201B04DE0F002C693D /* svpostnm.h in Headers */,
 				E0980F211B04DE0F002C693D /* ftotval.h in Headers */,
@@ -3518,6 +3534,7 @@
 				E0980F811B04DE0F002C693D /* EmailSender.h in Headers */,
 				E0980F821B04DE0F002C693D /* b2FrictionJoint.h in Headers */,
 				E0980F831B04DE0F002C693D /* ftmm.h in Headers */,
+				E0F553FF1B52E3AD00362E52 /* TweenManager.h in Headers */,
 				E0980F841B04DE0F002C693D /* svxf86nm.h in Headers */,
 				E0980F851B04DE0F002C693D /* Memory.h in Headers */,
 				E0980F861B04DE0F002C693D /* RefCountedPtr.h in Headers */,
@@ -3795,6 +3812,7 @@
 				E01E2CD618B35ECA00D048DD /* AudioAL.cpp in Sources */,
 				E089EAE817B2750E0055B59A /* Scene.cpp in Sources */,
 				E0BEA34F1AB9BE6A00824182 /* Speaker.cpp in Sources */,
+				E0BA0C471B54F12F00100F09 /* TweenManager.cpp in Sources */,
 				E064C21619BDE3FE00880CAF /* RenderContextOGL2.cpp in Sources */,
 				E0937D1D17B5483300DEFFCD /* State.cpp in Sources */,
 			);
@@ -3899,6 +3917,7 @@
 					"dependencies-osx64/include/**",
 					include/thread,
 					include/gui,
+					include/image/,
 					include/cocoa/,
 					include/script/,
 					include/audio/,
@@ -3930,6 +3949,7 @@
 					"dependencies-osx64/include/**",
 					include/thread,
 					include/gui,
+					include/image/,
 					include/cocoa/,
 					include/script/,
 					include/audio/,

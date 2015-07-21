@@ -345,6 +345,17 @@ bool Mesh::build(bool clearcpu)
 	//return status
 	return loaded;
 }
+//recompute the AABBox of the mesh
+void Mesh::recomputeAABox()
+{
+    //clear
+    box = AABox2();
+    //re-calc
+    for(size_t i=0; i!=sizeVertexs() ; ++i)
+    {
+        box.addPoint(getVertex2(i, 0));
+    }
+}
 //resource
 bool Mesh::load()
 {

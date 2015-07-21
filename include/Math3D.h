@@ -299,12 +299,13 @@ public:
     };
     DFORCEINLINE void abs()
     {
-        x=fabs(x);
-        y=fabs(y);
+        x=std::abs(x);
+        y=std::abs(y);
     }
     DFORCEINLINE Vector2D getAbs() const
     {
-        return Vector2D(fabs(x),fabs(y));
+        return Vector2D(std::abs(x),
+                        std::abs(y));
     }
     ///////////////////////////////////////////////////////////////////////////
     DFORCEINLINE float& operator [] (unsigned int i)
@@ -562,13 +563,15 @@ public:
     };
     DFORCEINLINE void abs()
     {
-        x=fabs(x);
-        y=fabs(y);
-        z=fabs(z);
+        x=std::abs(x);
+        y=std::abs(y);
+        z=std::abs(z);
     }
     DFORCEINLINE Vector3D getAbs() const
     {
-        return Vector3D(fabs(x),fabs(y), fabs(z));
+        return Vector3D(std::abs(x),
+                        std::abs(y),
+                        std::abs(z));
     }
     ///////////////////////////////////////////////////////////////////////////
     DFORCEINLINE float& operator [] (unsigned int i)
@@ -780,7 +783,8 @@ public:
 	Vector4D(float x, float y, const Vector2D& v) :x(x), y(y), z(v.x), w(v.y) {};
 	Vector4D(const Vector2D& v1, const Vector2D& v2) :x(v1.x), y(v1.y), z(v2.x), w(v2.y) {};
 
-	Vector4D(const Vector3D& v, float w) :x(v.x), y(v.y), z(v.z), w(w) {};
+    Vector4D(const Vector3D& v, float w) :x(v.x), y(v.y), z(v.z), w(w) {};
+    Vector4D(float x,const Vector3D& v)  :x(x), y(v.x), z(v.y), w(v.z) {};
     ~Vector4D() {};
     ///////////////////////////////////////////////////////////////////////////
     DFORCEINLINE Vec2 xy() const
@@ -877,14 +881,17 @@ public:
     };
     DFORCEINLINE void abs()
     {
-        x=fabs(x);
-        y=fabs(y);
-        z=fabs(z);
-        w=fabs(w);
+        x=std::abs(x);
+        y=std::abs(y);
+        z=std::abs(z);
+        w=std::abs(w);
     }
     DFORCEINLINE Vector4D getAbs()const
     {
-        return Vector4D(fabs(x),fabs(y), fabs(z), fabs(w));
+        return Vector4D(std::abs(x),
+                        std::abs(y),
+                        std::abs(z),
+                        std::abs(w));
     }
     ///////////////////////////////////////////////////////////////////////////
     DFORCEINLINE float& operator [] (unsigned int i)

@@ -393,13 +393,11 @@ class Emitter : public Renderable
     }
     Color getStartColor() const
     {
-        Color out; 
-        return out.fromNormalize(center.startColor);
+        return Color::normalized(center.startColor);
     }
     Color getStartColorVar() const
     {
-        Color out; 
-        return out.fromNormalize(var.startColor);
+        return Color::normalized(var.startColor);
     }
     void setEndColor(const Color& c)
     {
@@ -411,13 +409,11 @@ class Emitter : public Renderable
     }
     Color getEndColor() const
     {
-        Color out; 
-        return out.fromNormalize(center.endColor);
+        return Color::normalized(center.endColor);
     }
     Color getEndColorVar() const
     {
-        Color out; 
-        return out.fromNormalize(var.endColor);
+        return Color::normalized(var.endColor);
     }
     //spin
     void setStartSpin(Angle s)

@@ -3,6 +3,7 @@
 #include <Debug.h>
 #include <Application.h>
 #include <ResourcesManager.h>
+#include <ResourcesGroup.h>
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
@@ -31,6 +32,26 @@ Table::Table(const Table& cptable)
     for(auto it:cptable)
         table[it.first]=it.second->clone();
     //
+}
+
+Table::Table(const String& source)
+:Resource(NULL,"")
+,index(0)
+{
+    //unreload
+    reloadable=false;
+    //read string
+    deserialize(source);
+}
+
+Table::Table(const String& source,ResourcesGroup* rgroup)
+:Resource(&(rgroup->getManager<Table>()),"")
+,index(0)
+{
+    //unreload
+    reloadable=false;
+    //read string
+    deserialize(source);
 }
 
 Table::Table()

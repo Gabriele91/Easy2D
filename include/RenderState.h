@@ -45,11 +45,11 @@ public:
     //enable setting (no draw)
     void enableStates();
     //
-    void setColor(const Color& rcolor)
+    virtual void setColor(const Color& rcolor)
     {
         color=rcolor;
     }
-    const Color& getColor() const 
+    virtual Color getColor() const
     {
         return color;
     }
@@ -57,7 +57,7 @@ public:
     {
         rtexture=rtex;
     }
-    Texture::ptr getTexture()
+    Texture::ptr getTexture() const 
     {
         return rtexture;
     }
@@ -65,7 +65,7 @@ public:
     {
         rmesh=rm;
     }
-    Mesh::ptr getMesh()
+    Mesh::ptr getMesh() const
     {
         return rmesh;
     }
@@ -73,7 +73,7 @@ public:
     {
         rshader=rs;
     }
-    Shader::ptr getShader()
+    Shader::ptr getShader() const
     {
         return rshader;
     }
@@ -99,7 +99,7 @@ public:
     {
         return blendDst;
     }
-    bool getIsEnableBlend() const
+    bool isEnableBlend() const
     {
         return blending;
     }
@@ -115,14 +115,14 @@ public:
     //operators
     bool operator==(const RenderState& rs) const
     {
-        return rtexture==rs.rtexture &&
-               rmesh==rs.rmesh &&
-               rshader==rs.rshader &&
-               blending==rs.blending&&
-               blendSrc==rs.blendSrc&&
-               blendDst==rs.blendDst&&
-               cullmode==rs.cullmode&&
-               color==rs.color ;
+        return getTexture()      ==rs.getTexture() &&
+               getMesh()         ==rs.getMesh() &&
+               getShader()       ==rs.getShader() &&
+               isEnableBlend()   ==rs.isEnableBlend()&&
+               getBlendSrc()     ==rs.getBlendSrc()&&
+               getBlendDst()     ==rs.getBlendDst()&&
+               getCullFace()     ==rs.getCullFace()&&
+               getColor()        ==rs.getColor() ;
     }
     bool operator!=(const RenderState& rs) const
     {

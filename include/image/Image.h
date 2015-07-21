@@ -28,6 +28,8 @@
 **********************************************************************************/
 #include <string>
 #include <Config.h>
+#include <Color.h>
+#include <Math3D.h>
 #define IMAGE_LOADER_OPENGL
 
 #ifdef IMAGE_LOADER_OPENGL
@@ -58,57 +60,17 @@ public:
     {
         NONE,PNG,JPEG,TGA,BMP
     };
+    
     /* pixel structure */
-    struct rgba
-    {
-
-        unsigned char r,g,b,a;
-        rgba()
-        {
-            r=g=b=a=255;
-        }
-        rgba(unsigned char r, unsigned char g, unsigned char b, unsigned char a):r(r),g(g),b(b),a(a) {}
-        void setColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a)
-        {
-            this->r=r;
-            this->g=g;
-            this->b=b;
-            this->a=a;
-        }
-        rgba operator + (const rgba& v)
-        {
-            return (rgba(r+v.r,g+v.g,b+v.b,a+v.a));
-        }
-        rgba operator - (const rgba& v)
-        {
-            return (rgba(r-v.r,g-v.g,b-v.b,a-v.a));
-        }
-        operator const unsigned char* () const
-        {
-            return (const unsigned char*) this;
-        }
-        operator unsigned char* () const
-        {
-            return (unsigned char*) this;
-        }
-    };
+    typedef Color rgba;
+    
     /* data structure */
     typedef unsigned char BYTE;
+    
     /* vector */
-    struct float3
-    {
-        float x,y,z;
-        float3():x(0),y(0),z(0) {}
-        float3(float x,float y,float z):x(x),y(y),z(z) {}
-        void normalise()
-        {
-            float d=std::sqrt(x*x+y*y+z*z);
-            x/=d;
-            y/=d;
-            z/=d;
-        }
-    };
-
+    typedef  Vector3D float3;
+    
+    //fields
     unsigned long width;            ///< image width in pixels
     unsigned long height;           ///< image height in pixels
     unsigned int type;				///< OpenGL image type...

@@ -464,9 +464,9 @@ void LuaState::addEasy2DLib()
         .addCFunction("__tostring",(int (Color::*) (lua_State*))&LuaColor::__tostring)
         .addCFunction("__towatch",(int (Color::*) (lua_State*))&LuaColor::__towatch)
         .addFunction("toNormalize",&Color::toNormalize)
-        .addFunction("fromNormalize",&Color::fromNormalize)
+        .addFunction("fromNormalized",&Color::setFromNormalized)
         .addFunction("toVec4",&Color::toVec4)
-        .addFunction("fromVec4",&Color::fromVec4);
+        .addFunction("fromVec4",&Color::setFromVec4);
     
 	/** Component */
 	luabridge::getGlobalNamespace(luaVM)

@@ -84,7 +84,7 @@ Render::Render()
 {
     camera=nullptr;
     enableBatching=true;
-    enableClear=true;
+    enableClear=false;
     effects=nullptr;
 }
 //return batching mesh

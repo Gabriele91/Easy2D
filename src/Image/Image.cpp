@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <memory.h>
-#include "Image.h"
+#include <Image.h>
+#include <Types.h>
 #define LODEPNG_COMPILE_DECODER
 #include "lodepng.h"
 //using name space
@@ -46,28 +47,33 @@ ASPACKED(struct TgaHeader
 
 });
 /* BITMAP HEADERS */
+//bitmap types 
+#define  LONG  int
+#define ULONG  unsigned int
+#define SHORT  short
+#define USHORT unsigned short
 #define LOCAL_BI_RGB 0
 ASPACKED(struct  BitmapFileHeader
 {
-    unsigned short bfType;
-    unsigned long bfSize;
-    unsigned short bfReserved1;
-    unsigned short bfReserved2;
-    unsigned long bfOffBits;
+    USHORT bfType;
+    ULONG bfSize;
+    USHORT bfReserved1;
+    USHORT bfReserved2;
+    ULONG bfOffBits;
 });
 ASPACKED(struct  BitmapInfoHeader
 {
-    unsigned long biSize;
-    long  biWidth;
-    long  biHeight;
-    unsigned short  biPlanes;
-    unsigned short  biBitCount;
-    unsigned long biCompression;
-    unsigned long biSizeImage;
-    long  biXPelsPerMeter;
-    long  biYPelsPerMeter;
-    unsigned long biClrUsed;
-    unsigned long biClrImportant;
+    ULONG biSize;
+    LONG  biWidth;
+    LONG  biHeight;
+    USHORT  biPlanes;
+    USHORT  biBitCount;
+    ULONG biCompression;
+    ULONG biSizeImage;
+    LONG  biXPelsPerMeter;
+    LONG  biYPelsPerMeter;
+    ULONG biClrUsed;
+    ULONG biClrImportant;
 });
 /* ICO HEADERS */
 ASPACKED(struct  IcosHeader
@@ -343,7 +349,7 @@ Image::float3 GetNormal( float down, float up, float right, float left )
     n.y = (float)(down - up);
     //n.z = 2.0f;
     n.z = 1.0f;
-    n.normalise();
+    n.normalize();
     return n;
 }
 Image* Image::getNormalFromHeight(Image* in,float scale)

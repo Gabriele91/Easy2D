@@ -197,7 +197,7 @@ class FluidMesh : public Renderable
     }
     //build values
     void createGrid(const Vec2& size,const Vec2& spacing);
-    void setSizeLine(float size);
+    void setLineSize(float size);
     //ops
     void applyDirectedForce(const Vec3& force, const Vec3& position, float radius);
     void applyImplosiveForce(float force, const Vec3& position, float radius);
