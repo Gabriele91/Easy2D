@@ -3986,11 +3986,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"dependencies-iOS/include/**",
-					include/gui,
 					include/iOS/,
-					include/thread,
+					include/gui/,
+					include/ui/,
+					include/image/,
+					include/thread/,
 					include/script/,
 					include/audio/,
+					include/socket/,
 					include/,
 					./,
 					.,
@@ -4030,11 +4033,14 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"dependencies-iOS/include/**",
-					include/gui,
 					include/iOS/,
-					include/thread,
+					include/gui/,
+					include/ui/,
+					include/image/,
+					include/thread/,
 					include/script/,
 					include/audio/,
+					include/socket/,
 					include/,
 					./,
 					.,

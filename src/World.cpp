@@ -549,7 +549,7 @@ void World::setWeldJointAngle(uint jointId,Angle angle)
     if ( jointType != e_weldJoint )
     {
         DEBUG_MESSAGE_IF(1,"Warning: setWeldJointAngle, invalid joint type ");
-        return Angle::radian(0.0f);
+        return;
     }
     // get distance
     b2WeldJointTrick* realJoint = static_cast<b2WeldJointTrick*>( joint );
