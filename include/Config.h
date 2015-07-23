@@ -29,12 +29,27 @@
 
 
 #if defined(__ANDROID__)
+
 #define PLATFORM_ANDROID
 #define PLATFORM_UNIX
 #define DCPP_11
 #define DISABLE_VAOS
 #define OPENGL_ES
 #define DISABLE_MIDMAP //ALPHA COVERAGE BUGS
+
+//no sse in arm
+#ifdef ENABLE_SIMD
+    #undef ENABLE_SIMD
+    #define DISABLE_SIMD
+    #define DOVERRIDE_NEW_DEL
+
+    #ifdef __ARM_NEON__
+        #define ENABLE_NEON
+    #else
+        #define ENABLE_VFP
+    #endif
+#endif
+
 #include <stdint.h>
 #include <android/log.h>
 #include <android/native_activity.h>
@@ -42,10 +57,12 @@
 #include <android/OpenGLAndroid.h>
 #include <AL/al.h>
 #include <AL/alc.h>
+
 namespace Easy2D
 {
 int atexit(void (*function)(void));
 };
+
 #elif defined(_WIN32)
 #define PLATFORM_WINDOW
 #define DCPP_11
@@ -83,11 +100,16 @@ int atexit(void (*function)(void));
     #define PLATFORM_UNIX
     #include <OpenGLiOS.h>
 
-    //no sse in arm (nano, automatic)
+    //no sse in arm
     #ifdef ENABLE_SIMD
         #undef ENABLE_SIMD
         #define DISABLE_SIMD
         #define DOVERRIDE_NEW_DEL
+        #ifdef _ARM_ARCH_7
+            #define ENABLE_NEON
+            #else
+            #define ENABLE_VFP
+        #endif
     #endif
 
 #elif TARGET_IPHONE_SIMULATOR
@@ -314,7 +336,7 @@ namespace std
 #define DOVERRIDE_NEW_DEL
 #endif
 ////////////////////////////////////////////////////////
-#include <Memory.h>
+#include <MemoryAllocator.h>
 ////////////////////////////////////////////////////////
 
 //enable lua jit or lua

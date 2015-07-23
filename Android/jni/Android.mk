@@ -57,15 +57,43 @@ EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_THREAD)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_SCRIPT)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_SOCKET)/*.h)
 EASY2D_H+=$(wildcard $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)/*.h)
-#delete nano
-toRemove:= Math3D_neon.cpp
-EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
-#delete vfp
-toRemove:= Math3D_vfp.cpp
-EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
-#delete SSE2
-toRemove:= Math3D_SSE2.cpp
-EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+#remove no x86/arm files
+ifeq ($(APP_OPTIM),debug)
+		#delete nano
+		toRemove:= Math3D_neon.cpp
+		EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+		#delete vfp
+		toRemove:= Math3D_vfp.cpp
+		EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+		#delete SSE2
+		toRemove:= Math3D_SSE2.cpp
+		EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+else
+	ifeq ($(TARGET_ARCH_ABI),x86)
+		#delete nano
+		toRemove:= Math3D_neon.cpp
+		EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+		#delete vfp
+		toRemove:= Math3D_vfp.cpp
+		EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+	else
+		#type of arch neon
+		ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+			#delete vfp
+			toRemove:= Math3D_vfp.cpp
+			EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+		endif	
+		#type of arch vfp
+		ifeq ($(TARGET_ARCH_ABI),armeabi)
+			#delete nano
+			toRemove:= Math3D_neon.cpp
+			EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+		endif
+		#delete SSE2
+		toRemove:= Math3D_SSE2.cpp
+		EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
+	endif
+endif
 #delete WINDOW MUTEX
 toRemove:= thread/MutexWin32.cpp
 EASY2D_CPP:= $(subst $(toRemove),$(empty),$(EASY2D_CPP))
@@ -90,9 +118,12 @@ LOCAL_C_INCLUDES:=$(LOCAL_PATH)/$(DIP_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(EASY2D_PATH)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_GUI)\
+                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_UI)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_AUDIO)\
+                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_IMAGE)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_THREAD)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_SCRIPT)\
+                  $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_SOCKET)\
                   $(LOCAL_PATH)/$(EASY2D_PATH_INCLUDE_ANDROID)		  
 #files
 LOCAL_SRC_FILES:=$(GLUE_C:$(LOCAL_PATH)/%=%)
@@ -117,14 +148,29 @@ LOCAL_SRC_FILES+=$(EASY2D_CPP:$(LOCAL_PATH)/%=%)
 #OpenGL extra propriety
 LOCAL_CFLAGS += -D__STDC_LIMIT_MACROS -DDEF_SET_OPENGL_ES2 -DGL_GLEXT_PROTOTYPES
 #easy2d extra propriety
-LOCAL_CFLAGS += -DDISABLE_SIMD -DORDERED_TABLE -DDISABLE_FORCE_INLINE -DUSE_LUA -DENABLE_STREAM_BUFFER -D_DEBUG
+LOCAL_CFLAGS += -DORDERED_TABLE -DDISABLE_FORCE_INLINE -DUSE_LUA -DENABLE_STREAM_BUFFER
 #-std=c++11
-LOCAL_CPPFLAGS  += -std=gnu++11 -frtti -fexceptions -DDISABLE_FORCE_INLINE
-#debug
-#LOCAL_CFLAGS += -g -ggdb 
-#release
-LOCAL_CFLAGS += -ffast-math -O3 -Wno-psabi 
+LOCAL_CPPFLAGS += -std=c++14 -frtti -fexceptions -DDISABLE_FORCE_INLINE
 
+ifeq ($(APP_OPTIM),debug)
+	#debug
+	LOCAL_CFLAGS += -g -ggdb 
+	LOCAL_CFLAGS += -D_DEBUG
+	LOCAL_CFLAGS += -DDISABLE_SIMD
+else
+	#release
+	LOCAL_CFLAGS += -ffast-math -O3 -Wno-psabi 
+	LOCAL_CFLAGS += -D_DEBUG
+	LOCAL_CFLAGS += -DENABLE_SIMD
+	#type of arch neon
+	ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
+		LOCAL_CFLAGS   += -mfpu=neon -mfloat-abi=softfp
+	endif	
+	#type of arch vfp
+	ifeq ($(TARGET_ARCH_ABI),armeabi)
+		LOCAL_CFLAGS   += -mfpu=vfp -mfloat-abi=softfp -mcpu=cortex-m3
+	endif
+endif
 ######################################################################
 include $(BUILD_STATIC_LIBRARY)
 ######################################################################

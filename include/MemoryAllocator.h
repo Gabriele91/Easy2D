@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Gabriele Di Bari. All rights reserved.
 //
 
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef MEMORYALLOCATOR_H
+#define MEMORYALLOCATOR_H
 
 #include <Config.h>
 

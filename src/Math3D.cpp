@@ -707,16 +707,13 @@ float Matrix4x4::getDeterminant() const
 }
 Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const
 {
-
-#if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
+#if defined( ENABLE_NEON )
     Matrix4x4 out_m4x4;
-
-    #ifdef _ARM_ARCH_7
-        NEON_Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
-    #else
-        Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
-    #endif
-
+    NEON_Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
+    return out_m4x4;
+#elif defined( ENABLE_VFP )
+    Matrix4x4 out_m4x4;
+    Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
     return out_m4x4;
 #elif defined( SIMD_SSE2 )
     Matrix4x4 out_m4x4;
@@ -745,17 +742,13 @@ Matrix4x4 Matrix4x4::mul(const Matrix4x4 &m4x4) const
 }
 Matrix4x4 Matrix4x4::mul2D(const Matrix4x4 &m4x4) const
 {
-
-
-#if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
+#if defined( ENABLE_NEON )
     Matrix4x4 out_m4x4;
-
-    #ifdef _ARM_ARCH_7
-        NEON_Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
-    #else
-        Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
-    #endif
-
+    NEON_Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
+    return out_m4x4;
+#elif defined( ENABLE_VFP )
+    Matrix4x4 out_m4x4;
+    Matrix4Mul( this->entries ,m4x4.entries, out_m4x4.entries);
     return out_m4x4;
 #elif defined( SIMD_SSE2 )
     Matrix4x4 out_m4x4;
@@ -805,22 +798,16 @@ Matrix4x4 Matrix4x4::mul2D(const Matrix4x4 &m4x4) const
 }
 Vector4D Matrix4x4::mul(const Vector4D &v4) const
 {
-#if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
+
     Vector4D out;
 
-    #ifdef _ARM_ARCH_7
-        NEON_Matrix4Vector4Mul( this->entries, &v4.x, &out.x );
-    #else
-        Matrix4Vector4Mul(this->entries,&v4.x,&out.x);
-    #endif
-
+#if defined( ENABLE_NEON )
+    NEON_Matrix4Vector4Mul( this->entries, &v4.x, &out.x );
+#elif defined( ENABLE_VFP )
+    Matrix4Vector4Mul(this->entries,&v4.x,&out.x);
 #elif defined( SIMD_SSE2 )
-    Vector4D out;
     out.row=SSE2_lincomb(v4.row,*this);
-
 #else
-    Vector4D out;
-
     out.x=entries[0] * v4.x + entries[4] * v4.y + entries[8]  * v4.z + entries[12] * v4.w;
     out.y=entries[1] * v4.x + entries[5] * v4.y + entries[9]  * v4.z + entries[13] * v4.w;
     out.z=entries[2] * v4.x + entries[6] * v4.y + entries[10] * v4.z + entries[14] * v4.w;
@@ -839,23 +826,14 @@ Vector2D Matrix4x4::mul2D(const Vector2D &v2) const
 
 void Matrix4x4::inverse()
 {
-#if 0 //(TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
-    Matrix4Invert(&(this->entries[0]),&(this->entries[0]));
-
-#elif defined( SIMD_SSE2 )
+#if defined( SIMD_SSE2 )
     SSE2_Matrix4Inv(*this);
-
 #else
     gluInvertMatrix(&(this->entries[0]),&(this->entries[0]));
-
 #endif
 }
 void Matrix4x4::inverse2D()
 {
-#if 0 //(TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
-    Matrix4Invert(&(this->entries[0]),&(this->entries[0]));
-
-#else
     float det=entries[0]*entries[5]-entries[1]*entries[4];
     float tmp_entries_0=entries[0];
 
@@ -866,23 +844,15 @@ void Matrix4x4::inverse2D()
 
     entries[12]= (-(entries[0]*entries[12]))-entries[4]*entries[13];
     entries[13]= (-(entries[1]*entries[12]))-entries[5]*entries[13];
-
-#endif
 }
 Matrix4x4 Matrix4x4::getInverse() const
 {
-#if 0 //(TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
-    Matrix4x4 out;
-    Matrix4Invert(&(entries[0]),&(out.entries[0]));
-
-#elif defined( SIMD_SSE2 )
+#if defined( SIMD_SSE2 )
     Matrix4x4 out(*this);
     SSE2_Matrix4Inv(out);
-
 #else
     Matrix4x4 out;
     gluInvertMatrix(&(entries[0]),&(out.entries[0]));
-
 #endif
     return out;
 }

@@ -5,7 +5,7 @@
 #include <Application.h>
 #include <RenderContext.h>
 #define IMAGE_LOADER_OPENGL
-#include "Image/Image.h"
+#include <Image.h>
 
 using namespace Easy2D;
 

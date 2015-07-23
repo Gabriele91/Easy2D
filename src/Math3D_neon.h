@@ -1,20 +1,7 @@
 #ifndef MATH3D_NEON_H
 #define MATH3D_NEON_H
 
-
-#if defined( __arm__ ) || defined(_ARM) || defined(_M_ARM)
-    #ifndef _ARC_ARM_
-        #define _ARC_ARM_
-        #include <arm/arch.h>
-    #endif
-#endif
-
-#if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
-
-
-#ifdef _ARM_ARCH_7
-
-
+#ifdef ENABLE_NEON
 // Note asm is taken from reader "Jeff" post Wolfgang's blog:
 // https://www.blogger.com/comment.g?blogID=398682525365778708&postID=7527893703750196380&page=1
 inline void NEON_Matrix4Mul(const float* a, const float* b, float* output )
@@ -87,7 +74,5 @@ inline void NEON_Matrix4Vector4Mul(const float* m, const float* v, float* output
 }
 
 #endif
-#endif
-
 #endif
 

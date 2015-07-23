@@ -44,11 +44,11 @@
     #define  OPENGL_ES2
 
     #ifndef GL_STACK_OVERFLOW
-        #define GL_STACK_OVERFLOW 0xffffffff
+        #define GL_STACK_OVERFLOW ((GLint)0xffffffff)
     #endif
 
     #ifndef GL_STACK_UNDERFLOW
-        #define GL_STACK_UNDERFLOW 0xfffffffe
+        #define GL_STACK_UNDERFLOW ((GLint)0xfffffffe)
     #endif
 
 #endif

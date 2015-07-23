@@ -1,16 +1,18 @@
-#include <TargetConditionals.h>
+#include <Config.h>
+#ifdef PLATFORM_IOS
+    #include <TargetConditionals.h>
+#endif
 #include "Math3D_vfp_macro.h"
 #include "Math3D_vfp.h"
-#include <Config.h>
 
-#if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
-
+#ifdef ENABLE_VFP
+    /*THUMB MODE*/
     #define NO_THUMB
     /*MACRO ASM*/
     #ifndef NO_THUMB
-    #warning "Compiling in Thumb Mode. Mode switches activated."
+        #warning "Compiling in Thumb Mode. Mode switches activated."
     #else
-    #warning "Compiling in ARM mode. Mode switches deactivated."
+        #warning "Compiling in ARM mode. Mode switches deactivated."
     #endif
 
     // Switches to from THUMB to ARM mode.

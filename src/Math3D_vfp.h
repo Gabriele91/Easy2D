@@ -1,14 +1,7 @@
 #ifndef MATH3D_VFP_H
 #define MATH3D_VFP_H
 
-#if defined( __arm__ ) || defined(_ARM) || defined(_M_ARM)
-    #ifndef _ARC_ARM_
-        #define _ARC_ARM_
-        #include <arm/arch.h>
-    #endif
-#endif
-
-#if (TARGET_IPHONE_SIMULATOR == 0) && (TARGET_OS_IPHONE == 1) && defined(_ARC_ARM_)
+#ifdef ENABLE_VFP
 // Multiplies two 4x4 matrices.
 extern void Matrix4Mul(const float* src_mat_1, const float* src_mat_2, float* dst_ptr);
 // Multiplies a 4x4 matrix with a 4-dim. vector.

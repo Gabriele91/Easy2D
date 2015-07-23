@@ -271,7 +271,7 @@ void Body::ShapeDef::buildShape(float metersUnit)
             //update vertex
             for(auto& p:points) p=p PTM_RATIO;
             //set vertexs
-            shape->Set((b2Vec2*)&points[0], points.size());
+            shape->Set((b2Vec2*)&points[0], (uint)points.size());
                 
             fixature.shape=shape;
         }
@@ -282,7 +282,7 @@ void Body::ShapeDef::buildShape(float metersUnit)
             //update vertex
             for(auto& p:points) p=p PTM_RATIO;
             //set vertexs
-            shape->CreateChain((b2Vec2*)&points[0], points.size());
+            shape->CreateChain((b2Vec2*)&points[0], (uint)points.size());
             
             if((flags & 0x01) != 0)
                 shape->SetPrevVertex(cast(prev PTM_RATIO));
