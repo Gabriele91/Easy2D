@@ -5,7 +5,7 @@ APP_PLATFORM := android-10
 #gcc version
 #NDK_TOOLCHAIN_VERSION=4.9
 #clang
-NDK_TOOLCHAIN_VERSION := clang
+NDK_TOOLCHAIN_VERSION := clang3.6
 
 ifeq ($(APP_DEBUG), true)
   APP_OPTIM := debug

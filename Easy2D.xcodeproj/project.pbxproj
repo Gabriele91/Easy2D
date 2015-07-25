@@ -53,7 +53,7 @@
 		E0398A0C19FBFBD900079232 /* EStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634618AFB0D200A26E40 /* EStack.cpp */; };
 		E0398A0D19FBFBD900079232 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08C634718AFB0D200A26E40 /* Sound.cpp */; };
 		E0398A0E19FBFBD900079232 /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134F918AE670000BD63EC /* Audio.cpp */; };
-		E0398A0F19FBFBD900079232 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* Memory.cpp */; };
+		E0398A0F19FBFBD900079232 /* MemoryAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* MemoryAllocator.cpp */; };
 		E0398A1019FBFBD900079232 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
 		E0398A1119FBFBD900079232 /* AnimatedSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495F217AE6907005DDB72 /* AnimatedSprite.cpp */; };
 		E0398A1219FBFBD900079232 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495F317AE6907005DDB72 /* Application.cpp */; };
@@ -181,7 +181,7 @@
 		E054966C17AE6907005DDB72 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054962C17AE6907005DDB72 /* Utility.cpp */; };
 		E055ABAB19FFF4A700163AC4 /* Math3D_vfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E055ABA919FFF4A700163AC4 /* Math3D_vfp.cpp */; };
 		E06134FB18AE670000BD63EC /* Audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134F918AE670000BD63EC /* Audio.cpp */; };
-		E06134FC18AE670000BD63EC /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* Memory.cpp */; };
+		E06134FC18AE670000BD63EC /* MemoryAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* MemoryAllocator.cpp */; };
 		E061350118AE671C00BD63EC /* Audio.h in Headers */ = {isa = PBXBuildFile; fileRef = E06134FF18AE671C00BD63EC /* Audio.h */; };
 		E061350218AE671C00BD63EC /* MemoryAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = E061350018AE671C00BD63EC /* MemoryAllocator.h */; };
 		E061350418AE675300BD63EC /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E061350318AE675300BD63EC /* OpenAL.framework */; };
@@ -252,7 +252,7 @@
 		E0980DE81B04DE0F002C693D /* CocoaInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = E05495F817AE6907005DDB72 /* CocoaInput.mm */; };
 		E0980DE91B04DE0F002C693D /* BatchingMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06FB1C8197CEA1B00239DA6 /* BatchingMesh.cpp */; };
 		E0980DEA1B04DE0F002C693D /* LuaBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0E51F391A1F87F2009D70F9 /* LuaBody.cpp */; };
-		E0980DEB1B04DE0F002C693D /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* Memory.cpp */; };
+		E0980DEB1B04DE0F002C693D /* MemoryAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E06134FA18AE670000BD63EC /* MemoryAllocator.cpp */; };
 		E0980DEC1B04DE0F002C693D /* CocoaScreen.mm in Sources */ = {isa = PBXBuildFile; fileRef = E05495F917AE6907005DDB72 /* CocoaScreen.mm */; };
 		E0980DED1B04DE0F002C693D /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E05495FA17AE6907005DDB72 /* Color.cpp */; };
 		E0980DEE1B04DE0F002C693D /* Panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A1AE5B1946EE8500D1438A /* Panel.cpp */; };
@@ -1285,7 +1285,7 @@
 		E055ABAA19FFF4A700163AC4 /* Math3D_vfp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math3D_vfp.h; sourceTree = "<group>"; };
 		E055ABAC19FFF56C00163AC4 /* Math3D_vfp_macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math3D_vfp_macro.h; sourceTree = "<group>"; };
 		E06134F918AE670000BD63EC /* Audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Audio.cpp; sourceTree = "<group>"; };
-		E06134FA18AE670000BD63EC /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		E06134FA18AE670000BD63EC /* MemoryAllocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryAllocator.cpp; sourceTree = "<group>"; };
 		E06134FF18AE671C00BD63EC /* Audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Audio.h; sourceTree = "<group>"; };
 		E061350018AE671C00BD63EC /* MemoryAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryAllocator.h; sourceTree = "<group>"; };
 		E061350318AE675300BD63EC /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
@@ -2248,7 +2248,7 @@
 				E08C634618AFB0D200A26E40 /* EStack.cpp */,
 				E08C634718AFB0D200A26E40 /* Sound.cpp */,
 				E06134F918AE670000BD63EC /* Audio.cpp */,
-				E06134FA18AE670000BD63EC /* Memory.cpp */,
+				E06134FA18AE670000BD63EC /* MemoryAllocator.cpp */,
 				E089EAE617B2750E0055B59A /* Scene.cpp */,
 				E05495F217AE6907005DDB72 /* AnimatedSprite.cpp */,
 				E05495F317AE6907005DDB72 /* Application.cpp */,
@@ -3726,7 +3726,7 @@
 				E085466A1B46D44F008195A3 /* UIManager.cpp in Sources */,
 				E0D6185A19FD074300695A70 /* AppDelegate.mm in Sources */,
 				E0398A0619FBFBD900079232 /* ParticleSystem.cpp in Sources */,
-				E0398A0F19FBFBD900079232 /* Memory.cpp in Sources */,
+				E0398A0F19FBFBD900079232 /* MemoryAllocator.cpp in Sources */,
 				E0398A2C19FBFBD900079232 /* Timer.cpp in Sources */,
 				E0398A1B19FBFBD900079232 /* FrameSet.cpp in Sources */,
 				E0398A0D19FBFBD900079232 /* Sound.cpp in Sources */,
@@ -3749,7 +3749,7 @@
 				E0EAFEE41B5F8007007DB4F3 /* lodepng.cpp in Sources */,
 				E06FB1CE197CEA1B00239DA6 /* BatchingMesh.cpp in Sources */,
 				E0E51F3B1A1F87F2009D70F9 /* LuaBody.cpp in Sources */,
-				E06134FC18AE670000BD63EC /* Memory.cpp in Sources */,
+				E06134FC18AE670000BD63EC /* MemoryAllocator.cpp in Sources */,
 				E054964117AE6907005DDB72 /* CocoaScreen.mm in Sources */,
 				E054964217AE6907005DDB72 /* Color.cpp in Sources */,
 				E0A1AE5F1946EE8500D1438A /* Panel.cpp in Sources */,
@@ -3833,7 +3833,7 @@
 				E0980DE81B04DE0F002C693D /* CocoaInput.mm in Sources */,
 				E0980DE91B04DE0F002C693D /* BatchingMesh.cpp in Sources */,
 				E0980DEA1B04DE0F002C693D /* LuaBody.cpp in Sources */,
-				E0980DEB1B04DE0F002C693D /* Memory.cpp in Sources */,
+				E0980DEB1B04DE0F002C693D /* MemoryAllocator.cpp in Sources */,
 				E0980DEC1B04DE0F002C693D /* CocoaScreen.mm in Sources */,
 				E0980DED1B04DE0F002C693D /* Color.cpp in Sources */,
 				E0980DEE1B04DE0F002C693D /* Panel.cpp in Sources */,

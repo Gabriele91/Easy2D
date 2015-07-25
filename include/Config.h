@@ -58,11 +58,6 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-namespace Easy2D
-{
-int atexit(void (*function)(void));
-};
-
 #elif defined(_WIN32)
 #define PLATFORM_WINDOW
 #define DCPP_11
@@ -338,7 +333,11 @@ namespace std
 ////////////////////////////////////////////////////////
 #include <MemoryAllocator.h>
 ////////////////////////////////////////////////////////
-
+namespace Easy2D
+{
+    int atexit(void (*function)(void));
+};
+////////////////////////////////////////////////////////
 //enable lua jit or lua
 #if !defined(USE_LUA) &&  !defined(USE_LUA_JIT)
     #error "must to be define USE_LUA or USE_LUA_JIT"

@@ -29,10 +29,23 @@ void Debug::breakpoint()
 #error unsupported platform
 #endif
 }
+
+#if defined( PLATFORM_ANDROID )
+namespace Easy2D
+{
+    extern std::ostream* getAndroidOuputStream();
+}
+std::ostream&  Debug::message()
+{
+    return *getAndroidOuputStream();
+}
+#else
 std::ostream&  Debug::message()
 {
     return std::cout;
 }
+#endif
+
 void Debug::gpucheckerrors(const char* fileSource,int line)
 {
 

@@ -115,13 +115,33 @@ androidbuf<charT, traits>::sync()
     return traits_type::eq_int_type(this->overflow(traits_type::eof()),
                                     traits_type::eof()) ? -1 : 0;
 }
+
+//ouput buffer
+namespace Easy2D
+{
+    extern androidbuf<char>* getAndroidOuputBuffer()
+    {
+        static androidbuf<char> ouputBuffer;
+        return &ouputBuffer;
+    }
+    extern std::ostream* getAndroidOuputStream()
+    {
+        static std::ostream ouputStream(getAndroidOuputBuffer());
+        return &ouputStream;
+    }
+}
+//C Functions used in AndroidMain.c
 extern "C" void overloadSTDCOUT()
 {
-    std::cout.rdbuf(new androidbuf<char>());
+#ifdef ANDROID_OVERLOAD_STDOUT
+    std::cout.rdbuf(Easy2D::getAndroidOuputBuffer());
+#endif
 }
 extern "C" void unoverloadSTDCOUT()
 {
+#ifdef ANDROID_OVERLOAD_STDOUT
     delete std::cout.rdbuf(0);
+#endif
 }
 
 

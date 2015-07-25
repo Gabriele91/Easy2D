@@ -1,16 +1,21 @@
 #include <stdafx.h>
 #include <Config.h>
+//ANDROID
 #ifdef PLATFORM_ANDROID
-//POSIX
-extern "C" int __cxa_atexit(void (*func) (void *), void * arg, void * dso_handle);
-//WAPPER
-static void wrapperAtexit (void* arg)
+typedef void (*AtExitFnPtr)(void);
+static AtExitFnPtr atExitFnPtr =  nullptr;
+extern "C" void callatexitANDROID()
 {
-    ((void (*)(void))arg)();
+    if(atExitFnPtr) atExitFnPtr();
 }
+#endif
 //function
 int Easy2D::atexit(void (*function)(void))
 {
-    __cxa_atexit(wrapperAtexit,(void*)function,NULL);
-}
+#ifdef PLATFORM_ANDROID
+    atExitFnPtr = function;
+    return 1;
+#else
+    return atexit(function);
 #endif
+}

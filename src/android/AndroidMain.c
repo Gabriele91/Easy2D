@@ -360,6 +360,7 @@ extern void updateInputAndroid(){
 extern int main(int argc, char *argv[]);
 extern void overloadSTDCOUT();
 extern void unoverloadSTDCOUT();
+extern void callatexitANDROID();
 /*********************************
 Java Thread
 **********************************/
@@ -480,9 +481,10 @@ extern void android_main(struct android_app* state) {
     argv[0] = strdup("Easy2D");
     argv[1] = NULL;
     int out=main(1, argv);
+    //call atexit
+    callatexitANDROID();
 	//deattach java thread
-	deattachToAndroidThreadJava();	
+	deattachToAndroidThreadJava();
 	//disable COUT 
 	unoverloadSTDCOUT();
-
 }

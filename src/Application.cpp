@@ -160,7 +160,7 @@ Application *Application::create(const String& name,Application* implementation)
         appSingleton=implementation;
     }
     //registration delete at exit
-    atexit(Application::release);
+    Easy2D::atexit(Application::release);
     //
     return appSingleton;
 }
