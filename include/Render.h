@@ -209,6 +209,12 @@ public:
     Object* queuePicking(const Vec2& point) const;
     void aabox2Draw() const;
     ///////////////////////////////////////////////////
+    //rebuild queue render target (call it when screen will be resize)
+    void rebuildPostEffectTarget()
+    {
+        queue->rebuildTarget();
+    }
+    ///////////////////////////////////////////////////
     size_t queueSize()
     {
         return queue->size();

@@ -34,6 +34,8 @@ public:
 	{
 		return target;
     }
+    //rebuilt target texture (screen resize)
+    void rebuildTarget();
     //draw
     void draw() const;
     //draw

@@ -81,7 +81,28 @@ public:
     * return if fullscreen is enable return true
     */
     virtual bool isFullscreen();
-
+    /**
+    * return info about frames per seconds
+    */
+    uint getDefaultFrame() const
+    {
+        return defaultFrame;
+    }
+    /**
+    * return info about anti aliasing
+    */
+    Screen::AntiAliasing getDefaultAA() const
+    {
+        return typeAA;
+    }
+    /**
+    * return info about default buffers
+    */
+    Screen::TypeBuffers getDefaultBuffers() const
+    {
+        return typeBuffers;
+    }
+    
 protected:
 
     /**
@@ -102,6 +123,11 @@ protected:
     //datas:
     void *eaglView;
     void *eaglViewController;
+    
+    //info screen
+    uint defaultFrame;
+    Screen::TypeBuffers typeBuffers;
+    Screen::AntiAliasing typeAA;
     
     //friends class
     friend class AppiOS;

@@ -237,6 +237,10 @@ void Image::save(const std::string& path)
     {
         save_TGA(this,path);
     }
+    else if(type==Image::PNG)
+    {
+        save_PNG(this,path);
+    }
 
 }
 //cancella
@@ -982,15 +986,15 @@ void Image::saveBuffer_BMP(Image* img,BYTE*& buffer,size_t& bfsize)
     bmfh->bfReserved1 = 0;
     bmfh->bfReserved2 = 0;
     bmfh->bfOffBits   = sizeof(BitmapFileHeader)+sizeof(BitmapInfoHeader); //size hader
-    bmfh->bfSize      = bfsize;
+    bmfh->bfSize      = (ULONG)bfsize;
     //write bitmap header
     bmih->biSize          = sizeof(BitmapInfoHeader); //size header info
-    bmih->biHeight        = img->height;
-    bmih->biWidth         = img->width;
+    bmih->biHeight        = (ULONG)img->height;
+    bmih->biWidth         = (ULONG)img->width;
     bmih->biPlanes        = 1;
     bmih->biCompression   = LOCAL_BI_RGB; //IS RGB (No Compression)
     bmih->biBitCount	  = img->channels * 8 ; //pixel format (24, or 32)
-    bmih->biSizeImage     = imgSize;
+    bmih->biSizeImage     = (ULONG)imgSize;
     bmih->biXPelsPerMeter = 3780;
     bmih->biYPelsPerMeter = 3780;
     bmih->biClrUsed       = 0;
@@ -1008,8 +1012,8 @@ void Image::save_BMP(Image* img,const std::string& path)
     pfile = fopen(path.c_str(), "wb");
     if(pfile)
     {
-        BYTE* buffer;
-        size_t bfsize;
+        BYTE* buffer = nullptr;
+        size_t bfsize= 0;
         saveBuffer_BMP(img,buffer,bfsize);
         fwrite(buffer,bfsize,1,pfile);
         free(buffer);
@@ -1051,4 +1055,33 @@ void Image::load_PNG(Image* img,const std::string& path)
         loadBuffer_PNG(img,buffer,lengfile);
         free(buffer);
     }
+}
+//save png image
+void Image::saveBuffer_PNG(Image* img,Image::BYTE*& buffer,size_t& bfsize)
+{
+    if(img->channels == 4)
+    {
+        lodepng_encode32(&buffer,&bfsize,img->bytes,(uint)img->width,(uint)img->height);
+    }
+    else if (img->channels == 3)
+    {
+        lodepng_encode24(&buffer,&bfsize,img->bytes,(uint)img->width,(uint)img->height);
+    }
+}
+void Image::save_PNG(Image* img,const std::string& path)
+{
+    
+    ////////////////////////////////
+    FILE *pfile;
+    pfile = fopen(path.c_str(), "wb");
+    if(pfile)
+    {
+        BYTE* buffer = nullptr;
+        size_t bfsize= 0;
+        saveBuffer_PNG(img,buffer,bfsize);
+        if(bfsize) fwrite(buffer,bfsize,1,pfile);
+        if(buffer) free(buffer);
+        fclose(pfile);
+    }
+    ////////////////////////////////
 }

@@ -23,6 +23,21 @@ RenderQueue::~RenderQueue()
 	RenderContext::deleteRenderTarget(target);
 	RenderContext::deleteTexture(target.color);
 }
+//rebuild the queue target (screen resize)
+void RenderQueue::rebuildTarget()
+{
+    //delete last target
+    RenderContext::deleteRenderTarget(target);
+    RenderContext::deleteTexture(target.color);
+    //get screen size
+    Vec2 screenSize = Application::instance()->getScreen()->getSize();
+    //create render target buffer
+    target.color = RenderContext::createTexture(GL_RGBA, GL_RGBA, screenSize.x, screenSize.y, 0, false);
+    RenderContext::filterTexture(GL_LINEAR, GL_LINEAR);
+    RenderContext::wrapTexture(GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE);
+    //create render target
+    target = RenderContext::createRenderTarget(target.color);
+}
 //append objects to queue
 void RenderQueue::append(DFUNCTION<bool(const AABox2&)> filter, Object* obj)
 {

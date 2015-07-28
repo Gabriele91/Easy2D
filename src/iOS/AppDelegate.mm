@@ -25,15 +25,18 @@ using namespace Easy2D;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //scree bounds
-    CGRect screenBounds=[[UIScreen mainScreen] bounds];
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize  = [[[UIScreen mainScreen] currentMode] size];
+    //bound gl
+    CGRect glBound; glBound.size = screenSize;
     //alloc window
-    window = [[UIWindow alloc] initWithFrame: screenBounds];
+    window = [[UIWindow alloc] initWithFrame: screenBound];
     //controller
     glViewController=[[[EAGLViewController alloc] init] autorelease];
     //view controller //input to do
     window.rootViewController = glViewController;
     //alloc view
-    glView=[[EAGLView alloc]  initWithFrame: screenBounds];
+    glView=[[EAGLView alloc]  initWithFrame: screenBound];
     //set view
     [glViewController setView:glView];
     [window addSubview: glView];
@@ -41,8 +44,6 @@ using namespace Easy2D;
     [window makeKeyAndVisible];
     //set ui application delegate
     ((AppiOS*)Application::instance())->setUIApplicationDelegate(self);
-    //init framerate
-    glView.animationInterval = 1.0 / 60.0;
     //create buffers
     [glView createFramebuffer];
     //init game
@@ -63,21 +64,18 @@ using namespace Easy2D;
 
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return UIInterfaceOrientationMaskAll;
-    else  /* iphone */
-        return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    glView.animationInterval = 1.0 / 5.0;
+    [glView setAnimationInterval:(1.0f / 2.0f)];
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    glView.animationInterval = 1.0 / 60.0;
+    [glView resetDefaultAnimationInterval];
 }
 
 

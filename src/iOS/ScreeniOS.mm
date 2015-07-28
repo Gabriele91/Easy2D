@@ -34,8 +34,12 @@ void ScreeniOS::createWindow(const char* argappname,
                               TypeBuffers type,
                               AntiAliasing dfAA)
 {
+    //seve info
+    defaultFrame = freamPerSecond;
+    typeBuffers  = type;
+    typeAA       = dfAA;
     //set time intervall
-    [view setAnimationInterval:1.0f/freamPerSecond];
+    [view setAnimationInterval:1.0f/defaultFrame];
 }
 /**
 * close window
@@ -64,14 +68,14 @@ void ScreeniOS::setFullscreen(bool argfullscreen)
 */
 uint ScreeniOS::getWidth()
 {
-    return [view getWidth];
+    return [controller getWidth];
 }
 /**
 * return screen height
 */
 uint ScreeniOS::getHeight()
 {
-    return [view getHeight];
+    return [controller getHeight];
 }
 /**
 * return screen native width

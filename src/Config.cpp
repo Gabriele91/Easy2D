@@ -3,19 +3,22 @@
 //ANDROID
 #ifdef PLATFORM_ANDROID
 typedef void (*AtExitFnPtr)(void);
-static AtExitFnPtr atExitFnPtr =  nullptr;
+static std::vector < AtExitFnPtr > atExitFnPtrs;
 extern "C" void callatexitANDROID()
 {
-    if(atExitFnPtr) atExitFnPtr();
+    for(auto funAtExit:atExitFnPtrs)
+    {
+        funAtExit();
+    }
 }
 #endif
 //function
 int Easy2D::atexit(void (*function)(void))
 {
 #ifdef PLATFORM_ANDROID
-    atExitFnPtr = function;
-    return 1;
+    atExitFnPtrs.push_back(function);
+    return 0;
 #else
-    return atexit(function);
+    return ::atexit(function);
 #endif
 }

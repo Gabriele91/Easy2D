@@ -5,10 +5,27 @@
 #include <Debug.h>
 #include <RenderContext.h>
 #include <AppiOS.h>
+#include <ScreeniOS.h>
 using namespace Easy2D;
 ///////////////////////////
 #define USE_DEPTH_BUFFER 1
 #define USE_STENCIL_BUFFER 1
+//include input
+#define ___PUBLIC_FOR_IOS_CLASS
+#include <InputiOS.h>
+#define inputios ((InputiOS*)Application::instance()->getInput())
+
+const char* getErrorFrameBuffer(GLuint error)
+{
+    switch (error)
+    {
+        case GL_FRAMEBUFFER_COMPLETE: return "GL_FRAMEBUFFER_COMPLETE";
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT: return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT: return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
+        case GL_FRAMEBUFFER_UNSUPPORTED: return "GL_FRAMEBUFFER_UNSUPPORTED";
+        default: return "UNKNOW";
+    }
+}
 // A class extension to declare private methods
 @interface EAGLView ()
 //private context
@@ -34,9 +51,16 @@ using namespace Easy2D;
     
     if ((self = [super initWithFrame:frame]))
     {
+        // Enable resize
+        [self setAutoresizingMask: UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         // Get the layer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-        
+        //if retina
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2.0)
+        {
+            eaglLayer.contentsScale = 2.0f;
+        }
+        //init layer
         eaglLayer.opaque = YES;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                                      [NSNumber numberWithBool:FALSE],
@@ -131,35 +155,55 @@ using namespace Easy2D;
     
     CHECK_GPU_ERRORS();
     
-    if (USE_DEPTH_BUFFER)
+    //get additional buffers
+    ScreeniOS* screen = (ScreeniOS*) Application::instance()->getScreen();
+    Screen::TypeBuffers typeBuffers = screen->getDefaultBuffers();
+    bool useDepthBuffer = USE_DEPTH_BUFFER && Screen::getDepthBits(typeBuffers) != 0;
+    bool useStencilBuffer = USE_STENCIL_BUFFER && Screen::getStencilBits(typeBuffers) != 0;
+    
+    //init additional buffers
+    if (useDepthBuffer || useStencilBuffer)
     {
-        //create zbuffer
-        glGenRenderbuffers(1, &depthRenderbuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-        //create the storage for the buffer, optimized for depth values, same size as the colorRenderbuffer
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, backingWidth, backingHeight);
-        //attach the depth buffer to our framebuffer
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
-        
+        //zbuffer and stencil
+        if (useDepthBuffer && useStencilBuffer)
+        {
+            //create zbuffer/stencil
+            glGenRenderbuffers(1, &depthRenderbuffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8_OES, backingWidth, backingHeight);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+            //no ptr to stencil
+            stencilRenderbuffer = 0;
+        }
+        //only zbuffer
+        else if (useDepthBuffer)
+        {
+            //create zbuffer
+            glGenRenderbuffers(1, &depthRenderbuffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, backingWidth, backingHeight);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+            //no ptr to stencil
+            stencilRenderbuffer = 0;
+        }
+        //only stencil
+        else if (useStencilBuffer)
+        {
+            glGenRenderbuffers(1, &stencilRenderbuffer);
+            glBindRenderbuffer(GL_RENDERBUFFER, stencilRenderbuffer);
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, backingWidth, backingHeight);
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, stencilRenderbuffer);
+            //no ptr to zbuufer
+            depthRenderbuffer = 0;
+        }
         CHECK_GPU_ERRORS();
     }
     
-    if (USE_STENCIL_BUFFER)
+    GLuint statusFramebuffer = glCheckFramebufferStatus(GL_FRAMEBUFFER) ;
+    if(statusFramebuffer != GL_FRAMEBUFFER_COMPLETE)
     {
-        //create stencil
-        glGenRenderbuffers(1, &stencilRenderbuffer);
-        glBindRenderbuffer(GL_RENDERBUFFER, stencilRenderbuffer);
-        //create the storage for the buffer, optimized for stencil values, same size as the colorRenderbuffer
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_STENCIL_INDEX8, backingWidth, backingHeight);
-        //attach the stencil buffer to our framebuffer
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, stencilRenderbuffer);
-        
-        CHECK_GPU_ERRORS();
-    }
-    
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    {
-        NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
+        NSLog(@"failed to make complete framebuffer object %s",getErrorFrameBuffer(statusFramebuffer));
         return NO;
     }
     //set default state 
@@ -169,8 +213,8 @@ using namespace Easy2D;
       viewRenderbuffer,
       depthRenderbuffer,
       stencilRenderbuffer,
-      USE_DEPTH_BUFFER,
-      USE_STENCIL_BUFFER
+      useDepthBuffer,
+      useStencilBuffer
     });
     //find errors:
     CHECK_GPU_ERRORS();
@@ -184,11 +228,17 @@ using namespace Easy2D;
     //set context
     [EAGLContext setCurrentContext:context];
     //delete frame buffer
-    glDeleteFramebuffers(1, &viewFramebuffer);
-    viewFramebuffer = 0;
+    if(viewFramebuffer)
+    {
+        glDeleteFramebuffers(1, &viewFramebuffer);
+        viewFramebuffer = 0;
+    }
     //delete render buffer
-    glDeleteRenderbuffers(1, &viewRenderbuffer);
-    viewRenderbuffer = 0;
+    if(viewRenderbuffer)
+    {
+        glDeleteRenderbuffers(1, &viewRenderbuffer);
+        viewRenderbuffer = 0;
+    }
     //delete depth buffer
     if(depthRenderbuffer)
     {
@@ -203,6 +253,26 @@ using namespace Easy2D;
     }
 }
 
+-(void)setBounds:(CGRect)newBounds
+{
+    //resize event?
+    BOOL const isResize = !CGSizeEqualToSize(newBounds.size, self.bounds.size);
+    //execute the event
+    if(isResize)
+    {
+        [super setBounds:newBounds];
+        if (isResize) [self resizeEvent];
+    }
+}
+
+-(void)resizeEvent
+{
+    [EAGLContext setCurrentContext:context];
+    [self destroyFramebuffer];
+    [self createFramebuffer];
+    //fire the event
+    inputios->__callOnResize(Vec2([self getWidth],[self getHeight]));
+}
 
 - (void)startAnimation
 {
@@ -229,6 +299,15 @@ using namespace Easy2D;
 }
 
 
+- (void) resetDefaultAnimationInterval
+{
+    //get default frames
+    ScreeniOS* screen = (ScreeniOS*) Application::instance()->getScreen();
+    float nframes = screen ? screen->getDefaultFrame() : 60.0f;
+    //set animaion interval
+    [self setAnimationInterval:(1.0f/nframes)];
+}
+
 - (float)getDeltaTime
 {
     return animationInterval;
@@ -244,7 +323,7 @@ using namespace Easy2D;
     return (unsigned int)backingHeight;
 }
 
-- (unsigned int)getOretation
+- (unsigned int)getOrientation
 {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     if(orientation==UIInterfaceOrientationPortrait) return 0;

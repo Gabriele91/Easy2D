@@ -44,9 +44,10 @@
 - (void)makeCurrent;
 - (void)unsafeSwap;
 - (float)getDeltaTime;
+- (void) resetDefaultAnimationInterval;
 - (unsigned int)getWidth;
 - (unsigned int)getHeight;
-- (unsigned int)getOretation;
+- (unsigned int)getOrientation;
 - (BOOL) createFramebuffer;
 - (void) destroyFramebuffer;
 

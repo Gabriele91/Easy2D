@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E0CA57C01B66213200B7F0B7 /* Easy2D-iOS-Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E0CA57C31B66213200B7F0B7 /* Build configuration list for PBXAggregateTarget "Easy2D-iOS-Universal" */;
+			buildPhases = (
+				E0CA57C41B66215600B7F0B7 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Easy2D-iOS-Universal";
+			productName = "Easy2D-iOS-Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		E003064619B39138006911FD /* Shader.h in Headers */ = {isa = PBXBuildFile; fileRef = E003064519B38E76006911FD /* Shader.h */; };
 		E003064819B39C5B006911FD /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E003064719B39C5B006911FD /* Shader.cpp */; };
@@ -16,6 +30,14 @@
 		E0121CE21AB9D79200F044E6 /* SoundListenerAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CDE1AB9D79200F044E6 /* SoundListenerAL.h */; };
 		E0121CE31AB9D79200F044E6 /* SoundEmitterAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CDF1AB9D79200F044E6 /* SoundEmitterAL.h */; };
 		E0121CE41AB9D79200F044E6 /* StaticBufferAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E0121CE01AB9D79200F044E6 /* StaticBufferAL.h */; };
+		E0133ED71B64A6BB00634A52 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133ED61B64A6BB00634A52 /* CoreGraphics.framework */; };
+		E0133ED91B64A6CB00634A52 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133ED81B64A6CB00634A52 /* CoreFoundation.framework */; };
+		E0133EDB1B64A6D300634A52 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDA1B64A6D300634A52 /* QuartzCore.framework */; };
+		E0133EDD1B64A6E100634A52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDC1B64A6E100634A52 /* UIKit.framework */; };
+		E0133EDF1B64A6E900634A52 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDE1B64A6E900634A52 /* OpenGLES.framework */; };
+		E0133EE11B64A6F200634A52 /* libxpc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EE01B64A6F200634A52 /* libxpc.dylib */; };
+		E0133EE21B64B56700634A52 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
+		E0133EE31B64B56800634A52 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
 		E01E2CD318B35EBD00D048DD /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD218B35EBD00D048DD /* AudioAL.h */; };
 		E01E2CD618B35ECA00D048DD /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD518B35ECA00D048DD /* AudioAL.cpp */; };
 		E01E2CD818B3615B00D048DD /* StreamThreadAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD718B3615B00D048DD /* StreamThreadAL.cpp */; };
@@ -685,12 +707,6 @@
 		E0A1AE691946EE9700D1438A /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE641946EE9700D1438A /* Label.h */; };
 		E0A1AE6A1946EE9700D1438A /* Panel.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE651946EE9700D1438A /* Panel.h */; };
 		E0A719C417E1EE6200A0B298 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A7196B17E1EE6200A0B298 /* libfreetype.a */; };
-		E0AB0FB01ABC1A030008EEC8 /* libxpc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FAF1ABC1A030008EEC8 /* libxpc.dylib */; };
-		E0AB0FB21ABC1A3F0008EEC8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB11ABC1A3F0008EEC8 /* OpenGLES.framework */; };
-		E0AB0FB41ABC1A550008EEC8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB31ABC1A550008EEC8 /* UIKit.framework */; };
-		E0AB0FB61ABC1A620008EEC8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB51ABC1A620008EEC8 /* QuartzCore.framework */; };
-		E0AB0FB81ABC1A6D0008EEC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FB71ABC1A6D0008EEC8 /* CoreFoundation.framework */; };
-		E0AB0FC81ABC1DE90008EEC8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */; };
 		E0AE8F2A1AB9D6170030BCB3 /* RefCountedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */; };
 		E0AE8F2B1AB9D6170030BCB3 /* RefStdCount.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */; };
 		E0B1BE241B58EA0E004F5EBD /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B1BE231B58EA0E004F5EBD /* Image.h */; };
@@ -993,13 +1009,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E03989E019FBFAF300079232 /* CopyFiles */ = {
+		E03989E019FBFAF300079232 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1014,6 +1031,12 @@
 		E0121CDE1AB9D79200F044E6 /* SoundListenerAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundListenerAL.h; sourceTree = "<group>"; };
 		E0121CDF1AB9D79200F044E6 /* SoundEmitterAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundEmitterAL.h; sourceTree = "<group>"; };
 		E0121CE01AB9D79200F044E6 /* StaticBufferAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticBufferAL.h; sourceTree = "<group>"; };
+		E0133ED61B64A6BB00634A52 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		E0133ED81B64A6CB00634A52 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		E0133EDA1B64A6D300634A52 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		E0133EDC1B64A6E100634A52 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		E0133EDE1B64A6E900634A52 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
+		E0133EE01B64A6F200634A52 /* libxpc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxpc.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/system/libxpc.dylib; sourceTree = DEVELOPER_DIR; };
 		E0196480176B0CF200CF955A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E0196483176B0CF200CF955A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E0196484176B0CF200CF955A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -1654,12 +1677,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0AB0FC81ABC1DE90008EEC8 /* CoreGraphics.framework in Frameworks */,
-				E0AB0FB81ABC1A6D0008EEC8 /* CoreFoundation.framework in Frameworks */,
-				E0AB0FB61ABC1A620008EEC8 /* QuartzCore.framework in Frameworks */,
-				E0AB0FB41ABC1A550008EEC8 /* UIKit.framework in Frameworks */,
-				E0AB0FB21ABC1A3F0008EEC8 /* OpenGLES.framework in Frameworks */,
-				E0AB0FB01ABC1A030008EEC8 /* libxpc.dylib in Frameworks */,
+				E0133ED71B64A6BB00634A52 /* CoreGraphics.framework in Frameworks */,
+				E0133ED91B64A6CB00634A52 /* CoreFoundation.framework in Frameworks */,
+				E0133EDB1B64A6D300634A52 /* QuartzCore.framework in Frameworks */,
+				E0133EDD1B64A6E100634A52 /* UIKit.framework in Frameworks */,
+				E0133EDF1B64A6E900634A52 /* OpenGLES.framework in Frameworks */,
+				E0133EE11B64A6F200634A52 /* libxpc.dylib in Frameworks */,
 				E0398A3F19FBFCA800079232 /* OpenAL.framework in Frameworks */,
 				E0398AF919FC005200079232 /* libFreetype2Uni.a in Frameworks */,
 				E0398AFA19FC005200079232 /* libLua5.1.5Uni.a in Frameworks */,
@@ -1726,6 +1749,12 @@
 		E019647F176B0CF200CF955A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0133EE01B64A6F200634A52 /* libxpc.dylib */,
+				E0133EDE1B64A6E900634A52 /* OpenGLES.framework */,
+				E0133EDC1B64A6E100634A52 /* UIKit.framework */,
+				E0133EDA1B64A6D300634A52 /* QuartzCore.framework */,
+				E0133ED81B64A6CB00634A52 /* CoreFoundation.framework */,
+				E0133ED61B64A6BB00634A52 /* CoreGraphics.framework */,
 				E0AB0FC71ABC1DE90008EEC8 /* CoreGraphics.framework */,
 				E0AB0FB71ABC1A6D0008EEC8 /* CoreFoundation.framework */,
 				E0AB0FB51ABC1A620008EEC8 /* QuartzCore.framework */,
@@ -3568,7 +3597,7 @@
 			buildPhases = (
 				E03989DE19FBFAF300079232 /* Sources */,
 				E03989DF19FBFAF300079232 /* Frameworks */,
-				E03989E019FBFAF300079232 /* CopyFiles */,
+				E03989E019FBFAF300079232 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -3624,6 +3653,9 @@
 					E03989E119FBFAF300079232 = {
 						CreatedOnToolsVersion = 6.1;
 					};
+					E0CA57C01B66213200B7F0B7 = {
+						CreatedOnToolsVersion = 6.4;
+					};
 				};
 			};
 			buildConfigurationList = E01963F7176AE89300CF955A /* Build configuration list for PBXProject "Easy2D" */;
@@ -3641,9 +3673,26 @@
 				E089991117AE56BE0063EAAC /* Easy2D */,
 				E03989E119FBFAF300079232 /* Easy2D-iOS */,
 				E0980DDF1B04DE0F002C693D /* Easy2DEditor */,
+				E0CA57C01B66213200B7F0B7 /* Easy2D-iOS-Universal */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E0CA57C41B66215600B7F0B7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target Easy2D-iOS ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target Easy2D-iOS -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}-iOS.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}-iOS.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}-iOS.a\"\n\n# Step 3. copy lib in lib directory\ncp \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}-iOS.a\" \"${BUILD_DIR}/../lib/lib${PROJECT_NAME}-iOS-${CONFIGURATION}.a\"\n\n# Last touch. copy the header files. Just for convenience\n# cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E03989DE19FBFAF300079232 /* Sources */ = {
@@ -3663,6 +3712,7 @@
 				E0398A2219FBFBD900079232 /* Render.cpp in Sources */,
 				E04F71181ABC39000093DF47 /* Button.cpp in Sources */,
 				E04F711C1ABC39170093DF47 /* StreamBufferAL.cpp in Sources */,
+				E0133EE21B64B56700634A52 /* TweenManager.cpp in Sources */,
 				E0398A2D19FBFBD900079232 /* Utility.cpp in Sources */,
 				E055ABAB19FFF4A700163AC4 /* Math3D_vfp.cpp in Sources */,
 				E0398A3719FBFBEA00079232 /* AudioAL.cpp in Sources */,
@@ -3871,6 +3921,7 @@
 				E0980E0D1B04DE0F002C693D /* SoundEmitterAL.cpp in Sources */,
 				E0980E0E1B04DE0F002C693D /* AiffLoader.cpp in Sources */,
 				E0EAFEE61B5F8007007DB4F3 /* lodepng.cpp in Sources */,
+				E0133EE31B64B56800634A52 /* TweenManager.cpp in Sources */,
 				E0980E0F1B04DE0F002C693D /* Audio.cpp in Sources */,
 				E0980E101B04DE0F002C693D /* Renderable.cpp in Sources */,
 				E0980E111B04DE0F002C693D /* RenderState.cpp in Sources */,
@@ -4201,6 +4252,20 @@
 			};
 			name = Release;
 		};
+		E0CA57C11B66213200B7F0B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E0CA57C21B66213200B7F0B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4236,6 +4301,15 @@
 			buildConfigurations = (
 				E0980F991B04DE0F002C693D /* Debug */,
 				E0980F9A1B04DE0F002C693D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E0CA57C31B66213200B7F0B7 /* Build configuration list for PBXAggregateTarget "Easy2D-iOS-Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0CA57C11B66213200B7F0B7 /* Debug */,
+				E0CA57C21B66213200B7F0B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

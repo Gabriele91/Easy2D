@@ -156,6 +156,9 @@ public:
     // load Png image
     static void loadBuffer_PNG(Image* img,BYTE *buffer,size_t bfsize);
     static void load_PNG(Image* img,const std::string& path);
+    // save image in PNG format
+    static void saveBuffer_PNG(Image* img,BYTE*& buffer,size_t& bfsize);
+    static void save_PNG(Image* img,const std::string& path);
 
 
 };

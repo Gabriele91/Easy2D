@@ -20,11 +20,10 @@
     UITouch *finger[MAX_TOUCHES];
     //modes
     Easy2D::Screen::Orientation orientation;
+    bool  onlyPortrait;
+    bool  onlyLandscape;
     //mask
-    NSUInteger maskOrientation;
-    UIInterfaceOrientation preferOrientation;
-    NSUInteger autoOrientation;
-    float angleOrientation;
+    UIDeviceOrientation previousOrientation;
 }
 
 - (EAGLViewController*)init;
@@ -34,8 +33,11 @@
 - (void)setOrientation:(Easy2D::Screen::Orientation)type;
 
 - (BOOL)shouldAutorotate;
+- (BOOL)shouldAutorotateToInterfaceOrientation;
 - (NSUInteger)supportedInterfaceOrientations;
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation;
+//screen info
+- (unsigned int)getWidth;
+- (unsigned int)getHeight;
 //event
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;

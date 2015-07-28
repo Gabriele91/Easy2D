@@ -37,19 +37,6 @@
 #define OPENGL_ES
 #define DISABLE_MIDMAP //ALPHA COVERAGE BUGS
 
-//no sse in arm
-#ifdef ENABLE_SIMD
-    #undef ENABLE_SIMD
-    #define DISABLE_SIMD
-    #define DOVERRIDE_NEW_DEL
-
-    #ifdef __ARM_NEON__
-        #define ENABLE_NEON
-    #else
-        #define ENABLE_VFP
-    #endif
-#endif
-
 #include <stdint.h>
 #include <android/log.h>
 #include <android/native_activity.h>
@@ -94,18 +81,6 @@
     #define DCPP_11
     #define PLATFORM_UNIX
     #include <OpenGLiOS.h>
-
-    //no sse in arm
-    #ifdef ENABLE_SIMD
-        #undef ENABLE_SIMD
-        #define DISABLE_SIMD
-        #define DOVERRIDE_NEW_DEL
-        #ifdef _ARM_ARCH_7
-            #define ENABLE_NEON
-            #else
-            #define ENABLE_VFP
-        #endif
-    #endif
 
 #elif TARGET_IPHONE_SIMULATOR
     #define PLATFORM_IPHONE_SIMULATOR
@@ -169,6 +144,18 @@
 #error "platform not supported"
 #endif
 
+//no sse in arm
+#if defined( ENABLE_SIMD )  && defined( __arm__ )
+    #undef ENABLE_SIMD
+    #define DISABLE_SIMD
+    #define DOVERRIDE_NEW_DEL
+    //NEON OR VFP
+    #ifdef __ARM_NEON__
+        #define ENABLE_NEON
+    #else
+        #define ENABLE_VFP
+    #endif
+#endif
 
 //default settings
 #if !defined(ENABLE_CPU_BATCHING_MESH) &&  !defined(DISABLE_CPU_BATCHING_MESH)
