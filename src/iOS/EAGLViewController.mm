@@ -122,8 +122,8 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
 
 - (BOOL) isPortrait: (UIDeviceOrientation) lOrientation
 {
-    return lOrientation == UIDeviceOrientationPortrait ||
-    lOrientation == UIDeviceOrientationPortraitUpsideDown;
+    return  lOrientation == UIDeviceOrientationPortrait ||
+            lOrientation == UIDeviceOrientationPortraitUpsideDown;
 }
 
 - (BOOL) isLandscape: (UIDeviceOrientation) lOrientation
@@ -171,6 +171,8 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
 {
     //ignore cases
     if (previousOrientation==currentOrientation) return;
+    else if ( (![self isLandscape:currentOrientation]) &&
+              (![self isPortrait:currentOrientation]) ) return;
     else if ([self isLandscape:currentOrientation] && onlyPortrait) return;
     else if ([self isPortrait:currentOrientation] && onlyLandscape) return;
     //or change
@@ -227,30 +229,27 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
 {
     [self setViewOrientation: [[UIDevice currentDevice] orientation]];
 }
-
+////////////////////////////////
+//DISABLE ROTATION
 -(BOOL)shouldAutorotate
 {
-    //no auto rotation
     return NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    //no auto rotation
     return NO;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    //get all events
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationPortrait;
 }
 
-/*
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    return preferOrientation;
-}*/
+    return UIInterfaceOrientationPortrait;
+}
 ////////////////////////////////
 - (Vec2)touchLocation:(UITouch *)touch shouldNormalize:(BOOL)normalize
 {

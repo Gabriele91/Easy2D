@@ -33,7 +33,7 @@
 - (void)setOrientation:(Easy2D::Screen::Orientation)type;
 
 - (BOOL)shouldAutorotate;
-- (BOOL)shouldAutorotateToInterfaceOrientation;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 - (NSUInteger)supportedInterfaceOrientations;
 //screen info
 - (unsigned int)getWidth;

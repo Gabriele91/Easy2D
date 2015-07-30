@@ -53,10 +53,33 @@ Scene::~Scene()
 	for (auto obj : objects)
 		delete obj/*.second*/;
 }
-//application methos
-void Scene::start()
+///////////////////////////////////////////////
+//start all
+void Scene::onStartResumeAll()
 {
-	onStartResume();
+    //start current active
+    if (actives.size())
+        scenes[actives.top()].child->onStartResumeAll();
+    //start this scene
+    onStartResume();
+}
+//resume all
+void Scene::onResumeAll()
+{
+    //resume active
+    if (actives.size())
+        scenes[actives.top()].child->onResumeAll();
+    //resume this scene
+    onResume();
+}
+//pause all
+void Scene::onPauseAll()
+{
+    //pause current active
+    if (actives.size())
+        scenes[actives.top()].child->onPauseAll();
+    //pause this scene
+    onPause();
 }
 //run all logic
 void Scene::onRunAllLogic(float dt)
@@ -92,6 +115,26 @@ void Scene::onPostAllDraw(float dt)
     onPostDraw(dt);
     ///////////////////////////////////////////////
 }
+//end all
+void Scene::onEndAll()
+{
+    //call end for active scene
+    if (actives.size())
+        scenes[actives.top()].child->onEndAll();
+    //call end
+    onEnd();
+}
+///////////////////////////////////////////////
+//start all
+void Scene::start()
+{
+    onStartResumeAll();
+}
+//restart
+void Scene::restart()
+{
+    onResumeAll();
+}
 //run all
 void Scene::run(float dt)
 {
@@ -102,42 +145,33 @@ void Scene::run(float dt)
     //run post draw
     onPostAllDraw(dt);
 }
+//stop
+void Scene::pause()
+{
+    onPauseAll();
+}
+//end all
 void Scene::end()
 {
-	//call onEnd for all child activated
-	for (auto scene : scenes)
-		if (scene.second.child->isStarted)
-			scene.second.child->onEnd();
-	//end scene
-	onEnd();
+    onEndAll();
 }
 //methos
 void Scene::onStartResume()
 {
 	if (isStarted)
 	{
-		for (Object* obj : objects)
-		{
-			obj->onSceneResume();
-		}
-		onResume();
+        onResumeScene();
 	}
 	else
-	{
+    {
+        //enable flag
+        isStarted = true;
+        //start this scene
 		onStart();
-		isStarted = true;
 	}
 }
-void Scene::onAllPause()
-{
-	//go to pause
-	onPause();
-	//pause obj
-	for (Object* obj : objects)
-	{
-		obj->onScenePause();
-	}
-}
+
+//draw
 void Scene::onRunLogic(float dt)
 {
 	//update objects
@@ -157,6 +191,25 @@ void Scene::onRunDraw()
 	//draw debug
 	World::physicsDraw(Render::getCamera());
 }
+
+//resume / pause
+void Scene::onResumeScene()
+{
+    //resume all objects
+    for (Object* obj : objects)
+        obj->onSceneResume();
+    //resume this scene
+    onResume();
+}
+void Scene::onPauseScene()
+{
+    //go to pause
+    onPause();
+    //pause obj
+    for (Object* obj : objects)
+        obj->onScenePause();
+}
+
 //publics:
 bool Scene::isContent(int uid)
 {
@@ -273,7 +326,7 @@ void Scene::active(int uid)
 	//pause last scene
 	if (actives.size())
 	{
-		scenes[actives.top()].child->onAllPause();
+		scenes[actives.top()].child->onPauseScene();
 	}
 	//start last scene
 	scenes[uid].child->onStartResume();
@@ -285,7 +338,7 @@ void Scene::pop()
 	//pause last scene
 	if (actives.size())
 	{
-		scenes[actives.top()].child->onAllPause();
+		scenes[actives.top()].child->onPauseScene();
 		actives.pop();
 	}
 }

@@ -64,18 +64,21 @@ using namespace Easy2D;
 
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationPortrait;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [glView setAnimationInterval:(1.0f / 2.0f)];
+    [glView stopAnimation];
+    Application::instance()->getGame()->pause();
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    Application::instance()->getGame()->restart();
     [glView resetDefaultAnimationInterval];
+    [glView startAnimation];
 }
 
 

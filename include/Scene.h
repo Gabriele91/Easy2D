@@ -29,19 +29,24 @@ class Scene : public Render, //Graphics
         SubScene():child(NULL),destructible(false) {}
         SubScene(Scene *child,bool destructible=true):child(child),destructible(destructible) {}
     };
-
+    //childs
     DUNORDERED_MAP<int,SubScene> scenes;
     EStack<int> actives;
     std::list<Object*> objects;
-
+    //start methos
 	bool isStarted;
 	void onStartResume();
-	void onAllPause();
+    //update logic method
 	void onRunLogic(float dt);
+    //draw method
 	void onRunDraw();
-
+    //pause
+    void onPauseScene();
+    //resume
+    void onResumeScene();
 	//friend class
 	friend class Game;
+    //create scene
     Scene(const String& name,
           uint width,
           uint height,
@@ -52,9 +57,13 @@ class Scene : public Render, //Graphics
     
 protected:
     
+    void onStartResumeAll();
+    void onResumeAll();
+    void onPauseAll();
     void onRunAllLogic(float dt);
     void onRunAllDraw();
     void onPostAllDraw(float dt);
+    void onEndAll();
 
 public:
 
@@ -109,8 +118,10 @@ public:
 	virtual ~Scene();
 
     //application methos
-	virtual void start();
-	virtual void run(float dt);
+    virtual void start();
+    virtual void restart();
+    virtual void run(float dt);
+    virtual void pause();
 	virtual void end();
 
     //utility methos

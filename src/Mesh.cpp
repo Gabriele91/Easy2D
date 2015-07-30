@@ -32,7 +32,8 @@ size_t GenericMesh::attSize(uchar type)
     }
 }
 //mesh calc size
-void GenericMesh::calcVertexSize(uchar type){
+void GenericMesh::calcVertexSize(uchar type)
+{
     vSize=0;
     vSize+=attSize(type & VertexField::POSITION2D);
     vSize+=attSize(type & VertexField::POSITION3D);
@@ -77,7 +78,7 @@ void GenericMesh::format(uchar argtype, size_t vsize, size_t isize)
     calcVertexSize(argtype);
     type = (VertexField)argtype;
     vertexs = std::vector<byte> (vSize*(vsize != 0 ? vsize : VBO_N_PAGE));
-    indexs = std::vector<uint> (isize != 0 ? isize : IBO_N_PAGE);
+    indexs = std::vector<ushort> (isize != 0 ? isize : IBO_N_PAGE);
 }
 
 //like opengl 1.4
@@ -112,12 +113,12 @@ void GenericMesh::uv(const Vec2& uv)
 //like OpenGL 2.X, 3.X, 4.x
 void GenericMesh::vbuffer(const Easy2D::byte* b)
 {
-    Math::memcpy(&vertexs[0], b, vertexs.size());
+    Math::memcpy(vertexs.data(), b, vertexs.size());
     currentVertex = vertexs.size();
 }
-void GenericMesh::ibuffer(const Easy2D::uint* b)
+void GenericMesh::ibuffer(const Easy2D::ushort* b)
 {
-    Math::memcpy((Easy2D::byte*)&indexs[0], (Easy2D::byte*)b, indexs.size()*sizeof(uint));
+    Math::memcpy((Easy2D::byte*)indexs.data(), (Easy2D::byte*)b, indexs.size()*sizeof(ushort));
     currentIndex = indexs.size();
 }
 //clear mesh
@@ -153,7 +154,7 @@ void GenericMesh::clear()
 void GenericMesh::cpuClear()
 {
     vertexs = std::vector<byte>(0);
-    indexs = std::vector<uint>(0);
+    indexs = std::vector<ushort>(0);
     currentVertex = 0;
     currentIndex = 0;
 }
@@ -163,7 +164,7 @@ GenericMesh::~GenericMesh()
     clear();
 }
 //get cpu info
-uint  GenericMesh::getIndex(size_t i) const
+ushort  GenericMesh::getIndex(size_t i) const
 {
     return indexs[i];
 }
@@ -188,7 +189,7 @@ Vec4& GenericMesh::getVertex4(size_t i, size_t offset)
     return *((Vec4*)getVertex(i, offset));
 }
 //add a index
-void GenericMesh::index(uint i)
+void GenericMesh::index(ushort i)
 {
     addIndexCPage();
     indexs[currentIndex] = i;
@@ -212,13 +213,13 @@ bool GenericMesh::build(bool force)
     if(sBIndex)
     {
         bIndex = RenderContext::createBuffer();
-        RenderContext::bufferData(bIndex, STATIC, &indexs[0], sizeof(uint)*sBIndex);
+        RenderContext::bufferData(bIndex, STATIC, &indexs[0], sizeof(ushort)*sBIndex);
     }
     //delete cpu info
     if (force)
     {
         vertexs = std::vector<byte>(0);
-        indexs = std::vector<uint>(0);
+        indexs = std::vector<ushort>(0);
     }
     //get vao/ibo/vbo errors
     CHECK_GPU_ERRORS();
@@ -257,12 +258,12 @@ void GenericMesh::draw() const
     //IBO
     else if(bIndex)
     {
-        RenderContext::drawPrimitiveIndexed(dMode, sBIndex, UNSIGNED_INT, 0 );
+        RenderContext::drawPrimitiveIndexed(dMode, sBIndex, UNSIGNED_SHORT, 0 );
     }
     //IBA
     else
     {
-        RenderContext::drawPrimitiveIndexed(dMode, sizeIndexs(), UNSIGNED_INT, (void*)&indexs[0]);
+        RenderContext::drawPrimitiveIndexed(dMode, sizeIndexs(), UNSIGNED_SHORT, (void*)indexs.data());
     }
     #undef isIndexed
 }
@@ -272,10 +273,6 @@ void GenericMesh::draw() const
 //VAOs are slower (by nvidia and valve)
 //#undef ENABLE_VAOS
 ///////////////////////////////////////////////////////////////
-//Vertex Size
-static const size_t sizeGVector=sizeof(float)*4;
-///////////////////////////////////////////////////////////////
-
 Mesh::Mesh(ResourcesManager<Mesh> *rsmr,
            const String& pathfile)
            :Resource(rsmr,pathfile)
@@ -460,8 +457,9 @@ void Mesh::draw() const
         //bind VBO
         RenderContext::bindVertexBuffer(bVertex);
         //set vertex
-        RenderContext::vertexPointer(2, GL_FLOAT, sizeGVector , 0 );
-        RenderContext::texCoordPointer(2, GL_FLOAT, sizeGVector, (void*)(sizeof(float)*2) );
+        RenderContext::vertexPointer(2, GL_FLOAT, vSize , 0 );
+        //pointer tu UV
+        RenderContext::texCoordPointer(2, GL_FLOAT, vSize, (void*)(sizeof(float)*2) );
     }
     //vba
     else
@@ -469,8 +467,9 @@ void Mesh::draw() const
         //unbind VBO
         RenderContext::unbindVertexBuffer();
         //set vertex
-        RenderContext::vertexPointer(2, GL_FLOAT, sizeGVector,  (void*)getVertex(0,0) );
-        RenderContext::texCoordPointer(2, GL_FLOAT, sizeGVector, (void*)getVertex(0,sizeof(float)*2) );
+        RenderContext::vertexPointer(2, GL_FLOAT, vSize,  (void*)getVertex(0,0) );
+        //pointer tu UV
+        RenderContext::texCoordPointer(2, GL_FLOAT, vSize, (void*)getVertex(0,sizeof(float)*2) );
     }
     //IBO
     if(bIndex)

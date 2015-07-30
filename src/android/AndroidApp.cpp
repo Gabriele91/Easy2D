@@ -63,6 +63,8 @@ AndroidApp::AndroidApp(const String& appname)
         AndroidApp *self=((AndroidApp*)data);
         //disable flip surface
         self->dodraw=false;
+        //pause scene
+        Application::instance()->getGame()->pause();
     });
     //set reload gpu data when is resume
     onInitAndroid([](void *data)
@@ -72,6 +74,8 @@ AndroidApp::AndroidApp(const String& appname)
         self->__reloadInstance();
         //enable flip screen
         self->dodraw=true;
+        //restart scene
+        Application::instance()->getGame()->restart();
     });
     //not exit form loop
     doexit=false;

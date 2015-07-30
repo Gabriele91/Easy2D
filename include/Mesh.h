@@ -43,10 +43,10 @@ public:
     void vbuffer(const byte* b);
     
     //like OpenGL 2.X, 3.X, 4.x
-    void ibuffer(const uint* b);
+    void ibuffer(const ushort* b);
     
     //index
-    void index(uint i);
+    void index(ushort i);
     
     //set draw mode
     void mode(DrawMode m);
@@ -72,8 +72,8 @@ public:
     size_t sindex() const { return indexs.size(); }
     size_t sizeVertexs() const;
     size_t sizeIndexs() const;
-    uint  getIndex(size_t i) const;
-    byte* getVertex(size_t i, size_t offset);
+    ushort getIndex(size_t i) const;
+    byte*  getVertex(size_t i, size_t offset);
     const byte* const getVertex(size_t i, size_t offset) const;
     Vec2& getVertex2(size_t i, size_t offset);
     Vec3& getVertex3(size_t i, size_t offset);
@@ -94,7 +94,7 @@ protected:
     size_t vSize{ 0 };
     //cpu buffers
     size_t currentIndex{ 0 };
-    std::vector<uint> indexs;
+    std::vector<ushort> indexs;
     size_t currentVertex{ 0 };
     std::vector<byte> vertexs;
     //save type field
@@ -176,7 +176,7 @@ public:
         return GenericMesh::sizeIndexs();
     }
     //show
-    uint  getIndex(size_t i)
+    ushort  getIndex(size_t i)
     {
         return GenericMesh::getIndex(i);
     }

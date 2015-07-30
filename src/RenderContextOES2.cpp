@@ -1379,11 +1379,14 @@ uint RenderContext::getStandardShaderProgram()
 
 void RenderContext::initContext()
 {
+    
+#if defined( PLATFORM_ANDROID )
     if(!RenderContextOES_vertexArray)
     {
         glGenVertexArrays(1, &RenderContextOES_vertexArray);
     }
     glBindVertexArray(RenderContextOES_vertexArray);
+#endif
     //init state
     setDefaultRenderState();
     //find errors:
@@ -1467,12 +1470,14 @@ void RenderContext::releaseContext()
     //delete shaders
     shaders.resize(0);
     //void
+#if defined( PLATFORM_ANDROID )
     glBindVertexArray(0);
     if(RenderContextOES_vertexArray)
     {
         glDeleteVertexArrays(1, &RenderContextOES_vertexArray);
         RenderContextOES_vertexArray=0;
     }
+#endif
 }
 //////////////////////////////////////////////////////////////////////
 
