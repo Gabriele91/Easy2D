@@ -16,6 +16,8 @@ void setAndroidScreenOrientation(int orientation);
 int getAndroidScreenOrientation();
 void setAndroidScreenTitle(const char *str);
 void setAndroidFullScreenMode();
+//show/hide keyboard
+bool displayAndroidKeyboard(bool show);
 //set value
 void setIsAndroidValidDevice(bool validDevice);
 void setAndroidUserData(void* userData);
@@ -40,8 +42,12 @@ void onGetFocusAndroid(void (*function)(void* data));
 void onLostFocusAndroid(void (*function)(void* data));
 //input update (in loop)
 void updateInputAndroid();
-//extern main
+    
+//extern main/stdout/atexit
 int main(int argc, char *argv[]);
+void overloadSTDCOUT();
+void unoverloadSTDCOUT();
+void callatexitANDROID();
 
 #ifdef __cplusplus
 }

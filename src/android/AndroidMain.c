@@ -383,7 +383,8 @@ struct Easy2DActivity{
 	jmethodID setScreenOrientation,
 			  getScreenOrientation,
 		      setScreenTitle,
-			  setFullScreenMode;
+			  setFullScreenMode,
+              displayKeyboard;
 }easy2DActivity;
 
 static void callEasy2DActivityVoidMethod(jmethodID field,...){
@@ -404,7 +405,12 @@ static void easy2DActivitySetScreenTitle(JNIEnv *env,const char *str){
 	(*env)->CallVoidMethod(env,easy2DActivity.self,easy2DActivity.setScreenTitle, jstr);
 }
 static void easy2DActivitySetFullScreenMode(JNIEnv *env){
-	(*env)->CallVoidMethod(env,easy2DActivity.self,easy2DActivity.setFullScreenMode);
+    (*env)->CallVoidMethod(env,easy2DActivity.self,easy2DActivity.setFullScreenMode);
+}
+static bool easy2DActivityDisplayKeyboard(JNIEnv *env,jboolean show){
+    return (*env)->CallBooleanMethod(env,easy2DActivity.self,
+                                         easy2DActivity.displayKeyboard,
+                                         show);
 }
 
 JNIEXPORT void JNICALL Java_com_easy2d_Easy2DActivity_onCreateInterface(JNIEnv *env, jobject self){
@@ -415,6 +421,7 @@ JNIEXPORT void JNICALL Java_com_easy2d_Easy2DActivity_onCreateInterface(JNIEnv *
   easy2DActivity.getScreenOrientation= (*env)->GetMethodID(env, easy2DActivity.selfClass,"getScreenOrientation","()I");
   easy2DActivity.setScreenTitle= (*env)->GetMethodID(env, easy2DActivity.selfClass,"setScreenTitle","(Ljava/lang/String;)V");
   easy2DActivity.setFullScreenMode= (*env)->GetMethodID(env, easy2DActivity.selfClass,"setFullScreenMode","()V");
+  easy2DActivity.displayKeyboard= (*env)->GetMethodID(env, easy2DActivity.selfClass,"displayKeyboard","(Z)Z");
   easy2DActivitySetFullScreenMode(env);
 }
 //wrapper
@@ -429,6 +436,9 @@ extern void setAndroidScreenTitle(const char *str){
 }
 extern void setAndroidFullScreenMode(const char *str){
 	easy2DActivitySetFullScreenMode(getEnv());
+}
+extern bool displayAndroidKeyboard(bool show) {
+    return easy2DActivityDisplayKeyboard(getEnv(),show);
 }
 /*********************************
 Android MAIN

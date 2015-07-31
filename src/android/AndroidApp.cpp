@@ -45,7 +45,7 @@ AndroidApp::AndroidApp(const String& appname)
     //set android userdata
     setAndroidUserData((void*)this);
 
-    //overload pause
+    //overload config changed
     onConfigChange([](void *data)
     {
         AndroidApp *self=((AndroidApp*)data);
@@ -57,14 +57,12 @@ AndroidApp::AndroidApp(const String& appname)
         //create surface
         self->__reloadInstance();
     });
-    //overload pause
+    //overload save state (pause/lost context)
     onSaveStateAndroid([](void *data)
     {
         AndroidApp *self=((AndroidApp*)data);
         //disable flip surface
         self->dodraw=false;
-        //pause scene
-        Application::instance()->getGame()->pause();
     });
     //set reload gpu data when is resume
     onInitAndroid([](void *data)
@@ -74,8 +72,22 @@ AndroidApp::AndroidApp(const String& appname)
         self->__reloadInstance();
         //enable flip screen
         self->dodraw=true;
+    });
+    //on pause
+    onPauseAndroid([](void *data)
+    {
+        AndroidApp *self=((AndroidApp*)data);
+        //pause scene
+        Game* game=self->getGame();
+        if(game) game->pause();
+    });
+    //on resume
+    onResumeAndroid([](void *data)
+    {
+        AndroidApp *self=((AndroidApp*)data);
         //restart scene
-        Application::instance()->getGame()->restart();
+        Game* game=self->getGame();
+        if(game) game->restart();
     });
     //not exit form loop
     doexit=false;
