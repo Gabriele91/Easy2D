@@ -77,6 +77,10 @@ public:
      * return true if device supports only power of two texture
      */
     virtual bool onlyPO2();
+    /**
+    * show/hide a virtual keyboard
+    */
+    virtual bool virtualKeyboard(bool show);
 
 protected:
     //

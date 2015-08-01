@@ -11,7 +11,9 @@ using namespace Easy2D;
 //init component
 InputiOS::InputiOS()
 {
-    //void
+    ewindow.__init();
+    ekeyboard.__init();
+    efingers.__init();
 }
 //free component
 InputiOS::~InputiOS()
@@ -26,8 +28,11 @@ void InputiOS::update()
     ewindow.resize=false;
     //update hit
     efingers.__clearHit();
+    ekeyboard.__clearHit();
     //update down fingers
     efingers.__update(this);
+    //update keyboard
+    ekeyboard.__update(this);
 }
 ///////////////////////////////////////////////////////////////////////////
 // WINDOW EVENTS FIRED FROM IOS
@@ -55,6 +60,28 @@ void InputiOS::__callOnResize(Vec2 size)
     //oop
     for(size_t i=0; i!=vwindowh.size(); ++i)
         vwindowh[i]->onResize(size);
+}
+///////////////////////////////////////////////////////////////////////////
+//KEYBOARD EVENTS
+void InputiOS::__callOnKeyPress(Key::Keyboard key)
+{
+    for(size_t i=0;i!=vkeyboardh.size();++i)
+        vkeyboardh[i]->onKeyPress(key);
+}
+void InputiOS::__callOnKeyRelease(Key::Keyboard key)
+{
+    for(size_t i=0;i!=vkeyboardh.size();++i)
+        vkeyboardh[i]->onKeyRelease(key);
+}
+void InputiOS::__callOnKeyDown(Key::Keyboard key)
+{
+    for(size_t i=0;i!=vkeyboardh.size();++i)
+        vkeyboardh[i]->onKeyDown(key);
+}
+void InputiOS::__callOnTextInput(const String& inputText)
+{
+    for (size_t i = 0; i != vkeyboardh.size(); ++i)
+        vkeyboardh[i]->onTextInput(inputText);
 }
 ///////////////////////////////////////////////////////////////////////////
 //FINGERES EVENTS

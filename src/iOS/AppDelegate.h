@@ -6,7 +6,7 @@
 @class EAGLView;
 @class EAGLViewController;
 
-@interface Easy2DApplication : NSObject <UIApplicationDelegate>
+@interface Easy2DApplication : UIResponder <UIApplicationDelegate>
 {
     UIWindow *window;
     EAGLViewController *glViewController;

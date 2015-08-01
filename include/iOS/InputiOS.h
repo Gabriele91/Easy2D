@@ -193,7 +193,14 @@ namespace Easy2D
         {
             return ewindow.windowResize;
         }
-        
+        /**
+         * Return the last input string got from keyboard
+         * @return input string
+         */
+        virtual const String& getInputString()
+        {
+            return ekeyboard.inputString;
+        }
 #ifdef ___PUBLIC_FOR_IOS_CLASS
     public:
 #else
@@ -214,6 +221,48 @@ namespace Easy2D
                 memset(this,0,sizeof(EventWindow));
             }
         } ewindow;
+        //struct keyboard
+        struct EventKeyboard
+        {
+            String inputString;
+            
+            int nPress,nDown;
+            Key::Keyboard hit[10];
+            Key::Keyboard down[10];
+            char status[Key::KEYBOARDMAX];
+            
+            void __init()
+            {
+                memset(this,0,sizeof(EventKeyboard));
+            }
+            void __keyboardDown(Key::Keyboard k)
+            {
+                status[k]=(char)(0x0001 | 0x0002*(status[k]&0x0001));
+                down[nDown++]=k;
+                nDown%=10;
+            }
+            void __keyboardUp(Key::Keyboard k)
+            {
+                if(status[k]== 0x0001 && nPress<7)
+                    hit[nPress++]=k;
+                
+                for(auto& kd:down) if(kd==k)
+                    kd=Key::Keyboard::KEY_NULL;
+                
+                status[k]=false;
+            }
+            void __clearHit()
+            {
+                memset(hit,false,10);
+                nPress=0;
+            }
+            void __update(InputiOS *self)
+            {
+                for(auto& kd:down)
+                    if(kd!=Key::Keyboard::KEY_NULL)
+                        self->__callOnKeyDown(kd);
+            }
+        } ekeyboard;
         //fingers
         struct EventFingers
         {
@@ -254,6 +303,11 @@ namespace Easy2D
         void __callOnChangeState(Window::State windowState);
         void __callOnClose();
         void __callOnResize(Vec2 size);
+        //keyboard
+        void __callOnKeyPress(Key::Keyboard key);
+        void __callOnKeyRelease(Key::Keyboard key);
+        void __callOnKeyDown(Key::Keyboard key);
+        void __callOnTextInput(const String& inputText);
         //finger
         void __callOnFingerMove(const Vec3& fingerPosition, Key::Finger fingerId);
         void __callOnFingerPress(const Vec3& fingerPosition, Key::Finger fingerId);

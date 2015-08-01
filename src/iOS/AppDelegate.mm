@@ -37,9 +37,20 @@ using namespace Easy2D;
     window.rootViewController = glViewController;
     //alloc view
     glView=[[EAGLView alloc]  initWithFrame: screenBound];
+    //self resize
+    window.autoresizingMask =
+    glView.autoresizingMask =
+    UIViewAutoresizingFlexibleLeftMargin |
+    UIViewAutoresizingFlexibleWidth |
+    UIViewAutoresizingFlexibleRightMargin |
+    UIViewAutoresizingFlexibleTopMargin |
+    UIViewAutoresizingFlexibleHeight |
+    UIViewAutoresizingFlexibleBottomMargin;
     //set view
     [glViewController setView:glView];
     [window addSubview: glView];
+    //display
+    [window setNeedsDisplay];
     //view
     [window makeKeyAndVisible];
     //set ui application delegate
@@ -64,7 +75,7 @@ using namespace Easy2D;
 
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

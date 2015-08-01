@@ -23,7 +23,7 @@
     bool  onlyPortrait;
     bool  onlyLandscape;
     //mask
-    UIDeviceOrientation previousOrientation;
+    UIDeviceOrientation lastOrientation;
 }
 
 - (EAGLViewController*)init;

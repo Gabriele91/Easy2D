@@ -87,6 +87,19 @@ const char* getErrorFrameBuffer(GLuint error)
         //init link
         displayLink = nil;
         
+        //screen size is 0
+        backingWidth = 0;
+        backingHeight = 0;
+        
+        // text input fields
+        autocapitalizationType = UITextAutocapitalizationTypeNone;
+        autocorrectionType = UITextAutocorrectionTypeNo;
+        enablesReturnKeyAutomatically = NO;
+        keyboardAppearance = UIKeyboardAppearanceDefault;
+        keyboardType = UIKeyboardTypeDefault;
+        returnKeyType = UIReturnKeyDone;
+        secureTextEntry = NO;
+        
     }
     return self;
 }
@@ -146,10 +159,18 @@ const char* getErrorFrameBuffer(GLuint error)
     //get the storage from iOS so it can be displayed in the view
     [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer*)self.layer];
     
+    //temp size
+    GLint width=0,height=0;
     //get size
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
-    
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &width);
+    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &height);
+    //resize?
+    bool resize = ( backingHeight && backingWidth ) && ( backingWidth != width || backingHeight != height );
+    //update size
+    backingWidth  = width;
+    backingHeight = height;
+    //fire event
+    if(resize) inputios->__callOnResize(Vec2([self getWidth],[self getHeight]));
     //attach color to frame buffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, viewRenderbuffer);
     
@@ -361,6 +382,46 @@ const char* getErrorFrameBuffer(GLuint error)
     //dealloc
     [context release];
     [super dealloc];
+}
+
+#pragma mark - UIKeyInput protocol
+
+@synthesize autocapitalizationType;
+@synthesize autocorrectionType;
+@synthesize enablesReturnKeyAutomatically;
+@synthesize keyboardAppearance;
+@synthesize keyboardType;
+@synthesize returnKeyType;
+@synthesize secureTextEntry;
+
+- (void)insertText:(NSString *)text
+{
+#if 1
+    const char* c_str= [text cStringUsingEncoding:NSISOLatin1StringEncoding];
+    inputios->ekeyboard.inputString=c_str ? c_str : "";
+#else
+    inputios->ekeyboard.inputString=[text UTF8String];
+#endif
+    inputios->__callOnTextInput(inputios->ekeyboard.inputString);
+}
+
+- (void)deleteBackward
+{
+    //fake cancel press
+    inputios->ekeyboard.__keyboardDown(Key::KDELETE);
+    inputios->__callOnKeyDown(Key::KDELETE);
+    inputios->ekeyboard.__keyboardUp(Key::KDELETE);
+    inputios->__callOnKeyRelease(Key::KDELETE);
+}
+
+- (BOOL)hasText
+{
+    return YES;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
 }
 
 @end

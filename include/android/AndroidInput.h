@@ -187,7 +187,10 @@ public:
     {
         return ewindow.windowResize;
     }
-
+    /**
+    * show/hide a virtual keyboard
+    */
+    bool virtualKeyboard(bool show);
 
 protected:
     //window

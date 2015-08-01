@@ -110,8 +110,8 @@ public:
     */
     virtual void update(float dt)=0;
     /**
-    * return true if device supports only power of two texture
-    */
+     * return true if device supports only power of two texture
+     */
     virtual bool onlyPO2()=0;
     /**
     * return last delta time
@@ -119,6 +119,13 @@ public:
     virtual float getLastDeltaTime()
     {
         return lastDeltaTime;
+    }
+    /**
+    * show/hide a virtual keyboard
+    */
+    virtual bool virtualKeyboard(bool show)
+    {
+        return false;
     }
     /**
     * return main instance

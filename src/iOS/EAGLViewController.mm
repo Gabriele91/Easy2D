@@ -39,19 +39,13 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
     orientation         = Screen::Orientation::PORTRAIT;
     onlyPortrait        = false;
     onlyLandscape       = false;
-    previousOrientation = UIDeviceOrientationPortrait;
+    lastOrientation     = UIDeviceOrientationPortrait;
     //set rotation
     [[self view] transform] = CGAffineTransformMakeRotation(0);
     //set rotation
     Easy2D::RenderContext::setDisplay(Mat4::IDENTITY);
     //hide status bar
     [self disableStatusBar];
-    //reg change view
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(viewChanging:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:nil];
-
     //return this
     return self;
 }
@@ -91,55 +85,49 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
     return [view getHeight];
 }
 
-//Orientation
-- (Screen::Orientation)  getOrientation
+
+- (Easy2D::Screen::Orientation)  getOrientation
 {
-    //current orientation
-    UIDeviceOrientation currentOrientation = [[UIDevice currentDevice] orientation];
-    switch (currentOrientation)
+    switch (lastOrientation)
     {
+        default:
+        case UIDeviceOrientationFaceUp:
         case UIDeviceOrientationPortrait: return Screen::Orientation::PORTRAIT;
+        
+        case UIDeviceOrientationFaceDown:
         case UIDeviceOrientationPortraitUpsideDown: return Screen::Orientation::PORTRAIT_REVERSE;
+            
         case UIDeviceOrientationLandscapeLeft: return Screen::Orientation::LANDSCAPE;
         case UIDeviceOrientationLandscapeRight: return Screen::Orientation::LANDSCAPE_REVERSE;
-        //default portrait
-        default: return  Screen::Orientation::PORTRAIT;
     }
 }
 
-- (UIDeviceOrientation) getOrientationValue: (Screen::Orientation) screenOrientation
+- (UIInterfaceOrientation) getInterfaceOrientationValue: (Screen::Orientation) screenOrientation
 {
     switch (screenOrientation)
     {
-        case Screen::Orientation::PORTRAIT:          return  UIDeviceOrientationPortrait;
-        case Screen::Orientation::PORTRAIT_REVERSE:  return  UIDeviceOrientationPortraitUpsideDown;
-        case Screen::Orientation::LANDSCAPE:         return  UIDeviceOrientationLandscapeLeft;
-        case Screen::Orientation::LANDSCAPE_REVERSE: return  UIDeviceOrientationLandscapeRight;
-        //default unknown
-        default: return  UIDeviceOrientationUnknown;
+        case Screen::Orientation::PORTRAIT:          return  UIInterfaceOrientationPortrait;
+        case Screen::Orientation::PORTRAIT_REVERSE:  return  UIInterfaceOrientationPortraitUpsideDown;
+        case Screen::Orientation::LANDSCAPE:         return  UIInterfaceOrientationLandscapeLeft;
+        case Screen::Orientation::LANDSCAPE_REVERSE: return  UIInterfaceOrientationLandscapeRight;
+            //default unknown
+        default: return  UIInterfaceOrientationUnknown;
     }
 }
 
-- (BOOL) isPortrait: (UIDeviceOrientation) lOrientation
+- (BOOL) isLandscape
 {
-    return  lOrientation == UIDeviceOrientationPortrait ||
-            lOrientation == UIDeviceOrientationPortraitUpsideDown;
+    return lastOrientation == UIDeviceOrientationLandscapeLeft ||
+           lastOrientation == UIDeviceOrientationLandscapeRight;
 }
 
-- (BOOL) isLandscape: (UIDeviceOrientation) lOrientation
+- (BOOL) isPortrait
 {
-    return lOrientation == UIDeviceOrientationLandscapeLeft ||
-    lOrientation == UIDeviceOrientationLandscapeRight;
-}
-
-- (BOOL) lastIsLandscape
-{
-    return [self isLandscape: previousOrientation];
-}
-
-- (BOOL) lastIsPortrait
-{
-    return [self isPortrait: previousOrientation];
+    return lastOrientation == UIDeviceOrientationPortrait ||
+           lastOrientation == UIDeviceOrientationPortraitUpsideDown||
+           lastOrientation == UIDeviceOrientationUnknown ||
+           lastOrientation == UIDeviceOrientationFaceUp  ||
+           lastOrientation == UIDeviceOrientationFaceDown;
 }
 
 - (void)setOrientation:(Easy2D::Screen::Orientation)type;
@@ -149,101 +137,63 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
         onlyLandscape = true;
         onlyPortrait  = false;
         orientation   = type;
-        if([self lastIsPortrait])  [self setViewOrientation:UIDeviceOrientationLandscapeLeft];
+        //if is in portrait
+        if([self isPortrait])
+        {
+            //force rotation
+            NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeLeft];
+            [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+        }
     }
     else if(type == Screen::SENSOR_PORTRAIT)
     {
         onlyLandscape = true;
         onlyPortrait  = false;
         orientation   = type;
-        if([self lastIsLandscape]) [self setViewOrientation:UIDeviceOrientationPortrait];
+        //if is in landscape
+        if([self isLandscape])
+        {
+            //force rotation
+            NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationPortrait];
+            [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+        }
     }
     else
     {
         onlyLandscape = false;
         onlyPortrait  = false;
         orientation   = type;
-        [self setViewOrientation:[self getOrientationValue:type]];
+        //force rotation
+        NSNumber *value = [NSNumber numberWithInt:[self getInterfaceOrientationValue:type]];
+        [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
     }
 }
 
-- (void)setViewOrientation: (UIDeviceOrientation) currentOrientation
-{
-    //ignore cases
-    if (previousOrientation==currentOrientation) return;
-    else if ( (![self isLandscape:currentOrientation]) &&
-              (![self isPortrait:currentOrientation]) ) return;
-    else if ([self isLandscape:currentOrientation] && onlyPortrait) return;
-    else if ([self isPortrait:currentOrientation] && onlyLandscape) return;
-    //or change
-    CATransform3D transform = CATransform3DIdentity;
-    //rotation
-    if (UIDeviceOrientationLandscapeLeft == currentOrientation)
-        transform = CATransform3DMakeRotation(M_PI/2, 0, 0, 1);
-    else if (UIDeviceOrientationLandscapeRight == currentOrientation)
-        transform = CATransform3DMakeRotation(-M_PI/2, 0, 0, 1);
-    else if (UIDeviceOrientationPortraitUpsideDown == currentOrientation)
-        transform = CATransform3DMakeRotation(-M_PI, 0, 0, 1);
-    //get bound
-    CGRect  frame = [[UIScreen mainScreen] bounds];
-    CGPoint center= CGPointMake(CGRectGetMidX(frame),CGRectGetMidY(frame));
-    //resize
-    if([self lastIsLandscape] && [self isPortrait: currentOrientation])
-    {
-        //became portrait
-        float width =std::min(frame.size.width,  frame.size.height);
-        float height=std::max(frame.size.width,  frame.size.height);
-        frame.size.width = width;
-        frame.size.height = height;
-        [[self view] setBounds:frame];
-    }
-    else if([self lastIsPortrait] && [self isLandscape: currentOrientation])
-    {
-        //became landscape
-        float width =std::max(frame.size.width,  frame.size.height);
-        float height=std::min(frame.size.width,  frame.size.height);
-        frame.size.width = width;
-        frame.size.height = height;
-        [[self view] setBounds:frame];
-    }
-    //applay rotation
-    [self view].transform=CATransform3DGetAffineTransform(transform);
-    //center of screen
-    [[[self view] layer] setPosition:center];
-    //save state
-    previousOrientation = currentOrientation;
-}
-
-
-- (void) movingToBackground: (NSNotification *) notification
-{
-    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-}
-
-- (void) movingToForeground: (NSNotification *) notification
-{
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-}
-
-- (void)viewChanging:(NSNotification*)notification
-{
-    [self setViewOrientation: [[UIDevice currentDevice] orientation]];
-}
 ////////////////////////////////
-//DISABLE ROTATION
+//ROTATION
 -(BOOL)shouldAutorotate
 {
-    return NO;
+    //save last rotation
+    lastOrientation =  [[UIDevice currentDevice] orientation];
+    //turn
+    return YES;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return NO;
+    return [self shouldAutorotate];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationPortrait;
+    if(onlyPortrait)
+        return UIInterfaceOrientationMaskPortrait |
+               UIInterfaceOrientationMaskPortraitUpsideDown;
+    if(onlyLandscape)
+        return UIInterfaceOrientationMaskLandscapeLeft |
+               UIInterfaceOrientationMaskLandscapeRight;
+    else
+        return UIInterfaceOrientationMaskAll;
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
@@ -256,23 +206,7 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
     CGPoint point = [touch locationInView: [self view]];
     //normalize? No (denormalize in android).
     float scale=[[UIScreen mainScreen] scale];
-#if 0
-    unsigned int width=0;
-    unsigned int height=0;
-    width =[[UIScreen mainScreen] bounds].size.height*scale;
-    height=[[UIScreen mainScreen] bounds].size.width*scale;
-    //cases
-    switch (previousOrientation)
-    {
-        default:
-        case UIDeviceOrientationPortrait:           return Vec2(point.x*scale      , point.y*scale);
-        case UIDeviceOrientationPortraitUpsideDown: return Vec2(point.x*scale      , height-point.y*scale);
-        case UIDeviceOrientationLandscapeLeft:      return Vec2(width-point.y*scale, point.x*scale);
-        case UIDeviceOrientationLandscapeRight:     return Vec2(      point.y*scale, point.x*scale);;
-    }
-#else
     return Vec2(point.x*scale,point.y*scale);
-#endif
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

@@ -774,9 +774,18 @@ TextField::TextField(Texture::ptr  texture,
     Renderable::setCull(DISABLE);
 }
 //events
+void TextField::onFocus()
+{
+    // show Virtual Keyboard
+    if(manager && manager->isAFinger())
+        Application::instance()->virtualKeyboard(true);
+}
 void TextField::onLostFocus()
 {
     state=TF_NORMAL;
+    // hide Virtual Keyboard
+    if(manager && manager->isAFinger())
+        Application::instance()->virtualKeyboard(false);
 }
 void TextField::onOver(const Vec2& over)
 {

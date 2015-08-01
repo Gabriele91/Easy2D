@@ -11,7 +11,7 @@
  The view content is basically an EAGL surface you render your OpenGL scene into.
  Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
  */
-@interface EAGLView : UIView
+@interface EAGLView : UIView< UIKeyInput >
 {
     
 @private
@@ -33,10 +33,21 @@
     /* loop update */
     CADisplayLink *displayLink;
     NSTimeInterval animationInterval;
+
+    /* Text Input */
+    UITextAutocapitalizationType autocapitalizationType;
+    UITextAutocorrectionType autocorrectionType;
+    BOOL enablesReturnKeyAutomatically;
+    UIKeyboardAppearance keyboardAppearance;
+    UIKeyboardType keyboardType;
+    UIReturnKeyType returnKeyType;
+    BOOL secureTextEntry;
 }
 
+/* Animation/Loop intervall */
 @property(nonatomic) NSTimeInterval animationInterval;
 
+/* OpenGL ES Methos */
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)setAnimationInterval:(NSTimeInterval)time;
@@ -50,6 +61,15 @@
 - (unsigned int)getOrientation;
 - (BOOL) createFramebuffer;
 - (void) destroyFramebuffer;
+
+/* Text Input */
+@property(nonatomic) UITextAutocapitalizationType autocapitalizationType;
+@property(nonatomic) UITextAutocorrectionType autocorrectionType;
+@property(nonatomic) BOOL enablesReturnKeyAutomatically;
+@property(nonatomic) UIKeyboardAppearance keyboardAppearance;
+@property(nonatomic) UIKeyboardType keyboardType;
+@property(nonatomic) UIReturnKeyType returnKeyType;
+@property(nonatomic, getter=isSecureTextEntry) BOOL secureTextEntry;
 
 @end
 

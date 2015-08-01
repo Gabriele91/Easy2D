@@ -340,7 +340,13 @@ void AndroidInput::update()
     //update down fingers 
     efingers.__update(this);
 }
-
+/**
+* show/hide a virtual keyboard
+*/
+bool AndroidInput::virtualKeyboard(bool show)
+{
+    return displayAndroidKeyboard(show);
+}
 //keyboards
 void AndroidInput::__callOnKeyPress(Key::Keyboard key)
 {

@@ -279,6 +279,7 @@ protected:
     void onSetScene(Easy2D::Scene *scene);
     void onEraseScene();
     //events
+    void onFocus();
     void onLostFocus();
     void onOver(const Vec2& over);
     void onNotOver(const Vec2& over);

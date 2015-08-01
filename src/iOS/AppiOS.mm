@@ -164,3 +164,29 @@ bool AppiOS::onlyPO2()
 {
     return true;
 }
+/**
+* show/hide a virtual keyboard
+*/
+bool AppiOS::virtualKeyboard(bool show)
+{
+    UIView< UIKeyInput >* view = (UIView< UIKeyInput >*)[delegate glView];
+    //try to open virtual keyboard
+    @try
+    {
+        if(view)
+        {
+            return show ? [view becomeFirstResponder] :
+                          [view resignFirstResponder];
+        }
+    }
+    @catch (NSException *exception)
+    {
+        // Print exception information
+        NSLog( @"NSException caught" );
+        NSLog( @"Name: %@", exception.name);
+        NSLog( @"Reason: %@", exception.reason );
+    }
+    //else
+    return false;
+
+}

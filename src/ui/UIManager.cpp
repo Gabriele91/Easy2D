@@ -222,3 +222,39 @@ void WidgetManager::InputManager::onMouseRelease(Vec2 mousePosition, Key::Mouse 
         ckstate = UNCLICK;
     }
 }
+//fingers
+void  WidgetManager::InputManager::onFingerMove(Vec3 touchPosition, Key::Finger FingerID)
+{
+    //filter
+    if( crtFinger !=  FingerID ) return;
+    //event
+    onMouseMove(touchPosition.xy());
+}
+void  WidgetManager::InputManager::onFingerDown(Vec3 touchPosition, Key::Finger FingerID)
+{
+    //filter
+    if( crtFinger !=  FingerID ) return;
+    //event
+    onMouseDown(touchPosition.xy(),Key::BUTTON_LEFT);
+}
+void  WidgetManager::InputManager::onFingerPress(Vec3 touchPosition, Key::Finger FingerID)
+{
+    //set focus to a finger
+    if( crtFinger ==  Key::FINGER_NULL ){ crtFinger = FingerID; }
+    //filter
+    if( crtFinger !=  FingerID ) return;
+    //event
+    onMousePress(touchPosition.xy(),Key::BUTTON_LEFT);
+    
+}
+void  WidgetManager::InputManager::onFingerRelease(Vec3 touchPosition, Key::Finger FingerID)
+{
+    //filter
+    if( crtFinger !=  FingerID ) return;
+    //event
+    onMouseRelease(touchPosition.xy(),Key::BUTTON_LEFT);
+    //delete focus to a finger
+    crtFinger = Key::FINGER_NULL ;
+}
+
+

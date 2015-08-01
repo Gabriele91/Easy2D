@@ -97,7 +97,9 @@ private:
             UNCLICK,
             CLICKED,
         };
-        ClickState   ckstate { UNCLICK };
+        //current finger
+        Key::Finger  crtFinger { Key::FINGER_NULL };
+        ClickState   ckstate   { UNCLICK };
         Timer        timer;
         bool         isUnlocked { true };
         const double doubleClickTime= 500.0;
@@ -124,6 +126,11 @@ private:
         void onMouseDown(Vec2 mousePosition, Key::Mouse button);
         void onMousePress(Vec2 mousePosition, Key::Mouse button);
         void onMouseRelease(Vec2 mousePosition, Key::Mouse button);
+        //fingers
+        void onFingerDown(Vec3 touchPosition, Key::Finger FingerID);
+        void onFingerMove(Vec3 touchPosition, Key::Finger FingerID);
+        void onFingerPress(Vec3 touchPosition, Key::Finger FingerID);
+        void onFingerRelease(Vec3 touchPosition, Key::Finger FingerID);
         //lock/unlock events
         void lock()
         {
@@ -138,6 +145,11 @@ private:
         bool isLocked() const
         {
             return !isUnlocked;
+        }
+        
+        bool isAFinger() const
+        {
+            return crtFinger != Key::FINGER_NULL;
         }
     };
     InputManager inputManager;
@@ -169,6 +181,11 @@ public:
     bool isLocked() const
     {
         return inputManager.isLocked();
+    }
+    
+    bool isAFinger() const
+    {
+        return inputManager.isAFinger();
     }
     
     void release()
