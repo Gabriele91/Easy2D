@@ -169,8 +169,6 @@ const char* getErrorFrameBuffer(GLuint error)
     //update size
     backingWidth  = width;
     backingHeight = height;
-    //fire event
-    if(resize) inputios->__callOnResize(Vec2([self getWidth],[self getHeight]));
     //attach color to frame buffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, viewRenderbuffer);
     
@@ -239,7 +237,9 @@ const char* getErrorFrameBuffer(GLuint error)
     });
     //find errors:
     CHECK_GPU_ERRORS();
-    
+    //fire resize event
+    if(resize) inputios->__callOnResize(Vec2([self getWidth],[self getHeight]));
+    //end
     return YES;
 }
 
