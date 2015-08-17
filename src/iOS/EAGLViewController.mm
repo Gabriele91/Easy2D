@@ -147,8 +147,8 @@ static inline Easy2D::Mat4 RotTransform(CGFloat angle)
     }
     else if(type == Screen::SENSOR_PORTRAIT)
     {
-        onlyLandscape = true;
-        onlyPortrait  = false;
+        onlyLandscape = false;
+        onlyPortrait  = true;
         orientation   = type;
         //if is in landscape
         if([self isLandscape])

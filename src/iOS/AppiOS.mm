@@ -8,8 +8,9 @@
 ////////////////////////////////////////
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#include "AppDelegate.h"
+#import "AppDelegate.h"
 ////////////////////////////////////////
+#include <cstdlib>
 #include <AppiOS.h>
 #include <ScreeniOS.h>
 #include <InputiOS.h>
@@ -124,7 +125,7 @@ String AppiOS::appResourcesDirectory()
  */
 void AppiOS::exit()
 {
-/* unused ?? */
+    [[UIApplication sharedApplication] close];
 }
 /**
  * application loop
@@ -142,8 +143,16 @@ void AppiOS::exec(Game *game)
     mainInstance=game;
     //launch the iphone app
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    //start app
-    UIApplicationMain( 0, nullptr, nil,   NSStringFromClass([Easy2DApplication class]) );
+    //try object-c block
+    @try
+    {
+        //start app
+        UIApplicationMain( 0, nullptr, nil,   NSStringFromClass([Easy2DApplication class]) );
+    }
+    @catch (NSException *exception)
+    {
+        NSLog(@"%@", exception.reason);
+    }
     //relase
     [pool release];
 }

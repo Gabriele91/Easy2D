@@ -61,7 +61,7 @@ public:
     int __towatch (lua_State* luaVM)
     {
         //good cast
-        auto rsthis=((Renderable*)(this));//1=self/this
+        //auto rsthis=((Renderable*)(this));//1=self/this
         //call
         luabridge::LuaRef t = luabridge::newTable (luaVM);
         t["type"]="Renderable";
@@ -183,7 +183,7 @@ public:
     int __towatch (lua_State* luaVM)
     {
         //good cast
-        auto rsthis=((Renderable*)(this));//1=self/this
+        //auto rsthis=((Renderable*)(this));//1=self/this
         //call
         luabridge::LuaRef t = luabridge::newTable (luaVM);
         t["type"]="AnimatedSprite";
@@ -220,7 +220,7 @@ public:
 	{
 		int const nargs = lua_gettop(luaVM);
 		//good cast
-		auto rsthis = ((AnimatedSprite*)(this));//1=self/this
+		//auto rsthis = ((AnimatedSprite*)(this));//1=self/this
 		//
 		if (lua_isuserdata(luaVM, 2) && nargs == 2)
 		{

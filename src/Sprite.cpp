@@ -23,6 +23,13 @@ Sprite::Sprite(Texture::ptr texture):Renderable(nullptr,texture,true)
     }
 }
 
+//protected set mesh
+void Sprite::setMesh(Mesh::ptr mesh)
+{
+    Renderable::setMesh(mesh);
+}
+
+//set texture
 void Sprite::setTexture(Texture::ptr texture)
 {
     //texture load
@@ -34,7 +41,30 @@ void Sprite::setTexture(Texture::ptr texture)
     setMesh(texture->getPO2Sprite());
 }
 
+Vec2 Sprite::getPixelScale()
+{
+    if(getTexture() && getObject())
+    {
+        return getTexture()->getSpriteSize()*getObject()->getScale();
+    }
+    else if(getTexture())
+    {
+        return getTexture()->getSpriteSize();
+    }
+    return Vec2::ZERO;
+}
 
+void Sprite::setPixelScale(const Vec2& scale,bool global)
+{
+    if(getTexture() && getObject())
+    {
+        getObject()->setScale(scale/getTexture()->getSpriteSize(),global);
+    }
+    else if(getObject())
+    {
+        getObject()->setScale(scale,global);
+    }
+}
 //serialize/deserialize
 void Sprite::serialize(Table& table)
 {

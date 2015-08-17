@@ -179,8 +179,9 @@ void Scene::onRunLogic(float dt)
 		obj/*.second*/->onSceneRun(dt);
 	//update logic scene
 	onRun(dt);
-	//update physics
-	World::physics(dt);
+	//update physics if is enable
+    if(physicsUpdate)
+        World::physics(dt);
 }
 void Scene::onRunDraw()
 {
@@ -211,11 +212,11 @@ void Scene::onPauseScene()
 }
 
 //publics:
-bool Scene::isContent(int uid)
+bool Scene::isContent(int uid) const
 {
 	return scenes.find(uid) != scenes.end();
 }
-bool Scene::isActive(int uid)
+bool Scene::isActive(int uid) const
 {
 	return actives.contains(uid);
 }
@@ -225,14 +226,23 @@ Scene* Scene::getScene(int uid)
 		return scenes[uid].child;
 	return NULL;
 }
-int Scene::getCurrentUID()
+int Scene::getCurrentUID() const
 {
 	return actives.top();
 }
-Scene*Scene::getCurrentScene()
+Scene* Scene::getCurrentScene()
 {
 	if (actives.empty()) return NULL;
 	return scenes[actives.top()].child;
+}
+//phisics
+bool Scene::isEnablePhysicsUpdate() const
+{
+    return physicsUpdate;
+}
+bool Scene::setEnablePhysicsUpdate(bool enable)
+{
+    physicsUpdate = enable;
 }
 //Objects
 void Scene::eraseObject(Object *obj)

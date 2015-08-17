@@ -302,7 +302,7 @@ void Label::draw()
         //if scale indipedent
         AABox2 box = getBaseBox();
         //set text model
-        RenderContext::setModel(RenderContext::getModel().mul(model));
+        RenderContext::setModel(RenderContext::getModel().mul2D(model));
         //text color
         RenderContext::setColor(getDisplayedTextColor());
         //draw text
@@ -639,7 +639,6 @@ void Label::serialize(Table& table)
 void Label::deserialize(const Table& table)
 {
     Text::deserialize(table);
-    Label::deserializeFields(table);
     //get texture
     if (table.existsAsType("texture", Table::STRING))
     {
@@ -649,6 +648,8 @@ void Label::deserialize(const Table& table)
         DEBUG_ASSERT(rsgroup);
         setTexture(rsgroup->load<Texture>(table.getString("texture")));
     }
+    //deserialize after the texture
+    Label::deserializeFields(table);
 }
 
 /**
@@ -727,7 +728,6 @@ void Button::serialize(Table& table)
 void Button::deserialize(const Table& table)
 {
     Text::deserialize(table);
-    Label::deserializeFields(table);
     //textures
     bool existsNormal = table.existsAsType("normal", Table::STRING);
     bool existsOver   = table.existsAsType("over",   Table::STRING);
@@ -746,6 +746,8 @@ void Button::deserialize(const Table& table)
         //set default texture
         setTexture();
     }
+    //deserialize after texture
+    Label::deserializeFields(table);
 }
 
 /**
@@ -1136,7 +1138,7 @@ void TextField::draw()
         textModel.setTranslation(Vec2(-offset,0));
         textModel = model.mul2D(textModel);
         //set text model
-        RenderContext::setModel(RenderContext::getModel().mul(textModel));
+        RenderContext::setModel(RenderContext::getModel().mul2D(textModel));
         //text color
         RenderContext::setColor(getDisplayedTextColor());
         //draw text
@@ -1189,7 +1191,7 @@ void TextField::draw()
         textModel.setTranslation(Vec2(-offset,0));
         textModel = model.mul2D(textModel);
         //set text model
-        RenderContext::setModel(RenderContext::getModel().mul(textModel));
+        RenderContext::setModel(RenderContext::getModel().mul2D(textModel));
         //draw pointer
         AABox2 cpos = charAt(cursor);
         //get position

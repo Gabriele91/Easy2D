@@ -6,7 +6,8 @@
 @class EAGLView;
 @class EAGLViewController;
 
-@interface Easy2DApplication : UIResponder <UIApplicationDelegate>
+/* delegate app */
+@interface Easy2DApplication : UIResponder < UIApplicationDelegate >
 {
     UIWindow *window;
     EAGLViewController *glViewController;
@@ -17,6 +18,17 @@
 @property (nonatomic, retain) IBOutlet UIViewController *glViewController;
 @property (nonatomic, retain) IBOutlet EAGLView *glView;
 
+@end
+
+/* hide calls */
+@interface UIApplication (Easy2DApplication)
+- (void)suspend;
+- (void)terminateWithSuccess;
+@end
+
+/* close */
+@interface UIApplication (close)
+- (void)close;
 @end
 
 #endif

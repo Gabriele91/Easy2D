@@ -989,6 +989,7 @@
 		E0BEA3531AB9C41600824182 /* AiffLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA3501AB9C41600824182 /* AiffLoader.h */; };
 		E0BEA3541AB9C41600824182 /* Speaker.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA3511AB9C41600824182 /* Speaker.h */; };
 		E0BEA3551AB9C41600824182 /* Listener.h in Headers */ = {isa = PBXBuildFile; fileRef = E0BEA3521AB9C41600824182 /* Listener.h */; };
+		E0CE80861B6FDEAF00FEB2E6 /* Math3D_SSE2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E054961217AE6907005DDB72 /* Math3D_SSE2.cpp */; };
 		E0D6185A19FD074300695A70 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0D6185919FD074300695A70 /* AppDelegate.mm */; };
 		E0D6186519FD07E700695A70 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0D6186419FD07E700695A70 /* EAGLView.mm */; };
 		E0DE20E419FF91F000B17A40 /* EAGLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = E0DE20E319FF91F000B17A40 /* EAGLViewController.mm */; };
@@ -3716,6 +3717,7 @@
 				E0398A2D19FBFBD900079232 /* Utility.cpp in Sources */,
 				E055ABAB19FFF4A700163AC4 /* Math3D_vfp.cpp in Sources */,
 				E0398A3719FBFBEA00079232 /* AudioAL.cpp in Sources */,
+				E0CE80861B6FDEAF00FEB2E6 /* Math3D_SSE2.cpp in Sources */,
 				E0398A2419FBFBD900079232 /* RenderState.cpp in Sources */,
 				E0398A0919FBFBD900079232 /* World.cpp in Sources */,
 				E0398A0C19FBFBD900079232 /* EStack.cpp in Sources */,

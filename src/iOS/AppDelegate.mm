@@ -95,6 +95,7 @@ using namespace Easy2D;
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [glView stopAnimation];
     Application::instance()->getGame()->end();
 }
 
@@ -103,6 +104,29 @@ using namespace Easy2D;
     [window release];
     [glView release];
     [super dealloc];
+}
+
+@end
+
+@implementation UIApplication (close)
+
+- (void)close
+{
+    if ([self respondsToSelector:@selector(suspend)])
+        [self suspend];
+    // Checks if the current device supports background execution
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
+        [self performSelector:@selector(exit) withObject:nil afterDelay:0.9];
+    else
+        [self exit];
+}
+
+- (void)exit
+{
+    if ([self respondsToSelector:@selector(terminateWithSuccess)])
+        [self terminateWithSuccess];
+    else
+        exit(EXIT_SUCCESS);
 }
 
 @end

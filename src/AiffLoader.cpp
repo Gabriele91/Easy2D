@@ -166,9 +166,9 @@ Audio::SoundBuffer* AiffLoader::load(const Utility::Path& path)
 	size_t len = 0;
 	Application::instance()->loadData(path, data, len);
 	//headers
-	AiffChunkFORM*   form;
-	AiffChunkSSND*   ssnd;
-	AiffChunkCOMM*   comm;
+	AiffChunkFORM*   form = nullptr;
+	AiffChunkSSND*   ssnd = nullptr;
+	AiffChunkCOMM*   comm = nullptr;
 	//bools
 	//init
 	form = (AiffChunkFORM*)data;

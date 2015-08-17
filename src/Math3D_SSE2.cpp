@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include "Math3D_SSE2.h"
 
-#if defined( SIMD_SSE2 )
+#if defined( SIMD_SSE2 ) && !defined( __arm__ )
 namespace Easy2D
 {
 

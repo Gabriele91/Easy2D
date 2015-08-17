@@ -27,7 +27,13 @@ void  WidgetHandler::addTo(WidgetManager* argmanager)
 void WidgetHandler::removeFrom(WidgetManager* argmanager)
 {
     DEBUG_ASSERT(manager==argmanager);
+    //remove listener
     manager->removeComponent(this);
+    //disable focus
+    if(manager->focusObj==this)
+    {
+        manager->focusObj=nullptr;
+    }
 }
 WidgetHandler::~WidgetHandler()
 {

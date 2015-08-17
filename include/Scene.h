@@ -33,6 +33,7 @@ class Scene : public Render, //Graphics
     DUNORDERED_MAP<int,SubScene> scenes;
     EStack<int> actives;
     std::list<Object*> objects;
+    bool  physicsUpdate{ true };
     //start methos
 	bool isStarted;
 	void onStartResume();
@@ -66,13 +67,16 @@ protected:
     void onEndAll();
 
 public:
-
-	bool isContent(int uid);
-	bool isActive(int uid);
+    
+	bool isContent(int uid) const;
+	bool isActive(int uid) const;
 	Scene* getScene(int uid);
-	int getCurrentUID();
+	int getCurrentUID() const;
 	Scene* getCurrentScene();
-
+    //physics
+    bool isEnablePhysicsUpdate() const;
+    bool setEnablePhysicsUpdate(bool enable);
+    
     //Objects
     template<class T>
     T* addObject(T *obj)

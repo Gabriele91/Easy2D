@@ -133,9 +133,9 @@ protected:
      //scale9
      struct Uniform
      {
-         int sizeTex;
-         int scaleSprite;
-         int inBox;
+         int sizeTex    { 0 };
+         int scaleSprite{ 0 };
+         int inBox      { 0 };
      };
      Uniform uniform;
      Vec4    boxScale9;
@@ -304,7 +304,7 @@ protected:
     //state of text field
     State state{ TF_NORMAL };
     //cursor pos
-    float  offset;
+    float  offset{ 0.0f };
 	int    cursor{ 0 };
 	int    cursorSelect{ 0 };
 	AABox2 charAt(int pos);

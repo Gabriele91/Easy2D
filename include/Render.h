@@ -196,12 +196,12 @@ public:
     //POST EFFECT
     DFORCEINLINE void addPostEffect(Shader::ptr shader, bool blend=false,uint bsrc=BLEND::ONE,uint bdst=BLEND::ZERO)
     {
-        if(!effects) effects=PostEffects::ptr(new PostEffects);
+        if(!effects) effects=PostEffects::snew();
         effects->addEffect(shader,blend,bsrc,bdst);
     }
     DFORCEINLINE void removePostEffect(Shader::ptr shader)
     {
-        if(!effects) effects=PostEffects::ptr(new PostEffects);
+        if(!effects) effects=PostEffects::snew();
         effects->removeEffect(shader);
     }
     ///////////////////////////////////////////////////

@@ -398,7 +398,6 @@ class Body : public Component
 
     void setSleepingAllowed(bool);
     bool getSleepingAllowed() const;
-
     /**
     * applay
     */

@@ -14,7 +14,11 @@ using namespace Easy2D;
 #if defined( ENABLE_SHADER ) && !defined(OPENGL_ES2) //OPENGL 2.1
 //VERSION
 static const char versionGLSL[]=
-"#version 120 \n";
+"#version 120            \n"
+"#define GLSL            \n"
+"#define OPENGL          \n"
+"#define ONLY_GL(x)   x  \n"
+"#define ONLY_GLES(x)    \n";
 //STANDARD UNIFORM
 static const char standardUniform[]=
 "#define Texture sampler2D                 \n"
@@ -50,6 +54,10 @@ static const char fragmentHeader[]=
 //VERSION
 static const char versionGLSL[]=
 "#version 100						\n"
+"#define GLSL_ES					\n"
+"#define OPENGL_ES					\n"
+"#define ONLY_GL(x)                 \n"
+"#define ONLY_GLES(x) x             \n"
 "precision mediump float;           \n";
 //STANDARD UNIFORM
 static const char standardUniform[]=
@@ -326,10 +334,8 @@ void Shader::load(const String& vs,
 
 static inline bool isAlphaChar(const char* source)
 {
-    return  (*(source))==' ' ||
-    (*(source))=='\t'||
-    (*(source))=='\r'||
-    (*(source))=='\n';
+    return  (*(source))==' ' || (*(source))=='\t'||
+            (*(source))=='\r'|| (*(source))=='\n';
 }
 static inline bool isStartLComment(const char* source)
 {
@@ -343,7 +349,7 @@ static inline bool isEndMLComment(const char* source)
 {
     return (*source)=='*' && (*(source+1)=='/');
 }
-static inline void skipSpaceAndComments(char*& source,int line)
+static inline void skipSpaceAndComments(char*& source,int& line)
 {
     do
     {
@@ -411,7 +417,7 @@ static inline void skipSpaceAndComments(char*& source,int line)
     }while(true);
     
 }
-static inline void skipGLSLAndComments(char*& source,int line)
+static inline void skipGLSLAndComments(char*& source,int& line)
 {
     do
     {

@@ -265,7 +265,7 @@ class LuaE2Object : public Object
 	{
 		int const nargs = lua_gettop(luaVM);
 		//good cast
-		auto rsthis = ((Object*)(this));
+		//auto rsthis = ((Object*)(this));
 		//get obj
 		if (nargs == 2)
 		{
@@ -283,7 +283,7 @@ class LuaE2Object : public Object
 	{
 		int const nargs = lua_gettop(luaVM);
 		//good cast
-		auto rsthis = ((Object*)(this));
+		//auto rsthis = ((Object*)(this));
 		//get obj
 		if (nargs == 2)
 		{
@@ -340,7 +340,7 @@ class LuaE2Object : public Object
 	{
 		int const nargs = lua_gettop(luaVM);
 		//good cast
-		auto rsthis = ((Object*)(this));//1=self/this       
+		//auto rsthis = ((Object*)(this));//1=self/this
 		//get obj
 		if (nargs == 2)
 		{
@@ -359,7 +359,7 @@ class LuaE2Object : public Object
 	{
 		int const nargs = lua_gettop(luaVM);
 		//good cast
-		auto rsthis = ((Object*)(this));//1=self/this
+		//auto rsthis = ((Object*)(this));//1=self/this
 		//get obj
 		if (nargs == 2)
 		{
