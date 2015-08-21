@@ -162,10 +162,10 @@ class LuaE2Object : public Object
 		auto rsthis = ((Object*)(this));//1=self/this
 		//set scale
 		if (nargs == 2)
-			rsthis->setZ(luabridge::Stack<float>::get(luaVM, 2));
+			rsthis->setZ(luabridge::Stack<int>::get(luaVM, 2));
 		else
 			if (nargs == 3)
-				rsthis->setZ(luabridge::Stack<float>::get(luaVM, 2),
+				rsthis->setZ(luabridge::Stack<int>::get(luaVM, 2),
 							 luabridge::Stack<bool>::get(luaVM, 2));
 			else
 				luaL_argerror(luaVM, nargs, "Object:setZ fail");

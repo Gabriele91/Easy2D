@@ -20,7 +20,7 @@ using namespace Easy2D;
 #ifdef UNSAFE_BODY_SCALE
     #define SAFE_SCALE(x)
 #else
-    #define SCALE_EPSILON 1e-6
+    #define SCALE_EPSILON 1e-6f
     #define SAFE_SCALE(x) x
 #endif
 
@@ -1305,9 +1305,9 @@ void Body::setScale(const Vec2& argScale)
     //safe scale
     SAFE_SCALE(
         if(std::abs((float)scale.x) <=  SCALE_EPSILON)
-               scale.x=SCALE_EPSILON*(1.0-2.0*std::signbit(scale.x));
+               scale.x=SCALE_EPSILON*(1.0f-2.0f*std::signbit(scale.x));
         if(std::abs((float)scale.y) <=  SCALE_EPSILON)
-               scale.y=SCALE_EPSILON*(1.0-2.0*std::signbit(scale.y));
+               scale.y=SCALE_EPSILON*(1.0f-2.0f*std::signbit(scale.y));
     );
     //max scale
     float maxLastScale=Math::max(fabs(lastScale.x),fabs(lastScale.y));

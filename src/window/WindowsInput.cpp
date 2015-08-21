@@ -371,7 +371,7 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
                 // Next, handle displayable characters by appending them to our string.
             default:
                 winput->ekeyboard.inputString = "";
-                winput->ekeyboard.inputString += (wchar_t)wparam;
+                winput->ekeyboard.inputString += (char)((wchar_t)wparam);
                 winput->__callOnTextInput(winput->ekeyboard.inputString);
                 break;
             }

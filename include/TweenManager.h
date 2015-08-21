@@ -165,169 +165,36 @@ namespace Easy2D
         typedef std::pair< String, TweensPtrs > TweensPtrsPair;
         //map
         typedef std::map< String, Tweens > TweensNameMap;
-        
-        TweenManager()
-        {
-        }
-        TweenManager( const std::initializer_list< TweensPtrsPair >& pairs, bool vloop = false )
-        {
-            //intert
-            for(auto pair:pairs)
-            {
-                for(auto value : pair.second )
-                {
-                    mTweens[ pair.first ].push_back(Tween::ptr(value));
-                }
-            }
-            //loop
-            mLoop   = vloop;
-        }
-        TweenManager( const TweensNameMap& values, bool vloop = false )
-        {
-            mTweens = values;
-            mLoop   = vloop;
-        }
+        //constructors
+		TweenManager();
+		TweenManager(const std::initializer_list< TweensPtrsPair >& pairs, bool vloop = false);
+		TweenManager(const TweensNameMap& values, bool vloop = false);
         //events
-        virtual void onSetObject(Object* obj)
-        {
-            reset();
-        }
-        virtual void onEraseObject()
-        {
-            stop();
-        }
+		virtual void onSetObject(Object* obj);
+		virtual void onEraseObject();
         //push
-        void add(const String& name,Tween::ptr value)
-        {
-            mTweens[name].push_back(value);
-        }
+		void add(const String& name, Tween::ptr value);
         //query
-        bool isStart()
-        {
-            return mStart;
-        }
-        bool isLoop()
-        {
-            return mLoop;
-        }
-        //set
-        void start(const String& name)
-        {
-            //null? Return
-            if(!getObject()) return;
-            //get tween
-            auto tween=getTweens(name);
-            DEBUG_ASSERT(tween);
-            //if new tween
-            if(tween != mTCurrent){ mSCurrent=name; mTCurrent=tween; mCurrent = -1; }
-            //current
-            if(mCurrent == -1){  (*mTCurrent)[++mCurrent]->init(getObject(),this); }
-            //start
-            mStart = true;
-        }
-        void stop()
-        {
-            mStart = false;
-        }
-        void reset()
-        {
-            mTCurrent = nullptr;
-            mCurrent  = -1;
-            mTime     =  0;
-        }
-        void loop()
-        {
-            mLoop = true;
-        }
-        void noLoop()
-        {
-            mLoop = false;
-        }
+        bool isStart() const;
+		bool isLoop() const;
+        //actions
+		void start(const String& name);
+		void stop();
+		void reset();
+		void loop();
+		void noLoop();
         //event: run
-        virtual void onRun(float dt)
-        {
-            if (mStart && mTCurrent && mCurrent < (*mTCurrent).size())
-            {
-                if( !(*mTCurrent)[mCurrent]->update(mTime,dt) )
-                {
-                    //end event
-                    (*mTCurrent)[mCurrent]->end();
-                    //reset time
-                    mTime = 0;
-                    //next
-                    ++mCurrent;
-                    //is at end
-                    bool isEnd=mCurrent >= (*mTCurrent).size();
-                    //end?
-                    if(isEnd)
-                    {
-                        if(mLoop) {  mCurrent %= (*mTCurrent).size(); }
-                        else      {  mStart=false;       return;      }
-                    }
-                    //init next tween
-                    (*mTCurrent)[mCurrent]->init(getObject(),this);
-                   
-                }
-                //updata time
-                mTime+=dt;
-            }
-        }
+		virtual void onRun(float dt);
         //get tweens
-        Tweens* getTweens(const String& name)
-        {
-            auto it=mTweens.find(name);
-            return it!=mTweens.end() ? &it->second : nullptr ;
-        }
+		Tweens* getTweens(const String& name);
         //get tweens const
-        const Tweens* getTweens(const String& name) const
-        {
-            auto it=mTweens.find(name);
-            return it!=mTweens.end() ? &it->second : nullptr ;
-        }
+		const Tweens* getTweens(const String& name) const;
         //component
-        ADD_COMPONENT_METHOS(TweenManager)
-        //serialize/deserialize
-        virtual void serialize(Table& table)
-        {
-            //put all maps
-            for(auto& pair:mTweens)
-            {
-                auto& tpair=table.createTable(pair.first);
-                //put all tween
-                for(auto& tween:pair.second)
-                {
-                    auto& newt=tpair.createTable();
-                    newt.set("tween",tween->getName());
-                    tween->serialize(newt);
-                }
-            }
-            //loop?
-            table.set("loop",(float)isLoop());
-            //start?
-            if(mTCurrent) table.set("start",mSCurrent);
-        }
-        virtual void deserialize(const Table& table)
-        {
-            mTweens.clear();
-            reset();
-            for(auto& pair:table)
-            {
-                if(pair.first.isString() && pair.second->asType(Table::TABLE))
-                {
-                    //tweens table
-                    auto& tweenTable=pair.second->get<Table>();
-                    //add all tween
-                    for(int i=0;i!=tweenTable.size();++i)
-                    {
-                        const Table& readt = tweenTable.getConstTable(i);
-                        add(pair.first.string(),TweensMap::create(readt.getString("tween"),readt));
-                    }
-                }
-                
-            }
-            if(table.getFloat("loop",(float)isLoop())!=0.0f) loop();
-            if(table.existsAsType("start", Table::STRING)) start(table.getString("start"));
-        }
+		ADD_COMPONENT_METHOS(TweenManager)
+		//serialize
+		virtual void serialize(Table& table);
+		//deserialize
+		virtual void deserialize(const Table& table);
         
     protected:
         

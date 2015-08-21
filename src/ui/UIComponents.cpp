@@ -801,7 +801,7 @@ void TextField::onKeyPress(Key::Keyboard key)
     switch (key)
     {
     case Key::RIGHT:
-        if (cursor < text.length()) ++cursor;
+        if (cursor < (int)text.length()) ++cursor;
         cursorSelect = cursor;
         state = TF_SELECT_CHAR;
         computeOffset(cursor);
@@ -824,7 +824,7 @@ void TextField::onClick(const Vec2& press)
 	Mat4 matrix = getModel().mul2D(model);
 	Vec2 pModel = matrix.getInverse().mul2D(press);
 	//is a text field
-	pModel.y = font->size() *  0.5;
+	pModel.y = font->size() *  0.5f;
 	//
     Font::InfoSelection info = font->selectSpace(pModel + Vec2(offset, 0), Vec2::ZERO, text);
 	if (info.index == -1)
@@ -844,7 +844,7 @@ void TextField::onDoubleClick(const Vec2& press)
     Mat4 matrix = getModel().mul2D(model);
     Vec2 pModel = matrix.getInverse().mul2D(press);
     //is a text field
-    pModel.y = font->size() *  0.5;
+    pModel.y = font->size() *  0.5f;
     Font::InfoSelection info = font->selectSpace(pModel + Vec2(offset, 0), Vec2::ZERO, text);
     //on text?
     if (info.index != -1)
@@ -862,7 +862,7 @@ void TextField::onDown(const Vec2& press)
     Mat4 matrix = getModel().mul2D(model);
     Vec2 pModel = matrix.getInverse().mul2D(press);
 	//is a text field
-    pModel.y  = font->size() *  0.5;
+    pModel.y  = font->size() *  0.5f;
 	//
     Font::InfoSelection info = font->selectSpace(pModel + Vec2(offset, 0), Vec2::ZERO, text);
     if (info.index == -1)
@@ -955,7 +955,7 @@ void TextField::computeOffset(int index)
         model[12] = bbox.getMin().x;
     } 
     ////////////////////////////////////////////////
-    if (index >= text.length())
+    if (index >= (int)text.length())
     {
         cbox = font->getSpaceCharPosition2D(text.length() - 1, text);
         cbox.setMin(cbox.getMax());
@@ -1082,7 +1082,7 @@ TextField::Verify TextField::getVerify() const
 AABox2 TextField::charAt(int charID)
 {
 	AABox2 cpos;
-	if (charID < text.length())
+	if (charID < (int)text.length())
 	{
         cpos = font->getSpaceCharPosition2D(charID, text);
 		Vec2 n_min = Vec2(cpos.getMin().x, -cpos.getMax().y);
@@ -1100,7 +1100,7 @@ AABox2 TextField::charAt(int charID)
 	}
     else
     {
-        cpos.setMin(Vec2( 0, -font->size() ));
+        cpos.setMin(Vec2( 0.0f, (float)(-font->size()) ));
         cpos.setMax(Vec2::ZERO);
     }
 	return cpos;

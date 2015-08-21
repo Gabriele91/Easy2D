@@ -240,7 +240,7 @@ bool Scene::isEnablePhysicsUpdate() const
 {
     return physicsUpdate;
 }
-bool Scene::setEnablePhysicsUpdate(bool enable)
+void Scene::setEnablePhysicsUpdate(bool enable)
 {
     physicsUpdate = enable;
 }

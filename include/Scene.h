@@ -75,7 +75,7 @@ public:
 	Scene* getCurrentScene();
     //physics
     bool isEnablePhysicsUpdate() const;
-    bool setEnablePhysicsUpdate(bool enable);
+    void setEnablePhysicsUpdate(bool enable);
     
     //Objects
     template<class T>

@@ -214,7 +214,7 @@ void MaskSprite::draw()
 void MaskSprite::serialize(Table& table)
 {
     Sprite::serialize(table);
-    table.set(getAlphaMask(),"alphaMask");
+    table.set("alphaMask", getAlphaMask());
 }
 void MaskSprite::deserialize(const Table& table)
 {

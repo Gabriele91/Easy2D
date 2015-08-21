@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugEditorLib|Win32">
       <Configuration>DebugEditorLib</Configuration>
@@ -34,50 +34,51 @@
     <ProjectGuid>{905FC096-4AD6-4483-B71A-BA5FCEFFE134}</ProjectGuid>
     <RootNamespace>Easy2D</RootNamespace>
     <ProjectName>Easy2D</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -107,13 +108,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">
-    <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_EDITOR_D</TargetName>
@@ -125,7 +126,7 @@
     <TargetName>$(ProjectName)_ANGLE_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">
-    <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_D</TargetName>
@@ -146,8 +147,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -163,8 +164,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DISABLE_SIMD;NEW_DELETE_OVERLOADABLE;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;DISABLE_SIMD;NEW_DELETE_OVERLOADABLE;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -180,8 +181,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;ES2_ANGLEPROJECT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;ES2_ANGLEPROJECT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -197,8 +198,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -216,8 +217,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -241,8 +242,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -266,8 +267,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -353,7 +354,7 @@
     <ClCompile Include="src\Mask.cpp" />
     <ClCompile Include="src\Math3D.cpp" />
     <ClCompile Include="src\Math3D_SSE2.cpp" />
-    <ClCompile Include="src\Memory.cpp" />
+    <ClCompile Include="src\MemoryAllocator.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\EString.cpp" />
@@ -392,6 +393,7 @@
     <ClCompile Include="src\thread\ThreadWin32.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\ETime.cpp" />
+    <ClCompile Include="src\TweenManager.cpp" />
     <ClCompile Include="src\ui\UIComponents.cpp" />
     <ClCompile Include="src\ui\UIManager.cpp" />
     <ClCompile Include="src\Utility.cpp" />
@@ -499,7 +501,7 @@
     <ClInclude Include="include\Listener.h" />
     <ClInclude Include="include\Mask.h" />
     <ClInclude Include="include\Math3D.h" />
-    <ClInclude Include="include\Memory.h" />
+    <ClInclude Include="include\MemoryAllocator.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\MinMaxList.h" />
     <ClInclude Include="include\Object.h" />
@@ -531,6 +533,8 @@
     <ClInclude Include="include\thread\ThreadConf.h" />
     <ClInclude Include="include\Timer.h" />
     <ClInclude Include="include\ETime.h" />
+    <ClInclude Include="include\TweenManager.h" />
+    <ClInclude Include="include\Tweens.h" />
     <ClInclude Include="include\Types.h" />
     <ClInclude Include="include\ui\UIComponents.h" />
     <ClInclude Include="include\ui\UIManager.h" />
