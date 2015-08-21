@@ -10,6 +10,7 @@ using namespace Easy2D;
 ///////////////////////
 #define ENABLE_SHADER
 #define cstrlen(s) (sizeof(s)-1)
+#define cmpCStr(s,x) (std::strncmp(s,x,cstrlen(x))>=0)
 ///////////////////////
 #if defined( ENABLE_SHADER ) && !defined(OPENGL_ES2) //OPENGL 2.1
 //VERSION
@@ -123,14 +124,6 @@ Shader::Shader(ResourcesManager<Shader> *rsmr,
     program  = 0 ;
     vertex   = 0 ;
     fragment = 0 ;
-    uProjection = 0 ;
-    uModelView = 0 ;
-    uAmbientColor = 0 ;
-    uColor = 0 ;
-    uViewport = 0 ;
-    uTex0 = 0 ;
-    uCallback=[](Shader&){};
-    unSaveUniform=true;
     //is not loaded
     loaded=false;
 }
@@ -139,14 +132,6 @@ Shader::Shader()
     program  = 0 ;
     vertex   = 0 ;
     fragment = 0 ;
-    uProjection = 0 ;
-    uModelView = 0 ;
-    uAmbientColor = 0 ;
-    uColor = 0 ;
-    uViewport = 0 ;
-    uTex0 = 0 ;
-    uCallback=[](Shader&){};
-    unSaveUniform=true;
     //is not loaded
     loaded=false;
 }
@@ -188,6 +173,9 @@ bool Shader::linking()
         glDeleteProgram(program);
         return false;
     }
+    //build uniforms
+    buildUniform();
+    //return true ..
     return true;
     
 }
@@ -326,6 +314,7 @@ void Shader::load(const String& vs,
     
     //linking
     linking();
+    
 
 }
 /************* *************
@@ -506,14 +495,8 @@ static bool addSourceFromEffect(char*& source,String& shader,int& line)
     //true
     return true;
 }
-
-/************* *************/
-
 //parser effect
-bool parserEffect(char* source,
-                  String& errors,
-                  String& vertex,
-                  String& fragment)
+static bool parserEffect(char* source, String& errors, String& vertex, String& fragment)
 {
     //start count line
     int line=0;
@@ -523,12 +506,10 @@ bool parserEffect(char* source,
     fragment="";
     //skip space
     skipSpaceAndComments(source,line);
-    //is a...
-    #define isA(x) strncmp(source,x,sizeof(x))>=0
     //get vertex
     while((*source)!='\0')
     {
-        if(isA("@VERTEX"))
+        if(cmpCStr(source,"@VERTEX"))
         {
             source+=sizeof("@VERTEX");
             if(!addSourceFromEffect(source,vertex,line))
@@ -537,7 +518,7 @@ bool parserEffect(char* source,
                 return false;
             }
         }
-        else if(isA("@FRAGMENT"))
+        else if(cmpCStr(source,"@FRAGMENT"))
         {
             source+=sizeof("@FRAGMENT");
             if(!addSourceFromEffect(source,fragment,line))
@@ -556,6 +537,7 @@ bool parserEffect(char* source,
     //return
     return  true;
 }
+
 
 /************* *************/
 
@@ -623,35 +605,89 @@ bool Shader::unload()
     //return
     return !loaded;
 }
-//get default uniforms
-void Shader::getDefaultUniform()
+//save a uniform
+void Shader::saveUniform(uint uniform, char* const cname)
 {
-    //standard uniforms
-    if(unSaveUniform)
+    size_t lenCName=strlen(cname);
+    //ignore built-in uniform (gl_...)
+    if(lenCName >= 3
+       && cname[0]=='g'
+       && cname[1]=='l'
+       && cname[2]=='_') return;
+    //delete array syntax
+    //nVidia return "array[0]", AMD return "array"
+    //use the AMD style..
+    for(size_t c=0;c!=lenCName;++c)
     {
-        
-#if defined(OPENGL_ES2)
-        //gles extra uniform
-        uProjection =  uniformID("e2dProjection");
-        uModelView  =  uniformID("e2dModelView");
-#endif
-        uView         =  uniformID("e2dView");
-        uModel        =  uniformID("e2dModel");
-        uAmbientColor =  uniformID("e2dAmbientColor");
-        uColor        =  uniformID("e2dColor") ;
-        uViewport     =  uniformID("e2dViewport") ;
-        uTex0         =  uniformID("e2dTexture0") ;
-        //flag
-        unSaveUniform=false;
+        if(cname[c] == '[')
+        {
+            cname[c] = '\0';
+            break;
+        }
     }
+    //c++ str
+    String name(cname);
+    //e2d built-in uniform
+    if(name=="e2dProjection")
+        uProjection=uniform;
+    else if(name=="e2dModelView")
+        uModelView=uniform;
+    else if(name=="e2dView")
+        uView=uniform;
+    else if(name=="e2dModel")
+        uModel=uniform;
+    else if(name=="e2dView")
+        uView=uniform;
+    else if(name=="e2dAmbientColor")
+        uAmbientColor=uniform;
+    else if(name=="e2dColor")
+        uColor=uniform;
+    else if(name=="e2dViewport")
+        uViewport=uniform;
+    else if(name=="e2dTexture0")
+        uTex0=uniform;
+    //uniform by user
+    else
+        uMap[name]=uniform;
+}
+//get default uniforms
+void Shader::buildUniform()
+{
+    //count uniform
+    GLint nUniform{ 0 };
+    GLint uStrMaxSize{ 0 };
+    //get count of uniform
+    glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &nUniform);
+    //get max str size of all uniform
+    glGetProgramiv(program, GL_ACTIVE_UNIFORM_MAX_LENGTH, &uStrMaxSize);
+    //alloc
+    std::vector< char > buffer(uStrMaxSize+1);
+    //for all uniforms
+    for(GLuint index=0; index!=nUniform; ++index)
+    {
+        //reset data
+        std::memset(buffer.data(), 0, buffer.size());
+        //get name
+        GLsizei  length{ 0 };
+        GLsizei  size{ 0 };
+        GLenum   type{ 0 };
+        glGetActiveUniform(program, index, buffer.size(),  &length, &size, &type, buffer.data());
+        //add uniform
+        saveUniform(index,buffer.data());
+        //uniform errors
+        CHECK_GPU_ERRORS();
+    }
+}
+//get program id
+uint Shader::programID() const
+{
+    return program;
 }
 //bind buffer
 void Shader::bind()
 {
     //enable program
     RenderContext::enableProgram(program);
-    //default uniforms
-    getDefaultUniform();
     //update uniform
     updateUniform();
 }
@@ -661,7 +697,9 @@ void Shader::updateUniform()
     //bind parameters
     updateStandardUniform();
     //bind constom paramers
-    uCallback(*this);
+    if(uCallback) uCallback(*this);
+    //uniform errors
+    CHECK_GPU_ERRORS();
 }
 //update standard uniforms
 void Shader::updateStandardUniform()
@@ -686,24 +724,32 @@ void Shader::updateStandardUniform()
     uniformTexture(uTex0,/*RenderContext::currentTexture()*/ 0);
 }
 //uniform name
-void Shader::uniform(const String& name,int v){ glUniform1i(glGetUniformLocation(program, name), v); }
-void Shader::uniform(const String& name,float v){ glUniform1f(glGetUniformLocation(program, name), v); }
-void Shader::uniform(const String& name,const Vector2D& v){ glUniform2fv(glGetUniformLocation(program, name), 1, &v.x); }
-void Shader::uniform(const String& name,const Vector3D& v){ glUniform3fv(glGetUniformLocation(program, name), 1, &v.x); }
-void Shader::uniform(const String& name,const Vector4D& v){ glUniform4fv(glGetUniformLocation(program, name), 1, &v.x); }
-void Shader::uniform(const String& name,const Matrix4x4& v){ glUniformMatrix4fv(glGetUniformLocation(program, name), 1, false, v.entries); }
+void Shader::uniform(const String& name,int v){ glUniform1i(uniformID(name), v); }
+void Shader::uniform(const String& name,float v){ glUniform1f(uniformID(name), v); }
+void Shader::uniform(const String& name,const Vector2D& v){ glUniform2fv(uniformID(name), 1, &v.x); }
+void Shader::uniform(const String& name,const Vector3D& v){ glUniform3fv(uniformID(name), 1, &v.x); }
+void Shader::uniform(const String& name,const Vector4D& v){ glUniform4fv(uniformID(name), 1, &v.x); }
+void Shader::uniform(const String& name,const Matrix4x4& v){ glUniformMatrix4fv(uniformID(name), 1, false, v.entries); }
 
-void Shader::uniform(const String& name,const std::vector<int>& v){ glUniform1iv(glGetUniformLocation(program, name), v.size(), &v[0]); }
-void Shader::uniform(const String& name,const std::vector<float>& v){ glUniform1fv(glGetUniformLocation(program, name), v.size(), &v[0]); }
-void Shader::uniform(const String& name,const std::vector<Vec2>& v){ glUniform2fv(glGetUniformLocation(program, name), v.size(), &v[0].x); }
-void Shader::uniform(const String& name,const std::vector<Vec3>& v){ glUniform3fv(glGetUniformLocation(program, name), v.size(), &v[0].x); }
-void Shader::uniform(const String& name,const std::vector<Vec4>& v){ glUniform4fv(glGetUniformLocation(program, name), v.size(), &v[0].x); }
-void Shader::uniform(const String& name,const std::vector<Mat4>& v){ glUniformMatrix4fv(glGetUniformLocation(program, name), v.size(), false, v[0].entries); }
+void Shader::uniform(const String& name,const std::vector<int>& v){ glUniform1iv(uniformID(name), v.size(), &v[0]); }
+void Shader::uniform(const String& name,const std::vector<float>& v){ glUniform1fv(uniformID(name), v.size(), &v[0]); }
+void Shader::uniform(const String& name,const std::vector<Vec2>& v){ glUniform2fv(uniformID(name), v.size(), &v[0].x); }
+void Shader::uniform(const String& name,const std::vector<Vec3>& v){ glUniform3fv(uniformID(name), v.size(), &v[0].x); }
+void Shader::uniform(const String& name,const std::vector<Vec4>& v){ glUniform4fv(uniformID(name), v.size(), &v[0].x); }
+void Shader::uniform(const String& name,const std::vector<Mat4>& v){ glUniformMatrix4fv(uniformID(name), v.size(), false, v[0].entries); }
 
-void Shader::uniformTexture(const String& name,const uint v){ glUniform1i(glGetUniformLocation(program, name), v); }
+void Shader::uniformTexture(const String& name,const uint v){ glUniform1i(uniformID(name), v); }
 
 //uniform id
-int Shader::uniformID(const String& name){ return glGetUniformLocation(program, name); }
+int Shader::uniformID(const String& name) const
+{
+    //search
+    auto itUid = uMap.find(name);
+    //not find?
+    if(uMap.end() == itUid) return -1;
+    //else return uid
+    return itUid->second;
+}
 void Shader::uniform(int uid,int v){ glUniform1i(uid, v); }
 void Shader::uniform(int uid,float v){ glUniform1f(uid, v); }
 void Shader::uniform(int uid,const Vector2D& v){ glUniform2fv(uid, 1, &v.x); }

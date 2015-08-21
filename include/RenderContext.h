@@ -240,6 +240,7 @@ class RenderContext
     
     //shader program
     static void enableProgram(uint program);
+    static uint currentProgram();
     static void disableProgram();
     
     //render state

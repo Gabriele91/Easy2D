@@ -74,6 +74,7 @@ extern PFNGLGETSHADERINFOLOGPROC     glGetShaderInfoLog;
 extern PFNGLGETSHADERIVPROC			 glGetShaderiv;
 extern PFNGLGETPROGRAMIVPROC		 glGetProgramiv;
 extern PFNGLGETPROGRAMINFOLOGPROC	 glGetProgramInfoLog;
+extern PFNGLGETACTIVEUNIFORMPROC	 glGetActiveUniform;
 
 namespace Easy2D
 {

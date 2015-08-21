@@ -74,6 +74,7 @@ PFNGLGETSHADERINFOLOGPROC	glGetShaderInfoLog=NULL;
 PFNGLGETSHADERIVPROC	glGetShaderiv=NULL;
 PFNGLGETPROGRAMIVPROC	glGetProgramiv=NULL;
 PFNGLGETPROGRAMINFOLOGPROC	glGetProgramInfoLog=NULL;
+PFNGLGETACTIVEUNIFORMPROC	glGetActiveUniform=NULL;
 
 void Easy2D::initOpenGL2()
 {
@@ -209,5 +210,7 @@ void Easy2D::initOpenGL2()
     DEBUG_ASSERT(glGetProgramiv);
     glGetProgramInfoLog = (PFNGLGETPROGRAMINFOLOGPROC)glXGetProcAddress((unsigned char *)"glGetProgramInfoLog");
     DEBUG_ASSERT(glGetProgramInfoLog);
+    glGetActiveUniform = (PFNGLGETACTIVEUNIFORMPROC)glXGetProcAddress((unsigned char *)"glGetActiveUniform");
+    DEBUG_ASSERT(glGetActiveUniform);
 
 }

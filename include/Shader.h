@@ -12,38 +12,43 @@ namespace Easy2D
    
 class Shader : public Resource<Shader>
 {
+    //uniform map
+    std::unordered_map<String,uint> uMap;
     
-    
+    //sshader program
     uint program;
     uint vertex;
     uint fragment;
-    bool unSaveUniform;
-
     
-    int uProjection;
-    int uModelView;
-    int uView;
-    int uModel;
-    int uAmbientColor;
-    int uColor;
-    int uViewport;
-    int uTex0;
+    //default uniform
+    int uProjection  { -1 };
+    int uModelView   { -1 };
+    int uView        { -1 };
+    int uModel       { -1 };
+    int uAmbientColor{ -1 };
+    int uColor       { -1 };
+    int uViewport    { -1 };
+    int uTex0        { -1 };
     
+    //compile shader program
     void compileProgram();
     uint compileShader(const String& shader);
     void createFragment(const String& shader);
     void createVertex(const String& shader);
     
     //uniform map
-    DFUNCTION<void(Shader&)> uCallback;
+    DFUNCTION<void(Shader&)> uCallback{ nullptr };
     
     //compile utilities
     bool linking();
     bool compiler(uint shader);
     
+    //get all uniform
+    void buildUniform();
+    void saveUniform(uint uniform,char* const name);
+    
     //friend class
     friend class RenderContext;
-    void getDefaultUniform();
     
 public:
     
@@ -78,10 +83,7 @@ public:
     //bind buffer
     void bind();
     //info shader
-    uint programID()
-    {
-        return program;
-    }
+    uint programID() const;
     void updateUniform();
     void updateStandardUniform();
     //uniform name
@@ -99,7 +101,7 @@ public:
     void uniform(const String& name,const std::vector<Mat4>& v);
     void uniformTexture(const String& name,const uint v);
     //uniform id
-    int uniformID(const String& name);
+    int uniformID(const String& name) const;
     void uniform(int uid,int v);
     void uniform(int uid,float v);
     void uniform(int uid,const Vector2D& v);

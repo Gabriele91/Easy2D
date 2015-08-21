@@ -1059,6 +1059,10 @@ void RenderContext::enableProgram(uint program)
     //save
     context.binds.idprogram=program;
 }
+uint RenderContext::currentProgram()
+{
+    return context.binds.idprogram;
+}
 void RenderContext::disableProgram()
 {
     if(context.binds.idprogram==getStandardShaderProgram()) return;
@@ -1451,12 +1455,14 @@ void RenderContext::initContext()
     shaders[SHADER_VERTEX_TCOORDS]=cVtxTCoords;
     shaders[SHADER_VERTEX_COLOR]=cVtxColor;
     shaders[SHADER_VERTEX_TCOORDS_COLOR]=cVtxTCoordsColor;
+#if 0
     //force get default uniforms
     for(auto shader:shaders)
     {
         enableProgram(shader->programID());
         shader->getDefaultUniform();
     }
+#endif
     //set default program
     disableProgram();
     //init
