@@ -44,6 +44,9 @@ public:
     int toInt() const;
     const char* toChars() const;
     float toFloat() const;
+    //Unicode utils
+    size_t UTF8length() const;
+    uint   UTF8Char(size_t i) const;
     //overload
     char& operator[](int i);
     char operator[](int i) const;

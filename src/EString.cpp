@@ -1,6 +1,6 @@
 #include <stdafx.h>
-#include <stdafx.h>
 #include <EString.h>
+#include <Debug.h>
 ////////////////////////
 using namespace Easy2D;
 ////////////////////////
@@ -132,6 +132,60 @@ void String::unsafe_split(String* in, std::vector<char *> & out, char delim)
         out[j] = (char*)&((*in)[s]);
         (*in)[i] = '\0';
     }
+}
+//utf8 utils
+static const size_t UTF8CharSize(const char* cstr)
+{
+    //init size of this char
+    size_t res = 1;
+    //compute size
+    for(++cstr; *cstr ; ++cstr, ++res)
+    {
+        if(!((*cstr)&0x80) || (((*cstr)&0xC0) == 0xC0)) break;
+    }
+    //return count of byte
+    return res;
+}
+//Unicode utils
+size_t String::UTF8length() const
+{
+    //ptr to cstring
+    const char* cstring = c_str();
+    //size count
+    size_t size = 0;
+    //compute size
+    for(; *cstring; cstring += UTF8CharSize(cstring), ++size);
+    //return unicode size
+    return size;
+}
+uint String::UTF8Char(size_t i) const
+{
+    //ptr to cstring
+    const char* cstring = c_str();
+    //index
+    size_t index = 0;
+    //compute size
+    for(; *cstring; cstring += UTF8CharSize(cstring), ++index)
+    {
+        if(index==i)
+        {
+            //init ouput
+            uint output = 0;
+            //size of this char
+            size_t csize=UTF8CharSize(cstring);
+            //array to int
+            switch (csize)
+            {
+                case 4: output |= ((int)cstring[3])  << 24;
+                case 3: output |= ((int)cstring[2])  << 16;
+                case 2: output |= ((int)cstring[1])  << 8;
+                case 1: output |= ((int)cstring[0]); break;
+                default: DEBUG_ASSERT_MSG(0,"UTF8Char, not valid char"); break;
+            };
+            return output;
+        }
+    }
+    return 0;
 }
 ///
 String String::toLower() const
