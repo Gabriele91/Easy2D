@@ -6,11 +6,39 @@ using namespace Easy2D;
 ////////////////////////
 //a void string
 String String::NONE("");
-//
+//constructors
+String::String()
+:std::string()
+{
+}
+String::String(char c,unsigned int rep)
+:std::string(rep,c)
+{
+}
+String::String(const String* str)
+:std::string()
+{
+    (*this)=(*str);
+}
+String::String(const String& str)
+:std::string()
+{
+    (*this)=str;
+}
+String::String(const std::string& str)
+:std::string(str)
+{
+}
+String::String(const char* str)
+:std::string(str)
+{
+}
+//find
 int String::find(const String& value) const
 {
     return basic_string::find(value);
 }
+//back find
 int String::rfind(const String& value) const
 {
     return basic_string::find_last_of(value);
@@ -34,6 +62,77 @@ void String::split(const String& delimiters ,
         pos = find_first_of(delimiters, lastPos);
     }
 }
+void String::replace(const String& toReplace,const String& replaceWith)
+{
+    int lfind=find(toReplace);
+    if(lfind>-1)
+        std::string::replace(lfind,toReplace.size(),replaceWith);
+}
+//replaceALL
+void String::replaceAll(const String& toReplace,const String& replaceWith)
+{
+    int lfind=find(toReplace);
+    while(lfind>-1)
+    {
+        std::string::replace(lfind,toReplace.size(),replaceWith);
+        lfind=find(toReplace);
+    }
+}
+//split a string
+void String::split(const String& in, std::vector<String> & out, char delim)
+{
+    //var dec
+    size_t i = 0, s = 0, j = 0, alloc_s = 1;
+    //memory alloc
+    for (size_t i = 0; i != in.size(); ++i)
+    {
+        if (in[i] == delim)
+            ++alloc_s;
+    }
+    out.resize(alloc_s);
+    //loop
+    while (i != in.size())
+    {
+        if (in[i] == delim)
+        {
+            out[j] = (in.substr(s, i - s));
+            ++j;
+            s = i + 1;
+        }
+        ++i;
+    }
+    //end case
+    if (s != (in.size() - 1)){
+        out[j] = in.substr(s, i - s);
+    }
+}
+//unsafe split string
+void String::unsafe_split(String* in, std::vector<char *> & out, char delim)
+{
+    //var dec
+    size_t i = 0, s = 0, j = 0, alloc_s = 1;
+    //memory alloc
+    for (size_t i = 0; i != (*in).size(); ++i){
+        if ((*in)[i] == delim)
+            ++alloc_s;
+    }
+    out.resize(alloc_s);
+    //loop
+    while (i != (*in).size()) {
+        if ((*in)[i] == delim){
+            out[j] = &((*in)[s]);
+            (*in)[i] = '\0';
+            ++j;
+            s = i + 1;
+        }
+        ++i;
+    }
+    //end case
+    if (s != ((*in).size() - 1)){
+        out[j] = (char*)&((*in)[s]);
+        (*in)[i] = '\0';
+    }
+}
 ///
 String String::toLower() const
 {
@@ -54,6 +153,24 @@ String String::toUpper() const
             out[i]+=('Z'-'z');
     }
     return out;
+}
+//overload
+char& String::operator[](int i)
+{
+    return (*((std::string*)this))[i];
+}
+char String::operator[](int i) const
+{
+    return (*((std::string*)this))[i];
+}
+//cast
+String::operator const char *()
+{
+    return c_str();
+}
+String::operator const char *() const
+{
+    return c_str();
 }
 //String buffer for printf
 String Easy2D::operator*(const String& s,short c)

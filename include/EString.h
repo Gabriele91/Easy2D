@@ -13,123 +13,42 @@ public:
 
     static String NONE;
 
-    String():std::string() {};
-    String(char c,unsigned int rep=1):std::string(rep,c) {};
-    String(const String* str):std::string()
-    {
-        (*this)=(*str);
-    };
-    String(const String& str):std::string()
-    {
-        (*this)=str;
-    };
-    String(const std::string& str):std::string(str) {};
-    String(const char* str):std::string(str) {};
+    String();
+    String(char c,unsigned int rep=1);
+    String(const String* str);
+    String(const String& str);
+    String(const std::string& str);
+    String(const char* str);
     //find
     int find(const String& value) const;
     int rfind(const String& value) const;
     //replace
-    void replace(const String& toReplace,const String& replaceWith)
-    {
-        int lfind=find(toReplace);
-        if(lfind>-1)
-            std::string::replace(lfind,toReplace.size(),replaceWith);
-    }
+    void replace(const String& toReplace,const String& replaceWith);
     //replaceALL
-    void replaceAll(const String& toReplace,const String& replaceWith)
-    {
-        int lfind=find(toReplace);
-        while(lfind>-1)
-        {
-            std::string::replace(lfind,toReplace.size(),replaceWith);
-            lfind=find(toReplace);
-        }
-    }
-    //
+    void replaceAll(const String& toReplace,const String& replaceWith);
     //split
     void split(const String& delimiters , std::vector<String>& tokens) const;
-    //
-    template<class T> static String toString(T dato)
+    //to string
+    template<class T> static String toString(T val)
     {
-        std::stringstream br;//creo il buffer
-        br << dato;//aggiungo il valore
-        return br.str();//converto in stringa e lo restituisco
+        return std::to_string(val);
     }
-    
-    static DFORCEINLINE void split(const String& in, std::vector<String> & out, char delim) {
-		//var dec
-		size_t i = 0, s = 0, j = 0, alloc_s = 1;
-		//memory alloc
-		for (size_t i = 0; i != in.size(); ++i){
-			if (in[i] == delim)
-				++alloc_s;
-		}
-		out.resize(alloc_s);
-		//loop
-		while (i != in.size()) {
-			if (in[i] == delim){
-				out[j] = (in.substr(s, i - s));
-				++j;
-				s = i + 1;
-			}
-			++i;
-		}
-		//end case
-		if (s != (in.size() - 1)){
-			out[j] = in.substr(s, i - s);
-		}
-	}
-	static DFORCEINLINE void unsafe_split(String* in, std::vector<char *> & out, char delim) {
-		//var dec
-		size_t i = 0, s = 0, j = 0, alloc_s = 1;
-		//memory alloc
-		for (size_t i = 0; i != (*in).size(); ++i){
-			if ((*in)[i] == delim)
-				++alloc_s;
-		}
-		out.resize(alloc_s);
-		//loop
-		while (i != (*in).size()) {
-			if ((*in)[i] == delim){
-				out[j] = &((*in)[s]);
-				(*in)[i] = '\0';
-				++j;
-				s = i + 1;
-			}
-			++i;
-		}
-		//end case
-		if (s != ((*in).size() - 1)){
-			out[j] = (char*)&((*in)[s]);
-			(*in)[i] = '\0';
-		}
-	}
+    static void split(const String& in, std::vector<String> & out, char delim);
+    static void unsafe_split(String* in, std::vector<char *> & out, char delim);
     //lower/upper string
     String toLower() const;
     String toUpper() const;
-    //
+    //cast utils
     double toDouble() const;
     int toInt() const;
     const char* toChars() const;
     float toFloat() const;
     //overload
-    char& operator[](int i)
-    {
-        return (*((std::string*)this))[i];
-    }
-    char operator[](int i) const
-    {
-        return (*((std::string*)this))[i];
-    }
+    char& operator[](int i);
+    char operator[](int i) const;
     //cast
-    operator const char *()
-    {
-        return c_str();
-    }
-    operator const char *() const
-    {
-        return c_str();
-    }
+    operator const char *();
+    operator const char *() const;
 
 };
     
