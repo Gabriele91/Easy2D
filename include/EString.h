@@ -6,7 +6,8 @@
 namespace Easy2D
 {
 
-class String : public std::string
+class String : public std::string,
+               public Pointers< String >
 {
 
 public:

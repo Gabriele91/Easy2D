@@ -24,7 +24,7 @@ public:
         ,reloadable(true)
         ,rpath(sfile)
         ,cbRelease(nullptr) {};
-    /*manager show hader disable this method*/
+    /*manager show header disable this method*/
     void release(bool dtach=true)
     {
         if(((T*)this)->T::isLoad())
