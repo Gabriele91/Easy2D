@@ -59,15 +59,7 @@ class Body : public Component
         float normalImpulse[2];
         float tangentImpulse[2];
         //info from b2ContactImpulse
-        void setContactImpulse(const b2ContactImpulse& im)
-        {
-            npoints=im.count;
-            for(uchar i=0;i!=npoints;++i)
-            {
-                normalImpulse[i]=im.normalImpulses[i];
-                tangentImpulse[i]=im.tangentImpulses[i];
-            }
-        }
+		void setContactImpulse(const b2ContactImpulse& im);
     };
 
     struct Manifold
@@ -79,19 +71,7 @@ class Body : public Component
         float normalImpulse[2];
         float tangentImpulse[2];
         //info from b2Manifold
-        void setManifold(const b2Manifold& m)
-        {
-            //normal
-            normal=cast(m.localNormal);
-            //points
-            npoints=m.pointCount;
-            for(uchar i=0;i!=npoints;++i)
-            {
-                points[i]=cast(m.points[i].localPoint);
-                normalImpulse[i]=m.points[i].normalImpulse;
-                tangentImpulse[i]=m.points[i].tangentImpulse;
-            }
-        }
+		void setManifold(const b2Manifold& m);
     };
 
     struct Info
@@ -114,60 +94,15 @@ class Body : public Component
         ITFixtures itFix;
         ITShapeDef itShape;
         
-        
-        ShapeIterator(ITFixtures itFix)
-        :itFix(itFix)
-        ,isFix(true)
-        {
-            
-        }
-        
-        ShapeIterator(ITShapeDef itShape)
-        :itShape(itShape)
-        ,isFix(false)
-        {
-            
-        }
+		ShapeIterator(ITFixtures itFix);
+		ShapeIterator(ITShapeDef itShape);
         
     public:
         
-        ShapeIterator operator++()
-        {
-            if(isFix)
-                return ShapeIterator(++itFix);
-            else
-                return ShapeIterator(++itShape);
-        }
-        
-        Shape operator*() const
-        {
-            if(isFix)
-                return itFix->first;
-            else
-                return itShape->first;
-        }
-        
-        bool operator==(const ShapeIterator& rhs) const
-        {
-            if(isFix!=rhs.isFix)
-                return false;
-            
-            if(isFix)
-                return itFix==rhs.itFix;
-            else
-                return itShape==rhs.itShape;
-        }
-        
-        bool operator!=(const ShapeIterator& rhs) const
-        {
-            if(isFix!=rhs.isFix)
-                return true;
-            
-            if(isFix)
-                return itFix!=rhs.itFix;
-            else
-                return itShape!=rhs.itShape;
-        }
+		ShapeIterator operator++();
+		Shape operator*() const;        
+		bool operator==(const ShapeIterator& rhs) const;        
+		bool operator!=(const ShapeIterator& rhs) const;
         
     };
     //ShapeIteratos
@@ -181,59 +116,15 @@ class Body : public Component
         CITFixtures itFix;
         CITShapeDef itShape;
         
-        CShapeIterator(CITFixtures itFix)
-        :itFix(itFix)
-        ,isFix(true)
-        {
-            
-        }
-        
-        CShapeIterator(CITShapeDef itShape)
-        :itShape(itShape)
-        ,isFix(false)
-        {
-            
-        }
-        
+		CShapeIterator(CITFixtures itFix);        
+		CShapeIterator(CITShapeDef itShape);
+
     public:
         
-        CShapeIterator operator++()
-        {
-            if(isFix)
-                return CShapeIterator(++itFix);
-            else
-                return CShapeIterator(++itShape);
-        }
-        
-        const Shape operator*() const
-        {
-            if(isFix)
-                return itFix->first;
-            else
-                return itShape->first;
-        }
-        
-        bool operator==(const CShapeIterator& rhs) const
-        {
-            if(isFix!=rhs.isFix)
-                return false;
-            
-            if(isFix)
-                return itFix==rhs.itFix;
-            else
-                return itShape==rhs.itShape;
-        }
-        
-        bool operator!=(const CShapeIterator& rhs) const
-        {
-            if(isFix!=rhs.isFix)
-                return true;
-            
-            if(isFix)
-                return itFix!=rhs.itFix;
-            else
-                return itShape!=rhs.itShape;
-        }
+		CShapeIterator operator++();
+		const Shape operator*() const;
+		bool operator==(const CShapeIterator& rhs) const;
+		bool operator!=(const CShapeIterator& rhs) const;
         
     };
 
@@ -456,48 +347,12 @@ class Body : public Component
     size_t       countShape() const;
     GeometryType getShapeType(Shape index) const;
     //it
-    ShapeIterator begin()
-    {
-        if(body)
-            return ShapeIterator(fixtures.begin());
-        else
-            return ShapeIterator(shapesDef.begin());
-    }
-    ShapeIterator end()
-    {
-        if(body)
-            return ShapeIterator(fixtures.end());
-        else
-            return ShapeIterator(shapesDef.end());
-    }
-    CShapeIterator begin() const
-    {
-        if(body)
-            return CShapeIterator(fixtures.cbegin());
-        else
-            return CShapeIterator(shapesDef.cbegin());
-    }
-    CShapeIterator cbegin() const
-    {
-        if(body)
-            return CShapeIterator(fixtures.cbegin());
-        else
-            return CShapeIterator(shapesDef.cbegin());
-    }
-    CShapeIterator end() const
-    {
-        if(body)
-            return CShapeIterator(fixtures.cend());
-        else
-            return CShapeIterator(shapesDef.cend());
-    }
-    CShapeIterator cend() const
-    {
-        if(body)
-            return CShapeIterator(fixtures.cend());
-        else
-            return CShapeIterator(shapesDef.cend());
-    }
+	ShapeIterator begin();
+	ShapeIterator end();
+	CShapeIterator begin() const;
+	CShapeIterator cbegin() const;
+	CShapeIterator end() const;
+	CShapeIterator cend() const;
     //circle
     Vec2  getCirclePosition(Shape index) const;
     float getCircleRadius(Shape index) const;

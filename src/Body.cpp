@@ -156,6 +156,31 @@ void Body::unregisterWorld()
 }
 
 
+//info from b2ContactImpulse
+void Body::Impulse::setContactImpulse(const b2ContactImpulse& im)
+{
+	npoints = im.count;
+	for (uchar i = 0; i != npoints; ++i)
+	{
+		normalImpulse[i] = im.normalImpulses[i];
+		tangentImpulse[i] = im.tangentImpulses[i];
+	}
+}
+//info from b2Manifold
+void Body::Manifold::setManifold(const b2Manifold& m)
+{
+	//normal
+	normal = cast(m.localNormal);
+	//points
+	npoints = m.pointCount;
+	for (uchar i = 0; i != npoints; ++i)
+	{
+		points[i] = cast(m.points[i].localPoint);
+		normalImpulse[i] = m.points[i].normalImpulse;
+		tangentImpulse[i] = m.points[i].tangentImpulse;
+	}
+}
+//scale shape manager methods
 void  Body::updatePixelScale(float mUnit,float mPixel)
 {
     if(!body) return;
@@ -1443,7 +1468,142 @@ bool Body::getEnableAbsoluteScale() const
 {
 	return isAbsoluteScale;
 }
+//////////////////////////////////////////////////////
+//it
+Body::ShapeIterator::ShapeIterator(Body::ITFixtures itFix)
+	:itFix(itFix)
+	, isFix(true)
+{
+}
+Body::ShapeIterator::ShapeIterator(Body::ITShapeDef itShape)
+	:itShape(itShape)
+	, isFix(false)
+{
+}
+Body::ShapeIterator Body::ShapeIterator::operator++()
+{
+	if (isFix)
+		return ShapeIterator(++itFix);
+	else
+		return ShapeIterator(++itShape);
+}
+Shape Body::ShapeIterator::operator*() const
+{
+	if (isFix)
+		return itFix->first;
+	else
+		return itShape->first;
+}
+bool Body::ShapeIterator::operator==(const Body::ShapeIterator& rhs) const
+{
+	if (isFix != rhs.isFix)
+		return false;
 
+	if (isFix)
+		return itFix == rhs.itFix;
+	else
+		return itShape == rhs.itShape;
+}
+bool Body::ShapeIterator::operator!=(const Body::ShapeIterator& rhs) const
+{
+	if (isFix != rhs.isFix)
+		return true;
+
+	if (isFix)
+		return itFix != rhs.itFix;
+	else
+		return itShape != rhs.itShape;
+}
+//it const
+Body::CShapeIterator::CShapeIterator(Body::CITFixtures itFix)
+	:itFix(itFix)
+	, isFix(true)
+{
+}
+Body::CShapeIterator::CShapeIterator(Body::CITShapeDef itShape)
+	:itShape(itShape)
+	, isFix(false)
+{
+}
+Body::CShapeIterator Body::CShapeIterator::operator++()
+{
+	if (isFix)
+		return CShapeIterator(++itFix);
+	else
+		return CShapeIterator(++itShape);
+}
+const Shape Body::CShapeIterator::operator*() const
+{
+	if (isFix)
+		return itFix->first;
+	else
+		return itShape->first;
+}
+bool Body::CShapeIterator::operator==(const Body::CShapeIterator& rhs) const
+{
+	if (isFix != rhs.isFix)
+		return false;
+
+	if (isFix)
+		return itFix == rhs.itFix;
+	else
+		return itShape == rhs.itShape;
+}
+bool Body::CShapeIterator::operator!=(const Body::CShapeIterator& rhs) const
+{
+	if (isFix != rhs.isFix)
+		return true;
+
+	if (isFix)
+		return itFix != rhs.itFix;
+	else
+		return itShape != rhs.itShape;
+}
+//////////////////////////////////////////////////////
+//get it
+Body::ShapeIterator Body::begin()
+{
+	if (body)
+		return ShapeIterator(fixtures.begin());
+	else
+		return ShapeIterator(shapesDef.begin());
+}
+Body::ShapeIterator Body::end()
+{
+	if (body)
+		return ShapeIterator(fixtures.end());
+	else
+		return ShapeIterator(shapesDef.end());
+}
+Body::CShapeIterator Body::begin() const
+{
+	if (body)
+		return CShapeIterator(fixtures.cbegin());
+	else
+		return CShapeIterator(shapesDef.cbegin());
+}
+Body::CShapeIterator Body::cbegin() const
+{
+	if (body)
+		return CShapeIterator(fixtures.cbegin());
+	else
+		return CShapeIterator(shapesDef.cbegin());
+}
+Body::CShapeIterator Body::end() const
+{
+	if (body)
+		return CShapeIterator(fixtures.cend());
+	else
+		return CShapeIterator(shapesDef.cend());
+}
+Body::CShapeIterator Body::cend() const
+{
+	if (body)
+		return CShapeIterator(fixtures.cend());
+	else
+		return CShapeIterator(shapesDef.cend());
+}
+//////////////////////////////////////////////////////
 static inline void shapeSerialize(float metersInPixel,
                                   Table& tshape,
                                   const b2Shape* bShape,
