@@ -886,7 +886,7 @@ void World::physics(float dt)
 {
     world->Step(dt,velocityIterations,positionIterations);
 }
-void World::debugDraw(bool enable)
+void World::physicsDebugDraw(bool enable)
 {
     if(enable)
     {

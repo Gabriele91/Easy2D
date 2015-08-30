@@ -399,7 +399,15 @@ Object* Object::getPrivateObject(const std::vector<String>& names,size_t i)
 //components by name
 Component* Object::component(const String& name)
 {
+	//get component from map
     auto cmp=ComponentMap::create(name);
+	//exist?
+	if (!cmp)
+	{
+		DEBUG_MESSAGE("component " << name << " not exist");
+		return nullptr;
+	}
+	//find component
     auto it=components.find(cmp->getComponentFamily());
     if(it==components.end())
     {
@@ -778,9 +786,13 @@ void Object::deserialize(const Table& table)
     {
         DEBUG_ASSERT(rcomponent.second->asType(Table::TABLE));
         auto cmp=component(rcomponent.first.string());
-        cmp->setEntity(this);
-        if(getScene()) cmp->onSetScene(scene);
-        cmp->deserialize(rcomponent.second->get<Table>());
+		//if component is edded...
+		if (cmp)
+		{
+			cmp->setEntity(this);
+			if (getScene()) cmp->onSetScene(scene);
+			cmp->deserialize(rcomponent.second->get<Table>());
+		}
     }
     //childs
     const Table& rchilds=table.getConstTable("Childs");

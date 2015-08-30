@@ -25,7 +25,7 @@ Scene::Scene(const String& name,
 	//init context
 	Application::instance()
 		->getScreen()
-        ->createWindow( name.c_str(),
+        ->createWindow( name,
                         width,
                         height,
                         freamPerSecond,

@@ -76,7 +76,7 @@ class LuaColor : public Color
         String g=String::toString((int)rsthis->g)+", ";
         String b=String::toString((int)rsthis->b)+", ";
         String a=String::toString((int)rsthis->a);
-        luabridge::Stack<const char*>::push(luaVM,(r+g+b+a).c_str());
+        luabridge::Stack<const char*>::push(luaVM,(r+g+b+a).cStr());
         //
         return 1;
     }
@@ -418,7 +418,7 @@ class LuaE2Object : public Object
         //call
         luabridge::LuaRef t = luabridge::newTable (luaVM);
         t["type"]="Object";
-        t["name"]=std::string( rsthis ? rsthis->getName() : "");//no ref!
+        t["name"]=String( rsthis ? rsthis->getName() : "");//no ref!
         t.push(luaVM);
         //
         return 1;

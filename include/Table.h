@@ -66,7 +66,7 @@ public:
                 if(key.isString())
                 {
                     std::hash<std::string> hstring;
-                    return (hstring(key.string().c_str()))%(hlmaxsize)+hlmaxsize;
+                    return (hstring(key.string().cStr()))%(hlmaxsize)+hlmaxsize;
                 }
                 else
                 {
@@ -80,7 +80,7 @@ public:
             bool operator()(const KeyTable&  key1,const KeyTable&  key2) const
             {
                 if(key1.isString() && key2.isString())
-                    return key1.string().compare(key2.string())==0;
+                    return key1.string() == key2.string();
                 else if(!(key1.isString()||key2.isString()))
                     return key1.integer()==key2.integer();
                 return false;
@@ -92,7 +92,7 @@ public:
             {
 
                 if(key1.isString() && key2.isString())
-                    return key1.string().compare(key2.string())<0;
+                    return key1.string() < key2.string();
                 else if(!(key1.isString()||key2.isString()))
                     return key1.integer()<key2.integer();
 

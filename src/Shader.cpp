@@ -165,8 +165,8 @@ bool Shader::linking()
         GLint maxLength = 0;
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
         //The maxLength includes the NULL character
-        String errorLog(' ',maxLength);
-        glGetProgramInfoLog(program, maxLength, &maxLength, &errorLog[0]);
+        String errorLog(maxLength, ' ');
+        glGetProgramInfoLog(program, maxLength, &maxLength, (char*)errorLog.data());
         //print error
         DEBUG_ASSERT_MSG(0,errorLog);
         //delete
@@ -194,8 +194,8 @@ bool Shader::compiler(uint shader)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
         
         //The maxLength includes the NULL character
-        String errorLog(' ',maxLength);
-        glGetShaderInfoLog(shader, maxLength, &maxLength, &errorLog[0]);
+        String errorLog(maxLength, ' ');
+        glGetShaderInfoLog(shader, maxLength, &maxLength, (char*)errorLog.data());
         
         //print error
         DEBUG_ASSERT_MSG(0,errorLog);
@@ -254,11 +254,11 @@ void Shader::load(const String& vs,
         const char* sources[]=
         {
             versionGLSL,
-            alldefines.c_str(),
+            alldefines.cStr(),
             standardUniform,
             vertexHeader,
             "#line 0\n",
-            vs.c_str(),
+            vs.cStr(),
             vertexMain
         };
         GLint lengths[]=
@@ -286,11 +286,11 @@ void Shader::load(const String& vs,
         const char* sources[]=
         {
             versionGLSL,
-            alldefines.c_str(),
+            alldefines.cStr(),
             fragmentHeader,
             standardUniform,
             "#line 0\n",
-            ps.c_str(),
+            ps.cStr(),
             fragmentMain
         };
         GLint lengths[]=

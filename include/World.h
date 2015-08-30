@@ -87,7 +87,7 @@ class World : public b2DestructionListener
     virtual ~World();
     void  setGravity(const Vec2& gravity);
     Vec2  getGravity();
-    void  debugDraw(bool enable);
+    void  physicsDebugDraw(bool enable);
     ///scale
     void setMetersInPixel( float pixel );
     float getMetersInPixel() const

@@ -330,6 +330,9 @@
     <ClCompile Include="src\TweenManager.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
+    <ClCompile Include="src\ConvertUTF.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Object.h">
@@ -625,6 +628,12 @@
       <Filter>File di intestazione</Filter>
     </ClInclude>
     <ClInclude Include="include\Tweens.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utf8Utils.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConvertUTF.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
   </ItemGroup>

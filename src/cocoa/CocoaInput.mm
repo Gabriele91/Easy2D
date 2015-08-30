@@ -370,7 +370,7 @@ static String textFromCocoaEvent(NSEvent* event)
         return "";
     //return [[event characters] UTF8String];
     const char* c_str=
-    [[event characters] cStringUsingEncoding:NSISOLatin1StringEncoding];
+    [[event characters] cStringUsingEncoding:NSUTF8StringEncoding];
     return c_str ? c_str : "";
 }
 
@@ -380,10 +380,25 @@ static String unmodifiedTextFromCocoaEvent(NSEvent* event)
         return "";
     //return [[event charactersIgnoringModifiers] UTF8String];
     const char* c_str=
-    [[event charactersIgnoringModifiers] cStringUsingEncoding:NSISOLatin1StringEncoding];
+    [[event charactersIgnoringModifiers] cStringUsingEncoding:NSUTF8StringEncoding];
     return c_str ? c_str : "";
 }
-    
+
+
+String CocoaInput::getClipboardString()
+{
+	NSString* contents = [[NSPasteboard generalPasteboard] stringForType:NSPasteboardTypeString];
+	const char * utf8 = [contents UTF8String];
+	return ((const unsigned char*)utf8);
+}
+
+void CocoaInput::setClipboardString(const String& strclipboard)
+{
+	NSString* nss = [NSString stringWithUTF8String:strclipboard.cStr()];
+	[[NSPasteboard generalPasteboard] clearContents];
+	[[NSPasteboard generalPasteboard] setString:nss forType:NSPasteboardTypeString];
+}
+
 void CocoaInput::__updateCocoaEvent()
 {
     

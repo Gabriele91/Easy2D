@@ -62,6 +62,16 @@ public:
     {
         return ekeyboard.inputString;
     }
+	/**
+	* Return the last input string got from clipboard
+	* @return input string
+	*/
+	virtual String getClipboardString();
+	/**
+	* set a string into the clipboard
+	* @param clipboard string
+	*/
+	virtual void setClipboardString(const String& clipboard);
     /**
      * Return true if window has focus
      * @return focus status

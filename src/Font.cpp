@@ -184,14 +184,16 @@ void Font::text(const Vec2& _pos,
     //int oldPage=0;
     int countCharPage=0;
     Character* chr=NULL;
-    Character* nextChr=getCharacter(textDraw[0]);
+    Character* nextChr=getCharacter(*textDraw.begin());
     int pageLast=0;
 
-    for(int i=0; i<textDraw.length(); ++i)
+    for(auto it = textDraw.begin(); 
+			 it != textDraw.end(); 
+		   ++it)
     {
         //string's char
-        char c=textDraw[i];
-        char nextC=textDraw[i+1];
+        uint c= *it;
+		uint nextC= *(it+1);
         //image's char
         chr=nextChr;
         //next char
@@ -285,14 +287,16 @@ void Font::mesh( const String& textDraw, bool kerning) const
     //int oldPage=0;
     int countCharPage=0;
     Character* chr=NULL;
-    Character* nextChr=getCharacter(textDraw[0]);
+    Character* nextChr=getCharacter(*textDraw.begin());
     int pageLast=0;
-    
-    for(int i=0; i<textDraw.length(); ++i)
-    {
-        //string's char
-        char c=textDraw[i];
-        char nextC=textDraw[i+1];
+
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+			++it)
+    {  
+		//string's char
+        uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr=nextChr;
         //next char
@@ -373,15 +377,17 @@ std::vector< Font::NodeText > Font::genStaticText(const String& textDraw,bool ke
     //temp vars
     int index=0;
     int countCharPage=0;
-    Character* chr=NULL;
-    Character* nextChr=getCharacter(textDraw[0]);
-    int pageLast=0;
-    
-    for(int i=0; i<textDraw.length(); ++i)
-    {
-        //string's char
-        char c=textDraw[i];
-        char nextC=textDraw[i+1];
+	Character* chr = NULL;
+	Character* nextChr = getCharacter(*textDraw.begin());
+	int pageLast = 0;
+
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+		    ++it)
+	{
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr=nextChr;
         //next char
@@ -461,18 +467,21 @@ Vec2 Font::textSize( const String& textDraw,bool kerning) const
     //////////////////////////////////////////////////////////////////
     Vec2 cursor;
     //temp vars
-    Character* chr=NULL;
-    Character* nextChr=getCharacter(textDraw[0]);
+    Character* chr = NULL;
+	Character* nextChr = getCharacter(*textDraw.begin());
     //int pageLast=0;
     //min max
     Vec2 min= Vec2::MAX;
     Vec2 max=-Vec2::MAX;
     //
-    for(int i=0; i<textDraw.length(); ++i)
-    {
-        //string's char
-        char c=textDraw[i];
-        char nextC=textDraw[i+1];
+
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+			++it)
+	{
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr=nextChr;
         //next char
@@ -505,7 +514,7 @@ Vec2 Font::textSpaceSize(const String& textDraw, bool kerning) const
     Vec2 cursor;
     //temp vars
     Character* chr = NULL;
-    Character* nextChr = getCharacter(textDraw[0]);
+    Character* nextChr = getCharacter(*textDraw.begin());
     //int pageLast=0;
     //min max
     Vec2 min =  Vec2::MAX;
@@ -515,11 +524,13 @@ Vec2 Font::textSpaceSize(const String& textDraw, bool kerning) const
     max.x = Math::max(max.x, cursor.x);
     max.y = Math::max(max.y, cursor.y);
     //
-    for (int i = 0; i<textDraw.length(); ++i)
-    {
-        //string's char
-        char c = textDraw[i];
-        char nextC = textDraw[i + 1];
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+		    ++it)
+	{
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr = nextChr;
         //next char
@@ -550,13 +561,18 @@ Font::InfoSelection Font::select( const Vec2& point , const Vec2& pos, const Str
     Vec2 cursor(pos);
     //temp vars
     Character* chr=NULL;
-    Character* nextChr=getCharacter(textDraw[0]);
-    //
-    for(int i=0; i<textDraw.length(); ++i)
-    {
-        //string's char
-        char c=textDraw[i];
-        char nextC=textDraw[i+1];
+    Character* nextChr=getCharacter(*textDraw.begin());
+    //cont char
+	int nchar = 0;
+
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+			++it, 
+			++nchar)
+	{
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr=nextChr;
         //next char
@@ -575,7 +591,7 @@ Font::InfoSelection Font::select( const Vec2& point , const Vec2& pos, const Str
             box.setMin(cursor);
             box.setMax(Vec2(cursor.x+xoffset+chr->srcW,
                             cursor.y+yoffset+chr->srcH*.5f));
-            if(box.isInside(point)) return { i, box };
+            if(box.isInside(point)) return { nchar, box };
             //next pos
             cursor.x+=chr->xAdv;
         }
@@ -589,14 +605,19 @@ Font::InfoSelection Font::selectSpace(const Vec2& point, const Vec2& pos, const 
     Vec2 cursor(pos);
     //temp vars
     Character* chr = NULL;
-    Character* nextChr = getCharacter(textDraw[0]);
-    //
-    for (int i = 0; i<textDraw.length(); ++i)
+    Character* nextChr = getCharacter(*textDraw.begin());
+    //count of chars
+	int  nchar = 0;
+	//for all
+	for (auto it = textDraw.begin(); 
+			  it != textDraw.end(); 
+			++it, 
+			++nchar)
     {
         Vec2 sCursor(cursor);
-        //string's char
-        char c = textDraw[i];
-        char nextC = textDraw[i + 1];
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr = nextChr;
         //next char
@@ -616,7 +637,7 @@ Font::InfoSelection Font::selectSpace(const Vec2& point, const Vec2& pos, const 
         AABox2 box;
         box.setMin(Vec2(sCursor.x, -sCursor.y));
         box.setMax(Vec2(cursor.x,  -cursor.y + fontSize));
-        if (box.isInside(point)) return{ i, box };
+        if (box.isInside(point)) return{ nchar, box };
     }
 
     return{ -1, AABox2() };
@@ -628,13 +649,18 @@ AABox2 Font::getCharPosition2D(int index,  const String& textDraw, bool kerning 
     Vec2 pos,cursor;
     //temp vars
     Character* chr = nullptr;
-    Character* nextChr=getCharacter(textDraw[0]);
+	Character* nextChr = getCharacter(*textDraw.begin());
+	//count of chars
+	int  nchar = 0;
     //
-    for(int i=0; i<textDraw.length(); ++i)
-    {
-        //string's char
-        char c=textDraw[i];
-        char nextC=textDraw[i+1];
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+			++it, 
+		    ++nchar)
+	{
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr=nextChr;
         //next char
@@ -645,7 +671,7 @@ AABox2 Font::getCharPosition2D(int index,  const String& textDraw, bool kerning 
             charFunction(fontSize,Vec2::ZERO,cursor);
         else if(chr)
         {
-            if(i==index)
+            if(nchar == index)
             {
                 //opengl uv flipped error on y axis
                 float yoffset=isBMFont ?  chr->srcH+chr->yOff : -fontSize-chr->srcH+chr->yOff;
@@ -670,14 +696,19 @@ AABox2 Font::getSpaceCharPosition2D(int index, const String& textDraw, bool kern
     Vec2 pos, cursor;
     //temp vars
     Character* chr = nullptr;
-    Character* nextChr = getCharacter(textDraw[0]);
+    Character* nextChr = getCharacter(*textDraw.begin());
+	//count of chars
+	int  nchar = 0;
     //
-    for (int i = 0; i<textDraw.length(); ++i)
+	for (auto it = textDraw.begin();
+			  it != textDraw.end();
+			++it,
+			++nchar)
     {
         Vec2 sCursor(cursor);
-        //string's char
-        char c = textDraw[i];
-        char nextC = textDraw[i + 1];
+		//string's char
+		uint c = *it;
+		uint nextC = *(it + 1);
         //image's char
         chr = nextChr;
         //next char
@@ -693,7 +724,7 @@ AABox2 Font::getSpaceCharPosition2D(int index, const String& textDraw, bool kern
             cursor.x += chr->xAdv;
         }
         //id char
-        if (i == index)
+        if (nchar == index)
         {
             //get box
             AABox2 box;

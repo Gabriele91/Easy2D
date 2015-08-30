@@ -251,6 +251,51 @@ void WindowsInput::update()
 
 }
 
+String WindowsInput::getClipboardString()
+{ 
+	// Try opening the clipboard
+	if (!OpenClipboard(nullptr)) return String::NONE;
+
+	// Get handle of clipboard object for UTF16 text
+	HANDLE hData = GetClipboardData(GMEM_MOVEABLE);
+	if (hData == nullptr) return String::NONE;
+
+	// Lock the handle to get the actual text pointer
+	wchar_t * pszText = static_cast<wchar_t*>(GlobalLock(hData));
+	if (pszText == nullptr) return String::NONE;
+
+	// Save text in a string class instance
+	std::wstring text(pszText);
+
+	// Release the lock
+	GlobalUnlock(hData);
+
+	// Release the clipboard
+	CloseClipboard();
+
+	return text;
+}
+
+void WindowsInput::setClipboardString(const String& clipboard)
+{
+	//to utf16
+	std::wstring wclipboard = (std::wstring)clipboard;
+	size_t		 wsize = (wclipboard.size() + 1)*sizeof(wchar_t);
+	//alloc clipboard
+	OpenClipboard(GetDesktopWindow());
+	EmptyClipboard();
+	HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, wsize);
+	if (!hg) 
+	{
+		CloseClipboard();
+		return;
+	}
+	memcpy(GlobalLock(hg), wclipboard.c_str(), wsize);
+	GlobalUnlock(hg);
+	SetClipboardData(CF_UNICODETEXT, hg);
+	CloseClipboard();
+	GlobalFree(hg);
+}
 
 //calls
 void WindowsInput::__callOnKeyPress(Key::Keyboard key)
@@ -370,8 +415,7 @@ LRESULT CALLBACK WindowsInput::WndProc(   HWND hwnd, UINT message, WPARAM wparam
                 break;
                 // Next, handle displayable characters by appending them to our string.
             default:
-                winput->ekeyboard.inputString = "";
-                winput->ekeyboard.inputString += (char)((wchar_t)wparam);
+                winput->ekeyboard.inputString = String(((wchar_t)wparam));
                 winput->__callOnTextInput(winput->ekeyboard.inputString);
                 break;
             }

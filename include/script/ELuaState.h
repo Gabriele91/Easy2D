@@ -14,7 +14,7 @@ struct luabridge::Stack <String>
 
     static void push (lua_State* L,const String& s)
     {
-        lua_pushstring (L, s.c_str());
+        lua_pushstring (L, s.cStr());
     }
     
     static String get (lua_State* L, int index)
@@ -30,7 +30,7 @@ struct luabridge::Stack <String const&>
 {
 	static inline void push(lua_State* L, String const& str)
 	{
-		lua_pushlstring(L, str.c_str(), str.size());
+		lua_pushlstring(L, str.cStr(), str.size());
 	}
 
 	static inline String get(lua_State* L, int index)

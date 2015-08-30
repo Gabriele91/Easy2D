@@ -896,7 +896,10 @@ void TextField::onTextInput(const String& input)
 		case Easy2D::Ui::TextField::TF_NORMAL:break;
 		case Easy2D::Ui::TextField::TF_SELECT_CHAR:
 			if (cursor)
-				setText(text.substr(0, cursor) + input + text.substr(cursor, text.size() - cursor));
+				//setText(text.substr(0, cursor) + input + text.substr(cursor, text.size() - cursor));
+				setText(text.substr(text.cbegin(), text.cbegin()+cursor) 
+					    + input 
+					    + text.substr(text.cbegin()+cursor, text.cbegin()+text.size()));
 			else
 				setText(input + text);
 			//next
@@ -908,8 +911,10 @@ void TextField::onTextInput(const String& input)
         {
             int min_c = Math::min(cursor, cursorSelect);
             int max_c = Math::max(cursor, cursorSelect);
-            String left = text.substr(0, min_c);
-            String right = text.substr(max_c, text.length() - max_c);
+            //String left = text.substr(0, min_c);
+            //String right = text.substr(max_c, text.length() - max_c);
+			String left  = text.substr(text.cbegin(), text.cbegin() + min_c);
+			String right = text.substr(text.cbegin()+max_c, text.cend());
 			text = left + input;
 			//disable selection
 			cursor       = text.length();
@@ -983,15 +988,19 @@ void TextField::deleteSelectChars(bool left)
     case TextField::TF_SELECT_CHAR:
         if (cursor && left)
         {
-            setText(text.substr(0, cursor - 1) + text.substr(cursor, text.size() - cursor));
-            //next
+			//setText(text.substr(0, cursor - 1) + text.substr(cursor, text.size() - cursor));
+			setText(text.substr(text.cbegin(), text.cbegin()+(cursor - 1)) + 
+					text.substr(text.cbegin()+cursor, text.cbegin()+text.size()));
+			//next
             --cursor;
             //set offset
             computeOffset(cursor);
         }
         else if (cursor < text.length() && !left)
         {
-            setText(text.substr(0, cursor) + text.substr(cursor + 1, text.size() - cursor - 1));
+			//setText(text.substr(0, cursor) + text.substr(cursor + 1, text.size() - cursor - 1));
+			setText(text.substr(text.cbegin(), text.cbegin()+cursor) + 
+					text.substr(text.cbegin()+ (cursor + 1), text.cbegin() + text.size()));
             //set offset
             computeOffset(cursor);
         }
@@ -1000,8 +1009,10 @@ void TextField::deleteSelectChars(bool left)
     {
         int min_c = Math::min(cursor, cursorSelect);
         int max_c = Math::max(cursor, cursorSelect);
-        String left = text.substr(0, min_c);
-        String right = text.substr(max_c, text.length() - max_c);
+		//String left = text.substr(0, min_c);
+		//String right = text.substr(max_c, text.length() - max_c);
+		String left = text.substr(text.cbegin(), text.cbegin() + min_c);
+		String right = text.substr(text.cbegin() + max_c, text.cend());
         //disable selection
         cursor = left.length();
         cursorSelect = cursor;

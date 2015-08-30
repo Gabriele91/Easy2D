@@ -1703,7 +1703,7 @@ static inline String bytes2Hex(byte2 mask)
 }
 static inline byte2 hex2Bytes(const String& str)
 {
-	return (byte2)strtol(str.c_str(), NULL, 16);
+	return (byte2)strtol(str, NULL, 16);
 }
 static inline Body::Type getBodyType(const String& name)
 {

@@ -337,6 +337,7 @@
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\Config.cpp" />
+    <ClCompile Include="src\ConvertUTF.cpp" />
     <ClCompile Include="src\Debug.cpp" />
     <ClCompile Include="src\EStack.cpp" />
     <ClCompile Include="src\FluidGrid.cpp" />
@@ -483,6 +484,7 @@
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\ConvertUTF.h" />
     <ClInclude Include="include\Debug.h" />
     <ClInclude Include="include\Easy2D.h" />
     <ClInclude Include="include\EStack.h" />
@@ -538,6 +540,7 @@
     <ClInclude Include="include\Types.h" />
     <ClInclude Include="include\ui\UIComponents.h" />
     <ClInclude Include="include\ui\UIManager.h" />
+    <ClInclude Include="include\Utf8Utils.h" />
     <ClInclude Include="include\Utility.h" />
     <ClInclude Include="include\Renderable.h" />
     <ClInclude Include="include\RenderState.h" />

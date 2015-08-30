@@ -109,7 +109,7 @@ int LuaScript::addScript(Script::ptr script, const Table& parameters)
 				(*obj->luaObject)[param.first.string()] = param.second->get<float>();
 				break;
 			case Table::STRING:
-				(*obj->luaObject)[param.first.string()] = param.second->get<String>().c_str();
+				(*obj->luaObject)[param.first.string()] = param.second->get<String>().cStr();
 				break;
 			case Table::VECTOR2D:
 				(*obj->luaObject)[param.first.string()] = param.second->get<Vec2>();
@@ -191,7 +191,7 @@ void LuaScript::deserialize(const Table& table)
 								(*obj->luaObject)[param.first.string()] = param.second->get<float>();
                                 break;
 							case Table::STRING:
-								(*obj->luaObject)[param.first.string()] = param.second->get<String>().c_str();
+								(*obj->luaObject)[param.first.string()] = param.second->get<String>().cStr();
                                 break;
 							case Table::VECTOR2D:
 								(*obj->luaObject)[param.first.string()] = param.second->get<Vec2>();

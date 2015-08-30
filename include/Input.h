@@ -285,6 +285,21 @@ public:
     {
         return String::NONE;
     }
+	/**
+	* Return the last input string got from clipboard
+	* @return input string
+	*/
+	virtual String getClipboardString()
+	{
+		return String::NONE;
+	}
+	/**
+	* set a string into the clipboard
+	* @param clipboard string
+	*/
+	virtual void setClipboardString(const String& clipboard)
+	{
+	}
     /**
     * Return true if keyboard button is down
     * @param key's id

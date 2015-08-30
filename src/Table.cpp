@@ -389,7 +389,7 @@ String Table::serialize(int countspace) const
 int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stline)
 {
     //
-    const char *prtC=intextfile.c_str();
+    const char *prtC=intextfile.cStr();
     int countKey=-1;
     int cntEL=(int)( stline!=NULL ? *stline : 1 );
     //get {
@@ -501,7 +501,7 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
         case TK_TABLE_END:
             ++prtC; //jmp }
             if(lenRead)
-                (*lenRead)=prtC-intextfile.c_str();
+                (*lenRead)=prtC-intextfile.cStr();
             return cntEL;
             /* end parse */
             break;
@@ -619,7 +619,7 @@ int Table::__deserialize(const String& intextfile,int* lenRead,unsigned int* stl
 String Table::__serialize(int countSpace,bool havename) const
 {
     //
-    String lspace(' ',countSpace);
+    String lspace(countSpace, ' ');
     //open table
     String outtextfile(/*( havename? String("") :lspace )+*/ " {\n");
     for(auto value :  *this )
@@ -630,7 +630,7 @@ String Table::__serialize(int countSpace,bool havename) const
 
         if(value.first.isString())
         {
-            if(value.first.string().find(" ")==-1)
+            if(value.first.string().find(" ") == value.first.string().end())
             {
                 outtextfile+=value.first.string()+" = ";
                 supSpace+=(value.first.string().size()+3);
@@ -660,7 +660,7 @@ String Table::__serialize(int countSpace,bool havename) const
             outtextfile+=value.second->get<Matrix4x4>().toString("(",
                          " ",
                          "\n"+
-                         String(' ',countSpace+supSpace),
+                         String(countSpace+supSpace, ' '),
                          ")\n");
             break;
         case Easy2D::Table::STRING:

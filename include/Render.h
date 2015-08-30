@@ -128,7 +128,8 @@ protected:
     Camera *camera;
     //colors
     bool enableBatching;
-    bool  enableClear;
+    bool enableClear;
+	bool enableDebugDraw;
     Color clearClr;
     Color ambientClr;
     //Batching
@@ -140,6 +141,7 @@ protected:
     void buildQueue(const std::list<Object*>& objs);
     //draw
     void draw();
+	void drawDebug() const;
 	//init render
 	virtual void init();
 
@@ -207,7 +209,7 @@ public:
     ///////////////////////////////////////////////////
     //utility
     Object* queuePicking(const Vec2& point) const;
-    void aabox2Draw() const;
+    void renderDebugDraw(bool);
     ///////////////////////////////////////////////////
     //rebuild queue render target (call it when screen will be resize)
     void rebuildPostEffectTarget()

@@ -33,7 +33,9 @@ WindowsApp::WindowsApp(const String& name)
                      szPath);
     dataPath = String(szPath) + '/' + appname;
     //create directory
-    CreateDirectory(dataPath.c_str(),0);
+	//to wstring
+	std::wstring wstr((std::wstring)dataPath);
+    CreateDirectoryW(wstr.data(),0);
     //get errors
     DWORD error=GetLastError();
     DEBUG_ASSERT(error != ERROR_PATH_NOT_FOUND);

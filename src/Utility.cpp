@@ -16,7 +16,11 @@ using namespace Easy2D::Utility;
 #include <errno.h>
 #include <sys/stat.h>
 #include <Shlwapi.h>
-
+//define unix macro
+#ifndef PATH_MAX
+	#define PATH_MAX MAX_PATH
+#endif
+//function get relative path
 char *realpath(const char *path, char resolved_path[MAX_PATH])
 {
     char *return_path = 0;
@@ -154,42 +158,47 @@ Path::Path(const char* _path)
 {
     costructor(String(_path));
 }
+
+static void getDirectoryAndFileFromPath(const String& path, String& directory, String& file)
+{
+
+	//get directory end:
+	String::ConstIterator flash = path.rfind("/");
+	//gat names
+	if (flash != path.cend())
+	{
+		directory = path.substr(path.cbegin(), flash);
+		file = path.substr(flash + 1, path.cend());
+	}
+	else
+	{
+		file = path;
+	}
+}
+
+static void getExtensionFromFileName(const String& file, String& filebasename, String& ext, String& leftext)
+{
+	if (file.size())
+	{
+		String::ConstReverseIterator point = file.find(".");
+		String::ConstReverseIterator rightPoint = file.rfind(".");
+		//get base file name
+		filebasename = file.substr(file.cbegin(), point);
+		//get extensions
+		ext = file.substr(rightPoint-1, file.cend());
+		leftext = file.substr(point+1, file.cend());
+	}
+}
+
 void Path::costructor(const String& _path)
 {
     //to canonical path
     path=_path;
     isabs=convertToCanonicalPath(path);
-    //get directory:
-    int flash=path.rfind("/");
-    if(flash>=0)
-    {
-        directory=path.substr(0,flash);
-        file=path.substr(flash+1,path.size()-flash-1);
-    }
-    else
-    {
-        file=path;
-    }
-    //get base name
-    if(file.size())
-    {
-        int point=file.find(".");
-        filebasename=file.substr(0,point);
-    }
-    //Extension
-    if(file.size())
-    {
-        int point=file.rfind(".");
-        if(point>=0)
-            ext=file.substr(point+1,path.size()-point-1);
-    }
-    //left extension
-    if(file.size())
-    {
-        int point=file.find(".");
-        if(point>=0)
-            leftext=file.substr(point+1,path.size()-point-1);
-    }
+    //get dir name and file name
+	getDirectoryAndFileFromPath(path,directory,file);
+	//get extension and base name
+	getExtensionFromFileName(file,filebasename,ext,leftext);
 }
 bool Path::existsFile()
 {
@@ -318,87 +327,105 @@ String Path::getCanonicalPath(const String& path)
     convertToCanonicalPath(outPath);
     return outPath;
 }
+
+static void trim(String& path)
+{
+	path = path.trim();
+}
+
+static void backslashToSlash(String& path)
+{
+	//utf 8 string raw
+	char* rawstr = (char*)path.cStr();
+	//for all bytes
+	for (int i = 0; i != path.byteSize(); ++i)
+	{
+		if( rawstr[i] == '\\' )
+		{
+			rawstr[i] = '/';
+		}
+	}
+}
+
+static bool rootPathParser(String& path,String& rootName)
+{
+#ifdef  PLATFORM_UNIX
+	String::ConstIterator it=path.find("/");
+	rootName = "/";
+	if (it != path.cend())
+	{
+		path = path.substr(it,path.cend());
+		return true;
+	}
+#else
+	String::ConstIterator it   = path.find(":");
+	if (it != path.cend())
+	{
+		std::vector<String> tokens;
+		//win path: <root>':''/'<path>
+		path.split(":", tokens);
+		//tokens[0] = <root>
+		rootName = tokens[0]+":/";
+		//tokens[1] ='/'<path>
+		path     = tokens[1].substr(tokens[1].cbegin()+1, tokens[1].cend());
+		return true;
+	}
+#endif
+	return false;
+}
+
+static void resolveRelativePath(String& path)
+{
+	//replace ../
+    std::vector<String> dirs;
+	path.split("/", dirs);
+	path = ""; //release
+	for (uint i = 0; i<dirs.size() - 1; ++i)
+	{
+		if (dirs[i] != ".")
+		{
+			if (dirs[i + 1] != "..")
+				path += dirs[i] + "/";
+			else
+				++i;
+		}
+	}
+	if (dirs.size()>1)
+	{
+		if (dirs[dirs.size() - 1] != ".")
+			if (dirs[dirs.size() - 1] != "..")
+				path += dirs[dirs.size() - 1];
+	}
+	else
+		path = dirs[0];
+	//is a directory?
+	String::ConstReverseIterator point = path.rfind(".");
+	String::ConstReverseIterator flash = path.rfind("/");
+	//is a file path
+	if (flash > point) return;
+	//if is a directory the path must end with the slash
+	if (path[path.size() - 1] != '/') path += '/';
+}
+
 bool Path::convertToCanonicalPath(String& path)
 {
-    //get real path
-    //char buffer[FILENAME_MAX];
-    //realpath(path,buffer);
-    //path=buffer;
-    //unix format:
-    for(auto& c:path) if(c=='\\') c='/';
-    //delete space at end
-    int space_len=0;
-    for(auto c:reverse(path))
-        if(c==' ')
-            ++space_len;
-        else
-            break;
-    path=path.substr(0,path.size()-space_len);
-    //start is absolute?
-    bool absolute=false;
-#ifdef  PLATFORM_UNIX
-    String root="/";
-    for(size_t i=0; i!=path.size(); ++i)
-    {
-        if(path[i]=='/')
-        {
-            path=path.substr(i,path.size());
-            absolute=true;//is a absolute
-            break;
-        }
-        else if(path[i]!=' ') break;
-    }
-#elif defined(PLATFORM_WINDOW)
-    int rootfind=path.find(":");
-    String root;
-    if(rootfind>0)
-    {
-        absolute=true;
-        std::vector<String> rootAndPath;
-        path.split(":",rootAndPath);
-        root=" "+rootAndPath[0]+":/";
-        //delete left space
-        for(size_t i=0; i!=root.size(); ++i)
-        {
-            if(root[i]!=' ')
-            {
-                root=root.substr(i,path.size());
-                break;
-            }
-        }
-        //
-        path=rootAndPath[1];
-    }
-#endif
+	//delete spaces
+	trim(path);
+	//to unix format
+	backslashToSlash(path);
+	//is a root/absolute path?
+	String root;
+	bool absolute = rootPathParser(path, root);
     //replace "void path"
     path.replace("//","");
+	//is "local"
     if(path.size()==0||path=="."||path=="./")
     {
         path="./";
         return false;
     }
-    //replace ../
-    std::vector<String> dirs;
-    path.split("/",dirs);
-    path=""; //release
-    for(uint i=0; i<dirs.size()-1; ++i)
-    {
-        if(dirs[i]!=".")
-        {
-            if(dirs[i+1]!="..")
-                path+=dirs[i]+"/";
-            else
-                ++i;
-        }
-    }
-    if(dirs.size()>1)
-    {
-        if(dirs[dirs.size()-1]!=".")
-            if(dirs[dirs.size()-1]!="..")
-                path+=dirs[dirs.size()-1];
-    }
-    else
-        path=dirs[0];
+	//resol the relative path
+	resolveRelativePath(path);
     //replace is made a void path..
     if(path.size()==0)
     {
@@ -409,21 +436,13 @@ bool Path::convertToCanonicalPath(String& path)
             path="./";
         return absolute;
     }
-    //directory?
-    int point=path.rfind(".");
-    int flash=path.rfind("/");
-    //is a directory path
-    if(flash>point)
-    {
-        //if directory not have end part
-        if(path[path.size()-1]!='/') path+='/';
-    }
     //is an absolute path
     if(absolute)
         path=root+path;
     //
     return absolute;
 }
+
 Path Path::getRelativePathTo(const Path& path) const
 {
     //from path
@@ -497,11 +516,7 @@ Path Path::getAbsolute() const
 {
     if(!isAbsolute()) return *this;
     //get absolute
-#if defined(PLATFORM_WINDOW)
-    char szOut[MAX_PATH];
-#else
     char szOut[PATH_MAX];
-#endif
     realpath(getPath(),szOut);
     return szOut;
 }

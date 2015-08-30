@@ -87,7 +87,7 @@ void LuaState::init()
 }
 void LuaState::compile(const String& script)
 {
-    int error=luaL_dostring(luaVM,script.c_str());
+    int error=luaL_dostring(luaVM,script.cStr());
     DEBUG_ASSERT_MSG(!error, "error running script:" << lua_tostring(luaVM, -1) );
 }
 void LuaState::execute(const String& smain)

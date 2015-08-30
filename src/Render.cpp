@@ -173,8 +173,9 @@ void Render::draw()
             queue->draw();
 	}
     //////////////////////////////////////////////////////
+	//draw debug
+	if(enableDebugDraw) drawDebug();
 }
-
 //pikking
 Object* Render::queuePicking(const Vec2& point) const
 {
@@ -197,49 +198,53 @@ Object* Render::queuePicking(const Vec2& point) const
     return nullptr;
 }
 //debug draw
-void Render::aabox2Draw() const
+void Render::renderDebugDraw(bool enable)
 {   
-    //return if queue is empty
+	enableDebugDraw = enable;
+}
+void Render::drawDebug() const
+{
+	//return if queue is empty
 	if (!queue->size())  return;
-    //save states
-    auto state=RenderContext::getRenderState();
-    //set projection matrix
-    RenderContext::setProjection(camera->getProjection());
-    //set view port
-    RenderContext::setViewport(Vec4(0,0,camera->getViewport().x,camera->getViewport().y));
-    //set model view matrix
-    RenderContext::setView(camera->getGlobalMatrix());
-    RenderContext::setModel(Mat4::IDENTITY);
-    //////////////////////////////////////////////////////////////////
-    RenderContext::setCullFace(DISABLE);
-    RenderContext::setBlend(true);
-    RenderContext::setBlendFunction(BLEND::SRC::ALPHA, BLEND::ONE::MINUS::SRC::ALPHA);
-    RenderContext::setTexture(false);
-    RenderContext::setClientState(true, false, false, false);
-    //////////////////////////////////////////////////////////////////
-    //no vbo/ibo
-    RenderContext::unbindVertexBuffer();
-    RenderContext::unbindIndexBuffer();
-    //////////////////////////////////////////////////////////////////
-    //all aabbox
-    for(Object* obj: Utility::reverse(*queue) )
-    {
-        Renderable* renderable=nullptr;
-        if((renderable=obj->getComponent<Renderable>()))
-        {
-            const AABox2& box=renderable->getMesh()->getAABox();
-            const AABox2& wbox= renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
-            
-            RenderContext::drawBox(wbox,
-                                   Color((uchar(wbox.getSize().x)),
-                                         (uchar(wbox.getSize().y)),
-                                         (uchar(wbox.getSize().x+wbox.getSize().y)),
-                                         128));
-            
-            RenderContext::drawFillBox(wbox,Color(25,128,(uchar(wbox.getSize().x+wbox.getSize().y)),40));
-        }
-    }
-    //////////////////////////////////////////////////////////////////
-    RenderContext::setRenderState(state);
-    //////////////////////////////////////////////////////////////////
+	//save states
+	auto state = RenderContext::getRenderState();
+	//set projection matrix
+	RenderContext::setProjection(camera->getProjection());
+	//set view port
+	RenderContext::setViewport(Vec4(0, 0, camera->getViewport().x, camera->getViewport().y));
+	//set model view matrix
+	RenderContext::setView(camera->getGlobalMatrix());
+	RenderContext::setModel(Mat4::IDENTITY);
+	//////////////////////////////////////////////////////////////////
+	RenderContext::setCullFace(DISABLE);
+	RenderContext::setBlend(true);
+	RenderContext::setBlendFunction(BLEND::SRC::ALPHA, BLEND::ONE::MINUS::SRC::ALPHA);
+	RenderContext::setTexture(false);
+	RenderContext::setClientState(true, false, false, false);
+	//////////////////////////////////////////////////////////////////
+	//no vbo/ibo
+	RenderContext::unbindVertexBuffer();
+	RenderContext::unbindIndexBuffer();
+	//////////////////////////////////////////////////////////////////
+	//all aabbox
+	for (Object* obj : Utility::reverse(*queue))
+	{
+		Renderable* renderable = nullptr;
+		if ((renderable = obj->getComponent<Renderable>()))
+		{
+			const AABox2& box = renderable->getMesh()->getAABox();
+			const AABox2& wbox = renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
+
+			RenderContext::drawBox(wbox,
+				Color((uchar(wbox.getSize().x)),
+					(uchar(wbox.getSize().y)),
+					(uchar(wbox.getSize().x + wbox.getSize().y)),
+					128));
+
+			RenderContext::drawFillBox(wbox, Color(25, 128, (uchar(wbox.getSize().x + wbox.getSize().y)), 40));
+		}
+	}
+	//////////////////////////////////////////////////////////////////
+	RenderContext::setRenderState(state);
+	//////////////////////////////////////////////////////////////////
 }
