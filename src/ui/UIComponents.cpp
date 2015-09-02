@@ -93,7 +93,7 @@ Vec2 Anchor::getAnchorPoint() const
 void Anchor::serialize(Table& table)
 {
     //anchor
-    table.set("anchor", isEnableAnchor() ? "yes" : "no");
+    table.set("anchor", isEnableAnchor());
     //anchor point
     if (getAnchorPoint()!=Vec2::ZERO)
         table.set("anchorPoint", getAnchorPoint());
@@ -103,7 +103,7 @@ void Anchor::deserialize(const Table& table)
     //anchor
     if (table.existsAsType("anchor", Table::STRING))
     {
-        if (table.getString("anchor", isEnableAnchor() ? "yes" : "no") != "no") 
+        if (table.get("anchor", isEnableAnchor())) 
             enableAnchor();
         else
             disableAnchor();
@@ -584,9 +584,9 @@ static const char * const STRVLayoutSugar[] =
 void Label::serializeFields(Table& table) const
 {
     //set
-    table.set("enableScale9", isEnableScale9() ? "yes" : "no");
+    table.set("enableScale9", isEnableScale9());
     table.set("boxScale9", boxScale9);
-    table.set("scaleIndependent", isTextScaleIndependent() ? "yes" : "no");
+    table.set("scaleIndependent", isTextScaleIndependent());
     //color/scale text
     table.set("textColor", textColor.toVec4());
     table.set("textScale", scale);
@@ -597,16 +597,14 @@ void Label::serializeFields(Table& table) const
 void Label::deserializeFields(const Table& table)
 {
     //enable/disable scale 9
-    if (table.getString("enableScale9", isEnableScale9() ? "yes" : "no") != "no")
+    if (table.get("enableScale9", isEnableScale9() ) )
         enableScale9();
     else
         disableScale9();
     //box scale 9
     setBoxScale9(table.getVector4D("boxScale9", boxScale9));
     //enable/disable scale independent
-    setTextScaleIndependent(table.getString("scaleIndependent",
-        isTextScaleIndependent() ? "yes" : "no") != "no"
-        );
+    setTextScaleIndependent(table.get("scaleIndependent",isTextScaleIndependent()));
     //horizontal layout 
     String horizontal = table.getString("horizontal", STRHLayout[hlayout]);
     for (int i = 0; i != 3; ++i)

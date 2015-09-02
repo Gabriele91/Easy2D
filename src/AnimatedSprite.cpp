@@ -208,7 +208,7 @@ void AnimatedSprite::deserialize(const Table& table)
             //default time
             float time=tbl.getFloat("time",fms->getDefaultTime());
             //default time
-            bool loop=tbl.getFloat("loop",0.0)!=0.0;
+            bool loop=tbl.get("loop",false);
             //times
             addAnimation(fms,time,loop);
         }

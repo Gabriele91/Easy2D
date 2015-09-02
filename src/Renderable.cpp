@@ -73,11 +73,11 @@ void Renderable::rsSerialize(Table& table)
 {
     RenderState::rsSerialize(table);
     //visible
-    table.set("visible", isVisible() ? "yes" : "no");
+    table.set("visible", isVisible());
     //batch
-    table.set("canBatch", getCanBatch() ? "yes" : "no");
+    table.set("canBatch", getCanBatch());
     //color cascate
-    table.set("colorCascade", isEnableParentColor() ? "yes" : "no");
+    table.set("colorCascade", isEnableParentColor());
 }
 void Renderable::rsDeserialize(const Table& table)
 {
@@ -85,18 +85,18 @@ void Renderable::rsDeserialize(const Table& table)
     //deserialize renderable
     if (table.existsAsType("visible", Table::STRING))
     {
-        if (table.getString("visible", isVisible() ? "yes" : "no") != "no") show();
+        if (table.get("visible", isVisible())) show();
         else hide();
     }
     //batch
     if (table.existsAsType("canBatch", Table::STRING))
     {
-        setCanBatch(table.getString("canBatch", getCanBatch() ? "yes" : "no") != "no");
+        setCanBatch(table.get("canBatch", getCanBatch()));
     }
     //color cascate
     if (table.existsAsType("colorCascade", Table::STRING))
     {
-        setEnableParentColor(table.getString("colorCascade", getCanBatch() ? "yes" : "no") != "no");
+        setEnableParentColor(table.get("colorCascade", getCanBatch()));
     }
 }
 //serialize/deserialize

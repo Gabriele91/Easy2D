@@ -1803,25 +1803,25 @@ void Body::deserialize(const Table& table)
     setPosition( table.getVector2D("position", position) );
     setAngle( table.getFloat("rotation", angle ) );
      */
-    setLinearVelocity( table.getVector2D("linearVelocity", getLinearVelocity()) );
-    setAngularVelocity( table.getFloat("angularVelocity", getAngularVelocity()) );
-    setLinearDamping( table.getFloat("linearDamping", getLinearDamping()) );
-    setAngularDamping( table.getFloat("angularDamping", getAngularDamping()) );
-    setGravityScale( table.getFloat("gravityScale",getGravityScale()) );
-    setSleepingAllowed( table.getFloat("allowSleep", (float)getSleepingAllowed())!=0.0f );
-    setAwake( table.getFloat("awake", (float)getAwake())!=0.0f );
-    setFixedAngle( table.getFloat("fixedRotation", (float)getFixedAngle())!=0.0f );
-    setBullet( table.getFloat("bullet", (float)getBullet())!=0.0f );
-    setActive( table.getFloat("active", (float)getActive())!=0.0f );
+    setLinearVelocity( table.get("linearVelocity", getLinearVelocity()) );
+    setAngularVelocity( table.get("angularVelocity", getAngularVelocity()) );
+    setLinearDamping( table.get("linearDamping", getLinearDamping()) );
+    setAngularDamping( table.get("angularDamping", getAngularDamping()) );
+    setGravityScale( table.get("gravityScale",getGravityScale()) );
+    setSleepingAllowed( table.get("allowSleep", getSleepingAllowed()) );
+    setAwake( table.get("awake", getAwake()));
+    setFixedAngle( table.get("fixedRotation", getFixedAngle()) );
+    setBullet( table.get("bullet", getBullet()) );
+    setActive( table.get("active", getActive()) );
 	if (table.existsAsType("autoScale", Table::VECTOR2D))
 	{
 		Vec2 defaultValues((float)getEnableScale(), (float)getEnableAbsoluteScale());
-		Vec2 values = table.getVector2D("autoScale", defaultValues);
+		Vec2 values = table.get("autoScale", defaultValues);
 		setEnableScale(values.x != 0.0f, values.y != 0.0f);
 	}
 	else
 	{
-		setEnableScale(table.getFloat("autoScale", (float)getEnableScale()) != 0.0f);
+		setEnableScale(table.get("autoScale", getEnableScale()));
 	}
     setType( getBodyType(table.getString("type", getBodyType(getType()))) );
 
@@ -1902,14 +1902,14 @@ void Body::deserialize(const Table& table)
             {
                 DEBUG_ASSERT(0);
             }
-            setShapeDensity(idshape,shape.getFloat("density",defaultFixture.density));
-            setShapeFriction(idshape,shape.getFloat("friction",defaultFixture.friction));
-            setShapeRestitution(idshape,shape.getFloat("restitution",defaultFixture.restitution));
-            setShapeIsSensor(idshape,shape.getFloat("sensor",(float)defaultFixture.isSensor)!=0.0f);
+            setShapeDensity(idshape,shape.get("density",defaultFixture.density));
+            setShapeFriction(idshape,shape.get("friction",defaultFixture.friction));
+            setShapeRestitution(idshape,shape.get("restitution",defaultFixture.restitution));
+            setShapeIsSensor(idshape,shape.get("sensor",defaultFixture.isSensor));
 
-			setShapeGroupMask(idshape, hex2Bytes(shape.getString("membershipMask", bytes2Hex(defaultFixture.filter.categoryBits))));
-			setShapeGroupMask(idshape, hex2Bytes(shape.getString("toCollideMask", bytes2Hex(defaultFixture.filter.maskBits))));
-			setShapeGroupMask(idshape, hex2Bytes(shape.getString("groupMask", bytes2Hex(defaultFixture.filter.groupIndex))));
+			setShapeGroupMask(idshape, hex2Bytes(shape.get("membershipMask", bytes2Hex(defaultFixture.filter.categoryBits))));
+			setShapeGroupMask(idshape, hex2Bytes(shape.get("toCollideMask", bytes2Hex(defaultFixture.filter.maskBits))));
+			setShapeGroupMask(idshape, hex2Bytes(shape.get("groupMask", bytes2Hex(defaultFixture.filter.groupIndex))));
         }
     }
 }

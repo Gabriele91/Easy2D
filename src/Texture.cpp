@@ -176,7 +176,7 @@ bool Texture::load()
     //offset?
     bool textureUVOffset=false;
     //enable gamma correction?
-    float gammaCorrection=false;
+	bool gammaCorrection=false;
     //type of image
     if(rpath.getExtension()=="e2d")
     {
@@ -192,11 +192,11 @@ bool Texture::load()
         spriteWidth=(uint)texInfo.getFloat("width");
         spriteHeight=(uint)texInfo.getFloat("height");
         //operations
-        flipVertical(((uint)texInfo.getFloat("flipVertical",(float)flipVertical()))!=0);
+        flipVertical(texInfo.get("flipVertical",flipVertical()));
 #ifndef DISABLE_MIDMAP
-		bMipmaps=(((uint)texInfo.getFloat("mipmaps",(float)mipmaps()))!=0);
+		bMipmaps=texInfo.getFloat("mipmaps",mipmaps());
 #endif
-        bBilinear=(((uint)texInfo.getFloat("bilinear",(float)bilinear()))!=0);
+        bBilinear=texInfo.getFloat("bilinear",bilinear());
         //offset
         if(texInfo.existsAsType("uv",Table::VECTOR2D))
         {
@@ -210,7 +210,7 @@ bool Texture::load()
             offsetUV=texInfo.getVector4D("uv",Vec4::ONE);
         }
         //gamma correction
-        gammaCorrection=(((uint)texInfo.getFloat("gammaCorrection",(float)gammaCorrection))!=0);;
+        gammaCorrection=texInfo.get("gammaCorrection",gammaCorrection);
 
     }
     //load image

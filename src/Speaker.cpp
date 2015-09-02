@@ -213,23 +213,23 @@ void Speaker::serialize(Table& table)
 {
 	//info sound
 	table.set("sound", resource->getName());
-	if (isLoop() || state == Speaker::SPK_LOOP) table.set("loop", 1.0);
-	else if (isPlay() || state == Speaker::SPK_PLAY) table.set("play", 1.0);
+	if (isLoop() || state == Speaker::SPK_LOOP) table.set("loop", true);
+	else if (isPlay() || state == Speaker::SPK_PLAY) table.set("play", true);
 	table.set("volume", volume());
 	//set play on attach
-	table.set("playOnAttach", (float)playOnAttach);
+	table.set("playOnAttach", playOnAttach);
 	//info 2d
 	if (is2D())
 	{
-		table.set("is2D", 1.0);
+		table.set("is2D", true);
 		table.set("radius", getRadius());
 	}
 }
 void Speaker::deserialize(const Table& table)
 {
 	//get is 2D
-	set2D(table.getFloat("is2D", (float)is2D()) != 0.0f);
-	if (is2D()) setRadius(table.getFloat("radius", (float)getRadius()));
+	set2D(table.get("is2D", is2D()));
+	if (is2D()) setRadius(table.get("radius", getRadius()));
 	//load sound
 	auto rsmanager = table.getResourcesManager();
 	DEBUG_ASSERT(rsmanager);
@@ -239,11 +239,11 @@ void Speaker::deserialize(const Table& table)
 	//set volume
 	volume(table.getFloat("volume", volume()));
 	//set play on attach
-	setPlayOnAttach(table.getFloat("playOnAttach", (float)playOnAttach) != 0.0f);
+	setPlayOnAttach(table.get("playOnAttach", playOnAttach));
 	//get sound info
-	if (table.getFloat("loop", (float)isLoop()) != 0.0f)
+	if (table.get("loop",isLoop()))
 		loop();
-	else if (table.getFloat("play", (float)isPlay()) != 0.0f)
+	else if (table.get("play", isPlay()))
 		play();
 	//play on attach
 	if (playOnAttach && getScene() && !isPlay())

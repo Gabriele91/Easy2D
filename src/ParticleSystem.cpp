@@ -292,23 +292,23 @@ void  Emitter::deserialize(const Table& table)
     //////////////////////////////////////////////////////////
     DEBUG_ASSERT(table.existsAsType("maxParticles",Table::FLOAT));
     //////////////////////////////////////////////////////////
-    setMaxParticles(table.getFloat("maxParticles",getMaxParticles()));
-    setEmissionRate(table.getFloat("emissionRate",getEmissionRate()));
-    setDuration(table.getFloat("duration",getDuration()));
-    setGravity(table.getVector2D("gravity",getGravity()));
-    setRelative(table.getFloat("relative",(float)getRelative())!=0.0);
+    setMaxParticles(table.get("maxParticles",getMaxParticles()));
+    setEmissionRate(table.get("emissionRate",getEmissionRate()));
+    setDuration(table.get("duration",getDuration()));
+    setGravity(table.get("gravity",getGravity()));
+    setRelative(table.get("relative",getRelative()));
     //////////////////////////////////////////////////////////
-    center.position=table.getVector2D("position",getPosition());
-    center.dir=table.getVector2D("direction",getDirection());
+    center.position=table.get("position",getPosition());
+    center.dir=table.get("direction",getDirection());
 
-    center.startScale=table.getVector2D("startScale",getStartScale());
-    center.endScale=table.getVector2D("endScale",getEndScale());
+    center.startScale=table.get("startScale",getStartScale());
+    center.endScale=table.get("endScale",getEndScale());
     
     center.startSpin=Angle( Degree( table.getFloat("startSpin",getStartSpin().valueDegrees()) ) );
     center.endSpin  =Angle( Degree( table.getFloat("endSpin"  ,getEndSpin().valueDegrees()  ) ) );
-    
-    center.startColor=(table.getVector4D("startColor",getStartColor().toVec4()))/255.0f;
-    center.endColor=(table.getVector4D("endColor",getEndColor().toVec4()))/255.0f;
+
+    center.startColor=table.get("startColor",getStartColor()).toNormalize();
+    center.endColor=table.get("endColor",getEndColor()).toNormalize();
 
     center.life=table.getFloat("life",getLife());
     //////////////////////////////////////////////////////////
@@ -317,13 +317,12 @@ void  Emitter::deserialize(const Table& table)
 
     var.startScale=table.getVector2D("startScaleVar",getStartScaleVar());
     var.endScale=table.getVector2D("endScaleVar",getEndScaleVar());
-    
-    
-    var.startSpin=Angle( Degree( table.getFloat("startSpinVar",getStartSpinVar().valueDegrees()) ) );
+
+	var.startSpin=Angle( Degree( table.getFloat("startSpinVar",getStartSpinVar().valueDegrees()) ) );
     var.endSpin  =Angle( Degree( table.getFloat("endSpinVar",getEndSpinVar().valueDegrees()) ) ); 
 
-    var.startColor=(table.getVector4D("startColorVar",getStartColorVar().toVec4()))/255.0f;
-    var.endColor=(table.getVector4D("endColorVar",getEndColorVar().toVec4()))/255.0f;
+    var.startColor=table.get("startColorVar",getStartColorVar()).toNormalize();
+    var.endColor=table.get("endColorVar",getEndColorVar()).toNormalize();
 
     var.life=table.getFloat("lifeVar",getLifeVar());
     //////////////////////////////////////////////////////////
