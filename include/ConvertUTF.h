@@ -91,11 +91,13 @@
 #ifndef CONVERTUTF_H
 #define CONVERTUTF_H
 
+#include <cstdint>
+
 namespace Easy2D
 {
-	typedef unsigned long	UTF32;	/* at least 32 bits */
-	typedef unsigned short	UTF16;	/* at least 16 bits */
-	typedef unsigned char	UTF8;	/* typically 8 bits */
+	typedef uint32_t	UTF32;	/* at least 32 bits */
+	typedef uint16_t	UTF16;	/* at least 16 bits */
+	typedef uint8_t     UTF8;	/* typically 8 bits */
 
 	namespace Utf8Utils
 	{

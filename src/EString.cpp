@@ -19,7 +19,7 @@ std::wstring Easy2D::Utf8Utils::utf8ToWString(const uchar8 *source, size_t wides
 		ConversionResult res = convertUTF8toUTF16(&sourcestart, sourceend, &targetstart, targetend, UTF_STRICT_CONVERSION );
 		if (res != UTF_CONVERSION_OK)
 		{
-			throw std::exception("utf8ToWChar");
+			throw std::runtime_error("utf8ToWChar");
 		}
 		*targetstart = 0;
 		return resultstring;
@@ -35,14 +35,14 @@ std::wstring Easy2D::Utf8Utils::utf8ToWString(const uchar8 *source, size_t wides
 		ConversionResult res = convertUTF8toUTF32(&sourcestart, sourceend, &targetstart, targetend, UTF_STRICT_CONVERSION );
 		if (res != UTF_CONVERSION_OK)
 		{
-			throw std::exception("utf8ToWChar");
+			throw std::runtime_error("utf8ToWChar");
 		}
 		*targetstart = 0;
 		return resultstring;
 	}
 	else
 	{
-		throw std::exception("utf8ToWChar");
+		throw std::runtime_error("utf8ToWChar");
 	}
 	return L"";
 }
@@ -62,7 +62,7 @@ std::string Easy2D::Utf8Utils::wstringToUtf8(const std::wstring& widestring)
 		ConversionResult res = convertUTF16toUTF8(&sourcestart, sourceend, &targetstart, targetend, UTF_STRICT_CONVERSION);
 		if (res != UTF_CONVERSION_OK)
 		{
-			throw std::exception("wCharToUtf8");
+			throw std::runtime_error("wCharToUtf8");
 		}
 		*targetstart = 0;
 		return resultstring;
@@ -79,14 +79,14 @@ std::string Easy2D::Utf8Utils::wstringToUtf8(const std::wstring& widestring)
 		ConversionResult res = convertUTF32toUTF8(&sourcestart, sourceend, &targetstart, targetend, UTF_STRICT_CONVERSION);
 		if (res != UTF_CONVERSION_OK)
 		{
-			throw std::exception("wCharToUtf8");
+			throw std::runtime_error("wCharToUtf8");
 		}
 		*targetstart = 0;
 		return resultstring;
 	}
 	else
 	{
-		throw std::exception("wCharToUtf8");
+		throw std::runtime_error("wCharToUtf8");
 	}
 	return "";
 }

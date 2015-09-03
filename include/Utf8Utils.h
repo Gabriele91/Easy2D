@@ -225,7 +225,7 @@ namespace Easy2D
 								   bool appendToOut = false)
 		{
 			// call the template method
-			makeUTF8StringImp(instringUCS2, out, appendToOut);
+			makeUTF8StringImp(instringUCS4, out, appendToOut);
 		}
 
 		template <typename Alloc>

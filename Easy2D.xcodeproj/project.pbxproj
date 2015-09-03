@@ -256,6 +256,13 @@
 		E08546711B46D4A5008195A3 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E085466F1B46D4A5008195A3 /* Mask.cpp */; };
 		E08546721B46D4A5008195A3 /* Mask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E085466F1B46D4A5008195A3 /* Mask.cpp */; };
 		E087365217B38D6F0005472E /* EStack.h in Headers */ = {isa = PBXBuildFile; fileRef = E087365117B38D6F0005472E /* EStack.h */; };
+		E08835EF1B97B93A007F6648 /* ConvertUTF.h in Headers */ = {isa = PBXBuildFile; fileRef = E08835ED1B97B93A007F6648 /* ConvertUTF.h */; };
+		E08835F01B97B93A007F6648 /* ConvertUTF.h in Headers */ = {isa = PBXBuildFile; fileRef = E08835ED1B97B93A007F6648 /* ConvertUTF.h */; };
+		E08835F11B97B93A007F6648 /* Utf8Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = E08835EE1B97B93A007F6648 /* Utf8Utils.h */; };
+		E08835F21B97B93A007F6648 /* Utf8Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = E08835EE1B97B93A007F6648 /* Utf8Utils.h */; };
+		E08835F41B97B956007F6648 /* ConvertUTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08835F31B97B956007F6648 /* ConvertUTF.cpp */; };
+		E08835F51B97B956007F6648 /* ConvertUTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08835F31B97B956007F6648 /* ConvertUTF.cpp */; };
+		E08835F61B97B956007F6648 /* ConvertUTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E08835F31B97B956007F6648 /* ConvertUTF.cpp */; };
 		E089EAE817B2750E0055B59A /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E089EAE617B2750E0055B59A /* Scene.cpp */; };
 		E089EAEC17B2751B0055B59A /* Scene.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEA17B2751B0055B59A /* Scene.h */; };
 		E089EAED17B2751B0055B59A /* State.h in Headers */ = {isa = PBXBuildFile; fileRef = E089EAEB17B2751B0055B59A /* State.h */; };
@@ -1351,6 +1358,9 @@
 		E085466C1B46D490008195A3 /* Mask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mask.h; sourceTree = "<group>"; };
 		E085466F1B46D4A5008195A3 /* Mask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mask.cpp; sourceTree = "<group>"; };
 		E087365117B38D6F0005472E /* EStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EStack.h; sourceTree = "<group>"; };
+		E08835ED1B97B93A007F6648 /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConvertUTF.h; sourceTree = "<group>"; };
+		E08835EE1B97B93A007F6648 /* Utf8Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utf8Utils.h; sourceTree = "<group>"; };
+		E08835F31B97B956007F6648 /* ConvertUTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConvertUTF.cpp; sourceTree = "<group>"; };
 		E089991217AE56BE0063EAAC /* libEasy2D.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libEasy2D.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E089EAE617B2750E0055B59A /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		E089EAEA17B2751B0055B59A /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
@@ -2163,6 +2173,8 @@
 		E054958117AE68E8005DDB72 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E08835ED1B97B93A007F6648 /* ConvertUTF.h */,
+				E08835EE1B97B93A007F6648 /* Utf8Utils.h */,
 				E0B1BE221B58EA0E004F5EBD /* image */,
 				E085466C1B46D490008195A3 /* Mask.h */,
 				E085465C1B46D1F3008195A3 /* ui */,
@@ -2249,6 +2261,7 @@
 		E05495EA17AE6907005DDB72 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E08835F31B97B956007F6648 /* ConvertUTF.cpp */,
 				E0EAFEDD1B5F8007007DB4F3 /* image */,
 				E085466F1B46D4A5008195A3 /* Mask.cpp */,
 				E08546631B46D44F008195A3 /* ui */,
@@ -2994,6 +3007,7 @@
 				E05495D717AE68E8005DDB72 /* Object.h in Headers */,
 				E05495D817AE68E8005DDB72 /* Render.h in Headers */,
 				E05495D917AE68E8005DDB72 /* Renderable.h in Headers */,
+				E08835EF1B97B93A007F6648 /* ConvertUTF.h in Headers */,
 				E0BEA2681AB9BDE400824182 /* b2PrismaticJoint.h in Headers */,
 				E0BEA2641AB9BDE400824182 /* b2GearJoint.h in Headers */,
 				E0BEA29F1AB9BDE400824182 /* ftoption.h in Headers */,
@@ -3136,6 +3150,7 @@
 				E0BEA2A21AB9BDE400824182 /* ftcalc.h in Headers */,
 				E0BEA3401AB9BDE400824182 /* RakNetTime.h in Headers */,
 				E06FB1C1197CE71500239DA6 /* Script.h in Headers */,
+				E08835F11B97B93A007F6648 /* Utf8Utils.h in Headers */,
 				E027964718B1449A00B1A4FE /* MutexConf.h in Headers */,
 				E0BEA2EC1AB9BDE400824182 /* DR_SHA1.h in Headers */,
 				E0BEA2D61AB9BDE400824182 /* LuaRef.h in Headers */,
@@ -3306,6 +3321,7 @@
 				E0980E831B04DE0F002C693D /* Userdata.h in Headers */,
 				E0980E841B04DE0F002C693D /* ftbitmap.h in Headers */,
 				E0980E851B04DE0F002C693D /* Color.h in Headers */,
+				E08835F21B97B93A007F6648 /* Utf8Utils.h in Headers */,
 				E0980E861B04DE0F002C693D /* Config.h in Headers */,
 				E0980E871B04DE0F002C693D /* MessageIdentifiers.h in Headers */,
 				E0980E881B04DE0F002C693D /* InternalPacket.h in Headers */,
@@ -3341,6 +3357,7 @@
 				E0980EA61B04DE0F002C693D /* ttunpat.h in Headers */,
 				E0980EA71B04DE0F002C693D /* b2Joint.h in Headers */,
 				E0980EA81B04DE0F002C693D /* Math3D.h in Headers */,
+				E08835F01B97B93A007F6648 /* ConvertUTF.h in Headers */,
 				E0980EA91B04DE0F002C693D /* RakString.h in Headers */,
 				E0980EAA1B04DE0F002C693D /* fttrace.h in Headers */,
 				E0980EAB1B04DE0F002C693D /* RefCountedObject.h in Headers */,
@@ -3749,6 +3766,7 @@
 				E04F71191ABC39030093DF47 /* GuiManager.cpp in Sources */,
 				E0398A1919FBFBD900079232 /* ETime.cpp in Sources */,
 				E03989FA19FBFB1B00079232 /* ScreeniOS.mm in Sources */,
+				E08835F51B97B956007F6648 /* ConvertUTF.cpp in Sources */,
 				E0398A0319FBFBD900079232 /* BatchingMesh.cpp in Sources */,
 				E0398A2819FBFBD900079232 /* Screen.cpp in Sources */,
 				E0398A1119FBFBD900079232 /* AnimatedSprite.cpp in Sources */,
@@ -3807,6 +3825,7 @@
 				E0A1AE5F1946EE8500D1438A /* Panel.cpp in Sources */,
 				E06FB1DB197CEA3B00239DA6 /* LuaState.cpp in Sources */,
 				E054964417AE6907005DDB72 /* Debug.cpp in Sources */,
+				E08835F41B97B956007F6648 /* ConvertUTF.cpp in Sources */,
 				E08C634918AFB0D200A26E40 /* Sound.cpp in Sources */,
 				E06FB1CF197CEA1B00239DA6 /* FluidGrid.cpp in Sources */,
 				E054964517AE6907005DDB72 /* EString.cpp in Sources */,
@@ -3892,6 +3911,7 @@
 				E0980DEF1B04DE0F002C693D /* LuaState.cpp in Sources */,
 				E0980DF01B04DE0F002C693D /* Debug.cpp in Sources */,
 				E0980DF11B04DE0F002C693D /* Sound.cpp in Sources */,
+				E08835F61B97B956007F6648 /* ConvertUTF.cpp in Sources */,
 				E0980DF21B04DE0F002C693D /* FluidGrid.cpp in Sources */,
 				E0980DF31B04DE0F002C693D /* EString.cpp in Sources */,
 				E0980DF41B04DE0F002C693D /* ETime.cpp in Sources */,

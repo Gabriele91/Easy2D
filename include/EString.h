@@ -13,9 +13,11 @@
 
 namespace Easy2D
 {
-	template < class Alloc = std::allocator< char > >
+	template < class Alloc = std::allocator< uchar8 > >
 	class UTFString : public Pointers < UTFString< Alloc > >
 	{
+    public:
+        
 		//types
 		typedef std::uint32_t              ValueType;
 		typedef std::uint32_t*             Pointer;
@@ -26,8 +28,10 @@ namespace Easy2D
 		typedef const std::uint32_t*       ConstPointer;
 		typedef const std::uint32_t&       ConstReference;
 
+    protected:
+        
 		//raw data
-		std::basic_string< uchar8, std::char_traits<uchar8>, Alloc> mRawData;
+		std::basic_string< uchar8, std::char_traits< uchar8 >, Alloc> mRawData;
 		
 		template <class T>
 		class TIterator : public std::iterator<std::bidirectional_iterator_tag, T >
@@ -305,7 +309,7 @@ namespace Easy2D
 			}
 			
 			//cast op
-			operator TBaseIterator (void) explicit const
+			explicit operator TBaseIterator (void) const
 			{
 				return forwardIt;
 			}
@@ -425,7 +429,7 @@ namespace Easy2D
 			//ucs4 char to utf8
 			utf8Encoding encoding;
 			size_t encodingSize;
-			GetUTF8Encoding(c, encoding, encodingSize);
+			Utf8Utils::unicodeToUtf8(c, encoding, encodingSize);
 			//alloc
 			mRawData.reserve(encodingSize * n);
 			//copy
@@ -440,7 +444,7 @@ namespace Easy2D
 			//ucs4 char to utf8
 			utf8Encoding encoding;
 			size_t encodingSize;
-			GetUTF8Encoding(c, encoding, encodingSize);
+			Utf8Utils::unicodeToUtf8(c, encoding, encodingSize);
 			//alloc
 			mRawData.reserve(encodingSize * n);
 			//copy
@@ -558,7 +562,7 @@ namespace Easy2D
 		//return true if is a legal utf8 string
 		bool isLegalUtf8() const
 		{
-			if (!mRawData.c_str()) return;
+			if (!mRawData.c_str()) return true;
 			return Utf8Utils::isLegalUTF8String(data(), data() + byteSize() + 1);
 		}
 
@@ -588,11 +592,16 @@ namespace Easy2D
 			resize(length() - 1);
 		}
 
-		//return byte position of a iterator
-		size_t getBytePosition(ConstIterator pos) const
-		{
-			return pos.getPtr() - mRawData.data();
-		}
+        //return byte position of a iterator
+        size_t getBytePosition(ConstIterator pos) const
+        {
+            return pos.getPtr() - mRawData.data();
+        }
+        
+        size_t getBytePosition(ConstReverseIterator pos) const
+        {
+            return pos.getPtr() - mRawData.data();
+        }
 
 		//stap string
 		void swap(UTFString& str)
@@ -720,12 +729,36 @@ namespace Easy2D
 			return *this;
 		}
 
-		UTFString& operator+= (const UTFString& str)
-		{
-			//operator from std::basic_string
-			mRawData += str.mRawData;
-			return *this;
-		}
+        UTFString& operator+= (const UTFString& str)
+        {
+            //operator from std::basic_string
+            mRawData += str.mRawData;
+            return *this;
+        }
+        
+        UTFString& operator+= (const char* cstr)
+        {
+            UTFString string(cstr);
+            //operator from std::basic_string
+            mRawData += string.mRawData;
+            return *this;
+        }
+        
+        UTFString& operator+= (const std::string& cppstr)
+        {
+            UTFString string(cppstr);
+            //operator from std::basic_string
+            mRawData += string.mRawData;
+            return *this;
+        }
+        
+        UTFString& operator+= (const std::wstring& wcppstr)
+        {
+            UTFString string(wcppstr);
+            //operator from std::basic_string
+            mRawData += string.mRawData;
+            return *this;
+        }
 
 		UTFString& operator+= (uchar8 achar)
 		{
@@ -788,7 +821,7 @@ namespace Easy2D
 		template <class InputIterator>
 		UTFString& assign(InputIterator first, InputIterator last)
 		{
-			String temp;
+			UTFString temp;
 			for (auto it = first; it < last; it++)
 			{
 				temp += (ValueType)*it;
@@ -814,7 +847,7 @@ namespace Easy2D
 
 		bool operator > (const UTFString& other) const
 		{
-			return raw_bytes > other.raw_bytes;
+			return mRawData > other.mRawData;
 		}
 
 		bool operator <= (const UTFString& other) const
@@ -828,11 +861,16 @@ namespace Easy2D
 		}
 
 		// string operations -----------------------------------------------------------------------------
-
-		UTFString substr(ConstIterator start, ConstIterator end) const
-		{
-			return UTFString(start.getPtr(), getBytePosition(end) - getBytePosition(start));
-		}
+        
+        UTFString substr(ConstIterator start, ConstIterator end) const
+        {
+            return UTFString(start.getPtr(), getBytePosition(end) - getBytePosition(start));
+        }
+        
+        UTFString substr(ConstReverseIterator start, ConstReverseIterator end) const
+        {
+            return UTFString(start.getPtr(), getBytePosition(end) - getBytePosition(start));
+        }
 
 		void split(const UTFString& delimiters, std::vector<UTFString>& tokens) const
 		{
@@ -887,7 +925,7 @@ namespace Easy2D
 			//to lower all chars
 			for (ConstIterator it = begin(); it != end(); ++it)
 			{
-				ouput += UTFString(std::towlower(*it));
+				ouput += UTFString((wchar_t)std::towlower(*it));
 			}
 			//return
 			return std::move(ouput);
@@ -899,7 +937,7 @@ namespace Easy2D
 			//to upper all chars
 			for (ConstIterator it = begin(); it != end(); ++it)
 			{
-				ouput += UTFString(std::towupper(*it));
+				ouput += UTFString((wchar_t)std::towupper(*it));
 			}
 			//return
 			return std::move(ouput);
@@ -928,7 +966,7 @@ namespace Easy2D
 				size_t bytefind = itfind.getPtr() - mRawData.data();
 				mRawData.replace(bytefind, toReplace.size(), replaceWith.mRawData);
 				//re-search
-				ConstIterator itfind = find(toReplace);
+                itfind = find(toReplace);
 			}
 		}
 
@@ -1016,8 +1054,14 @@ namespace Easy2D
 		template<typename T>
 		static UTFString toString(T t)
 		{
-			return UTFString(std::to_wstring(t));
+            std::wstring wstr(std::to_wstring(t));
+			return UTFString(wstr);
 		}
+        
+        static bool isSpace(UTFString::ValueType c)
+        {
+            return std::iswspace((wchar_t)c);
+        }
 	};
 
 	//static string NONE
@@ -1025,7 +1069,7 @@ namespace Easy2D
 	UTFString<Alloc> const UTFString<Alloc>::NONE("");
 
 	//default string
-	typedef Easy2D::UTFString< std::allocator< char > > String;
+	typedef Easy2D::UTFString< std::allocator< uchar8 > > String;
 
 	// overload stream insertion so we can write to streams
 	template <class Alloc>
@@ -1079,22 +1123,37 @@ namespace Easy2D
 		UTFString<Alloc> utfstr(ls);
 		return utfstr += rs;
 	}
-
-	// add op
-	template<class Alloc>
-	UTFString<Alloc> operator + (const UTFString<Alloc>& ls, const char* rs)
-	{
-		UTFString<Alloc> utfstr(ls);
-		return utfstr += rs;
-	}
-
-	// add op
-	template<class Alloc>
-	UTFString<Alloc> operator + (const char* ls, const UTFString<Alloc>& rs)
-	{
-		UTFString<Alloc> utfstr(ls);
-		return utfstr += rs;
-	}
+    
+    // add op
+    template<class Alloc>
+    UTFString<Alloc> operator + (const UTFString<Alloc>& ls, const char* rs)
+    {
+        UTFString<Alloc> utfstr(ls);
+        return utfstr += rs;
+    }
+    
+    // add op
+    template<class Alloc>
+    UTFString<Alloc> operator + (const char* ls, const UTFString<Alloc>& rs)
+    {
+        UTFString<Alloc> utfstr(ls);
+        return utfstr += rs;
+    }
+    // add op
+    template<class Alloc>
+    UTFString<Alloc> operator + (const UTFString<Alloc>& ls, char* rs)
+    {
+        UTFString<Alloc> utfstr(ls);
+        return utfstr += rs;
+    }
+    
+    // add op
+    template<class Alloc>
+    UTFString<Alloc> operator + (char* ls, const UTFString<Alloc>& rs)
+    {
+        UTFString<Alloc> utfstr(ls);
+        return utfstr += rs;
+    }
 
 	// add op
 	template<class Alloc>

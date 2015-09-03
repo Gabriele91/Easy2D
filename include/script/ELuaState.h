@@ -96,7 +96,7 @@ class LuaState
 		void setField(const String& var, T ref)
 		{
 			//get object
-			objectRef[var.c_str()] = ref;
+			objectRef[var.cStr()] = ref;
 		};
 		//get fields
 		luabridge::Iterator getFields()

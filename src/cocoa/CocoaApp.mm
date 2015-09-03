@@ -131,7 +131,7 @@ CocoaApp::CocoaApp(const String& name){
 	dataPath = [[nspaths objectAtIndex:0] UTF8String];
     dataPath+= "/" + appname;
     //create directory
-    NSString *filePath=@(dataPath.c_str());
+    NSString *filePath=[NSString stringWithUTF8String:dataPath.cStr()];
     [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
     [filePath release];
     //////////////////////////////////////////////////////

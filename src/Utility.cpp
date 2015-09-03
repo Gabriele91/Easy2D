@@ -186,7 +186,7 @@ static void getExtensionFromFileName(const String& file, String& filebasename, S
 		filebasename = file.substr(file.cbegin(), point);
 		//get extensions
 		ext = file.substr(rightPoint-1, file.cend());
-		leftext = file.substr(point+1, file.cend());
+		leftext = file.substr(point-1, file.cend());
 	}
 }
 
@@ -350,13 +350,20 @@ static void backslashToSlash(String& path)
 static bool rootPathParser(String& path,String& rootName)
 {
 #ifdef  PLATFORM_UNIX
-	String::ConstIterator it=path.find("/");
+    String::ConstIterator it;
 	rootName = "/";
-	if (it != path.cend())
-	{
-		path = path.substr(it,path.cend());
-		return true;
-	}
+    for(it=path.cbegin();  it!=path.cend(); ++it)
+    {
+        if(!String::isSpace(*it))
+        {
+            if(*it == ((String::ValueType)'/'))
+            {
+                path = path.substr(it,path.cend());
+                return true;
+            }
+            return false;
+        }
+    }
 #else
 	String::ConstIterator it   = path.find(":");
 	if (it != path.cend())
