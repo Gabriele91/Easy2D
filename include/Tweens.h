@@ -73,7 +73,7 @@ namespace Easy2D
         {
             Tween::deserialize(table);
             //get to field
-            mTo=table.get<Value>("to",mTo);
+            mTo=table.get("to",mTo);
         }
     };
     ////////////////////////////////////////////////////

@@ -17,6 +17,11 @@ Radian& Radian::operator = ( const Degree& d )
     rad = d.valueRadians();
     return *this;
 }
+Radian& Radian::operator = (const Angle& a)
+{
+	rad = a.valueRadians();
+	return *this;
+}
 Radian Radian::operator + ( const Degree& d ) const
 {
     return Radian ( rad + d.valueRadians() );
@@ -40,6 +45,11 @@ float Radian::valueDegrees() const
     return Math::todeg( rad );
 }
 /* DEGREE */
+Degree& Degree::operator = (const Angle& a)
+{
+	deg = a.valueDegrees();
+	return *this;
+}
 float Degree::valueRadians() const
 {
     return Math::torad( deg );

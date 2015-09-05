@@ -34,6 +34,7 @@ public:
     Radian& operator = ( const float& f ) { rad = f; return *this; }
     Radian& operator = ( const Radian& r ) { rad = r.rad; return *this; }
     Radian& operator = ( const Degree& d );
+	Radian& operator = ( const Angle& a );
     ///////////////////////////////////////////////////////////////////////////
     float valueDegrees() const;
     float valueRadians() const { return rad; }
@@ -78,7 +79,8 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     Degree& operator = ( const float& f ) { deg = f; return *this; }
     Degree& operator = ( const Degree& d ) { deg = d.deg; return *this; }
-    Degree& operator = ( const Radian& r ) { deg = r.valueDegrees(); return *this; }
+	Degree& operator = ( const Radian& r) { deg = r.valueDegrees(); return *this; }
+	Degree& operator = ( const Angle& a );
     ///////////////////////////////////////////////////////////////////////////
     float valueDegrees() const { return deg; }
     float valueRadians() const;

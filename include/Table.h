@@ -38,12 +38,13 @@ public:
     {
     protected:
         bool isstring;
-        unsigned int itr;
+		uint itr;
         String sv;
     public:
         KeyTable(const char* key):isstring(true),sv(key) {}
         KeyTable(const String & key):isstring(true),sv(key) {}
-        KeyTable(int i):isstring(false),itr(i) {}
+		KeyTable(uint i) :isstring(false), itr(i) {}
+		KeyTable(int i) :isstring(false), itr(i) {}
         bool isString() const
         {
             return isstring;
@@ -468,6 +469,46 @@ public:
 		if (existsAsType(key, FLOAT)) return *((float*)(table.find(key)->second->getValue()));
 		return vdefault;
 	}
+	DFORCEINLINE double get(const KeyTable& key, double vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (double) *((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE int get(const KeyTable& key, int vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (int)*((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE uint get(const KeyTable& key, uint vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (uint)*((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE short get(const KeyTable& key, short vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (short)*((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE ushort get(const KeyTable& key, ushort vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (ushort)*((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE long get(const KeyTable& key, long vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (long)*((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE ulong get(const KeyTable& key, ulong vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return (ulong)*((float*)(table.find(key)->second->getValue()));
+		return vdefault;
+	}
+	DFORCEINLINE Angle get(const KeyTable& key, Angle vdefault) const
+	{
+		if (existsAsType(key, FLOAT)) return Angle::degree(*((float*)(table.find(key)->second->getValue())));
+		return vdefault;
+	}
     /** return a vector2D associate a table/array key */
 	DFORCEINLINE const Vec2& getVector2D(const KeyTable& key, const Vec2& vdefault = Vec2::ZERO) const
 	{
@@ -602,6 +643,7 @@ public:
 		if (existsAsType(key, BINARY)) return *((Binary*)(table.find(key)->second->getValue()));
 		return vdefault;
 	}
+	#if 0
     /** return a generic value associate a table/array key */
     template<typename T> const T& get(const KeyTable& key) const
     {
@@ -614,6 +656,7 @@ public:
             return get< T >(key);
         return vdefault;
     }
+	#endif
     /** return true if exist a value associated with key */
     DFORCEINLINE bool exists( const KeyTable& key ) const
     {

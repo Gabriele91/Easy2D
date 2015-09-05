@@ -1057,8 +1057,8 @@ namespace Easy2D
             std::wstring wstr(std::to_wstring(t));
 			return UTFString(wstr);
 		}
-        
-        static bool isSpace(UTFString::ValueType c)
+
+        static bool isSpace(std::uint32_t c)
         {
             return std::iswspace((wchar_t)c);
         }
