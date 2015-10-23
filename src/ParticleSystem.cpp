@@ -297,10 +297,10 @@ void  Emitter::deserialize(const Table& table)
     setDuration(table.get("duration",getDuration()));
     setGravity(table.get("gravity",getGravity()));
     setRelative(table.get("relative",getRelative()));
-    //////////////////////////////////////////////////////////
-    center.position=table.get("position",getPosition());
     center.dir=table.get("direction",getDirection());
 
+    //////////////////////////////////////////////////////////
+    center.position=table.get("position",getPosition());
     center.startScale=table.get("startScale",getStartScale());
     center.endScale=table.get("endScale",getEndScale());
     

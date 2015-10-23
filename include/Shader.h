@@ -9,11 +9,94 @@
 
 namespace Easy2D
 {
-   
+  
+class UniformValue
+{
+public:
+
+	enum UniformType
+	{
+		U_NONE,
+		U_INT,
+		U_FLOAT,
+		U_VEC2,
+		U_VEC3,
+		U_VEC4,
+		U_MAT4
+	};
+
+	//destructor
+	virtual ~UniformValue();
+
+	//costructor
+	UniformValue();
+	UniformValue(const UniformValue& uv);
+
+	//all type costructors
+	UniformValue(int i);
+	UniformValue(float f);
+	UniformValue(const Vec2& v2);
+	UniformValue(const Vec3& v3);
+	UniformValue(const Vec4& v4);
+	UniformValue(const Mat4& m4);
+	UniformValue(std::unique_ptr<Vec3> v3);
+	UniformValue(std::unique_ptr<Vec4> v4);
+	UniformValue(std::unique_ptr<Mat4> m4);
+	//set
+	void set(int i);
+	void set(float f);
+	void set(const Vec2& v2);
+	void set(const Vec3& v3);
+	void set(const Vec4& v4);
+	void set(const Mat4& m4);
+	void set(std::unique_ptr<Vec3> v3);
+	void set(std::unique_ptr<Vec4> v4);
+	void set(std::unique_ptr<Mat4> m4);
+	//uniform value
+	void uniform(int uid);
+	//get type
+	UniformType getType();
+	//cast
+	operator int();
+	operator float();
+	operator Vec2();
+	operator Vec3();
+	operator Vec4();
+	operator Mat4();
+
+protected:
+	//uniform type
+	UniformType type;
+	//uniform value
+	union UValue
+	{
+		int   i;
+		float f;
+		Vec2 v2;
+		std::unique_ptr<Vec3> v3;
+		std::unique_ptr<Vec4> v4;
+		std::unique_ptr<Mat4> m4;
+		//init
+		UValue()
+		{
+			new (&v3) std::unique_ptr<Vec3>();
+		}
+		//delete
+		~UValue()
+		{
+
+		}
+	}
+	value;
+	//free value
+	void free();
+};
+
 class Shader : public Resource<Shader>
 {
     //uniform map
-    std::unordered_map<String,uint> uMap;
+    std::unordered_map<String, uint> uMap;
+	std::unordered_map<uint, UniformValue> uDefaultMap;
     
     //sshader program
     uint program;
@@ -86,6 +169,26 @@ public:
     uint programID() const;
     void updateUniform();
     void updateStandardUniform();
+	//default uniform
+	template<class T>
+	inline void set(const String& name, const T& value)
+	{
+		set( uniformID(name), value );
+	}
+	template<class T>
+	void set(int uid, const T& value)
+	{
+		auto it = uDefaultMap.find((uint)uid);
+		if (it == uDefaultMap.end())
+			uDefaultMap.insert({ (uint)uid, UniformValue{ value } });
+		else 
+			it->second.set( value );
+	}
+	inline UniformValue get(const String& name)
+	{
+		return get(uniformID(name));
+	}
+	UniformValue get(int uid);
     //uniform name
     void uniform(const String& name,int v);
     void uniform(const String& name,float v);

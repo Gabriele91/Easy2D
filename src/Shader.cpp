@@ -114,7 +114,221 @@ static const char fragmentMain[]=
 "  gl_FragColor=fragment(e2dTexture0,e2dTextureCoord);\n"
 "}\n";
 
+/*********************************************************/
 
+void UniformValue::free()
+{
+	switch (type)
+	{
+	case U_VEC3: value.v3.~unique_ptr(); break;
+	case U_VEC4: value.v4.~unique_ptr(); break;
+	case U_MAT4: value.m4.~unique_ptr(); break;
+	default: break;
+	}
+}
+
+//destructor
+UniformValue::~UniformValue()
+{
+	free();
+}
+
+//costructor
+UniformValue::UniformValue()
+{
+	type = U_NONE;
+}
+
+UniformValue::UniformValue(const UniformValue& uv)
+{
+	type = U_NONE;
+	switch (uv.type)
+	{
+		case U_INT:   set(uv.value.i); break;
+		case U_FLOAT: set(uv.value.f); break;
+		case U_VEC2:  set(uv.value.v2); break;
+		case U_VEC3:  set(std::unique_ptr<Vec3>{new Vec3(*uv.value.v3)}); break;
+		case U_VEC4:  set(std::unique_ptr<Vec4>{new Vec4(*uv.value.v4)}); break;
+		case U_MAT4:  set(std::unique_ptr<Mat4>{new Mat4(*uv.value.m4)}); break;
+		default: break;
+	}
+}
+
+//all type costructors
+UniformValue::UniformValue(int i)
+{
+	free();
+	value.i = i;
+	type = U_INT;
+}
+
+UniformValue::UniformValue(float f)
+{
+	free();
+	value.f = f;
+	type = U_FLOAT;
+}
+
+UniformValue::UniformValue(const Vec2& v2)
+{
+	free();
+	value.v2 = v2;
+	type = U_VEC2;
+}
+
+UniformValue::UniformValue(const Vec3& v3)
+{
+	free();
+	value.v3 = std::unique_ptr<Vec3>{new Vec3(v3)};
+	type = U_VEC3;
+}
+
+UniformValue::UniformValue(const Vec4& v4)
+{
+	free();
+	value.v4 = std::unique_ptr<Vec4>{ new Vec4(v4) };
+	type = U_VEC4;
+}
+
+UniformValue::UniformValue(const Mat4& m4)
+{
+	free();
+	value.m4 = std::unique_ptr<Mat4>{ new Mat4(m4) };
+	type = U_MAT4;
+}
+
+UniformValue::UniformValue(std::unique_ptr<Vec3> v3)
+{
+	free();
+	new (&value.v3) std::unique_ptr<Vec3>(std::move(v3));
+	type = U_VEC3;
+}
+
+UniformValue::UniformValue::UniformValue(std::unique_ptr<Vec4> v4)
+{
+	free();
+	new (&value.v4) std::unique_ptr<Vec4>(std::move(v4));
+	type = U_VEC4;
+}
+
+UniformValue::UniformValue(std::unique_ptr<Mat4> m4)
+{
+	free();
+	new (&value.m4) std::unique_ptr<Mat4>(std::move(m4));
+	type = U_MAT4;
+}
+
+//set
+void UniformValue::set(int i)
+{
+	free();
+	value.i = i;
+	type = U_INT;
+}
+
+void UniformValue::set(float f)
+{
+	free();
+	value.f = f;
+	type = U_FLOAT;
+}
+
+void UniformValue::set(const Vec2& v2)
+{
+	free();
+	value.v2 = v2;
+	type = U_VEC2;
+}
+
+void UniformValue::set(const Vec3& v3)
+{
+	free();
+	value.v3 = std::unique_ptr<Vec3>{ new Vec3(v3) };
+	type = U_VEC3;
+}
+
+void UniformValue::set(const Vec4& v4)
+{
+	free();
+	value.v4 = std::unique_ptr<Vec4>{ new Vec4(v4) };
+	type = U_VEC4;
+}
+
+void UniformValue::set(const Mat4& m4)
+{
+	free();
+	value.m4 = std::unique_ptr<Mat4>{ new Mat4(m4) };
+	type = U_MAT4;
+}
+
+void UniformValue::set(std::unique_ptr<Vec3> v3)
+{
+	free();
+	new (&value.v3) std::unique_ptr<Vec3>(std::move(v3));
+	type = U_VEC3;
+}
+
+void UniformValue::set(std::unique_ptr<Vec4> v4)
+{
+	free();
+	new (&value.v4) std::unique_ptr<Vec4>(std::move(v4));
+	type = U_VEC4;
+}
+
+void UniformValue::set(std::unique_ptr<Mat4> m4)
+{
+	free();
+	new (&value.m4) std::unique_ptr<Mat4>(std::move(m4));
+	type = U_MAT4;
+}
+//uniform value
+void UniformValue::uniform(int uid)
+{
+	switch (type)
+	{
+		case U_INT: glUniform1i(uid, value.i); break;
+		case U_FLOAT: glUniform1f(uid, value.f); break;
+		case U_VEC2: glUniform2fv(uid, 1, &value.v2.x); break;
+		case U_VEC3: glUniform3fv(uid, 1, &value.v3->x); break;
+		case U_VEC4: glUniform4fv(uid, 1, &value.v4->x); break;
+		case U_MAT4: glUniformMatrix4fv(uid, 1, false, value.m4->entries); break;
+		default: break;
+	}
+}
+//get type
+UniformValue::UniformType UniformValue::getType()
+{
+	return type;
+}
+//cast
+UniformValue::operator int()
+{
+	return value.i;
+}
+UniformValue::operator float()
+{
+	return value.i;
+}
+UniformValue::operator Vec2()
+{
+	return value.v2;
+}
+UniformValue::operator Vec3()
+{
+	if (type != U_VEC3) return Vec3();
+	return *value.v3;
+}
+UniformValue::operator Vec4()
+{
+	if (type != U_VEC4) return Vec4();
+	return *value.v4;
+}
+UniformValue::operator Mat4()
+{
+	if (type != U_MAT4) return Mat4();
+	return *value.m4;
+}
+/*********************************************************/
 
 
 Shader::Shader(ResourcesManager<Shader> *rsmr,
@@ -691,11 +905,23 @@ void Shader::bind()
     //update uniform
     updateUniform();
 }
+//get a standard uniform
+UniformValue Shader::get(int uid)
+{
+	auto it = uDefaultMap.find(uid);
+	if (it == uDefaultMap.end()) return UniformValue();
+	return it->second;
+}
 //update uniforms
 void Shader::updateUniform()
 {
     //bind parameters
     updateStandardUniform();
+	//bind default uniforms
+	for (auto& it : uDefaultMap)
+	{
+		it.second.uniform(it.first);
+	}
     //bind constom paramers
     if(uCallback) uCallback(*this);
     //uniform errors

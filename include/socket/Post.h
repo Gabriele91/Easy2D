@@ -18,7 +18,7 @@ public:
         String value;
     };
 
-    void push(const Field field)
+    void push(const Field& field)
     {
         attributes.push_back(field);
     }
