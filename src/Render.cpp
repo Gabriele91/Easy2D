@@ -216,6 +216,7 @@ void Render::drawDebug() const
 	RenderContext::setView(camera->getGlobalMatrix());
 	RenderContext::setModel(Mat4::IDENTITY);
 	//////////////////////////////////////////////////////////////////
+	RenderContext::disableProgram();
 	RenderContext::setCullFace(DISABLE);
 	RenderContext::setBlend(true);
 	RenderContext::setBlendFunction(BLEND::SRC::ALPHA, BLEND::ONE::MINUS::SRC::ALPHA);
@@ -232,9 +233,7 @@ void Render::drawDebug() const
 		Renderable* renderable = nullptr;
 		if ((renderable = obj->getComponent<Renderable>()))
 		{
-			const AABox2& box = renderable->getMesh()->getAABox();
-			const AABox2& wbox = renderable->canTransform() ? box.applay(obj->getGlobalMatrix()) : box;
-
+			const AABox2& wbox = renderable->getBox();
 			RenderContext::drawBox(wbox,
 				Color((uchar(wbox.getSize().x)),
 					(uchar(wbox.getSize().y)),

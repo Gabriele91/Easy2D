@@ -393,117 +393,202 @@ public:
     * Adds an input window handler to the callback list
     */
     virtual void addHandler(WindowHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        vwindowh.push_back(handler);
-    }
+	{
+		DEBUG_ASSERT(handler);
+		vwindowh.push_back(handler);
+	}
+	virtual void addWindowHandler(WindowHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		vwindowh.push_back(handler);
+	}
     /**
     * Adds an input keyboard handler to the callback list
     */
     virtual void addHandler(KeyboardHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        vkeyboardh.push_back(handler);
-    }
+	{
+		DEBUG_ASSERT(handler);
+		vkeyboardh.push_back(handler);
+	}
+	virtual void addKeyboardHandler(KeyboardHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		vkeyboardh.push_back(handler);
+	}
     /**
     * Adds an input fingers handler to the callback list
     */
     virtual void addHandler(FingersHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        vfingersh.push_back(handler);
-    }
+	{
+		DEBUG_ASSERT(handler);
+		vfingersh.push_back(handler);
+	}
+	virtual void addFingersHandler(FingersHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		vfingersh.push_back(handler);
+	}
     /**
     * Adds an input accelerometer handler to the callback list
     */
     virtual void addHandler(AccelerometerHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        vaccelerometerh.push_back(handler);
-    }
+	{
+		DEBUG_ASSERT(handler);
+		vaccelerometerh.push_back(handler);
+	}
+	virtual void addAccelerometerHandler(AccelerometerHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		vaccelerometerh.push_back(handler);
+	}
     /**
     * Adds an input mouse handler to the callback list
     */
     virtual void addHandler(MouseHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        vmouseh.push_back(handler);
-    }
+	{
+		DEBUG_ASSERT(handler);
+		vmouseh.push_back(handler);
+	}
+	virtual void addMouseHandler(MouseHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		vmouseh.push_back(handler);
+	}
     /**
     * Removes an input window handler from the callback list
     */
     virtual void removeHandler(WindowHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        for(auto it=vwindowh.begin(); it!=vwindowh.end(); ++it)
-        {
-            if(*it==handler)
-            {
-                vwindowh.erase(it);
-                break;
-            }
-        }
-    }
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vwindowh.begin(); it != vwindowh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vwindowh.erase(it);
+				break;
+			}
+		}
+	}
+	virtual void removeWindowHandler(WindowHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vwindowh.begin(); it != vwindowh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vwindowh.erase(it);
+				break;
+			}
+		}
+	}
     /**
     * Removes an input keyboard handler from the callback list
     */
     virtual void removeHandler(KeyboardHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        for(auto it=vkeyboardh.begin(); it!=vkeyboardh.end(); ++it)
-        {
-            if(*it==handler)
-            {
-                vkeyboardh.erase(it);
-                break;
-            }
-        }
-    }
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vkeyboardh.begin(); it != vkeyboardh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vkeyboardh.erase(it);
+				break;
+			}
+		}
+	}
+	virtual void removeKeyboardHandler(KeyboardHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vkeyboardh.begin(); it != vkeyboardh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vkeyboardh.erase(it);
+				break;
+			}
+		}
+	}
     /**
     * Removes an input fingers handler from the callback list
     */
     virtual void removeHandler(FingersHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        for(auto it=vfingersh.begin(); it!=vfingersh.end(); ++it)
-        {
-            if(*it==handler)
-            {
-                vfingersh.erase(it);
-                break;
-            }
-        }
-    }
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vfingersh.begin(); it != vfingersh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vfingersh.erase(it);
+				break;
+			}
+		}
+	}
+	virtual void removeFingersHandler(FingersHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vfingersh.begin(); it != vfingersh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vfingersh.erase(it);
+				break;
+			}
+		}
+	}
     /**
     * Removes an input accelerometer handler from the callback list
     */
     virtual void removeHandler(AccelerometerHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        for(auto it=vaccelerometerh.begin(); it!=vaccelerometerh.end(); ++it)
-        {
-            if(*it==handler)
-            {
-                vaccelerometerh.erase(it);
-                break;
-            }
-        }
-    }
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vaccelerometerh.begin(); it != vaccelerometerh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vaccelerometerh.erase(it);
+				break;
+			}
+		}
+	}
+	virtual void removeAccelerometerHandler(AccelerometerHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vaccelerometerh.begin(); it != vaccelerometerh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vaccelerometerh.erase(it);
+				break;
+			}
+		}
+	}
     /**
     * Removes an input mouse handler from the callback list
     */
     virtual void removeHandler(MouseHandler *handler)
-    {
-        DEBUG_ASSERT(handler);
-        for(auto it=vmouseh.begin(); it!=vmouseh.end(); ++it)
-        {
-            if(*it==handler)
-            {
-                vmouseh.erase(it);
-                break;
-            }
-        }
-    }
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vmouseh.begin(); it != vmouseh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vmouseh.erase(it);
+				break;
+			}
+		}
+	}
+	virtual void removeMouseHandler(MouseHandler *handler)
+	{
+		DEBUG_ASSERT(handler);
+		for (auto it = vmouseh.begin(); it != vmouseh.end(); ++it)
+		{
+			if (*it == handler)
+			{
+				vmouseh.erase(it);
+				break;
+			}
+		}
+	}
 
 protected:
 

@@ -94,7 +94,11 @@ protected:
 				last->next = np;
 				last = np;
 			}
-			//else{ wrong }
+			else 
+			{ 
+				DEBUG_ASSERT(0);
+			}
+			//count
 			++count;
 			//return 
 			return np;
@@ -134,8 +138,9 @@ protected:
 		}
 		void reset()
 		{
+			count = 0;
 			first = nullptr;
-			last = nullptr;
+			last  = nullptr;
 		}
 		T* eraseTop()
 		{
@@ -144,7 +149,7 @@ protected:
 	};
     
 public:
-    
+    //node object
     class Node
     {
         friend class PoolAlloc<T>::Link;
@@ -153,40 +158,127 @@ public:
         
     public:
         
-        virtual void init() = 0;
-        virtual void release() = 0;
-        T* getNext()
-        {
-            return next;
-        }
-        T* getPrev()
-        {
-            return prev;
-        }
+		virtual void init() {};
+        virtual void release() {};
+		T* getNext()
+		{
+			return next;
+		}
+		T* getPrev()
+		{
+			return prev;
+		}
+		const T* getNext() const
+		{
+			return next;
+		}
+		const T* getPrev() const
+		{
+			return prev;
+		}
         
     };
-    
-protected:
-    
-	std::vector<T> buffer;
-	Link allocNodes;
-	Link freeNodes;
 
+	//const iterators
+	class CIterator
+	{
+
+	protected:
+
+		//friend class
+		friend class PoolAlloc<T>;
+		//raw ptr
+		T* node;
+		//init
+		CIterator(T* ptr)
+		{
+			node = ptr;
+		}
+
+	public:
+
+		CIterator operator++()
+		{
+			node = node->getNext();
+			return *this;
+		}
+
+		const T* operator*() const
+		{
+			return node;
+		}
+
+		bool operator==(const CIterator& rhs) const
+		{
+			return rhs.node == node;
+		}
+
+		bool operator!=(const CIterator& rhs) const
+		{
+			return rhs.node != node;
+		}
+	};
+	//iterators
+	class Iterator
+	{
+
+	protected:
+		//friend class
+		friend class PoolAlloc<T>;
+		//raw ptr
+		T* node;
+		//init
+		Iterator(T* ptr)
+		{
+			node = ptr;
+		}
+
+	public:
+
+		Iterator operator++()
+		{
+			node = node->getNext();
+			return *this;
+		}
+
+		T* operator*() const
+		{
+			return node;
+		}
+
+		bool operator==(const Iterator& rhs) const
+		{
+			return rhs.node == node;
+		}
+
+		bool operator!=(const Iterator& rhs) const
+		{
+			return rhs.node != node;
+		}
+	};
+	//init pool allocator
 	void init(uint size, DFUNCTION<void(T& node)> allocInit = nullptr)
 	{
 		DEBUG_ASSERT(size);
 		buffer.resize(0);
 		buffer.resize(size);
+		//linking
+		reset(allocInit);
+	}
+	//reset
+	void reset(DFUNCTION<void(T& node)> allocInit = nullptr)
+	{
 		//unlink
 		allocNodes.reset();
 		freeNodes.reset();
 		//linking
-		for (size_t i = 0; i != size; ++i)
+		for (size_t i = 0; i != buffer.size(); ++i)
 		{
 			freeNodes.append(&buffer[i]);
 			if (allocInit) allocInit(buffer[i]);
 		}
 	}
+	//alloc node
 	T* newNode()
 	{
 		if (!freeNodes.size()) return nullptr;
@@ -205,6 +297,17 @@ protected:
 		//append
 		freeNodes.append(node);
 	}
+	//count of allocated nodes
+	size_t allocated()
+	{
+		return allocNodes.size();
+	}
+	//count of free nodes
+	size_t remaining()
+	{
+		return freeNodes.size();
+	}
+	//for each
 	void foreachAllocNoodes(DFUNCTION<void(T& node)> callback)
 	{
 		for (T* b = allocNodes.getFirst(); b != nullptr; b = b->getNext())
@@ -212,6 +315,7 @@ protected:
 			callback(*b);
 		}
 	}	
+	//for each not standard
 	void foreachFreeNodes(DFUNCTION<void(T& node)> callback)
 	{
 		for (T* b = freeNodes.getFirst(); b != nullptr; b = b->getNext())
@@ -219,6 +323,40 @@ protected:
 			callback(*b);
 		}
 	}
+	//c++11 for each utils
+	Iterator begin()
+	{
+		return Iterator(allocNodes.getFirst());
+	}
+	Iterator end()
+	{
+		return Iterator(nullptr);
+	}
+	CIterator begin() const
+	{
+		return CIterator(allocNodes.getFirst());
+	}
+	CIterator end() const
+	{
+		return CIterator(nullptr);
+	}
+	//list allocated nodes
+	Link& listAllocated()
+	{
+		return allocNodes;
+	}	
+	//list free nodes
+	Link& listFree()
+	{
+		return freeNodes;
+	}
+
+protected:
+
+	std::vector<T> buffer;
+	Link allocNodes;
+	Link freeNodes;
+
 };
 
 class Path

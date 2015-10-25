@@ -239,7 +239,14 @@ class Object
 
         return false;
     }
-
+	//create a component
+	template< class T, typename... Args >
+	T* createComponent(Args... args)
+	{
+		T* component = new T(args...);
+		addComponent(component);
+		return component;
+	}
     //send a message
     void sendMessage(uint message);
     void sendLocalMessage(uint message);
