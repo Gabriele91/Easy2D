@@ -196,12 +196,18 @@ public:
 		}
 
 	public:
-
-		CIterator operator++()
-		{
-			node = node->getNext();
-			return *this;
-		}
+        
+        CIterator operator++()
+        {
+            node = node->getNext();
+            return *this;
+        }
+        
+        CIterator operator--()
+        {
+            node = node->getPrev();
+            return *this;
+        }
 
 		const T* operator*() const
 		{
@@ -234,12 +240,18 @@ public:
 		}
 
 	public:
-
-		Iterator operator++()
-		{
-			node = node->getNext();
-			return *this;
-		}
+        
+        Iterator operator++()
+        {
+            node = node->getNext();
+            return *this;
+        }
+        
+        Iterator operator--()
+        {
+            node = node->getPrev();
+            return *this;
+        }
 
 		T* operator*() const
 		{
@@ -331,15 +343,23 @@ public:
 	Iterator end()
 	{
 		return Iterator(nullptr);
-	}
+    }
+    Iterator last()
+    {
+        return Iterator(allocNodes.getLast());
+    }
 	CIterator begin() const
 	{
 		return CIterator(allocNodes.getFirst());
-	}
-	CIterator end() const
-	{
-		return CIterator(nullptr);
-	}
+    }
+    CIterator end() const
+    {
+        return CIterator(nullptr);
+    }
+    CIterator last() const
+    {
+        return CIterator(allocNodes.getLast());
+    }
 	//list allocated nodes
 	Link& listAllocated()
 	{

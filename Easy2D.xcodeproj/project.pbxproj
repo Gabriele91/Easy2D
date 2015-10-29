@@ -35,7 +35,6 @@
 		E0133EDB1B64A6D300634A52 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDA1B64A6D300634A52 /* QuartzCore.framework */; };
 		E0133EDD1B64A6E100634A52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDC1B64A6E100634A52 /* UIKit.framework */; };
 		E0133EDF1B64A6E900634A52 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDE1B64A6E900634A52 /* OpenGLES.framework */; };
-		E0133EE11B64A6F200634A52 /* libxpc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EE01B64A6F200634A52 /* libxpc.dylib */; };
 		E0133EE21B64B56700634A52 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
 		E0133EE31B64B56800634A52 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
 		E01E2CD318B35EBD00D048DD /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD218B35EBD00D048DD /* AudioAL.h */; };
@@ -1365,6 +1364,7 @@
 		E089EAE617B2750E0055B59A /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
 		E089EAEA17B2751B0055B59A /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		E089EAEB17B2751B0055B59A /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		E08B9C491BDD406500AE7533 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		E08C634618AFB0D200A26E40 /* EStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EStack.cpp; sourceTree = "<group>"; };
 		E08C634718AFB0D200A26E40 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		E08C634A18AFB0E000A26E40 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
@@ -1693,7 +1693,6 @@
 				E0133EDB1B64A6D300634A52 /* QuartzCore.framework in Frameworks */,
 				E0133EDD1B64A6E100634A52 /* UIKit.framework in Frameworks */,
 				E0133EDF1B64A6E900634A52 /* OpenGLES.framework in Frameworks */,
-				E0133EE11B64A6F200634A52 /* libxpc.dylib in Frameworks */,
 				E0398A3F19FBFCA800079232 /* OpenAL.framework in Frameworks */,
 				E0398AF919FC005200079232 /* libFreetype2Uni.a in Frameworks */,
 				E0398AFA19FC005200079232 /* libLua5.1.5Uni.a in Frameworks */,
@@ -1705,13 +1704,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E04CC2C119FC0685009326D6 /* AppKit.framework in Frameworks */,
+				E04CC2C219FC0690009326D6 /* Foundation.framework in Frameworks */,
 				E04CC2C019FC0660009326D6 /* Cocoa.framework in Frameworks */,
 				E061350418AE675300BD63EC /* OpenAL.framework in Frameworks */,
 				E0A719C417E1EE6200A0B298 /* libfreetype.a in Frameworks */,
 				E0BE9FD71AB9BD6400824182 /* libclua.a in Frameworks */,
 				E0BE9FD61AB9BD6400824182 /* libRakNetLibStatic.a in Frameworks */,
 				E061356C18AE697A00BD63EC /* libBox2D.a in Frameworks */,
-				E04CC2C219FC0690009326D6 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1760,6 +1759,7 @@
 		E019647F176B0CF200CF955A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E08B9C491BDD406500AE7533 /* libz.tbd */,
 				E0133EE01B64A6F200634A52 /* libxpc.dylib */,
 				E0133EDE1B64A6E900634A52 /* OpenGLES.framework */,
 				E0133EDC1B64A6E100634A52 /* UIKit.framework */,
@@ -4149,6 +4149,20 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"dependencies-osx64/include/**",
+					include/image/,
+					include/ui/,
+					include/thread,
+					include/gui,
+					include/image/,
+					include/cocoa/,
+					include/script/,
+					include/audio/,
+					include/socket/,
+					include/,
+					./,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/dependencies-osx64/lib",
@@ -4177,6 +4191,7 @@
 					"-DUSE_LUA",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Debug;
@@ -4190,6 +4205,20 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				EXECUTABLE_PREFIX = lib;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"dependencies-osx64/include/**",
+					include/image/,
+					include/ui/,
+					include/thread,
+					include/gui,
+					include/image/,
+					include/cocoa/,
+					include/script/,
+					include/audio/,
+					include/socket/,
+					include/,
+					./,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/dependencies-osx64/lib",
@@ -4217,6 +4246,7 @@
 					"-DUSE_LUA",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Release;
@@ -4278,6 +4308,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -4285,6 +4316,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

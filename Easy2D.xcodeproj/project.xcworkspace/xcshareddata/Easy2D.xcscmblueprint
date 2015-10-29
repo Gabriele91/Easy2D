@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "31A78447F9CC8F6A86B57402EA75B98791DC9BD2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "A1D9E74B6BF180CED53CA67EB4841DCE15A6A27C" : 0,
+    "31A78447F9CC8F6A86B57402EA75B98791DC9BD2" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0F695CBB-7D25-41BD-AD03-3C01D54B5F31",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "A1D9E74B6BF180CED53CA67EB4841DCE15A6A27C" : "Easy2D-Exemples\/",
+    "31A78447F9CC8F6A86B57402EA75B98791DC9BD2" : "Easy2D"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Easy2D",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Easy2D.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Gabriele91\/Easy2D.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "31A78447F9CC8F6A86B57402EA75B98791DC9BD2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/www.vector3d.xyz\/~\/GitRepositories\/Easy2D-Exemples.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A1D9E74B6BF180CED53CA67EB4841DCE15A6A27C"
+    }
+  ]
+}

@@ -887,7 +887,7 @@ void Shader::buildUniform()
         GLenum   type{ 0 };
         glGetActiveUniform(program, index, buffer.size(),  &length, &size, &type, buffer.data());
         //add uniform
-        saveUniform(index,buffer.data());
+        saveUniform(glGetUniformLocation(program,buffer.data()),buffer.data());
         //uniform errors
         CHECK_GPU_ERRORS();
     }
@@ -947,7 +947,11 @@ void Shader::updateStandardUniform()
         uniform(uColor,RenderContext::getColor().toNormalize());
     if(uViewport>=0)
         uniform(uViewport,RenderContext::getViewport());
-    uniformTexture(uTex0,/*RenderContext::currentTexture()*/ 0);
+    //uniform texture
+    if(uTex0>=0)
+        uniformTexture(uTex0,/*RenderContext::currentTexture()*/ 0);
+    //uniform errors
+    CHECK_GPU_ERRORS();
 }
 //uniform name
 void Shader::uniform(const String& name,int v){ glUniform1i(uniformID(name), v); }
