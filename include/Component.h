@@ -14,7 +14,7 @@ namespace Easy2D {
     template<class T>
     class ComponentItem;
     /////////////////////
-    class E2DDLL Component : public AlignedAlloc<16>
+    class Component : public AlignedAlloc<16>
     {
 
         //friend class
