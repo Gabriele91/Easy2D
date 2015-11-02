@@ -10,7 +10,7 @@
 namespace Easy2D
 {
   
-class UniformValue
+class UniformValue : public AlignedAlloc<16>
 {
 public:
 

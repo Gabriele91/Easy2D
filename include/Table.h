@@ -133,7 +133,8 @@ private:
         }
     };
     template<typename T>
-    class DefineValue : public Value
+    class DefineValue  : public AlignedAlloc<16>,
+                         public Value
     {
     public:
         //
@@ -190,6 +191,8 @@ public:
     Table(const String& source);
     Table(const String& source,ResourcesGroup* gorup);
     Table();
+    /* assignament */
+    Table& operator = (const Table& cptable);
     /* destructor */
     virtual ~Table();
 
@@ -258,16 +261,17 @@ public:
             delete element;
         }
     }
-
+#if 0
     /** return table-array size  */
-    unsigned int indexUnnomed() const
+    size_t indexUnnomed() const
     {
         return index;
     }
+#endif
     /** return table-array size  */
-    unsigned int size() const
+    size_t size() const
     {
-        return index;
+        return table.size();
     }
 
     /** create a sub table  */

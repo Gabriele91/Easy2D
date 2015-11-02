@@ -19,7 +19,8 @@ class Audio;
 class Game;
 class ResourcesGroup;
 //game object
-class Object
+class Object : public AlignedAlloc<16>,
+               public Pointers<Object>
 {
     public:
                 

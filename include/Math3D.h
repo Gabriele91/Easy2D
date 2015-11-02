@@ -724,7 +724,8 @@ DFORCEINLINE Vector3D operator/(T v,const Vector3D& vt)
 }
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
-class Vector4D
+class Vector4D : public AlignedAlloc<16>,
+                 public Pointers<Vector4D>
 {
 
 public:
@@ -1247,7 +1248,8 @@ struct Transform2D
     }
 };
 ///////////////////////////////////////////////////////////////////////////
-class Matrix4x4
+class Matrix4x4 : public AlignedAlloc<16>,
+                  public Pointers<Matrix4x4>
 {
 public:
 

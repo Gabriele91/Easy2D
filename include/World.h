@@ -46,7 +46,8 @@ class ContactListener : public b2ContactListener
     virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
 };
 /////////////////////
-class World : public b2DestructionListener
+class World : public AlignedAlloc<16>,
+              public b2DestructionListener
 {
 
     friend class Body;

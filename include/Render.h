@@ -20,13 +20,14 @@ class RenderQueue;
 class PostEffects;
 
 //effects
-class PostEffects : public Pointers<PostEffects>
+class PostEffects  : public AlignedAlloc<16>,
+                     public Pointers<PostEffects>
 {
 
     //friend class
     friend class Render;
     //model
-    Mesh                        plane;
+    Mesh plane;
     //render mode
     class Effect
     {

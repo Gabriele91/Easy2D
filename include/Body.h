@@ -177,21 +177,11 @@ class Body : public Component
     {
         return body;
     }
-    
-    //change b2Body angle
-    void setAngle(Angle);
-    //get b2Body angle
-    Angle getAngle() const;
-    //set b2Body posizion
-    void setPosition(const Vec2& pos);
-    //get b2Body posizion
-    Vec2 getPosition() const;
-    
     //scale utility
     bool enableScale;
 	bool isAbsoluteScale;
     Vec2 lastScale;
-    
+    //scale utilities
     void setScale(const Vec2& scale);
     void addScaleB2DShapes(const Vec2& scale,float radius);
     void addScaleE2DShapes(const Vec2& scale,float radius);
@@ -251,7 +241,14 @@ class Body : public Component
 
     void setBullet(bool);
     bool getBullet() const;
-    
+    //change b2Body angle
+    void setAngle(Angle);
+    //get b2Body angle
+    Angle getAngle() const;
+    //set b2Body posizion
+    void setPosition(const Vec2& pos);
+    //get b2Body posizion
+    Vec2 getPosition() const;
     //scale
 	void setEnableScale(bool enable, bool isabsolute = false);
 	bool getEnableScale() const;

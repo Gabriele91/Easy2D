@@ -9,21 +9,49 @@
 #include <stdafx.h>
 #include <MemoryAllocator.h>
 #include <Debug.h>
-#define NOT(x) (!(x))
+
+#ifdef _MSC_VER
+#include <malloc.h>
+#elif defined(__MACH__)
+//#include <mm_malloc.h>
+#include <mm_malloc.h>
+#include <stdlib.h>
+#else
+#include <mm_malloc.h>
+#include <stdlib.h>
+#endif
 #define BYTESALING 16
+#define NOT(x) (!(x))
+
+void* Easy2D::alignedAlloc(size_t size,size_t alignment)
+{
+    void *p = _mm_malloc( size, alignment );
+    
+    if NOT( p )
+        Easy2D::Debug::message() << ("new failed !\n");
+    
+    return p;
+}
+void  Easy2D::alignedFree(void* p)
+{
+    if ( p )
+        _mm_free( p );
+}
 
 #ifndef DOVERRIDE_NEW_DEL
-
+/////////////////////////////////////////////////////////////////////////////////
 void* Easy2D::malloc(size_t size)
 {
 	void *p = ::malloc( size );
 	if NOT(p) Easy2D::Debug::message() << ("malloc failed !\n");
 	return p;
 }
+
 void  Easy2D::free(void* p)
 {
 	::free( p );
 }
+/////////////////////////////////////////////////////////////////////////////////
 
 #ifdef NEW_DELETE_OVERLOADABLE
 
@@ -91,18 +119,6 @@ void operator delete [] ( void *p ) throw_dealloc
 #endif
 
 #else
-
-#ifdef _MSC_VER
-    #include <malloc.h>
-#elif defined(__MACH__)
-    //#include <mm_malloc.h>
-    #include <mm_malloc.h>
-    #include <stdlib.h>
-#else
-    #include <mm_malloc.h>
-    #include <stdlib.h>
-#endif
-
 void* Easy2D::malloc(size_t size)
 {
 	void *p = ::malloc(size);

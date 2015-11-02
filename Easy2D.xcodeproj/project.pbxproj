@@ -114,7 +114,6 @@
 		E0398A3F19FBFCA800079232 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E061350318AE675300BD63EC /* OpenAL.framework */; };
 		E0398A4419FBFF4700079232 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = E054967417AE6939005DDB72 /* stdafx.h */; };
 		E0398AF919FC005200079232 /* libFreetype2Uni.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0398AF619FC005200079232 /* libFreetype2Uni.a */; };
-		E0398AFA19FC005200079232 /* libLua5.1.5Uni.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0398AF719FC005200079232 /* libLua5.1.5Uni.a */; };
 		E04CC2C019FC0660009326D6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196480176B0CF200CF955A /* Cocoa.framework */; };
 		E04CC2C119FC0685009326D6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196483176B0CF200CF955A /* AppKit.framework */; };
 		E04CC2C219FC0690009326D6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0196485176B0CF200CF955A /* Foundation.framework */; };
@@ -213,6 +212,7 @@
 		E0684F031939D2AC00653833 /* World.h in Headers */ = {isa = PBXBuildFile; fileRef = E0684F011939D2AC00653833 /* World.h */; };
 		E0684F051939D32D00653833 /* Box2D.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E0684F041939D32D00653833 /* Box2D.hpp */; };
 		E0684F071939D34A00653833 /* World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0684F061939D34A00653833 /* World.cpp */; };
+		E068BAED1BE2B5FF00ECC869 /* libCLuaUni.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E068BAEB1BE2B5F600ECC869 /* libCLuaUni.a */; };
 		E06ADCA418BA0F0500A33558 /* Sortable.h in Headers */ = {isa = PBXBuildFile; fileRef = E06ADCA318BA0F0500A33558 /* Sortable.h */; };
 		E06FB1BC197CE71500239DA6 /* BatchingColorMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B6197CE71500239DA6 /* BatchingColorMesh.h */; };
 		E06FB1BD197CE71500239DA6 /* BatchingMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = E06FB1B7197CE71500239DA6 /* BatchingMesh.h */; };
@@ -1326,6 +1326,8 @@
 		E0684F011939D2AC00653833 /* World.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = World.h; sourceTree = "<group>"; };
 		E0684F041939D32D00653833 /* Box2D.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Box2D.hpp; sourceTree = "<group>"; };
 		E0684F061939D34A00653833 /* World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = World.cpp; sourceTree = "<group>"; };
+		E068BAEB1BE2B5F600ECC869 /* libCLuaUni.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCLuaUni.a; sourceTree = "<group>"; };
+		E068BC871BE2BA9700ECC869 /* libRakNetUni.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libRakNetUni.a; sourceTree = "<group>"; };
 		E06ADCA318BA0F0500A33558 /* Sortable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sortable.h; sourceTree = "<group>"; };
 		E06FB1B6197CE71500239DA6 /* BatchingColorMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchingColorMesh.h; sourceTree = "<group>"; };
 		E06FB1B7197CE71500239DA6 /* BatchingMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BatchingMesh.h; sourceTree = "<group>"; };
@@ -1691,11 +1693,11 @@
 				E0133ED71B64A6BB00634A52 /* CoreGraphics.framework in Frameworks */,
 				E0133ED91B64A6CB00634A52 /* CoreFoundation.framework in Frameworks */,
 				E0133EDB1B64A6D300634A52 /* QuartzCore.framework in Frameworks */,
+				E068BAED1BE2B5FF00ECC869 /* libCLuaUni.a in Frameworks */,
 				E0133EDD1B64A6E100634A52 /* UIKit.framework in Frameworks */,
 				E0133EDF1B64A6E900634A52 /* OpenGLES.framework in Frameworks */,
 				E0398A3F19FBFCA800079232 /* OpenAL.framework in Frameworks */,
 				E0398AF919FC005200079232 /* libFreetype2Uni.a in Frameworks */,
-				E0398AFA19FC005200079232 /* libLua5.1.5Uni.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2163,6 +2165,8 @@
 		E0398AF419FC005200079232 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				E068BC871BE2BA9700ECC869 /* libRakNetUni.a */,
+				E068BAEB1BE2B5F600ECC869 /* libCLuaUni.a */,
 				E0398AF519FC005200079232 /* libBox2DUni.a */,
 				E0398AF619FC005200079232 /* libFreetype2Uni.a */,
 				E0398AF719FC005200079232 /* libLua5.1.5Uni.a */,

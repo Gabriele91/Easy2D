@@ -11,8 +11,17 @@
 
 #include <Config.h>
 
+#define throw_alloc
+#define throw_dealloc throw()
+
 namespace Easy2D
 {
+    void* alignedAlloc(size_t size,size_t alignment);
+    void  alignedFree(void*);
+    
+    void* malloc(size_t size);
+    void  free(void*);
+    
 	template <class T>
 	class Pointers //: protected std::enable_shared_from_this< T >
 	{
@@ -37,8 +46,40 @@ namespace Easy2D
 		}
 	};
 
-	void* malloc(size_t size);
-	void  free(void*); 
+    template < const size_t Aligned = 16 >
+    class AlignedAlloc
+    {
+    public:
+        
+        void* operator new( size_t size ) throw_alloc
+        {
+            return alignedAlloc(size,Aligned);
+        }
+        void* operator new( size_t size,  void* ptr ) throw_alloc
+        {
+            return ptr;
+        }
+        
+        void* operator new [] ( size_t size ) throw_alloc
+        {
+            return alignedAlloc(size,Aligned);
+        }
+        void* operator new[]( size_t size, void* ptr ) throw_alloc
+        {
+            return ptr;
+        }
+        
+        void  operator delete ( void *p ) throw_dealloc
+        {
+            alignedFree(p);
+        }
+        void  operator delete [] ( void *p ) throw_dealloc
+        {
+            alignedFree(p);
+        }
+    };
+    
+    
 	#ifdef NEW_DELETE_OVERLOADABLE
 	    void setAllocatorFunctionPtr(void*(*)(size_t));
 	    void setDeallocatorFunctionPtr(void(*)(void*));
@@ -47,8 +88,6 @@ namespace Easy2D
 
 
 #if defined(DOVERRIDE_NEW_DEL)
-#define throw_alloc
-#define throw_dealloc throw()
 
 void *operator new( size_t size ) throw_alloc ;
 void *operator new [] ( size_t size ) throw_alloc ;

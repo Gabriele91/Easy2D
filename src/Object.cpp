@@ -454,19 +454,20 @@ void Object::forceTransform(const Transform2D& tr2d,bool global)
     transform=tr2d;
     //calc
     if(global)
+    {
         globalMat.setTransform2D(transform);
+    }
     else
         computeMatrix(transform,globalMat);
-    
     //change
     change();
-    //only chailds
+    //force change
     changeValue=false;
 }
 //Matrix
 const Matrix4x4& Object::getGlobalMatrix()
 {
-    if(changeValue==true)
+    if(changeValue)
     {
         //update
         changeValue=false;

@@ -247,6 +247,14 @@
 #define ALIGNED( size, __Declaration__ ) __declspec(align(size)) __Declaration__
 #define COMPILER_VISUAL_STUDIO
 
+#if defined(EASY2DLIBRARY_EXPORT) // inside DLL
+#   define E2DDLL  __declspec(dllexport)
+#elif defined(EASY2DLIBRARY_IMPORT)  // outside DLL
+#   define E2DDLL  __declspec(dllimport)
+#else //static libary
+#   define E2DDLL
+#endif
+
 #if _MSC_VER == 1600
 #include <utility>
 #define decltype(...) \
@@ -275,6 +283,14 @@ namespace std
 	#define FORCE_UNDEFINED_SYMBOL(s) __pragma(comment (linker, "/include:"#s))
 #elif defined(_WIN32)
 	#define FORCE_UNDEFINED_SYMBOL(s) __pragma(comment (linker, "/include:_"#s))
+#endif
+
+#if defined(EASY2DLIBRARY_EXPORT) // inside DLL
+#   define E2DDLL  __declspec(dllexport)
+#elif defined(EASY2DLIBRARY_IMPORT)  // outside DLL
+#   define E2DDLL  __declspec(dllimport)
+#else //static libary
+#   define E2DDLL
 #endif
 
 #else
@@ -315,7 +331,7 @@ namespace std
 #include <emmintrin.h>
 #include <xmmintrin.h>
 #include <mmintrin.h>
-#define DOVERRIDE_NEW_DEL
+/* #define DOVERRIDE_NEW_DEL */
 #endif
 ////////////////////////////////////////////////////////
 #include <MemoryAllocator.h>

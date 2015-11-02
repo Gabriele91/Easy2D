@@ -171,7 +171,7 @@ static int LuaNewMat4(lua_State* lVM)
 	else
 	if(lua_isuserdata(lVM,2) && nargs == 2)
 	{
-		new (v)Mat4(luabridge::Stack <Mat4>::get(lVM, 2));
+		new (v) Mat4(luabridge::Stack <Mat4>::get(lVM, 2));
 	}
 	else
 	{       

@@ -70,6 +70,25 @@ Table::~Table()
     //release resource
     release();
 }
+
+
+Table& Table::operator = (const Table& cptable)
+{
+    name = cptable.name;
+    rpath = cptable.rpath;
+    ptrResources = cptable.ptrResources;
+    //resource copy
+    reloadable=cptable.reloadable;
+    loaded=cptable.loaded;
+    //copy index
+    index = cptable.index;
+    //table copy
+    for(auto it:cptable)
+        table[it.first]=it.second->clone();
+    //return this
+    return *this;
+}
+
 bool Table::load()
 {
     //can't load this resource
