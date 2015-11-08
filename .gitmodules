@@ -1,0 +1,3 @@
+[submodule "dependencies"]
+	path = dependencies
+	url = https://github.com/Gabriele91/Easy2D-dependencies.git
