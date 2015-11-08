@@ -109,45 +109,45 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_EDITOR_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">
     <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)dependencies-angle/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/angle/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_ANGLE_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
     <TargetName>$(ProjectName)_D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">
-    <LibraryPath>$(ProjectDir)dependencies-win32/lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)\lib\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -164,7 +164,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;DISABLE_SIMD;NEW_DELETE_OVERLOADABLE;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -181,7 +181,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/angleproject;include/audio;include/thread;include/gui;dependencies-angle/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;ES2_ANGLEPROJECT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -198,7 +198,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
@@ -217,7 +217,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -242,7 +242,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
@@ -267,7 +267,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>.;include;include/script;include/image;include;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies-win32/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
