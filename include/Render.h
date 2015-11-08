@@ -126,17 +126,17 @@ protected:
     //post effect
     PostEffects::ptr  effects;
     //info screen
-    Camera *camera;
+    Camera* camera       { nullptr };
     //colors
-    bool enableBatching;
-    bool enableClear;
-	bool enableDebugDraw;
+    bool enableBatching  { true  };
+    bool enableClear     { true  };
+    bool enableDebugDraw { false };
     Color clearClr;
     Color ambientClr;
     //Batching
 	Mesh::ptr batchingMesh;
     //render queue
-    RenderQueue::ptr queue;
+    RenderQueue::ptr queue{ nullptr };
 	friend class RenderQueue;
     //called from scene
     void buildQueue(const std::list<Object*>& objs);

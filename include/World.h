@@ -89,6 +89,8 @@ class World : public AlignedAlloc<16>,
     void  setGravity(const Vec2& gravity);
     Vec2  getGravity();
     void  physicsDebugDraw(bool enable);
+    ///raycast
+    void raycast(DFUNCTION<int(Body* body)>,const Vec2& start,const Vec2& end);
     ///scale
     void setMetersInPixel( float pixel );
     float getMetersInPixel() const

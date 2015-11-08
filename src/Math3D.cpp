@@ -44,6 +44,14 @@ float Radian::valueDegrees() const
 {
     return Math::todeg( rad );
 }
+float Radian::cos() const
+{
+    return std::cos( rad );
+}
+float Radian::sin() const
+{
+    return std::sin( rad );
+}
 /* DEGREE */
 Degree& Degree::operator = (const Angle& a)
 {
@@ -53,6 +61,14 @@ Degree& Degree::operator = (const Angle& a)
 float Degree::valueRadians() const
 {
     return Math::torad( deg );
+}
+float Degree::cos() const
+{
+    return std::cos(Math::torad(deg));
+}
+float Degree::sin() const
+{
+    return std::sin(Math::torad(deg));
 }
 /* ANGLE */
 float Angle::cos() const
@@ -225,7 +241,19 @@ AABox2::~AABox2()
 {
 
 }
-
+void AABox2::setPoints(const std::vector<Vec2>& points)
+{
+    min= Vec2::MAX;
+    max=-Vec2::MAX;
+    
+    for(auto& point : points)
+    {
+        max.x = std::max(point.x, max.x);
+        max.y = std::max(point.y, max.y);
+        min.x = std::min(point.x, min.x);
+        min.y = std::min(point.y, min.y);
+    }
+}
 void AABox2::setBox(const Vec2& center,Vec2 size)
 {
     size.abs();

@@ -39,6 +39,9 @@ public:
     float valueDegrees() const;
     float valueRadians() const { return rad; }
     ///////////////////////////////////////////////////////////////////////////
+    float cos() const;
+    float sin() const;
+    ///////////////////////////////////////////////////////////////////////////
     const Radian& operator + () const { return *this; }
     Radian operator + ( const Radian& r ) const { return Radian ( rad + r.rad ); }
     Radian operator + ( const Degree& d ) const;
@@ -84,6 +87,9 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     float valueDegrees() const { return deg; }
     float valueRadians() const;
+    ///////////////////////////////////////////////////////////////////////////
+    float cos() const;
+    float sin() const;
     ///////////////////////////////////////////////////////////////////////////
     const Degree& operator + () const { return *this; }
     Degree operator + ( const Degree& d ) const { return Degree ( deg + d.deg ); }
@@ -1066,6 +1072,7 @@ public:
     //destructor
     ~AABox2();
     //setting
+    void setPoints(const std::vector<Vec2>& points);
     void setBox(const Vec2& center,Vec2 size);
     void setRegion(const AABox2& aabox);
     void addPoint(const Vec2& point);

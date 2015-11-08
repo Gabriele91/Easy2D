@@ -24,6 +24,19 @@ using namespace Easy2D;
     #define SAFE_SCALE(x) x
 #endif
 
+//access to protected body methods
+class b2PublicBody : public b2Body
+{
+public:
+    inline void SynchronizeFixtures()
+    {
+        b2Body::SynchronizeFixtures();
+    }
+    inline void SynchronizeTransform()
+    {
+        b2Body::SynchronizeTransform();
+    }
+};
 ///////////////////////
 //init
 Body::Body()
@@ -71,7 +84,7 @@ Body::~Body()
         //to null
         body=nullptr;
     }
-    /*
+#if 0
     //delete save fixatures
     for( auto pFixtureDef : fixturesDef )
     {
@@ -79,7 +92,8 @@ Body::~Body()
         delete pFixtureDef->shape;
         // Destroy fixture definition.
         delete pFixtureDef;
-    }*/
+    }
+#endif
 }
 //word
 void Body::registerWorld(World *wrd)
@@ -1343,6 +1357,8 @@ void Body::setScale(const Vec2& argScale)
         
         addScaleB2DShapes(Vec2::ONE/lastScale,1.0f/maxLastScale);
         if(scale!=Vec2::ONE) addScaleB2DShapes(scale, maxScale);
+        //syncronize
+        ((b2PublicBody*)body)->SynchronizeFixtures();
     }
     else
     {
