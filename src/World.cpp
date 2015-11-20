@@ -821,31 +821,90 @@ Vec2 World::getGravity()
    return cast(world->GetGravity()) FORCE_PIXEL_RATIO;
 }
 ///raycast
-class SegmentRayCastCallback : public b2RayCastCallback
+class SimpleSegmentRayCastCallback : public b2RayCastCallback
 {
     //member
     DFUNCTION<int(Body* body)> mCallback;
     
 public:
     //init
-    SegmentRayCastCallback(DFUNCTION<int(Body* body)> function)
+    SimpleSegmentRayCastCallback(DFUNCTION<int(Body* body)> function)
     :mCallback(function)
     {
     }
     
     virtual float32 ReportFixture	(	b2Fixture * 	fixture,
-                                        const b2Vec2 & 	point,
-                                        const b2Vec2 & 	normal,
-                                        float32 	fraction
+                                     const b2Vec2 & 	point,
+                                     const b2Vec2 & 	normal,
+                                     float32 	fraction
                                      )
     {
         return mCallback((Body*)fixture->GetBody()->GetUserData());
     }
     
 };
-void World::raycast(DFUNCTION<int(Body* body)> callback,const Vec2& start,const Vec2& end)
+void World::raycast(DFUNCTION<int(Body* body)> callback,const Vec2& start,const Vec2& end) const
 {
-    SegmentRayCastCallback objCallback(callback);
+    SimpleSegmentRayCastCallback objCallback(callback);
+    world->RayCast(&objCallback,
+                   cast(start PTM_RATIO),
+                   cast(end PTM_RATIO));
+}
+
+///raycast
+class ComplexSegmentRayCastCallback : public b2RayCastCallback
+{
+    //member
+    DFUNCTION<
+    int (       Body*  body,
+                Shape shape,
+          const Vec2&  point,
+          const Vec2&  normal,
+              float32  fraction )
+    >  mCallback;
+    //float ratio
+    float metersInPixel;
+    
+public:
+    //init
+    ComplexSegmentRayCastCallback(DFUNCTION<int(      Body* body,
+                                                      Shape shape,
+                                                const Vec2& point,
+                                                const Vec2& normal,
+                                                float32 	fraction)> function,
+                                                                float  unit)
+    :mCallback(function)
+    ,metersInPixel(unit)
+    {
+    }
+    
+    virtual float32 ReportFixture	(	b2Fixture* 	fixture,
+                                     const b2Vec2& 	point,
+                                     const b2Vec2& 	normal,
+                                          float32 	fraction
+                                     )
+    {
+        size_t shape_t = (size_t)fixture->GetUserData();
+        uint   shape_u = (uint)shape_t;
+        
+        return mCallback((Body*)fixture->GetBody()->GetUserData(),
+                         shape_u,
+                         cast(point) PIXEL_RATIO,
+                         cast(normal),
+                         fraction);
+    }
+    
+};
+void World::raycast(DFUNCTION<int(Body*        body,
+                                  Shape        shape,
+                                  const Vec2&  point,
+                                  const Vec2&  normal,
+                                     float32   fraction)> callback,
+                    const Vec2& start,
+                    const Vec2& end) const
+{
+    
+    ComplexSegmentRayCastCallback objCallback(callback,metersInPixel);
     world->RayCast(&objCallback,
                    cast(start PTM_RATIO),
                    cast(end PTM_RATIO));

@@ -37,6 +37,7 @@
 		E0133EDF1B64A6E900634A52 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0133EDE1B64A6E900634A52 /* OpenGLES.framework */; };
 		E0133EE21B64B56700634A52 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
 		E0133EE31B64B56800634A52 /* TweenManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0BA0C451B54F12F00100F09 /* TweenManager.cpp */; };
+		E013C80D1BFF895900130FF4 /* DynamicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E013C80C1BFF895900130FF4 /* DynamicTree.cpp */; };
 		E01E2CD318B35EBD00D048DD /* AudioAL.h in Headers */ = {isa = PBXBuildFile; fileRef = E01E2CD218B35EBD00D048DD /* AudioAL.h */; };
 		E01E2CD618B35ECA00D048DD /* AudioAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD518B35ECA00D048DD /* AudioAL.cpp */; };
 		E01E2CD818B3615B00D048DD /* StreamThreadAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E01E2CD718B3615B00D048DD /* StreamThreadAL.cpp */; };
@@ -1044,6 +1045,8 @@
 		E0133EDC1B64A6E100634A52 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		E0133EDE1B64A6E900634A52 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		E0133EE01B64A6F200634A52 /* libxpc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxpc.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/system/libxpc.dylib; sourceTree = DEVELOPER_DIR; };
+		E013C7061BFF861500130FF4 /* DynamicTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicTree.h; sourceTree = "<group>"; };
+		E013C80C1BFF895900130FF4 /* DynamicTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicTree.cpp; sourceTree = "<group>"; };
 		E0196480176B0CF200CF955A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E0196483176B0CF200CF955A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		E0196484176B0CF200CF955A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -2248,6 +2251,7 @@
 				E003064519B38E76006911FD /* Shader.h */,
 				E0F553FD1B52E3AD00362E52 /* TweenManager.h */,
 				E0BA0C491B54F47E00100F09 /* Tweens.h */,
+				E013C7061BFF861500130FF4 /* DynamicTree.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -2334,6 +2338,7 @@
 				E003064719B39C5B006911FD /* Shader.cpp */,
 				E055ABAC19FFF56C00163AC4 /* Math3D_vfp_macro.h */,
 				E0BA0C451B54F12F00100F09 /* TweenManager.cpp */,
+				E013C80C1BFF895900130FF4 /* DynamicTree.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -3848,6 +3853,7 @@
 				E054964E17AE6907005DDB72 /* Input.cpp in Sources */,
 				E04FBB2F194F0F1B00164D77 /* Component.cpp in Sources */,
 				E054965417AE6907005DDB72 /* Math3D.cpp in Sources */,
+				E013C80D1BFF895900130FF4 /* DynamicTree.cpp in Sources */,
 				E06FB1D1197CEA1B00239DA6 /* ParticleSystem.cpp in Sources */,
 				E0B5835B19B1B6570001D40A /* Blend.cpp in Sources */,
 				E06FB1D9197CEA3B00239DA6 /* LuaMath3D.cpp in Sources */,

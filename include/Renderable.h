@@ -61,23 +61,23 @@ public:
     //get model matrix
     virtual Mat4 getModel();
     //other...
-    DFORCEINLINE bool isVisible() const
+    bool isVisible() const
     {
         return visible;
     }
-    DFORCEINLINE void show()
+    void show()
     {
         visible=true;
     }
-    DFORCEINLINE void hide()
+    void hide()
     {
         visible=false;
     }
-    DFORCEINLINE bool getCanBatch()
+    bool getCanBatch()
     {
         return canBatch;
     }
-    DFORCEINLINE void setCanBatch(bool batch)
+    void setCanBatch(bool batch)
     {
         canBatch=batch;
     }

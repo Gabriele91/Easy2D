@@ -1110,6 +1110,13 @@ public:
     {
         return min;
     }
+    //area
+    float getArea() const
+    {
+        Vec2   size = max-min;
+        return size.x * size.y;
+    }
+    //intersections
     bool  isIntersection(const Vec2& point) const;
     bool  isIntersection(const AABox2& aabb2) const;
     bool  isInside(const AABox2& point) const;
@@ -1486,14 +1493,16 @@ public:
     }
     
     //vector swap
-    static DFORCEINLINE void memswap( byte *a, byte *b, size_t sizeBytes ){
+    static DFORCEINLINE void memswap( byte *a, byte *b, size_t sizeBytes )
+    {
         size_t sizeTrunc = sizeBytes & ~(sizeof(size_t) - 1);
         byte  *aTruncEnd = a + sizeTrunc;
         byte  *aEnd = a + sizeBytes;
         size_t tmpT;
         byte   tmp1;
         
-        while ( a != aTruncEnd ){
+        while ( a != aTruncEnd )
+        {
             tmpT = *((size_t *)b);
             *((size_t *)b) = *((size_t *)a);
             *((size_t *)a) = tmpT;
@@ -1501,7 +1510,8 @@ public:
             b += sizeof(size_t);
         }
         
-        while(a!=aEnd){
+        while(a!=aEnd)
+        {
             tmp1 = *b;
             *b = *a;
             *a = tmp1;
@@ -1509,7 +1519,8 @@ public:
             ++b;
         }
     }
-    static DFORCEINLINE void memcpy( byte *destination, const byte *source, size_t sizeBytes ){
+    static DFORCEINLINE void memcpy( byte *destination, const byte *source, size_t sizeBytes )
+    {
         size_t sizeTrunc = sizeBytes & ~(sizeof(size_t) - 1);
         byte  *destinationTruncEnd = destination + sizeTrunc;
         byte  *destinationEnd = destination + sizeBytes;

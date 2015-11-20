@@ -117,7 +117,10 @@ void Body::registerWorld(World *wrd)
 
         // Create fixture.
         b2Fixture* pFixture = body->CreateFixture( &pShapeDef.second.fixature );
-
+        
+        // save id
+        pFixture->SetUserData((void*)pShapeDef.first);
+        
         // Push fixture.
         fixtures[pShapeDef.first] = pFixture ;
 
@@ -420,7 +423,11 @@ Shape Body::addFixatureShape(b2FixtureDef* pFixtureDef,   b2Shape* pShape)
         //save id
         pFixtureDef->userData=(void*)fixtures.size();
         // Create and push fixture.
-        fixtures[iout]= body->CreateFixture( pFixtureDef ) ;
+        b2Fixture* fixture = body->CreateFixture( pFixtureDef );
+        //save id
+        fixture->SetUserData((void*)iout);
+        //put into map
+        fixtures[iout] = fixture;
         // Destroy shape and fixture.
         delete pShape;
         delete pFixtureDef;

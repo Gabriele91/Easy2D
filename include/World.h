@@ -90,7 +90,14 @@ class World : public AlignedAlloc<16>,
     Vec2  getGravity();
     void  physicsDebugDraw(bool enable);
     ///raycast
-    void raycast(DFUNCTION<int(Body* body)>,const Vec2& start,const Vec2& end);
+    void raycast(DFUNCTION<int(Body* body)>,const Vec2& start,const Vec2& end) const;
+    void raycast(DFUNCTION<int(Body* body,
+                               Shape shape,
+                               const Vec2 & 	point,
+                               const Vec2 & 	normal,
+                               float32 	fraction)>,
+                 const Vec2& start,
+                 const Vec2& end) const;
     ///scale
     void setMetersInPixel( float pixel );
     float getMetersInPixel() const
