@@ -42,6 +42,7 @@ PostEffects::~PostEffects()
 {
 	/* void */
 }
+
 //draw effects
 void PostEffects::draw(const RenderContext::RenderTarget& target)
 {
@@ -87,6 +88,33 @@ Render::Render()
     enableClear=false;
     effects=nullptr;
 }
+//render elements
+int  Render::subscribe(Renderable* randerable)
+{
+    return mDTree.insert(randerable->getBox(),randerable->getObject());
+}
+void Render::update(int index,const AABox2& box)
+{
+    mDTree.update(index,box);
+}
+void Render::unsubscribe(int index)
+{
+    mDTree.remove(index);
+}
+//get/set camera
+void Render::setCamera(Camera *cam)
+{
+    camera=cam;
+}
+Camera* Render::getCamera()
+{
+    return camera;
+}
+//return size of a queue
+size_t Render::queueSize()
+{
+    return queue->size();
+}
 //return batching mesh
 Mesh::ptr Render::getBatchingMesh()
 {
@@ -108,22 +136,55 @@ void Render::init()
 	if (!effects)  effects = PostEffects::snew();
 
 }
+//color
+void Render::setClear(const Color& color,bool enable)
+{
+    clearClr=color;
+    enableClear=enable;
+}
+void Render::setEnableBatching(bool enable)
+{
+    enableBatching=enable;
+}
+void Render::setEnableClear(bool enable)
+{
+    enableClear=enable;
+}
+const Color& Render::getClear() const
+{
+    return clearClr;
+}
+const bool Render::getClearIsEnable() const
+{
+    return enableClear;
+}
+const bool Render::getBatchingIsEnable() const
+{
+    return enableBatching;
+}
+void Render::setAmbientLight(const Color& color)
+{
+    ambientClr=color;
+}
+const Color& Render::getAmbientLight() const
+{
+    return ambientClr;
+}
 //called from scene
-void Render::buildQueue(const std::list<Object*>& objs)
+void Render::buildQueue()
 {
     if(!camera) return;
     //display/view camera
-    const Mat4& disViewM4 = RenderContext::getDisplay().mul(camera->getGlobalMatrix());
-    const AABox2& viewBox = camera->getBoxViewport();
+    const Mat4&  invDView = RenderContext::getDisplay().mul(camera->getGlobalMatrix().getInverse());
+    const AABox2& invVBox = camera->getBoxViewport().applay(invDView);
     //clear queue
 	queue->clear();
+    //get objects
+    std::vector< int > elements;
+    mDTree.query(invVBox, elements);
     //add objcts
-    for(auto obj:objs)
-        queue->append([&](const AABox2& mbox) -> bool
-        {
-            const AABox2& wbox = mbox.applay(disViewM4);
-            return viewBox.isIntersection(wbox);
-        }, obj);
+    for(int index:elements)
+        queue->push(mDTree.data<Object>(index));
 }
 //draw scene
 void Render::draw()
@@ -246,4 +307,24 @@ void Render::drawDebug() const
 	//////////////////////////////////////////////////////////////////
 	RenderContext::setRenderState(state);
 	//////////////////////////////////////////////////////////////////
+}
+
+//serialize
+void Render::serialize(Table& table)
+{
+    table.set("clearColor",getClear().toVec4());
+    table.set("enableClear",(float)getClearIsEnable());
+    table.set("enableBatching",(float)getBatchingIsEnable());
+    table.set("ambientLight",getAmbientLight().toVec4());
+}
+//deserrialize
+void Render::deserialize(const Table& table)
+{
+    //set clear color
+    setClear(Color::from(table.getVector4D("clearColor",Vec4(255,255,255,255))),enableClear);
+    //if enable?
+    setEnableClear(table.getFloat("enableClear",(float)enableClear)!=0.0);
+    setEnableBatching(table.getFloat("enableBatching",(float)enableBatching)!=0.0);
+    //get ambient color
+    setAmbientLight(Color::from(table.getVector4D("ambientLight",Vec4(255,255,255,255))));
 }

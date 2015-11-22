@@ -11,6 +11,7 @@
 #include <RenderState.h>
 #include <RenderQueue.h>
 #include <BatchingMesh.h>
+#include <DynamicTree.h>
 
 namespace Easy2D
 {
@@ -123,6 +124,13 @@ public:
 class Render
 {
 protected:
+    //tree
+    DynamicTree mDTree;
+    //subscribe and unsuscribe
+    int  subscribe(Renderable* randerable);
+    void update(int index,const AABox2& box);
+    void unsubscribe(int index);
+    friend class Renderable;
     //post effect
     PostEffects::ptr  effects;
     //info screen
@@ -139,7 +147,7 @@ protected:
     RenderQueue::ptr queue{ nullptr };
 	friend class RenderQueue;
     //called from scene
-    void buildQueue(const std::list<Object*>& objs);
+    void buildQueue();
     //draw
     void draw();
 	void drawDebug() const;
@@ -151,53 +159,25 @@ public:
     Render();
     virtual ~Render() {}
     //setting
-    void setCamera(Camera *cam)
-    {
-        camera=cam;
-    }
-    Camera* getCamera()
-    {
-        return camera;
-    }
+    void setCamera(Camera *cam);
+    Camera* getCamera();
     //help to components
     Mesh::ptr getBatchingMesh();
-    //
-    void setClear(const Color& color,bool enable=true)
-    {
-        clearClr=color;
-        enableClear=enable;
-    }
-    void setEnableBatching(bool enable)
-    {
-        enableBatching=enable;
-    }
-    void setEnableClear(bool enable)
-    {
-        enableClear=enable;
-    }
-    const Color& getClear() const
-    {
-        return clearClr;
-    }
-    const bool getClearIsEnable() const
-    {
-        return enableClear;
-    }
-    const bool getBatchingIsEnable() const
-    {
-        return enableBatching;
-    }
-    void setAmbientLight(const Color& color)
-    {
-        ambientClr=color;
-    }
-    const Color& getAmbientLight() const
-    {
-        return ambientClr;
-    }
+    //colors
+    void setClear(const Color& color,bool enable=true);
+    void setEnableBatching(bool enable);
+    void setEnableClear(bool enable);
+    const Color& getClear() const;
+    const bool getClearIsEnable() const;
+    const bool getBatchingIsEnable() const;
+    void setAmbientLight(const Color& color);
+    const Color& getAmbientLight() const;
     ///////////////////////////////////////////////////
     //POST EFFECT
-    void addPostEffect(Shader::ptr shader, bool blend=false,uint bsrc=BLEND::ONE,uint bdst=BLEND::ZERO)
+    void addPostEffect(Shader::ptr shader,
+                       bool blend=false,
+                       uint bsrc=BLEND::ONE,
+                       uint bdst=BLEND::ZERO)
     {
         if(!effects) effects=PostEffects::snew();
         effects->addEffect(shader,blend,bsrc,bdst);
@@ -212,34 +192,18 @@ public:
     Object* queuePicking(const Vec2& point) const;
     void renderDebugDraw(bool);
     ///////////////////////////////////////////////////
+    //queue size
+    size_t queueSize();
     //rebuild queue render target (call it when screen will be resize)
     void rebuildPostEffectTarget()
     {
         queue->rebuildTarget();
     }
     ///////////////////////////////////////////////////
-    size_t queueSize()
-    {
-        return queue->size();
-    }
-    void serialize(Table& table)
-    {
-        table.set("clearColor",getClear().toVec4());
-        table.set("enableClear",(float)getClearIsEnable());
-        table.set("enableBatching",(float)getBatchingIsEnable());
-        table.set("ambientLight",getAmbientLight().toVec4());
-    }
+    //serialize
+    void serialize(Table& table);
     //deserrialize
-    void deserialize(const Table& table)
-    {
-        //set clear color
-        setClear(Color::from(table.getVector4D("clearColor",Vec4(255,255,255,255))),enableClear);
-        //if enable?
-        setEnableClear(table.getFloat("enableClear",(float)enableClear)!=0.0);
-        setEnableBatching(table.getFloat("enableBatching",(float)enableBatching)!=0.0);
-        //get ambient color
-        setAmbientLight(Color::from(table.getVector4D("ambientLight",Vec4(255,255,255,255))));
-    }
+    void deserialize(const Table& table);
 
 };
 

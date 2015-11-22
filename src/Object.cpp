@@ -411,12 +411,12 @@ Component* Object::component(const String& name)
     auto it=components.find(cmp->getComponentFamily());
     if(it==components.end())
     {
+        //add component
+        components[cmp->getComponentFamily()]=cmp;
         //set entity
         cmp->setEntity(this);
         //set scene
         if(getScene()) cmp->onSetScene(scene);
-        //add component
-        components[cmp->getComponentFamily()]=cmp;
         //return
         return cmp;
     }
@@ -786,14 +786,10 @@ void Object::deserialize(const Table& table)
     for(auto rcomponent:rcomponents)
     {
         DEBUG_ASSERT(rcomponent.second->asType(Table::TABLE));
-        auto cmp=component(rcomponent.first.string());
+        //get component
+        Component* cmp=component(rcomponent.first.string());
 		//if component is edded...
-		if (cmp)
-		{
-			cmp->setEntity(this);
-			if (getScene()) cmp->onSetScene(scene);
-			cmp->deserialize(rcomponent.second->get<Table>());
-		}
+        if (cmp) cmp->deserialize(rcomponent.second->get<Table>());
     }
     //childs
     const Table& rchilds=table.getConstTable("Childs");

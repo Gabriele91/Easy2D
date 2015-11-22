@@ -186,7 +186,7 @@ void Scene::onRunLogic(float dt)
 void Scene::onRunDraw()
 {
 	//rebuild queue
-	buildQueue(objects);
+	buildQueue();
 	//draw scene
 	Render::draw();
 	//draw debug

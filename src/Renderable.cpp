@@ -3,6 +3,7 @@
 #include <Resource.h>
 #include <ResourcesManager.h>
 #include <ResourcesGroup.h>
+#include <Render.h>
 #include <Object.h>
 ///////////////////////
 using namespace Easy2D;
@@ -33,6 +34,33 @@ bool Renderable::canBatching(Renderable *oldstate)
 bool Renderable::doBatching()
 {
     return canBatch && (!getMesh() || getMesh()->supportBatching());
+}
+//events
+void Renderable::onSetScene(Scene* scene)
+{
+    //register this renderable object
+    index = ((Render*)scene)->subscribe(this);
+    //update box
+    update = true;
+}
+void Renderable::onChangedMatrix()
+{
+    //update box
+    update = true;
+}
+void Renderable::onRun(float dt)
+{
+    if(update && getScene())
+    {
+        //update box
+        ((Render*)getScene())->update(index,getBox());
+        //is updated
+        update = false;
+    }
+}
+void Renderable::onEraseScene()
+{
+    if(getScene()) ((Render*)getScene())->unsubscribe(index);
 }
 //get color
 Color Renderable::getParentColor() const
