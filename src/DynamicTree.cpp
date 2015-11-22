@@ -11,7 +11,7 @@
 #include <Debug.h>
 using namespace    Easy2D;
 #define ENABLE_TOLLERANCE
-static const float E2DABBoxExtension = 1;
+static const float E2DABBoxExtension = 2;
 
 DynamicTree::DynamicTree(size_t size)
 {
@@ -133,7 +133,7 @@ int DynamicTree::allocNode()
 {
     if(mFreeList == Node::Null)
     {
-        DEBUG_ASSERT(mNodeCount != mNodes.size());
+        DEBUG_ASSERT(mNodeCount == mNodes.size());
         mNodes.resize(mNodeCount * 2);
         linking(mNodeCount);
     }
@@ -180,10 +180,8 @@ void DynamicTree::insertLeaf(int leaf)
         //get area
         float area = mNodes[index].mAABox.getArea();
         //combinate area
-        AABox2 combinedAABB;
-        combinedAABB.addBox(leafAABB);
-        combinedAABB.addBox(mNodes[index].mAABox);
-        float combinedArea = combinedAABB.getArea();
+        AABox2 combinedAABB = AABox2::combine(leafAABB,mNodes[index].mAABox);
+        float  combinedArea = combinedAABB.getArea();
         //cost of creating a new parent for this node and the new leaf
         float cost = 2.0f * combinedArea;
         // minimum cost of pushing the leaf further down the tree
@@ -196,16 +194,12 @@ void DynamicTree::insertLeaf(int leaf)
             //compute costs
             if (mNodes[childs[i]].isLeaf())
             {
-                AABox2 aabb;
-                aabb.addBox(leafAABB);
-                aabb.addBox(mNodes[childs[i]].mAABox);
-                costs[i] = aabb.getArea() + inheritanceCost;
+                AABox2 aabb= AABox2::combine(leafAABB,mNodes[childs[i]].mAABox);
+                costs[i]   = aabb.getArea() + inheritanceCost;
             }
             else
             {
-                AABox2 aabb;
-                aabb.addBox(leafAABB);
-                aabb.addBox(mNodes[childs[i]].mAABox);
+                AABox2 aabb   = AABox2::combine(leafAABB,mNodes[childs[i]].mAABox);
                 float oldArea = mNodes[childs[i]].mAABox.getArea();
                 float newArea = aabb.getArea();
                 costs[i] = (newArea - oldArea) + inheritanceCost;
@@ -224,9 +218,7 @@ void DynamicTree::insertLeaf(int leaf)
     int newParent = allocNode();
     mNodes[newParent].mParent = oldParent;
     mNodes[newParent].mUserData = NULL;
-    mNodes[newParent].mAABox = AABox2();
-    mNodes[newParent].mAABox.addBox(leafAABB);
-    mNodes[newParent].mAABox.addBox(mNodes[sibling].mAABox);
+    mNodes[newParent].mAABox = AABox2::combine(leafAABB,mNodes[sibling].mAABox);
     mNodes[newParent].height = mNodes[sibling].mHeight + 1;
     //position of old parent
     if (oldParent != Node::Null)
@@ -263,10 +255,7 @@ void DynamicTree::insertLeaf(int leaf)
         DEBUG_ASSERT(child1 != Node::Null);
         
         mNodes[index].mHeight = 1 + std::max(mNodes[child0].mHeight, mNodes[child1].mHeight);
-        mNodes[index].mAABox = AABox2();
-        mNodes[index].mAABox.addBox(mNodes[child0].mAABox);
-        mNodes[index].mAABox.addBox(mNodes[child1].mAABox);
-        
+        mNodes[index].mAABox  = AABox2::combine(mNodes[child0].mAABox,mNodes[child1].mAABox);
         index = mNodes[index].mParent;
     }
 
@@ -305,9 +294,7 @@ void DynamicTree::removeLeaf(int leaf)
             int child0 = mNodes[index].mChilds[0];
             int child1 = mNodes[index].mChilds[1];
             
-            mNodes[index].mAABox = AABox2();
-            mNodes[index].mAABox.addBox(mNodes[child0].mAABox);
-            mNodes[index].mAABox.addBox(mNodes[child1].mAABox);
+            mNodes[index].mAABox  = AABox2::combine(mNodes[child0].mAABox,mNodes[child1].mAABox);
             mNodes[index].mHeight = 1 + std::max(mNodes[child0].mHeight, mNodes[child1].mHeight);
             
             index = mNodes[index].mParent;
@@ -392,13 +379,8 @@ int DynamicTree::balance(int iA)
             A->mChilds[1] = iG;
             G->mParent    = iA;
             
-            A->mAABox = AABox2();
-            A->mAABox.addBox(B->mAABox);
-            A->mAABox.addBox(G->mAABox);
-            
-            C->mAABox = AABox2();
-            C->mAABox.addBox(A->mAABox);
-            C->mAABox.addBox(F->mAABox);
+            A->mAABox = AABox2::combine(B->mAABox,G->mAABox);
+            C->mAABox = AABox2::combine(A->mAABox,F->mAABox);
             
             A->mHeight = 1 + std::max(B->mHeight, G->mHeight);
             C->mHeight = 1 + std::max(A->mHeight, F->mHeight);
@@ -409,13 +391,8 @@ int DynamicTree::balance(int iA)
             A->mChilds[1] = iF;
             F->mParent    = iA;
             
-            A->mAABox = AABox2();
-            A->mAABox.addBox(B->mAABox);
-            A->mAABox.addBox(F->mAABox);
-            
-            C->mAABox = AABox2();
-            C->mAABox.addBox(A->mAABox);
-            C->mAABox.addBox(G->mAABox);
+            A->mAABox = AABox2::combine(B->mAABox,F->mAABox);
+            C->mAABox = AABox2::combine(A->mAABox,G->mAABox);
             
             A->height = 1 + std::max(B->mHeight, F->mHeight);
             C->height = 1 + std::max(A->mHeight, G->mHeight);
@@ -464,13 +441,8 @@ int DynamicTree::balance(int iA)
             A->mChilds[0] = iE;
             E->mParent = iA;
             
-            A->mAABox = AABox2();
-            A->mAABox.addBox(E->mAABox);
-            A->mAABox.addBox(C->mAABox);
-            
-            B->mAABox = AABox2();
-            B->mAABox.addBox(A->mAABox);
-            B->mAABox.addBox(D->mAABox);
+            A->mAABox = AABox2::combine(E->mAABox,C->mAABox);
+            B->mAABox = AABox2::combine(A->mAABox,D->mAABox);
             
             A->height = 1 + std::max(C->mHeight, E->mHeight);
             B->height = 1 + std::max(A->mHeight, D->mHeight);
@@ -481,13 +453,8 @@ int DynamicTree::balance(int iA)
             A->mChilds[0] = iD;
             D->mParent = iA;
             
-            A->mAABox = AABox2();
-            A->mAABox.addBox(C->mAABox);
-            A->mAABox.addBox(D->mAABox);
-            
-            B->mAABox = AABox2();
-            B->mAABox.addBox(A->mAABox);
-            B->mAABox.addBox(E->mAABox);
+            A->mAABox = AABox2::combine(C->mAABox,D->mAABox);
+            B->mAABox = AABox2::combine(A->mAABox,E->mAABox);
             
             A->height = 1 + std::max(C->mHeight, D->mHeight);
             B->height = 1 + std::max(A->mHeight, E->mHeight);

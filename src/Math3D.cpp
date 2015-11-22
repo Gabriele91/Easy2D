@@ -275,6 +275,7 @@ void AABox2::addPoint(const Vec2& p)
     max.x=Math::max(max.x,p.x);  //  |   \ |
     max.y=Math::max(max.y,p.y);  //  |____\|M
 }
+
 void AABox2::addBox(const AABox2& p)
 {
     addPoint(p.getMin());

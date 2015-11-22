@@ -151,58 +151,58 @@ public:
     Render();
     virtual ~Render() {}
     //setting
-    DFORCEINLINE void setCamera(Camera *cam)
+    void setCamera(Camera *cam)
     {
         camera=cam;
     }
-    DFORCEINLINE Camera* getCamera()
+    Camera* getCamera()
     {
         return camera;
     }
     //help to components
     Mesh::ptr getBatchingMesh();
     //
-    DFORCEINLINE void setClear(const Color& color,bool enable=true)
+    void setClear(const Color& color,bool enable=true)
     {
         clearClr=color;
         enableClear=enable;
     }
-    DFORCEINLINE void setEnableBatching(bool enable)
+    void setEnableBatching(bool enable)
     {
         enableBatching=enable;
     }
-    DFORCEINLINE void setEnableClear(bool enable)
+    void setEnableClear(bool enable)
     {
         enableClear=enable;
     }
-    DFORCEINLINE const Color& getClear() const
+    const Color& getClear() const
     {
         return clearClr;
     }
-    DFORCEINLINE const bool getClearIsEnable() const
+    const bool getClearIsEnable() const
     {
         return enableClear;
     }
-    DFORCEINLINE const bool getBatchingIsEnable() const
+    const bool getBatchingIsEnable() const
     {
         return enableBatching;
     }
-    DFORCEINLINE void setAmbientLight(const Color& color)
+    void setAmbientLight(const Color& color)
     {
         ambientClr=color;
     }
-    DFORCEINLINE const Color& getAmbientLight() const
+    const Color& getAmbientLight() const
     {
         return ambientClr;
     }
     ///////////////////////////////////////////////////
     //POST EFFECT
-    DFORCEINLINE void addPostEffect(Shader::ptr shader, bool blend=false,uint bsrc=BLEND::ONE,uint bdst=BLEND::ZERO)
+    void addPostEffect(Shader::ptr shader, bool blend=false,uint bsrc=BLEND::ONE,uint bdst=BLEND::ZERO)
     {
         if(!effects) effects=PostEffects::snew();
         effects->addEffect(shader,blend,bsrc,bdst);
     }
-    DFORCEINLINE void removePostEffect(Shader::ptr shader)
+    void removePostEffect(Shader::ptr shader)
     {
         if(!effects) effects=PostEffects::snew();
         effects->removeEffect(shader);

@@ -1077,6 +1077,20 @@ public:
     void setRegion(const AABox2& aabox);
     void addPoint(const Vec2& point);
     void addBox(const AABox2& aabox);
+    //static init
+    static AABox2 combine(const AABox2& box0, const AABox2& box1)
+    {
+        AABox2 out;
+        out.addBox(box0);
+        out.addBox(box1);
+        return out;
+    }
+    template<typename... Args>
+    static AABox2 combine(const AABox2& box0, const Args&... boxs)
+    {
+        AABox2 out=combine(box0,boxs...);
+        return out;
+    }
     //getter
     Vec2  getCenter() const
     {

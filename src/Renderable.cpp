@@ -30,6 +30,10 @@ bool Renderable::canBatching(Renderable *oldstate)
             cullmode==oldstate->cullmode&&
             getColor()==oldstate->getColor();
 }
+bool Renderable::doBatching()
+{
+    return canBatch && (!getMesh() || getMesh()->supportBatching());
+}
 //get color
 Color Renderable::getParentColor() const
 {
@@ -67,7 +71,19 @@ Mat4 Renderable::getModel()
     if (obj) return obj->getGlobalMatrix();
     else     return Mat4::IDENTITY;
 }
-
+//color
+void Renderable::setEnableParentColor(bool value)
+{
+    colorCascade = value;
+}
+bool Renderable::isEnableParentColor()
+{
+    return colorCascade;
+}
+Color Renderable::getColor() const
+{
+    return color * getParentColor();
+}
 //overload
 void Renderable::rsSerialize(Table& table)
 {
@@ -98,6 +114,27 @@ void Renderable::rsDeserialize(const Table& table)
     {
         setEnableParentColor(table.get("colorCascade", getCanBatch()));
     }
+}
+//show / hide
+bool Renderable::isVisible() const
+{
+    return visible;
+}
+void Renderable::show()
+{
+    visible=true;
+}
+void Renderable::hide()
+{
+    visible=false;
+}
+bool Renderable::getCanBatch()
+{
+    return canBatch;
+}
+void Renderable::setCanBatch(bool batch)
+{
+    canBatch=batch;
 }
 //serialize/deserialize
 void Renderable::serialize(Table& table)

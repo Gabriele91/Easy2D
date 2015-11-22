@@ -33,54 +33,24 @@ public:
                bool visible=true);
     //I can batching!?
     virtual bool canBatching(Renderable *oldstate);
-    virtual bool doBatching()
-    {
-        return canBatch && (!getMesh() || getMesh()->supportBatching());
-    }
-    virtual bool canTransform()
-    {
-        return true;
-    }
+    virtual bool doBatching();
+    virtual bool canTransform(){ return true; }
     //color
-    void setEnableParentColor(bool value)
-    {
-        colorCascade = value;
-    }
-    bool isEnableParentColor()
-    {
-        return colorCascade;
-    }
-    virtual Color getColor() const
-    {
-        return color * getParentColor();
-    }
+    void setEnableParentColor(bool value);
+    bool isEnableParentColor();
+    virtual Color getColor() const;
     //get box
     virtual AABox2 getBox();
     //get base box
     virtual AABox2 getBaseBox();
     //get model matrix
     virtual Mat4 getModel();
-    //other...
-    bool isVisible() const
-    {
-        return visible;
-    }
-    void show()
-    {
-        visible=true;
-    }
-    void hide()
-    {
-        visible=false;
-    }
-    bool getCanBatch()
-    {
-        return canBatch;
-    }
-    void setCanBatch(bool batch)
-    {
-        canBatch=batch;
-    }
+    //show / hide
+    bool isVisible() const;
+    void show();
+    void hide();
+    bool getCanBatch();
+    void setCanBatch(bool batch);
     //component
     ADD_COMPONENT_METHOS(Renderable)
     //serialize/deserialize
