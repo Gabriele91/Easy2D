@@ -5,6 +5,8 @@
 #include <Render.h>
 #include <Object.h>
 #include <RenderContext.h>
+#include <DynamicTree.h>
+#include <DynamicVector.h>
 /////////////////////////
 using namespace Easy2D;
 /////////////////////////
@@ -91,15 +93,15 @@ Render::Render()
 //render elements
 int  Render::subscribe(Renderable* randerable)
 {
-    return mDTree.insert(randerable->getBox(),randerable->getObject());
+    return mSpaceManager->insert(AABox2({0,0},{0,0}),randerable->getObject());
 }
 void Render::update(int index,const AABox2& box)
 {
-    mDTree.update(index,box);
+    mSpaceManager->update(index,box);
 }
 void Render::unsubscribe(int index)
 {
-    mDTree.remove(index);
+    mSpaceManager->remove(index);
 }
 //get/set camera
 void Render::setCamera(Camera *cam)
@@ -131,6 +133,9 @@ void Render::init()
 	auto mesh=new BatchingMesh();
 	mesh->createBufferByTriangles(MAX_BUFFER_TRIANGLES);
 	batchingMesh = Mesh::ptr((Mesh*)mesh);
+    /////////////////////////////////////////////////////////////////////
+    mSpaceManager = SpaceManager::ptr(  (SpaceManager*)new DynamicVector );
+  //mSpaceManager = SpaceManager::ptr( (SpaceManager*)new DynamicTree );
 	/////////////////////////////////////////////////////////////////////
 	//POST EFFECT
 	if (!effects)  effects = PostEffects::snew();
@@ -175,16 +180,31 @@ void Render::buildQueue()
 {
     if(!camera) return;
     //display/view camera
-    const Mat4&  invDView = RenderContext::getDisplay().mul(camera->getGlobalMatrix().getInverse());
-    const AABox2& invVBox = camera->getBoxViewport().applay(invDView);
+    const Mat4& disViewM4 = RenderContext::getDisplay().mul(camera->getGlobalMatrix());
+    const AABox2& viewBox = camera->getBoxViewport();
     //clear queue
 	queue->clear();
     //get objects
-    std::vector< int > elements;
-    mDTree.query(invVBox, elements);
+    mElements.clear();
+    mSpaceManager->renderQuery(viewBox, disViewM4, mElements);
     //add objcts
-    for(int index:elements)
-        queue->push(mDTree.data<Object>(index));
+    for(int index:mElements) queue->push(mSpaceManager->data<Object>(index));
+}
+
+void Render::buildQueue(const std::list<Object*>& objs)
+{
+    if(!camera) return;
+    //display/view camera
+    const Mat4& disViewM4 = RenderContext::getDisplay().mul(camera->getGlobalMatrix());
+    const AABox2& viewBox = camera->getBoxViewport();
+    //clear queue
+    queue->clear();
+    //add objcts
+    for(auto obj:objs)
+        queue->append([&](const AABox2& mbox) -> bool
+                      {
+                          return viewBox.isIntersection(mbox.applay(disViewM4));
+                      }, obj);
 }
 //draw scene
 void Render::draw()
@@ -258,6 +278,17 @@ Object* Render::queuePicking(const Vec2& point) const
     }
     return nullptr;
 }
+//add/remove a effect
+void Render::addPostEffect(Shader::ptr shader, bool blend, uint bsrc,  uint bdst)
+{
+    if(!effects) effects=PostEffects::snew();
+    effects->addEffect(shader,blend,bsrc,bdst);
+}
+void Render::removePostEffect(Shader::ptr shader)
+{
+    if(!effects) effects=PostEffects::snew();
+    effects->removeEffect(shader);
+}
 //debug draw
 void Render::renderDebugDraw(bool enable)
 {   
@@ -297,9 +328,9 @@ void Render::drawDebug() const
 			const AABox2& wbox = renderable->getBox();
 			RenderContext::drawBox(wbox,
 				Color((uchar(wbox.getSize().x)),
-					(uchar(wbox.getSize().y)),
-					(uchar(wbox.getSize().x + wbox.getSize().y)),
-					128));
+					  (uchar(wbox.getSize().y)),
+					  (uchar(wbox.getSize().x + wbox.getSize().y)),
+					  128));
 
 			RenderContext::drawFillBox(wbox, Color(25, 128, (uchar(wbox.getSize().x + wbox.getSize().y)), 40));
 		}

@@ -292,12 +292,24 @@ void AABox2::setRegion(const AABox2& p)
 }
 bool AABox2::isIntersection(const Vec2& point) const
 {
+    if(max.x < min.x || max.y < min.y)
+    {
+        return false;
+    }
+    
     auto cdiff=(getCenter()-point).getAbs();
     auto size=getSize();
     return  cdiff.x <= size.x && cdiff.y <= size.y;
 }
 bool AABox2::isIntersection(const AABox2& aabb2) const
 {
+    if(max.x < min.x || max.y < min.y
+       ||
+       aabb2.max.x < aabb2.min.x || aabb2.max.y < aabb2.min.y)
+    {
+        return false;
+    }
+    
     auto cdiff=(getCenter()-aabb2.getCenter()).getAbs();
     auto ssum=getSize()+aabb2.getSize();
     return  cdiff.x <= ssum.x && cdiff.y <= ssum.y;
@@ -308,6 +320,13 @@ bool  AABox2::isInside(const Vec2& point) const
 }
 bool  AABox2::isInside(const AABox2& box) const
 {
+    if(max.x < min.x || max.y < min.y
+       ||
+       box.max.x < box.min.x || box.max.y < box.min.y)
+    {
+        return false;
+    }
+    
     return box.min.x <= min.x &&
            box.min.y <= min.y &&
            box.max.x >= max.x &&

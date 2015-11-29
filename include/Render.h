@@ -11,7 +11,7 @@
 #include <RenderState.h>
 #include <RenderQueue.h>
 #include <BatchingMesh.h>
-#include <DynamicTree.h>
+#include <SpaceManager.h>
 
 namespace Easy2D
 {
@@ -125,7 +125,8 @@ class Render
 {
 protected:
     //tree
-    DynamicTree mDTree;
+    SpaceManager::ptr mSpaceManager;
+    std::vector<int>  mElements;
     //subscribe and unsuscribe
     int  subscribe(Renderable* randerable);
     void update(int index,const AABox2& box);
@@ -148,6 +149,7 @@ protected:
 	friend class RenderQueue;
     //called from scene
     void buildQueue();
+    void buildQueue(const std::list<Object*>& objs);
     //draw
     void draw();
 	void drawDebug() const;
@@ -177,16 +179,8 @@ public:
     void addPostEffect(Shader::ptr shader,
                        bool blend=false,
                        uint bsrc=BLEND::ONE,
-                       uint bdst=BLEND::ZERO)
-    {
-        if(!effects) effects=PostEffects::snew();
-        effects->addEffect(shader,blend,bsrc,bdst);
-    }
-    void removePostEffect(Shader::ptr shader)
-    {
-        if(!effects) effects=PostEffects::snew();
-        effects->removeEffect(shader);
-    }
+                       uint bdst=BLEND::ZERO);
+    void removePostEffect(Shader::ptr shader);
     ///////////////////////////////////////////////////
     //utility
     Object* queuePicking(const Vec2& point) const;

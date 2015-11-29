@@ -11,12 +11,80 @@
 
 #include <Config.h>
 #include <Math3D.h>
+#include <SpaceManager.h>
 
 namespace Easy2D
 {
     
-    class DynamicTree
+    class DynamicTree : public SpaceManager
     {
+        
+        class QueryStack
+        {
+            size_t  mMaxStack;
+            long    mTop;
+            int*    mItems;
+            
+        public:
+            
+            QueryStack(int size = 256)
+            {
+                mMaxStack   = size;
+                mTop        = -1;
+                mItems      = new int[mMaxStack];
+            }
+            
+            ~QueryStack()
+            {
+                delete[] mItems;
+            }
+            
+            void push(int c)
+            {
+                if(full()) resize(mMaxStack*2);
+                mItems[++mTop] = c;
+            }
+            
+            int pop()
+            {
+                return mItems[mTop--];
+            }
+            
+            void free()
+            {
+                mTop = 0;
+            }
+            
+            size_t size() const
+            {
+                return mTop + 1;
+            }
+            
+            int full() const
+            {
+                return size() == mMaxStack;
+            }
+            
+            int empty() const
+            {
+                return mTop == -1;
+            }
+            
+            void resize(size_t size)
+            {
+                if(size == mMaxStack) return;
+                //save old pointer
+                int* oldItems = mItems;
+                //new alloc
+                mItems = new int[size];
+                std::memcpy(mItems, oldItems, sizeof(int)*size);
+                //new size
+                mMaxStack=size;
+                //delete old alloc
+                delete [] oldItems;
+            }
+
+        };
         
     public:
         
@@ -52,21 +120,22 @@ namespace Easy2D
         ///dynamic tree
         DynamicTree(size_t size = 256);
         //insert
-        int insert(const AABox2& box,void* userdata = nullptr);
+        virtual int insert(const AABox2& box,void* userdata = nullptr);
         //remove
-        void remove(int index);
+        virtual void remove(int index);
         //node update
-        void update(int index,const AABox2& box);
+        virtual void update(int index,const AABox2& box);
         //query
-        void query(const AABox2& box, std::vector< int >& ouput) const;
+        virtual void query(const AABox2& box, std::vector< int >& output) const;
+        //query
+        virtual void renderQuery(const AABox2& viewBox,
+                                 const Mat4&   viewMat,
+                                 std::vector< int >& output) const;
+        //et user data
+        virtual void* getUserData(int index);
         //node..
               Node& operator[](size_t);
         const Node& operator[](size_t) const;
-        //get userdata
-        template < class T > T* data(int index) const
-        {
-            return (T*)mNodes[index].mUserData;
-        }
         //get root
         int getRoot() const;
         //get height
@@ -84,10 +153,12 @@ namespace Easy2D
         //balance a root node
         int balance(int iA);
         //list
-        std::vector<Node> mNodes;
+        mutable QueryStack mStackQuery;
+        std::vector<Node>  mNodes;
         //vector info
         int mRoot       { Node::Null };
         int mFreeList   { Node::Null };
+        int mLastAlloc  { Node::Null };
         int mNodeCount  { Node::Null };
         int mInsertCount{ Node::Null };
     };

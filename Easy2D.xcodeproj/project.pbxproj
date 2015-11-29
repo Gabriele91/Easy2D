@@ -714,6 +714,7 @@
 		E0A1AE691946EE9700D1438A /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE641946EE9700D1438A /* Label.h */; };
 		E0A1AE6A1946EE9700D1438A /* Panel.h in Headers */ = {isa = PBXBuildFile; fileRef = E0A1AE651946EE9700D1438A /* Panel.h */; };
 		E0A719C417E1EE6200A0B298 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0A7196B17E1EE6200A0B298 /* libfreetype.a */; };
+		E0A8C49F1C09AEAC00253509 /* DynamicVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E0A8C49E1C09AEAC00253509 /* DynamicVector.cpp */; };
 		E0AE8F2A1AB9D6170030BCB3 /* RefCountedPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F281AB9D6170030BCB3 /* RefCountedPtr.h */; };
 		E0AE8F2B1AB9D6170030BCB3 /* RefStdCount.h in Headers */ = {isa = PBXBuildFile; fileRef = E0AE8F291AB9D6170030BCB3 /* RefStdCount.h */; };
 		E0B1BE241B58EA0E004F5EBD /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = E0B1BE231B58EA0E004F5EBD /* Image.h */; };
@@ -1385,6 +1386,9 @@
 		E0A1AE641946EE9700D1438A /* Label.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Label.h; sourceTree = "<group>"; };
 		E0A1AE651946EE9700D1438A /* Panel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panel.h; sourceTree = "<group>"; };
 		E0A7196B17E1EE6200A0B298 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libfreetype.a; sourceTree = "<group>"; };
+		E0A8C49C1C09A9E200253509 /* SpaceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpaceManager.h; sourceTree = "<group>"; };
+		E0A8C49D1C09AE0200253509 /* DynamicVector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicVector.h; sourceTree = "<group>"; };
+		E0A8C49E1C09AEAC00253509 /* DynamicVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicVector.cpp; sourceTree = "<group>"; };
 		E0AB0FAF1ABC1A030008EEC8 /* libxpc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxpc.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/usr/lib/system/libxpc.dylib; sourceTree = DEVELOPER_DIR; };
 		E0AB0FB11ABC1A3F0008EEC8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/OpenGLES.framework; sourceTree = DEVELOPER_DIR; };
 		E0AB0FB31ABC1A550008EEC8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -2251,7 +2255,9 @@
 				E003064519B38E76006911FD /* Shader.h */,
 				E0F553FD1B52E3AD00362E52 /* TweenManager.h */,
 				E0BA0C491B54F47E00100F09 /* Tweens.h */,
+				E0A8C49C1C09A9E200253509 /* SpaceManager.h */,
 				E013C7061BFF861500130FF4 /* DynamicTree.h */,
+				E0A8C49D1C09AE0200253509 /* DynamicVector.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -2339,6 +2345,7 @@
 				E055ABAC19FFF56C00163AC4 /* Math3D_vfp_macro.h */,
 				E0BA0C451B54F12F00100F09 /* TweenManager.cpp */,
 				E013C80C1BFF895900130FF4 /* DynamicTree.cpp */,
+				E0A8C49E1C09AEAC00253509 /* DynamicVector.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -3820,6 +3827,7 @@
 				E0A1AE5E1946EE8500D1438A /* Label.cpp in Sources */,
 				E0121CDC1AB9D76B00F044E6 /* StaticBufferAL.cpp in Sources */,
 				E08546691B46D44F008195A3 /* UIManager.cpp in Sources */,
+				E0A8C49F1C09AEAC00253509 /* DynamicVector.cpp in Sources */,
 				E054963C17AE6907005DDB72 /* Application.cpp in Sources */,
 				E054963D17AE6907005DDB72 /* BMFontLoader.cpp in Sources */,
 				E054963E17AE6907005DDB72 /* Camera.cpp in Sources */,

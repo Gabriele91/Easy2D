@@ -52,10 +52,10 @@ void Renderable::onRun(float dt)
 {
     if(update && getScene())
     {
-        //update box
-        ((Render*)getScene())->update(index,getBox());
         //is updated
         update = false;
+        //update box
+        ((Render*)getScene())->update(index,getBox());
     }
 }
 void Renderable::onEraseScene()

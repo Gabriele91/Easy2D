@@ -786,9 +786,9 @@ void Object::deserialize(const Table& table)
     for(auto rcomponent:rcomponents)
     {
         DEBUG_ASSERT(rcomponent.second->asType(Table::TABLE));
-        //get component
+        //get/add component
         Component* cmp=component(rcomponent.first.string());
-		//if component is edded...
+        //if component getted/edded
         if (cmp) cmp->deserialize(rcomponent.second->get<Table>());
     }
     //childs

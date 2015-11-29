@@ -42,17 +42,15 @@ const  DynamicTree::Node&  DynamicTree::operator[](size_t index) const
 
 void DynamicTree::query(const AABox2& box, std::vector< int >& output) const
 {
-    //alloc stack
-    EStack< int > stack;
+    //free stack
+    mStackQuery.free();
     //push root into stack
-    stack.push(mRoot);
+    mStackQuery.push(mRoot);
     
-    while (stack.size())
+    while (mStackQuery.size())
     {
         //get id
-        int id = stack.top();
-        //pop from stack
-        stack.pop();
+        int id = mStackQuery.pop();
         //null id?
         if ( id == Node::Null ) continue;
         //get node
@@ -64,12 +62,49 @@ void DynamicTree::query(const AABox2& box, std::vector< int >& output) const
                 output.push_back(id);
             else
             {
-                stack.push(node->mChilds[0]);
-                stack.push(node->mChilds[1]);
+                mStackQuery.push(node->mChilds[0]);
+                mStackQuery.push(node->mChilds[1]);
             }
         }
-        
     }
+}
+
+void DynamicTree::renderQuery(const AABox2& viewBox,
+                              const Mat4&   viewMat,
+                              std::vector< int >& output) const
+{
+    //free stack
+    mStackQuery.free();
+    //push root into stack
+    mStackQuery.push(mRoot);
+    
+    while (mStackQuery.size())
+    {
+        //get id
+        int id = mStackQuery.pop();
+        //null id?
+        if ( id == Node::Null ) continue;
+        //get node
+        const Node* node = &mNodes[id];
+        //view model
+        AABox2 modelBox = node->mAABox.applay(viewMat);
+        //overlap
+        if (viewBox.isIntersection(modelBox))
+        {
+            if(node->isLeaf())
+                output.push_back(id);
+            else
+            {
+                mStackQuery.push(node->mChilds[0]);
+                mStackQuery.push(node->mChilds[1]);
+            }
+        }
+    }
+}
+//get user data
+void* DynamicTree::getUserData(int index)
+{
+    return mNodes[index].mUserData;
 }
 //insert
 int DynamicTree::insert(const AABox2& box,void* userdata)
@@ -135,7 +170,10 @@ int DynamicTree::allocNode()
     {
         DEBUG_ASSERT(mNodeCount == mNodes.size());
         mNodes.resize(mNodeCount * 2);
+        //liking
         linking(mNodeCount);
+        //link last alloc
+        mNodes[mLastAlloc].mNext = mFreeList;
     }
     //alloc new node
     int nodeId                = mFreeList;
@@ -146,6 +184,8 @@ int DynamicTree::allocNode()
     mNodes[nodeId].mHeight    = 0;
     mNodes[nodeId].mUserData = nullptr;
     ++mNodeCount;
+    //save last alloc
+    mLastAlloc = nodeId;
     //return new node
     return nodeId;
 }

@@ -3,6 +3,11 @@
 #include <Application.h>
 
 ///////////////////////
+//#define QUEUE_FROM_COMPONENT
+#define QUEUE_FROM_SCENE
+///////////////////////
+
+///////////////////////
 using namespace Easy2D;
 ///////////////////////
 
@@ -185,8 +190,12 @@ void Scene::onRunLogic(float dt)
 }
 void Scene::onRunDraw()
 {
-	//rebuild queue
-	buildQueue();
+    //rebuild queue
+#ifndef QUEUE_FROM_SCENE
+    buildQueue();
+#else
+    buildQueue(objects);
+#endif
 	//draw scene
 	Render::draw();
 	//draw debug
