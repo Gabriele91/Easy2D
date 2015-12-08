@@ -62,6 +62,32 @@ void RenderQueue::append(DFUNCTION<bool(const AABox2&)> filter, Object* obj)
         for (auto child : *obj) append(filter, child);
     }
 }
+//append objects to queue
+void RenderQueue::append(const AABox2& viewPort,
+                         const Mat4& view,
+                         Object* obj)
+{
+    //is randerable
+    auto rable=obj->getComponent<Renderable>();
+    if(rable && !rable->isVisible()) return;
+    //draw randerable
+    if(rable) // && rable->getMesh()
+    {
+        //get box
+        const AABox2& mbox =rable->getBox();
+        const Vec2&   msize=mbox.getSize();
+        //
+        if( msize.x > 0.0f && msize.y >0.0f )
+        {
+            if (viewPort.isIntersection(mbox.applay(view))) push(obj);
+        }
+    }
+    //childs
+    if (obj->getCanDrawChilds())
+    {
+        for (auto child : *obj) append(viewPort,view,child);
+    }
+}
 //add a element in queue
 void RenderQueue::push(Object* obj)
 {

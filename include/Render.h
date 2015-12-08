@@ -11,7 +11,6 @@
 #include <RenderState.h>
 #include <RenderQueue.h>
 #include <BatchingMesh.h>
-#include <SpaceManager.h>
 
 namespace Easy2D
 {
@@ -124,14 +123,6 @@ public:
 class Render
 {
 protected:
-    //tree
-    SpaceManager::ptr mSpaceManager;
-    std::vector<int>  mElements;
-    //subscribe and unsuscribe
-    int  subscribe(Renderable* randerable);
-    void update(int index,const AABox2& box);
-    void unsubscribe(int index);
-    friend class Renderable;
     //post effect
     PostEffects::ptr  effects;
     //info screen
@@ -148,7 +139,6 @@ protected:
     RenderQueue::ptr queue{ nullptr };
 	friend class RenderQueue;
     //called from scene
-    void buildQueue();
     void buildQueue(const std::list<Object*>& objs);
     //draw
     void draw();

@@ -5,8 +5,6 @@
 #include <Render.h>
 #include <Object.h>
 #include <RenderContext.h>
-#include <DynamicTree.h>
-#include <DynamicVector.h>
 /////////////////////////
 using namespace Easy2D;
 /////////////////////////
@@ -90,19 +88,6 @@ Render::Render()
     enableClear=false;
     effects=nullptr;
 }
-//render elements
-int  Render::subscribe(Renderable* randerable)
-{
-    return mSpaceManager->insert(AABox2({0,0},{0,0}),randerable->getObject());
-}
-void Render::update(int index,const AABox2& box)
-{
-    mSpaceManager->update(index,box);
-}
-void Render::unsubscribe(int index)
-{
-    mSpaceManager->remove(index);
-}
 //get/set camera
 void Render::setCamera(Camera *cam)
 {
@@ -133,9 +118,6 @@ void Render::init()
 	auto mesh=new BatchingMesh();
 	mesh->createBufferByTriangles(MAX_BUFFER_TRIANGLES);
 	batchingMesh = Mesh::ptr((Mesh*)mesh);
-    /////////////////////////////////////////////////////////////////////
-    mSpaceManager = SpaceManager::ptr(  (SpaceManager*)new DynamicVector );
-  //mSpaceManager = SpaceManager::ptr( (SpaceManager*)new DynamicTree );
 	/////////////////////////////////////////////////////////////////////
 	//POST EFFECT
 	if (!effects)  effects = PostEffects::snew();
@@ -175,22 +157,6 @@ const Color& Render::getAmbientLight() const
 {
     return ambientClr;
 }
-//called from scene
-void Render::buildQueue()
-{
-    if(!camera) return;
-    //display/view camera
-    const Mat4& disViewM4 = RenderContext::getDisplay().mul(camera->getGlobalMatrix());
-    const AABox2& viewBox = camera->getBoxViewport();
-    //clear queue
-	queue->clear();
-    //get objects
-    mElements.clear();
-    mSpaceManager->renderQuery(viewBox, disViewM4, mElements);
-    //add objcts
-    for(int index:mElements) queue->push(mSpaceManager->data<Object>(index));
-}
-
 void Render::buildQueue(const std::list<Object*>& objs)
 {
     if(!camera) return;
@@ -201,10 +167,7 @@ void Render::buildQueue(const std::list<Object*>& objs)
     queue->clear();
     //add objcts
     for(auto obj:objs)
-        queue->append([&](const AABox2& mbox) -> bool
-                      {
-                          return viewBox.isIntersection(mbox.applay(disViewM4));
-                      }, obj);
+        queue->append(viewBox, disViewM4, obj);
 }
 //draw scene
 void Render::draw()

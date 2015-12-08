@@ -18,8 +18,6 @@ class Renderable : public Component,
     bool  visible;
     bool  canBatch;
     bool  colorCascade;
-    int   index  { -1    };
-    bool  update { false };
     Color getParentColor() const;
     
 protected:
@@ -37,11 +35,6 @@ public:
     virtual bool canBatching(Renderable *oldstate);
     virtual bool doBatching();
     virtual bool canTransform(){ return true; }
-    //events
-    virtual void onSetScene(Scene* scene);
-    virtual void onChangedMatrix();
-    virtual void onRun(float dt);
-    virtual void onEraseScene();
     //color
     void setEnableParentColor(bool value);
     bool isEnableParentColor();

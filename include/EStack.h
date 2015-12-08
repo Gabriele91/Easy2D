@@ -89,6 +89,84 @@ public:
     }
 
 };
+    
+template < typename T >
+class CachedStack
+{
+    long  mMaxStack;
+    long  mTop;
+    T*    mItems;
+    
+public:
+    
+    CachedStack(long size = 256)
+    {
+        mMaxStack   = size;
+        mTop        = -1;
+        mItems      = new T[mMaxStack];
+    }
+    
+    ~CachedStack()
+    {
+        delete[] mItems;
+    }
+    
+    void push(int c)
+    {
+        if(full()) resize(mMaxStack*2);
+        mItems[++mTop] = c;
+    }
+    
+    T& top() const
+    {
+        return mItems[mTop];
+    }
+    
+    T& pop()
+    {
+        return mItems[mTop--];
+    }
+    
+    void free()
+    {
+        mTop = 0;
+    }
+    
+    size_t size() const
+    {
+        return mTop + 1;
+    }
+    
+    int full() const
+    {
+        return size() == mMaxStack;
+    }
+    
+    int empty() const
+    {
+        return mTop == -1;
+    }
+    
+    long capacity() const
+    {
+        return mMaxStack;
+    }
+    
+    void resize(size_t size)
+    {
+        if(size == mMaxStack) return;
+        //save old pointer
+        int* oldItems = mItems;
+        //new alloc
+        mItems = new T[size];
+        std::memcpy(mItems, oldItems, sizeof(T)*size);
+        //new size
+        mMaxStack=size;
+        //delete old alloc
+        delete [] oldItems;
+    }
+    
+};
 
 };
 
