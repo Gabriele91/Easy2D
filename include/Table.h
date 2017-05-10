@@ -157,7 +157,7 @@ private:
             Value*,
             KeyTable::KeyCompare> UNMAPTable;
 #else
-    typedef DUNORDERED_MAP<KeyTable,
+    typedef UnorderedMap<KeyTable,
             Value*,
             KeyTable::KeyHash,
             KeyTable::KeyEq> UNMAPTable;

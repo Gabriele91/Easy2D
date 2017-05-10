@@ -27,11 +27,11 @@ namespace Easy2D
 	{
 	public:
 		//define shared ptr
-		typedef DS_PTR<T> ptr;
+		typedef SPtr<T> ptr;
 		//define weak ptr
-		typedef DW_PTR<T> wptr;
+		typedef WPtr<T> wptr;
 		//define unique ptr
-		typedef DU_PTR<T> uptr;
+		typedef UPtr<T> uptr;
 		//return shared 
 		template< class... Args >
 		static inline ptr snew(Args ...args)

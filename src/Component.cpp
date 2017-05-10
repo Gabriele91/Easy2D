@@ -6,8 +6,8 @@
 ///////////////////////
 using namespace Easy2D;
 ///////////////////////
-DUNORDERED_MAP<String,ComponentMap::createComponent>* ComponentMap::cmap=nullptr;
-DUNORDERED_MAP<String,uint>* ComponentMap::fmap=nullptr;
+UnorderedMap<String,ComponentMap::createComponent>* ComponentMap::cmap=nullptr;
+UnorderedMap<String,uint>* ComponentMap::fmap=nullptr;
 
 Object* Component::getObject() 
 {
@@ -65,8 +65,8 @@ void ComponentMap::append(const String& name,ComponentMap::createComponent fun,u
     //map exist?
     if(!cmap)
     {
-        cmap=new DUNORDERED_MAP<String,createComponent>();
-        fmap=new DUNORDERED_MAP<String,uint>();
+        cmap=new UnorderedMap<String,createComponent>();
+        fmap=new UnorderedMap<String,uint>();
     }
     //assert...
     DEBUG_ASSERT(cmap->find(name)==cmap->end());

@@ -77,7 +77,7 @@ void Audio::unsubscriptionSound2D(Audio::SoundEmitter *sound)
 /**
 * for each sounds
 */
-void Audio::foreachSounds(DFUNCTION<void(Audio::SoundEmitter*)> callback)
+void Audio::foreachSounds(Function<void(Audio::SoundEmitter*)> callback)
 {
 	for (auto sound : soundmap)
 	{
@@ -87,7 +87,7 @@ void Audio::foreachSounds(DFUNCTION<void(Audio::SoundEmitter*)> callback)
 /**
 * for each sounds 2d
 */
-void Audio::foreachSounds2D(DFUNCTION<void(Audio::SoundEmitter*)> callback)
+void Audio::foreachSounds2D(Function<void(Audio::SoundEmitter*)> callback)
 {
 	for (auto sound : sound2Dmap)
 	{

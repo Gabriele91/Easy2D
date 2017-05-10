@@ -74,8 +74,8 @@ public:
 
 private:
     //map characters
-    typedef DUNORDERED_MAP< AssociativeChars, int, AssociativeChars::hash > MAPKerningPairs;
-    typedef DUNORDERED_MAP< int , Character* > MAPCharacters;
+    typedef UnorderedMap< AssociativeChars, int, AssociativeChars::hash > MAPKerningPairs;
+    typedef UnorderedMap< int , Character* > MAPCharacters;
     MAPCharacters characters;
     MAPKerningPairs kerningPairs;
     //page list

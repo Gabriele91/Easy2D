@@ -4280,6 +4280,7 @@
 					"-DUSE_LUA",
 				);
 				PRODUCT_NAME = Easy2DEditor;
+				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Debug;
@@ -4305,6 +4306,7 @@
 					"-DUSE_LUA",
 				);
 				PRODUCT_NAME = Easy2DEditor;
+				SDKROOT = macosx;
 				SYMROOT = "$(PROJECT_DIR)/build";
 			};
 			name = Release;

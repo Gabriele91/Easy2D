@@ -426,7 +426,7 @@ bool Shader::compiler(uint shader)
 
 }
 //uniform callback
-void Shader::setUniformCallback(DFUNCTION<void(Shader&)> callback)
+void Shader::setUniformCallback(Function<void(Shader&)> callback)
 {
     uCallback=callback;
 }

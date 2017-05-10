@@ -26,9 +26,9 @@ class Body : public Component
     
     //list fixture (word)
     b2FixtureDef defaultFixture;
-    DUNORDERED_MAP< Shape, b2Fixture* > fixtures;
-    typedef DUNORDERED_MAP< Shape, b2Fixture* >::iterator ITFixtures;
-    typedef DUNORDERED_MAP< Shape, b2Fixture* >::const_iterator CITFixtures;
+    UnorderedMap< Shape, b2Fixture* > fixtures;
+    typedef UnorderedMap< Shape, b2Fixture* >::iterator ITFixtures;
+    typedef UnorderedMap< Shape, b2Fixture* >::const_iterator CITFixtures;
     //save boxy (no word)
     struct ShapeDef
     {
@@ -47,9 +47,9 @@ class Body : public Component
         void buildShape(float metersUnit);
     };
     //shape def
-    DUNORDERED_MAP< Shape, ShapeDef > shapesDef;
-    typedef DUNORDERED_MAP< Shape, ShapeDef >::iterator ITShapeDef;
-    typedef DUNORDERED_MAP< Shape, ShapeDef >::const_iterator CITShapeDef;
+    UnorderedMap< Shape, ShapeDef > shapesDef;
+    typedef UnorderedMap< Shape, ShapeDef >::iterator ITShapeDef;
+    typedef UnorderedMap< Shape, ShapeDef >::const_iterator CITShapeDef;
     
     public:
 
@@ -162,10 +162,10 @@ class Body : public Component
     protected:
 
     //collison call back
-    DFUNCTION<void (Object* tocollide,const Info& info)> cbBegin;
-    DFUNCTION<void (Object* tocollide,const Info& info)> cbEnd;
-    DFUNCTION<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver;
-    DFUNCTION<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver;
+    Function<void (Object* tocollide,const Info& info)> cbBegin;
+    Function<void (Object* tocollide,const Info& info)> cbEnd;
+    Function<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver;
+    Function<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver;
     
     //return raw body
     b2Body* getBody()
@@ -211,19 +211,19 @@ class Body : public Component
     /*
     * Listener
     */
-    void setBeginListener(DFUNCTION<void (Object* tocollide,const Info& info)> cbBegin)
+    void setBeginListener(Function<void (Object* tocollide,const Info& info)> cbBegin)
     {
         this->cbBegin=cbBegin;
     }
-    void setEndListener(DFUNCTION<void (Object* tocollide,const Info& info)> cbEnd)
+    void setEndListener(Function<void (Object* tocollide,const Info& info)> cbEnd)
     {
         this->cbEnd=cbEnd;
     }
-    void setPreSolverListener(DFUNCTION<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver)
+    void setPreSolverListener(Function<void (Object* tocollide,const Info& info,const Manifold& oldmf)> cbPreSolver)
     {
         this->cbPreSolver=cbPreSolver;
     }
-    void setPostSolverListener(DFUNCTION<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver)
+    void setPostSolverListener(Function<void (Object* tocollide,const Info& info,const Impulse& impulse)> cbPostSolver)
     {
         this->cbPostSolver=cbPostSolver;
     }

@@ -171,11 +171,11 @@ public:
     /**
     * for each sounds
     */
-	virtual void foreachSounds(DFUNCTION<void(SoundEmitter*)> callback);
+	virtual void foreachSounds(Function<void(SoundEmitter*)> callback);
 	/**
 	* for each sounds 2D
 	*/
-	virtual void foreachSounds2D(DFUNCTION<void(SoundEmitter*)> callback);
+	virtual void foreachSounds2D(Function<void(SoundEmitter*)> callback);
 	/**
 	* update audio resources
 	*/
@@ -186,9 +186,9 @@ protected:
     ///a generic context (for default audio device)
 	void *context;
 	///sound subscription map
-	DUNORDERED_MAP<SoundEmitter*, SoundEmitter*> soundmap;
+	UnorderedMap<SoundEmitter*, SoundEmitter*> soundmap;
 	///sound subscription sound2D map
-	DUNORDERED_MAP<SoundEmitter*, SoundEmitter*> sound2Dmap;
+	UnorderedMap<SoundEmitter*, SoundEmitter*> sound2Dmap;
 
 };
 

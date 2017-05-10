@@ -305,26 +305,57 @@ namespace std
 #include <unordered_map>
 #include <functional>
 #include <memory>
-#define DFUNCTION	std::function
-#define DUNORDERED_MAP    std::unordered_map
-#define DUNORDERED_MULTIMAP    std::unordered_multimap
-#define DHASH    std::hash
-#define DNOSTDHASH hash
-#define DS_PTR std::shared_ptr
-#define DW_PTR std::weak_ptr
-#define DU_PTR std::unique_ptr
+namespace Easy2D
+{
+    //Function pointer alias
+    template < typename F >
+    using Function = std::function< F >;
+    //Map Alias
+    template < class Key,
+               class T,
+               class Hash = std::hash<Key>,
+               class KeyEqual = std::equal_to<Key> >
+    using UnorderedMap  = std::unordered_map< Key, T, Hash, KeyEqual >;
+    //Multi Map alias
+    template < class Key,
+               class T,
+               class Hash = std::hash<Key>,
+               class KeyEqual = std::equal_to<Key> >
+    using UnorderedMultiMap = std::unordered_multimap< Key, T, Hash, KeyEqual >;
+    //Pointer alias
+    template < typename T > using SPtr = std::shared_ptr< T >;
+    template < typename T > using WPtr = std::weak_ptr< T >;
+    template < typename T > using UPtr = std::unique_ptr< T >;
+}
+
 #elif defined(DCPP_X0)
 #include <tr1/unordered_map>
 #include <tr1/functional>
 #include <tr1/memory>
-#define DFUNCTION	std::tr1::function
-#define DUNORDERED_MAP    std::tr1::unordered_map
-#define DUNORDERED_MULTIMAP    std::tr1::unordered_multimap
-#define DHASH std::tr1::hash
-#define DNOSTDHASH tr1::hash
-#define DS_PTR std::tr1::shared_ptr
-#define DW_PTR std::tr1::weak_ptr
-#define DU_PTR std::tr1::unique_ptr
+namespace Easy2D
+{
+    //Function pointer alias
+    template < typename F >
+    using Function = std::tr1::function< F >;
+    //Map Alias
+    template < class Key,
+    class T,
+    class Hash = std::hash<Key>,
+    class KeyEqual = std::equal_to<Key>,
+    class Allocator = std::allocator< std::pair<const Key, T> >
+    using UnorderedMap  = std::tr1::unordered_map< Key, T, Hash, KeyEqual, Allocator >;
+    //Multi Map alias
+    template < class Key,
+    class T,
+    class Hash = std::hash<Key>,
+    class KeyEqual = std::equal_to<Key>,
+    class Allocator = std::allocator< std::pair<const Key, T> >
+    using UnorderedMultiMap = std::tr1::unordered_multimap< Key, T, Hash, KeyEqual, Allocator >;
+    //Pointer alias
+    template < typename T > using SPtr = std::tr1::shared_ptr< T >;
+    template < typename T > using WPtr = std::tr1::weak_ptr< T >;
+    template < typename T > using UPtr = std::tr1::unique_ptr< T >;
+}
 #endif
 
 #if defined( SIMD_SSE2 ) || defined( SIMD_SSE )

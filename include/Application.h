@@ -171,7 +171,7 @@ public:
 protected:
 
     //resources group map
-    DUNORDERED_MAP< String, ResourcesGroup* > groups;
+    UnorderedMap< String, ResourcesGroup* > groups;
     //
     String appname;
     float lastDeltaTime;

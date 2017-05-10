@@ -68,8 +68,8 @@ class World : public AlignedAlloc<16>,
     virtual void SayGoodbye( b2Fixture* pFixture ) {}
     //join
     uint autoIdJoin;
-    DUNORDERED_MAP<uint, b2Joint*> jointHash;
-    DUNORDERED_MAP<b2Joint*, uint> reverseJointHash;
+    UnorderedMap<uint, b2Joint*> jointHash;
+    UnorderedMap<b2Joint*, uint> reverseJointHash;
     //join utility
     b2Joint* findB2Joint(uint id);
     uint findJoint(b2Joint* join);
@@ -90,8 +90,8 @@ class World : public AlignedAlloc<16>,
     Vec2  getGravity();
     void  physicsDebugDraw(bool enable);
     ///raycast
-    void raycast(DFUNCTION<int(Body* body)>,const Vec2& start,const Vec2& end) const;
-    void raycast(DFUNCTION<int(Body* body,
+    void raycast(Function<int(Body* body)>,const Vec2& start,const Vec2& end) const;
+    void raycast(Function<int(Body* body,
                                Shape shape,
                                const Vec2 & 	point,
                                const Vec2 & 	normal,

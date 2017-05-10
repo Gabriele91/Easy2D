@@ -80,8 +80,8 @@ namespace Easy2D {
     {
         //components
         typedef Component* (*createComponent)();
-        static DUNORDERED_MAP<String,createComponent>* cmap;
-        static DUNORDERED_MAP<String,uint>* fmap;
+        static UnorderedMap<String,createComponent>* cmap;
+        static UnorderedMap<String,uint>* fmap;
         
         public:
         

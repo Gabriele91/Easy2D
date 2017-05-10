@@ -39,7 +39,7 @@ void RenderQueue::rebuildTarget()
     target = RenderContext::createRenderTarget(target.color);
 }
 //append objects to queue
-void RenderQueue::append(DFUNCTION<bool(const AABox2&)> filter, Object* obj)
+void RenderQueue::append(Function<bool(const AABox2&)> filter, Object* obj)
 {
     //is randerable
     auto rable=obj->getComponent<Renderable>();

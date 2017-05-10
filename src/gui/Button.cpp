@@ -9,7 +9,6 @@ void Button::updateBox(){
     box.setRegion(guim->getPickBox());
 }
 //event
-DFUNCTION<void()> eventClick;
 
 void Button::onMouseMove(Vec2 pos)
 {
@@ -129,7 +128,7 @@ void Button::setPosition(const Vec2& pos)
     updateBox();
 }
 
-void Button::onClick(DFUNCTION<void()> event)
+void Button::onClick(Function<void()> event)
 {
     eventClick=event;
 }

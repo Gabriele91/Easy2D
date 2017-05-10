@@ -200,7 +200,7 @@ protected:
     //textures
     Texture::ptr textures[3];
     //event callback
-    DFUNCTION<void(void)> callback{ nullptr };
+    Function<void(void)> callback{ nullptr };
     //currente texture
     void setTexture(Texture::ptr ptr=nullptr)
     {
@@ -243,7 +243,7 @@ public:
         setTextures(normal,over,press);
     }
     //set callback
-    void onClick(DFUNCTION<void(void)> value)
+    void onClick(Function<void(void)> value)
     {
         callback = value;
     }
@@ -317,7 +317,7 @@ protected:
     //delete text
     void deleteSelectChars(bool left=true);
     //input verify
-    typedef DFUNCTION<bool(const String& input)> Verify;
+    typedef Function<bool(const String& input)> Verify;
     Verify verify{ nullptr };
 
 public:

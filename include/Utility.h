@@ -269,7 +269,7 @@ public:
 		}
 	};
 	//init pool allocator
-	void init(uint size, DFUNCTION<void(T& node)> allocInit = nullptr)
+	void init(uint size, Function<void(T& node)> allocInit = nullptr)
 	{
 		DEBUG_ASSERT(size);
 		buffer.resize(0);
@@ -278,7 +278,7 @@ public:
 		reset(allocInit);
 	}
 	//reset
-	void reset(DFUNCTION<void(T& node)> allocInit = nullptr)
+	void reset(Function<void(T& node)> allocInit = nullptr)
 	{
 		//unlink
 		allocNodes.reset();
@@ -320,7 +320,7 @@ public:
 		return freeNodes.size();
 	}
 	//for each
-	void foreachAllocNoodes(DFUNCTION<void(T& node)> callback)
+	void foreachAllocNoodes(Function<void(T& node)> callback)
 	{
 		for (T* b = allocNodes.getFirst(); b != nullptr; b = b->getNext())
 		{
@@ -328,7 +328,7 @@ public:
 		}
 	}	
 	//for each not standard
-	void foreachFreeNodes(DFUNCTION<void(T& node)> callback)
+	void foreachFreeNodes(Function<void(T& node)> callback)
 	{
 		for (T* b = freeNodes.getFirst(); b != nullptr; b = b->getNext())
 		{

@@ -102,15 +102,15 @@ public:
     /*
     * void template
     */
-    template<typename T>  DS_PTR<T> load(const String& path)
+    template<typename T>  SPtr<T> load(const String& path)
     {
         return  getManager<T>().load(path);
     }
-    template<typename T>  DS_PTR<T> get(const String& path)
+    template<typename T>  SPtr<T> get(const String& path)
     {
         return getManager<T>().get(path);
     }
-    template<typename T>  DS_PTR<T> find(const String& path)
+    template<typename T>  SPtr<T> find(const String& path)
     {
         return getManager<T>().find(path);
     }

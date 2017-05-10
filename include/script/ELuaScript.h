@@ -50,15 +50,15 @@ class LuaScript :  public Component
                 delete luaObject;
         }
         
-        void forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
-                                          const LuaState::LuaRef& key,
-                                          const LuaState::LuaRef& value)> callback)
+        void forAllValues(Function<void (      LuaState::LuaRef& table,
+                                         const LuaState::LuaRef& key,
+                                         const LuaState::LuaRef& value)> callback)
         {
             luaObject->forAllValues(callback);
         }
-        void forAllValuesForAlltables(DFUNCTION<void (      LuaState::LuaRef& table,
-                                                      const LuaState::LuaRef& key,
-                                                      const LuaState::LuaRef& value)> callback)
+        void forAllValuesForAlltables(Function<void (      LuaState::LuaRef& table,
+                                                     const LuaState::LuaRef& key,
+                                                     const LuaState::LuaRef& value)> callback)
         {
             luaObject->forAllValuesForAlltables(callback);
         }
@@ -119,14 +119,14 @@ class LuaScript :  public Component
         return objects.end();
     }
     //for all values
-    void forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+    void forAllValues(Function<void (      LuaState::LuaRef& table,
                                       const LuaState::LuaRef& key,
                                       const LuaState::LuaRef& value)> callback)
     {
         for(auto& obj:objects) obj->forAllValues(callback);
     }
     //for all values and sub tables
-    void forAllValuesForAllTables(DFUNCTION<void (      LuaState::LuaRef& table,
+    void forAllValuesForAllTables(Function<void (      LuaState::LuaRef& table,
                                                   const LuaState::LuaRef& key,
                                                   const LuaState::LuaRef& value)> callback)
     {

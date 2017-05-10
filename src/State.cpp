@@ -36,13 +36,13 @@ void StateManager::onRun(float dt)
     }
 };
 
-StateManager* StateManager::addState(int name, DFUNCTION<void (float)> srun)
+StateManager* StateManager::addState(int name, Function<void (float)> srun)
 {
     return addState(name,nullptr,srun,nullptr);
 }
-StateManager* StateManager::addState(int name, DFUNCTION<void (void) > sstart,
-                                               DFUNCTION<void (float)> srun,
-                                               DFUNCTION<void (void) > send )
+StateManager* StateManager::addState(int name, Function<void (void) > sstart,
+                                               Function<void (float)> srun,
+                                               Function<void (void) > send )
 {
     State state;
     state.start=sstart;

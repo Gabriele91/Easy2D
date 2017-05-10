@@ -25,7 +25,7 @@ public:
         TERMINATE_DELETE
     };
 
-    typedef DFUNCTION<int(void*)> threadFunction;
+    typedef Function<int(void*)> threadFunction;
 
     Thread(actionOnDelete cad=TERMINATE_NONE);
     Thread(threadFunction fn,void* args=NULL,actionOnDelete cad=TERMINATE_NONE);

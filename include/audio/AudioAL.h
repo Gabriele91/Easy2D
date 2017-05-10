@@ -23,7 +23,7 @@ protected:
     StreamThreadAL streamThread;
 	////////////////////////////////////////////////////////////
 	bool  doUpdate;
-	DUNORDERED_MAP<SoundListener*, SoundListener*> listeners;
+	UnorderedMap<SoundListener*, SoundListener*> listeners;
 	void requiredUpdate();
 	friend class SoundListenerAL;
 	friend class SoundEmitterAL;

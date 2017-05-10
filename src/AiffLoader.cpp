@@ -100,7 +100,7 @@ AiffLoader::InfoSound AiffLoader::getInfo(Application::ResouceStream *pResource)
 	bool   isaiff    = (form.formType == AIFF);
 	bool   foundSSND = false;
 	bool   foundCOMM = false;
-	size_t start;
+	size_t start = 0;
 	//read blocks
 	do
 	{

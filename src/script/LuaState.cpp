@@ -188,7 +188,7 @@ void LuaState::LuaObject::field(const String& var,LuaState::LuaRef& ref)
     lua_pop(LuaState::luaVM,2);
     
 }
-void LuaState::LuaObject::forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+void LuaState::LuaObject::forAllValues(Function<void (      LuaState::LuaRef& table,
                                                        const LuaState::LuaRef& key,
                                                        const LuaState::LuaRef& value)> callback)
 {
@@ -197,7 +197,7 @@ void LuaState::LuaObject::forAllValues(DFUNCTION<void (      LuaState::LuaRef& t
     //for all
     while(!objIt.isNil())  callback(objectRef,objIt.key(),objIt.value());
 }
-void LuaState::LuaObject::forAllValuesForAlltables(DFUNCTION<void (      LuaState::LuaRef& table,
+void LuaState::LuaObject::forAllValuesForAlltables(Function<void (      LuaState::LuaRef& table,
                                                                    const LuaState::LuaRef& key,
                                                                    const LuaState::LuaRef& value)> callback)
 {
@@ -205,7 +205,7 @@ void LuaState::LuaObject::forAllValuesForAlltables(DFUNCTION<void (      LuaStat
     forAllValuesForAlltables_aux(objectRef,callback);
 }
 //get all values of all tables
-void LuaState::LuaObject::forAllValuesForAlltables_aux(LuaState::LuaRef& table,DFUNCTION<void (      LuaState::LuaRef& table,
+void LuaState::LuaObject::forAllValuesForAlltables_aux(LuaState::LuaRef& table,Function<void (      LuaState::LuaRef& table,
                                                                                                const LuaState::LuaRef& key,
                                                                                                const LuaState::LuaRef& value)> callback)
 {

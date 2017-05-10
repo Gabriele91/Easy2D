@@ -12,8 +12,8 @@ namespace Gui{
         {
         public:
             String text;
-            DFUNCTION<void()> selected;
-            Item(const String& text,DFUNCTION<void()> callback):text(text)
+            Function<void()> selected;
+            Item(const String& text,Function<void()> callback):text(text)
                                                                ,selected(callback)
             {
             
@@ -24,7 +24,7 @@ namespace Gui{
 
     public:
 
-        Popup& addItem(const String& text,DFUNCTION<void()> callback)
+        Popup& addItem(const String& text,Function<void()> callback)
         {
             items.push_back(Item(text,callback));
             return *this;

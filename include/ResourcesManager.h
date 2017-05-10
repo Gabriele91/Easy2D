@@ -58,7 +58,7 @@ public:
         }
     }
     //manager mathos
-    DS_PTR<T> find(const String &objectname)
+    SPtr<T> find(const String &objectname)
     {
         //search in this pool
         auto it=rsMap.find(objectname);
@@ -67,7 +67,7 @@ public:
 
         return nullptr;
     }
-    DS_PTR<T> get(const String &objectname)
+    SPtr<T> get(const String &objectname)
     {
         //search
         auto resource=find(objectname);
@@ -78,7 +78,7 @@ public:
         if(path!=String::NONE /* void string */)
         {
             //
-            DS_PTR<T> resource=T::snew(this,mapResources->getPath().getDirectory()+"/"+path);
+            SPtr<T> resource=T::snew(this,mapResources->getPath().getDirectory()+"/"+path);
             //set into map
             rsMap[objectname]=resource;
             resource->Resource<T>::setName(objectname);
@@ -90,12 +90,12 @@ public:
             //
             return resource;
         }
-        return DS_PTR<T>();
+        return SPtr<T>();
     }
-    DS_PTR<T> load(const String &objectname)
+    SPtr<T> load(const String &objectname)
     {
         //get resource
-        DS_PTR<T> resource=get(objectname);
+        SPtr<T> resource=get(objectname);
         if(resource && !resource->isLoad())
             resource->load();
         return resource;
@@ -169,7 +169,7 @@ private:
     //key version
     Table::KeyTable version;
     //resources map
-    DUNORDERED_MAP< String, DW_PTR<T> > rsMap;
+    UnorderedMap< String, WPtr<T> > rsMap;
     //for only ResourcesGroup
     void __forceReload()
     {

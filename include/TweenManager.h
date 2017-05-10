@@ -75,7 +75,7 @@ namespace Easy2D
         virtual String getName() const = 0;
         
         //callback
-        virtual void setCallback(DFUNCTION< void(void) > ptr)
+        virtual void setCallback(Function< void(void) > ptr)
         {
             callback = ptr;
         }
@@ -96,7 +96,7 @@ namespace Easy2D
         
     protected:
         
-        DFUNCTION< void(void) > callback { nullptr } ;
+        Function< void(void) > callback { nullptr } ;
         float mTime;
         float mDelay;
         

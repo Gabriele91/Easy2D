@@ -35,7 +35,7 @@ namespace Gui{
         void updateBox();
 
         //event
-        DFUNCTION<void()> eventClick;
+        Function<void()> eventClick;
         void onMouseMove(Vec2 pos);
         void onMouseDown(Vec2 pos,Key::Mouse b);    
         void onMouseRelease(Vec2 pos,Key::Mouse b);
@@ -52,7 +52,7 @@ namespace Gui{
         //
         void setPosition(const Vec2& pos);
 		//
-        void onClick(DFUNCTION<void()> event);
+        void onClick(Function<void()> event);
 		//
         virtual void draw();
 

@@ -24,7 +24,7 @@ public:
 class StreamThreadAL : public Thread
 {
 
-    DUNORDERED_MAP<StreamTask*,StreamTask*> soundmap;
+    UnorderedMap<StreamTask*,StreamTask*> soundmap;
     Mutex mutex;
     bool isrunning;
 

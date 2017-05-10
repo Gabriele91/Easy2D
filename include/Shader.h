@@ -120,7 +120,7 @@ class Shader : public Resource<Shader>
     void createVertex(const String& shader);
     
     //uniform map
-    DFUNCTION<void(Shader&)> uCallback{ nullptr };
+    Function<void(Shader&)> uCallback{ nullptr };
     
     //compile utilities
     bool linking();
@@ -162,7 +162,7 @@ public:
     virtual bool load();
     virtual bool unload();
     //set uniform callback
-    void setUniformCallback(DFUNCTION<void(Shader&)> callback);
+    void setUniformCallback(Function<void(Shader&)> callback);
     //bind buffer
     void bind();
     //info shader

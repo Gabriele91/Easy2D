@@ -398,7 +398,7 @@ class RenderContext
     static uint getStandardShaderProgram();
     
     //init render subscription
-    static void subscriptionInit(DFUNCTION<void()> init)
+    static void subscriptionInit(Function<void()> init)
     {
         renderInit=init;
     }
@@ -439,12 +439,12 @@ class RenderContext
     static StandardShader standardShader;
     static std::vector<Shader::ptr>  shaders;
     /////////////////////////////////////////
-    static DUNORDERED_MAP<String, Shader::ptr> libShaders;
+    static UnorderedMap<String, Shader::ptr> libShaders;
     /////////////////////////////////////////
 	static Context context;
     static RenderState state;
     static RenderTarget buffers;
-    static DFUNCTION<void()> renderInit;
+    static Function<void()> renderInit;
 
 };
 

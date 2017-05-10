@@ -44,7 +44,7 @@ public:
     //draw
     void draw(Mesh::ptr batchingMesh) const;
     //append objects to queue
-    void append(DFUNCTION<bool(const AABox2&)> filter, Object* obj);
+    void append(Function<bool(const AABox2&)> filter, Object* obj);
     void append(const AABox2& viewPort,
                 const Mat4& view,
                 Object* obj);

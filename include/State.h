@@ -22,9 +22,9 @@ class StateManager : public Component
     //a state
     struct State
     {
-        DFUNCTION< void (void) > start;
-        DFUNCTION< void (float)> run;
-        DFUNCTION< void (void) > end;
+        Function< void (void) > start;
+        Function< void (float)> run;
+        Function< void (void) > end;
     };
     std::map< int , State > states;
     //event: run
@@ -38,10 +38,10 @@ class StateManager : public Component
     {
     }
         
-    StateManager* addState(int name, DFUNCTION<void (float)> srun );
-    StateManager* addState(int name, DFUNCTION<void (void) > sstart,
-                                        DFUNCTION<void (float)> srun,
-                                        DFUNCTION<void (void) > send=nullptr );
+    StateManager* addState(int name, Function<void (float)> srun );
+    StateManager* addState(int name, Function<void (void) > sstart,
+                                     Function<void (float)> srun,
+                                     Function<void (void) > send=nullptr );
     void eraseState(int name);
 
     void setNextState(int stateid);

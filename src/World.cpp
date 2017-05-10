@@ -824,11 +824,11 @@ Vec2 World::getGravity()
 class SimpleSegmentRayCastCallback : public b2RayCastCallback
 {
     //member
-    DFUNCTION<int(Body* body)> mCallback;
+    Function<int(Body* body)> mCallback;
     
 public:
     //init
-    SimpleSegmentRayCastCallback(DFUNCTION<int(Body* body)> function)
+    SimpleSegmentRayCastCallback(Function<int(Body* body)> function)
     :mCallback(function)
     {
     }
@@ -843,7 +843,7 @@ public:
     }
     
 };
-void World::raycast(DFUNCTION<int(Body* body)> callback,const Vec2& start,const Vec2& end) const
+void World::raycast(Function<int(Body* body)> callback,const Vec2& start,const Vec2& end) const
 {
     SimpleSegmentRayCastCallback objCallback(callback);
     world->RayCast(&objCallback,
@@ -855,7 +855,7 @@ void World::raycast(DFUNCTION<int(Body* body)> callback,const Vec2& start,const 
 class ComplexSegmentRayCastCallback : public b2RayCastCallback
 {
     //member
-    DFUNCTION<
+    Function<
     int (       Body*  body,
                 Shape shape,
           const Vec2&  point,
@@ -867,7 +867,7 @@ class ComplexSegmentRayCastCallback : public b2RayCastCallback
     
 public:
     //init
-    ComplexSegmentRayCastCallback(DFUNCTION<int(      Body* body,
+    ComplexSegmentRayCastCallback(Function<int(      Body* body,
                                                       Shape shape,
                                                 const Vec2& point,
                                                 const Vec2& normal,
@@ -895,7 +895,7 @@ public:
     }
     
 };
-void World::raycast(DFUNCTION<int(Body*        body,
+void World::raycast(Function<int(Body*        body,
                                   Shape        shape,
                                   const Vec2&  point,
                                   const Vec2&  normal,

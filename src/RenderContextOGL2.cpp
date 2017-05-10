@@ -7,10 +7,10 @@ using namespace Easy2D;
 
 //////////////////////////////////////////////////////////////////////
 //globals
-DFUNCTION<void()> RenderContext::renderInit=nullptr;
+Function<void()> RenderContext::renderInit=nullptr;
 RenderContext::StandardShader RenderContext::standardShader=RenderContext::SHADER_VERTEX;
 std::vector<Shader::ptr> RenderContext::shaders;
-DUNORDERED_MAP<String, Shader::ptr> RenderContext::libShaders;
+UnorderedMap<String, Shader::ptr> RenderContext::libShaders;
 RenderContext::Context RenderContext::context;
 RenderContext::RenderState RenderContext::state=
 {

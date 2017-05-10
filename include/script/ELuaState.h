@@ -110,17 +110,17 @@ class LuaState
 			return objectRef[key];
 		}
         //get all values
-        void forAllValues(DFUNCTION<void (      LuaState::LuaRef& table,
+        void forAllValues(Function<void (      LuaState::LuaRef& table,
                                           const LuaState::LuaRef& key,
                                           const LuaState::LuaRef& value)> callback);
         //get all values of all tables
-        void forAllValuesForAlltables(DFUNCTION<void (      LuaState::LuaRef& table,
+        void forAllValuesForAlltables(Function<void (      LuaState::LuaRef& table,
                                                       const LuaState::LuaRef& key,
                                                       const LuaState::LuaRef& value)> callback);
     
     private:
         //get all values of all tables
-        static void forAllValuesForAlltables_aux(LuaState::LuaRef& table,DFUNCTION<void (        LuaState::LuaRef& table,
+        static void forAllValuesForAlltables_aux(LuaState::LuaRef& table,Function<void (        LuaState::LuaRef& table,
                                                                                            const LuaState::LuaRef& key,
                                                                                            const LuaState::LuaRef& value)> callback);
     };
