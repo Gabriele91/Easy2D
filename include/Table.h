@@ -300,40 +300,40 @@ public:
     
     /** set a floating in an associative table */
     DFORCEINLINE void set(const String& key, float value)
-	{
-		set(key, FLOAT, value);
-	}
-	DFORCEINLINE void set(const String& key, double value)
-	{
-		set(key, FLOAT, (float)value);
-	}
-	/** set a integer in an associative table */
-	DFORCEINLINE void set(const String& key, int value)
-	{
-		set(key, FLOAT, (float)value);
-	}
-	DFORCEINLINE void set(const String& key, uint value)
-	{
-		set(key, FLOAT, (float)value);
-	}
-	/** set a short integer in an associative table */
-	DFORCEINLINE void set(const String& key, short value)
-	{
-		set(key, FLOAT, (float)value);
-	}
-	DFORCEINLINE void set(const String& key, ushort value)
-	{
-		set(key, FLOAT, (float)value);
-	}
-	/** set a long integer in an associative table */
-	DFORCEINLINE void set(const String& key, long value)
-	{
-		set(key, FLOAT, (float)value);
-	}
-	DFORCEINLINE void set(const String& key, ulong value)
-	{
-		set(key, FLOAT, (float)value);
-	}
+    {
+            set(key, FLOAT, value);
+    }
+    DFORCEINLINE void set(const String& key, double value)
+    {
+            set(key, FLOAT, (float)value);
+    }
+    /** set a integer in an associative table */
+    DFORCEINLINE void set(const String& key, int value)
+    {
+            set(key, FLOAT, (float)value);
+    }
+    DFORCEINLINE void set(const String& key, uint value)
+    {
+            set(key, FLOAT, (float)value);
+    }
+    /** set a short integer in an associative table */
+    DFORCEINLINE void set(const String& key, short value)
+    {
+            set(key, FLOAT, (float)value);
+    }
+    DFORCEINLINE void set(const String& key, ushort value)
+    {
+            set(key, FLOAT, (float)value);
+    }
+    /** set a long integer in an associative table */
+    DFORCEINLINE void set(const String& key, long value)
+    {
+            set(key, FLOAT, (float)value);
+    }
+    DFORCEINLINE void set(const String& key, ulong value)
+    {
+            set(key, FLOAT, (float)value);
+    }
     /** set a angle in an associative table */
     DFORCEINLINE void set(const String& key, Angle value)
     {
@@ -365,16 +365,16 @@ public:
     {
         set(key,MATRIX4X4,value);
     }
-	/** set a string in an associative table */
-	DFORCEINLINE void set(const String& key, const String& value)
-	{
-		set(key, STRING, value);
-	}
-	/** set a string in an associative table */
-	DFORCEINLINE void set(const String& key, bool value)
-	{
-		set(key, STRING, value ? "true" : "false");
-	}
+    /** set a string in an associative table */
+    DFORCEINLINE void set(const String& key, const String& value)
+    {
+            set(key, STRING, value);
+    }
+    /** set a string in an associative table */
+    DFORCEINLINE void set(const String& key, bool value)
+    {
+            set(key, STRING, String(value ? "true" : "false"));
+    }
     /** set a binary file in an associative table */
     DFORCEINLINE void set(const String& key, void *value, size_t len,bool destroydata)
     {
@@ -431,18 +431,18 @@ public:
         set(index,MATRIX4X4,value);
         ++index;
     }
-	/** set a string in an array */
-	DFORCEINLINE void set(const String& value)
-	{
-		set(index, STRING, value);
-		++index;
-	}
-	/** set a boolean in an array */
-	DFORCEINLINE void set(bool value)
-	{
-		set(index, STRING, value ? "true" : "false");
-		++index;
-	}
+    /** set a string in an array */
+    DFORCEINLINE void set(const String& value)
+    {
+            set(index, STRING, value);
+            ++index;
+    }
+    /** set a boolean in an array */
+    DFORCEINLINE void set(bool value)
+    {
+            set(index, STRING, String(value ? "true" : "false"));
+            ++index;
+    }
     /** set a binary file in an array */
     DFORCEINLINE void set(void *value, size_t len,bool destroydata)
     {
@@ -464,156 +464,156 @@ public:
     }
     /** return a floating point associate a table/array key */
     DFORCEINLINE float getFloat(const KeyTable& key, float vdefault = 0) const
-	{
-		if (existsAsType(key, FLOAT)) return *((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE float get(const KeyTable& key, float vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return *((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE double get(const KeyTable& key, double vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (double) *((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE int get(const KeyTable& key, int vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (int)*((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE uint get(const KeyTable& key, uint vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (uint)*((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE short get(const KeyTable& key, short vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (short)*((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE ushort get(const KeyTable& key, ushort vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (ushort)*((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE long get(const KeyTable& key, long vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (long)*((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE ulong get(const KeyTable& key, ulong vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return (ulong)*((float*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE Angle get(const KeyTable& key, Angle vdefault) const
-	{
-		if (existsAsType(key, FLOAT)) return Angle::degree(*((float*)(table.find(key)->second->getValue())));
-		return vdefault;
-	}
-    /** return a vector2D associate a table/array key */
-	DFORCEINLINE const Vec2& getVector2D(const KeyTable& key, const Vec2& vdefault = Vec2::ZERO) const
-	{
-		if (existsAsType(key, VECTOR2D)) return *((Vec2*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE const Vec2& get(const KeyTable& key, const Vec2& vdefault) const
-	{
-		if (existsAsType(key, VECTOR2D)) return *((Vec2*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
+    {
+            if (existsAsType(key, FLOAT)) return *((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE float get(const KeyTable& key, float vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return *((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE double get(const KeyTable& key, double vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (double) *((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE int get(const KeyTable& key, int vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (int)*((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE uint get(const KeyTable& key, uint vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (uint)*((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE short get(const KeyTable& key, short vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (short)*((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE ushort get(const KeyTable& key, ushort vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (ushort)*((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE long get(const KeyTable& key, long vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (long)*((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE ulong get(const KeyTable& key, ulong vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return (ulong)*((float*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE Angle get(const KeyTable& key, Angle vdefault) const
+    {
+            if (existsAsType(key, FLOAT)) return Angle::degree(*((float*)(table.find(key)->second->getValue())));
+            return vdefault;
+    }
+/** return a vector2D associate a table/array key */
+    DFORCEINLINE const Vec2& getVector2D(const KeyTable& key, const Vec2& vdefault = Vec2::ZERO) const
+    {
+            if (existsAsType(key, VECTOR2D)) return *((Vec2*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE const Vec2& get(const KeyTable& key, const Vec2& vdefault) const
+    {
+            if (existsAsType(key, VECTOR2D)) return *((Vec2*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
     /** return a vector3D associate a table/array key */
     DFORCEINLINE const Vec3& getVector3D(const KeyTable& key,const Vec3& vdefault=Vec3::ZERO) const
     {
         if(existsAsType(key,VECTOR3D)) return *((Vec3*)(table.find(key)->second->getValue()));
         return vdefault;
     }
-	DFORCEINLINE const Vec3& get(const KeyTable& key, const Vec3& vdefault) const
-	{
-		if (existsAsType(key, VECTOR3D)) return *((Vec3*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
+    DFORCEINLINE const Vec3& get(const KeyTable& key, const Vec3& vdefault) const
+    {
+            if (existsAsType(key, VECTOR3D)) return *((Vec3*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
     /** return a vector4D associate a table/array key */
     DFORCEINLINE const Vec4& getVector4D(const KeyTable& key,const Vec4& vdefault=Vec4::ZERO) const
     {
         if(existsAsType(key,VECTOR4D)) return *((Vec4*)(table.find(key)->second->getValue()));
         return vdefault;
     }
-	DFORCEINLINE const Vec4& get(const KeyTable& key, const Vec4& vdefault) const
-	{
-		if (existsAsType(key, VECTOR4D)) return *((Vec4*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	/** return a color associate a table/array key */
-	DFORCEINLINE Color getColor(const KeyTable& key, const Color& vdefault = Color::WHITE) const
-	{
-		if (existsAsType(key, VECTOR4D))
-		{
-			//return
-			return Color::from(*((Vec4*)(table.find(key)->second->getValue())));
-		}
-		return vdefault;
-	}
-	DFORCEINLINE Color get(const KeyTable& key, const Color& vdefault) const
-	{
-		if (existsAsType(key, VECTOR4D))
-		{
-			//return
-			return Color::from(*((Vec4*)(table.find(key)->second->getValue())));
-		}
-		return vdefault;
-	}
-	/** return a boolean associate a table/array key */
-	DFORCEINLINE bool getBool(const KeyTable& key, bool vdefault = true) const
-	{
-		if (existsAsType(key, FLOAT))  return getFloat(key,(float)vdefault) != 0.0;
-		if (existsAsType(key, STRING))
-		{
-			// "no" || "false"  == false
-			// "yes" || "true" || etc..  == true
-			const String& value = getString(key, vdefault ? "true" : "false");
-			//return true if isn't no or false
-			return  value != "false" && value != "no";
-		}
-		return vdefault;
-	}
-	DFORCEINLINE bool get(const KeyTable& key, bool vdefault) const
-	{
-		if (existsAsType(key, FLOAT))  return getFloat(key, (float)vdefault) != 0.0;
-		if (existsAsType(key, STRING))
-		{
-			// "no" || "false"  == false
-			// "yes" || "true" || etc..  == true
-			const String& value = getString(key, vdefault ? "true" : "false");
-			//return true if isn't no or false
-			return  value != "false" && value != "no";
-		}
-		return vdefault;
-	}
-    /** return a Matrix4x4 associate a table/array key */
-	DFORCEINLINE const Matrix4x4& getMatrix4x4(const KeyTable& key, const Matrix4x4& vdefault = Matrix4x4::IDENTITY) const
-	{
-		if (existsAsType(key, MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE const Matrix4x4& get(const KeyTable& key, const Matrix4x4& vdefault) const
-	{
-		if (existsAsType(key, MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	/** return a string associate a table/array key */
+    DFORCEINLINE const Vec4& get(const KeyTable& key, const Vec4& vdefault) const
+    {
+            if (existsAsType(key, VECTOR4D)) return *((Vec4*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    /** return a color associate a table/array key */
+    DFORCEINLINE Color getColor(const KeyTable& key, const Color& vdefault = Color::WHITE) const
+    {
+            if (existsAsType(key, VECTOR4D))
+            {
+                    //return
+                    return Color::from(*((Vec4*)(table.find(key)->second->getValue())));
+            }
+            return vdefault;
+    }
+    DFORCEINLINE Color get(const KeyTable& key, const Color& vdefault) const
+    {
+            if (existsAsType(key, VECTOR4D))
+            {
+                    //return
+                    return Color::from(*((Vec4*)(table.find(key)->second->getValue())));
+            }
+            return vdefault;
+    }
+    /** return a boolean associate a table/array key */
+    DFORCEINLINE bool getBool(const KeyTable& key, bool vdefault = true) const
+    {
+            if (existsAsType(key, FLOAT))  return getFloat(key,(float)vdefault) != 0.0;
+            if (existsAsType(key, STRING))
+            {
+                    // "no" || "false"  == false
+                    // "yes" || "true" || etc..  == true
+                    const String& value = getString(key, vdefault ? "true" : "false");
+                    //return true if isn't no or false
+                    return  value != "false" && value != "no";
+            }
+            return vdefault;
+    }
+    DFORCEINLINE bool get(const KeyTable& key, bool vdefault) const
+    {
+            if (existsAsType(key, FLOAT))  return getFloat(key, (float)vdefault) != 0.0;
+            if (existsAsType(key, STRING))
+            {
+                    // "no" || "false"  == false
+                    // "yes" || "true" || etc..  == true
+                    const String& value = getString(key, vdefault ? "true" : "false");
+                    //return true if isn't no or false
+                    return  value != "false" && value != "no";
+            }
+            return vdefault;
+    }
+/** return a Matrix4x4 associate a table/array key */
+    DFORCEINLINE const Matrix4x4& getMatrix4x4(const KeyTable& key, const Matrix4x4& vdefault = Matrix4x4::IDENTITY) const
+    {
+            if (existsAsType(key, MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE const Matrix4x4& get(const KeyTable& key, const Matrix4x4& vdefault) const
+    {
+            if (existsAsType(key, MATRIX4X4)) return *((Matrix4x4*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    /** return a string associate a table/array key */
     DFORCEINLINE const String& getString(const KeyTable& key, const String& vdefault = String::NONE) const
-	{
-		if (existsAsType(key, STRING)) return *((String*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
-	DFORCEINLINE const String& get(const KeyTable& key, const String& vdefault) const
-	{
-		if (existsAsType(key, STRING)) return *((String*)(table.find(key)->second->getValue()));
-		return vdefault;
-	}
+    {
+            if (existsAsType(key, STRING)) return *((String*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
+    DFORCEINLINE const String& get(const KeyTable& key, const String& vdefault) const
+    {
+            if (existsAsType(key, STRING)) return *((String*)(table.find(key)->second->getValue()));
+            return vdefault;
+    }
     /** return a constant table/array associate a table/array key */
     DFORCEINLINE const Table& getConstTable(const KeyTable& key,const Table& vdefault=Table::NONE) const
     {

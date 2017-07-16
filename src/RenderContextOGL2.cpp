@@ -52,7 +52,7 @@ inline static void e2dBlendFunc(GLenum x,GLenum y)
 //buffer
 uint RenderContext::createBuffer()
 {
-    GLuint buffer;
+    GLuint buffer = 0;
     glGenBuffers(1,&buffer);
     return buffer;
 }

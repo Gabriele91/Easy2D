@@ -1,0 +1,577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugEditorLib|Win32">
+      <Configuration>DebugEditorLib</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugJIT|Win32">
+      <Configuration>DebugJIT</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DEBUG_ANGLEPROJECT|Win32">
+      <Configuration>DEBUG_ANGLEPROJECT</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseJIT_NO_SSE|Win32">
+      <Configuration>ReleaseJIT_NO_SSE</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseJIT|Win32">
+      <Configuration>ReleaseJIT</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{905FC096-4AD6-4483-B71A-BA5FCEFFE134}</ProjectGuid>
+    <RootNamespace>Easy2D</RootNamespace>
+    <ProjectName>Easy2D</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+    <TargetName>$(ProjectName)_D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+    <TargetName>$(ProjectName)_EDITOR_D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">
+    <IncludePath>$(VCInstallDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)dependencies/angle/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+    <TargetName>$(ProjectName)_ANGLE_D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+    <TargetName>$(ProjectName)_D</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">
+    <LibraryPath>$(ProjectDir)dependencies/win32/lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(ProjectDir)\lib\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype250_D.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;DISABLE_SIMD;NEW_DELETE_OVERLOADABLE;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_editor_d.pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype250_D.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;ES2_ANGLEPROJECT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype250_D.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <OpenMPSupport>false</OpenMPSupport>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype250_D.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA;_CRT_NONSTDC_NO_WARNINGS;_MBCS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>freetype250.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ENABLE_SIMD;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>freetype250.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.;include;include/script;include/image;include/socket;include/ui;include/window;include/audio;include/thread;include/gui;dependencies/win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS;ORDERED_TABLE;USE_LUA_JIT;_CRT_NONSTDC_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)ipch\$(TargetName)_release.pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <OpenMPSupport>true</OpenMPSupport>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>freetype250.lib;OpenGL32.lib;GLU32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\AiffLoader.cpp" />
+    <ClCompile Include="src\angleproject\AngleApp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\AngleInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\AngleScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\angleproject\OpenGLAngle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\AnimatedSprite.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\audio\AudioAL.cpp" />
+    <ClCompile Include="src\audio\SoundEmitterAL.cpp" />
+    <ClCompile Include="src\audio\StaticBufferAL.cpp" />
+    <ClCompile Include="src\audio\StreamBufferAL.cpp" />
+    <ClCompile Include="src\audio\StreamThreadAL.cpp" />
+    <ClCompile Include="src\BatchingColorMesh.cpp" />
+    <ClCompile Include="src\BatchingMesh.cpp" />
+    <ClCompile Include="src\Blend.cpp" />
+    <ClCompile Include="src\BMFontLoader.cpp" />
+    <ClCompile Include="src\Body.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Color.cpp" />
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\Config.cpp" />
+    <ClCompile Include="src\ConvertUTF.cpp" />
+    <ClCompile Include="src\Debug.cpp" />
+    <ClCompile Include="src\EStack.cpp" />
+    <ClCompile Include="src\FluidGrid.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\FrameSet.cpp" />
+    <ClCompile Include="src\FreeTypeFontLoader.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\gui\Button.cpp" />
+    <ClCompile Include="src\gui\GuiManager.cpp" />
+    <ClCompile Include="src\gui\Label.cpp" />
+    <ClCompile Include="src\gui\Panel.cpp" />
+    <ClCompile Include="src\Image\Image.cpp" />
+    <ClCompile Include="src\Image\lodepng.cpp" />
+    <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\Mask.cpp" />
+    <ClCompile Include="src\Math3D.cpp" />
+    <ClCompile Include="src\Math3D_SSE2.cpp" />
+    <ClCompile Include="src\MemoryAllocator.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\EString.cpp" />
+    <ClCompile Include="src\Parallax.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\Render.cpp" />
+    <ClCompile Include="src\RenderContextOES2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\RenderContextOGL2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\RenderQueue.cpp" />
+    <ClCompile Include="src\ResourcesGroup.cpp" />
+    <ClCompile Include="src\ResourcesManager.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Script.cpp" />
+    <ClCompile Include="src\script\LuaBody.cpp" />
+    <ClCompile Include="src\script\LuaEasy2D.cpp" />
+    <ClCompile Include="src\script\LuaMath3D.cpp" />
+    <ClCompile Include="src\script\LuaRenderable.cpp" />
+    <ClCompile Include="src\script\LuaScript.cpp" />
+    <ClCompile Include="src\script\LuaState.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\socket\Socket.cpp" />
+    <ClCompile Include="src\Sound.cpp" />
+    <ClCompile Include="src\Speaker.cpp" />
+    <ClCompile Include="src\Sprite.cpp" />
+    <ClCompile Include="src\State.cpp" />
+    <ClCompile Include="src\thread\MutexWin32.cpp" />
+    <ClCompile Include="src\thread\ThreadWin32.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
+    <ClCompile Include="src\ETime.cpp" />
+    <ClCompile Include="src\TweenManager.cpp" />
+    <ClCompile Include="src\ui\UIComponents.cpp" />
+    <ClCompile Include="src\ui\UIManager.cpp" />
+    <ClCompile Include="src\Utility.cpp" />
+    <ClCompile Include="src\Renderable.cpp" />
+    <ClCompile Include="src\RenderState.cpp" />
+    <ClCompile Include="src\Resource.cpp" />
+    <ClCompile Include="src\Screen.cpp" />
+    <ClCompile Include="src\Table.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\WavLoader.cpp" />
+    <ClCompile Include="src\window\OpenGLWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\window\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\window\WGL_ARB_multisample.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsApp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowsScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\AiffLoader.h" />
+    <ClInclude Include="include\angleproject\AngleApp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\AngleInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\AngleScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\angleproject\OpenGLAngle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugEditorLib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='ReleaseJIT_NO_SSE|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\AnimatedSprite.h" />
+    <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\Audio.h" />
+    <ClInclude Include="include\audio\AudioAL.h" />
+    <ClInclude Include="include\audio\SoundEmitterAL.h" />
+    <ClInclude Include="include\audio\SoundListenerAL.h" />
+    <ClInclude Include="include\audio\StaticBufferAL.h" />
+    <ClInclude Include="include\audio\StreamBufferAL.h" />
+    <ClInclude Include="include\audio\StreamThreadAL.h" />
+    <ClInclude Include="include\BatchingColorMesh.h" />
+    <ClInclude Include="include\BatchingMesh.h" />
+    <ClInclude Include="include\Blend.h" />
+    <ClInclude Include="include\BMFontLoader.h" />
+    <ClInclude Include="include\Body.h" />
+    <ClInclude Include="include\Box2D.hpp" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Color.h" />
+    <ClInclude Include="include\Component.h" />
+    <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\ConvertUTF.h" />
+    <ClInclude Include="include\Debug.h" />
+    <ClInclude Include="include\Easy2D.h" />
+    <ClInclude Include="include\EStack.h" />
+    <ClInclude Include="include\FluidGrid.h" />
+    <ClInclude Include="include\Font.h" />
+    <ClInclude Include="include\FrameSet.h" />
+    <ClInclude Include="include\FreeTypeFontLoader.h" />
+    <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\gui\Button.h" />
+    <ClInclude Include="include\gui\Gui.h" />
+    <ClInclude Include="include\gui\GuiManager.h" />
+    <ClInclude Include="include\gui\Label.h" />
+    <ClInclude Include="include\gui\Panel.h" />
+    <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\InputList.h" />
+    <ClInclude Include="include\Listener.h" />
+    <ClInclude Include="include\Mask.h" />
+    <ClInclude Include="include\Math3D.h" />
+    <ClInclude Include="include\MemoryAllocator.h" />
+    <ClInclude Include="include\Mesh.h" />
+    <ClInclude Include="include\MinMaxList.h" />
+    <ClInclude Include="include\Object.h" />
+    <ClInclude Include="include\EString.h" />
+    <ClInclude Include="include\Parallax.h" />
+    <ClInclude Include="include\ParticleSystem.h" />
+    <ClInclude Include="include\Render.h" />
+    <ClInclude Include="include\RenderContext.h" />
+    <ClInclude Include="include\RenderQueue.h" />
+    <ClInclude Include="include\ResourcesGroup.h" />
+    <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\Script.h" />
+    <ClInclude Include="include\script\ELuaScript.h" />
+    <ClInclude Include="include\script\ELuaState.h" />
+    <ClInclude Include="include\script\RefCountedPtr.h" />
+    <ClInclude Include="include\script\RefStdCount.h" />
+    <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\socket\Address.h" />
+    <ClInclude Include="include\socket\Post.h" />
+    <ClInclude Include="include\socket\Socket.h" />
+    <ClInclude Include="include\Sortable.h" />
+    <ClInclude Include="include\Sound.h" />
+    <ClInclude Include="include\Speaker.h" />
+    <ClInclude Include="include\Sprite.h" />
+    <ClInclude Include="include\State.h" />
+    <ClInclude Include="include\thread\Mutex.h" />
+    <ClInclude Include="include\thread\MutexConf.h" />
+    <ClInclude Include="include\thread\Thread.h" />
+    <ClInclude Include="include\thread\ThreadConf.h" />
+    <ClInclude Include="include\Timer.h" />
+    <ClInclude Include="include\ETime.h" />
+    <ClInclude Include="include\TweenManager.h" />
+    <ClInclude Include="include\Tweens.h" />
+    <ClInclude Include="include\Types.h" />
+    <ClInclude Include="include\ui\UIComponents.h" />
+    <ClInclude Include="include\ui\UIManager.h" />
+    <ClInclude Include="include\Utf8Utils.h" />
+    <ClInclude Include="include\Utility.h" />
+    <ClInclude Include="include\Renderable.h" />
+    <ClInclude Include="include\RenderState.h" />
+    <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="include\ResourcesManager.h" />
+    <ClInclude Include="include\Screen.h" />
+    <ClInclude Include="include\Table.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\WavLoader.h" />
+    <ClInclude Include="include\window\gletx_header.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\window\OpenGLWindow.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsApp.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\window\WindowsScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="include\World.h" />
+    <ClInclude Include="src\Image\Image.h" />
+    <ClInclude Include="src\Image\lodepng.h" />
+    <ClInclude Include="src\Math3D_SSE2.h" />
+    <ClInclude Include="src\window\WGL_ARB_multisample.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DEBUG_ANGLEPROJECT|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="excpython.bat" />
+    <None Include="made_class.py" />
+    <None Include="made_cpp_h.py" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

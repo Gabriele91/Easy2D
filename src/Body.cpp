@@ -28,13 +28,13 @@ using namespace Easy2D;
 class b2PublicBody : public b2Body
 {
 public:
-    inline void SynchronizeFixtures()
+    void SynchronizeFixtures()
     {
-        b2Body::SynchronizeFixtures();
+        this->b2Body::SynchronizeFixtures();
     }
-    inline void SynchronizeTransform()
+    void SynchronizeTransform()
     {
-        b2Body::SynchronizeTransform();
+		this->b2Body::SynchronizeTransform();
     }
 };
 ///////////////////////

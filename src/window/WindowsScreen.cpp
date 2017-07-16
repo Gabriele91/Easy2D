@@ -109,10 +109,28 @@ void WindowsScreen::__initWindow(const char* appname, TypeBuffers type, AntiAlia
         ChooseBestAntiAliasingPixelFormat(chosenPixelFormat);
     //DEBUG_ASSERT(chosenPixelFormat);
     DEBUG_ASSERT_REPLACE( SetPixelFormat( hDevCxt, chosenPixelFormat, &pfd ) );
-    //OpenGL Context
-    hGLCxt = wglCreateContext( hDevCxt );
+    //OpenGL Context (BASE)
+	auto tmpGLCxt = wglCreateContext(hDevCxt);
+	DEBUG_ASSERT_REPLACE(wglMakeCurrent(hDevCxt, tmpGLCxt));
+    //OpenGL Context 2.1
+	#define WGL_CONTEXT_MAJOR_VERSION_ARB           0x2091
+	#define WGL_CONTEXT_MINOR_VERSION_ARB           0x2092
+	#define WGL_CONTEXT_LAYER_PLANE_ARB             0x2093
+	#define WGL_CONTEXT_FLAGS_ARB                   0x2094
+	#define WGL_CONTEXT_PROFILE_MASK_ARB            0x9126
+	const int attribs [] = 
+	{
+		WGL_CONTEXT_MAJOR_VERSION_ARB, 2,
+		WGL_CONTEXT_MINOR_VERSION_ARB, 1,
+		NULL
+	};
+	typedef HGLRC(APIENTRY * PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC, HGLRC hShareContext, const int *attribList);
+	static PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
+	hGLCxt = wglCreateContextAttribsARB(hDevCxt, 0, attribs);
     DEBUG_ASSERT(hGLCxt);
     DEBUG_ASSERT_REPLACE( wglMakeCurrent( hDevCxt, hGLCxt ) );
+	//remove tmp OGL context
+	wglDeleteContext(tmpGLCxt);
     //init openGL2
     __initOpenGL();
     //enable AA

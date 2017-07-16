@@ -683,7 +683,7 @@ String Table::__serialize(int countSpace,bool havename) const
                          ")\n");
             break;
         case Easy2D::Table::STRING:
-            outtextfile+=String::toString('\"')+value.second->get<String>()+"\"\n";
+            outtextfile+=String("\"")+value.second->get<String>()+"\"\n";
             break;
         case Easy2D::Table::BINARY:
             //to do
