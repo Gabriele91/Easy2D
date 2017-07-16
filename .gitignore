@@ -58,6 +58,7 @@ Android/*.user
 
 #Visual Studio files
 *.[Oo]bj
+*.VC.db
 *.user
 *.aps
 *.pch
@@ -78,6 +79,7 @@ Android/*.user
 *.sdf
 *.opensdf
 *.unsuccessfulbuild
+.vc/
 ipch/
 obj/
 [Bb]in
